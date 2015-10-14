@@ -20,12 +20,12 @@ defined('ZCMS') or die('Access denied');
 
 <div id="top-logo">
 	<a href="<?php echo $indexUrl; ?>"></a>
-	<div>Группа компаний<br/><span>ИТЦ</span> и <span>КИС</span></div>
+	<div><span>Торговый Дом</span><span><span>Т</span>ИНКО</span></div>
 </div>
 
 <div id="top-phone">
 	<div></div>
-	<div>+7 (495) 781-71-17<br/>+7 (495) 781-72-27</div>
+	<div><span>+7 (495)</span> 708-42-13<br/><span>+7 (800)</span> 200-84-65</div>
 </div>
 
 <div id="top-search">
