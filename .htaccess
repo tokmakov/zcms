@@ -8,5 +8,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php
 
-RewriteCond %{HTTP_HOST} ^host6.ru
-RewriteRule (.*) http://www.host6.ru/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^host2.ru
+RewriteRule (.*) http://www.host2.ru/$1 [R=301,L]
