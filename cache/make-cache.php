@@ -1,4 +1,7 @@
 <?php
+/**
+ * Для запуска из командной строки для генерации кэша
+ */
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
