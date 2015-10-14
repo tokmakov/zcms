@@ -8,13 +8,13 @@ abstract class Frontend_Model extends Base_Model {
 	/**
 	 * кэшировать данные?
 	 */
-	protected $enableCache;
+	protected $enableDataCache;
 
 
 	public function __construct() {
 		parent::__construct();
-		// кэшировать запросы к базе данных?
-		$this->enableCache = $this->config->cache->enable;
+		// кэшировать данные?
+		$this->enableDataCache = $this->config->cache->enable->data;
 	}
 
 	/**
@@ -84,7 +84,7 @@ abstract class Frontend_Model extends Base_Model {
 		 */
 		$this->register->cache->lockValue($key);
 		try {
-            $data = call_user_func_array(array($this, $function), $arguments);
+			$data = call_user_func_array(array($this, $function), $arguments);
 			$this->register->cache->setValue($key, $data);
 		} finally {
 			$this->register->cache->unlockValue($key);

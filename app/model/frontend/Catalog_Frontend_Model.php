@@ -14,7 +14,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getRootCategories() {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->rootCategories();
 		}
 
@@ -47,7 +47,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getRootAndChilds() {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->rootAndChilds();
 		}
 
@@ -91,7 +91,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getProduct($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->product($id);
 		}
 
@@ -154,7 +154,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  `categories`
 				  WHERE
 					  `id` = :id";
-		return $this->database->fetch($query, array('id' => $id), $this->enableCache);
+		return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getChildCategories($id, $maker = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->childCategories($id, $maker);
 		}
 
@@ -244,7 +244,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getAllChildIds($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->allChildIds($id);
 		}
 
@@ -289,7 +289,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  `parent` = :id
 				  ORDER BY
 					  `sortorder`";
-		$res = $this->database->fetchAll($query, array('id' => $id), $this->enableCache);
+		$res = $this->database->fetchAll($query, array('id' => $id), $this->enableDataCache);
 		$ids = array();
 		foreach ($res as $item) {
 			$ids[] = $item['id'];
@@ -304,7 +304,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCategoryProducts($id, $maker = 0, $sortorder = 0, $start = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->categoryProducts($id, $maker, $sortorder, $start);
 		}
 
@@ -402,7 +402,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 		if ($maker) {
 			$query = $query . " AND `a`.`maker` = " . $maker;
 		}
-		return $this->database->fetchOne($query, array(), $this->enableCache);
+		return $this->database->fetchOne($query, array(), $this->enableDataCache);
 	}
 
 	/**
@@ -412,32 +412,32 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 * категориях и так далее; результат работы кэшируется
 	 */
 	public function getCategoryMakers($id, $sort = 0) {
-        // если не включено кэширование данных
-        if (!$this->enableCache) {
-            return $this->categoryMakers($id, $sort);
-        }
+		// если не включено кэширование данных
+		if (!$this->enableDataCache) {
+			return $this->categoryMakers($id, $sort);
+		}
 
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-sort-' . $sort;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
+		// уникальный ключ доступа к кэшу
+		$key = __METHOD__ . '()-id-' . $id . '-sort-' . $sort;
+		// имя этой функции (метода)
+		$function = __FUNCTION__;
+		// арументы, переданные этой функции
+		$arguments = func_get_args();
+		// получаем данные из кэша
+		return $this->getCachedData($key, $function, $arguments);
 	}
 
-    /**
-     * Возвращает массив производителей товаров в категории $id и в ее потомках,
-     * т.е. не только производителей товаров этой категории, но и производителей
-     * товаров в дочерних категориях, производителей товаров в дочерних-дочерних
-     * категориях и так далее
-     */
-    protected function categoryMakers($id, $sort = 0) {
-        $childs = $this->getAllChildIds($id);
-        $childs[] = $id;
-        $ids = implode(',', $childs);
-        $query = "SELECT
+	/**
+	 * Возвращает массив производителей товаров в категории $id и в ее потомках,
+	 * т.е. не только производителей товаров этой категории, но и производителей
+	 * товаров в дочерних категориях, производителей товаров в дочерних-дочерних
+	 * категориях и так далее
+	 */
+	protected function categoryMakers($id, $sort = 0) {
+		$childs = $this->getAllChildIds($id);
+		$childs[] = $id;
+		$ids = implode(',', $childs);
+		$query = "SELECT
 					  `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
 				  FROM
 					  `makers` `a`
@@ -449,28 +449,28 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  `a`.`id`, `a`. `name`
 				  ORDER BY
 					  `a`.`name`";
-        $makers = $this->database->fetchAll($query, array());
-        // добавляем в массив производителей информацию об URL ссылок
-        $count = 0; // кол-во товаров всех производителей
-        foreach($makers as $key => $value) {
-            $url = 'frontend/catalog/category/id/' . $id . '/maker/' . $value['id'];
-            if ($sort) {
-                $url = $url . '/sort/' . $sort;
-            }
-            $makers[$key]['url'] = $this->getURL($url);
-            $count = $count + $value['count'];
-        }
-        // добавляем в начало массива ссылку для удаления фильтра по производителю
-        $url = 'frontend/catalog/category/id/' . $id;
-        if ($sort) {
-            $url = $url . '/sort/' . $sort;
-        }
-        array_unshift(
-            $makers,
-            array('id' => 0, 'name' => 'Не важно', 'count' => $count, 'url' => $this->getURL($url))
-        );
-        return $makers;
-    }
+		$makers = $this->database->fetchAll($query, array());
+		// добавляем в массив производителей информацию об URL ссылок
+		$count = 0; // кол-во товаров всех производителей
+		foreach($makers as $key => $value) {
+			$url = 'frontend/catalog/category/id/' . $id . '/maker/' . $value['id'];
+			if ($sort) {
+				$url = $url . '/sort/' . $sort;
+			}
+			$makers[$key]['url'] = $this->getURL($url);
+			$count = $count + $value['count'];
+		}
+		// добавляем в начало массива ссылку для удаления фильтра по производителю
+		$url = 'frontend/catalog/category/id/' . $id;
+		if ($sort) {
+			$url = $url . '/sort/' . $sort;
+		}
+		array_unshift(
+			$makers,
+			array('id' => 0, 'name' => 'Не важно', 'count' => $count, 'url' => $this->getURL($url))
+		);
+		return $makers;
+	}
 
 	/**
 	 * Функция возвращает путь от корня каталога до категории с уникальным
@@ -478,7 +478,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCategoryPath($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->categoryPath($id);
 		}
 
@@ -502,7 +502,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 		$current = $id;
 		while ($current) {
 			$query = "SELECT `parent`, `name` FROM `categories` WHERE `id` = :current";
-			$res = $this->database->fetch($query, array('current' => $current), $this->enableCache);
+			$res = $this->database->fetch($query, array('current' => $current), $this->enableDataCache);
 			$path[] = array(
 				'url' => $this->getURL('frontend/catalog/category/id/' . $current),
 				'name' => $res['name']
@@ -523,7 +523,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCatalogMenu($id = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->catalogMenu($id);
 		}
 
@@ -553,7 +553,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	private function catalogBranch($path, $level, $id) {
 		// этот код возвращает массив, где уровень вложенности задает переменная $level
 		$query = "SELECT `id`, `name` FROM `categories` WHERE `parent` = :parent ORDER BY `sortorder`";
-		$items = $this->database->fetchAll($query, array('parent' => $path[$level]), $this->enableCache);
+		$items = $this->database->fetchAll($query, array('parent' => $path[$level]), $this->enableDataCache);
 		$result = array();
 		foreach ($items as $item) {
 			$result[] = array(
@@ -602,7 +602,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	private function getAllCategoryParents($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->allCategoryParents($id);
 		}
 
@@ -629,7 +629,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 		$current = $id;
 		while ($current) {
 			$query = "SELECT `parent` FROM `categories` WHERE `id` = :current";
-			$res = $this->database->fetchOne($query, array('current' => $current), $this->enableCache);
+			$res = $this->database->fetchOne($query, array('current' => $current), $this->enableDataCache);
 			$path[] = $res;
 			$current = $res;
 		}
@@ -643,7 +643,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getAllMakers($limit = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->allMakers($limit);
 		}
 
@@ -695,7 +695,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  `makers`
 				  WHERE
 					  `id` = :id";
-		return $this->database->fetch($query, array('id' => $id), $this->enableCache);
+		return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
 	}
 
 	/**
@@ -704,7 +704,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getMakerProducts($id, $sortorder = 0, $start = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->makerProducts($id, $sortorder, $start);
 		}
 
@@ -772,7 +772,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  `products` `a` INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
 				  WHERE
 					  `a`.`maker` = :id AND `a`.`visible` = 1";
-		return $this->database->fetchOne($query, array('id' => $id), $this->enableCache);
+		return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
 	}
 
 	/**
@@ -797,7 +797,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	public function getSearchResults($search = '', $start = 0, $ajax = false) {
 		$search = $this->cleanSearchString($search);
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->searchResults($search, $start, $ajax);
 		}
 
@@ -872,7 +872,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 		if (empty($query)) {
 			return 0;
 		}
-		return $this->database->fetchOne($query, array(), $this->enableCache);
+		return $this->database->fetchOne($query, array(), $this->enableDataCache);
 	}
 
 	/**

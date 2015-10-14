@@ -9,13 +9,12 @@ class Menu_Frontend_Model extends Frontend_Model {
 		parent::__construct();
 	}
 
-
 	/**
 	 * Функция возвращает массив всех пунктов меню в виде дерева
 	 */
 	public function getMenu() {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->menu();
 		}
 

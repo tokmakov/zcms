@@ -21,6 +21,11 @@ abstract class Frontend_Controller extends Base_Controller {
 	protected $authUser = false;
 
 	/**
+	 * кэшировать шаблоны?
+	 */
+	protected $enableHtmlCache;
+
+	/**
 	 * не использовать кэширование шаблонов, даже если в настройках
 	 * указано использовать кэш; см. Frontend_Controller::render() и
 	 * Frontend_Controller::output()
@@ -91,6 +96,9 @@ abstract class Frontend_Controller extends Base_Controller {
 	public function __construct($params = null) {
 
 		parent::__construct($params);
+
+		// кэшировать шаблоны?
+		$this->enableHtmlCache = $this->config->cache->enable->html;
 
 		/*
 		 * Все модели, которые нужны для работы
@@ -377,8 +385,8 @@ abstract class Frontend_Controller extends Base_Controller {
 	 */
 	protected function render($template, $params = array()) {
 
-		// если не включено кэширование данных
-		if (!$this->config->cache->enable) {
+		// если не включено кэширование шаблонов
+		if (!$this->enableHtmlCache) {
 			return parent::render($template, $params);
 		}
 

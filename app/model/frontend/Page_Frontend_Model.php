@@ -15,7 +15,7 @@ class Page_Frontend_Model extends Frontend_Model {
 	 */
 	public function getPage($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->page($id);
 		}
 
@@ -45,7 +45,7 @@ class Page_Frontend_Model extends Frontend_Model {
 	 */
 	public function getPagePath($id) {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->pagePath($id);
 		}
 
@@ -93,7 +93,7 @@ class Page_Frontend_Model extends Frontend_Model {
 	 */
 	public function getAllPages() {
 		// если не включено кэширование данных
-		if (!$this->enableCache) {
+		if (!$this->enableDataCache) {
 			return $this->allPages();
 		}
 
