@@ -1,0 +1,24 @@
+/* форма для авторизации администратора */
+#login-admin {
+    overflow: hidden;
+    width: 50%;
+    margin: 0 auto;
+}
+    #login-admin > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #login-admin > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #login-admin > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #login-admin > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }

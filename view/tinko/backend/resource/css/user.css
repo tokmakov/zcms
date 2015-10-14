@@ -1,0 +1,60 @@
+/* список всех пользователей */
+#all-users {
+    overflow: hidden;
+}
+    #all-users > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-users > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-users > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-users > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* форма для редактирования личных данных пользователя */
+#add-edit-user {
+    overflow: hidden;
+}
+    #add-edit-user > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-user > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-user > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-user > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+
+/* список заказов пользователя */
+#user-orders-list {
+
+}
+    #user-orders-list .orders-list-item {
+        margin-bottom: 20px;
+    }
+        #user-orders-list .orders-list-item p:first-of-type {
+            margin-bottom: 5px;
+        }
+        #user-orders-list .orders-list-item p:last-of-type {
+            margin-top: 5px;
+        }

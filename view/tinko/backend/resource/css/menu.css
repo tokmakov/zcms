@@ -1,0 +1,61 @@
+/* форма для добавления/редактирования пункта меню */
+#add-edit-menu-item {
+    overflow: hidden;
+}
+    #add-edit-menu-item > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-menu-item > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-menu-item > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-menu-item > div > div:last-child > input[type="text"],
+            #add-edit-menu-item > div > div:last-child > textarea,
+            #add-edit-menu-item > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-menu-item > div > div:last-child > textarea {
+                height: 300px;
+            }
+
+/* список всех пунктов меню */
+#all-menu-items {
+    overflow: hidden;
+}
+    #all-menu-items ul, #all-menu-items li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-menu-items > ul > li > div {
+            padding-left: 0;
+        }
+            #all-menu-items > ul > li > ul > li > div {
+                padding-left: 25px;
+            }
+                #all-menu-items > ul > li > ul > li > ul > li > div {
+                    padding-left: 50px;
+                }
+        #all-menu-items li > div {
+            overflow: hidden;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #eee;
+        }
+            #all-menu-items li > div > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-menu-items li > div > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }

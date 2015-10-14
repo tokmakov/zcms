@@ -1,0 +1,637 @@
+
+<!-- Начало шаблона view/example/frontend/template/wrapper.php -->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Начало шаблона view/example/frontend/template/head.php -->
+
+<title>CQR. Все изделия производителя. Каталог оборудования. Группа компаний ИТЦ и КИС</title>
+<meta name="keywords" content="каталог, оборудование, купить, ОПС, СКУД, домофон, оповещение, кабель, провод, пожаротушение" />
+<meta name="description" content="Каталог оборудования: охранно-пожарная сигнализация, охранное телевидение, контроль доступа, домофоны, средства оповещения, кабели и провода, системы пожаротушения." />
+
+            <link rel="stylesheet" href="/view/isk/frontend/resource/css/reset.css" type="text/css" />
+            <link rel="stylesheet" href="/view/isk/frontend/resource/css/common.css" type="text/css" />
+    
+            <script type="text/javascript" src="/view/isk/frontend/resource/js/jquery-2.1.1.min.js"></script>
+            <script type="text/javascript" src="/view/isk/frontend/resource/js/jquery.form.min.js"></script>
+            <script type="text/javascript" src="/view/isk/frontend/resource/js/center.js"></script>
+            <script type="text/javascript" src="/view/isk/frontend/resource/js/common.js"></script>
+    
+    <meta name="robots" content="all" />
+
+<!-- Конец шаблона view/example/frontend/template/head.php -->
+
+</head>
+<body>
+
+<div id="header">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/header.php -->
+
+<div id="top-logo">
+    <a href="/"></a>
+    <div>Группа компаний<br/><span>ИТЦ</span> и <span>КИС</span></div>
+</div>
+
+<div id="top-phone">
+    <div></div>
+    <div>+7 (495) 781-71-17<br/>+7 (495) 781-72-27</div>
+</div>
+
+<div id="top-search">
+    <form action="/catalog/search" method="post">
+        <input type="text" name="query" value="" placeholder="Поиск по каталогу" maxlength="64" />
+        <input type="submit" name="submit" value="" />
+    </form>
+    <div></div>
+</div>
+
+<div id="top-menu">
+    <a href="/basket" title="Ваша корзина"><span>Ваша корзина</span><span>Корзина</span></a>
+    <a href="/user/index" title="Личный кабинет"><span>Личный кабинет</span><span>Кабинет</span></a>
+    <a href="/wished" title="Отложенные товары"><span>Отложенные товары</span><span>Избранное</span></a>
+    <a href="/compared" title="Сравнение товаров"><span>Сравнение товаров</span><span>Сравнение</span></a>
+    <a href="/viewed" title="Вы уже смотрели"><span>Вы уже смотрели</span><span>История</span></a>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/header.php -->
+
+    </div>
+</div>
+
+<div id="main-menu">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/menu.php -->
+
+<div id="menu">
+    <ul>
+            <li><a href="/page/9">О компании</a>
+                    </li>
+            <li><a href="/catalog">Каталог</a>
+                            <ul>
+                                    <li><a href="/catalog/category/3">Охранно-пожарная сигнализация</a>
+                                            </li>
+                                    <li><a href="/catalog/category/185">Охранное телевидение</a>
+                                            </li>
+                                    <li><a href="/catalog/category/651">Контроль и управление доступом</a>
+                                            </li>
+                                    <li><a href="/catalog/category/806">Домофоны</a>
+                                            </li>
+                                    <li><a href="/catalog/category/883">Системы оповещения</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1898">Источники питания</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1081">Средства пожаротушения</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1004">Взрывозащищенное оборудование</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1909">Шкафы, стойки и компоненты СКС</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1911">Сетевое оборудование</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1936">Кабели и провода</a>
+                                            </li>
+                                    <li><a href="/catalog/category/1948">Монтажные и расходные материалы</a>
+                                            </li>
+                                </ul>
+                    </li>
+            <li><a href="/page/41">Доставка</a>
+                    </li>
+            <li><a href="/page/10">Проектирование</a>
+                            <ul>
+                                    <li><a href="/page/13">Охранно-пожарная сигнализация</a>
+                                                    <ul>
+                                                            <li><a href="/page/45">Охранная сигнализация</a></li>
+                                                            <li><a href="/page/44">Пожарная сигнализация</a></li>
+                                                        </ul>
+                                            </li>
+                                    <li><a href="/page/14">Системы видеонаблюдения</a>
+                                            </li>
+                                    <li><a href="/page/15">Контроль доступа</a>
+                                            </li>
+                                    <li><a href="/page/16">Оповещение о пожаре</a>
+                                            </li>
+                                    <li><a href="/page/17">Системы пожаротушения</a>
+                                            </li>
+                                    <li><a href="/page/18">Кабельные сети</a>
+                                            </li>
+                                    <li><a href="/page/19">Системы связи</a>
+                                            </li>
+                                    <li><a href="/page/20">Электроснабжение и освещение</a>
+                                            </li>
+                                    <li><a href="/page/21">Вентиляция и кондиционирование</a>
+                                            </li>
+                                </ul>
+                    </li>
+            <li><a href="/page/11">Монтаж</a>
+                            <ul>
+                                    <li><a href="/page/22">Охранно-пожарная сигнализация</a>
+                                                    <ul>
+                                                            <li><a href="/page/42">Охранная сигнализация</a></li>
+                                                            <li><a href="/page/43">Пожарная сигнализация</a></li>
+                                                        </ul>
+                                            </li>
+                                    <li><a href="/page/23">Системы видеонаблюдения</a>
+                                            </li>
+                                    <li><a href="/page/24">Контроль доступа</a>
+                                            </li>
+                                    <li><a href="/page/25">Оповещение о пожаре</a>
+                                            </li>
+                                    <li><a href="/page/26">Системы пожаротушения</a>
+                                            </li>
+                                    <li><a href="/page/27">Кабельные сети</a>
+                                            </li>
+                                    <li><a href="/page/28">Системы связи</a>
+                                            </li>
+                                    <li><a href="/page/29">Электроснабжение и освещение</a>
+                                            </li>
+                                    <li><a href="/page/30">Вентиляция и кондиционирование</a>
+                                            </li>
+                                </ul>
+                    </li>
+            <li><a href="/page/12">Обслуживание</a>
+                            <ul>
+                                    <li><a href="/page/31">Охранно-пожарная сигнализация</a>
+                                            </li>
+                                    <li><a href="/page/32">Системы видеонаблюдения</a>
+                                            </li>
+                                    <li><a href="/page/33">Контроль доступа</a>
+                                            </li>
+                                    <li><a href="/page/34">Оповещение о пожаре</a>
+                                            </li>
+                                    <li><a href="/page/35">Системы пожаротушения</a>
+                                            </li>
+                                    <li><a href="/page/38">Электроснабжение и освещение</a>
+                                            </li>
+                                    <li><a href="/page/39">Вентиляция и кондиционирование</a>
+                                            </li>
+                                </ul>
+                    </li>
+            <li><a href="/news">Новости</a>
+                            <ul>
+                                    <li><a href="/news/ctg/1">Новости компании</a>
+                                            </li>
+                                    <li><a href="/news/ctg/2">События отрасли</a>
+                                            </li>
+                                </ul>
+                    </li>
+            <li><a href="/page/40">Контакты</a>
+                    </li>
+        </ul>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/menu.php -->
+
+    </div>
+</div>
+
+<div class="wrapper">
+    <div id="wrap">
+        <div id="content">
+            
+<!-- Начало шаблона view/example/frontend/template/catalog/maker/center.php -->
+
+    <div id="breadcrumbs">
+            <a href="/">Главная</a>&nbsp;&gt;
+            <a href="/catalog">Каталог</a>&nbsp;&gt;
+            <a href="/catalog/all-makers">Производители</a>&nbsp;&gt;
+        </div>
+
+<h1>CQR</h1>
+
+
+<div id="sort-orders">
+    <ul>
+        <li>Сортировка</li>
+            <li>
+                            <span class="selected">прайс-лист</span>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/1" class="sort-asc-blue"><span>цена</span></a>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/2" class="sort-desc-blue"><span>цена</span></a>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/3" class="sort-asc-blue"><span>название</span></a>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/4" class="sort-desc-blue"><span>название</span></a>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/5" class="sort-asc-blue"><span>код</span></a>
+                    </li>
+            <li>
+                            <a href="/catalog/maker/149/sort/6" class="sort-desc-blue"><span>код</span></a>
+                    </li>
+        </ul>
+</div>
+
+<div class="products-list-line">
+            <div>
+            <div class="product-line-heading">
+                <h2><a href="/catalog/product/1017">SP-1 (CQR)</a></h2>
+                                    <h3>Кнопка извещения о нападении с фиксацией</h3>
+                            </div>
+            <div class="product-line-image">
+                <a href="/catalog/product/1017"><img src="/files/catalog/imgs/small/nophoto.jpg" alt="" /></a>
+            </div>
+            <div class="product-line-info">
+                <div>
+                    <span>Цена:</span>
+                    <span><strong>335.00</strong> руб/шт</span>
+                </div>
+                <div>
+                    <span>Код:</span>
+                    <span><strong>001017</strong></span>
+                </div>
+                <div>
+                    <span>Производитель:</span>
+                    <span><span class="selected">CQR</span></span>
+                </div>
+            </div>
+            <div class="product-line-basket">
+                <form action="/basket/addprd" method="post" class="add-basket-form">
+                    <input type="hidden" name="product_id" value="1017" />
+                    <input type="text" name="count" value="1" size="5" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
+                </form>
+                <form action="/wished/addprd" method="post" class="add-wished-form">
+                    <input type="hidden" name="product_id" value="1017" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                </form>
+                <form action="/compared/addprd" method="post" class="add-compared-form">
+                    <input type="hidden" name="product_id" value="1017" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
+                </form>
+            </div>
+            <div class="product-line-descr">Кнопка извещения о нападении с фиксацией</div>
+        </div>
+            <div>
+            <div class="product-line-heading">
+                <h2><a href="/catalog/product/31168">JB-701</a></h2>
+                                    <h3>Коробка соединительная на 5 контактов</h3>
+                            </div>
+            <div class="product-line-image">
+                <a href="/catalog/product/31168"><img src="/files/catalog/imgs/small/nophoto.jpg" alt="" /></a>
+            </div>
+            <div class="product-line-info">
+                <div>
+                    <span>Цена:</span>
+                    <span><strong>75.30</strong> руб/шт</span>
+                </div>
+                <div>
+                    <span>Код:</span>
+                    <span><strong>031168</strong></span>
+                </div>
+                <div>
+                    <span>Производитель:</span>
+                    <span><span class="selected">CQR</span></span>
+                </div>
+            </div>
+            <div class="product-line-basket">
+                <form action="/basket/addprd" method="post" class="add-basket-form">
+                    <input type="hidden" name="product_id" value="31168" />
+                    <input type="text" name="count" value="1" size="5" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
+                </form>
+                <form action="/wished/addprd" method="post" class="add-wished-form">
+                    <input type="hidden" name="product_id" value="31168" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                </form>
+                <form action="/compared/addprd" method="post" class="add-compared-form">
+                    <input type="hidden" name="product_id" value="31168" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
+                </form>
+            </div>
+            <div class="product-line-descr">Коробка монтажная 5 контаков + 2 тампера, полистирол</div>
+        </div>
+            <div>
+            <div class="product-line-heading">
+                <h2><a href="/catalog/product/221383">JB-720</a></h2>
+                                    <h3>Коробка соединительная на 8 контактов</h3>
+                            </div>
+            <div class="product-line-image">
+                <a href="/catalog/product/221383"><img src="/files/catalog/imgs/small/nophoto.jpg" alt="" /></a>
+            </div>
+            <div class="product-line-info">
+                <div>
+                    <span>Цена:</span>
+                    <span><strong>140.80</strong> руб/шт</span>
+                </div>
+                <div>
+                    <span>Код:</span>
+                    <span><strong>221383</strong></span>
+                </div>
+                <div>
+                    <span>Производитель:</span>
+                    <span><span class="selected">CQR</span></span>
+                </div>
+            </div>
+            <div class="product-line-basket">
+                <form action="/basket/addprd" method="post" class="add-basket-form">
+                    <input type="hidden" name="product_id" value="221383" />
+                    <input type="text" name="count" value="1" size="5" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
+                </form>
+                <form action="/wished/addprd" method="post" class="add-wished-form">
+                    <input type="hidden" name="product_id" value="221383" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                </form>
+                <form action="/compared/addprd" method="post" class="add-compared-form">
+                    <input type="hidden" name="product_id" value="221383" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
+                </form>
+            </div>
+            <div class="product-line-descr">Коробка монтажная 8 контаков + 2 тампера, полистирол</div>
+        </div>
+            <div>
+            <div class="product-line-heading">
+                <h2><a href="/catalog/product/219440">JB-730</a></h2>
+                                    <h3>Коробка соединительная на 24 контакта</h3>
+                            </div>
+            <div class="product-line-image">
+                <a href="/catalog/product/219440"><img src="/files/catalog/imgs/small/nophoto.jpg" alt="" /></a>
+            </div>
+            <div class="product-line-info">
+                <div>
+                    <span>Цена:</span>
+                    <span><strong>368.00</strong> руб/шт</span>
+                </div>
+                <div>
+                    <span>Код:</span>
+                    <span><strong>219440</strong></span>
+                </div>
+                <div>
+                    <span>Производитель:</span>
+                    <span><span class="selected">CQR</span></span>
+                </div>
+            </div>
+            <div class="product-line-basket">
+                <form action="/basket/addprd" method="post" class="add-basket-form">
+                    <input type="hidden" name="product_id" value="219440" />
+                    <input type="text" name="count" value="1" size="5" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
+                </form>
+                <form action="/wished/addprd" method="post" class="add-wished-form">
+                    <input type="hidden" name="product_id" value="219440" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                </form>
+                <form action="/compared/addprd" method="post" class="add-compared-form">
+                    <input type="hidden" name="product_id" value="219440" />
+                    <input type="hidden" name="return" value="maker" />
+                    <input type="hidden" name="return_mkr_id" value="149" />
+                                                            <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
+                </form>
+            </div>
+            <div class="product-line-descr">Коробка монтажная 24 контаков + 2 тампера, полистирол</div>
+        </div>
+    </div>
+
+
+<!-- Конец шаблона view/example/frontend/template/catalog/maker/center.php -->
+
+        </div>
+    </div>
+    <div id="left">
+        
+<!-- Начало шаблона view/example/frontend/template/left.php -->
+
+<div class="side-block">
+    <div>Каталог оборудования</div>
+    <div class="no-padding">
+                    <div id="catalog-menu">
+                            <div class="item-level-0">
+                    <a href="/catalog/category/3"
+                                        >
+                    <span>Охранно-пожарная сигнализация</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/185"
+                                        >
+                    <span>Охранное телевидение</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/651"
+                                        >
+                    <span>Контроль и управление доступом</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/806"
+                                        >
+                    <span>Домофоны</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/883"
+                                        >
+                    <span>Системы оповещения</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1898"
+                                        >
+                    <span>Источники питания</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1081"
+                                        >
+                    <span>Средства пожаротушения</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1004"
+                                        >
+                    <span>Взрывозащищенное оборудование</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1909"
+                                        >
+                    <span>Шкафы, стойки и компоненты СКС</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1911"
+                                        >
+                    <span>Сетевое оборудование</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1936"
+                                        >
+                    <span>Кабели и провода</span>
+                    </a>
+                </div>
+                            <div class="item-level-0">
+                    <a href="/catalog/category/1948"
+                                        >
+                    <span>Монтажные и расходные материалы</span>
+                    </a>
+                </div>
+                        </div>
+            </div>
+</div>
+
+<div class="side-block">
+    <div>Производители</div>
+    <div>
+        <div id="makers-list-right">
+            <ul>
+                            <li>
+                    <span><a href="/catalog/maker/2252">ABB</a> <span>13</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/2290">Abloy</a> <span>35</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/2249">ABRON</a> <span>25</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/318">AccordTec</a> <span>48</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/431">ACTI</a> <span>9</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/1526">ActiveCam</a> <span>15</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/664">Activision</a> <span>136</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/148">Ademco</a> <span>49</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/256">Alarmico</a> <span>11</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/1480">Allied Telesis</a> <span>2</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/754">AMC</a> <span>4</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/1290">AN-Motors</a> <span>22</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/979">APC</a> <span>14</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/2247">Apollo Fire Detectors</a> <span>13</span></span>
+                </li>
+                            <li>
+                    <span><a href="/catalog/maker/1257">ARM MEDIA</a> <span>1</span></span>
+                </li>
+                        </ul>
+            <p><a href="/catalog/all-makers">Все производители</a></p>
+        </div>
+        </div>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/left.php -->
+
+    </div>
+    <div id="right">
+        
+<!-- Начало шаблона view/example/frontend/template/right.php -->
+
+<div class="side-block">
+    <div id="user-heading">Личный кабинет</div>
+            <div>
+            <form action="/user/login" method="post" id="login-user-right">
+                <input type="text" name="email" maxlength="32" value="" placeholder="Введите e-mail" />
+                <input type="text" name="password" maxlength="32" value="" placeholder="Введите пароль" />
+                <label><input type="checkbox" name="remember" value="1" /> <span>запомнить меня</span></label>
+                <input type="submit" name="submit" value="Войти" />
+            </form>
+            <ul id="reg-forgot-right">
+                <li><a href="/user/reg">Регистрация</a></li>
+                <li><a href="/user/forgot">Забыли пароль?</a></li>
+            </ul>
+        </div>
+    </div>
+
+<div class="side-block">
+    <div id="basket-heading">Ваша корзина</div>
+    <div class="no-padding">
+        <div id="side-basket">
+                    <p class="empty-list-right">Ваша корзина пуста</p>
+                </div>
+    </div>
+</div>
+
+<div class="side-block">
+    <div id="wished-heading">Отложенные товары</div>
+    <div class="no-padding">
+        <div id="side-wished">
+                    <p class="empty-list-right">Нет отложенных товаров</p>
+                </div>
+    </div>
+</div>
+
+<div class="side-block">
+    <div id="compared-heading">Сравнение товаров</div>
+    <div class="no-padding">
+        <div id="side-compared">
+                    <p class="empty-list-right">Нет товаров для сравнения</p>
+                </div>
+    </div>
+</div>
+
+
+<!-- Конец шаблона view/example/frontend/template/right.php -->
+
+    </div>
+</div>
+
+<div id="footer">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/footer.php -->
+
+<div><span>2000—2015 Группа компаний ИТЦ и КИС<br/>Москва, Колодезный переулок, дом 3, стр. 17, подъезд 8, офис 305/5</span></div>
+<div><span><a href="/sitemap">Карта сайта</a></span></div>
+
+<!-- Конец шаблона view/example/frontend/template/footer.php -->
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<!-- Конец шаблона view/example/frontend/template/wrapper.php -->

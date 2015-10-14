@@ -1,0 +1,256 @@
+/* форма для добавления/редактирования товара */
+#add-edit-product {
+
+}
+    #add-edit-product input[type="file"] {
+        width: 250px;
+        font-family: Arial;
+        font-size: 14px;
+    }
+    #add-edit-product > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #eee;
+        border-radius: 10px;
+        padding: 7px 10px;
+    }
+        #add-edit-product > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-product > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-product > div > div:last-child > input[type="text"],
+            #add-edit-product > div > div:last-child > textarea,
+            #add-edit-product > div > div:last-child > select {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-product > div > div:last-child > textarea {
+                height: 100px;
+            }
+            #add-edit-product > #techdata > div {
+                float: none;
+                width: 100%;
+            }
+            #add-edit-product > #techdata > div:first-child {
+                margin-bottom: 5px;
+            }
+                #add-edit-product > #techdata > div:last-child > div {
+                    overflow: hidden;
+                    margin: 4px 0;
+                }
+                    #add-edit-product > #techdata > div:last-child > div > input,
+                    #add-edit-product > #techdata > div:last-child > div > span {
+                        display: block;
+                        float: left;
+                    }
+                    #add-edit-product > #techdata > div:last-child > div > input {
+                        padding: 3px;
+                    }
+                    #add-edit-product > #techdata > div:last-child > div > input:first-of-type {
+                        width: 40%;
+                    }
+                    #add-edit-product > #techdata > div:last-child > div > input:last-of-type {
+                        width: 30%;
+                        margin-left: 10px;
+                    }
+                    #add-edit-product > #techdata > div:last-child > div > span {
+                        margin-left: 10px;
+                        padding-top: 5px;
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+        #add-edit-product > #docs > div {
+            float: none;
+            width: 100%;
+        }
+        #add-edit-product > #docs > div:first-child {
+            margin-bottom: 10px;
+        }
+            #add-edit-product > #docs > div:last-child > div:first-child {
+                margin-bottom: 15px;
+            }
+                #add-edit-product > #docs > div:last-child > div:first-child > div {
+                    margin-bottom: 5px;
+                    overflow: hidden;
+                }
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > input,
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > a,
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > span {
+                        display: block;
+                        float: left;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > input[type="text"] {
+                        width: 40%;
+                        padding: 3px;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > a {
+                        width: 42%;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > a,
+                    #add-edit-product > #docs > div:last-child > div:first-child > div > span {
+                        margin: 5px 0 0 5px;
+                    }
+                        #add-edit-product > #docs > div:last-child > div:first-child > div > span > input {
+                            vertical-align: middle;
+                        }
+            #add-edit-product > #docs > div:last-child > div:last-child {
+
+            }
+                #add-edit-product > #docs > div:last-child > div:last-child > div {
+                    overflow: hidden;
+                    margin-bottom: 5px;
+                }
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > input,
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > span {
+                        float: left;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > input[type="text"] {
+                        width: 40%;
+                        padding: 3px;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > span {
+                        margin: 2px 0 0 5px;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > input[type="file"] {
+                        margin: 1px 0 0 5px;
+                    }
+                    #add-edit-product > #docs > div:last-child > div:last-child > div > span {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+
+/* форма для добавления/редактирования категории */
+#add-edit-category {
+
+}
+    #add-edit-category > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-category > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-category > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-category > div > div:last-child > input[type="text"],
+            #add-edit-category > div > div:last-child > textarea,
+            #add-edit-category > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-category > div > div:last-child > textarea {
+                height: 300px;
+            }
+
+/* форма для добавления/редактирования производителя */
+#add-edit-maker {
+
+}
+    #add-edit-maker > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-maker > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-maker > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-maker > div > div:last-child > input[type="text"],
+            #add-edit-maker > div > div:last-child > textarea,
+            #add-edit-maker > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-maker > div > div:last-child > textarea {
+                height: 300px;
+            }
+
+/* список дочерних категорий */
+#child-categories {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+    #child-categories > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #child-categories > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #child-categories > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #child-categories > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* список всех товаров категории */
+#category-products {
+    overflow: hidden;
+}
+    #category-products > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #category-products > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #category-products > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #category-products > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* список всех производителей */
+#all-makers {
+    overflow: hidden;
+}
+    #all-makers > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-makers > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-makers > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-makers > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }

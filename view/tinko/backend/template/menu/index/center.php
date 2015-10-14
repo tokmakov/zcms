@@ -1,0 +1,84 @@
+<?php
+/**
+ * Список всех пунктов главного меню сайта,
+ * файл view/example/backend/template/menu/index/center.php,
+ * административная часть сайта
+ *
+ * Переменные, которые приходят в шаблон:
+ * $breadcrumbs - хлебные крошки
+ * $addItenUrl - URL ссылки на страницу с формой для добавления пункта меню
+ * $menuItems - массив всех пунктов меню
+ */
+
+defined('ZCMS') or die('Access denied');
+?>
+
+<!-- Начало шаблона view/example/backend/template/menu/index/center.php -->
+
+<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+    <div id="breadcrumbs">
+        <?php foreach ($breadcrumbs as $item): ?>
+            <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<h1>Главное меню</h1>
+
+<p><a href="<?php echo $addItemUrl; ?>">Добавить пункт меню</a></p>
+
+<?php if (!empty($menuItems)): ?>
+    <div id="all-menu-items">
+        <ul>
+        <?php foreach($menuItems as $item): ?>
+            <li>
+                <div>
+                    <div><?php echo $item['sortorder']; ?>. <?php echo $item['name']; ?></div>
+                    <div>
+                        <a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a>
+                        <a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a>
+                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    </div>
+                </div>
+                <?php if (isset($item['childs'])): ?>
+                    <ul>
+                    <?php foreach($item['childs'] as $child): ?>
+                        <li>
+                            <div>
+                                <div><?php echo $child['sortorder']; ?>. <?php echo $child['name']; ?></div>
+                                <div>
+                                    <a href="<?php echo $child['url']['up']; ?>" title="Вверх">Вверх</a>
+                                    <a href="<?php echo $child['url']['down']; ?>" title="Вниз">Вниз</a>
+                                    <a href="<?php echo $child['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                                    <a href="<?php echo $child['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                </div>
+                            </div>
+                            <?php if (isset($child['childs'])): ?>
+                                <ul>
+                                <?php foreach($child['childs'] as $value): ?>
+                                    <li>
+                                        <div>
+                                            <div><?php echo $value['sortorder']; ?>. <?php echo $value['name']; ?></div>
+                                            <div>
+                                                <a href="<?php echo $value['url']['up']; ?>" title="Вверх">Вверх</a>
+                                                <a href="<?php echo $value['url']['down']; ?>" title="Вниз">Вниз</a>
+                                                <a href="<?php echo $value['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                                                <a href="<?php echo $value['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<!-- Конец шаблона view/example/backend/template/menu/index/center.php -->
