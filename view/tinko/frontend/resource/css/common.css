@@ -1127,97 +1127,106 @@ body > .wrapper {
 					color: #5390cc;
 				}
 
-/* каталог, список производителей текущей категории */
-#category-makers {
-	margin-bottom: 20px;
+/* каталог, фильтр по функционалу и производителю */
+#category-filters {
+    margin-bottom: 20px;
 }
-	#category-makers > div:first-child {
-		background-color: #323232;
-		border: 1px solid #323232;
-		color: #fff;
-		padding: 10px 15px;
-		overflow: hidden;
-	}
-		#category-makers > div:first-child > span:first-child {
-			display: block;
-			overflow: hidden;
-		}
-		#category-makers > div:first-child > span:first-child {
-			float: left;
-			width: 70%;
-			white-space: nowrap;
-		}
-		#category-makers > div:first-child > span:last-child {
-			float: right;
-			text-align: right;
-			width: 25%;
-		}
-			#category-makers > div:first-child > span:last-child > span {
-				font-size: 13px;
-				cursor: pointer;
-				border-bottom: 1px dashed #fff;
-			}
-	#category-makers > div:last-child {
-		border: 1px solid #d1d1d1;
-		border-top: none;
-		overflow: hidden;
-	}
-		#category-makers > div:last-child > ul {
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			float: left;
-			width: 50%;
-			box-sizing: border-box;
-		}
-		#category-makers > div:last-child > ul:first-child {
-			border-right: 1px dashed #d1d1d1;
-		}
-		#category-makers > div:last-child > ul:only-child {
-			border-right: none;
-			width: 100%;
-			float: none;
-		}
-		#category-makers > div:last-child > ul > li {
-			padding-right: 30px;
-			border-bottom: 1px dashed #d1d1d1;
-			position: relative;
-			overflow: hidden;
-		}
-		#category-makers > div:last-child > ul > li:last-child {
-			border-bottom: none;
-		}
-			#category-makers > div:last-child > ul > li > span {
-				display: block;
-				height: 26px;
-			}
-			#category-makers > div:last-child > ul > li > span > a,
-			#category-makers > div:last-child > ul > li > span > span:first-child {
-				display: block;
-				font-size: 14px;
-				line-height: 26px;
-				padding-left: 5px;
-				height: 26px;
-				white-space: nowrap;
-			}
-				#category-makers > div:last-child > ul > li > span > span:last-child {
-					display: block;
-					position: absolute;
-					font-size: 13px;
-					line-height: 26px;
-					height: 26px;
-					width: 30px;
-					text-align: center;
-					background: #f0f0f0;
-					top: 0;
-					right: 0;
-				}
-				#category-makers > div:last-child > ul > li > span > a + span {
-					color: #5390cc;
-				}
-				#category-makers > div:last-child > ul > li > span > span.selected + span {
-					color: #ff6d00;
-				}
+    #category-filters > div:first-child {
+        background-color: #323232;
+        border: 1px solid #323232;
+        color: #fff;
+        padding: 10px 15px;
+        overflow: hidden;
+    }
+        #category-filters > div:first-child > span {
+            display: block;
+            overflow: hidden;
+        }
+        #category-filters > div:first-child > span:first-child {
+            float: left;
+            width: 70%;
+            white-space: nowrap;
+        }
+        #category-filters > div:first-child > span:last-child {
+            float: right;
+            text-align: right;
+            width: 25%;
+        }
+            #category-filters > div:first-child > span:last-child > span {
+                font-size: 13px;
+                cursor: pointer;
+                border-bottom: 1px dashed #fff;
+            }
+    #category-filters > div:last-child {
+        border: 1px solid #d1d1d1;
+        border-top: none;
+        overflow: hidden;
+    }
+        #category-filters > div:last-child > form > div:nth-child(1),
+        #category-filters > div:last-child > form > div:nth-child(2),
+        #category-filters > div:last-child > form > div:nth-child(3) > div {
+            height: 30px;
+            overflow: hidden;
+            border-top: 1px dashed #d1d1d1;
+            padding: 0 5px;
+        }
+        #category-filters > div:last-child > form > div:nth-child(1) {
+            border-top: none;
+        }
+        #category-filters > div:last-child > form > div:nth-child(1) > div,
+        #category-filters > div:last-child > form > div:nth-child(2) > div,
+        #category-filters > div:last-child > form > div:nth-child(3) > div > div {
+            float: left;
+            width: 50%;
+            display: table;
+            height: 30px;
+            vertical-align: middle;
+        }
+            #category-filters > div:last-child > form > div:nth-child(1) > div > span,
+            #category-filters > div:last-child > form > div:nth-child(2) > div > span,
+            #category-filters > div:last-child > form > div:nth-child(3) > div > div > span {
+                display: table-cell;
+                height: 30px;
+                font-size: 14px;
+                line-height: 14px;
+                vertical-align: middle;
+            }
+            #category-filters > div:last-child > form > div:nth-child(1) > div:first-child > span,
+            #category-filters > div:last-child > form > div:nth-child(2) > div:first-child > span,
+            #category-filters > div:last-child > form > div:nth-child(3) > div:first-child > div > span {
+                font-size: 14px;
+                line-height: 15px;
+            }
+        #category-filters select {
+            width: 100%;
+            height: 24px;
+            box-sizing: border-box;
+            font-size: 14px;
+            padding: 2px;
+            border: 1px solid #d1d1d1;
+        }
+            #category-filters select option.empty-option {
+                background: #f0f0f0;
+                color: #bbb;
+            }
+        #category-filters > div:last-child > form > div:last-child {
+            height: 26px;
+            border-top: 1px dashed #d1d1d1;
+            padding-top: 9px;
+        }
+            #category-filters > div:last-child > form > div:last-child > input[type="submit"] {
+                display: block;
+                box-sizing: border-box;
+                height: 26px;
+                font-size: 14px;
+                line-height: 14px;
+                color: #fff;
+                width: 25%;
+                background: #395985;
+                border: 1px solid #395985;
+                cursor: pointer;
+                outline: none;
+            }
 
 /* каталог, категория, сортировка */
 #sort-orders {

@@ -94,46 +94,44 @@ abstract class Frontend_Model extends Base_Model {
 	}
 
 	/**
-	 * Функция возвращает SEF (Search Engines Friendly) URL, принимая на вход
-	 * URL вида frontend/controller/action/param/value
+	 * Функция возвращает абсолютный URL вида http://www.server.com/frontend/
+     * controller/action/param/value принимая на вход относительный URL вида
+	 * frontend/controller/action/param/value. Если в настройках указано
+     * использовать SEF (ЧПУ), функция возвращает абсолютный SEF URL.
 	 */
 	public function getURL($url) {
 		$url = trim($url, '/');
+        // если в настройках не разрешено использовать SEF (ЧПУ)
 		if (!$this->config->sef->enable) {
 			return parent::getURL($url);
 		}
+        // если не включено кэширование данных
+        if (!$this->enableDataCache) {
+            return $this->URL($url);
+        }
 
-		// если включено кэширование данных
-		if ($this->config->cache->enable) {
-			// данные сохранены в кэше?
-			$key = __METHOD__ . '()-' . $url;
-			if ($this->register->cache->isExists($key)) {
-				// получаем данные из кэша
-				return $this->register->cache->getValue($key);
-			} else {
-				$sef = $this->sefUrl($url);
-				// сохраняем данные в кэше
-				$this->register->cache->setValue($key, $sef);
-				return $sef;
-			}
-		}
-
-		return $this->sefUrl($url);
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-' . $url;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэш
+        return $this->getCachedData($key, $function, $arguments);
 	}
 
 	/**
-	 * Функция возвращает SEF (Search Engines Friendly) URL, принимая на вход URL вида
-	 * frontend/controller/action/param/value. Вспомогательная функция, вызывается из
-	 * функции getURL().
+	 * Функция возвращает абсолютный SEF (ЧПУ) URL, принимая на вход
+     * относительный URL вида frontend/controller/action/param/value
 	 */
-	private function sefUrl($url) {
+	protected function URL($url) {
 		$cap2sef = $this->config->sef->cap2sef;
 		foreach($cap2sef as $key => $value) {
 			if (preg_match($key, $url)) {
 				return $this->config->site->url . preg_replace($key, $value, $url);
 			}
 		}
-		return parent::getURL($url);
+		throw new Exception('Не найдено правило преобразования CAP->SEF для ' . $url);
 	}
 
 }

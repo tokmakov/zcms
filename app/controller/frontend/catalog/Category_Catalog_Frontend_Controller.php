@@ -53,6 +53,38 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
      * который будет передан в шаблон center.php
      */
     private function getCategory() {
+        /*
+        // если данные формы были отправлены (выбор функциональной группы или производителя)
+        if ($this->isPostMethod()) {
+            $url = 'frontend/catalog/category/id/' . $this->params['id'];
+            $grp = false;
+            if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
+                $url = $url . '/group/' . $_POST['group'];
+                $grp = true;
+            }
+            if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
+                $url = $url . '/maker/' . $_POST['maker'];
+            }
+            if ($grp && isset($_POST['param'])) {
+                $param = array();
+                foreach($_POST['param'] as $value) {
+                    if (ctype_digit($value) && $value > 0) {
+                        $param[] = $value;
+                    }
+                }
+                if (!empty($param)) {
+                    $url = $url . '/param/' . implode('-', $param);
+                }
+            }
+            if (isset($_POST['sort'])
+                && ctype_digit($_POST['sort'])
+                && in_array($_POST['sort'], array(1,2,3,4,5,6))
+            ) {
+                $url = $url . '/sort/' . $_POST['sort'];
+            }
+            $this->redirect($this->catalogFrontendModel->getURL($url));
+        }
+        */
 
         // получаем от модели информацию о категории
         $category = $this->catalogFrontendModel->getCategory($this->params['id']);
@@ -75,6 +107,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = $this->catalogFrontendModel->getCategoryPath($this->params['id']); // путь до категории
         array_pop($breadcrumbs); // последний элемент - текущая категория, нам она не нужна
 
+        // включен фильтр по функциональной группе?
+        $group = 0;
+        if (isset($this->params['group']) && ctype_digit($this->params['group'])) {
+            $group = $this->params['group'];
+        }
+
         // включен фильтр по производителю?
         $maker = 0;
         if (isset($this->params['maker']) && ctype_digit($this->params['maker'])) {
@@ -95,17 +133,16 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->robots = false;
         }
 
+$param = array();
+
         // получаем от модели массив дочерних категорий
-        $childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $maker, $sort);
+        $childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $group, $maker, $param, $sort);
+
+        // получаем от модели массив функциональных групп
+        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $group, $maker, $param);
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $sort);
-        // если включен фильтр по производителю, получаем название производителя
-        $makerName = null;
-        if ($maker) {
-            $temp = $this->catalogFrontendModel->getMaker($maker);
-            $makerName = $temp['name'];
-        }
+        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $maker, $param);
 
         // постраничная навигация
         $page = 1;
@@ -113,7 +150,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $page = $this->params['page'];
         }
         // общее кол-во товаров категории
-        $totalProducts = $this->catalogFrontendModel->getCountAllCategoryProducts($this->params['id'], $maker);
+        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['id'], $group, $maker, $param);
 
         $temp = new Pager(
             $page,                                              // текущая страница
@@ -133,7 +170,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив товаров категории
-        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $maker, $sort, $start);
+        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $group, $maker, $param, $sort, $start);
 
         /*
          * Варианты сортировки:
@@ -195,7 +232,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'thisPageUrl'     => $this->catalogFrontendModel->getURL($url), // URL этой страницы
             'childCategories' => $childCategories,                          // массив дочерних категорий
             'maker'           => $maker,                                    // id выбранного производителя или ноль
-            'makerName'       => $makerName,                                // название выбранного производителя
             'makers'          => $makers,                                   // массив производителей
             'sort'            => $sort,                                     // выбранная сортировка
             'sortorders'      => $sortorders,                               // массив вариантов сортировки

@@ -211,39 +211,77 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
-<?php if (!empty($makers) && count($makers) > 2): // производители ?>
-    <div id="category-makers">
+<?php if (!empty($groups) || !empty($makers)): // фильтры ?>
+    <div id="category-filters">
         <div>
             <span>
-            Производители:
-            <?php if ($maker): ?>
-            <span class="selected"><?php echo $makerName; ?></span>
-            <?php endif; ?>
+            Фильтры:
+                <?php if ($maker || $group): ?>
+                    <span class="selected">включены</span>
+                <?php endif; ?>
             </span>
             <span><span>показать</span></span>
         </div>
         <div>
-            <ul>
-            <?php
-                $divide = 0;
-                $count = count($makers);
-                if ($count > 5) {
-                    $divide = ceil($count/2);
-                }
-            ?>
-            <?php foreach($makers as $key => $item): ?>
-                <li>
-                    <?php if ($item['id'] == $maker): ?>
-                        <span><span class="selected"><?php echo $item['name']; ?></span> <span><?php echo $item['count']; ?></span>
-                    <?php else: ?>
-                        <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
+            <form action="<?php echo $action; ?>" method="post">
+                <div>
+                    <div>
+                        <span>Функциональное назначение</span>
+                    </div>
+                    <div>
+                        <span>
+                        <select name="group">
+                            <option value="0">Выберите</option>
+                            <?php foreach($groups as $item): ?>
+                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <span>Производитель</span>
+                    </div>
+                    <div>
+                        <span>
+                        <select name="maker">
+                            <option value="0">Выберите</option>
+                            <?php foreach($makers as $item): ?>
+                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <?php if (!empty($params)): ?>
+                        <?php foreach($params as $item): ?>
+                            <div>
+                                <div>
+                                    <span><?php echo $item['name']; ?></span>
+                                </div>
+                                <div>
+                                    <span>
+                                    <select name="param[<?php echo $item['id']; ?>]">
+                                        <option value="0">Выберите</option>
+                                        <?php foreach($item['values'] as $value): ?>
+                                            <option value="<?php echo $value['id']; ?>"<?php echo in_array($value['id'], $param) ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    </span>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     <?php endif; ?>
-                </li>
-                <?php if ($divide && $divide == ($key+1)): ?>
-                    </ul><ul>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            </ul>
+                </div>
+                <div>
+                    <?php if ($sort): ?>
+                        <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+                    <?php endif; ?>
+                    <input type="submit" name="submit" value="Применить" />
+                </div>
+            </form>
         </div>
     </div>
 <?php endif; ?>
