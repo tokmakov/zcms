@@ -16,7 +16,7 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
 		parent::__construct();
 		// уникальный идентификатор посетителя сайта
 		if (!isset($this->userFrontendModel)) {
-			// экземпляр класса модели для работы с отложенными товарами
+			// экземпляр класса модели для работы с пользователями
 			$this->userFrontendModel =
 				isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
 		}

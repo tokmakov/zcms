@@ -13,6 +13,7 @@
  * $userWishedUrl - URL страницы со списком отложенных товаров
  * $userViewedUrl - URL страницы со списком просмотренных товаров
  * $userLogoutUrl - ссылка для выхода из личного кабинета
+ * $newUser - новый пользователь?
  */
 
 defined('ZCMS') or die('Access denied');
@@ -21,25 +22,31 @@ defined('ZCMS') or die('Access denied');
 <!-- Начало шаблона view/example/frontend/template/user/index/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
-    <div id="breadcrumbs">
-        <?php foreach ($breadcrumbs as $item): ?>
-            <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
-        <?php endforeach; ?>
-    </div>
+	<div id="breadcrumbs">
+		<?php foreach ($breadcrumbs as $item): ?>
+			<a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
+		<?php endforeach; ?>
+	</div>
 <?php endif; ?>
 
 <h1>Личный кабинет</h1>
 
 <div id="index-user-center">
-    <ul>
-        <li><a href="<?php echo $userEditUrl; ?>">Личные данные</a></li>
-        <li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
-        <li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
-        <li><a href="<?php echo $basketUrl; ?>">Ваша корзина</a></li>
-        <li><a href="<?php echo $userWishedUrl; ?>">Отложенные товары</a></li>
-        <li><a href="<?php echo $userViewedUrl; ?>">Вы уже смотрели</a></li>
-        <li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
-    </ul>
+	<ul>
+		<li><a href="<?php echo $userEditUrl; ?>">Личные данные</a></li>
+		<li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
+		<li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
+		<li><a href="<?php echo $basketUrl; ?>">Ваша корзина</a></li>
+		<li><a href="<?php echo $userWishedUrl; ?>">Отложенные товары</a></li>
+		<li><a href="<?php echo $userViewedUrl; ?>">Вы уже смотрели</a></li>
+		<li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
+	</ul>
+
+	<?php if ($newUser): ?>
+		<h2>С чего начать?</h2>
+		<p>Начните с <a href="<?php echo $userProfilesUrl; ?>">создания профиля</a>. Профиль упрощает процесс оформления заказа. Один раз создав и заполнив профиль, Вы сможете много раз использовать его для оформления заказов. Можно создать несколько профилей, например, для доставки по разным адресам или для оплаты разными плательщиками.</p>
+	<?php endif; ?>
+
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/user/index/center.php -->

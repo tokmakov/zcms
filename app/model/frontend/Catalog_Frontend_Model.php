@@ -14,7 +14,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getRootCategories() {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->rootCategories();
 		}
 
@@ -47,7 +47,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getRootAndChilds() {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->rootAndChilds();
 		}
 
@@ -91,7 +91,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getProduct($id) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->product($id);
 		}
 
@@ -164,7 +164,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getChildCategories($id, $group = 0, $maker = 0, $param, $sort = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->childCategories($id, $group, $maker, $param, $sort);
 		}
 
@@ -204,25 +204,25 @@ class Catalog_Frontend_Model extends Frontend_Model {
 						  INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
 					  WHERE
 						  (`category` IN (" . $ids . ") OR `category2` IN (" . $ids . ")) AND `a`.`visible` = 1";
-            if ($group) {
-                $query = $query . " AND `a`.`group` = " . $group;
-            }
-            if ($maker) {
-                $query = $query . " AND `a`.`maker` = " . $maker;
-            }
-            /*
-            if (!empty($param)) {
-                foreach($param as $value) {
-                    $query = $query . " AND `a`.`id` IN ()";
-                }
-            }
-            */
-            $childCategories[$key]['count'] = $this->database->fetchOne($query);
+			if ($group) {
+				$query = $query . " AND `a`.`group` = " . $group;
+			}
+			if ($maker) {
+				$query = $query . " AND `a`.`maker` = " . $maker;
+			}
+			/*
+			if (!empty($param)) {
+				foreach($param as $value) {
+					$query = $query . " AND `a`.`id` IN ()";
+				}
+			}
+			*/
+			$childCategories[$key]['count'] = $this->database->fetchOne($query);
 			// добавляем в массив информацию об URL дочерних категорий
 			$url = 'frontend/catalog/category/id/' . $value['id'];
-            if ($group) {
-                $url = $url . '/group/' . $group;
-            }
+			if ($group) {
+				$url = $url . '/group/' . $group;
+			}
 			if ($maker) {
 				$url = $url . '/maker/' . $maker;
 			}
@@ -239,10 +239,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 * Возвращает массив идентификаторов всех потомков категории $id, т.е.
 	 * дочерние, дочерние дочерних и так далее; результат работы кэшируется
 	 */
-    // TODO: public или protected или private?
+	// TODO: public или protected или private?
 	public function getAllChildIds($id) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->allChildIds($id);
 		}
 
@@ -300,10 +300,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 * этой категории, но и товары дочерних категорий, товары дочерних-дочерних
 	 * категорий и так далее; результат работы кэшируется
 	 */
-	public function getCategoryProducts($id, $maker = 0, $sortorder = 0, $start = 0) {
+	public function getCategoryProducts($id, $group = 0, $maker = 0, $param = array(), $sortorder = 0, $start = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
-			return $this->categoryProducts($id, $maker, $sortorder, $start);
+		if ( ! $this->enableDataCache) {
+			return $this->categoryProducts($id, $group, $maker, $param, $sortorder, $start);
 		}
 
 		// уникальный ключ доступа к кэшу
@@ -321,14 +321,26 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 * этой категории, но и товары дочерних категорий, товары дочерних-дочерних
 	 * категорий и так далее
 	 */
-	protected function categoryProducts($id, $group = 0, $maker = 0, $param = array(), $sortorder = 0, $start = 0) {
+	protected function categoryProducts($id, $group = 0, $maker = 0, $param = array(), $sortorder = 0, $start = 0){
 
 		$childs = $this->getAllChildIds($id);
 		$childs[] = $id;
 		$ids = implode(',', $childs);
 		$tmp = '';
+		if ($group) { // фильтр по функциональной группе
+			$tmp = " AND `group` = " . $group;
+		}
 		if ($maker) { // фильтр по производителю
 			$tmp = " AND `maker` = " . $maker;
+		}
+		if ( ! empty($param)) { // фильтр по параметрам подбора
+			$where = array();
+			$i = 0;
+			foreach ($param as $key => $value) {
+				$i++;
+				$where[] = "(`t".$i."`.`param_id` = " . $key . " AND `t".$i."`.`value_id` IN (" . implode(',', $value) . "))";
+			}
+			$tmp = " AND `a`.`id` IN (SELECT `t1`.`product_id` FROM `product_param_value` `t1` INNER JOIN `product_param_value` `t2` ON `t1`.`product_id` = `t2`.`product_id` WHERE " . implode(' AND ', $where) . ")";
 		}
 		switch ($sortorder) { // сортировка
 			case 0: $temp = '`b`.`globalsort`, `a`.`sortorder`';  break; // сортировка по умолчанию
@@ -351,13 +363,14 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
 					  INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
 				  WHERE
-					  (`a`.`category` IN (" . $ids . ") OR `a`.`category2` IN (" . $ids . "))" . $tmp . "  AND `a`.`visible` = 1
+					  (`a`.`category` IN (" . $ids . ") OR `a`.`category2` IN (" . $ids . "))" . $tmp . " AND `a`.`visible` = 1
 				  ORDER BY " . $temp . "
 				  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
+// echo $query; die();
 		$products = $this->database->fetchAll($query, array());
 
 		// добавляем в массив товаров информацию об URL товаров, производителей, фото
-		foreach($products as $key => $value) {
+		foreach ($products as $key => $value) {
 			// URL ссылки на страницу товара
 			$products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
 			// URL ссылки на страницу производителя
@@ -397,19 +410,19 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
 				  WHERE
 					  (`a`.`category` IN (" . $ids . ") OR `a`.`category2` IN (" . $ids . ")) AND `a`.`visible` = 1";
-        if ($group) {
-            $query = $query . " AND `a`.`group` = " . $group;
-        }
-        if ($maker) {
-            $query = $query . " AND `a`.`maker` = " . $maker;
-        }
-        /*
-        if (!empty($param)) { // фильтр по параметрам
-            foreach($param as $value) {
-                $query = $query . " AND `a`.`id` IN ()";
-            }
-        }
-        */
+		if ($group) {
+			$query = $query . " AND `a`.`group` = " . $group;
+		}
+		if ($maker) {
+			$query = $query . " AND `a`.`maker` = " . $maker;
+		}
+		/*
+		if (!empty($param)) { // фильтр по параметрам
+			foreach($param as $value) {
+				$query = $query . " AND `a`.`id` IN ()";
+			}
+		}
+		*/
 		return $this->database->fetchOne($query, array(), $this->enableDataCache);
 	}
 
@@ -421,7 +434,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCategoryMakers($id, $group = 0, $maker = 0, $param = array()) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->categoryMakers($id, $group, $maker, $param);
 		}
 
@@ -442,9 +455,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 * категориях и так далее
 	 */
 	protected function categoryMakers($id, $group = 0, $maker = 0, $param = array()) {
+
 		$childs = $this->getAllChildIds($id);
 		$childs[] = $id;
 		$ids = implode(',', $childs);
+
+		$tmp = '';
+		if ($group) { // фильтр по функциональной группе
+			$tmp = " AND `group` = " . $group;
+		}
+
 		$query = "SELECT
 					  `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
 				  FROM
@@ -452,201 +472,110 @@ class Catalog_Frontend_Model extends Frontend_Model {
 					  INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
 					  INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
 				  WHERE
+					  (`b`.`category` IN (" . $ids . ") OR `b`.`category2` IN (" . $ids . "))" . $tmp . " AND `b`.`visible` = 1
+				  GROUP BY
+					  `a`.`id`, `a`. `name`
+				  ORDER BY
+					  `a`.`name`";
+
+		return $this->database->fetchAll($query);
+
+	}
+
+	/**
+	 * Возвращает массив функциональных групп товаров в категории $id и в ее потомках, т.е. не только
+	 * функциональные группы товаров этой категории, но и функциональные группы товаров в дочерних
+	 * категориях, функциональные группы товаров в дочерних-дочерних категориях и т.д.
+	 */
+	public function getCategoryGroups($id, $group = 0, $maker = 0, $param = array()) {
+		$childs = $this->getAllChildIds($id);
+		$childs[] = $id;
+		$ids = implode(',', $childs);
+		$query = "SELECT
+					  `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
+				  FROM
+					  `groups` `a`
+					  INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+					  INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+					  INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+				  WHERE
 					  (`b`.`category` IN (" . $ids . ") OR `b`.`category2` IN (" . $ids . ")) AND `b`.`visible` = 1
 				  GROUP BY
 					  `a`.`id`, `a`. `name`
 				  ORDER BY
 					  `a`.`name`";
-		$makers = $this->database->fetchAll($query);
-        // TODO: Один запрос?
-        foreach ($makers as $key => $value) {
-            $query = "SELECT
-                          COUNT(*)
-                      FROM
-                          `products` `a`
-                          INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
-                      WHERE
-                          `a`.`maker` = :maker_id
-                          AND (`a`.`category` IN (" . $ids . ") OR `a`.`category2` IN (" . $ids . "))
-                          AND `a`.`visible` = 1";
-            if ($group) {
-                $query = $query . " AND `a`.`group` = " . $group;
-            }
-            if ($maker) { // ????????????????????????????????????????????????????
-                // $query = $query . " AND `a`.`maker` = " . $maker;
-            }
-            /*
-            if (!empty($param)) {
-                foreach($param as $value) {
-                    $query = $query . " AND `a`.`id` IN ()";
-                }
-            }
-            */
-            $makers[$key]['count'] = $this->database->fetchOne($query, array('maker_id' => $value['id']));
-        }
+		$groups = $this->database->fetchAll($query);
 
-        return $makers;
+		return $groups;
 	}
 
-    /**
-     * Возвращает массив функциональных групп товаров в категории $id и в ее потомках, т.е. не только
-     * функциональные группы товаров этой категории, но и функциональные группы товаров в дочерних
-     * категориях, функциональные группы товаров в дочерних-дочерних категориях и т.д.
-     */
-    public function getCategoryGroups($id, $group = 0, $maker = 0, $param = array()) {
-        $childs = $this->getAllChildIds($id);
-        $childs[] = $id;
-        $ids = implode(',', $childs);
-        $query = "SELECT
-                      `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
-                  FROM
-                      `groups` `a`
-                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
-                  WHERE
-                      (`b`.`category` IN (" . $ids . ") OR `b`.`category2` IN (" . $ids . ")) AND `b`.`visible` = 1
-                  GROUP BY
-                      `a`.`id`, `a`. `name`
-                  ORDER BY
-                      `a`.`name`";
-        $groups = $this->database->fetchAll($query);
+	/**
+	 * Возвращает массив параметров подбора для выбранной категории и всех ее потомков
+	 * и выбранной функциональной группы
+	 */
+	public function getCategoryParams($category, $group = 0, $maker = 0, $param = array()) {
 
-        $result = array();
-        foreach ($groups as $item) {
-            $query = "SELECT
-                          COUNT(*)
-                      FROM
-                          `products` `a`
-                          INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
-                          INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
-                      WHERE
-                          `a`.`group` = :group_id
-                          AND (`a`.`category` IN (" . $ids . ") OR `a`.`category2` IN (" . $ids . "))
-                          AND `a`.`visible` = 1";
-            if ($group) { // ???????????????????????????????????????
-                // $query = $query . " AND `a`.`group` = " . $group;
-            }
-            if ($maker) {
-                $query = $query . " AND `a`.`maker` = " . $maker;
-            }
-            /*
-            if (!empty($param)) {
-                foreach($param as $value) {
-                    $query = $query . " AND `a`.`id` IN ()";
-                }
-            }
-            */
-            $count = $this->database->fetchOne($query, array('group_id' => $item['id']));
-            $result[] = array(
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'count' => $count
-            );
-        }
-        return $result;
-    }
+		if (0 == $group) {
+			return array();
+		}
 
-    /**
-     * Возвращает массив параметров подбора для выбранной категории и всех ее потомков
-     * и выбранной функциональной группы
-     */
-    public function getCategoryParams($category, $group = 0, $maker = 0, $param = array()) {
-        if ($group == 0) {
-            return array();
-        }
-        $childs = $this->getAllChildIds($category);
-        $childs[] = $category;
-        $ids = implode(',', $childs);
-        $query = "SELECT
-                      `a`.`id` AS `param_id`, `a`.`name` AS `param_name`,
-                      `b`.`id` AS `value_id`, `b`.`name` AS `value_name`
-                  FROM
-                      `params` `a`
-                      INNER JOIN `values` `b` ON `a`.`id` = `b`.`param`
-                  WHERE
-                      `a`.`group` = :group AND `a`.`group` IN
-                      (
-                          SELECT
-                              `group`
-                          FROM
-                              `products`
-                          WHERE
-                              (`category` IN (" . $ids . ") OR `category2` IN (" . $ids . ")) AND `visible` = 1
-                      )";
-        $result = $this->database->fetchAll($query, array('group' => $group), $this->cache);
-        $params = array();
-        $param_id = 0;
-        $counter = -1;
-        $temp = array();
-        foreach($result as $value) {
-            if ($param_id != $value['param_id']) {
-                $counter++;
-                $param_id = $value['param_id'];
-                $params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
-            }
-            $params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name']);
-            if (in_array($value['value_id'], $param)) {
-                $temp[] = array('value_id' => $value['value_id'], 'param_id' => $value['param_id']);
-            }
-        }
+		$childs = $this->getAllChildIds($category);
+		$childs[] = $category;
+		$ids = implode(',', $childs);
 
-        // вычисляем количество товаров для каждого значения параметра при условии,
-        // что включен фильтр по производителю или параметрам
-        foreach ($params as $i => $item) {
-            if (!isset($item['values'])) continue;
-            foreach ($item['values'] as $j => $value) {
-                $query = "SELECT
-                              COUNT(*)
-                          FROM
-                              `products`
-                          WHERE
-                              `group` = :group
-                              AND (`category` IN (" . $ids . ") OR `category2` IN (" . $ids . "))
-                              AND `id` IN
-                              (
-                                  SELECT
-                                      `prd_id`
-                                  FROM
-                                      `val_prd`
-                                  WHERE
-                                      `val_id` = :value
-                              )
-                              AND `visible` = 1";
-                if ($maker) {
-                    $query = $query . " AND `maker` = " . $maker;
-                }
-                if (!empty($temp)) {
-                    foreach($temp as $v) {
-                        if ($v['value_id'] == $value['id']) continue;
-                        if ($v['param_id'] == $item['id']) continue;
-                        $query = $query . " AND `id` IN (SELECT `prd_id` FROM `val_prd` WHERE `val_id` = " . $v['value_id'] . ")";
-                    }
-                }
-                $params[$i]['values'][$j]['count'] = $this->database->fetchOne($query, array('group' => $group, 'value' => $value['id']), $this->cache);
-            }
-        }
-        return $params;
-    }
+		$query = "SELECT
+					  `c`.`id` AS `param_id`, `c`.`name` AS `param_name`,
+					  `e`.`id` AS `value_id`, `e`.`name` AS `value_name`,
+					  COUNT(*) AS `count`
+				  FROM
+					  `groups` `a`
+					  INNER JOIN `group_param` `b` ON `a`.`id` = `b`.`param_id`
+					  INNER JOIN `params` `c` ON `b`.`param_id` = `c`.`id`
+					  INNER JOIN `param_value` `d` ON `c`.`id` = `d`.`param_id`
+					  INNER JOIN `values` `e` ON `d`.`value_id` = `e`.`id`
+					  INNER JOIN `product_param_value` `f` ON `c`.`id` = `f`.`param_id` AND `e`.`id` = `f`.`value_id`
+					  INNER JOIN `products` `g` ON `f`.`product_id` = `g`.`id`
+					  INNER JOIN `categories` `h` ON `g`.`category` = `h`.`id`
+					  INNER JOIN `makers` `i` ON `g`.`maker` = `i`.`id`
+				  WHERE
+					  (`g`.`category` IN (" . $ids . ") OR `g`.`category2` IN (" . $ids . ")) AND `g`.`visible` = 1
+				  GROUP BY
+					  1, 2, 3, 4";
+		$result = $this->database->fetchAll($query);
+		$params = array();
+		$param_id = 0;
+		$counter = -1;
+		foreach($result as $value) {
+			if ($param_id != $value['param_id']) {
+				$counter++;
+				$param_id = $value['param_id'];
+				$params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
+			}
+			$params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name'], 'count' => $value['count']);
+		}
 
-    /**
-     * Функция проверяет корректность идентификаторов значений параметров подбора
-     */
-    public function isValidParams($ids) {
-        if (empty($ids)) {
-            return false;
-        }
-        if (is_array($ids)) {
-            $count = count($ids);
-            $temp = implode(',', $ids);
-        } else {
-            $count = 1;
-            $temp = $ids;
-        }
-        $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $temp . ")";
-        $res = $this->database->fetchOne($query);
-        return $count == $res;
-    }
+		return $params;
+
+	}
+
+	/**
+	 * Функция проверяет корректность идентификаторов значений параметров подбора
+	 */
+	public function isValidParams($ids) {
+		if (empty($ids)) {
+			return false;
+		}
+		if (is_array($ids)) {
+			$count = count($ids);
+			$temp = implode(',', $ids);
+		} else {
+			$count = 1;
+			$temp = $ids;
+		}
+		$query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $temp . ")";
+		$res = $this->database->fetchOne($query);
+		return $count == $res;
+	}
 
 	/**
 	 * Функция возвращает путь от корня каталога до категории с уникальным
@@ -654,7 +583,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCategoryPath($id) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->categoryPath($id);
 		}
 
@@ -699,7 +628,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getCatalogMenu($id = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->catalogMenu($id);
 		}
 
@@ -778,7 +707,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	private function getAllCategoryParents($id) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->allCategoryParents($id);
 		}
 
@@ -819,7 +748,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getAllMakers($limit = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->allMakers($limit);
 		}
 
@@ -880,7 +809,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	 */
 	public function getMakerProducts($id, $sortorder = 0, $start = 0) {
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->makerProducts($id, $sortorder, $start);
 		}
 
@@ -973,7 +902,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
 	public function getSearchResults($search = '', $start = 0, $ajax = false) {
 		$search = $this->cleanSearchString($search);
 		// если не включено кэширование данных
-		if (!$this->enableDataCache) {
+		if ( ! $this->enableDataCache) {
 			return $this->searchResults($search, $start, $ajax);
 		}
 

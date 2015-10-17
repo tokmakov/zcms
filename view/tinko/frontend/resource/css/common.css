@@ -1129,104 +1129,104 @@ body > .wrapper {
 
 /* каталог, фильтр по функционалу и производителю */
 #category-filters {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
-    #category-filters > div:first-child {
-        background-color: #323232;
-        border: 1px solid #323232;
-        color: #fff;
-        padding: 10px 15px;
-        overflow: hidden;
-    }
-        #category-filters > div:first-child > span {
-            display: block;
-            overflow: hidden;
-        }
-        #category-filters > div:first-child > span:first-child {
-            float: left;
-            width: 70%;
-            white-space: nowrap;
-        }
-        #category-filters > div:first-child > span:last-child {
-            float: right;
-            text-align: right;
-            width: 25%;
-        }
-            #category-filters > div:first-child > span:last-child > span {
-                font-size: 13px;
-                cursor: pointer;
-                border-bottom: 1px dashed #fff;
-            }
-    #category-filters > div:last-child {
-        border: 1px solid #d1d1d1;
-        border-top: none;
-        overflow: hidden;
-    }
-        #category-filters > div:last-child > form > div:nth-child(1),
-        #category-filters > div:last-child > form > div:nth-child(2),
-        #category-filters > div:last-child > form > div:nth-child(3) > div {
-            height: 30px;
-            overflow: hidden;
-            border-top: 1px dashed #d1d1d1;
-            padding: 0 5px;
-        }
-        #category-filters > div:last-child > form > div:nth-child(1) {
-            border-top: none;
-        }
-        #category-filters > div:last-child > form > div:nth-child(1) > div,
-        #category-filters > div:last-child > form > div:nth-child(2) > div,
-        #category-filters > div:last-child > form > div:nth-child(3) > div > div {
-            float: left;
-            width: 50%;
-            display: table;
-            height: 30px;
-            vertical-align: middle;
-        }
-            #category-filters > div:last-child > form > div:nth-child(1) > div > span,
-            #category-filters > div:last-child > form > div:nth-child(2) > div > span,
-            #category-filters > div:last-child > form > div:nth-child(3) > div > div > span {
-                display: table-cell;
-                height: 30px;
-                font-size: 14px;
-                line-height: 14px;
-                vertical-align: middle;
-            }
-            #category-filters > div:last-child > form > div:nth-child(1) > div:first-child > span,
-            #category-filters > div:last-child > form > div:nth-child(2) > div:first-child > span,
-            #category-filters > div:last-child > form > div:nth-child(3) > div:first-child > div > span {
-                font-size: 14px;
-                line-height: 15px;
-            }
-        #category-filters select {
-            width: 100%;
-            height: 24px;
-            box-sizing: border-box;
-            font-size: 14px;
-            padding: 2px;
-            border: 1px solid #d1d1d1;
-        }
-            #category-filters select option.empty-option {
-                background: #f0f0f0;
-                color: #bbb;
-            }
-        #category-filters > div:last-child > form > div:last-child {
-            height: 26px;
-            border-top: 1px dashed #d1d1d1;
-            padding-top: 9px;
-        }
-            #category-filters > div:last-child > form > div:last-child > input[type="submit"] {
-                display: block;
-                box-sizing: border-box;
-                height: 26px;
-                font-size: 14px;
-                line-height: 14px;
-                color: #fff;
-                width: 25%;
-                background: #395985;
-                border: 1px solid #395985;
-                cursor: pointer;
-                outline: none;
-            }
+	#category-filters > div:first-child {
+		background-color: #323232;
+		border: 1px solid #323232;
+		color: #fff;
+		padding: 10px 15px;
+		overflow: hidden;
+	}
+		#category-filters > div:first-child > span {
+			display: block;
+			overflow: hidden;
+		}
+		#category-filters > div:first-child > span:first-child {
+			float: left;
+			width: 70%;
+			white-space: nowrap;
+		}
+		#category-filters > div:first-child > span:last-child {
+			float: right;
+			text-align: right;
+			width: 25%;
+		}
+			#category-filters > div:first-child > span:last-child > span {
+				font-size: 13px;
+				cursor: pointer;
+				border-bottom: 1px dashed #fff;
+			}
+	#category-filters > div:last-child {
+		border: 1px solid #d1d1d1;
+		border-top: none;
+		overflow: hidden;
+	}
+		#category-filters > div:last-child > form > div:nth-child(1),
+		#category-filters > div:last-child > form > div:nth-child(2),
+		#category-filters > div:last-child > form > div:nth-child(3) > div {
+			height: 30px;
+			overflow: hidden;
+			border-top: 1px dashed #d1d1d1;
+			padding: 0 5px;
+		}
+		#category-filters > div:last-child > form > div:nth-child(1) {
+			border-top: none;
+		}
+		#category-filters > div:last-child > form > div:nth-child(1) > div,
+		#category-filters > div:last-child > form > div:nth-child(2) > div,
+		#category-filters > div:last-child > form > div:nth-child(3) > div > div {
+			float: left;
+			width: 50%;
+			display: table;
+			height: 30px;
+			vertical-align: middle;
+		}
+			#category-filters > div:last-child > form > div:nth-child(1) > div > span,
+			#category-filters > div:last-child > form > div:nth-child(2) > div > span,
+			#category-filters > div:last-child > form > div:nth-child(3) > div > div > span {
+				display: table-cell;
+				height: 30px;
+				font-size: 14px;
+				line-height: 14px;
+				vertical-align: middle;
+			}
+			#category-filters > div:last-child > form > div:nth-child(1) > div:first-child > span,
+			#category-filters > div:last-child > form > div:nth-child(2) > div:first-child > span,
+			#category-filters > div:last-child > form > div:nth-child(3) > div:first-child > div > span {
+				font-size: 14px;
+				line-height: 15px;
+			}
+		#category-filters select {
+			width: 100%;
+			height: 24px;
+			box-sizing: border-box;
+			font-size: 14px;
+			padding: 2px;
+			border: 1px solid #d1d1d1;
+		}
+			#category-filters select option.empty-option {
+				background: #f0f0f0;
+				color: #bbb;
+			}
+		#category-filters > div:last-child > form > div:last-child {
+			height: 26px;
+			border-top: 1px dashed #d1d1d1;
+			padding: 5px;
+		}
+			#category-filters > div:last-child > form > div:last-child > input[type="submit"] {
+				display: block;
+				box-sizing: border-box;
+				height: 26px;
+				font-size: 14px;
+				line-height: 14px;
+				color: #fff;
+				width: 25%;
+				background: #395985;
+				border: 1px solid #395985;
+				cursor: pointer;
+				outline: none;
+			}
 
 /* каталог, категория, сортировка */
 #sort-orders {
@@ -1655,6 +1655,13 @@ body > .wrapper {
 			display: block;
 			padding: 5px 0;
 		}
+
+	#index-user-center > h2 {
+		font-size: 19px;
+		margin: 30px 0 5px 0;
+		color: #395985;
+		font-weight: normal;
+	}
 
 /* форма для авторизации пользователя, центральная колонка */
 #login-user-center {

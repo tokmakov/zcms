@@ -1,7 +1,7 @@
 <?php
 /**
- * Класс Basket_Frontend_Model отвечает за корзину покупателя,
- * реализует шаблон проектирования «Наблюдатель»
+ * Класс Basket_Frontend_Model отвечает за корзину покупателя, реализует шаблон
+ * проектирования «Наблюдатель», общедоступная часть сайта
  */
 class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
@@ -16,7 +16,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 		parent::__construct();
 		// уникальный идентификатор посетителя сайта
 		if (!isset($this->userFrontendModel)) {
-			// экземпляр класса модели для работы с отложенными товарами
+			// экземпляр класса модели для работы с пользователями
 			$this->userFrontendModel =
 				isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
 		}
@@ -28,7 +28,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 	 * Функция добавляет товар в корзину покупателя
 	 */
 	public function addToBasket($productId, $quantity, $delay = 0) {
-		if ($quantity == 0) {
+		if (0 == $quantity) {
 			return;
 		}
 		// такой товар уже есть в корзине?

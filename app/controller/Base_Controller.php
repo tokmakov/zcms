@@ -308,7 +308,7 @@ abstract class Base_Controller extends Base {
         if (isset($this->config->css->$backfront->$name)) {
             $temp = $this->config->css->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
-                foreach($temp as $file) {
+                foreach ($temp as $file) {
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $file;
                     if (!is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
@@ -330,7 +330,7 @@ abstract class Base_Controller extends Base {
         if (isset($this->config->js->$backfront->$name)) {
             $temp = $this->config->js->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
-                foreach($temp as $file) {
+                foreach ($temp as $file) {
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/js/' . $file;
                     if (!is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
