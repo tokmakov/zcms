@@ -45,18 +45,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 			if ($grp && isset($_POST['param'])) {
 				$param = array();
 				foreach ($_POST['param'] as $key => $value) {
-					if ($key > 0 && is_array($value)) {
-						foreach ($value as $v) {
-							if (ctype_digit($v) && $v > 0) {
-								$param[$key][] = (int)$v;
-							}
-						}
+					if ($key > 0 && ctype_digit($value) && $value > 0) {
+						$param[$key] = (int)$value;
 					}
 				}
 				if (!empty($param)) {
 					$ids = array();
 					foreach ($param as $key => $value) {
-						$ids[] = $key . '.' . implode('.', $value);
+						$ids[] = $key . '.' . $value;
 					}
 					$url = $url . '/param/' . implode('-', $ids);
 				}
@@ -128,14 +124,13 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
 		// включен фильтр по параметрам?
 		$param = array();
-		if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*$~', $this->params['param'])) {
+		if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
 			$temp = explode('-', $this->params['param']);
-			foreach ($temp as $value) {
-				$tmp = explode('.', $value);
-				$key = (int)array_shift($tmp);
-				foreach ($tmp as $v) {
-					$param[$key][] = (int)$v;
-				}
+			foreach ($temp as $item) {
+				$tmp = explode('.', $item);
+				$key = (int)$tmp[0];
+				$value = (int)$tmp[1];
+				$param[$key] = $value;
 			}
 			/*
 			if ( ! $this->catalogFrontendModel->isValidParams($param)) {
@@ -166,7 +161,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 		$groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $group, $maker, $param);
 
 		// получаем от модели массив производителей
-		$makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $maker, $param);
+		$makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $param);
 
 		// постраничная навигация
 		$page = 1;
@@ -197,7 +192,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 		$products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $group, $maker, $param, $sort, $start);
 
 		// получаем от модели массив всех параметров подбора
-		$params = $this->catalogFrontendModel->getCategoryParams($this->params['id'], $group, $maker, $param);
+		$params = $this->catalogFrontendModel->getGroupParams($this->params['id'], $group, $maker, $param);
 
 		/*
 		 * Варианты сортировки:
@@ -211,17 +206,15 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 		 */
 		for ($i = 0; $i <= 6; $i++) {
 			$url = 'frontend/catalog/category/id/' . $this->params['id'];
+			if ($group) {
+				$url = $url . '/group/' . $group;
+			}
 			if ($maker) {
 				$url = $url . '/maker/' . $maker;
 			}
 			if ($i) {
 				$url = $url . '/sort/' . $i;
 			}
-			/*
-			if ($page > 1) {
-				$url = $url . '/page/' . $page;
-			}
-			*/
 			switch ($i) {
 				case 0: $name = 'без сортировки';  break;
 				case 1: $name = 'цена, возр.';     break;
@@ -249,7 +242,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 		if ($maker) {
 			$url = $url . '/maker/' . $maker;
 		}
-		if (!empty($param)) {
+		if ( ! empty($param)) {
 			$url = $url . '/param/' . $this->params['param'];
 		}
 		if ($sort) {

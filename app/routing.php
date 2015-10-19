@@ -29,49 +29,49 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)$~i' =>
 		'catalog/category/$1/group/$2',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)$~i' =>
 		'catalog/category/$1/group/$2/param/$3',
 		// категория каталога, фильтр по функционалу, сортировка
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/sort/(\d)$~i' =>
 		'catalog/category/$1/group/$2/sort/$3',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)$~i' =>
 		'catalog/category/$1/group/$2/param/$3/sort/$4',
 		// категория каталога, фильтр по функционалу, постраничная навигация
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/page/$3',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, постраничная навигация
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/page/(\d+)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/param/$3/page/$4',
 		// категория каталога, фильтр по функционалу, сортировка, постраничная навигация
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/sort/(\d)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/sort/$3/page/$4',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка, постраничная навигация
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)/page/(\d+)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/param/$3/sort/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/param/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, сортировка
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/sort/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/param/$4/sort/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, постраничная навигация
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/page/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, постраничная навигация
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/page/(\d+)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/param/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, сортировка, постраничная навигация
 		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/sort/(\d)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/sort/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка, постраничная навигация
-		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)/page/(\d+)$~i' =>
+		'~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
 		'catalog/category/$1/group/$2/maker/$3/param/$4/sort/$5/page/$6',
 		// категория каталога, фильтр по производителю
 		'~^frontend/catalog/category/id/(\d+)/maker/(\d+)$~i' =>
@@ -113,7 +113,27 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 		'~^frontend/catalog/search/query/([a-z0-9%_.-]+)/page/(\d+)$~i' =>
 		'catalog/search/query/$1/page/$2',
 		// поиск по каталогу, XmlHttpRequest
-		'~^frontend/catalog/ajax$~i' => 'catalog/ajax',
+		'~^frontend/catalog/ajaxsearch$~i' => 'catalog/ajax-search',
+
+		// фильтр для выбранной категории, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)$~i' =>
+		'catalog/ajax-filter/category/$1',
+		// фильтр для выбранной категории, сортировка, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)/sort/(\d)$~i' =>
+		'catalog/ajax-filter/category/$1/sort/$2',
+		// фильтр для выбранной категории, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)/group/(\d+)$~i' =>
+		'catalog/ajax-filter/category/$1/group/$2',
+		// фильтр для выбранной категории, сортировка, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)/group/(\d+)/sort/(\d)$~i' =>
+		'catalog/ajax-filter/category/$1/group/$2/sort/$3',
+		// фильтр для выбранной категории, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)/maker/(\d+)$~i' =>
+		'catalog/ajax-filter/category/$1/maker/$2',
+		// фильтр для выбранной категории, сортировка, XmlHttpRequest
+		'~^frontend/catalog/ajaxfilter/category/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
+		'catalog/ajax-filter/category/$1/maker/$2/sort/$3',
+
 		/*
 		 * просмотренные товары
 		 */
@@ -280,49 +300,49 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 		'~^catalog/category/(\d+)/group/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам
-		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/param/$3',
 		// категория каталога, фильтр по функционалу, сортировка
 		'~^catalog/category/(\d+)/group/(\d+)/sort/(\d)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/sort/$3',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка
-		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/param/$3/sort/$4',
 		// категория каталога, фильтр по функционалу, постраничная навигация
 		'~^catalog/category/(\d+)/group/(\d+)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/page/$3',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, постраничная навигация
-		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/page/(\d+)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/param/$3/page/$4',
 		// категория каталога, фильтр по функционалу, сортировка, постраничная навигация
 		'~^catalog/category/(\d+)/group/(\d+)/sort/(\d)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/sort/$3/page/$4',
 		// категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка, постраничная навигация
-		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)/page/(\d+)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/param/$3/sort/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю
 		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам
-		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/param/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, сортировка
 		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/sort/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка
-		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/param/$4/sort/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, постраничная навигация
 		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/page/$4',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, постраничная навигация
-		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/page/(\d+)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3param/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, сортировка, постраничная навигация
 		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/sort/(\d)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/sort/$4/page/$5',
 		// категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка, постраничная навигация
-		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(\.\d+)*(-\d+\.\d+(\.\d)*)*)/sort/(\d)/page/(\d+)$~i' =>
+		'~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
 		'frontend/catalog/category/id/$1/group/$2/maker/$3/param/$4/sort/$5/page/$6',
 		// категория каталога, фильтр по производителю
 		'~^catalog/category/(\d+)/maker/(\d+)$~i' =>
@@ -346,7 +366,27 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 		'~^catalog/search$~i'                                          => 'frontend/catalog/search', // страница поиска по каталогу
 		'~^catalog/search/query/([a-z0-9%_.-]+)$~i'                    => 'frontend/catalog/search/query/$1', // страница результатов поиска по каталогу
 		'~^catalog/search/query/([a-z0-9%_.-]+)/page/(\d+)$~i'         => 'frontend/catalog/search/query/$1/page/$2', // страница результатов поиска по каталогу, постраничная навигация
-		'~^catalog/ajax$~i'                                            => 'frontend/catalog/ajax', // поиск по каталогу, XmlHttpRequest
+		'~^catalog/ajax-search$~i'                                     => 'frontend/catalog/ajaxsearch', // поиск по каталогу, XmlHttpRequest
+
+		// категория каталога, фильтр для выбранной категории, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1',
+		// категория каталога, фильтр для выбранной категории, сортировка, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)/sort/(\d)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1/sort/$2',
+		// категория каталога, фильтр по функционалу, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)/group/(\d+)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1/group/$2',
+		// категория каталога, фильтр по функционалу, сортировка, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)/group/(\d+)/sort/(\d)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1/group/$2/sort/$3',
+		// категория каталога, фильтр по производителю, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)/maker/(\d+)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1/maker/$2',
+		// категория каталога, фильтр по производителю, сортировка, XmlHttpRequest
+		'~^catalog/ajax-filter/category/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
+		'frontend/catalog/ajaxfilter/category/$1/maker/$2/sort/$3',
+
 		/* просмотренные товары */
 		'~^viewed$~i'                                                  => 'frontend/viewed/index', // страница со списком всех просмотренных товаров
 		'~^viewed/page/(\d+)$~i'                                       => 'frontend/viewed/index/page/$1', // просмотренные товары, постраничная навигация

@@ -54,29 +54,76 @@
  *   )
  * )
  *
- * $makers = Array (
+ * $groups = Array (
  *   [0] => Array (
- *     [id] => 0
- *     [name] => Не важно
- *     [count] => 10
- *     [url] => /catalog/category/1
+ *     [id] => 11
+ *     [name] => Видеокамеры корпусные
+ *     [count] => 12
  *   )
  *   [1] => Array (
- *     [id] => 1
- *     [name] => Болид
- *     [count] => 3
- *     [url] => /catalog/category/1/maker/1
+ *     [id] => 23
+ *     [name] => Видеокамеры купольные
+ *     [count] => 14
  *   )
  *   [2] => Array (
- *     [id] => 2
- *     [name] => Рубеж
- *     [count] => 3
- *     [url] => /catalog/category/1/maker/2
- *   )
- *   [3] => Array (
  *     .....
  *   )
- *   [3] => Array (
+ * )
+ *
+ * $params = Array (
+ *   [0] => Array (
+ *     [id] => 5
+ *     [name] => Напряжение питания
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 7
+ *         [name] => 12 Вольт
+ *         [count] => 3
+ *       )
+ *       [1] => Array (
+ *         [id] => 9
+ *         [name] => 24 Вольт
+ *         [count] => 5
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 8
+ *     [name] => Встроенная ИК подсветка
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 11
+ *         [name] => есть
+ *         [count] => 4
+ *       )
+ *       [1] => Array (
+ *         [id] => 14
+ *         [name] => нет
+ *         [count] => 6
+ *       )
+ *     )
+ *   )
+ * )
+ *
+ * ключ элемента массива - id параметра (например, «Напряжение питания»)
+ * значение элемента массива - id значения (например, «12 Вольт»)
+ * $param = Array (
+ *   [5] => 7
+ *   [8] => 11
+ * )
+ *
+ * $makers = Array (
+ *   [0] => Array (
+ *     [id] => 380
+ *     [name] => EverFocus
+ *     [count] => 12
+ *   )
+ *   [1] => Array (
+ *     [id] => 384
+ *     [name] => MicroDigital
+ *     [count] => 14
+ *   )
+ *   [2] => Array (
  *     .....
  *   )
  * )
@@ -193,7 +240,7 @@ for ($i = 0; $i <= 6; $i++) {
 					$divide = ceil($count/2);
 				}
 			?>
-			<?php foreach($childCategories as $key => $item): ?>
+			<?php foreach ($childCategories as $key => $item): ?>
 				<li>
 					<?php if ($item['count']): // есть товары в категории? ?>
 						<span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
@@ -210,8 +257,8 @@ for ($i = 0; $i <= 6; $i++) {
 	</div>
 <?php endif; ?>
 
-<?php if (empty($products)): ?>
-	<p>Нет товаров в этой категории</p>
+<?php if (empty($products) && empty($groups) && empty($makers)): ?>
+	<p>Нет товаров в этой категории.</p>
 	<?php return; ?>
 <?php endif; ?>
 
@@ -236,8 +283,8 @@ for ($i = 0; $i <= 6; $i++) {
 						<span>
 						<select name="group">
 							<option value="0">Выберите</option>
-							<?php foreach($groups as $item): ?>
-								<option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
+							<?php foreach ($groups as $item): ?>
+								<option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
 							<?php endforeach; ?>
 						</select>
 						</span>
@@ -251,8 +298,8 @@ for ($i = 0; $i <= 6; $i++) {
 						<span>
 						<select name="maker">
 							<option value="0">Выберите</option>
-							<?php foreach($makers as $item): ?>
-								<option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
+							<?php foreach ($makers as $item): ?>
+								<option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
 							<?php endforeach; ?>
 						</select>
 						</span>
@@ -260,17 +307,19 @@ for ($i = 0; $i <= 6; $i++) {
 				</div>
 				<div>
 					<?php if (!empty($params)): ?>
-						<?php foreach($params as $item): ?>
+						<?php foreach ($params as $item): ?>
+							<?php $selected = false; ?>
 							<div>
 								<div>
 									<span><?php echo $item['name']; ?></span>
 								</div>
 								<div>
 									<span>
-									<select name="param[<?php echo $item['id']; ?>][]">
+									<select name="param[<?php echo $item['id']; ?>]">
 										<option value="0">Выберите</option>
-										<?php foreach($item['values'] as $value): ?>
-											<option value="<?php echo $value['id']; ?>"<?php echo in_array($value['id'], $param) ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?></option>
+										<?php foreach ($item['values'] as $value): ?>
+											<?php $selected = isset($param[$item['id']]) && $param[$item['id']] == $value['id']; ?>
+											<option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?> [<?php echo $value['count']; ?>]</option>
 										<?php endforeach; ?>
 									</select>
 									</span>
@@ -290,23 +339,28 @@ for ($i = 0; $i <= 6; $i++) {
 	</div>
 <?php endif; ?>
 
+<?php if (empty($products)): ?>
+	<p>По вашему запросу ничего не найдено.</p>
+	<?php return; ?>
+<?php endif; ?>
+
 <div id="sort-orders">
 	<ul>
 		<li>Сортировка</li>
-	<?php foreach($sortorders as $key => $value): ?>
-		<li>
-			<?php if ($key == $sort): ?>
-				<span class="selected<?php echo (!empty($value['class'])) ? ' ' . $value['class'] : ''; ?>"><?php echo $value['name']; ?></span>
-			<?php else: ?>
-				<a href="<?php echo $value['url']; ?>"<?php echo (!empty($value['class'])) ? ' class="' . $value['class'] . '"' : ''; ?>><span><?php echo $value['name']; ?></span></a>
-			<?php endif; ?>
-		</li>
-	<?php endforeach; ?>
+		<?php foreach ($sortorders as $key => $value): ?>
+			<li>
+				<?php if ($key == $sort): ?>
+					<span class="selected<?php echo (!empty($value['class'])) ? ' ' . $value['class'] : ''; ?>"><?php echo $value['name']; ?></span>
+				<?php else: ?>
+					<a href="<?php echo $value['url']; ?>"<?php echo (!empty($value['class'])) ? ' class="' . $value['class'] . '"' : ''; ?>><span><?php echo $value['name']; ?></span></a>
+				<?php endif; ?>
+			</li>
+		<?php endforeach; ?>
 	</ul>
 </div>
 
 <div class="products-list-line">
-	<?php foreach($products as $product): ?>
+	<?php foreach ($products as $product): ?>
 		<div>
 			<div class="product-line-heading">
 				<h2><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h2>

@@ -538,6 +538,16 @@ body > .wrapper {
 	background: url('../img/ajax-loader.gif') center center no-repeat !important;
 }
 
+.ajax-fields-loader {
+	min-height: 26px;
+	background: url('../img/ajax-fields-loader.gif') center bottom no-repeat;
+}
+
+.ajax-filter-loader {
+	min-height: 66px;
+	background: url('../img/ajax-filter-loader.gif') center center no-repeat;
+}
+
 .top-search-loader {
 	min-height: 34px;
 	background: #323232 url('../img/ajax-search-loader.gif') center center no-repeat !important;
