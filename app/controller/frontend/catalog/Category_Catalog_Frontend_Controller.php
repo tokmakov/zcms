@@ -158,7 +158,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 		$childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $group, $maker, $param, $sort);
 
 		// получаем от модели массив функциональных групп
-		$groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $group, $maker, $param);
+		$groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $maker);
 
 		// получаем от модели массив производителей
 		$makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $param);
