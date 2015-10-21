@@ -538,24 +538,27 @@ body > .wrapper {
     background: url('../img/ajax-loader.gif') center center no-repeat !important;
 }
 
-.ajax-fields-loader {
-    min-height: 26px;
-    background: url('../img/ajax-fields-loader.gif') center bottom no-repeat;
-}
-
-.ajax-childs-loader {
-    min-height: 60px;
-    background: url('../img/ajax-childs-loader.gif') center center no-repeat;
-}
-
-.ajax-filter-loader {
-    min-height: 66px;
-    background: url('../img/ajax-filter-loader.gif') center center no-repeat;
-}
-
 .top-search-loader {
     min-height: 34px;
     background: #323232 url('../img/ajax-search-loader.gif') center center no-repeat !important;
+}
+
+.overlay {
+    position: absolute;
+    min-height: 32px;
+    min-width: 32px;
+    background: #fff url('../img/ajax-loader.gif') center center no-repeat;
+    opacity: 0.6;
+    z-index: 4;
+}
+
+.products-overlay {
+    position: absolute;
+    min-height: 32px;
+    min-width: 32px;
+    background: #fff url('../img/ajax-loader.gif') center 65px no-repeat;
+    opacity: 0.6;
+    z-index: 4;
 }
 
 /* хлебные крошки */
@@ -789,6 +792,10 @@ body > .wrapper {
 
 .form-field-required {
     color: #f00;
+}
+
+#category-products {
+    position: relative;
 }
 
 /* список товаров, линейный вид */
@@ -1086,6 +1093,7 @@ body > .wrapper {
         border: 1px solid #d1d1d1;
         border-top: none;
         overflow: hidden;
+        position: relative;
     }
         #category-childs > div:last-child > ul {
             margin: 0;
@@ -1098,7 +1106,7 @@ body > .wrapper {
         #category-childs > div:last-child > ul:first-child {
             border-right: 1px dashed #d1d1d1;
         }
-        #category-childs > div:last-child > ul:only-child {
+        #category-childs > div:last-child > ul:only-of-type {
             border-right: none;
             width: 100%;
             float: none;
@@ -1142,7 +1150,7 @@ body > .wrapper {
                     color: #5390cc;
                 }
 
-/* каталог, фильтр по функционалу и производителю */
+/* каталог, фильтр по функционалу, производителю и по параметрам */
 #category-filters {
     margin-bottom: 20px;
 }
@@ -1177,53 +1185,50 @@ body > .wrapper {
         border-top: none;
         overflow: hidden;
     }
-        #category-filters > div:last-child > form > div:nth-child(1),
-        #category-filters > div:last-child > form > div:nth-child(2),
-        #category-filters > div:last-child > form > div:nth-child(3) > div {
-            height: 30px;
-            overflow: hidden;
-            border-top: 1px dashed #d1d1d1;
-            padding: 0 5px;
+        /* фильтр по функционалу, производителю и по параметрам */
+        #category-filters > div:last-child > form > div:first-child {
+            position: relative;
         }
-        #category-filters > div:last-child > form > div:nth-child(1) {
-            border-top: none;
-        }
-        #category-filters > div:last-child > form > div:nth-child(1) > div,
-        #category-filters > div:last-child > form > div:nth-child(2) > div,
-        #category-filters > div:last-child > form > div:nth-child(3) > div > div {
-            float: left;
-            width: 50%;
-            display: table;
-            height: 30px;
-            vertical-align: middle;
-        }
-            #category-filters > div:last-child > form > div:nth-child(1) > div > span,
-            #category-filters > div:last-child > form > div:nth-child(2) > div > span,
-            #category-filters > div:last-child > form > div:nth-child(3) > div > div > span {
-                display: table-cell;
+            #category-filters > div:last-child > form > div:first-child > div {
                 height: 30px;
-                font-size: 14px;
-                line-height: 14px;
-                vertical-align: middle;
+                overflow: hidden;
+                border-top: 1px dashed #d1d1d1;
+                padding: 0 5px;
             }
-            #category-filters > div:last-child > form > div:nth-child(1) > div:first-child > span,
-            #category-filters > div:last-child > form > div:nth-child(2) > div:first-child > span,
-            #category-filters > div:last-child > form > div:nth-child(3) > div:first-child > div > span {
-                font-size: 14px;
-                line-height: 15px;
+            #category-filters > div:last-child > form > div:first-child > div:first-child {
+                border-top: none;
             }
-        #category-filters select {
-            width: 100%;
-            height: 24px;
-            box-sizing: border-box;
-            font-size: 14px;
-            padding: 2px;
-            border: 1px solid #d1d1d1;
-        }
-            #category-filters select option.empty-option {
-                background: #f0f0f0;
-                color: #bbb;
-            }
+                #category-filters > div:last-child > form > div:first-child > div > div {
+                    float: left;
+                    width: 50%;
+                    display: table;
+                    height: 30px;
+                    vertical-align: middle;
+                }
+                    #category-filters > div:last-child > form > div:first-child > div > div > span {
+                        display: table-cell;
+                        height: 30px;
+                        font-size: 14px;
+                        line-height: 14px;
+                        vertical-align: middle;
+                    }
+                    #category-filters > div:last-child > form > div:first-child > div > div:first-child > span {
+                        font-size: 14px;
+                        line-height: 15px;
+                    }
+                        #category-filters select {
+                            width: 100%;
+                            height: 24px;
+                            box-sizing: border-box;
+                            font-size: 14px;
+                            padding: 2px;
+                            border: 1px solid #d1d1d1;
+                        }
+                            #category-filters select option.empty-option {
+                                background: #f0f0f0;
+                                color: #bbb;
+                            }
+        /* кнопка отправки формы */
         #category-filters > div:last-child > form > div:last-child {
             height: 26px;
             border-top: 1px dashed #d1d1d1;
@@ -2753,7 +2758,7 @@ body > .wrapper {
 
 /* пустая корзина, пустой список сравнения, пустой список отложенных товаров */
 .empty-list-right {
-    margin: 15px;
+    padding: 10px 15px;
 }
 
 /*
@@ -3247,6 +3252,3 @@ body > .wrapper {
         page-break-before: always;
     }
 }
-
-
-

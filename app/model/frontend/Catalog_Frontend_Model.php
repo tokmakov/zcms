@@ -426,7 +426,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
                   WHERE
-                      (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . ")) AND `a`.`visible` = 1";
+                      (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
+                      AND `a`.`visible` = 1";
         if ($group) { // фильтр по функциональной группе
             $query = $query . " AND `a`.`group` = " . $group;
         }
@@ -493,6 +494,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
         $makers = $this->database->fetchAll($query);
 
+        if (0 == $group) {
+            return $makers;
+        }
+
         // теперь подсчитываем количество товаров для каждого производителя
         // с учетом фильтров по функциональной группе и по параметрам
         foreach ($makers as $key => $value) {
@@ -502,7 +507,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
                           `makers` `a`
                           INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                           INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                          INNER JOIN `groups` `d` ON `b`.`group` = `d`.`id`
                       WHERE
                           (`b`.`category` IN (" . $childs . ") OR `b`.`category2` IN (" . $childs . "))
                           AND `a`.`id` = " . $value['id'] . "
@@ -584,7 +588,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив параметров подбора для выбранной функциональной группы
      * и выбранной категории и всех ее потомков
      */
-    public function getGroupParams($category, $group = 0, $maker = 0, $param = array(), $change = 0) {
+    public function getGroupParams($category, $group = 0, $maker = 0, $param = array()) {
 
         if (0 == $group) {
             return array();
@@ -637,13 +641,12 @@ class Catalog_Frontend_Model extends Frontend_Model {
             if ($maker) { // фильтр по производителю
                 $query = $query . " AND `b`.`maker` = " . $maker;
             }
-            /*
-            if ($value['param_id'] == $change) {
-                $result[$key]['count'] = $this->database->fetchOne($query);
-                continue;
+
+            $temp = $param;
+            if (( ! empty($temp)) && isset($temp[$value['param_id']])) {
+                unset($temp[$value['param_id']]);
             }
-            */
-            if ( ! empty($param)) { // фильтр по параметрам подбора
+            if ( ! empty($temp)) { // фильтр по параметрам подбора
                 $ids = $this->getProductsByParam($param);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";

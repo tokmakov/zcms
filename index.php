@@ -31,14 +31,8 @@ $register = Register::getInstance();
 $register->config = Config::getInstance();
 // кэширование данных
 $register->cache = Cache::getInstance();
-// $register->cache = MCache::getInstance();
 // база данных
 $register->database = Database::getInstance();
-
-/*
-$register->cache->clearAllCache();
-die();
-*/
 
 try {
     // экземпляр класса роутера

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    addBasket();
+    addBasketHandler();
 
     /*
      * Поиск по каталогу в шапке сайта
@@ -52,255 +52,14 @@ $(document).ready(function(){
         } else {
             $(this).text('показать');
         }
-    })
+    });
 
     /*
-     * ФИЛЬТР ДЛЯ ТОВАРОВ ВЫБРАННОЙ КАТЕГОРИИ
+     * Фильтр для товаров выбранной категории
      */
     $('#category-filters form > div:last-child').hide();
-    /*
-     * назначаем обработчик события при выборе функциональной группы
-     */
-    $('#category-filters form select[name="group"]').change(function() {
-        var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
-        $('#category-filters form').ajaxSubmit({ // отправляем данные формы
-            dataType: 'json',
-            url: url,
-            beforeSubmit: function() {
-                /*
-                 * перед отправкой формы удаляем содержимое трех блоков
-                 */
-                var childsHeight = $('#category-childs > div:last-child').height();
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').height(childsHeight).empty().addClass('ajax-childs-loader');
-                // второй блок: несколько select для подбора по параметрам
-                $('#category-filters form > div:nth-child(3)').empty().addClass('ajax-fields-loader');
-                // третий блок: товары выбранной категории
-                $('#category-products').empty().addClass('ajax-filter-loader');
-            },
-            success: function(data) {
-                /*
-                 * получен ответ от сервера, вставляем содержимое трех блоков
-                 */
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').removeClass('ajax-childs-loader').html(data.childs);
-                // второй блок: несколько select для подбора по параметрам
-                $('#category-filters form > div:nth-child(3)').removeClass('ajax-fields-loader').html(data.fields);
-                // для вставленных select назначаем обработчик события
-                $('#category-filters form > div:nth-child(3) select').change(function() {
-                    var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
-                    $('#category-filters form > div:last-child > input[name="change"]').val($(this).attr('name').replace(/[^0-9]/g, ''));
-                    $('#category-filters form').ajaxSubmit({
-                        dataType:  'json',
-                        url: url,
-                        beforeSubmit: function() {
-                            var childsHeight = $('#category-childs > div:last-child').height();
-                            $('#category-childs > div:last-child').height(childsHeight).empty().addClass('ajax-childs-loader');
-                            $('#category-products').empty().addClass('ajax-filter-loader');
-                        },
-                        success: function(dt) {
-                            $('#category-childs > div:last-child').removeClass('ajax-childs-loader').html(dt.childs);
-                            $('#category-products').removeClass('ajax-filter-loader').html(dt.products);
-                            /*
-                             * выделяем стилями элементы option, выбор которых приводит к пустому результату
-                             */
-                            // выбор функциональной группы
-                            $('#category-filters form select[name="group"] option').slice(1).removeClass('empty-option');
-                            dt.options.groups.forEach(function(option) {
-                                $('#category-filters form select[name="group"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                                if (option.count == 0) {
-                                    $('#category-filters form select[name="group"] option[value=' + option.id + ']').addClass('empty-option');
-                                }
-                            });
-                            // выбор производителя
-                            $('#category-filters form select[name="maker"] option').slice(1).removeClass('empty-option');
-                            dt.options.makers.forEach(function(option) {
-                                $('#category-filters form select[name="maker"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                                if (option.count == 0) {
-                                    $('#category-filters form select[name="maker"] option[value=' + option.id + ']').addClass('empty-option');
-                                }
-                            })
-                            // выбор параметра подбора
-                            dt.options.params.forEach(function(param) {
-                                $('#category-filters form select[name="param[' + param.id + ']"] option').slice(1).removeClass('empty-option');
-                                param.values.forEach(function(option) {
-                                    $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                                    if (option.count == 0) {
-                                        $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').addClass('empty-option');
-                                    }
-                                });
-                            });
-
-                            addBasket();
-                        }
-                    });
-                });
-                // третий блок: товары выбранной категории
-                $('#category-products').removeClass('ajax-filter-loader').html(data.products);
-
-                /*
-                 * выделяем стилями элементы option, выбор которых приводит к пустому результату
-                 */
-                // выбор функциональной группы
-                $('#category-filters form select[name="group"] option').slice(1).removeClass('empty-option');
-                data.options.groups.forEach(function(option) {
-                    $('#category-filters form select[name="group"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                    if (option.count == 0) {
-                        $('#category-filters form select[name="group"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                // выбор производителя
-                $('#category-filters form select[name="maker"] option').slice(1).removeClass('empty-option');
-                data.options.makers.forEach(function(option) {
-                    $('#category-filters form select[name="maker"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                    if (option.count == 0) {
-                        $('#category-filters form select[name="maker"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                // выбор параметра подбора
-                /*
-                data.options.params.forEach(function(param) {
-                    $('#category-filters form select[name="param[' + param.id + ']"] option').slice(1).removeClass('empty-option');
-                    param.values.forEach(function(option) {
-                        $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                        if (option.count == 0) {
-                            $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').addClass('empty-option');
-                        }
-                    });
-                });
-                */
-                addBasket();
-            }
-        });
-    });
-    /*
-     * назначаем обработчик события при выборе производителя
-     */
-    $('#category-filters form select[name="maker"]').change(function() {
-        var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
-        $('#category-filters form').ajaxSubmit({ // отправляем данные формы
-            dataType:  'json',
-            url: url,
-            beforeSubmit: function() {
-                /*
-                 * перед отправкой формы удаляем содержимое двух блоков
-                 */
-                var childsHeight = $('#category-childs > div:last-child').height();
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').height(childsHeight).empty().addClass('ajax-childs-loader');
-                // второй блок: товары выбранной категории
-                $('#category-products').empty().addClass('ajax-filter-loader');
-            },
-            success: function(data) {
-                /*
-                 * получен ответ от сервера, вставляем содержимое двух блоков
-                 */
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').removeClass('ajax-childs-loader').html(data.childs);
-                // второй блок: товары выбранной категории
-                $('#category-products').removeClass('ajax-filter-loader').html(data.products);
-
-                /*
-                 * выделяем стилями элементы option, выбор которых приводит к пустому результату
-                 */
-                // выбор функциональной группы
-                $('#category-filters form select[name="group"] option').slice(1).removeClass('empty-option');
-                data.options.groups.forEach(function(option) {
-                    $('#category-filters form select[name="group"] option[value=' + option.id + ']').text(option.name + ' : [' + option.count + ']');
-                    if (option.count == 0) {
-                        $('#category-filters form select[name="group"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                // выбор производителя
-                /*
-                $('#category-filters form select[name="maker"] option').slice(1).removeClass('empty-option');
-                data.options.makers.forEach(function(option) {
-                    $('#category-filters form select[name="maker"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                    if (option.count == 0) {
-                        $('#category-filters form select[name="maker"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                */
-                // выбор параметра подбора
-                data.options.params.forEach(function(param) {
-                    $('#category-filters form select[name="param[' + param.id + ']"] option').slice(1).removeClass('empty-option');
-                    param.values.forEach(function(option) {
-                        $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                        if (option.count == 0) {
-                            $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').addClass('empty-option');
-                        }
-                    });
-                });
-
-                addBasket();
-            }
-        });
-    });
-    /*
-     * назначаем обработчик события при выборе параметра подбора
-     */
-    $('#category-filters form > div:nth-child(3) select').change(function() {
-        var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
-        $('#category-filters form > div:last-child > input[name="change"]').val($(this).attr('name').replace(/[^0-9]/g, ''));
-        $('#category-filters form').ajaxSubmit({ // отправляем данные формы
-            dataType:  'json',
-            url: url,
-            beforeSubmit: function() {
-                /*
-                 * перед отправкой формы удаляем содержимое двух блоков
-                 */
-                var childsHeight = $('#category-childs > div:last-child').height();
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').height(childsHeight).empty().addClass('ajax-childs-loader');
-                // второй блок: товары выбранной категории
-                $('#category-products').empty().addClass('ajax-filter-loader');
-            },
-            success: function(data) {
-                /*
-                 * получен ответ от сервера, вставляем содержимое двух блоков
-                 */
-                // первый блок: дочерние категории текущей категории
-                $('#category-childs > div:last-child').removeClass('ajax-childs-loader').html(data.childs);
-                // второй блок: товары выбранной категории
-                $('#category-products').removeClass('ajax-filter-loader').html(data.products);
-
-                /*
-                 * выделяем стилями элементы option, выбор которых приводит к пустому результату
-                 */
-                // выбор функциональной группы
-                /*
-                $('#category-filters form select[name="group"] option').slice(1).removeClass('empty-option');
-                data.options.groups.forEach(function(option) {
-                    // $('#category-filters form select[name="group"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                    if (option.count === '0') {
-                        $('#category-filters form select[name="group"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                */
-                // выбор производителя
-                /*
-                $('#category-filters form select[name="maker"] option').slice(1).removeClass('empty-option');
-                data.options.makers.forEach(function(option) {
-                    // $('#category-filters form select[name="maker"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                    if (option.count === '0') {
-                        $('#category-filters form select[name="maker"] option[value=' + option.id + ']').addClass('empty-option');
-                    }
-                });
-                */
-                // выбор параметра подбора
-                data.options.params.forEach(function(param) {
-                    $('#category-filters form select[name="param[' + param.id + ']"] option').slice(1).removeClass('empty-option');
-                    param.values.forEach(function(option) {
-                        $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').text(option.name + ' [' + option.count + ']');
-                        if (option.count === '0') {
-                            $('#category-filters form select[name="param[' + param.id + ']"] option[value=' + option.id + ']').addClass('empty-option');
-                        }
-                    });
-                });
-                addBasket();
-            }
-        });
-    });
+    // назначаем обработчик события при выборе функционала, производителя, параметра подбора
+    $('#category-filters form select').change(filterSelectHandler);
 
     /*
      * Форма для редактирования личных данных пользователя
@@ -345,7 +104,7 @@ $(document).ready(function(){
 
 });
 
-function addBasket() {
+function addBasketHandler() {
 
     /*
      * Добавление товара в корзину, ajax
@@ -355,7 +114,8 @@ function addBasket() {
         url: '/basket/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             var sideBasketHeight = $('#side-basket').height();
-            $('#side-basket').css('min-height', sideBasketHeight).empty().addClass('ajax-loader');
+            var sideBasketWidth = $('#side-basket').width();
+            $('<div></div>').prependTo('#side-basket').addClass('overlay').height(sideBasketHeight).width(sideBasketWidth);
             /*
             var basket = $('#side-basket').is(":visible") ? $('#side-basket') : $('#top-menu > a:first-child') ;
             var img = jqForm.parent().prevAll().find('img:first');
@@ -371,7 +131,7 @@ function addBasket() {
             */
         },
         success: function() {
-            $('#side-basket').removeClass('ajax-loader');
+            $('#side-basket > .overlay').remove();
             $('<div>Товар добавлен в корзину</div>')
                 .prependTo('body')
                 .hide()
@@ -397,10 +157,11 @@ function addBasket() {
         url: '/wished/ajax/addprd',
         beforeSubmit: function() {
             var sideWishedHeight = $('#side-wished').height();
-            $('#side-wished').css('min-height', sideWishedHeight).empty().addClass('ajax-loader');
+            var sideWishedWidth = $('#side-wished').width();
+            $('<div></div>').prependTo('#side-wished').addClass('overlay').height(sideWishedHeight).width(sideWishedWidth);
         },
         success: function() {
-            $('#side-wished').removeClass('ajax-loader');
+            $('#side-wished > .overlay').remove();
             $('<div>Товар добавлен в список отложенных</div>')
                 .prependTo('body')
                 .hide()
@@ -426,10 +187,11 @@ function addBasket() {
         url: '/compared/ajax/addprd',
         beforeSubmit: function() {
             var sideComparedHeight = $('#side-compared').height();
-            $('#side-compared').css('min-height', sideComparedHeight).empty().addClass('ajax-loader');
+            var sideComparedWidth = $('#side-compared').width();
+            $('<div></div>').prependTo('#side-compared').addClass('overlay').height(sideComparedHeight).width(sideComparedWidth);
         },
         success: function() {
-            $('#side-compared').removeClass('ajax-loader');
+            $('#side-compared > .overlay').remove();
             $('<div>Товар добавлен в список сравнения</div>')
                 .prependTo('body')
                 .hide()
@@ -447,4 +209,53 @@ function addBasket() {
         }
     });
 
+}
+
+function filterSelectHandler() {
+    var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
+    if ($(this).attr('name') == 'group') {
+        $('#category-filters form input[name="change"]').val('1');
+    } else {
+        $('#category-filters form input[name="change"]').val('0');
+    }
+    //$('#category-filters form > div:last-child > input[name="change"]').val($(this).attr('name').replace(/[^0-9]/g, ''));
+    $('#category-filters form').ajaxSubmit({
+        dataType:  'json',
+        url: url,
+        beforeSubmit: function() {
+            /*
+             * перед отправкой формы добавляем оверлей для трех блоков
+             */
+            // первый блок: дочерние категории текущей категории
+            var childsHeight = $('#category-childs > div:last-child').height();
+            var childsWidth = $('#category-childs > div:last-child').width();
+            $('<div></div>').prependTo('#category-childs > div:last-child').addClass('overlay').height(childsHeight).width(childsWidth);
+            // второй блок: фильтр по функционалу, производителю и параметрам
+            // $('#category-filters form > div:first-child').empty().addClass('ajax-fields-loader');
+            var filtersHeight = $('#category-filters form > div:first-child').height();
+            var filtersWidth = $('#category-filters form > div:first-child').width();
+            $('<div></div>').prependTo('#category-filters form > div:first-child').addClass('overlay').height(filtersHeight).width(filtersWidth);
+            // третий блок: товары выбранной категории
+            var productsHeight = $('#category-products').height();
+            var productsWidth = $('#category-products').width();
+            $('<div></div>').prependTo('#category-products').addClass('products-overlay').height(productsHeight).width(productsWidth);
+        },
+        success: function(dt) {
+            /*
+             * получен ответ от сервера, вставляем содержимое трех блоков
+             */
+            // первый блок: дочерние категории текущей категории
+            $('#category-childs > div:last-child').html(dt.childs);
+            $('#category-childs > div:last-child > .overlay').remove();
+            // второй блок: фильтр по функционалу, производителю и параметрам
+            $('#category-filters form > div:first-child').html(dt.filters);
+            $('#category-filters form > div:first-child > .overlay').remove();
+            // третий блок: товары выбранной категории
+            $('#category-products').html(dt.products);
+            $('#category-products > .products-overlay').remove();
+
+            $('#category-filters form select').change(filterSelectHandler);
+            addBasketHandler();
+        }
+    });
 }

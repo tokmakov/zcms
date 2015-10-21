@@ -39,6 +39,7 @@ for ($i = 0; $i <= 6; $i++) {
     $sortorders[$i]['class'] = $class;
 }
 ?>
+
 <ul>
     <?php
         $divide = 0;
@@ -61,8 +62,38 @@ for ($i = 0; $i <= 6; $i++) {
     <?php endforeach; ?>
 </ul>
 ¤
+<div>
+    <div>
+        <span>Функциональное назначение</span>
+    </div>
+    <div>
+        <span>
+        <select name="group">
+            <option value="0">Выберите</option>
+            <?php foreach ($groups as $item): ?>
+                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
+            <?php endforeach; ?>
+        </select>
+        </span>
+    </div>
+</div>
+<div>
+    <div>
+        <span>Производитель</span>
+    </div>
+    <div>
+        <span>
+        <select name="maker">
+            <option value="0">Выберите</option>
+            <?php foreach ($makers as $item): ?>
+                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
+            <?php endforeach; ?>
+        </select>
+        </span>
+    </div>
+</div>
 <?php if (!empty($params)): ?>
-    <?php foreach($params as $item): ?>
+    <?php foreach ($params as $item): ?>
         <?php $selected = false; ?>
         <div>
             <div>
@@ -72,7 +103,7 @@ for ($i = 0; $i <= 6; $i++) {
                 <span>
                 <select name="param[<?php echo $item['id']; ?>]">
                     <option value="0">Выберите</option>
-                    <?php foreach($item['values'] as $value): ?>
+                    <?php foreach ($item['values'] as $value): ?>
                         <?php $selected = isset($param[$item['id']]) && $param[$item['id']] == $value['id']; ?>
                         <option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?> [<?php echo $value['count']; ?>]</option>
                     <?php endforeach; ?>
@@ -100,7 +131,7 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 
     <div class="products-list-line">
-        <?php foreach($products as $product): ?>
+        <?php foreach ($products as $product): ?>
             <div>
                 <div class="product-line-heading">
                     <h2><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h2>

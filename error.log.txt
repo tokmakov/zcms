@@ -1,0 +1,13 @@
+21.10.2015 10:34:16
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') OR `b`.`category2` IN ()) AND `b`.`visible` = 1
+				  GROUP BY
+					  `a`.`i' at line 9
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n\t\t\t\t\t  ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(556): Database->fetchAll('SELECT\r\n\t\t\t\t\t  ...')
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(67): Catalog_Frontend_Model->getCategoryGroups(NULL, 0)
+#4 D:\work\localhost2\www\index.php(58): Ajaxfilter_Catalog_Frontend_Controller->request()
+#5 {main}
+

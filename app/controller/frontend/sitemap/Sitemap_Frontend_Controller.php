@@ -12,7 +12,7 @@ class Sitemap_Frontend_Controller extends Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования карты сайта
-     */
+      */
     protected function input() {
 
         /*
