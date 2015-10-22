@@ -784,7 +784,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/param/$3/sort/$4/page/$5',
         // категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
-        'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6'
+        'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
         
         // страница товара каталога
         '~^catalog/product/(\d+)$~i' =>
