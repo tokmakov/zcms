@@ -647,7 +647,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 unset($temp[$value['param_id']]);
             }
             if ( ! empty($temp)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($param);
+                $ids = $this->getProductsByParam($temp);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne($query);
