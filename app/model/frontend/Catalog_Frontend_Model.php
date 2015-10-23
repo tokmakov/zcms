@@ -5,8 +5,12 @@
  */
 class Catalog_Frontend_Model extends Frontend_Model {
 
+    private $userFrontendModel;
+
     public function __construct() {
         parent::__construct();
+        $this->userFrontendModel =
+            isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
     }
 
     /**
@@ -1052,6 +1056,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
      */
     public function getSearchResults($search = '', $start = 0, $ajax = false) {
         $search = $this->cleanSearchString($search);
+        file_put_contents('search.txt', $search . PHP_EOL, FILE_APPEND);
+
+        if ($ajax) {
+            while ($this->isSearchLocked()) {
+                usleep(100);
+            }
+            $this->searchLock();
+        }
+
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
             return $this->searchResults($search, $start, $ajax);
@@ -1065,7 +1078,11 @@ class Catalog_Frontend_Model extends Frontend_Model {
         // арументы, переданные этой функции
         $arguments = func_get_args();
         // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
+        $result = $this->getCachedData($key, $function, $arguments);
+        if ($ajax) {
+            $this->searchUnlock();
+        }
+        return $result;
     }
 
     /**
@@ -1379,6 +1396,22 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $search = trim($search);
         $search = utf8_strtolower($search);
         return $search;
+    }
+
+    private function searchLock() {
+        file_put_contents( 'temp/search/' . $this->userFrontendModel->getVisitorId() . '.txt', '');
+    }
+
+    private function searchUnlock() {
+        $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
+        if (is_file($file)) {
+            // unlink($file);
+        }
+    }
+
+    private function isSearchLocked() {
+        $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
+        return is_file($file) && ((time() - filemtime($file)) < 5);
     }
 
 }

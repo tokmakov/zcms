@@ -5,13 +5,23 @@ $(document).ready(function(){
     /*
      * Поиск по каталогу в шапке сайта
      */
+    /*
     $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
         if ($(this).val().length > 1) {
+            var _this = $(this);
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
             $('#top-search > form').ajaxSubmit({
                 target: '#top-search > div > div',
                 url: '/catalog/ajax-search',
+                // временный костыль
+                beforeSubmit: function() {
+                    var length = _this.val().length;
+                    var delay = new Date().getTime() + length;
+                    if (length > 2) {
+                        while(new Date().getTime() < delay) {}
+                    }
+                },
                 success: function() {
                     $('#top-search > div > div').removeClass('top-search-loader');
                     if($('#top-search > div > div').is(':empty')) {
@@ -23,6 +33,29 @@ $(document).ready(function(){
             $('#top-search > div').empty();
         }
     });
+    */
+    $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
+        var query = $(this).val();
+        if (query.length > 1) {
+            $('#top-search > div').html('<div class="top-search-loader"></div>');
+            $('#top-search > div > div').show();
+            $.ajax({
+                type: 'POST',
+                url: '/catalog/ajax-search',
+                dataType: 'html',
+                data: 'query=' + query,
+                success: function(html) {
+                    $('#top-search > div > div').removeClass('top-search-loader').html(html);
+                    if($('#top-search > div > div').is(':empty')) {
+                        $('#top-search > div').empty();
+                    }
+                },
+            });
+        } else {
+            $('#top-search > div').empty();
+        }
+    });
+
     $('#top-search > div').on('click', 'div > span', function() {
         $('#top-search > form > input[name="query"]').val('');
         $('#top-search > div').empty();
@@ -212,13 +245,12 @@ function addBasketHandler() {
 }
 
 function filterSelectHandler() {
-    var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
     if ($(this).attr('name') == 'group') {
         $('#category-filters form input[name="change"]').val('1');
     } else {
         $('#category-filters form input[name="change"]').val('0');
     }
-    //$('#category-filters form > div:last-child > input[name="change"]').val($(this).attr('name').replace(/[^0-9]/g, ''));
+    var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
     $('#category-filters form').ajaxSubmit({
         dataType:  'json',
         url: url,
