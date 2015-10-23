@@ -3,4 +3,5 @@
     <?php foreach($results as $product): ?>
         <div><a href="<?php echo $product['url']; ?>"><?php echo $product['code']; ?> <strong><?php echo $product['name']; ?></strong> <?php echo $product['title']; ?></a></div>
     <?php endforeach; ?>
+    <div><a href="/"><?php echo 'Вы искали: ' . $search; ?></a></div>
 <?php endif; ?>

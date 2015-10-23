@@ -39,11 +39,16 @@ $(document).ready(function(){
         if (query.length > 1) {
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
+            var delay = new Date().getTime() + query.length * 400;
+            if (length > 2) {
+                while(new Date().getTime() < delay) {}
+            }
+            var time = new Date().getTime();
             $.ajax({
                 type: 'POST',
                 url: '/catalog/ajax-search',
                 dataType: 'html',
-                data: 'query=' + query,
+                data: 'query=' + query + '&time=' + time,
                 success: function(html) {
                     $('#top-search > div > div').removeClass('top-search-loader').html(html);
                     if($('#top-search > div > div').is(':empty')) {

@@ -27,13 +27,14 @@ class Ajaxsearch_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
     public function request() {
 
         // получаем от модели массив результатов поиска
-        $results = $this->catalogFrontendModel->getSearchResults($_POST['query'], 0, true);
+        $results = $this->catalogFrontendModel->getSearchResults($_POST['query'], 0, true, $_POST['time']);
 
         // формируем HTML результатов поиска
         $this->output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/ajax/search.php',
             array(
                 'results' => $results,
+                'search'  => $_POST['query'],
             )
         );
     }

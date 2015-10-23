@@ -1054,16 +1054,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает результаты поиска по каталогу; результат работы
      * кэшируется
      */
-    public function getSearchResults($search = '', $start = 0, $ajax = false) {
+    public function getSearchResults($search = '', $start = 0, $ajax = false, $time = 0) {
         $search = $this->cleanSearchString($search);
-        file_put_contents('search.txt', $search . PHP_EOL, FILE_APPEND);
-
-        if ($ajax) {
-            while ($this->isSearchLocked()) {
-                usleep(100);
-            }
-            $this->searchLock();
-        }
+        file_put_contents('search.txt', $search . ' ' . $time . PHP_EOL, FILE_APPEND);
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
@@ -1078,11 +1071,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         // арументы, переданные этой функции
         $arguments = func_get_args();
         // получаем данные из кэша
-        $result = $this->getCachedData($key, $function, $arguments);
-        if ($ajax) {
-            $this->searchUnlock();
-        }
-        return $result;
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
