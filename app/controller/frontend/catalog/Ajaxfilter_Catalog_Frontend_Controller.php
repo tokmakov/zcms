@@ -25,15 +25,14 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
     public function request() {
 
-sleep(1);
-
         // если не передан id категории или id категории не число
         if ( ! (isset($this->params['category']) && ctype_digit($this->params['category'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
         }
 
-        // данные формы: фильтр по функционалу, производителю, параметрам; сортировка
+        // данные формы: фильтр по функционалу, производителю, лидерам продаж,
+        // новинкам, параметрам; сортировка
         $group = 0; // функционал
         if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
             $group = (int)$_POST['group'];
@@ -41,6 +40,14 @@ sleep(1);
         $maker = 0; // производитель
         if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
             $maker = (int)$_POST['maker'];
+        }
+        $hit = 0; // лидер продаж
+        if (isset($_POST['hit'])) {
+            $hit = 1;
+        }
+        $new = 0; // новинка
+        if (isset($_POST['new'])) {
+            $new = 1;
         }
         $param = array(); // параметры подбора
         if ($group && isset($_POST['param'])) {
@@ -64,19 +71,25 @@ sleep(1);
         }
 
         // получаем от модели массив дочерних категорий
-        $childs = $this->catalogFrontendModel->getChildCategories($this->params['category'], $group, $maker, $param, $sort);
+        $childs = $this->catalogFrontendModel->getChildCategories($this->params['category'], $group, $maker ,$hit, $new, $param, $sort);
 
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['category'], $maker);
+        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['category'], $maker, $hit, $new);
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['category'], $group, $param);
+        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['category'], $group, $hit, $new, $param);
 
         // получаем от модели массив параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams($this->params['category'], $group, $maker, $param);
+        $params = $this->catalogFrontendModel->getGroupParams($this->params['category'], $group, $maker, $hit, $new, $param);
+
+        // получаем от модели количество лидеров продаж
+        $countHit = $this->catalogFrontendModel->getCountHit($this->params['category'], $group, $maker, $new, $param);
+
+        // получаем от модели количество новинок
+        $countNew = $this->catalogFrontendModel->getCountNew($this->params['category'], $group, $maker, $hit, $param);
 
         // постраничная навигация
-        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['category'], $group, $maker, $param);
+        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['category'], $group, $maker, $hit, $new, $param);
 
         $temp = new Pager(
             1,                                                  // текущая страница
@@ -90,7 +103,7 @@ sleep(1);
         }
 
         // получаем от модели массив товаров категории
-        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['category'], $group, $maker, $param, $sort);
+        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['category'], $group, $maker, $hit, $new, $param, $sort);
 
         /*
          * Варианты сортировки:
@@ -110,6 +123,12 @@ sleep(1);
             }
             if ($maker) {
                 $url = $url . '/maker/' . $maker;
+            }
+            if ($hit) {
+                $url = $url . '/hit/1';
+            }
+            if ($new) {
+                $url = $url . '/new/1';
             }
             if ( ! empty($param)) {
                 $temp = array();
@@ -147,6 +166,12 @@ sleep(1);
         if ($maker) {
             $url = $url . '/maker/' . $maker;
         }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
         if ( ! empty($param)) {
             $temp = array();
             foreach ($param as $k => $v) {
@@ -168,6 +193,10 @@ sleep(1);
                 'childs'      => $childs,                   // массив дочерних категорий
                 'group'       => $group,                    // id выбранной функциональной группы или ноль
                 'maker'       => $maker,                    // id выбранного производителя или ноль
+                'hit'         => $hit,                      // показывать только лидеров продаж?
+                'countHit'    => $countHit,                 // количество лидеров продаж
+                'new'         => $new,                      // показывать только новинки?
+                'countNew'    => $countNew,                 // количество новинок
                 'param'       => $param,                    // массив выбранных параметров подбора
                 'groups'      => $groups,                   // массив функциональных групп
                 'makers'      => $makers,                   // массив производителей

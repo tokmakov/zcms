@@ -1205,16 +1205,37 @@ body > .wrapper {
                     height: 30px;
                     vertical-align: middle;
                 }
-                    #category-filters > div:last-child > form > div:first-child > div > div > span {
+                #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox {
+                    opacity: 0.6;
+                }
+                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label,
+                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label > span,
+                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label > input[type="checkbox"] {
+                        cursor: not-allowed;
+                    }
+                    #category-filters > div:last-child > form > div:first-child > div > div > span,
+                    #category-filters > div:last-child > form > div:first-child > div > div > label {
                         display: table-cell;
                         height: 30px;
                         font-size: 14px;
                         line-height: 14px;
                         vertical-align: middle;
                     }
+                    #category-filters > div:last-child > form > div:first-child > div > div > label {
+                        cursor: pointer;
+                    }
                     #category-filters > div:last-child > form > div:first-child > div > div:first-child > span {
-                        font-size: 14px;
                         line-height: 15px;
+                    }
+                    #category-filters > div:last-child > form > div:first-child > div > div > label > span {
+                        cursor: pointer;
+                        border-bottom: 1px dashed #323232;
+                        margin-left: 3px;
+                    }
+                    #category-filters > div:last-child > form > div:first-child > div > div > label > input[type="checkbox"] {
+                        cursor: pointer;
+                        position: relative;
+                        top: 3px;
                     }
                         #category-filters select {
                             width: 100%;

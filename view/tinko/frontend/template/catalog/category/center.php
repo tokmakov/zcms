@@ -12,6 +12,10 @@
  * $action - атрибут action тега форм
  * $group - id выбранной функциональной группы или ноль
  * $maker - id выбранного производителя или ноль
+ * $hit - показывать только лидеров продаж?
+ * $countHit - количество лидеров продаж
+ * $new - показывать только новинки?
+ * $countNew - количество новинок
  * $param - массив выбранных параметров подбора
  * $groups - массив функциональных групп
  * $makers - массив производителей
@@ -327,6 +331,14 @@ for ($i = 0; $i <= 6; $i++) {
 							</div>
 						<?php endforeach; ?>
 					<?php endif; ?>
+                    <div>
+                        <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
+                            <label><input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" /> <span>Лидер продаж</span></label>
+                        </div>
+                        <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
+                            <label><input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" /> <span>Новинка</span></label>
+                        </div>
+                    </div>
 				</div>
 				<div>
 					<?php if ($sort): ?>

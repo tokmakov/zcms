@@ -42,8 +42,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
                 $url = $url . '/maker/' . $_POST['maker'];
             }
+            if (isset($_POST['hit'])) {
+                $url = $url . '/hit/1';
+            }
+            if (isset($_POST['new'])) {
+                $url = $url . '/new/1';
+            }
+            $param = array();
             if ($grp && isset($_POST['param'])) {
-                $param = array();
                 foreach ($_POST['param'] as $key => $value) {
                     if ($key > 0 && ctype_digit($value) && $value > 0) {
                         $param[$key] = (int)$value;
@@ -140,6 +146,18 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             */
         }
 
+        // включен фильтр по лидерам продаж?
+        $hit = 0;
+        if (isset($this->params['hit']) && $this->params['hit'] == 1) {
+            $hit = 1;
+        }
+
+        // включен фильтр по новинкам?
+        $new = 0;
+        if (isset($this->params['new']) && $this->params['new'] == 1) {
+            $new = 1;
+        }
+
         // включена сортировка?
         $sort = 0;
         if (isset($this->params['sort'])
@@ -150,21 +168,27 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // мета-тег robots
-        if ($maker || $sort) {
+        if ($group || $maker || $hit || $new || $sort) {
             $this->robots = false;
         }
 
         // получаем от модели массив дочерних категорий
-        $childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $group, $maker, $param, $sort);
+        $childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $group, $maker, $hit, $new, $param, $sort);
 
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $maker);
+        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $maker, $hit, $new);
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $param);
+        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $hit, $new, $param);
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams($this->params['id'], $group, $maker, $param);
+        $params = $this->catalogFrontendModel->getGroupParams($this->params['id'], $group, $maker, $hit, $new, $param);
+
+        // получаем от модели количество лидеров продаж
+        $countHit = $this->catalogFrontendModel->getCountHit($this->params['id'], $group, $maker, $new, $param);
+
+        // получаем от модели количество новинок
+        $countNew = $this->catalogFrontendModel->getCountNew($this->params['id'], $group, $maker, $hit, $param);
 
         // постраничная навигация
         $page = 1;
@@ -172,7 +196,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $page = $this->params['page'];
         }
         // общее кол-во товаров категории
-        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['id'], $group, $maker, $param);
+        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['id'], $group, $maker, $hit, $new, $param);
 
         $temp = new Pager(
             $page,                                              // текущая страница
@@ -192,7 +216,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив товаров категории
-        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $group, $maker, $param, $sort, $start);
+        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $group, $maker, $hit, $new, $param, $sort, $start);
 
         /*
          * Варианты сортировки:
@@ -211,6 +235,15 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             }
             if ($maker) {
                 $url = $url . '/maker/' . $maker;
+            }
+            if ($hit) {
+                $url = $url . '/hit/1';
+            }
+            if ($new) {
+                $url = $url . '/new/1';
+            }
+            if ( ! empty($param)) {
+                $url = $url . '/param/' . $this->params['param'];
             }
             if ($i) {
                 $url = $url . '/sort/' . $i;
@@ -242,6 +275,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ($maker) {
             $url = $url . '/maker/' . $maker;
         }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
         if ( ! empty($param)) {
             $url = $url . '/param/' . $this->params['param'];
         }
@@ -262,6 +301,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'action'          => $action,             // атрибут action тега форм
             'group'           => $group,              // id выбранной функциональной группы или ноль
             'maker'           => $maker,              // id выбранного производителя или ноль
+            'hit'             => $hit,                // показывать только лидеров продаж?
+            'countHit'        => $countHit,           // количество лидеров продаж
+            'new'             => $new,                // показывать только новинки?
+            'countNew'        => $countNew,           // количество новинок
             'param'           => $param,              // массив выбранных параметров подбора
             'groups'          => $groups,             // массив функциональных групп
             'makers'          => $makers,             // массив производителей

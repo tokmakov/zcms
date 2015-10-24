@@ -28,12 +28,12 @@ abstract class Base {
 
     public function __construct() {
 
-        // экземпляр класса базы данных
-        $this->database = Database::getInstance();
         // все объекты приложения, экземпляр класса Register
         $this->register = Register::getInstance();
         // настройки приложения, экземпляр класса Config
         $this->config = Config::getInstance();
+        // экземпляр класса базы данных
+        $this->database = Database::getInstance();
         // административная часть сайта?
         $this->backend = $this->register->router->isBackend();
         // сохраняем в реестре экземпляр текущего класса

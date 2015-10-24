@@ -1,16 +1,6 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
-$units = Array (
-    0 => 'руб',
-    1 => 'руб/шт',
-    2 => 'руб/компл',
-    3 => 'руб/упак',
-    4 => 'руб/метр',
-    5 => 'руб/метр',
-    6 => 'руб/пара',
-);
-
 /*
  * Варианты сортировки:
  * 0 - по умолчанию,
@@ -113,6 +103,14 @@ for ($i = 0; $i <= 6; $i++) {
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
+<div>
+    <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
+        <label><input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" /> <span>Лидер продаж</span></label>
+    </div>
+    <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
+        <label><input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" /> <span>Новинка</span></label>
+    </div>
+</div>
 ¤
 <?php if (!empty($products)): // товары категории ?>
     <div id="sort-orders">

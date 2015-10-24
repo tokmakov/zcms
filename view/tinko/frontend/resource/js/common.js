@@ -39,16 +39,11 @@ $(document).ready(function(){
         if (query.length > 1) {
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
-            var delay = new Date().getTime() + query.length * 400;
-            if (length > 2) {
-                while(new Date().getTime() < delay) {}
-            }
-            var time = new Date().getTime();
             $.ajax({
                 type: 'POST',
                 url: '/catalog/ajax-search',
                 dataType: 'html',
-                data: 'query=' + query + '&time=' + time,
+                data: 'query=' + query,
                 success: function(html) {
                     $('#top-search > div > div').removeClass('top-search-loader').html(html);
                     if($('#top-search > div > div').is(':empty')) {
@@ -97,7 +92,7 @@ $(document).ready(function(){
      */
     $('#category-filters form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
-    $('#category-filters form select').change(filterSelectHandler);
+    $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
 
     /*
      * Форма для редактирования личных данных пользователя
@@ -291,7 +286,7 @@ function filterSelectHandler() {
             $('#category-products').html(dt.products);
             $('#category-products > .products-overlay').remove();
 
-            $('#category-filters form select').change(filterSelectHandler);
+            $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
             addBasketHandler();
         }
     });
