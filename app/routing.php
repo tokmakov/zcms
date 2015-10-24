@@ -204,8 +204,8 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/param/$4/page/$5',
         // 63. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
-        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
-        'catalog/category/$1/group/$2/maker/$3/hit/1/param/$4/sort/$5',
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'catalog/category/$1/group/$2/maker/$3/new/1/param/$4/sort/$5',
         // 64. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/new/1/param/$4/page/$5',
@@ -751,8 +751,8 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/param/$4/page/$5',
         // 63. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
-        '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
-        'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/param/$4/sort/$5',
+        '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/param/$4/sort/$5',
         // 64. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/param/$4/page/$5',

@@ -11,3 +11,36 @@
 #4 D:\work\localhost2\www\index.php(58): Ajaxfilter_Catalog_Frontend_Controller->request()
 #5 {main}
 
+24.10.2015 17:07:40
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/2000/group/3/maker/518/new/1/param/5.12/sort/2
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(266): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(172): Catalog_Frontend_Model->childCategories('1999', 3, 518, 0, 1, Array, 2)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(74): Catalog_Frontend_Model->getChildCategories('1999', 3, 518, 0, 1, Array, 2)
+#4 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#5 {main}
+
+24.10.2015 17:08:42
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/2000/group/3/maker/518/new/1/param/5.12/sort/2
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(266): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(172): Catalog_Frontend_Model->childCategories('1999', 3, 518, 0, 1, Array, 2)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(74): Catalog_Frontend_Model->getChildCategories('1999', 3, 518, 0, 1, Array, 2)
+#4 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#5 {main}
+
+24.10.2015 17:10:44
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/2000/group/3/maker/518/new/1/param/5.12/sort/2
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(266): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(172): Catalog_Frontend_Model->childCategories('1999', 3, 518, 0, 1, Array, 2)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(74): Catalog_Frontend_Model->getChildCategories('1999', 3, 518, 0, 1, Array, 2)
+#4 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#5 {main}
+
