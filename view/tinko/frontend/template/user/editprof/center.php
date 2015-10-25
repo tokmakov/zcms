@@ -103,12 +103,12 @@ if (isset($savedFormData)) {
     <div>
         <div>
             <div>Название профиля <span class="form-field-required">*</span></div>
-            <div><input type="text" name="title" maxlength="32" value="<?php echo $title; ?>" /></div>
+            <div><input type="text" name="title" maxlength="32" value="<?php echo $title; ?>" /> <span id="profile-title-help">?</span></div>
         </div>
     </div>
 
     <div>
-        <label><input type="checkbox" name="legal_person" value="1"<?php echo $legal_person ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
+        <label><input type="checkbox" name="legal_person" value="1"<?php echo $legal_person ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
     </div>
 
     <div id="legal-person">

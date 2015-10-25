@@ -34,10 +34,18 @@ class Add_User_Backend_Controller extends User_Backend_Controller {
 
         $this->title = 'Добавление нового пользователя. ' . $this->title;
 
+        // формируем хлебные крошки
+        $breadcrumbs = array(
+            array('url' => $this->userBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array('url' => $this->userBackendModel->getURL('backend/user/index'), 'name' => 'Пользователи'),
+        );
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action' => $this->userBackendModel->getURL('backend/user/add'),
         );

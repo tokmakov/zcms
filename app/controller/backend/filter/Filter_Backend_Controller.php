@@ -1,9 +1,9 @@
 <?php
 /**
- * Абстрактный класс Catalog_Backend_Controller, родительский для всех контроллеров,
- * работающих с каталогом товаров, административная часть сайта
+ * Абстрактный класс Filter_Backend_Controller, родительский для всех контроллеров,
+ * работающих с фильтром товаров, административная часть сайта
  */
-abstract class Catalog_Backend_Controller extends Backend_Controller {
+abstract class Filter_Backend_Controller extends Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

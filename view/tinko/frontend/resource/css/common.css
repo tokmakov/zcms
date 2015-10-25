@@ -1900,7 +1900,7 @@ body > .wrapper {
 #add-edit-profile {
     overflow: hidden;
 }
-    #add-edit-profile .legal_person_help {
+    #add-edit-profile #legal-person-help, #add-edit-profile #profile-title-help {
         background: #395985;
         color: #fff;
         border-radius: 10px;
@@ -1974,6 +1974,9 @@ body > .wrapper {
                     border: 1px solid #d1d1d1;
                     font-size: 14px;
                     line-height: 14px;
+                }
+                #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
+                    width: 95%;
                 }
                 #add-edit-profile > div > div > div:last-child > input[type="submit"] {
                     display: block;

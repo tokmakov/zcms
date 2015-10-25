@@ -22,6 +22,11 @@ abstract class Backend_Controller extends Base_Controller {
     protected $catalogBackendModel;
 
     /**
+     * экземпляр класса модели для работы с фильтром товаров
+     */
+    protected $filterBackendModel;
+
+    /**
      * экземпляр класса модели для работы с главной страницей
      * административной части сайта
      */
@@ -80,6 +85,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с каталогом
         $this->catalogBackendModel =
             isset($this->register->catalogBackendModel) ? $this->register->catalogBackendModel : new Catalog_Backend_Model();
+
+        // экземпляр класса модели для работы с фильтром товаров
+        $this->filterBackendModel =
+            isset($this->register->filterBackendModel) ? $this->register->filterBackendModel : new Filter_Backend_Model();
 
         // экземпляр класса модели для работы с главной страницей админки
         $this->indexBackendModel =
@@ -155,6 +164,10 @@ abstract class Backend_Controller extends Base_Controller {
             array(
                 'name' => 'Каталог',
                 'url' => $this->catalogBackendModel->getURL('backend/catalog/index')
+            ),
+            array(
+                'name' => 'Фильтр',
+                'url' => $this->catalogBackendModel->getURL('backend/filter/index')
             ),
             array(
                 'name' => 'Новости',

@@ -18,9 +18,17 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/user/edit/center.php -->
 
+<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+    <div id="breadcrumbs">
+        <?php foreach ($breadcrumbs as $item): ?>
+            <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <h1>Личные данные</h1>
 
-<?php if (isset($errorMessage) && count($errorMessage) > 0): ?>
+<?php if (!empty($errorMessage)): ?>
     <ul>
     <?php foreach($errorMessage as $message): ?>
         <li><?php echo $message; ?></li>

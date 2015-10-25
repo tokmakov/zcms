@@ -107,8 +107,21 @@ $(document).ready(function(){
     /*
      * Форма для добавления/редактирования профиля
      */
+    // всплывающее окно с подсказкой для названия профиля
+    $('#add-edit-profile #profile-title-help').click(function() {
+        $('<div><p>Введите название профиля, например, «ИП&nbsp;Иванов» или «ООО&nbsp;Восход» или «Доставка на Онежскую улицу».</p></div>')
+        .prependTo('body')
+        .hide()
+        .addClass('modal-window')
+        .center()
+        .fadeIn(500, function() {
+            $(this).delay(3000).fadeOut(500, function() {
+                $(this).remove();
+            });
+        });
+    });
     // всплывающее окно с подсказкой для юридического лица
-    $('#add-edit-profile .legal_person_help').click(function() {
+    $('#add-edit-profile #legal-person-help').click(function() {
         $('<div><p>Отметьте флажок, чтобы использовать этот профиль для оформления заказов на юридическое лицо.</p><p>Укажите название компании, юридический адрес, ИНН, название банка, номер расчетного счета.</p></div>')
         .prependTo('body')
         .hide()

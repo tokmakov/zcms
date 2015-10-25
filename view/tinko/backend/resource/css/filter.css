@@ -1,0 +1,37 @@
+/* вкладки */
+ul#filter {
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-left: 20px;
+    padding: 0;
+}
+    ul#filter li {
+        float: left;
+    }
+        ul#filter li a {
+            display: block;
+            /* width: 200px; */
+            border: 1px solid #000;
+            border-bottom: none;
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-align: center;
+            background-color: #eee;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px 5px 0 0;
+        }
+        ul#filter li a:hover {
+            text-decoration: underline;
+        }
+        ul#filter li a.active {
+            background-color: #fff;
+            border-bottom: 1px solid #fff;
+        }
+    ul#filter:after {
+        content: '.';
+        display: block;
+        visibility: hidden;
+        height: 0;
+        clear: both;
+    }

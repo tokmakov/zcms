@@ -40,6 +40,12 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
 
         $this->title = 'Редактирование личных данных. ' . $this->title;
 
+        // формируем хлебные крошки
+        $breadcrumbs = array(
+            array('url' => $this->userBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array('url' => $this->userBackendModel->getURL('backend/user/index'), 'name' => 'Пользователи'),
+        );
+
         // получаем от модели личные данные пользователя
         $user = $this->userBackendModel->getUser($this->params['id']);
         if (empty($user)) {
@@ -51,6 +57,8 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'  => $this->userBackendModel->getURL('backend/user/edit/id/' . $this->params['id']),
             // имя пользовтеля
