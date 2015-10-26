@@ -11,7 +11,7 @@ abstract class Filter_Backend_Controller extends Backend_Controller {
 
     /**
      * Функция получает от моделей данные, необходимые для работы всех
-     * потомков класса Catalog_Backend_Controller
+     * потомков класса Filter_Backend_Controller
      */
     protected function input() {
 
@@ -19,8 +19,8 @@ abstract class Filter_Backend_Controller extends Backend_Controller {
          * сначала обращаемся к родительскому классу Backend_Controller, чтобы
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы всех потомков
-         * Catalog_Backend_Controller
+         * устанавливаем значения перменных, которые нужны для работы всех
+         * потомков Filter_Backend_Controller
          */
         parent::input();
 

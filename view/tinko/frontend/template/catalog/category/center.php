@@ -406,9 +406,18 @@ for ($i = 0; $i <= 6; $i++) {
 						<input type="text" name="count" value="1" size="5" />
 						<input type="hidden" name="return" value="category" />
 						<input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
+                        <?php if ($group): ?>
+                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <?php endif; ?>
 						<?php if ($maker): ?>
 							<input type="hidden" name="maker" value="<?php echo $maker; ?>" />
 						<?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
 						<?php if ($sort): ?>
 							<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
 						<?php endif; ?>
@@ -421,9 +430,18 @@ for ($i = 0; $i <= 6; $i++) {
 						<input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
 						<input type="hidden" name="return" value="category" />
 						<input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
+                        <?php if ($group): ?>
+                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <?php endif; ?>
 						<?php if ($maker): ?>
 							<input type="hidden" name="maker" value="<?php echo $maker; ?>" />
 						<?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
 						<?php if ($sort): ?>
 							<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
 						<?php endif; ?>
@@ -436,9 +454,18 @@ for ($i = 0; $i <= 6; $i++) {
 						<input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
 						<input type="hidden" name="return" value="category" />
 						<input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
+                        <?php if ($group): ?>
+                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <?php endif; ?>
 						<?php if ($maker): ?>
 							<input type="hidden" name="maker" value="<?php echo $maker; ?>" />
 						<?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
 						<?php if ($sort): ?>
 							<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
 						<?php endif; ?>

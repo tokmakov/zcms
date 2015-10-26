@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Allvalues_Filter_Backend_Controller формирует страницу со списком
- * значений параметров подбора, gолучает данные от модели Filter_Backend_Model,
+ * значений параметров подбора, получает данные от модели Filter_Backend_Model,
  * административная часть сайта
  */
 class Allvalues_Filter_Backend_Controller extends Filter_Backend_Controller {
@@ -43,7 +43,7 @@ class Allvalues_Filter_Backend_Controller extends Filter_Backend_Controller {
             // хлебные крошки
             'breadcrumbs'   => $breadcrumbs,
             // URL сводной страницы фильтра товаров
-            'filterPageUrl'   => $this->filterBackendModel->getURL('backend/filter/index'),
+            'filterPageUrl' => $this->filterBackendModel->getURL('backend/filter/index'),
             // URL страницы со списком всех функциональных групп
             'groupsPageUrl' => $this->filterBackendModel->getURL('backend/filter/allgroups'),
             // URL страницы со списком всех параметров подбора

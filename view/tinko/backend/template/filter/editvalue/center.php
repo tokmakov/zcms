@@ -1,12 +1,13 @@
 <?php
 /**
- * Форма для добавления категории,
- * файл view/example/backend/template/news/addctg/center.php,
+ * Старница с формой для редактирования значения параметра подбора,
+ * файл view/example/backend/template/filter/editvalue/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $name - наименование значения параметра
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках
@@ -16,7 +17,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- view/example/backend/template/news/addctg/center.php -->
+<!-- Начало шаблона view/example/backend/template/filter/editvalue/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -26,7 +27,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Новая категория</h1>
+<h1>Редактирование значения</h1>
 
 <?php if (!empty($errorMessage)): ?>
     <ul>
@@ -37,30 +38,18 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name        = '';
-    $keywords    = '';
-    $description = '';
+    $name = htmlspecialchars($name);
 
     if (isset($savedFormData)) {
-        $name        = htmlspecialchars($savedFormData['name']);
-        $keywords    = htmlspecialchars($savedFormData['keywords']);
-        $description = htmlspecialchars($savedFormData['description']);
+        $name = htmlspecialchars($savedFormData['name']);
     }
 ?>
 
 <form action="<?php echo $action; ?>" method="post">
-<div id="add-edit-category">
+<div id="add-edit-value">
     <div>
         <div>Наименование</div>
-        <div><input type="text" name="name" maxlength="250" value="<?php echo $name; ?>" /></div>
-    </div>
-    <div>
-        <div>Ключевые слова (meta)</div>
-        <div><input type="text" name="keywords" maxlength="250" value="<?php echo $keywords; ?>" /></div>
-    </div>
-    <div>
-        <div>Описание (meta)</div>
-        <div><input type="text" name="description" maxlength="250" value="<?php echo $description; ?>" /></div>
+        <div><input type="text" name="name" maxlength="100" value="<?php echo $name; ?>" /></div>
     </div>
     <div>
         <div></div>
@@ -68,3 +57,5 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 </form>
+
+<!-- Конец шаблона шаблона view/example/backend/template/filter/editvalue/center.php -->

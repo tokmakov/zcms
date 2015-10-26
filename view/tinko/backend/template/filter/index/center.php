@@ -1,7 +1,7 @@
 <?php
 /**
  * Главная старница фильтра товаров,
- * файл view/example/backend/template/admin/filter/index/center.php,
+ * файл view/example/backend/template/filter/index/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -10,7 +10,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/admin/filter/index/center.php -->
+<!-- Начало шаблона view/example/backend/template/filter/index/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -63,4 +63,4 @@ defined('ZCMS') or die('Access denied');
     <p>Нет значений</p>
 <?php endif; ?>
 
-<!-- Конец шаблона шаблона view/example/backend/template/admin/filter/index/center.php -->
+<!-- Конец шаблона шаблона view/example/backend/template/filter/index/center.php -->

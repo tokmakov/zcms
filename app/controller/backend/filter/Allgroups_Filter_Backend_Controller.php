@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Allgroups_Filter_Backend_Controller формирует страницу со списком
- * функциональных групп, gолучает данные от модели Filter_Backend_Model,
+ * функциональных групп, получает данные от модели Filter_Backend_Model,
  * административная часть сайта
  */
 class Allgroups_Filter_Backend_Controller extends Filter_Backend_Controller {
@@ -43,7 +43,7 @@ class Allgroups_Filter_Backend_Controller extends Filter_Backend_Controller {
             // хлебные крошки
             'breadcrumbs'   => $breadcrumbs,
             // URL сводной страницы фильтра товаров
-            'filterPageUrl'   => $this->filterBackendModel->getURL('backend/filter/index'),
+            'filterPageUrl' => $this->filterBackendModel->getURL('backend/filter/index'),
             // URL страницы со списком всех функциональных групп
             'groupsPageUrl' => $this->filterBackendModel->getURL('backend/filter/allgroups'),
             // URL страницы со списком всех параметров подбора

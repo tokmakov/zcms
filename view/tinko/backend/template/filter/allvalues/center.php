@@ -1,7 +1,7 @@
 <?php
 /**
  * Страница со списком всех значений параметров подбора,
- * файл view/example/backend/template/admin/filter/allvalues/center.php,
+ * файл view/example/backend/template/filter/allvalues/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -10,7 +10,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/admin/filter/allvalues/center.php -->
+<!-- Начало шаблона view/example/backend/template/filter/allvalues/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -41,4 +41,4 @@ defined('ZCMS') or die('Access denied');
     <p>Нет значений</p>
 <?php endif; ?>
 
-<!-- Конец шаблона шаблона view/example/backend/template/admin/filter/allvalues/center.php -->
+<!-- Конец шаблона шаблона view/example/backend/template/filter/allvalues/center.php -->

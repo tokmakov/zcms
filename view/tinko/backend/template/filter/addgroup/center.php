@@ -1,12 +1,13 @@
 <?php
 /**
- * Форма для добавления категории,
- * файл view/example/backend/template/news/addctg/center.php,
+ * Старница с формой для добавления новой функциональной группы,
+ * файл view/example/backend/template/filter/addgroup/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $allParams - массив всех параметров подбора
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках
@@ -16,7 +17,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- view/example/backend/template/news/addctg/center.php -->
+<!-- Начало шаблона view/example/backend/template/filter/addgroup/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -26,7 +27,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Новая категория</h1>
+<h1>Новая группа</h1>
 
 <?php if (!empty($errorMessage)): ?>
     <ul>
@@ -37,30 +38,32 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name        = '';
-    $keywords    = '';
-    $description = '';
+    $name = '';
+    $params = array();
 
     if (isset($savedFormData)) {
-        $name        = htmlspecialchars($savedFormData['name']);
-        $keywords    = htmlspecialchars($savedFormData['keywords']);
-        $description = htmlspecialchars($savedFormData['description']);
+        $name = htmlspecialchars($savedFormData['name']);
+        $params = $savedFormData['params'];
     }
 ?>
 
 <form action="<?php echo $action; ?>" method="post">
-<div id="add-edit-category">
+<div id="add-edit-group">
     <div>
         <div>Наименование</div>
-        <div><input type="text" name="name" maxlength="250" value="<?php echo $name; ?>" /></div>
+        <div><input type="text" name="name" maxlength="100" value="<?php echo $name; ?>" /></div>
     </div>
     <div>
-        <div>Ключевые слова (meta)</div>
-        <div><input type="text" name="keywords" maxlength="250" value="<?php echo $keywords; ?>" /></div>
-    </div>
-    <div>
-        <div>Описание (meta)</div>
-        <div><input type="text" name="description" maxlength="250" value="<?php echo $description; ?>" /></div>
+        <div>Параметры</div>
+        <div>
+        <?php if (!empty($allParams)): ?>
+            <ul>
+            <?php foreach ($allParams as $item): ?>
+                <li><input type="checkbox" name="params[<?php echo $item['id']; ?>]"<?php echo in_array($item['id'], $params) ? ' checked="checked"' : ''; ?> value="1" /> <?php echo $item['name']; ?></li>
+            <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        </div>
     </div>
     <div>
         <div></div>
@@ -68,3 +71,5 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 </form>
+
+<!-- Конец шаблона шаблона view/example/backend/template/filter/addgroup/center.php -->
