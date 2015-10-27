@@ -5,6 +5,13 @@
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
+ * $breadcrumbs - хлебные крошки
+ * $filterPageUrl - URL сводной страницы фильтра товаров
+ * $groupsPageUrl - URL страницы со списком всех функциональных групп
+ * $paramsPageUrl - URL страницы со списком всех параметров подбора
+ * $valuesPageUrl - URL страницы со списком всех значений параметров
+ * $addParamUrl - URL страницы с формой для добавления нового параметра
+ * $params - массив параметров подбора
  */
 
 defined('ZCMS') or die('Access denied');
@@ -31,12 +38,21 @@ defined('ZCMS') or die('Access denied');
 <div style="border-top: 1px solid #000; margin-top: -1px;"></div>
 
 <h2>Параметры</h2>
+<p><a href="<?php echo $addParamUrl; ?>">Добавить параметр</a></p>
 <?php if (!empty($params)): ?>
-    <ul>
-    <?php foreach ($params as $item): ?>
-        <li><?php echo $item['name']; ?></li>
-    <?php endforeach; ?>
-    </ul>
+    <div id="all-params">
+        <ul>
+            <?php foreach($params as $item) : ?>
+                <li>
+                    <div><?php echo $item['name']; ?></div>
+                    <div>
+                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 <?php else: ?>
     <p>Нет параметров</p>
 <?php endif; ?>

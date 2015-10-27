@@ -396,7 +396,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
                       `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`image` AS `image`,
+                      `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
                   FROM
@@ -731,7 +731,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает количество лидеров продаж в категории $id и ее потомках,
      * с учетом фильтров по функциональной группе, производителю и т.п.
      */
-    public function getCountHit($id, $group = 0, $maker = 0, $new = 0, $param = array()) {
+    public function getCountHit($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -743,13 +743,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
-                      AND `a`.`hit` = 1
                       AND `a`.`visible` = 1";
         if ($group) { // фильтр по функциональной группе
             $query = $query . " AND `a`.`group` = " . $group;
         }
         if ($maker) { // фильтр по производителю
             $query = $query . " AND `a`.`maker` = " . $maker;
+        }
+        if ( ! $hit) {
+            $query = $query . " AND `a`.`hit` = 1";
         }
         if ($new) { // фильтр по новинкам
             $query = $query . " AND `a`.`new` = 1";
@@ -768,7 +770,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает количество новинок в категории $id и ее потомках, с
      * учетом фильтров по функциональной группе, производителю и т.п.
      */
-    public function getCountNew($id, $group = 0, $maker = 0, $hit = 0, $param = array()) {
+    public function getCountNew($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -780,7 +782,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
-                      AND `a`.`new` = 1
                       AND `a`.`visible` = 1";
         if ($group) { // фильтр по функциональной группе
             $query = $query . " AND `a`.`group` = " . $group;
@@ -790,6 +791,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         if ($hit) { // фильтр по лидерам продаж
             $query = $query . " AND `a`.`hit` = 1";
+        }
+        if ( ! $new) {
+            $query = $query . " AND `a`.`new` = 1";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
             $ids = $this->getProductsByParam($param);

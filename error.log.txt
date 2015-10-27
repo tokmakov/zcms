@@ -56,3 +56,39 @@
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+27.10.2015 09:05:27
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/2/hit/1/param/3.4/sort/1
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#3 {main}
+
+27.10.2015 09:07:02
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/2/hit/1/param/3.5/sort/1
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#3 {main}
+
+27.10.2015 09:09:57
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/2/hit/1/param/3.5/sort/1
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#3 {main}
+
+27.10.2015 10:08:11
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/2/hit/1/param/3.4/sort/1
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 134
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(110): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
+#3 {main}
+

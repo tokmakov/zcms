@@ -169,11 +169,15 @@ class Catalog_Backend_Model extends Backend_Model {
      * Возвращает информацию о товаре с уникальным идентификатором $id
      */
     public function getProduct($id) {
-        $query = "SELECT `category`, `category2`, `maker`, `code`, `name`, `title`, `keywords`,
-                         `description`, `shortdescr`, `purpose`, `techdata`, `features`, `complect`,
-                         `equipment`, `price`, `unit`, `image`, `sortorder`
-                  FROM `products`
-                  WHERE `id` = :id";
+        $query = "SELECT
+                      `category`, `category2`, `group`, `maker`, `code`, `name`, `title`,
+                      `keywords`, `description`, `shortdescr`, `purpose`, `techdata`,
+                      `features`, `complect`, `equipment`, `price`, `unit`, `image`,
+                      `sortorder`
+                  FROM
+                      `products`
+                  WHERE
+                      `id` = :id";
         $res = $this->database->fetch($query, array('id' => $id));
         if (false === $res) {
             return null;
@@ -207,6 +211,7 @@ class Catalog_Backend_Model extends Backend_Model {
                   (
                       `category`,
                       `category2`,
+                      `group`,
                       `maker`,
                       `code`,
                       `name`,
@@ -228,6 +233,7 @@ class Catalog_Backend_Model extends Backend_Model {
                   (
                       :category,
                       :category2,
+                      :group,
                       :maker,
                       :code,
                       :name,
@@ -306,6 +312,7 @@ class Catalog_Backend_Model extends Backend_Model {
 
         $query = "UPDATE `products` SET
                       `category2` = :category2,
+                      `group` = :group,
                       `maker` = :maker,
                       `code` = :code,
                       `name` = :name,
@@ -410,9 +417,12 @@ class Catalog_Backend_Model extends Backend_Model {
      * Функция удаляет файл изображения товара с уникальным идентификатором $id
      */
     private function removeProductImage($id) {
-        $query = "SELECT `image`
-                  FROM `products`
-                  WHERE `id` = :id";
+        $query = "SELECT
+                      `image`
+                  FROM
+                      `products`
+                  WHERE
+                      `id` = :id";
         $image = $this->database->fetchOne($query, array('id' => $id));
         if (empty($image)) {
             return;
@@ -426,9 +436,12 @@ class Catalog_Backend_Model extends Backend_Model {
         if (is_file('./files/catalog/imgs/small/' . $image)) {
             unlink('./files/catalog/imgs/small/' . $image);
         }
-        $query = "UPDATE `products`
-                  SET `image` = ''
-                  WHERE `id` = :id";
+        $query = "UPDATE
+                      `products`
+                  SET
+                      `image` = ''
+                  WHERE
+                      `id` = :id";
         $this->database->execute($query, array('id' => $id));
     }
 
@@ -447,12 +460,15 @@ class Catalog_Backend_Model extends Backend_Model {
                     continue;
                 }
                 $title = trim(utf8_substr($_POST['update_doc_titles'][$i], 0, 120));
-                if (empty( $title)) {
+                if (empty($title)) {
                     continue;
                 }
-                $query = "UPDATE `docs`
-                          SET `title` = :title
-                          WHERE `id` = :id";
+                $query = "UPDATE
+                              `docs`
+                          SET
+                              `title` = :title
+                          WHERE
+                              `id` = :id";
                 $this->database->execute($query, array('title' => $title, 'id' => $_POST['update_doc_ids'][$i]));
             }
         }
@@ -466,7 +482,8 @@ class Catalog_Backend_Model extends Backend_Model {
                           FROM
                               `docs` `a` INNER JOIN `doc_prd` `b`
                               ON `a`.`id`=`b`.`doc_id`
-                          WHERE `b`.`doc_id` = :doc_id AND `b`.`prd_id` = :prd_id";
+                          WHERE
+                              `b`.`doc_id` = :doc_id AND `b`.`prd_id` = :prd_id";
                 $fileName = $this->database->fetchOne($query, array('prd_id' => $id, 'doc_id' => $doc_id));
                 if (false === $fileName) {
                     continue;
@@ -516,9 +533,12 @@ class Catalog_Backend_Model extends Backend_Model {
             $title = trim(utf8_substr($_POST['add_doc_titles'][$i], 0, 120));
             // сумма md5 загружаемого файла; нам надо проверить - есть уже такой файл?
             $md5 = md5_file($_FILES['add_doc_files']['tmp_name'][$i]);
-            $query = "SELECT `id`
-                      FROM `docs`
-                      WHERE `md5` = :md5";
+            $query = "SELECT
+                          `id`
+                      FROM
+                          `docs`
+                      WHERE
+                          `md5` = :md5";
             $res = $this->database->fetchOne($query, array('md5' => $md5));
             if (false === $res) { // такого файла еще нет
                 $name = md5(uniqid(rand(), true)) . '.' . $ext;
@@ -582,17 +602,27 @@ class Catalog_Backend_Model extends Backend_Model {
     public function moveProductDown($id) {
         $id_item_down = $id;
         // порядок следования товара, которая опускается вниз
-        $query = "SELECT `sortorder`, `category` FROM `products` WHERE `id` = :id_item_down";
+        $query = "SELECT
+                      `sortorder`, `category`
+                  FROM
+                      `products`
+                  WHERE
+                      `id` = :id_item_down";
         $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
         $order_down = $res['sortorder'];
         $parent = $res['category'];
         // порядок следования и id товара, который находится ниже и будет поднят вверх,
         // поменявшись местами с товаром, который опускается вниз
-        $query = "SELECT `id`, `sortorder`
-                  FROM `products`
-                  WHERE `category` = :parent AND `sortorder` > :order_down
-                  ORDER BY `sortorder`
-                  LIMIT 1";
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `products`
+                  WHERE
+                      `category` = :parent AND `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
         if (is_array($res)) {
             $id_item_up = $res['id'];
@@ -617,11 +647,16 @@ class Catalog_Backend_Model extends Backend_Model {
         $parent = $res['category'];
         // порядок следования и id товара, который находится выше и будет опущен вниз,
         // поменявшись местами с товаром, который поднимается вверх
-        $query = "SELECT `id`, `sortorder`
-                  FROM `products`
-                  WHERE `category` = :parent AND `sortorder` < :order_up
-                  ORDER BY `sortorder` DESC
-                  LIMIT 1";
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `products`
+                  WHERE
+                      `category` = :parent AND `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_up' => $order_up));
         if (is_array($res)) {
             $id_item_down = $res['id'];
@@ -639,9 +674,12 @@ class Catalog_Backend_Model extends Backend_Model {
      * Функция возвращает информацию о категории с уникальным идентификатором $id
      */
     public function getCategory($id) {
-        $query = "SELECT `parent`, `name`, `keywords`, `description`
-                  FROM `categories`
-                  WHERE `id` = :id";
+        $query = "SELECT
+                      `parent`, `name`, `keywords`, `description`
+                  FROM
+                      `categories`
+                  WHERE
+                      `id` = :id";
         $res = $this->database->fetch($query, array('id' => $id));
         if (false === $res) {
             return null;
@@ -778,19 +816,27 @@ class Catalog_Backend_Model extends Backend_Model {
     public function moveCategoryDown($id) {
         $id_item_down = $id;
         // порядок следования категории, которая опускается вниз
-        $query = "SELECT `sortorder`, `parent`
-                  FROM `categories`
-                  WHERE `id` = :id_item_down";
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `categories`
+                  WHERE
+                      `id` = :id_item_down";
         $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
         $order_down = $res['sortorder'];
         $parent = $res['parent'];
         // порядок следования и id категории, которая находится ниже и будет поднята вверх,
         // поменявшись местами с категорией, которая опускается вниз
-        $query = "SELECT `id`, `sortorder`
-                  FROM `categories`
-                  WHERE `parent` = :parent AND `sortorder` > :order_down
-                  ORDER BY `sortorder`
-                  LIMIT 1";
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = :parent AND `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
         if (is_array($res)) {
             $id_item_up = $res['id'];
@@ -812,19 +858,27 @@ class Catalog_Backend_Model extends Backend_Model {
     public function moveCategoryUp($id) {
         $id_item_up = $id;
         // порядок следования категории, которая поднимается вверх
-        $query = "SELECT `sortorder`, `parent`
-                  FROM `categories`
-                  WHERE `id` = :id_item_up";
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `categories`
+                  WHERE
+                      `id` = :id_item_up";
         $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
         $order_up = $res['sortorder'];
         $parent = $res['parent'];
         // порядок следования и id категории, которая находится выше и будет опущена вниз,
         // поменявшись местами с категорией, которая поднимается вверх
-        $query = "SELECT `id`, `sortorder`
-                  FROM `categories`
-                  WHERE `parent` = :parent AND `sortorder` < :order_up
-                  ORDER BY `sortorder` DESC
-                  LIMIT 1";
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = :parent AND `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_up' => $order_up));
         if (is_array($res)) {
             $id_item_down = $res['id'];
@@ -1017,10 +1071,14 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function removeMaker($id) {
         // если есть товары этого производителя
-        $query = "UPDATE `products` SET `maker` = 0 WHERE `maker` = :id";
-        $this->database->execute($query, array('id' => $id));
+        $query = "SELECT 1 FROM `products` WHERE `maker` = :id LIMIT 1";
+        $res = $this->database->fetchOne($query, array('id' => $id));
+        if ($res) {
+            return false;
+        }
         // удаляем производителя
         $query = "DELETE FROM `makers` WHERE `id` = :id";
         $this->database->execute($query, array('id' => $id));
+        return true;
     }
 }

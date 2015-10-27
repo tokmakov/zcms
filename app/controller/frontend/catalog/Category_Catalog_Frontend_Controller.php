@@ -185,10 +185,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $params = $this->catalogFrontendModel->getGroupParams($this->params['id'], $group, $maker, $hit, $new, $param);
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountHit($this->params['id'], $group, $maker, $new, $param);
+        $countHit = $this->catalogFrontendModel->getCountHit($this->params['id'], $group, $maker, $hit, $new, $param);
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountNew($this->params['id'], $group, $maker, $hit, $param);
+        $countNew = $this->catalogFrontendModel->getCountNew($this->params['id'], $group, $maker, $hit, $new, $param);
 
         // постраничная навигация
         $page = 1;

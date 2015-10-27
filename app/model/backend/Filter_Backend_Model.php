@@ -1,19 +1,19 @@
 <?php
 /**
- * Класс Filter_Backend_Model для работы с главным фильтром товаров,
+ * Класс Filter_Backend_Model для работы с фильтром товаров,
  * взаимодействует с базой данных, административная часть сайта
  */
 class Filter_Backend_Model extends Backend_Model {
 
-	public function __construct() {
-		parent::__construct();
-	}
+    public function __construct() {
+        parent::__construct();
+    }
 
-	/**
-	 * Функция возвращает массив всех функциональных групп
-	 */
-	public  function getGroups($limit = 0) {
-		$query = "SELECT
+    /**
+     * Функция возвращает массив всех функциональных групп
+     */
+    public function getAllGroups() {
+        $query = "SELECT
                       `id`, `name`
                   FROM
                       `groups`
@@ -21,17 +21,21 @@ class Filter_Backend_Model extends Backend_Model {
                       1
                   ORDER BY
                       `name`";
-        if ($limit) {
-            $query = $query . " LIMIT " . $limit;
+        $groups = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок для редактирования и удаления
+        foreach($groups as $key => $value) {
+            $groups[$key]['url'] = array(
+                'edit'   => $this->getURL('backend/filter/editgroup/id/' . $value['id']),
+                'remove' => $this->getURL('backend/filter/rmvgroup/id/' . $value['id'])
+            );
         }
-		$groups = $this->database->fetchAll($query);
-		return $groups;
-	}
+        return $groups;
+    }
 
     /**
      * Функция возвращает массив всех параметров подбора
      */
-    public  function getParams($limit = 0) {
+    public function getAllParams() {
         $query = "SELECT
                       `id`, `name`
                   FROM
@@ -40,17 +44,21 @@ class Filter_Backend_Model extends Backend_Model {
                       1
                   ORDER BY
                       `name`";
-        if ($limit) {
-            $query = $query . " LIMIT " . $limit;
-        }
         $params = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок для редактирования и удаления
+        foreach($params as $key => $value) {
+            $params[$key]['url'] = array(
+                'edit'   => $this->getURL('backend/filter/editparam/id/' . $value['id']),
+                'remove' => $this->getURL('backend/filter/rmvparam/id/' . $value['id'])
+            );
+        }
         return $params;
     }
 
     /**
      * Функция возвращает массив всех значений параметров
      */
-    public  function getValues($limit = 0) {
+    public function getAllValues() {
         $query = "SELECT
                       `id`, `name`
                   FROM
@@ -59,17 +67,69 @@ class Filter_Backend_Model extends Backend_Model {
                       1
                   ORDER BY
                       `name`";
-        if ($limit) {
-            $query = $query . " LIMIT " . $limit;
-        }
         $values = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок для редактирования и удаления
+        foreach($values as $key => $value) {
+            $values[$key]['url'] = array(
+                'edit'   => $this->getURL('backend/filter/editvalue/id/' . $value['id']),
+                'remove' => $this->getURL('backend/filter/rmvvalue/id/' . $value['id'])
+            );
+        }
         return $values;
+    }
+
+    /**
+     * Функция возвращает массив всех функциональных групп
+     * для сводной страницы фильтра товаров
+     */
+    public function getGroups() {
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `groups`
+                  WHERE
+                      1
+                  ORDER BY
+                      `name`";
+        return $this->database->fetchAll($query);
+    }
+
+    /**
+     * Функция возвращает массив всех параметров подбора
+     * для сводной страницы фильтра товаров
+     */
+    public function getParams() {
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `params`
+                  WHERE
+                      1
+                  ORDER BY
+                      `name`";
+        return $this->database->fetchAll($query);
+    }
+
+    /**
+     * Функция возвращает массив всех значений параметров
+     * для сводной страницы фильтра товаров
+     */
+    public function getValues() {
+        $query = "SELECT
+                      `name`
+                  FROM
+                      `values`
+                  WHERE
+                      1
+                  ORDER BY
+                      `name`";
+        return $this->database->fetchAll($query);
     }
 
     /**
      * Функция добавляет новую функциональную группу
      */
-    public  function addGroup($data) {
+    public function addGroup($data) {
         $query = "INSERT INTO `groups`
                   (
                       `name`
@@ -156,6 +216,29 @@ class Filter_Backend_Model extends Backend_Model {
     }
 
     /**
+     * Функция удаляет функциональную группу
+     */
+    public function removeGroup($id) {
+        $query = "UPDATE
+                      `products`
+                  SET
+                      `group` = 0
+                  WHERE
+                      `group` = :group_id";
+        $this->database->execute($query, array('group_id' => $id));
+        $query = "DELETE FROM
+                      `group_param`
+                  WHERE
+                      `group_id` = :group_id";
+        $this->database->execute($query, array('group_id' => $id));
+        $query = "DELETE FROM
+                      `groups`
+                  WHERE
+                      `id` = :group_id";
+        $this->database->execute($query, array('group_id' => $id));
+    }
+
+    /**
      * Функция возвращает информацию о параметре с уникальным идентификатором $id
      */
     public function getParam($id) {
@@ -201,7 +284,28 @@ class Filter_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция возвращает информацию о значении параметра $id
+     * Функция удаляет параметр подбора
+     */
+    public function removeParam($id) {
+        $query = "DELETE FROM
+                      `group_param`
+                  WHERE
+                      `param_id` = :param_id";
+        $this->database->execute($query, array('param_id' => $id));
+        $query = "DELETE FROM
+                      `product_param_value`
+                  WHERE
+                      `param_id` = :param_id";
+        $this->database->execute($query, array('param_id' => $id));
+        $query = "DELETE FROM
+                      `params`
+                  WHERE
+                      `id` = :param_id";
+        $this->database->execute($query, array('param_id' => $id));
+    }
+
+    /**
+     * Функция возвращает информацию о значении параметра
      */
     public function getvalue($id) {
         $query = "SELECT
@@ -243,6 +347,22 @@ class Filter_Backend_Model extends Backend_Model {
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
+    }
+
+    /**
+     * Функция удаляет значение параметра подбора
+     */
+    public function removeValue($id) {
+        $query = "DELETE FROM
+                      `product_param_value`
+                  WHERE
+                      `value_id` = :value_id";
+        $this->database->execute($query, array('value_id' => $id));
+        $query = "DELETE FROM
+                      `values`
+                  WHERE
+                      `id` = :value_id";
+        $this->database->execute($query, array('value_id' => $id));
     }
 
 }

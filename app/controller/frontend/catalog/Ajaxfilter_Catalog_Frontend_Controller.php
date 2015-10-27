@@ -59,7 +59,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
         }
         // если была выбрана новая функциональная группа, переданные параметры
         // подбора учитывать не надо, потому как у новой группы они будут другие
-        if (isset($_POST['change']) && $_POST['change'] == '1') {
+        if (isset($_POST['change']) && $_POST['change'] == 1) {
             $param = array();
         }
         $sort = 0; // сортировка
@@ -83,10 +83,10 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
         $params = $this->catalogFrontendModel->getGroupParams($this->params['category'], $group, $maker, $hit, $new, $param);
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountHit($this->params['category'], $group, $maker, $new, $param);
+        $countHit = $this->catalogFrontendModel->getCountHit($this->params['category'], $group, $maker, $hit, $new, $param);
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountNew($this->params['category'], $group, $maker, $hit, $param);
+        $countNew = $this->catalogFrontendModel->getCountNew($this->params['category'], $group, $maker, $hit, $new, $param);
 
         // постраничная навигация
         $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['category'], $group, $maker, $hit, $new, $param);

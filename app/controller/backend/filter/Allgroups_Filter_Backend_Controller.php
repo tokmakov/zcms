@@ -34,7 +34,7 @@ class Allgroups_Filter_Backend_Controller extends Filter_Backend_Controller {
         );
 
         // получаем от модели массив всех функциональных групп
-        $groups = $this->filterBackendModel->getGroups();
+        $groups = $this->filterBackendModel->getAllGroups();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -50,6 +50,8 @@ class Allgroups_Filter_Backend_Controller extends Filter_Backend_Controller {
             'paramsPageUrl' => $this->filterBackendModel->getURL('backend/filter/allparams'),
             // URL страницы со списком всех значений параметров
             'valuesPageUrl' => $this->filterBackendModel->getURL('backend/filter/allvalues'),
+            // URL страницы с формой для добавления новой группы
+            'addGroupUrl'   => $this->filterBackendModel->getURL('backend/filter/addgroup'),
             // массив функциональных групп
             'groups'        => $groups,
         );

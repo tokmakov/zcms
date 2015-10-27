@@ -34,7 +34,7 @@ class Allvalues_Filter_Backend_Controller extends Filter_Backend_Controller {
         );
 
         // получаем от модели массив всех значений параметров подбора
-        $values = $this->filterBackendModel->getValues();
+        $values = $this->filterBackendModel->getAllValues();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -50,6 +50,8 @@ class Allvalues_Filter_Backend_Controller extends Filter_Backend_Controller {
             'paramsPageUrl' => $this->filterBackendModel->getURL('backend/filter/allparams'),
             // URL страницы со списком всех значений параметров
             'valuesPageUrl' => $this->filterBackendModel->getURL('backend/filter/allvalues'),
+            // URL страницы с формой для добавления нового значения параметра
+            'addValueUrl'   => $this->filterBackendModel->getURL('backend/filter/addvalue'),
             // массив значений параметров подбора
             'values'        => $values,
         );

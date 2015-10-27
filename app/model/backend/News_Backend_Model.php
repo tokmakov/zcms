@@ -353,7 +353,7 @@ class News_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет категорию (запись в таблице news_ctgs базы данных)
+     * Функция удаляет категорию (запись в таблице news_ctgs базы данных)
      */
     public function removeCategory($id) {
         // проверяем, что не существует новостей этой категории

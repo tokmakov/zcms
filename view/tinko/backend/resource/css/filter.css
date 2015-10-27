@@ -36,6 +36,104 @@ ul#filter {
         clear: both;
     }
 
+/* сводная страница */
+#index-filter {
+
+}
+
+    #index-filter ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+
+/* список всех функциональных групп */
+#all-groups {
+    overflow: hidden;
+}
+    #all-groups > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+        #all-groups > ul > li {
+            overflow: hidden;
+            padding: 4px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #fff;
+        }
+            #all-groups > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-groups > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* список всех параметров подбора */
+#all-params {
+    overflow: hidden;
+}
+    #all-params > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+        #all-params > ul > li {
+            overflow: hidden;
+            padding: 4px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #fff;
+        }
+            #all-params > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-params > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* список всех значений параметров подбора */
+#all-values {
+    overflow: hidden;
+}
+    #all-values > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+        #all-values > ul > li {
+            overflow: hidden;
+            padding: 4px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #fff;
+        }
+            #all-values > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-values > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
 /* форма для добавления/редактирования функциональной группы */
 #add-edit-group {
     overflow: hidden;

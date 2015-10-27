@@ -185,55 +185,103 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 56. категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/param/$4/page/$5',
-        // 57. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка
+        // 57. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/new/1/param/$3',
+        // 58. категория каталога, фильтр по функционалу, лидеры продаж, новинка, сортировка
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/new/1/sort/$3',
+        // 59. категория каталога, фильтр по функционалу, лидеры продаж, новинки, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/new/1/page/$3',
+        // 60. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, сортировка
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/param/$3/sort/$4',
+        // 61. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/param/$3/page/$4',
+        // 62. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/sort/$3/page/$4',
+        // 63. категория каталога, фильтр по функционалу, новинка, фильтр по параметрам, сортировка
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'catalog/category/$1/group/$2/new/1/param/$3/sort/$4',
+        // 64. категория каталога, фильтр по функционалу, новинка, фильтр по параметрам, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/new/1/param/$3/page/$4',
+        // 65. категория каталога, фильтр по функционалу, новинка, сортировка, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/new/1/sort/$3/page/$4',
+        // 66. категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/param/$3/sort/$4/page/$5',
+        // 67. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка
         '~^frontend/catalog/category/id/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
         'catalog/category/$1/maker/$2/hit/1/new/1/sort/$3',
-        // 58. категория каталога, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
+        // 68. категория каталога, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/maker/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
         'catalog/category/$1/maker/$2/hit/1/new/1/page/$3',
-        // 59. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам
+        // 69. категория каталога, фильтр по производителю, новинки, сортировка, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/maker/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/maker/$2/new/1/sort/$3/page/$4',
+        // 70. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4',
-        // 60. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка
+        // 71. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/sort/$4',
-        // 61. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
+        // 72. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/page/$4',
-        // 62. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, постраничная навигация
+        // 73. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/param/$4/page/$5',
-        // 63. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
+        // 74. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/new/1/param/$4/sort/$5',
-        // 64. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
+        // 75. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/new/1/param/$4/page/$5',
-        // 65. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, сортировка, постраничная навигация
+        // 76. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/new/1/sort/$4/page/$5',
-        // 66. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
+        // 77. категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/maker/$3/param/$4/sort/$5/page/$6',
+        // 78. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/new/1/param/$3/sort/$4',
+        // 79. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/new/1/param/$3/page/$4',
+        // 80. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/hit/1/param/$3/sort/$4/page/$5',
+        // 81. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
+        '~^frontend/catalog/category/id/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/category/$1/group/$2/new/1/param/$3/sort/$4/page/$5',
+        // 82. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/maker/$2/hit/1/new/1/sort/$3/page/$4',
-        // 67. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка
+        // 83. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5',
-        // 68. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
+        // 84. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4/page/$5',
-        // 69. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
+        // 85. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/sort/$4/page/$5',
-        // 70. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
+        // 86. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/param/$4/sort/$5/page/$6',
-        // 71. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 87. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/new/1/param/$4/sort/$5/page/$6',
-        // 72. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 88. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/hit/1/new/1/param/$3/sort/$4/page/$5',
-        // 73. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 89. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
 
@@ -444,7 +492,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         2. category/maker
         3. category/hit
         4. category/new
-        *category/param
         5. category/sort
         6. category/page
 
@@ -456,18 +503,13 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         12. category/group/page
         13. category/maker/hit
         14. category/maker/new
-        *category/maker/param
         15. category/maker/sort
         16. category/maker/page
         17. category/hit/new
-        *category/hit/param
         18. category/hit/sort
         19. category/hit/page
-        *category/new/param
         20. category/new/sort
         21. category/new/page
-        *category/param/sort
-        *category/param/page
         22. category/sort/page
 
         23. category/group/maker/hit
@@ -486,25 +528,15 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         36. category/group/param/page
         37. category/group/sort/page
         38. category/maker/hit/new
-        *category/maker/hit/param
         39. category/maker/hit/sort
         40. category/maker/hit/page
-        *category/maker/new/param
         41. category/maker/new/sort
         42. category/maker/new/page
-        *category/maker/param/sort
-        *category/maker/param/page
         43. category/maker/sort/page
-        *category/hit/new/param
         44. category/hit/new/sort
         45. category/hit/new/page
-        *category/hit/param/sort
-        *category/hit/param/page
         46. category/hit/sort/page
-        *category/new/param/sort
-        *category/new/param/page
         47. category/new/sort/page
-        *category/param/sort/page
 
         48. category/group/maker/hit/new
         49. category/group/maker/hit/param
@@ -515,38 +547,42 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         54. category/group/maker/new/page
         55. category/group/maker/param/sort
         56. category/group/maker/param/page
-        *category/maker/hit/new/param
-        57. category/maker/hit/new/sort
-        58. category/maker/hit/new/page
-        *category/maker/new/param/sort
-        *category/maker/new/param/page
-        *category/maker/param/sort/page
-        *category/hit/new/param/sort
-        *category/hit/new/param/page
-        *category/new/param/sort/page
+        57. category/group/hit/new/param
+        58. category/group/hit/new/sort
+        59. category/group/hit/new/page
+        60. category/group/hit/param/sort
+        61. category/group/hit/param/page
+        62. category/group/hit/sort/page
+        63. category/group/new/param/sort
+        64. category/group/new/param/page
+        65. category/group/new/sort/page
+        66. category/group/param/sort/page
+        67. category/maker/hit/new/sort
+        68. category/maker/hit/new/page
+        69. category/maker/new/sort/page
 
-        59. category/group/maker/hit/new/param
-        60. category/group/maker/hit/new/sort
-        61. category/group/maker/hit/new/page
-        62. category/group/maker/hit/param/page
-        63. category/group/maker/new/param/sort
-        64. category/group/maker/new/param/page
-        65. category/group/maker/new/sort/page
-        *category/maker/hit/new/param/sort
-        *category/maker/hit/new/param/page
-        66. category/maker/hit/new/sort/page
-        *category/maker/hit/param/sort/page
-        *category/maker/new/param/sort/page
+        70. category/group/maker/hit/new/param
+        71. category/group/maker/hit/new/sort
+        72. category/group/maker/hit/new/page
+        73. category/group/maker/hit/param/page
+        74. category/group/maker/new/param/sort
+        75. category/group/maker/new/param/page
+        76. category/group/maker/new/sort/page
+        77. category/group/maker/param/sort/page
+        78. category/group/hit/new/param/sort
+        79. category/group/hit/new/param/page
+        80. category/group/hit/param/sort/page
+        81. category/group/new/param/sort/page
+        82. category/maker/hit/new/sort/page
 
-        67. category/group/maker/hit/new/param/sort
-        68. category/group/maker/hit/new/param/page
-        69. category/group/maker/hit/new/sort/page
-        70. category/group/maker/hit/param/sort/page
-        71. category/group/maker/new/param/sort/page
-        72. category/group/hit/new/param/sort/page
-        *category/maker/hit/new/param/sort/page
+        83. category/group/maker/hit/new/param/sort
+        84. category/group/maker/hit/new/param/page
+        85. category/group/maker/hit/new/sort/page
+        86. category/group/maker/hit/param/sort/page
+        87. category/group/maker/new/param/sort/page
+        88. category/group/hit/new/param/sort/page
 
-        73. category/group/maker/hit/new/param/sort/page
+        89. category/group/maker/hit/new/param/sort/page
      */
 
     'sef2cap' => array( // Search Engines Friendly => Controller/Action/Params
@@ -732,55 +768,103 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 56. категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/param/$4/page/$5',
-        // 57. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка
+        // 57. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/param/$3',
+        // 58. категория каталога, фильтр по функционалу, лидеры продаж, новинки, сортировка
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/sort/$3',
+        // 59. категория каталога, фильтр по функционалу, лидеры продаж, новинки, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/page/$3',
+        // 60. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, сортировка
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/param/$3/sort/$4',
+        // 61. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/param/$3/page/$4',
+        // 62. категория каталога, фильтр по функционалу, лидеры продаж, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/sort/$3/page/$4',
+        // 63. категория каталога, фильтр по функционалу, новинки, фильтр по параметрам, сортировка
+        '~^catalog/category/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/new/1/param/$3/sort/$4',
+        // 64. категория каталога, фильтр по функционалу, новинки, фильтр по параметрам, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/new/1/param/$3/page/$4',
+        // 65. категория каталога, фильтр по функционалу, новинки, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/new/1/sort/$3/page/$4',
+        // 66. категория каталога, фильтр по функционалу, фильтр по параметрам, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/param/$3/sort/$4/page/$5',
+        // 67. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка
         '~^catalog/category/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
         'frontend/catalog/category/id/$1/maker//$2hit/1/new/1/sort/$3',
-        // 58. категория каталога, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
+        // 68. категория каталога, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
         '~^catalog/category/(\d+)/maker/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/maker/$2/hit/1/new/1/page/$3',
-        // 59. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам
+        // 69. категория каталога, фильтр по производителю, новинки, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/maker/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/maker/$2/new/1/sort/$3/page/$4',
+        // 70. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4',
-        // 60. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка
+        // 71. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/sort/$4',
-        // 61. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
+        // 72. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/page/$4',
-        // 62. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, постраничная навигация
+        // 73. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/param/$4/page/$5',
-        // 63. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
+        // 74. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/param/$4/sort/$5',
-        // 64. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
+        // 75. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/param/$4/page/$5',
-        // 65. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, сортировка, постраничная навигация
+        // 76. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/sort/$4/page/$5',
-        // 66. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
+        // 77. категория каталога, фильтр по функционалу, фильтр по производителю, фильтр по параметрам, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/maker/$3/param/$4/sort/$5/page/$6',
+        // 78. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/param/$3/sort/$4',
+        // 79. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/param/$3/page/$4',
+        // 80. категория каталога, фильтр по функционалу, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/hit/1/param/$3/sort/$4/page/$5',
+        // 81. категория каталога, фильтр по функционалу, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        '~^catalog/category/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/category/id/$1/group/$2/new/1/param/$3/sort/$4/page/$5',
+        // 82. категория каталога, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/maker/$2/hit/1/new/1/sort/$3/page/$4',
-        // 67. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка
+        // 83. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5',
-        // 68. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
+        // 84. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/page/$5',
-        // 69. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
+        // 85. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/sort/$4/page/$5',
-        // 70. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
+        // 86. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/param/$5/sort/$5/page/$6',
-        // 71. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 87. категория каталога, фильтр по функционалу, фильтр по производителю, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/new/1/param/$4/sort/$5/page/$6',
-        // 72. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 88. категория каталога, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/hit/1/new/1/param/$3/sort/$4/page/$5',
-        // 73. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
+        // 89. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
 

@@ -112,8 +112,8 @@ class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // были допущены ошибки при заполнении формы, сохраняем введенные
         // пользователем данные, чтобы после редиректа снова показать форму,
         // заполненную введенными ранее даннными и сообщением об ошибке
-        if (!empty($this->errorMessage)) {
-            $data['errorMessage'] = $this->errorMessage;
+        if (!empty($errorMessage)) {
+            $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addCatalogCategoryForm', $data);
             return false;
         }

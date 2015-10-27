@@ -70,6 +70,9 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // получаем от модели массив всех категорий, для возможности выбора родителя
         $categories = $this->catalogBackendModel->getAllCategories();
 
+        // получаем от модели массив всех функиональных групп, для возможности выбора
+        $groups = $this->filterBackendModel->getGroups();
+
         // получаем от модели массив всех производителей, для возможности выбора
         $makers = $this->catalogBackendModel->getMakers();
 
@@ -93,6 +96,8 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'category'    => $product['category'],    // родительская категория
             'category2'   => $product['category2'],   // дополнительная категория
             'categories'  => $categories,             // массив всех категорий, для возможности выбора родителя
+            'group'       => $product['group'],       // функциональная группа
+            'groups'      => $groups,                 // массив всех функциональных групп, для возможности выбора
             'maker'       => $product['maker'],       // уникальный идентификатор производителя
             'makers'      => $makers,                 // массив всех производителей, для возможности выбора
             'code'        => $product['code'],        // код (артикул) товара
@@ -173,32 +178,38 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // цена
         $data['price'] = 0.0;
         $temp = trim($_POST['price']);
-        if (preg_match('~^\d+(\.\d{1,2})?$~', $temp)) {
-            $data['price'] = $temp;
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price'] = (float)$temp;
         }
 
         // единица измерения
         $data['unit'] = 0;
         if (ctype_digit($_POST['unit']) && in_array($_POST['unit'], array(1,2,3,4,5))) {
-            $data['unit'] = $_POST['unit'];
+            $data['unit'] = (int)$_POST['unit'];
         }
 
         // родительская категория
         $data['category'] = 0;
         if (ctype_digit($_POST['category'])) {
-            $data['category'] = $_POST['category']; // новая родительская категория
+            $data['category'] = (int)$_POST['category']; // новая родительская категория
         }
 
         // дополнительная категория
         $data['category2'] = 0;
         if (ctype_digit($_POST['category2'])) {
-            $data['category2'] = $_POST['category2'];
+            $data['category2'] = (int)$_POST['category2'];
+        }
+
+        // функциональная группа
+        $data['group'] = 0;
+        if (ctype_digit($_POST['group'])) {
+            $data['group'] = (int)$_POST['group'];
         }
 
         // производитель
         $data['maker'] = 0;
         if (ctype_digit($_POST['maker'])) {
-            $data['maker'] = $_POST['maker'];
+            $data['maker'] = (int)$_POST['maker'];
         }
 
         // были допущены ошибки при заполнении формы?

@@ -33,13 +33,13 @@ class Index_Filter_Backend_Controller extends Filter_Backend_Controller {
         );
 
         // получаем от модели массив функциональных групп
-        $groups = $this->filterBackendModel->getGroups(10);
+        $groups = $this->filterBackendModel->getGroups();
 
         // получаем от модели массив параметров подбора
-        $params = $this->filterBackendModel->getParams(10);
+        $params = $this->filterBackendModel->getParams();
 
         // получаем от модели массив значений параметров
-        $values = $this->filterBackendModel->getValues(10);
+        $values = $this->filterBackendModel->getValues();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

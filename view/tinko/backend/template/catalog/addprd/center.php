@@ -9,6 +9,8 @@
  * $action - атрибут action тега form
  * $category - родительская категория товара по умолчанию
  * $categories - массив всех категорий, для возможности выбора родителя
+ * $group - функциональная группа по умолчанию
+ * $groups - массив всех функциональных групп, для возможности выбора
  * $maker - производитель по умолчанию
  * $makers - массив всех производителей, для возможности выбора
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
@@ -60,6 +62,7 @@ defined('ZCMS') or die('Access denied');
         $title       = htmlspecialchars($savedFormData['title']);
         $category    = $savedFormData['category'];
         $category2   = $savedFormData['category2'];
+        $group       = $savedFormData['group'];
         $maker       = $savedFormData['maker'];
         $keywords    = htmlspecialchars($savedFormData['keywords']);
         $description = htmlspecialchars($savedFormData['description']);
@@ -163,6 +166,19 @@ defined('ZCMS') or die('Access denied');
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div>Функциональная группа</div>
+        <div>
+            <select name="group">
+                <option value="0">Выберите</option>
+                <?php if (!empty($groups)): ?>
+                    <?php foreach ($groups as $item): ?>
+                        <option value="<?php echo $item['id']; ?>"<?php if ($item['id'] == $group) echo ' selected="selected"'; ?>><?php echo $item['name']; ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
