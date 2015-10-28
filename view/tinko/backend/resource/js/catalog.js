@@ -43,4 +43,19 @@ $(document).ready(function() {
             lastDocsRow.clone(true).insertBefore(lastDocsRow).show();
         }
     });
+
+    // подгружаем набор параметров для выбранной функциональной группы
+    $('#add-edit-product select[name="group"]').change(function () {
+        var group = $(this).val();
+        var product = $('#add-edit-product input[name="id"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '/backend/filter/ajaxparams',
+            dataType: 'html',
+            data: 'group=' + group + '&product=' + product,
+            success: function(html) {
+                $('#params-values').html(html);
+            },
+        });
+    });
 });

@@ -199,6 +199,10 @@ defined('ZCMS') or die('Access denied');
             </select>
         </div>
     </div>
+    <div id="params">
+        <div>Параметры и значения</div>
+        <div id="params-values"></div>
+    </div>
     <div>
         <div>Производитель</div>
         <div>
@@ -318,7 +322,7 @@ defined('ZCMS') or die('Access denied');
         </div>
     </div>
     <div>
-        <div></div>
+        <div><input type="hidden" name="id" value="<?php echo $id; ?>" /></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>
     </div>
 </div>

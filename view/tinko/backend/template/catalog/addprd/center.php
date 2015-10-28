@@ -286,7 +286,7 @@ defined('ZCMS') or die('Access denied');
         </div>
     </div>
     <div>
-        <div></div>
+        <div><input type="hidden" name="id" value="0" /></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>
     </div>
 </div>

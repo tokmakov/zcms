@@ -55,8 +55,13 @@ class Editgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
         // параметров к функциональной группе
         $allParams = $this->filterBackendModel->getParams();
 
+        // получаем от модели массив значений параметров подбора для возможности
+        // привязки допустимых значений параметра к параметру
+        $allValues = $this->filterBackendModel->getValues();
+
         // получаем от модели информацию о редактируемой группе: наименование и
-        // массив (уже) привязанных к группе параметров подбора
+        // массив (уже) привязанных к группе параметров подбора и массивы (уже)
+        // привязанных к параметрам значений
         $group = $this->filterBackendModel->getGroup($this->params['id']);
 
         // если запрошенная группа не найдена в БД
@@ -70,17 +75,19 @@ class Editgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'   => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->filterBackendModel->getURL('backend/filter/editgroup/id/' . $this->params['id']),
+            'action'        => $this->filterBackendModel->getURL('backend/filter/editgroup/id/' . $this->params['id']),
             // уникальный идентификатор группы
-            'id'          => $this->params['id'],
+            'id'            => $this->params['id'],
             // наименование группы
-            'name'        => $group['name'],
+            'name'          => $group['name'],
             // массив всех параметров подбора
-            'allParams'   => $allParams,
-            // массив (уже) привязанных к группе параметров подбора
-            'params'      => $group['params'],
+            'allParams'     => $allParams,
+            // массив значений параметров подбора
+            'allValues'     => $allValues,
+            // массив привязанных к группе параметров подбора и привязанных к параметрам значений
+            'params_values' => $group['params_values'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные администратором данные
@@ -106,10 +113,15 @@ class Editgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
         // наименование группы
         $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
         // параметры, привязанные к группе
-        $data['params'] = array();
-        if (isset($_POST['params']) && is_array($_POST['params'])) {
-            foreach ($_POST['params'] as $key => $value) {
-                $data['params'][] = $key;
+        $data['params_values'] = array();
+        if (isset($_POST['params_values']) && is_array($_POST['params_values'])) {
+            foreach ($_POST['params_values'] as $key => $value) {
+                $data['params_values'][$key] = array();
+                if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        $data['params_values'][$key][] = $k;
+                    }
+                }
             }
         }
 

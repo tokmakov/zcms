@@ -116,7 +116,7 @@ class Filter_Backend_Model extends Backend_Model {
      */
     public function getValues() {
         $query = "SELECT
-                      `name`
+                      `id`, `name`
                   FROM
                       `values`
                   WHERE
@@ -141,24 +141,29 @@ class Filter_Backend_Model extends Backend_Model {
         $this->database->execute($query, array('name' => $data['name']));
         $group_id = $this->database->lastInsertId();
 
-        foreach ($data['params'] as $param_id) {
-            $query = "INSERT INTO `group_param`
-                      (
-                          `group_id`,
-                          `param_id`
-                      )
-                      VALUES
-                      (
-                          :group_id,
-                          :param_id
-                      )";
-            $this->database->execute($query, array('group_id' => $group_id, 'param_id' => $param_id));
+        foreach ($data['params_values'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                $query = "INSERT INTO `group_param_value`
+                          (
+                              `group_id`,
+                              `param_id`,
+                              `value_id`
+                          )
+                          VALUES
+                          (
+                              :group_id,
+                              :param_id,
+                              :value_id
+                          )";
+                $this->database->execute($query, array('group_id' => $group_id, 'param_id' => $key, 'value_id' => $v));
+            }
         }
     }
 
     /**
      * Возвращает информацию о функциональной группе с уникальным идентификатором
      * $id: наименование и массив идентификаторов параметров, привязанных к группе
+     * и массивы привязанных к параметрам значений
      */
     public function getGroup($id) {
         $query = "SELECT
@@ -172,17 +177,79 @@ class Filter_Backend_Model extends Backend_Model {
         }
         $group['name'] = $result;
         $query = "SELECT
-                      `param_id`
+                      `param_id`, GROUP_CONCAT(`value_id`) AS `ids`
                   FROM
-                      `group_param`
+                      `group_param_value`
                   WHERE
-                      `group_id` = :group_id";
+                      `group_id` = :group_id
+                  GROUP BY `param_id`";
         $result = $this->database->fetchAll($query, array('group_id' => $id));
-        $group['params'] = array();
+        $group['params_values'] = array();
         foreach ($result as $item) {
-            $group['params'][] = $item['param_id'];
+            $group['params_values'][$item['param_id']] = explode(',', $item['ids']);
         }
         return $group;
+    }
+
+    /**
+     * Функция возвращает массив параметров, привязанных к группе $id и массивы
+     * привязанных к этим параметрам значений
+     */
+    public function getGroupParams($id) {
+        $query = "SELECT
+                      `a`.`id` AS `param_id`, `a`.`name` AS `param_name`,
+                      `c`.`id` AS `value_id`, `c`.`name` AS `value_name`
+                  FROM
+                      `params` `a`
+                      INNER JOIN `group_param_value` `b` ON `a`.`id` = `b`.`param_id`
+                      INNER JOIN `values` `c` ON `b`.`value_id` = `c`.`id`
+                  WHERE
+                      `b`.`group_id` = :group_id
+                  ORDER BY
+                      `param_name`, `value_name`";
+        $result = $this->database->fetchAll($query, array('group_id' => $id));
+
+        $params = array();
+        $param_id = 0;
+        $counter = -1;
+        foreach($result as $value) {
+            if ($param_id != $value['param_id']) {
+                $counter++;
+                $param_id = $value['param_id'];
+                $params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
+            }
+            $params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name']);
+        }
+
+        return $params;
+    }
+
+    /**
+     * Функция возвращает массив параметров, привязанных к товару $id и массивы
+     * привязанных к этим параметрам значений
+     */
+    public function getProductParams($id) {
+        if (0 == $id) {
+            return array();
+        }
+        $query = "SELECT
+                      `a`.`id` AS `param_id`, GROUP_CONCAT(`b`.`id`) AS `ids`
+                  FROM
+                      `product_param_value` `c`
+                      INNER JOIN `params` `a` ON `c`.`param_id` = `a`.`id`
+                      INNER JOIN `values` `b` ON `c`.`value_id` = `b`.`id`
+                  WHERE
+                      `c`.`product_id` = :product_id
+                  GROUP BY
+                      `a`.`id`
+                  ORDER BY
+                      `a`.`name`, `b`.`name`";
+        $result = $this->database->fetchAll($query, array('product_id' => $id));
+        $params = array();
+        foreach ($result as $item) {
+            $params[$item['param_id']] = explode(',', $item['ids']);
+        }
+        return $params;
     }
 
     /**
@@ -197,21 +264,25 @@ class Filter_Backend_Model extends Backend_Model {
                       `id` = :group_id";
         $this->database->execute($query, array('name' => $data['name'], 'group_id' => $data['id']));
 
-        $query = "DELETE FROM `group_param` WHERE `group_id` = :group_id";
+        $query = "DELETE FROM `group_param_value` WHERE `group_id` = :group_id";
         $this->database->execute($query, array('group_id' => $data['id']));
 
-        foreach ($data['params'] as $param_id) {
-            $query = "INSERT INTO `group_param`
-                      (
-                          `group_id`,
-                          `param_id`
-                      )
-                      VALUES
-                      (
-                          :group_id,
-                          :param_id
-                      )";
-            $this->database->execute($query, array('group_id' => $data['id'], 'param_id' => $param_id));
+        foreach ($data['params_values'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                $query = "INSERT INTO `group_param_value`
+                          (
+                              `group_id`,
+                              `param_id`,
+                              `value_id`
+                          )
+                          VALUES
+                          (
+                              :group_id,
+                              :param_id,
+                              :value_id
+                          )";
+                $this->database->execute($query, array('group_id' => $data['id'], 'param_id' => $key, 'value_id' => $v));
+            }
         }
     }
 
@@ -227,7 +298,7 @@ class Filter_Backend_Model extends Backend_Model {
                       `group` = :group_id";
         $this->database->execute($query, array('group_id' => $id));
         $query = "DELETE FROM
-                      `group_param`
+                      `group_param_value`
                   WHERE
                       `group_id` = :group_id";
         $this->database->execute($query, array('group_id' => $id));

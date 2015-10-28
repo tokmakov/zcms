@@ -66,11 +66,11 @@
                         text-decoration: underline;
                         cursor: pointer;
                     }
-        #add-edit-product > #docs > div {
+        #add-edit-product > #docs > div,  #add-edit-product > #params > div {
             float: none;
             width: 100%;
         }
-        #add-edit-product > #docs > div:first-child {
+        #add-edit-product > #docs > div:first-child, #add-edit-product > #params > div:first-child {
             margin-bottom: 10px;
         }
             #add-edit-product > #docs > div:last-child > div:first-child {
@@ -125,6 +125,30 @@
                         text-decoration: underline;
                         cursor: pointer;
                     }
+            #add-edit-product > #params > div:last-child > div {
+                float: left;
+                width: 49.8%;
+                background: #fff;
+                margin-bottom: 2px;
+                min-height: 65px;
+            }
+            #add-edit-product > #params > div:last-child > div:nth-child(odd) {
+                margin-right: 0.1%;
+            }
+            #add-edit-product > #params > div:last-child > div:nth-child(even) {
+                margin-left: 0.1%;
+            }
+            #add-edit-product > #params > div:last-child > div > p {
+                margin: 5px 0 1px 3px;
+            }
+            #add-edit-product > #params > div:last-child > div > ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
 
 /* форма для добавления/редактирования категории */
 #add-edit-category {

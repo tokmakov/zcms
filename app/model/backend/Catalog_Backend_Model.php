@@ -178,9 +178,26 @@ class Catalog_Backend_Model extends Backend_Model {
                       `products`
                   WHERE
                       `id` = :id";
-        $res = $this->database->fetch($query, array('id' => $id));
-        if (false === $res) {
+        $product = $this->database->fetch($query, array('id' => $id));
+        if (false === $product) {
             return null;
+        }
+        // добавляем информацию о параметрах подбора
+        $product['params'] = array();
+        if (!empty($product['group'])) {
+            $query = "SELECT
+                          `a`.`id` AS `param_id`, GROUP_CONCAT(`b`.`id`) AS `ids`
+                      FROM
+                          `product_param_value` `c`
+                          INNER JOIN `params` `a` ON `c`.`param_id` = `a`.`id`
+                          INNER JOIN `values` `b` ON `c`.`value_id` = `b`.`id`
+                      WHERE
+                          `c`.`product_id` = :product_id
+                      GROUP BY `a`.`id`";
+            $result = $this->database->fetchAll($query, array('product_id' => $id));
+            foreach ($result as $item) {
+                $product['params'][$item['param_id']] = explode(',', $item['ids']);
+            }
         }
         // добавляем информацию о файлах документации
         $query = "SELECT
@@ -193,9 +210,8 @@ class Catalog_Backend_Model extends Backend_Model {
                       `b`.`prd_id` = :id
                   ORDER BY
                       `a`.`title`";
-        $docs = $this->database->fetchAll($query, array('id' => $id));
-        $res['docs'] = $docs;
-        return $res;
+        $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
+        return $product;
     }
 
     /**
