@@ -3017,6 +3017,21 @@ body > .wrapper {
     #category-childs > div:last-child > ul:only-child > li:last-child {
         border-bottom: none;
     }
+    /* фильтры */
+    #category-filters > div:last-child > form > div:first-child > div:not(:last-child) {
+        height: auto;
+        padding: 2px 5px;
+    }
+        #category-filters > div:last-child > form > div:first-child > div:not(:last-child) > div {
+            float: none;
+            width: 100%;
+            height: auto;
+            margin-bottom: 3px;
+        }
+            #category-filters > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
+                display: inline;
+                height: auto;
+            }
     /* список товаров категории */
     .products-list-line > div > .product-line-basket {
         clear: left;
@@ -3245,6 +3260,10 @@ body > .wrapper {
     /* форма по авторизации */
     #login-user-center > form > div > div:last-child > input[type="submit"] {
         width: 100%;
+    }
+    /* фильтр товаров категории */
+    #category-filters > div:last-child > form > div:first-child > div:last-child > div:last-child > label {
+        text-align: center;
     }
 }
 

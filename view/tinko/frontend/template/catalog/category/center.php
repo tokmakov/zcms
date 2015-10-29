@@ -268,13 +268,13 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
-<?php if (!empty($groups) || !empty($makers)): // фильтры ?>
+<?php if (!empty($groups) || !empty($makers)): // фильтр ?>
     <div id="category-filters">
         <div>
             <span>
-            Фильтры:
-                <?php if ($maker || $group): ?>
-                    <span class="selected">включены</span>
+            Фильтр
+                <?php if ($maker || $group || $hit || $new): ?>
+                    <span class="selected">включен</span>
                 <?php endif; ?>
             </span>
             <span><span>показать</span></span>
@@ -335,10 +335,10 @@ for ($i = 0; $i <= 6; $i++) {
                     <?php endif; ?>
                     <div>
                         <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
-                            <label><input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" /> <span>Лидер продаж [<?php echo $countHit; ?>]</span></label>
+                            <label><input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" /> <span>Лидер продаж</span></label>
                         </div>
                         <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
-                            <label><input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" /> <span>Новинка [<?php echo $countNew; ?>]</span></label>
+                            <label><input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" /> <span>Новинка</span></label>
                         </div>
                     </div>
                 </div>
