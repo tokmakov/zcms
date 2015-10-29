@@ -155,7 +155,14 @@ class Filter_Backend_Model extends Backend_Model {
                               :param_id,
                               :value_id
                           )";
-                $this->database->execute($query, array('group_id' => $group_id, 'param_id' => $key, 'value_id' => $v));
+                $this->database->execute(
+                    $query,
+                    array(
+                        'group_id' => $group_id,
+                        'param_id' => $key,
+                        'value_id' => $v
+                    )
+                );
             }
         }
     }
@@ -170,7 +177,8 @@ class Filter_Backend_Model extends Backend_Model {
                       `name`
                   FROM
                       `groups`
-                  WHERE `id` = :group_id";
+                  WHERE
+                      `id` = :group_id";
         $result = $this->database->fetchOne($query, array('group_id' => $id));
         if (false === $result) {
             return null;
@@ -182,7 +190,8 @@ class Filter_Backend_Model extends Backend_Model {
                       `group_param_value`
                   WHERE
                       `group_id` = :group_id
-                  GROUP BY `param_id`";
+                  GROUP BY
+                      `param_id`";
         $result = $this->database->fetchAll($query, array('group_id' => $id));
         $group['params_values'] = array();
         foreach ($result as $item) {
@@ -196,6 +205,9 @@ class Filter_Backend_Model extends Backend_Model {
      * привязанных к этим параметрам значений
      */
     public function getGroupParams($id) {
+        if (0 == $id) {
+            return array();
+        }
         $query = "SELECT
                       `a`.`id` AS `param_id`, `a`.`name` AS `param_name`,
                       `c`.`id` AS `value_id`, `c`.`name` AS `value_name`
@@ -264,7 +276,10 @@ class Filter_Backend_Model extends Backend_Model {
                       `id` = :group_id";
         $this->database->execute($query, array('name' => $data['name'], 'group_id' => $data['id']));
 
-        $query = "DELETE FROM `group_param_value` WHERE `group_id` = :group_id";
+        $query = "DELETE FROM
+                      `group_param_value`
+                  WHERE
+                      `group_id` = :group_id";
         $this->database->execute($query, array('group_id' => $data['id']));
 
         foreach ($data['params_values'] as $key => $value) {
@@ -281,7 +296,14 @@ class Filter_Backend_Model extends Backend_Model {
                               :param_id,
                               :value_id
                           )";
-                $this->database->execute($query, array('group_id' => $data['id'], 'param_id' => $key, 'value_id' => $v));
+                $this->database->execute(
+                    $query,
+                    array(
+                        'group_id' => $data['id'],
+                        'param_id' => $key,
+                        'value_id' => $v
+                    )
+                );
             }
         }
     }
@@ -359,7 +381,7 @@ class Filter_Backend_Model extends Backend_Model {
      */
     public function removeParam($id) {
         $query = "DELETE FROM
-                      `group_param`
+                      `group_param_value`
                   WHERE
                       `param_id` = :param_id";
         $this->database->execute($query, array('param_id' => $id));
@@ -426,6 +448,11 @@ class Filter_Backend_Model extends Backend_Model {
     public function removeValue($id) {
         $query = "DELETE FROM
                       `product_param_value`
+                  WHERE
+                      `value_id` = :value_id";
+        $this->database->execute($query, array('value_id' => $id));
+        $query = "DELETE FROM
+                      `group_param_value`
                   WHERE
                       `value_id` = :value_id";
         $this->database->execute($query, array('value_id' => $id));

@@ -59,22 +59,15 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<?php if (empty($allParams)): ?>
-    <p>Нет параметров</p>
-    <?php return; ?>
-<?php endif; ?>
-
 <?php foreach ($allParams as $item): ?>
     <div>
         <p><?php echo $item['name']; ?></p>
         <?php if (!empty($item['values'])): ?>
             <ul>
             <?php foreach ($item['values'] as $value): ?>
-                <li><input type="checkbox" name="value[<?php echo $item['id']; ?>][<?php echo $value['id']; ?>]"<?php echo (isset($params[$item['id']]) && in_array($value['id'], $params[$item['id']])) ? ' checked="checked"' : '' ?> value="1" /> <?php echo $value['name']; ?></li>
+                <li><input type="checkbox" name="params[<?php echo $item['id']; ?>][<?php echo $value['id']; ?>]"<?php echo (isset($params[$item['id']]) && in_array($value['id'], $params[$item['id']])) ? ' checked="checked"' : '' ?> value="1" /> <?php echo $value['name']; ?></li>
             <?php endforeach; ?>
             </ul>
-        <?php else: ?>
-            <p>Нет значений</p>
         <?php endif; ?>
     </div>
 <?php endforeach; ?>

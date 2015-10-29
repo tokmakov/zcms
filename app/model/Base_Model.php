@@ -39,4 +39,19 @@ abstract class Base_Model extends Base {
         return $this->config->site->url . trim($url, '/');
     }
 
+    /**
+     * Функция возвращает единицы измерения товаров в каталоге
+     */
+    public function getUnits() {
+        $units = array(
+            0 => 'руб',
+            1 => 'руб/шт',
+            2 => 'руб/компл',
+            3 => 'руб/упак',
+            4 => 'руб/метр',
+            5 => 'руб/пара',
+        );
+        return $units;
+    }
+
 }

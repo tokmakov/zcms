@@ -36,8 +36,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает корневые категории
      */
     protected function rootCategories() {
-        $query = "SELECT `id`, `name` FROM `categories` WHERE `parent` = 0 ORDER BY `sortorder`";
-        $root = $this->database->fetchAll($query, array());
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = 0
+                  ORDER BY
+                      `sortorder`";
+        $root = $this->database->fetchAll($query);
         // добавляем в массив информацию об URL категорий
         foreach($root as $key => $value) {
             $root[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
@@ -70,10 +77,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
      */
     protected function rootAndChilds() {
         // получаем корневые категории и их детей
-        $query = "SELECT `id`, `name`, `parent`
-                  FROM `categories`
-                  WHERE `parent` = 0 OR `parent` IN (SELECT `id` FROM `categories` WHERE `parent` = 0)
-                  ORDER BY `sortorder`";
+        $query = "SELECT
+                      `id`, `name`, `parent`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = 0 OR `parent` IN
+                      (SELECT `id` FROM `categories` WHERE `parent` = 0)
+                  ORDER BY
+                      `sortorder`";
         $root = $this->database->fetchAll($query, array());
         // добавляем в массив информацию об URL категорий
         foreach($root as $key => $value) {
@@ -439,6 +451,28 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * работы кэшируется
      */
     public function getCountCategoryProducts($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->countCategoryProducts($id, $group, $maker, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает количество товаров в категории $id и в ее потомках, т.е.
+     * суммарное кол-во товаров не только в категории $id, но и в дочерних
+     * категориях и в дочерних-дочерних категориях и так далее; результат
+     * работы кэшируется
+     */
+    protected function countCategoryProducts($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -470,7 +504,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             }
             $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
-        return $this->database->fetchOne($query, array(), $this->enableDataCache);
+        return $this->database->fetchOne($query);
     }
 
     /**
@@ -571,9 +605,31 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив функциональных групп товаров в категории $id и в ее потомках,
      * т.е. не только функциональные группы товаров этой категории, но и функциональные
      * группы товаров в дочерних категориях, функциональные группы товаров в
-     * дочерних-дочерних категориях и т.д.
+     * дочерних-дочерних категориях и т.д. Результат работы кэшируется
      */
     public function getCategoryGroups($id, $maker = 0, $hit = 0, $new = 0) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->categoryGroups($id, $maker, $hit, $new);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив функциональных групп товаров в категории $id и в ее потомках,
+     * т.е. не только функциональные группы товаров этой категории, но и функциональные
+     * группы товаров в дочерних категориях, функциональные группы товаров в
+     * дочерних-дочерних категориях и т.д.
+     */
+    protected function categoryGroups($id, $maker = 0, $hit = 0, $new = 0) {
 
         // получаем список всех функциональных групп этой категории и ее потомков
         $childs = $this->getAllChildIds($id);
@@ -631,9 +687,29 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
     /**
      * Возвращает массив параметров подбора для выбранной функциональной группы
+     * и выбранной категории $id и всех ее потомков; результат работы кэшируется
+     */
+    public function getGroupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupParams($id, $group, $maker, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив параметров подбора для выбранной функциональной группы
      * и выбранной категории и всех ее потомков
      */
-    public function getGroupParams($category, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+    protected function groupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
 
         if (0 == $group) {
             return array();
@@ -641,8 +717,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
         // получаем список всех параметров подбора для выбранной функциональной
         // группы и выбранной категории и всех ее потомков
-        $childs = $this->getAllChildIds($category);
-        $childs[] = $category;
+        $childs = $this->getAllChildIds($id);
+        $childs[] = $id;
         $childs = implode(',', $childs);
 
         $query = "SELECT
@@ -729,9 +805,30 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
     /**
      * Функция возвращает количество лидеров продаж в категории $id и ее потомках,
-     * с учетом фильтров по функциональной группе, производителю и т.п.
+     * с учетом фильтров по функциональной группе, производителю и т.п. Результат
+     * работы кэшируется
      */
     public function getCountHit($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->countHit($id, $group, $maker, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Функция возвращает количество лидеров продаж в категории $id и ее потомках,
+     * с учетом фильтров по функциональной группе, производителю и т.п.
+     */
+    protected function countHit($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -763,14 +860,35 @@ class Catalog_Frontend_Model extends Frontend_Model {
             }
             $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
-        return $this->database->fetchOne($query, array(), $this->enableDataCache);
+        return $this->database->fetchOne($query);
+    }
+
+    /**
+     * Функция возвращает количество новинок в категории $id и ее потомках, с
+     * учетом фильтров по функциональной группе, производителю и т.п. Результат
+     * работы кэшируется
+     */
+    public function getCountNew($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->countNew($id, $group, $maker, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
      * Функция возвращает количество новинок в категории $id и ее потомках, с
      * учетом фильтров по функциональной группе, производителю и т.п.
      */
-    public function getCountNew($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+    protected function countNew($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -802,7 +920,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             }
             $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
-        return $this->database->fetchOne($query, array(), $this->enableDataCache);
+        return $this->database->fetchOne($query);
     }
 
     /**
@@ -816,7 +934,12 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
         $ids = array();
         foreach ($param as $key => $value) {
-            $query = "SELECT `product_id` FROM `product_param_value` WHERE `param_id` = :param_id AND `value_id` = :value_id";
+            $query = "SELECT
+                          `product_id`
+                      FROM
+                          `product_param_value`
+                      WHERE
+                          `param_id` = :param_id AND `value_id` = :value_id";
             $res = $this->database->fetchAll($query, array('param_id' => $key, 'value_id' => $value), $this->enableDataCache);
             $r = array();
             foreach($res as $item) {
@@ -1159,21 +1282,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1";
         return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
-    }
-
-    /**
-     * Функция возвращает единицы измерения товаров в каталоге
-     */
-    public function getUnits() {
-        $units = array(
-            0 => 'руб',
-            1 => 'руб/шт',
-            2 => 'руб/компл',
-            3 => 'руб/упак',
-            4 => 'руб/метр',
-            5 => 'руб/пара',
-        );
-        return $units;
     }
 
     /**

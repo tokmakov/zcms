@@ -23,11 +23,13 @@ class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу Catalog_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Addctg_Catalog_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу Catalog_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Addctg_Catalog_Backend_Controller
+         */
         parent::input();
 
         // если данные формы были отправлены
@@ -92,10 +94,13 @@ class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250)); // наименование
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
+        // наименование категории
+        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        // мета-тег keywords
+        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // мета-тег description
+        // мета-тег description
+        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
 
         // родительская категория
@@ -109,9 +114,11 @@ class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование»';
         }
 
-        // были допущены ошибки при заполнении формы, сохраняем введенные
-        // пользователем данные, чтобы после редиректа снова показать форму,
-        // заполненную введенными ранее даннными и сообщением об ошибке
+        /*
+         * были допущены ошибки при заполнении формы, сохраняем введенные
+         * пользователем данные, чтобы после редиректа снова показать форму,
+         * заполненную введенными ранее даннными и сообщением об ошибке
+         */
         if (!empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addCatalogCategoryForm', $data);

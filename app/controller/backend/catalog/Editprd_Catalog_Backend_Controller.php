@@ -75,48 +75,74 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // получаем от модели массив всех функиональных групп, для возможности выбора
         $groups = $this->filterBackendModel->getGroups();
 
+        // получаем от модели массив параметров, привязанных к группе и массивы
+        // привязанных к этим параметрам значений
+        $allParams = $this->filterBackendModel->getGroupParams($product['group']);
+
         // получаем от модели массив всех производителей, для возможности выбора
         $makers = $this->catalogBackendModel->getMakers();
 
         // единицы измерения для возможности выбора
-        $units = array(
-            1 => 'руб./шт.',
-            2 => 'руб./компл.',
-            3 => 'руб./упак.',
-            4 => 'руб./метр',
-            5 => 'руб./пара',
-        );
+        $units = $this->catalogBackendModel->getUnits();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs' => $breadcrumbs,            // хлебные крошки
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->catalogBackendModel->getURL('backend/catalog/editprd/id/' . $this->params['id']),
-            'id'          => $this->params['id'],     // уникальный идентификатор товара
-            'category'    => $product['category'],    // родительская категория
-            'category2'   => $product['category2'],   // дополнительная категория
-            'categories'  => $categories,             // массив всех категорий, для возможности выбора родителя
-            'group'       => $product['group'],       // функциональная группа
-            'groups'      => $groups,                 // массив всех функциональных групп, для возможности выбора
-            'maker'       => $product['maker'],       // уникальный идентификатор производителя
-            'makers'      => $makers,                 // массив всех производителей, для возможности выбора
-            'code'        => $product['code'],        // код (артикул) товара
-            'name'        => $product['name'],        // наименование изделия
-            'title'       => $product['title'],       // функциональное наименование изделия
-            'keywords'    => $product['keywords'],    // мета-тег keywords
-            'description' => $product['description'], // мета-тег description
-            'price'       => $product['price'],       // цена
-            'unit'        => $product['unit'],        // единица измерения
-            'units'       => $units,                  // все единицы измерения для возможности выбора
-            'image'       => $product['image'],       // имя файла изображения
-            'shortdescr'  => $product['shortdescr'],  // краткое описание
-            'purpose'     => $product['purpose'],     // назначение изделия
-            'features'    => $product['features'],    // особенности изделия
-            'complect'    => $product['complect'],    // комплектация изделия
-            'equipment'   => $product['equipment'],   // дополнительное оборудование
-            'docs'        => $product['docs'],        // файлы документации
+            // уникальный идентификатор товара
+            'id'          => $this->params['id'],
+            // родительская категория
+            'category'    => $product['category'],
+            // дополнительная категория
+            'category2'   => $product['category2'],
+            // массив всех категорий, для возможности выбора родителя
+            'categories'  => $categories,
+            // функциональная группа
+            'group'       => $product['group'],
+            // массив всех функциональных групп, для возможности выбора
+            'groups'      => $groups,
+            // уникальный идентификатор производителя
+            'maker'       => $product['maker'],
+            // массив всех производителей, для возможности выбора
+            'makers'      => $makers,
+            // массив параметров, привязанных к товару и массивы привязанных к этим параметрам значений
+            'params'      => $product['params'],
+            // массив параметров, привязанных к группе и массивы привязанных к этим параметрам значений
+            'allParams'   => $allParams,
+            // код (артикул) товара
+            'code'        => $product['code'],
+            // наименование изделия
+            'name'        => $product['name'],
+            // функциональное наименование изделия
+            'title'       => $product['title'],
+            // мета-тег keywords
+            'keywords'    => $product['keywords'],
+            // мета-тег description
+            'description' => $product['description'],
+            // цена
+            'price'       => $product['price'],
+            // единица измерения
+            'unit'        => $product['unit'],
+            // все единицы измерения для возможности выбора
+            'units'       => $units,
+            // имя файла изображения
+            'image'       => $product['image'],
+            // краткое описание
+            'shortdescr'  => $product['shortdescr'],
+            // назначение изделия
+            'purpose'     => $product['purpose'],
+            // особенности изделия
+            'features'    => $product['features'],
+            // комплектация изделия
+            'complect'    => $product['complect'],
+            // дополнительное оборудование
+            'equipment'   => $product['equipment'],
+            // файлы документации
+            'docs'        => $product['docs'],
         );
         // технические характеристики
         $this->centerVars['techdata']    = array();
@@ -214,6 +240,19 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             $data['maker'] = (int)$_POST['maker'];
         }
 
+        // параметры подбора
+        $data['params'] = array();
+        if (isset($_POST['params']) && is_array($_POST['params'])) {
+            foreach ($_POST['params'] as $key => $value) {
+                $data['params'][$key] = array();
+                if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        $data['params'][$key][] = $k;
+                    }
+                }
+            }
+        }
+
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование товара»';
@@ -227,9 +266,6 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         if (empty($data['code'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Код (артикул)»';
         }
-        if (empty($data['unit'])) {
-            $errorMessage[] = 'Не заполнено обязательное поле «Единица измерения»';
-        }
 
         // были допущены ошибки при заполнении формы, сохраняем введенные
         // пользователем данные, чтобы после редиректа снова показать форму,
@@ -241,6 +277,11 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             } else {
                 $data['techdata'] = array();
             }
+            // если была выбрана новая функциональная группа, мы должны получить от
+            // модели массив параметров, привязанных к новой группе, массивы привязанных
+            // к этим параметрам значений и передать эти данные в шаблон
+            $data['allParams'] = $this->filterBackendModel->getGroupParams($data['group']);
+            // сохраняем введенные администратором данные в сессии
             $this->setSessionData('editCatalogProductForm', $data);
             return false;
         }

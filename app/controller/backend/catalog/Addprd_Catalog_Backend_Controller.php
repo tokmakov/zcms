@@ -56,35 +56,20 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // если передан параметр category, это родительская категория по умолчанию
         $category = 0;
         if (isset($this->params['category']) && ctype_digit($this->params['category'])) {
-            $category = $this->params['category'];
+            $category = (int)$this->params['category'];
         }
-
-        // дополнительная категория по умолчанию
-        $category2 = 0;
 
         // получаем от модели массив всех категорий, для возможности выбора родителя
         $categories = $this->catalogBackendModel->getAllCategories();
 
-        // функциональная группа по умолчанию
-        $group = 0;
-
         // получаем от модели массив всех функиональных групп, для возможности выбора
         $groups = $this->filterBackendModel->getGroups();
-
-        // производитель по умолчанию
-        $maker = 0;
 
         // получаем от модели массив всех производителей, для возможности выбора
         $makers = $this->catalogBackendModel->getMakers();
 
         // единицы измерения для возможности выбора
-        $units = array(
-            1 => 'руб./шт.',
-            2 => 'руб./компл.',
-            3 => 'руб./упак.',
-            4 => 'руб./метр',
-            5 => 'руб./пара',
-        );
+        $units = $this->catalogBackendModel->getUnits();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -96,16 +81,10 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'action'      => $this->catalogBackendModel->getURL('backend/catalog/addprd'),
             // родительская категория по умолчанию
             'category'    => $category,
-            // дополнительная категория по умолчанию
-            'category2'   => $category2,
             // массив всех категорий, для возможности выбора родителя
             'categories'  => $categories,
-            // функциональная группа по умолчанию
-            'group'       => $group,
             // массив всех функциональных групп, для возможности выбора
             'groups'      => $groups,
-            // производитель по умолчанию
-            'maker'       => $maker,
             // массив всех производителей, для возможности выбора
             'makers'      => $makers,
             // все единицы измерения для возможности выбора
@@ -202,6 +181,19 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             $data['maker'] = (int)$_POST['maker'];
         }
 
+        // параметры подбора
+        $data['params'] = array();
+        if (isset($_POST['params']) && is_array($_POST['params'])) {
+            foreach ($_POST['params'] as $key => $value) {
+                $data['params'][$key] = array();
+                if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        $data['params'][$key][] = $k;
+                    }
+                }
+            }
+        }
+
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование товара»';
@@ -214,9 +206,6 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         }
         if (empty($data['code'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Код (артикул)»';
-        }
-        if (empty($data['unit'])) {
-            $errorMessage[] = 'Не заполнено обязательное поле «Единица измерения»';
         }
 
         /*
@@ -231,6 +220,11 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             } else {
                 $data['techdata'] = array();
             }
+            // если была выбрана функциональная группа, мы должны получить от модели
+            // массив параметров, привязанных к группе, массивы привязанных к этим
+            // параметрам значений и передать эти данные в шаблон
+            $data['allParams'] = $this->filterBackendModel->getGroupParams($data['group']);
+            // сохраняем введенные администратором данные в сессии
             $this->setSessionData('addCatalogProductForm', $data);
             return false;
         }

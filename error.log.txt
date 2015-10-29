@@ -99,3 +99,123 @@
 #4 D:\work\localhost2\www\index.php(52): Ajaxparams_Filter_Backend_Controller->request()
 #5 {main}
 
+29.10.2015 11:07:47
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(348): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:14:06
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:16:16
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:17:45
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:18:03
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:18:27
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:18:48
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:19:15
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:19:30
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+29.10.2015 11:19:43
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

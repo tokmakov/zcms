@@ -71,10 +71,10 @@
             width: 100%;
         }
         #add-edit-product > #docs > div:first-child, #add-edit-product > #params > div:first-child {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
             #add-edit-product > #docs > div:last-child > div:first-child {
-                margin-bottom: 15px;
+                padding-bottom: 5px;
             }
                 #add-edit-product > #docs > div:last-child > div:first-child > div {
                     margin-bottom: 5px;
