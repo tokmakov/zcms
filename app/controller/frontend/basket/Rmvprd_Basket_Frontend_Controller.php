@@ -15,6 +15,8 @@ class Rmvprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
         // удаляем товар из корзины
         $this->basketFrontendModel->removeFromBasket($this->params['id']);

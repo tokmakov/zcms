@@ -17,6 +17,7 @@ class Bannerup_Start_Backend_Controller extends Start_Backend_Controller {
     protected function input() {
         // если передан id баннера и id баннера целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->startBackendModel->moveBannerUp($this->params['id']);
         }
         $this->redirect($this->startBackendModel->getURL('backend/start/index'));

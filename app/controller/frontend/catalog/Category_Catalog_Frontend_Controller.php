@@ -48,19 +48,15 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             if (isset($_POST['new'])) {
                 $url = $url . '/new/1';
             }
-            $param = array();
-            if ($grp && isset($_POST['param'])) {
+            if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
+                $param = array();
                 foreach ($_POST['param'] as $key => $value) {
                     if ($key > 0 && ctype_digit($value) && $value > 0) {
-                        $param[$key] = (int)$value;
+                        $param[] = $key . '.' . $value;
                     }
                 }
-                if (!empty($param)) {
-                    $ids = array();
-                    foreach ($param as $key => $value) {
-                        $ids[] = $key . '.' . $value;
-                    }
-                    $url = $url . '/param/' . implode('-', $ids);
+                if ( ! empty($param)) {
+                    $url = $url . '/param/' . implode('-', $param);
                 }
             }
             if (isset($_POST['sort'])

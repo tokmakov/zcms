@@ -877,7 +877,7 @@ body > .wrapper {
             }
 
     .products-list-line > div > .product-line-info { /* цена, код, производитель */
-        margin-bottom: 16px;
+        margin-bottom: 9px;
         margin-left: 140px;
         overflow: hidden;
     }
@@ -889,7 +889,7 @@ body > .wrapper {
             padding: 5px 0;
         }
         .products-list-line > div > .product-line-info > div:first-child {
-            padding-top: 0;
+            padding: 0;
         }
             .products-list-line > div > .product-line-info > div > span {
                 overflow: hidden;
@@ -903,10 +903,38 @@ body > .wrapper {
                 width: 55%;
                 text-align: right;
             }
-                .products-list-line > div > .product-line-info > div:first-child > span:last-child > strong { /* цена, число */
-                    color: #395985;
+            .products-list-line > div > .product-line-info > div:first-child > span:first-child {
+                height: 28px;
+                line-height: 28px;
+            }
+            .products-list-line > div > .product-line-info > div:first-child > span:last-child {
+                word-spacing: 7px;
+            }
+                .products-list-line > div > .product-line-info > div:first-child > span:last-child > span {
+                    display: inline-block;
+                    word-spacing: normal;
+                    text-align: left;
                 }
-                .products-list-line > div > .product-line-info > div:nth-child(2) > span:last-child > strong { /* код, число */
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong,
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span {
+                        display: block;
+                    }
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong { /* цена, число */
+                        color: #395985;
+                        font-size: 20px;
+                        line-height: 18px;
+                        text-align: center;
+                    }
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
+                        color: #969696;
+                    }
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
+                        font-size: 10px;
+                        line-height: 10px;
+                        font-style: italic;
+                    }
+                .products-list-line > div > .product-line-info > div:nth-child(2) > span:last-child { /* код, число */
+                    font-weight: bold;
                     color: #323232;
                 }
 
@@ -2942,6 +2970,13 @@ body > .wrapper {
     }
 }
 
+@media screen and (max-width: 730px) {
+    /* список товаров категории */
+    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 700px) {
     /* вместе с этим часто покупают */
     .products-list-grid > div {
@@ -3036,6 +3071,12 @@ body > .wrapper {
     .products-list-line > div > .product-line-basket {
         clear: left;
         margin-left: 0;
+        padding-top: 0;
+    }
+    /* список товаров категории */
+    .products-list-line > div > .product-line-info {
+        clear: left;
+        margin-left: 0;
         padding-top: 12px;
     }
 }
@@ -3112,6 +3153,9 @@ body > .wrapper {
     .products-list-line > div > .product-line-basket > form:not(:first-child) {
         width: 50%;
     }
+        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+            display: none;
+        }
     /* страница товара */
     #product .product-item-main .product-item-image {
         float: none;
@@ -3229,13 +3273,8 @@ body > .wrapper {
         margin-left: 0;
     }
     /* список товаров категории */
-    .products-list-line > div > .product-line-info {
-        clear: left;
-        margin-left: 0;
-        padding-top: 12px;
-    }
-    .products-list-line > div > .product-line-basket {
-        padding-top: 0;
+    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:last-child {
+        display: none;
     }
 }
 

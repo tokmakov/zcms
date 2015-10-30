@@ -17,6 +17,7 @@ class Rmvctg_News_Backend_Controller extends News_Backend_Controller {
     protected function input() {
         // если передан id категории и id категории целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->newsBackendModel->removeCategory($this->params['id']);
         }
         $this->redirect($this->newsBackendModel->getURL('backend/news/allctgs'));

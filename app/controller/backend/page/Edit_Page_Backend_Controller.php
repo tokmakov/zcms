@@ -16,17 +16,21 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу Page_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Edit_Page_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу Page_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Edit_Page_Backend_Controller
+         */
         parent::input();
 
         // если не передан id страницы или id страницы не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // если данные формы были отправлены

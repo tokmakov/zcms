@@ -127,10 +127,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
     protected function product($id) {
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`image` AS `image`, `a`.`purpose` AS `purpose`, `a`.`techdata` AS `techdata`,
-                      `a`.`features` AS `features`, `a`.`complect` AS `complect`, `a`.`equipment` AS `equipment`,
-                      `a`.`category2` AS `second`,
+                      `a`.`price` AS `price`, `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`, `a`.`purpose` AS `purpose`,
+                      `a`.`techdata` AS `techdata`, `a`.`features` AS `features`, `a`.`complect` AS `complect`,
+                      `a`.`equipment` AS `equipment`, `a`.`category2` AS `second`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
                   FROM
@@ -407,8 +407,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
+                      `a`.`price` AS `price`, `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
                   FROM
@@ -648,7 +648,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   GROUP BY
                       `a`.`id`, `a`. `name`
                   ORDER BY
-                      `a`.`name`";
+                      COUNT(*) DESC";
         $groups = $this->database->fetchAll($query);
 
         if (0 == $maker && 0 == $hit && 0 == $new) {
@@ -738,7 +738,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       AND `a`.`id` = " . $group . "
                       AND `b`.`visible` = 1
                   GROUP BY
-                      1, 2, 3, 4";
+                      1, 2, 3, 4
+                  ORDER BY
+                      `f`.`name`, `g`.`name`";
         $result = $this->database->fetchAll($query);
 
         // теперь подсчитываем количество товаров для каждого параметра и каждого
@@ -1242,8 +1244,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`image` AS `image`, `a`.`price` AS `price`, `a`.`unit` AS `unit`,
-                      `a`.`shortdescr` AS `shortdescr`, `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
+                      `a`.`image` AS `image`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
+                      `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`

@@ -23,6 +23,7 @@ class Rmvprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         // если передан id профиля или id профиля целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->userFrontendModel->removeProfile($this->params['id']);
         }
         $this->redirect($this->userFrontendModel->getURL('frontend/user/allprof'));

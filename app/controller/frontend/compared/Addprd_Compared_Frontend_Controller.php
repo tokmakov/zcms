@@ -24,16 +24,18 @@ class Addprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
         }
 
         // если не передан id товара или id товара не число
-        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
+        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id']) && $_POST['product_id'] > 0)) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $product_id = (int)$_POST['product_id'];
         }
 
         // добавляем товар в список отложенных для сравнения
-        $this->comparedFrontendModel->addToCompared($_POST['product_id']);
+        $this->comparedFrontendModel->addToCompared($product_id);
 
         // куда перенаправить посетителя после добавления товара в список сравнения?
-        if (!isset($_POST['return'])) {
+        if ( ! isset($_POST['return'])) {
             $this->redirect($this->comparedFrontendModel->getURL('frontend/compared/index'));
         }
 
@@ -56,6 +58,9 @@ class Addprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
                 }
                 if (isset($_POST['new']) && $_POST['new'] == 1) {
                     $url = $url . '/new/1';
+                }
+                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
+                    $url = $url . '/param/' . $_POST['param'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];

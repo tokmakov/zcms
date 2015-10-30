@@ -29,6 +29,8 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // если данные формы были отправлены

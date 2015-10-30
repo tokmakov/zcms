@@ -28,6 +28,8 @@ class Show_Order_Backend_Controller extends Order_Backend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         $this->title = 'Заказ. ' . $this->title;

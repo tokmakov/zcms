@@ -377,6 +377,17 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 
     <div class="products-list-line">
+        <?php
+            if ( ! empty($param)) {
+                $temp = array();
+                foreach ($param as $key => $value) {
+                    $temp[] = $key . '.' . $value;
+                }
+                if ( ! empty($temp)) {
+                    $prm = implode('-', $temp);
+                }
+            }
+        ?>
         <?php foreach ($products as $product): ?>
             <div>
                 <div class="product-line-heading">
@@ -394,12 +405,16 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div class="product-line-info">
                     <div>
-                        <span>Цена:</span>
-                        <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong> <?php echo $units[$product['unit']]; ?></span>
+                        <span>Цена, <?php echo $units[$product['unit']]; ?>:</span>
+                        <span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                        </span>
                     </div>
                     <div>
                         <span>Код:</span>
-                        <span><strong><?php echo $product['code']; ?></strong></span>
+                        <span><?php echo $product['code']; ?></span>
                     </div>
                     <div>
                         <span>Производитель:</span>
@@ -423,6 +438,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
@@ -448,6 +466,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -471,6 +492,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />

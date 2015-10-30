@@ -17,6 +17,7 @@ class Rmvitem_Menu_Backend_Controller extends Menu_Backend_Controller {
     protected function input() {
         // если передан id пункта меню и id пункта меню число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->menuBackendModel->removeMenuItem($this->params['id']);
         }
         $this->redirect($this->menuBackendModel->getURL('backend/menu/index'));

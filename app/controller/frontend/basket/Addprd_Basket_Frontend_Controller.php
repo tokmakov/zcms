@@ -18,18 +18,20 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // если не передан id товара или id товара не число
-        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
+        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id']) && $_POST['product_id'] > 0)) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $product_id = (int)$_POST['product_id'];
         }
 
         $count = 1; // кол-во товара
-        if (isset($_POST['count']) && ctype_digit($_POST['count'])) {
-            $count = $_POST['count'];
+        if (isset($_POST['count']) && ctype_digit($_POST['count']) && $_POST['count'] > 1) {
+            $count = (int)$_POST['count'];
         }
 
         // добавляем товар в корзину
-        $this->basketFrontendModel->addToBasket($_POST['product_id'], $count);
+        $this->basketFrontendModel->addToBasket($product_id, $count);
 
         // куда перенаправить посетителя после добавления товара в корзину?
         if (!isset($_POST['return'])) {
@@ -55,6 +57,9 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 }
                 if (isset($_POST['new']) && $_POST['new'] == 1) {
                     $url = $url . '/new/1';
+                }
+                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
+                    $url = $url . '/param/' . $_POST['param'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];

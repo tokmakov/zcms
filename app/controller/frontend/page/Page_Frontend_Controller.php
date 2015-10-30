@@ -27,6 +27,8 @@ class Page_Frontend_Controller extends Frontend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // получаем от модели данные о странице

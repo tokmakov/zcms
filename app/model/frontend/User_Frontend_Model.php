@@ -141,9 +141,12 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function isUserExists($email) {
 
-        $query = "SELECT 1
-                  FROM `users`
-                  WHERE `email` = :email";
+        $query = "SELECT
+                      1
+                  FROM
+                      `users`
+                  WHERE
+                      `email` = :email";
         $res = $this->database->fetch($query, array('email' => $email));
         if (false === $res) {
             return false;
@@ -224,7 +227,12 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         if ($this->user['newuser']) {
             $this->user['newuser'] = $this->user['newuser'] - 1;
-            $query = "UPDATE `users` SET `newuser` = `newuser` - 1 WHERE `id` = :id";
+            $query = "UPDATE
+                          `users`
+                      SET
+                          `newuser` = `newuser` - 1
+                      WHERE
+                          `id` = :id";
             $this->database->execute($query, array('id' => $this->userId));
             return true;
         }

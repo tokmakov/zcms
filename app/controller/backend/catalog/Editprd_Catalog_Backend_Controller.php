@@ -167,6 +167,9 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      */
     protected function validateForm() {
 
+        /*
+         * обрабатываем данные, полученные из формы
+         */
         $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));        // наименование изделия
         $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));       // функциональное наименование изделия
         $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));    // мета-тег keywords

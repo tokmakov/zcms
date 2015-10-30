@@ -17,6 +17,7 @@ class Rmvnews_News_Backend_Controller extends News_Backend_Controller {
     protected function input() {
         // если передан id новости и id новости целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->newsBackendModel->removeNewsItem($this->params['id']);
         }
         $this->redirect($this->newsBackendModel->getURL('backend/news/index'));

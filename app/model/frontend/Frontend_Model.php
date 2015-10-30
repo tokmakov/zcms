@@ -43,7 +43,7 @@ abstract class Frontend_Model extends Base_Model {
          * и так далее.
          */
         $function = lcfirst(substr($function, 3));
-        if (!method_exists($this, $function)) {
+        if ( ! method_exists($this, $function)) {
             throw new Exception('Метод ' . get_class($this) . '::' . $function . ' не существует');
         }
 
@@ -89,8 +89,10 @@ abstract class Frontend_Model extends Base_Model {
         } finally {
             $this->register->cache->unlockValue($key);
         }
+
         // возвращаем результат
         return $data;
+
     }
 
     /**

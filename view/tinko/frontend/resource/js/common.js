@@ -1,3 +1,8 @@
+if (window.location.hash.substr(0, 2) === '#!' && /^\/catalog\/category\/[0-9]+/.test(window.location.pathname)) {
+    var pathname = window.location.pathname.match(/^\/catalog\/category\/[0-9]+/i)[0] + window.location.hash.slice(2);
+    window.location.replace(pathname);
+}
+
 $(document).ready(function(){
 
     addBasketHandler();
@@ -276,7 +281,6 @@ function filterSelectHandler() {
             var childsWidth = $('#category-childs > div:last-child').width();
             $('<div></div>').prependTo('#category-childs > div:last-child').addClass('overlay').height(childsHeight).width(childsWidth);
             // второй блок: фильтр по функционалу, производителю и параметрам
-            // $('#category-filters form > div:first-child').empty().addClass('ajax-fields-loader');
             var filtersHeight = $('#category-filters form > div:first-child').height();
             var filtersWidth = $('#category-filters form > div:first-child').width();
             $('<div></div>').prependTo('#category-filters form > div:first-child').addClass('overlay').height(filtersHeight).width(filtersWidth);
@@ -303,4 +307,44 @@ function filterSelectHandler() {
             addBasketHandler();
         }
     });
+    addFilterHash();
+}
+
+function addFilterHash() {
+    var hash = '';
+    var group = $('#category-filters form select[name="group"]').val();
+    if (group !== '0') {
+        hash = '/group/' + group;
+    }
+    var maker = $('#category-filters form select[name="maker"]').val();
+    if (maker !== '0') {
+        hash = hash + '/maker/' + maker;
+    }
+    if ($('#category-filters form input[name="hit"]').prop('checked')) {
+        hash = hash + '/hit/1';
+    }
+    if ($('#category-filters form input[name="new"]').prop('checked')) {
+        hash = hash + '/new/1';
+    }
+    var paramSelect = $('#category-filters form select').slice(2);
+    var param = [];
+    if (paramSelect.length > 0) {
+        paramSelect.each(function(index, element){
+            if ($(element).val() !== '0') {
+                var paramSelectId = $(element).attr('name').replace(/[^0-9]/g, '');
+                var paramSelectVal = $(element).val();
+                param.push(paramSelectId + '.' + paramSelectVal);
+            }
+        });
+    }
+    if (param.length > 0) {
+        hash = hash + '/param/' + param.join('-');
+    }
+    var sortInput = $('#category-filters form input[name="sort"]');
+    if (sortInput.length > 0 && sortInput.val() !== '0') {
+        hash = hash + '/sort/' + sortInput.val();
+    }
+    if (hash !== '') {
+        window.location.hash = '#!' + hash;
+    }
 }

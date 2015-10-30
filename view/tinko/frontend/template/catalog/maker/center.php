@@ -83,7 +83,7 @@
  *     4 => 'руб/метр',
  *     5 => 'руб/пара',
  * )
- * 
+ *
  * $pager = Array (
  *     [first] => 1
  *     [prev] => 2
@@ -97,7 +97,7 @@
  *         [0] => 4
  *     )
  * )
- * 
+ *
  */
 
 defined('ZCMS') or die('Access denied');
@@ -178,8 +178,12 @@ for ($i = 0; $i <= 6; $i++) {
             </div>
             <div class="product-line-info">
                 <div>
-                    <span>Цена:</span>
-                    <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong> <?php echo $units[$product['unit']]; ?></span>
+                    <span>Цена, <?php echo $units[$product['unit']]; ?>:</span>
+                    <span>
+                        <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
+                        <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                        <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                    </span>
                 </div>
                 <div>
                     <span>Код:</span>

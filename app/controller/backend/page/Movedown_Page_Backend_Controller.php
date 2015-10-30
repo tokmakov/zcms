@@ -17,6 +17,7 @@ class Movedown_Page_Backend_Controller extends Page_Backend_Controller {
     protected function input() {
         // если передан id страницы и id страницы целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->pageBackendModel->movePageDown($this->params['id']);
         }
         $this->redirect($this->pageBackendModel->getURL('backend/page/index'));

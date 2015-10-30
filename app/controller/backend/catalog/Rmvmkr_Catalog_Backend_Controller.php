@@ -17,6 +17,7 @@ class Rmvmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
     protected function input() {
         // если передан id производителя и id производителя число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->catalogBackendModel->removeMaker($this->params['id']);
         }
         $this->redirect($this->catalogBackendModel->getURL('backend/catalog/allmkrs'));

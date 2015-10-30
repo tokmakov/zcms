@@ -16,17 +16,21 @@ class Editnews_News_Backend_Controller extends News_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу News_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Editnews_News_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу News_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Editnews_News_Backend_Controller
+         */
         parent::input();
 
         // если не передан id новости или id новости не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // если данные формы были отправлены

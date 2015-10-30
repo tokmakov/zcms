@@ -20,6 +20,7 @@ class Rmvctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $return = 0;
         // если передан id категории и id категории целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $return = $this->catalogBackendModel->getCategoryParent($this->params['id']);
             $this->catalogBackendModel->removeCategory($this->params['id']);
         }

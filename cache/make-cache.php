@@ -24,7 +24,7 @@ $register = Register::getInstance();
 // настройкам возможен через реестр или напрямую через Config::getInstance()
 $register->config = Config::getInstance();
 /*
- * отмечаем, что приложение запущено из командной строки для формирования кэша
+ * отмечаем, что приложение запущено из командной строки с целью формирования кэша
  */
 $register->config->cache->make = true;
 // кэширование данных
@@ -33,7 +33,7 @@ $register->cache = Cache::getInstance();
 $register->database = Database::getInstance();
 /*
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";
-$pages = $register->database->fetchAll($query, array());
+$pages = $register->database->fetchAll($query);
 foreach($pages as $page) {
     // экземпляр класса роутера
     $router = Router::getInstance('Page_Frontend_Controller', array('id' => $page['id']));

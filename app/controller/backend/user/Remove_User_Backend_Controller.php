@@ -17,6 +17,7 @@ class Remove_User_Backend_Controller extends User_Backend_Controller {
     protected function input() {
         // если передан id пользователя и id пользователя целое положетельное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
+            $this->params['id'] = (int)$this->params['id'];
             $this->userBackendModel->removeUser($this->params['id']);
         }
         $this->redirect($this->userBackendModel->getURL('backend/user/index'));

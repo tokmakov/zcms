@@ -30,9 +30,12 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
     public function addToCompared($productId) {
 
         // такой товар уже есть в списке сравнения?
-        $query = "SELECT 1
-                  FROM `compared`
-                  WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+        $query = "SELECT
+                      1
+                  FROM
+                      `compared`
+                  WHERE
+                      `visitor_id` = :visitor_id AND `product_id` = :product_id";
         $data = array(
             'visitor_id' => $this->visitorId,
             'product_id' => $productId,
@@ -52,9 +55,12 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                           NOW()
                       )";
         } else { // если товар уже в списке сравнения, обновляем дату
-            $query = "UPDATE `compared`
-                      SET `added` = NOW()
-                      WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+            $query = "UPDATE
+                          `compared`
+                      SET
+                          `added` = NOW()
+                      WHERE
+                          `visitor_id` = :visitor_id AND `product_id` = :product_id";
         }
         $this->database->execute($query, $data);
 
@@ -211,8 +217,10 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет товар из списка отложенных для сравнения товаров
      */
     public function removeFromCompared($productId) {
-        $query = "DELETE FROM `compared`
-                  WHERE `product_id` = :product_id AND `visitor_id` = :visitor_id";
+        $query = "DELETE FROM
+                      `compared`
+                  WHERE
+                      `product_id` = :product_id AND `visitor_id` = :visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -231,10 +239,16 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет все старые списки отложенных для сравнения товаров
      */
     public function removeOldCompared() {
-        $query = "DELETE FROM `compared` WHERE `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
+        $query = "DELETE FROM
+                      `compared`
+                  WHERE
+                      `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
         $this->database->execute($query);
 
-        $query = "DELETE FROM `compared` WHERE `added` < NOW() - INTERVAL :days DAY";
+        $query = "DELETE FROM
+                      `compared`
+                  WHERE
+                      `added` < NOW() - INTERVAL :days DAY";
         $this->database->execute($query, array('days' => $this->config->user->cookie));
     }
 
@@ -251,7 +265,12 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
 
-        $query = "UPDATE `compared` SET `visitor_id` = :new_visitor_id WHERE `visitor_id` = :old_visitor_id";
+        $query = "UPDATE
+                      `compared`
+                  SET
+                      `visitor_id` = :new_visitor_id
+                  WHERE
+                      `visitor_id` = :old_visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -269,18 +288,25 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
         $this->visitorId = $newVisitorId;
 
         // если среди отложенных для сравнения есть два одинаковых товара
-        $query = "SELECT MAX(`id`) AS `id`, `product_id`, COUNT(*) AS `count`
-                  FROM `compared`
-                  WHERE `visitor_id` = :visitor_id
-                  GROUP BY `product_id`
-                  HAVING COUNT(*) > 1";
+        $query = "SELECT
+                      MAX(`id`) AS `id`, `product_id`, COUNT(*) AS `count`
+                  FROM
+                      `compared`
+                  WHERE
+                      `visitor_id` = :visitor_id
+                  GROUP BY
+                      `product_id`
+                  HAVING
+                      COUNT(*) > 1";
         $res = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         if (empty($res)) {
             return;
         }
         foreach ($res as $item) {
-            $query = "DELETE FROM `compared`
-                      WHERE `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
+            $query = "DELETE FROM
+                          `compared`
+                      WHERE
+                          `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
             $this->database->execute(
                 $query,
                 array(

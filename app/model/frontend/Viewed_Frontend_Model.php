@@ -30,9 +30,12 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
     public function addToViewed($productId) {
 
         // такой товар уже есть в списке просмотренных?
-        $query = "SELECT 1
-                  FROM `viewed`
-                  WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+        $query = "SELECT
+                      1
+                  FROM
+                      `viewed`
+                  WHERE
+                      `visitor_id` = :visitor_id AND `product_id` = :product_id";
         $data = array(
             'visitor_id' => $this->visitorId,
             'product_id' => $productId,
@@ -52,9 +55,12 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                           NOW()
                       )";
         } else { // если пользователь уже просматривал товар ранее, обновляем дату просмотра
-            $query = "UPDATE `viewed`
-                      SET `added` = NOW()
-                      WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+            $query = "UPDATE
+                          `viewed`
+                      SET
+                          `added` = NOW()
+                      WHERE
+                          `visitor_id` = :visitor_id AND `product_id` = :product_id";
         }
         $this->database->execute($query, $data);
 
@@ -95,8 +101,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
-                  LIMIT
-                      " . $start . ", " . $this->config->pager->frontend->products->perpage;
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         foreach($products as $key => $value) {
@@ -198,10 +203,16 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет все старые списки просмотренных товаров
      */
     public function removeOldViewed() {
-        $query = "DELETE FROM `viewed` WHERE `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
+        $query = "DELETE FROM
+                      `viewed`
+                  WHERE
+                      `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
         $this->database->execute($query);
 
-        $query = "DELETE FROM `viewed` WHERE `added` < NOW() - INTERVAL :days DAY";
+        $query = "DELETE FROM
+                      `viewed`
+                  WHERE
+                      `added` < NOW() - INTERVAL :days DAY";
         $this->database->execute($query, array('days' => $this->config->user->cookie));
     }
 
@@ -256,8 +267,10 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
         foreach ($res as $item) {
-            $query = "DELETE FROM `viewed`
-                      WHERE `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
+            $query = "DELETE FROM
+                          `viewed`
+                      WHERE
+                          `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
             $this->database->execute(
                 $query,
                 array(

@@ -26,13 +26,15 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
         }
 
         // если не передан id товара или id товара не число
-        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
+        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id']) && $_POST['product_id'] > 0)) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $product_id = (int)$_POST['product_id'];
         }
 
         // удаляем товар из списка отложенных для сравнения
-        $this->comparedFrontendModel->removeFromCompared($_POST['product_id']);
+        $this->comparedFrontendModel->removeFromCompared($product_id);
 
         // куда перенаправить посетителя после удаления товара из списка сравнения?
         if (!isset($_POST['return'])) {
@@ -47,8 +49,20 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
         } elseif ($_POST['return'] == 'category') { // перенаправляем на страницу категории
             if (isset($_POST['return_ctg_id']) && ctype_digit($_POST['return_ctg_id'])) {
                 $url = 'frontend/catalog/category/id/' . $_POST['return_ctg_id'];
+                if (isset($_POST['group']) && ctype_digit($_POST['group']) && $_POST['group'] > 0) {
+                    $url = $url . '/group/' . $_POST['group'];
+                }
                 if (isset($_POST['maker']) && ctype_digit($_POST['maker']) && $_POST['maker'] > 0) {
                     $url = $url . '/maker/' . $_POST['maker'];
+                }
+                if (isset($_POST['hit']) && $_POST['hit'] == 1) {
+                    $url = $url . '/hit/1';
+                }
+                if (isset($_POST['new']) && $_POST['new'] == 1) {
+                    $url = $url . '/new/1';
+                }
+                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
+                    $url = $url . '/param/' . $_POST['param'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
