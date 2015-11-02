@@ -1,0 +1,177 @@
+/* вкладки */
+ul#solutions {
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-left: 20px;
+    padding: 0;
+}
+    ul#solutions li {
+        float: left;
+    }
+        ul#solutions li a {
+            display: block;
+            /* width: 200px; */
+            border: 1px solid #000;
+            border-bottom: none;
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-align: center;
+            background-color: #eee;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px 5px 0 0;
+        }
+        ul#solutions li a:hover {
+            text-decoration: underline;
+        }
+        ul#solutions li a.active {
+            background-color: #fff;
+            border-bottom: 1px solid #fff;
+        }
+    ul#solutions:after {
+        content: '.';
+        display: block;
+        visibility: hidden;
+        height: 0;
+        clear: both;
+    }
+
+/* список всех категорий и типовых решений, главная страница */
+#index-solutions {
+
+}
+    #index-solutions ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    #index-solutions li {
+        padding: 2px 0;
+    }
+        #index-solutions > ul > li > div, #index-solutions > ul > li > ul > li {
+            overflow: hidden;
+            border-bottom: 1px solid #eee;
+        }
+        #index-solutions > ul > li > ul > li {
+            margin-left: 25px;
+        }
+            #index-solutions > ul > li > div > span:first-child,
+            #index-solutions > ul > li > ul > li > span:first-child {
+                width: 90%;
+                float: left;
+            }
+            #index-solutions > ul > li > div > span:last-child,
+            #index-solutions > ul > li > ul > li > span:last-child {
+                width: 10%;
+                float: right;
+                text-align: right;
+            }
+
+/* список всех категорий */
+#all-categories {
+    overflow: hidden;
+}
+    #all-categories > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-categories > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-categories > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-categories > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* форма для добавления/редактирования категории */
+#add-edit-category {
+    overflow: hidden;
+}
+    #add-edit-category > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-category > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-category > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-category > div > div:last-child > input[type="text"],
+            #add-edit-category > div > div:last-child > textarea {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-category > div > div:last-child > textarea {
+                height: 150px;
+            }
+
+/* список всех типовых решений выбранной категории */
+#all-solutions {
+    overflow: hidden;
+}
+    #all-solutions  > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-solutions > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-solutions > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-solutions > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+
+/* форма для добавления/редактирования типового решения */
+#add-edit-solution {
+    overflow: hidden;
+}
+    #add-edit-solution > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #eee;
+        border-radius: 10px;
+        padding: 7px 10px;
+    }
+        #add-edit-solution > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-solution > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-solution > div > div:last-child > input[type="text"],
+            #add-edit-solution > div > div:last-child > textarea,
+            #add-edit-solution > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-solution > div > div:last-child > textarea {
+                height: 150px;
+            }
+                #add-edit-solution > div > div:last-child > textarea[name="content1"] {
+                    height: 300px;
+                }

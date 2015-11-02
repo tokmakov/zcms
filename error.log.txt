@@ -1,257 +1,78 @@
-28.10.2015 12:55:21
-Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.group_param' doesn't exist
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+02.11.2015 14:45:56
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`
+                  FROM
+                      `solitions`
+                  ' at line 3
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(180): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Editgroup_Filter_Backend_Controller.php(60): Filter_Backend_Model->getGroup(2)
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editgroup_Filter_Backend_Controller->input()
+#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(198): Database->fetch('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Editsltn_Solutions_Backend_Controller.php(72): Solutions_Backend_Model->getSolution(5)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editsltn_Solutions_Backend_Controller->input()
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-28.10.2015 13:20:42
-Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.group_param' doesn't exist
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+02.11.2015 14:46:13
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`
+                  FROM
+                      `solutions`
+                  ' at line 3
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(184): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Editgroup_Filter_Backend_Controller.php(60): Filter_Backend_Model->getGroup(5)
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editgroup_Filter_Backend_Controller->input()
+#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(198): Database->fetch('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Editsltn_Solutions_Backend_Controller.php(72): Solutions_Backend_Model->getSolution(5)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editsltn_Solutions_Backend_Controller->input()
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-28.10.2015 14:12:47
-Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.group_param' doesn't exist
+02.11.2015 14:56:08
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
 Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
 Стек вызовов: 
 #0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(220): Database->execute('DELETE FROM `gr...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\filter\Editgroup_Filter_Backend_Controller.php(143): Filter_Backend_Model->updateGroup(Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Editgroup_Filter_Backend_Controller.php(38): Editgroup_Filter_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editgroup_Filter_Backend_Controller->input()
+#1 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(332): Database->execute('UPDATE\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\controller\backend\solutions\Editsltn_Solutions_Backend_Controller.php(180): Solutions_Backend_Model->updateSolution(Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Editsltn_Solutions_Backend_Controller.php(45): Editsltn_Solutions_Backend_Controller->validateForm()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editsltn_Solutions_Backend_Controller->input()
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-28.10.2015 17:56:16
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AS `value_id`) AS `ids`
-                      FROM
-                          `' at line 2
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+02.11.2015 16:13:53
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(197): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(63): Catalog_Backend_Model->getProduct('245570')
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(377): Database->fetch('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(1)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-28.10.2015 17:57:18
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AS `value_id`) AS `ids`
-                      FROM
-                          `' at line 2
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+02.11.2015 16:16:06
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(197): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(65): Catalog_Backend_Model->getProduct(245570)
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
+#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(377): Database->fetch('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(1)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-28.10.2015 17:59:10
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AS `value_id`) AS `ids`
-                  FROM
-                      `product_' at line 2
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+02.11.2015 16:17:42
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(241): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Ajaxparams_Filter_Backend_Controller.php(45): Filter_Backend_Model->getProductParams(0)
-#4 D:\work\localhost2\www\index.php(52): Ajaxparams_Filter_Backend_Controller->request()
-#5 {main}
-
-28.10.2015 18:46:36
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY
-                      `a`.`id`' at line 11
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(247): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Ajaxparams_Filter_Backend_Controller.php(45): Filter_Backend_Model->getProductParams(245570)
-#4 D:\work\localhost2\www\index.php(52): Ajaxparams_Filter_Backend_Controller->request()
-#5 {main}
-
-28.10.2015 18:47:09
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY
-                      `a`.`id`, `a`.`name`' at line 11
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Filter_Backend_Model.php(247): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\backend\filter\Ajaxparams_Filter_Backend_Controller.php(45): Filter_Backend_Model->getProductParams(245570)
-#4 D:\work\localhost2\www\index.php(52): Ajaxparams_Filter_Backend_Controller->request()
-#5 {main}
-
-29.10.2015 11:07:47
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(348): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(377): Database->fetch('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(1)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
-
-29.10.2015 11:14:06
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:16:16
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:17:45
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:18:03
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:18:27
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:18:48
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:19:15
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:19:30
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.10.2015 11:19:43
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(374): Database->execute('UPDATE `product...', Array)
-#2 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(295): Catalog_Backend_Model->updateProduct(Array)
-#3 C:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Editprd_Catalog_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-30.10.2015 14:48:20
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/3/maker/384/hit/1/param/1.3-5.12/sort/1
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 136
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
-#2 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
-#3 {main}
-
-30.10.2015 14:49:37
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/3/maker/384/hit/1/param/1.3-5.12/sort/1
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 136
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
-#2 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
-#3 {main}
-
-30.10.2015 14:51:45
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/3/maker/384/hit/1/param/1.3-5.12/sort/1
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 136
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
-#2 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
-#3 {main}
-
-30.10.2015 15:06:14
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/1999/group/3/maker/384/hit/1/param/1.3-5.12/sort/1
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 136
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Ajaxfilter_Catalog_Frontend_Controller.php(153): Frontend_Model->getURL('frontend/catalo...')
-#2 D:\work\localhost2\www\index.php(52): Ajaxfilter_Catalog_Frontend_Controller->request()
-#3 {main}
 

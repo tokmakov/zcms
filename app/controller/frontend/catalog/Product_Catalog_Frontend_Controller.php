@@ -140,8 +140,12 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'ctg_id'       => $product['ctg_id'],
             // код (артикул) товара
             'code'         => $product['code'],
-            // цена
+            // розничная цена
             'price'        => $product['price'],
+            // цена, мелкий опт
+            'price2'       => $product['price2'],
+            // оптовая цена
+            'price3'       => $product['price3'],
             // единица измерения
             'unit'         => $product['unit'],
             // массив всех вариантов измерения

@@ -112,6 +112,7 @@ $settings = array(
             ),
             'catalog' => 'catalog.css',
             'filter' => 'filter.css',
+            'solutions' => 'solutions.css',
             'menu' => 'menu.css',
             'page' => 'page.css',
             'news' => 'news.css',

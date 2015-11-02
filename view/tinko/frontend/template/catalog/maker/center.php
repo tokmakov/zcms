@@ -187,7 +187,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div>
                     <span>Код:</span>
-                    <span><strong><?php echo $product['code']; ?></strong></span>
+                    <span><?php echo $product['code']; ?></span>
                 </div>
                 <div>
                     <span>Производитель:</span>

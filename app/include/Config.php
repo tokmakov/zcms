@@ -51,7 +51,7 @@ class Config implements Countable, Iterator {
      * Магический метод __get()
      */
     public function __get($key) {
-        if (!isset($this->data[$key])) {
+        if ( ! isset($this->data[$key])) {
             throw new Exception('Объект с ключом '.__CLASS__.'::data['.$key.'] не существует');
         }
         // если массив, то создаём ещё один экземпляр класса параметров, инициализируем

@@ -24,7 +24,7 @@ class Addctg_News_Backend_Controller extends News_Backend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
+            if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
                 $this->redirect($this->newsBackendModel->getURL('backend/news/addctg'));
             } else {
                 $this->redirect($this->newsBackendModel->getURL('backend/news/allctgs'));

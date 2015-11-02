@@ -10,7 +10,7 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * идентификатор категории, в которую вернется администратор после
      * успешного обновления товара и редиректа
      */
-    protected $return = 0;
+    private $return = 0;
 
 
     public function __construct($params = null) {

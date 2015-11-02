@@ -13,26 +13,31 @@ class News_Backend_Model extends Backend_Model {
      * Возвращает массив новостей категории с уникальным идентификатором $id
      */
     public function getCategoryNews($id, $start) {
-        $query = "SELECT `id`, `name`,
-                         DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
-                         DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
-                  FROM `news`
-                  WHERE `category` = :id
-                  ORDER BY `added` DESC
+        $query = "SELECT
+                      `id`, `name`,
+                      DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
+                  FROM
+                      `news`
+                  WHERE
+                      `category` = :id
+                  ORDER BY
+                      `added` DESC
                   LIMIT " . $start . ", " . $this->config->pager->backend->news->perpage;
-        $res = $this->database->fetchAll($query, array('id' => $id));
-        return $res;
+        return $this->database->fetchAll($query, array('id' => $id));
     }
 
     /**
      * Возвращает количество новостей в категории с уникальным идентификатором $id
      */
     public function getCountCategoryNews($id) {
-        $query = "SELECT COUNT(*)
-                  FROM `news`
-                  WHERE `category` = :id";
-        $res = $this->database->fetchOne($query, array('id' => $id));
-        return $res;
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `news`
+                  WHERE
+                      `category` = :id";
+        return $this->database->fetchOne($query, array('id' => $id));
     }
 
     /**
@@ -66,9 +71,12 @@ class News_Backend_Model extends Backend_Model {
      * Возвращает общее количество новостей (во всех категориях)
      */
     public function getCountAllNews() {
-        $query = "SELECT COUNT(*)
-                  FROM `news`
-                  WHERE 1";
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `news`
+                  WHERE
+                      1";
         return $this->database->fetchOne($query);
     }
 
@@ -76,19 +84,18 @@ class News_Backend_Model extends Backend_Model {
      * Возвращает информацию о новости с уникальным идентификатором $id
      */
     public function getNewsItem($id) {
-        $query = "SELECT `a`.`name` AS `name`, `a`.`keywords` AS `keywords`,
-                         `a`.`description` AS `description`,
-                         `a`.`excerpt` AS `excerpt`, `a`.`body` AS `body`,
-                         DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
-                         DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
-                         `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
-                  FROM `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
-                  WHERE `a`.`id` = :id";
-        $res = $this->database->fetch($query, array('id' => $id));
-        if (false === $res) {
-            return null;
-        }
-        return $res;
+        $query = "SELECT
+                      `a`.`name` AS `name`, `a`.`keywords` AS `keywords`,
+                      `a`.`description` AS `description`,
+                      `a`.`excerpt` AS `excerpt`, `a`.`body` AS `body`,
+                      DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
+                  FROM
+                      `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
+                  WHERE
+                      `a`.`id` = :id";
+        return $this->database->fetch($query, array('id' => $id));
     }
 
     /**
@@ -140,15 +147,18 @@ class News_Backend_Model extends Backend_Model {
         $data['added'] = $tmp[2].'-'.$tmp[1].'-'.$tmp[0].' '.$data['time']; // дата и время
         unset($data['date']);
         unset($data['time']);
-        $query = "UPDATE `news` SET
-                      `category` = :category,
-                      `name` = :name,
-                      `keywords` = :keywords,
+        $query = "UPDATE
+                      `news`
+                  SET
+                      `category`    = :category,
+                      `name`        = :name,
+                      `keywords`    = :keywords,
                       `description` = :description,
-                      `excerpt` = :excerpt,
-                      `body` = :body,
-                      `added` = :added
-                  WHERE `id` = :id";
+                      `excerpt`     = :excerpt,
+                      `body`        = :body,
+                      `added`       = :added
+                  WHERE
+                      `id` = :id";
         $this->database->execute($query, $data);
 
         // загружаем файл изображения
@@ -166,28 +176,28 @@ class News_Backend_Model extends Backend_Model {
     private function uploadImage($id) {
 
         // создаем директорию для хранения файлов новости
-        if (!is_dir('./files/news/' . $id)) {
-            mkdir('./files/news/' . $id);
+        if ( ! is_dir('files/news/' . $id)) {
+            mkdir('files/news/' . $id);
         }
 
         // удаляем изображение, загруженное ранее
         if (isset($_POST['remove_image'])) {
-            if (is_file('./files/news/' . $id . '/' . $id . '.jpg')) {
-                unlink('./files/news/' . $id . '/' . $id . '.jpg');
+            if (is_file('files/news/' . $id . '/' . $id . '.jpg')) {
+                unlink('files/news/' . $id . '/' . $id . '.jpg');
             }
         }
 
         // проверяем, пришел ли файл изображения
-        if (!empty($_FILES['image']['name'])) {
+        if ( ! empty($_FILES['image']['name'])) {
             // проверяем, что при загрузке не произошло ошибок
-            if ($_FILES['image']['error'] == 0) {
+            if (0 == $_FILES['image']['error']) {
                 // если файл загружен успешно, то проверяем - изображение?
                 $mimetypes = array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png');
                 if (in_array($_FILES['image']['type'], $mimetypes)) {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        './files/news/' . $id . '/' . $id . '.jpg',
+                        'files/news/' . $id . '/' . $id . '.jpg',
                         100,
                         100,
                         'jpg'
@@ -195,6 +205,7 @@ class News_Backend_Model extends Backend_Model {
                 }
             }
         }
+
     }
 
     /**
@@ -204,15 +215,15 @@ class News_Backend_Model extends Backend_Model {
     private function uploadFiles($id) {
 
         // создаем директорию для хранения файлов новости
-        if (!is_dir('./files/news/' . $id)) {
-            mkdir('./files/news/' . $id);
+        if (!is_dir('files/news/' . $id)) {
+            mkdir('files/news/' . $id);
         }
 
         // удаляем файлы, загруженные ранее
         if (isset($_POST['remove_files'])) {
             foreach ($_POST['remove_files'] as $name) {
-                if (is_file('./files/news/' . $id . '/' . $name)) {
-                    unlink('./files/news/' . $id . '/' . $name);
+                if (is_file('files/news/' . $id . '/' . $name)) {
+                    unlink('files/news/' . $id . '/' . $name);
                 }
             }
         }
@@ -243,9 +254,10 @@ class News_Backend_Model extends Backend_Model {
             // загружаем файл
             move_uploaded_file(
                 $_FILES['files']['tmp_name'][$i],
-                './files/news/' . $id . '/' . $_FILES['files']['name'][$i]
+                'files/news/' . $id . '/' . $_FILES['files']['name'][$i]
             );
         }
+
     }
 
     /**
@@ -253,10 +265,13 @@ class News_Backend_Model extends Backend_Model {
      */
     public function removeNewsItem($id) {
         // удаляем запись в таблице `news` БД
-        $query = "DELETE FROM `news` WHERE `id` = :id";
+        $query = "DELETE FROM
+                      `news`
+                  WHERE
+                      `id` = :id";
         $this->database->execute($query, array('id' => $id));
         // удаляем файлы и директорию
-        $dir = './files/news/' . $id;
+        $dir = 'files/news/' . $id;
         if (is_dir($dir)) {
             $files = scandir($dir);
             foreach ($files as $file) {
@@ -274,10 +289,14 @@ class News_Backend_Model extends Backend_Model {
      * за вывод всех категорий
      */
     public function getAllCategories() {
-        $query = "SELECT `id`, `name`
-                  FROM `news_ctgs`
-                  WHERE 1
-                  ORDER BY `sortorder`";
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `news_ctgs`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
         $categories = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($categories as $key => $value) {
@@ -294,26 +313,28 @@ class News_Backend_Model extends Backend_Model {
      * за добавление и редактирование новостей
      */
     public function getCategories() {
-        $query = "SELECT `id`, `name`
-                  FROM `news_ctgs`
-                  WHERE 1
-                  ORDER BY `sortorder`";
-        $categories = $this->database->fetchAll($query);
-        return $categories;
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `news_ctgs`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
+        return $this->database->fetchAll($query);
     }
 
     /**
      * Функция возвращает информацию о категории с уникальным идентификатором $id
      */
     public function getCategory($id) {
-        $query = "SELECT `name`, `keywords`, `description`
-                  FROM `news_ctgs`
-                  WHERE `id` = :id";
-        $res = $this->database->fetch($query, array('id' => $id));
-        if (false === $res) {
-            return null;
-        }
-        return $res;
+        $query = "SELECT
+                      `name`, `keywords`, `description`
+                  FROM
+                      `news_ctgs`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetch($query, array('id' => $id));
     }
 
     /**
@@ -344,8 +365,8 @@ class News_Backend_Model extends Backend_Model {
         $query = "UPDATE
                       `news_ctgs`
                   SET
-                      `name` = :name,
-                      `keywords` = :keywords,
+                      `name`        = :name,
+                      `keywords`    = :keywords,
                       `description` = :description
                   WHERE
                       `id` = :id";
@@ -357,13 +378,23 @@ class News_Backend_Model extends Backend_Model {
      */
     public function removeCategory($id) {
         // проверяем, что не существует новостей этой категории
-        $query = "SELECT 1 FROM `news` WHERE `category` = :id LIMIT 1";
+        $query = "SELECT
+                      1
+                  FROM
+                      `news`
+                  WHERE
+                      `category` = :id
+                  LIMIT
+                      1";
         $res = $this->database->fetchOne($query, array('id' => $id));
         if ($res) {
             return false;
         }
         // удаляем запись в таблице `news_ctgs` БД
-        $query = "DELETE FROM `news_ctgs` WHERE `id` = :id";
+        $query = "DELETE FROM
+                      `news_ctgs`
+                  WHERE
+                      `id` = :id";
         $this->database->execute($query, array('id' => $id));
         return true;
     }

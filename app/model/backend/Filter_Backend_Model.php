@@ -224,7 +224,7 @@ class Filter_Backend_Model extends Backend_Model {
         $params = array();
         $param_id = 0;
         $counter = -1;
-        foreach($result as $value) {
+        foreach ($result as $value) {
             if ($param_id != $value['param_id']) {
                 $counter++;
                 $param_id = $value['param_id'];

@@ -138,9 +138,22 @@ defined('ZCMS') or die('Access denied');
             <a href="<?php echo $image['big']; ?>" class="zoom" title="<?php echo str_replace('"', '', $name); ?>"><img src="<?php echo $image['medium']; ?>" alt="" /></a>
         </div>
         <div class="product-item-info">
-            <div>Цена: <span><span><?php echo number_format($price, 2, '.', ''); ?></span> <?php echo $units[$unit]; ?></span></div>
-            <div>Код: <span><?php echo $code; ?></span></div>
-            <div>Производитель: <span><a href="<?php echo $maker['url']; ?>"><?php echo $maker['name']; ?></a></span></div>
+            <div>
+                <span>Цена, <?php echo $units[$unit]; ?></span>
+                <span>
+                    <span>
+                        <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>розничная</span>
+                    </span>
+                    <span>
+                        <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>мелкий опт</span>
+                    </span>
+                    <span>
+                        <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>оптовая</span>
+                    </span>
+                </span>
+            </div>
+            <div><span>Код</span> <span><?php echo $code; ?></span></div>
+            <div><span>Производитель</span> <span><a href="<?php echo $maker['url']; ?>"><?php echo $maker['name']; ?></a></span></div>
         </div>
         <div class="product-item-basket">
             <form action="<?php echo $action['basket']; ?>" method="post" class="add-basket-form">

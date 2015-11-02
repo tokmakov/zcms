@@ -20,12 +20,12 @@ abstract class Backend_Model extends Base_Model {
      * $rgb - цвет фона, по умолчанию - белый
      */
     protected function resizeImage($src, $dst, $width, $height, $res = '', $rgb = array(255,255,255)) {
-        if (!in_array($res, array('', 'jpg', 'jpeg', 'gif', 'png'))) return false;
-        if ($res == 'jpg') $res = 'jpeg';
+        if ( ! in_array($res, array('', 'jpg', 'jpeg', 'gif', 'png'))) return false;
+        if ('jpg' == $res) $res = 'jpeg';
 
-        if (!file_exists($src)) return false;
+        if ( ! file_exists($src)) return false;
         $size = getimagesize($src);
-        if ($size === false) return false;
+        if (false === $size) return false;
 
         // определяем исходный формат по MIME-информации, предоставленной функцией
         // getimagesize, и выбираем соответствующую формату imagecreatefrom-функцию
@@ -38,7 +38,11 @@ abstract class Backend_Model extends Base_Model {
             }
         }
         $func = "imagecreatefrom" . $format;
-        if (!function_exists($func)) return false;
+        if ( ! function_exists($func)) return false;
+
+        if (0 == $height) {
+            $height = floor(($size[1]/$size[0])*$width);
+        }
 
         $x_ratio = $width / $size[0];
         $y_ratio = $height / $size[1];
@@ -80,7 +84,7 @@ abstract class Backend_Model extends Base_Model {
         // сохраняем результат
         if (empty($res)) $res = $format;
         $func = 'image' . $res;
-        if (!function_exists($func)) return false;
+        if ( ! function_exists($func)) return false;
 
         $func($idst, $dst);
 

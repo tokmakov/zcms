@@ -1328,6 +1328,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
             if ($ajax) { // для поиска в шапке сайта
                 $result[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
                 unset(
+                    $result[$key]['price2'],
+                    $result[$key]['price3'],
                     $result[$key]['shortdescr'],
                     $result[$key]['image'],
                     $result[$key]['ctg_id'],
@@ -1401,6 +1403,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`name` AS `name`,
                       `a`.`title` AS `title`,
                       `a`.`price` AS `price`,
+                      `a`.`price2` AS `price2`,
+                      `a`.`price3` AS `price3`,
                       `a`.`unit` AS `unit`,
                       `a`.`shortdescr` AS `shortdescr`,
                       `a`.`image` AS `image`,

@@ -136,7 +136,7 @@ class Editnews_News_Backend_Controller extends News_Backend_Controller {
         // категория новости
         $data['category'] = 0;
         if (ctype_digit($_POST['category'])) {
-            $data['category'] = $_POST['category'];
+            $data['category'] = (int)$_POST['category'];
         }
 
         // были допущены ошибки при заполнении формы?
