@@ -16,22 +16,22 @@
  *   [0] => Array (
  *     [id] => 1
  *     [name] => Охранно-пожарная сигнализация
- *     [edit] => http://www.host2.ru/backend/solutions/editctg/id/1
+ *     [edit] => http://www.host.ru/backend/solutions/editctg/id/1
  *     [childs] => Array (
  *       [0] => Array (
  *         [id] => 1
  *         [name] => Типовое решение № 1
  *         [url] => Array (
- *           [show] => http://www.host2.ru/backend/solutions/show/id/1
- *           [edit] => http://www.host2.ru/backend/solutions/editsltn/id/1
+ *           [show] => http://www.host.ru/backend/solutions/show/id/1
+ *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/1
  *         )
  *       )
  *       [1] => Array (
  *         [id] => 5
  *         [name] => Типовое решение № 2
  *         [url] => Array (
- *           [show] => http://www.host2.ru/backend/solutions/show/id/5
- *           [edit] => http://www.host2.ru/backend/solutions/editsltn/id/5
+ *           [show] => http://www.host.ru/backend/solutions/show/id/5
+ *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/5
  *         )
  *       )
  *     )
@@ -39,22 +39,22 @@
  *   [1] => Array (
  *     [id] => 2
  *     [name] => Охранное телевидение
- *     [edit] => http://www.host2.ru/backend/solutions/editctg/id/2
+ *     [edit] => http://www.host.ru/backend/solutions/editctg/id/2
  *     [childs] => Array (
  *       [0] => Array (
  *         [id] => 2
  *         [name] => Типовое решение № 1
  *         [url] => Array (
- *           [show] => http://www.host2.ru/backend/solutions/show/id/2
- *           [edit] => http://www.host2.ru/backend/solutions/editsltn/id/2
+ *           [show] => http://www.host.ru/backend/solutions/show/id/2
+ *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/2
  *         )
  *       )
  *       [1] => Array (
  *         [id] => 3
  *         [name] => Типовое решение № 2
  *         [url] => Array (
- *           [show] => http://www.host2.ru/backend/solutions/show/id/3
- *           [edit] => http://www.host2.ru/backend/solutions/editsltn/id/3
+ *           [show] => http://www.host.ru/backend/solutions/show/id/3
+ *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/3
  *         )
  *       )
  *     )

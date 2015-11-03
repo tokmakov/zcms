@@ -42,14 +42,14 @@
  *     [mkr_id] => 5
  *     [mkr_name] => Болид
  *     [url] => Array (
- *       [product] => /catalog/product/37
- *       [maker] => /catalog/maker/5
- *       [image] => /files/catalog/products/small/nophoto.jpg
+ *       [product] => http://www.host.ru/catalog/product/37
+ *       [maker] => http://www.host.ru/catalog/maker/5
+ *       [image] => http://www.host.ru/files/catalog/products/small/nophoto.jpg
  *     )
  *     [action] => Array (
- *       [basket] => /basket/addprd/37
- *       [wished] => /wished/addprd/37
- *       [compared] => /compared/addprd/37
+ *       [basket] => http://www.host.ru/basket/addprd/37
+ *       [wished] => http://www.host.ru/wished/addprd/37
+ *       [compared] => http://www.host.ru/compared/addprd/37
  *     )
  *   )
  *   [1] => Array (
@@ -136,31 +136,31 @@
  *
  * $sortorders = Array (
  *   [0] => Array (
- *     [url] => /catalog/category/1
+ *     [url] => http://www.host.ru/catalog/category/1
  *     [name] => без сортировки
  *   )
  *   [1] => Array (
- *     [url] => /catalog/category/1/sort/1
+ *     [url] => http://www.host.ru/catalog/category/1/sort/1
  *     [name] => цена, возр.
  *   )
  *   [2] => Array (
- *     [url] => /catalog/category/1/sort/2
+ *     [url] => http://www.host.ru/catalog/category/1/sort/2
  *     [name] => цена, убыв.
  *   )
  *   [3] => Array (
- *     [url] => /catalog/category/1/sort/3
+ *     [url] => http://www.host.ru/catalog/category/1/sort/3
  *     [name] => название, возр.
  *   )
  *   [4] => Array (
- *     [url] => /catalog/category/1/sort/4
+ *     [url] => http://www.host.ru/catalog/category/1/sort/4
  *     [name] => название, убыв.
  *   )
  *   [5] => Array (
- *     [url] => /catalog/category/1/sort/5
+ *     [url] => http://www.host.ru/catalog/category/1/sort/5
  *     [name] => код, возр.
  *   )
  *   [6] => Array (
- *     [url] => /catalog/category/1/sort/6
+ *     [url] => http://www.host.ru/catalog/category/1/sort/6
  *     [name] => код, убыв.
  *   )
  * )

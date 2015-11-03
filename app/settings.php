@@ -173,6 +173,7 @@ $settings = array(
                 'insert-at-caret.js',
                 'page.js',
             ),
+            'solutions' => 'solutions.js',
         ),
     ),
     'pager' => array( // постраничная навигация

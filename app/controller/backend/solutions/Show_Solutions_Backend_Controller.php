@@ -74,6 +74,8 @@ class Show_Solutions_Backend_Controller extends Solutions_Backend_Controller {
             'name'        => $name,
             // массив товаров выбранного типового решения
             'products'    => $products,
+            // URL страницы с формой для добавления товара
+            'addPrdUrl'   => $this->solutionsBackendModel->getURL('backend/solutions/addprd/parent/' . $this->params['id']),
         );
 
     }

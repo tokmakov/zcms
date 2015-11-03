@@ -22,7 +22,7 @@ class Prddown_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         // идентификатор категории, в которую вернется администратор после
         // успешного выполнения операции смещения товара вниз и редиректа
         $return = 0;
-        // если передан id категории и id категории целое положительное число
+        // если передан id товара и id товара целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
             $this->params['id'] = (int)$this->params['id'];
             $this->catalogBackendModel->moveproductDown($this->params['id']);

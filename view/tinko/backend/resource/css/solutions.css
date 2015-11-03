@@ -175,3 +175,51 @@ ul#solutions {
                 #add-edit-solution > div > div:last-child > textarea[name="content1"] {
                     height: 300px;
                 }
+
+/* форма для добавления/редактирования товара */
+#add-edit-product {
+    overflow: hidden;
+}
+    #add-edit-product  > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #eee;
+        border-radius: 10px;
+        padding: 7px 10px;
+    }
+        #add-edit-product  > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-product  > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-product  > div > div:last-child > input[type="text"],
+            #add-edit-product  > div > div:last-child > textarea,
+            #add-edit-product  > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-product  > div > div:last-child > textarea {
+                height: 150px;
+            }
+            #add-edit-product  > div:nth-child(2) > div:last-child > input[type="text"] {
+                width: 50%;
+            }
+            #add-edit-product  > div:nth-child(2) > div:last-child > span {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            #add-edit-product  > div#price-count-note > div:last-child > span {
+                display: inline-block;
+                width: 30%;
+            }
+                #add-edit-product  > div#price-count-note > div:last-child > span > input[type="text"] {
+                    box-sizing: border-box;
+                    padding: 3px;
+                    width: 35%;
+                }
+

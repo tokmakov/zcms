@@ -111,7 +111,7 @@ class Addsltn_Solutions_Backend_Controller extends Solutions_Backend_Controller 
         // основное содержание типового решения
         $data['content1']    = trim($_POST['content1']);
         // коды товаров типового решения
-        $data['codes']       = trim(utf8_substr($_POST['description'], 0, 350));
+        $data['codes']       = trim(utf8_substr($_POST['codes'], 0, 350));
         // дополнительное содержание типового решения (заключение)
         $data['content2']    = trim($_POST['content2']);
 
@@ -136,7 +136,7 @@ class Addsltn_Solutions_Backend_Controller extends Solutions_Backend_Controller 
         }
         if (empty($data['codes'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Коды товаров»';
-        } elseif ( ! preg_match('~^\d{6}( \d{6})*$~')) {
+        } elseif ( ! preg_match('~^\d{6}( \d{6})*$~', $data['codes'])) {
             $errorMessage[] = 'Недопустимое значение поля «Коды товаров»';
         }
 

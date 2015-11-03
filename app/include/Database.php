@@ -239,7 +239,7 @@ class Database {
     }
 
     public function lastInsertId() {
-        return $this->pdo->lastInsertId();
+        return (int)$this->pdo->lastInsertId();
     }
 
     public function beginTransaction() {

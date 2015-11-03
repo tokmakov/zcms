@@ -107,7 +107,7 @@ class Solutions_Backend_Model extends Backend_Model {
         $solutions = $this->database->fetchAll($query, array('category' => $id));
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($solutions  as $key => $value) {
-            $solutions [$key]['url'] = array(
+            $solutions[$key]['url'] = array(
                 'show'   => $this->getURL('backend/solutions/show/id/' . $value['id']),
                 'edit'   => $this->getURL('backend/solutions/editsltn/id/' . $value['id']),
                 'remove' => $this->getURL('backend/solutions/rmvsltn/id/' . $value['id'])
@@ -272,9 +272,7 @@ class Solutions_Backend_Model extends Backend_Model {
 
         // добавляем товары в типовое решение
         $codes = explode(' ', $codes);
-        foreach ($codes as $code) {
-            $this->addProductByCode($id, $code);
-        }
+        $this->addProductsByCodes($id, $codes);
 
         // загружаем файл изображения
         $this->uploadImage($id);
@@ -340,10 +338,51 @@ class Solutions_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция добавляет товра в типовое решение $id по коду $code
+     * Функция добавляет товары в типовое решение $id по кодам $codes
      */
-    private function addProductByCode($id, $code) {
-
+    private function addProductsByCodes($id, $codes) {
+        $sortorder = 1;
+        foreach ($codes as $code) {
+            $query = "INSERT INTO `solutions_products`
+                      (
+                          `parent`,
+                          `code`,
+                          `name`,
+                          `title`,
+                          `shortdescr`,
+                          `count`,
+                          `price`,
+                          `unit`,
+                          `heading`,
+                          `note`,
+                          `sortorder`
+                      )
+                      SELECT
+                          :parent,
+                          `code`,
+                          `name`,
+                          `title`,
+                          `shortdescr`,
+                          1,
+                          `price`,
+                          `unit`,
+                          '',
+                          0,
+                          :sortorder
+                      FROM
+                          `products`
+                      WHERE
+                          `code` = :code";
+            $this->database->execute(
+                $query,
+                array(
+                    'parent'    => $id,
+                    'code'      => $code,
+                    'sortorder' => $sortorder
+                )
+            );
+            $sortorder++;
+        }
     }
 
     /**
@@ -370,26 +409,253 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function getSolutionProducts($id) {
         $query = "SELECT
-                      `id`, `code`, `name`, `title`, `count`,
-                      `price`, `heading`, `note`, `sortorder`
+                      `id`, `code`, `name`, `title`, `count`, `price`,
+                      `unit`, `heading`, `note`, `sortorder`
                   FROM
                       `solutions_products`
                   WHERE
                       `parent` = :parent
                   ORDER BY
                       `sortorder`";
-        return $this->database->fetch($query, array('parent' => $id));
+        $products = $this->database->fetchAll($query, array('parent' => $id));
+        // добавляем в массив URL ссылок для редактирования и удаления
+        foreach($products  as $key => $value) {
+            $products[$key]['url'] = array(
+                'up'     => $this->getURL('backend/solutions/prdup/id/' . $value['id']),
+                'down'   => $this->getURL('backend/solutions/prddown/id/' . $value['id']),
+                'edit'   => $this->getURL('backend/solutions/editprd/id/' . $value['id']),
+                'remove' => $this->getURL('backend/solutions/rmvprd/id/' . $value['id'])
+            );
+        }
+        return $products;
     }
 
     /**
      * Функция удаляет типовое решение
      */
     public function removeSolution($id) {
+        // TODO: изменить порядок сортировки типовых решений для категории
+        $query = "DELETE FROM
+                      `solutions_products`
+                  WHERE
+                      `parent` = :id";
+        $this->database->execute($query, array('id' => $id));
         $query = "DELETE FROM
                       `solutions`
                   WHERE
                       `id` = :id";
         $this->database->execute($query, array('id' => $id));
+    }
+
+    /**
+     * Функция добавляет товар в типовое решение
+     */
+    public function addSolutionProduct($data) {
+        // порядок сортировки
+        $query = "SELECT
+                      IFNULL(MAX(`sortorder`), 0)
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `parent` = :parent";
+        $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
+        // добавляем товар
+        $query = "INSERT INTO `solutions_products`
+                  (
+                      `parent`,
+                      `code`,
+                      `name`,
+                      `title`,
+                      `shortdescr`,
+                      `count`,
+                      `price`,
+                      `unit`,
+                      `heading`,
+                      `note`,
+                      `sortorder`
+                  )
+                  VALUES
+                  (
+                      :parent,
+                      :code,
+                      :name,
+                      :title,
+                      :shortdescr,
+                      :count,
+                      :price,
+                      0,
+                      :heading,
+                      :note,
+                      :sortorder
+                  )";
+        $this->database->execute($query, $data);
+    }
+
+    /**
+     * Функция возвращает информацию о товаре $id
+     */
+    public function getSolutionProduct($id) {
+        $query = "SELECT
+                      `code`, `name`, `title`, `shortdescr`, `count`,
+                      `price`, `unit`, `heading`, `note`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetch($query, array('id' => $id));
+    }
+
+    /**
+     * Функция обновляет товар
+     */
+    public function updateSolutionProduct($data) {
+        $query = "UPDATE
+                      `solutions_products`
+                  SET
+                      `code`       = :code,
+                      `name`       = :name,
+                      `title`      = :title,
+                      `shortdescr` = :shortdescr,
+                      `count`      = :count,
+                      `price`      = :price,
+                      `unit`       = 0,
+                      `heading`    = :heading,
+                      `note`       = :note
+                  WHERE
+                      `id` = :id";
+        $this->database->execute($query, $data);
+    }
+
+    /**
+     * Функция удаляет товар из типового решения
+     */
+    public function removeSolutionProduct($id) {
+
+    }
+
+    /**
+     * Функция опускает товар вниз в списке
+     */
+    public function moveProductDown($id) {
+        $id_item_down = $id;
+        // порядок следования товара, которая опускается вниз
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `id` = :id_item_down";
+        $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
+        $order_down = $res['sortorder'];
+        $parent = $res['parent'];
+        // порядок следования и id товара, который находится ниже и будет поднят вверх,
+        // поменявшись местами с товаром, который опускается вниз
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `parent` = :parent AND `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
+        if (is_array($res)) {
+            $id_item_up = $res['id'];
+            $order_up = $res['sortorder'];
+            // меняем местами товары
+            $query = "UPDATE
+                          `solutions_products`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions_products`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
+    }
+
+    /**
+     * Функция поднимает товар вверх в списке
+     */
+    public function moveProductUp($id) {
+        $id_item_up = $id;
+        // порядок следования товара, который поднимается вверх
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `id` = :id_item_up";
+        $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
+        $order_up = $res['sortorder'];
+        $parent = $res['parent'];
+        // порядок следования и id товара, который находится выше и будет опущен вниз,
+        // поменявшись местами с товаром, который поднимается вверх
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `parent` = :parent AND `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('parent' => $parent, 'order_up' => $order_up));
+        if (is_array($res)) {
+            $id_item_down = $res['id'];
+            $order_down = $res['sortorder'];
+            // меняем местами товары
+            $query = "UPDATE
+                          `solutions_products`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions_products`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
+    }
+
+    /**
+     * Функция возвращает идентификатор типового решения для товара
+     * с уникальным идентификатором $id
+     */
+    public function getProductParent($id) {
+        $query = "SELECT
+                      `parent`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetchOne($query, array('id' => $id));
+    }
+
+    /**
+     * Функция возвращает информацию о товаре с кодом $code
+     */
+    public function getProductByCode($code) {
+        $query = "SELECT
+                      `name`, `title`, `shortdescr`, `price`
+                  FROM
+                      `products`
+                  WHERE
+                      `code` = :code";
+        return $this->database->fetch($query, array('code' => $code));
     }
 
 }

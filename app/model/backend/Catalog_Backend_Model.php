@@ -742,7 +742,6 @@ class Catalog_Backend_Model extends Backend_Model {
         }
     }
 
-
     /**
      * Функция опускает товар вниз в списке
      */
@@ -840,7 +839,6 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
         }
     }
-
 
     /**
      * Функция возвращает информацию о категории с уникальным идентификатором $id
