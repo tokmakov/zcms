@@ -20,8 +20,6 @@ class Ajax_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
     public function request() {
 
-sleep(1);
-
         // если не передан id товара или id товара не число
         if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');

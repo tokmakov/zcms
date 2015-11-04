@@ -13,7 +13,7 @@ class Ajax_Solutions_Backend_Controller extends Solutions_Backend_Controller {
 
     public function __construct($params = null) {
         if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             die();
         }
         parent::__construct($params);
@@ -23,7 +23,7 @@ class Ajax_Solutions_Backend_Controller extends Solutions_Backend_Controller {
 
         // если не передан код товара или код товара не число
         if ( ! (isset($this->params['code']) && preg_match('~^\d{6}$~', $this->params['code'])) ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             die();
         }
 

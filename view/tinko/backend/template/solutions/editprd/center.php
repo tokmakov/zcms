@@ -94,5 +94,4 @@ defined('ZCMS') or die('Access denied');
 </div>
 </form>
 
-
 <!-- Конец шаблона шаблона view/example/backend/template/solutions/editprd/center.php -->

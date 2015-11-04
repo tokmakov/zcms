@@ -747,7 +747,7 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function moveProductDown($id) {
         $id_item_down = $id;
-        // порядок следования товара, которая опускается вниз
+        // порядок следования товара, который опускается вниз
         $query = "SELECT
                       `sortorder`, `category`
                   FROM

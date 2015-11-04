@@ -157,7 +157,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div class="product-line-info">
                     <div>
-                        <span>Цена, <?php echo $units[$product['unit']]; ?>:</span>
+                        <span>Цена, <?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
@@ -165,11 +165,11 @@ for ($i = 0; $i <= 6; $i++) {
                         </span>
                     </div>
                     <div>
-                        <span>Код:</span>
+                        <span>Код</span>
                         <span><?php echo $product['code']; ?></span>
                     </div>
                     <div>
-                        <span>Производитель:</span>
+                        <span>Производитель</span>
                         <span><a href="<?php echo $product['url']['maker']; ?>"<?php echo ($maker) ? ' class="selected"' : ''; ?>><?php echo $product['mkr_name']; ?></a></span>
                     </div>
                 </div>
