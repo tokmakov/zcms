@@ -71,6 +71,9 @@ class Editprd_Solutions_Backend_Controller extends Solutions_Backend_Controller 
             return;
         }
 
+        // единицы измерения для возможности выбора
+        $units = $this->solutionsBackendModel->getUnits();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -91,6 +94,10 @@ class Editprd_Solutions_Backend_Controller extends Solutions_Backend_Controller 
             'shortdescr'  => $product['shortdescr'],
             // цена
             'price'       => $product['price'],
+            // единица измерения
+            'unit'       => $product['unit'],
+            // единицы измерения для возможности выбора
+            'units'       => $units,
             // количество
             'count'       => $product['count'],
             // сноска
@@ -137,6 +144,12 @@ class Editprd_Solutions_Backend_Controller extends Solutions_Backend_Controller 
         $price = trim($_POST['price']);
         if (preg_match('~^\d+(\.\d{1,5})?$~', $price)) {
             $data['price'] = (float)$price;
+        }
+
+        // единица измерения
+        $data['unit'] = 0;
+        if (ctype_digit($_POST['unit']) && in_array($_POST['unit'], array(1,2,3,4,5))) {
+            $data['unit'] = (int)$_POST['unit'];
         }
 
         // количество

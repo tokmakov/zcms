@@ -282,3 +282,104 @@
 #5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+05.11.2015 09:18:30
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sortorder`,
+                      `empty` = CASE WHEN `b`.`id` IS NULL THEN 1 E' at line 12
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(431): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(11)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 09:19:23
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sortorder`
+                FROM
+                    `solutions_products` `a` L' at line 12
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(430): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(11)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 09:19:47
+Код: 23000, текст: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'price' in field list is ambiguous
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(431): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(11)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 09:21:03
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.init' in 'field list'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(431): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(11)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 09:21:16
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'empty' in 'field list'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(431): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Show_Solutions_Backend_Controller.php(63): Solutions_Backend_Model->getSolutionProducts(11)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Show_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 10:07:15
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(502): Database->execute('INSERT INTO `so...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\solutions\Addprd_Solutions_Backend_Controller.php(166): Solutions_Backend_Model->addSolutionProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Addprd_Solutions_Backend_Controller.php(38): Addprd_Solutions_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Addprd_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 11:01:16
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'parent ' in 'where clause'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(559): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Rmvprd_Solutions_Backend_Controller.php(25): Solutions_Backend_Model->removeSolutionProduct(2)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Rmvprd_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+05.11.2015 12:30:59
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM
+                      `solutions_categories` `a`
+                      IN' at line 6
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Solutions_Backend_Model.php(28): Database->fetchAll('SELECT\r\n       ...')
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Index_Solutions_Backend_Controller.php(34): Solutions_Backend_Model->getAllSolutions()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(122): Index_Solutions_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

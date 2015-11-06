@@ -62,6 +62,9 @@ class Addprd_Solutions_Backend_Controller extends Solutions_Backend_Controller {
             ),
         );
 
+        // единицы измерения для возможности выбора
+        $units = $this->solutionsBackendModel->getUnits();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -70,6 +73,8 @@ class Addprd_Solutions_Backend_Controller extends Solutions_Backend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->solutionsBackendModel->getURL('backend/solutions/addprd/parent/' . $this->params['parent']),
+            // единицы измерения
+            'units'       => $units,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addSolutionProductForm')) {
@@ -112,6 +117,12 @@ class Addprd_Solutions_Backend_Controller extends Solutions_Backend_Controller {
         $price = trim($_POST['price']);
         if (preg_match('~^\d+(\.\d{1,5})?$~', $price)) {
             $data['price'] = (float)$price;
+        }
+
+        // единица измерения
+        $data['unit'] = 0;
+        if (ctype_digit($_POST['unit']) && in_array($_POST['unit'], array(1,2,3,4,5))) {
+            $data['unit'] = (int)$_POST['unit'];
         }
 
         // количество

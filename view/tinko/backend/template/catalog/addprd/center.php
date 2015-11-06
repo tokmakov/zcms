@@ -295,13 +295,13 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Единица измерения</div>
         <div>
+        <?php if (!empty($units)): ?>
             <select name="unit">
-                <?php if (!empty($units)): ?>
-                    <?php foreach ($units as $key => $value): ?>
-                        <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+            <?php foreach ($units as $key => $value): ?>
+                <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+            <?php endforeach; ?>
             </select>
+        <?php endif; ?>
         </div>
     </div>
     <div>

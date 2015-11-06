@@ -33,4 +33,5 @@ class Prdup_Solutions_Backend_Controller extends Solutions_Backend_Controller {
             $this->redirect($this->solutionsBackendModel->getURL('backend/solutions/index'));
         }
     }
+
 }

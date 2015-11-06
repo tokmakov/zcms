@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $units - все единицы измерения для возможности выбора
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках.
@@ -43,6 +44,7 @@ defined('ZCMS') or die('Access denied');
     $title      = '';
     $shortdescr = '';
     $price      = 0.0;
+    $unit       = 0;
     $count      = 1;
     $note       = 0;
 
@@ -53,6 +55,7 @@ defined('ZCMS') or die('Access denied');
         $title      = htmlspecialchars($savedFormData['title']);
         $shortdescr = htmlspecialchars($savedFormData['shortdescr']);
         $price      = $savedFormData['price'];
+        $unit       = $savedFormData['units'];
         $count      = $savedFormData['count'];
         $note       = $savedFormData['note'];
     }
@@ -84,7 +87,17 @@ defined('ZCMS') or die('Access denied');
         <div>Цена, количество, сноска</div>
         <div>
             <span>цена <input type="text" name="price" value="<?php echo $price; ?>" /></span>
-            <span>количество <input type="text" name="count" value="<?php echo $count; ?>" /></span>
+            <span>
+                ед.изм.
+                <?php if (!empty($units)): ?>
+                    <select name="unit">
+                        <?php foreach ($units as $key => $value): ?>
+                            <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+            </span>
+            <span>кол. <input type="text" name="count" value="<?php echo $count; ?>" /></span>
             <span><input type="checkbox" name="note"<?php echo $note ? ' checked="checked"' : ''; ?> value="1" /> сноска</span>
         </div>
     </div>

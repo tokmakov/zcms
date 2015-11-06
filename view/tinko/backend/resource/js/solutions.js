@@ -12,6 +12,13 @@ $(document).ready(function() {
             $('#add-edit-product input[name="name"]').val(data.name); // торговое наименование
             $('#add-edit-product input[name="title"]').val(data.title); // функциональное наименование
             $('#add-edit-product input[name="price"]').val(data.price); // цена
+            $("#add-edit-product select[name='unit'] option").each(function(){
+                if (data.unit == this.value) {
+                    this.selected = true;
+                } else {
+                    this.selected = false;
+                }
+            });
             $('#add-edit-product textarea[name="shortdescr"]').val(data.shortdescr); // краткое описание
         }, 'json');
         } else {

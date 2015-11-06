@@ -369,6 +369,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка отложенных, XmlHttpRequest
         '~^frontend/wished/ajax/action/rmvprd$~i' =>
         'wished/ajax/rmvprd',
+
         /*
          * товары для сравнения
          */
@@ -473,10 +474,29 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'news/item/$1',
         // список новостей выбранной категории
         '~^frontend/news/category/id/(\d+)$~i' =>
-        'news/ctg/$1',
+        'news/category/$1',
         // список новостей выбранной категории, постраничная навигация
         '~^frontend/news/category/id/(\d+)/page/(\d+)$~i' =>
-        'news/ctg/$1/page/$2',
+        'news/category/$1/page/$2',
+
+        /*
+         * типовые решения
+         */
+        // главная страница типовых решений
+        '~^frontend/solutions/index$~i' =>
+        'solutions',
+        // главная страница типовых решений, постраничная навигация
+        '~^frontend/solutions/index/page/(\d+)$~i' =>
+        'solutions/page/$1',
+        // отдельное типовое решение
+        '~^frontend/solutions/item/id/(\d+)$~i' =>
+        'solutions/item/$1',
+        // список типовых решений выбранной категории
+        '~^frontend/solutions/category/id/(\d+)$~i' =>
+        'solutions/category/$1',
+        // список типовых решений выбранной категории, постраничная навигация
+        '~^frontend/solutions/category/id/(\d+)/page/(\d+)$~i' =>
+        'solutions/category/$1/page/$2',
 
         /*
          * страницы сайта
@@ -1064,7 +1084,27 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^news/ctg/(\d+)$~i' =>
         'frontend/news/category/id/$1',
         // список новостей выбранной категории, постраничная навигация
-        '~^news/ctg/(\d+)/page/(\d+)$~i' => 'frontend/news/category/id/$1/page/$2',
+        '~^news/ctg/(\d+)/page/(\d+)$~i' =>
+        'frontend/news/category/id/$1/page/$2',
+
+        /*
+         * типовые решения
+         */
+        // главная страница типовых решений
+        '~^solutions$~i' =>
+        'frontend/solutions/index',
+        // главная страница типовых решений, постраничная навигация
+        '~^solutions/page/(\d+)$~i' =>
+        'frontend/solutions/index/page/$1',
+        // отдельное типовое решение
+        '~^solutions/item/(\d+)$~i' =>
+        'frontend/solutions/item/id/$1',
+        // список типовых решений выбранной категории
+        '~^solutions/category/(\d+)$~i' =>
+        'frontend/solutions/category/id/$1',
+        // список типовых решений выбранной категории, постраничная навигация
+        '~^solutions/category/(\d+)/page/(\d+)$~i' =>
+        'frontend/solutions/category/id/$1/page/$2',
 
         /*
          * страницы сайта

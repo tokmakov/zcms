@@ -11,6 +11,42 @@
  * $addCtgUrl - URL страницы с формой для добавления категории
  * $addSltnUrl - URL страницы с формой для добавления типового решения
  * $categories - массив категорий типовых решений
+ *
+ * $categories = Array (
+ *   [0] => Array (
+ *     [id] => 1
+ *     [name] => Охранно-пожарная сигнализация
+ *     [url] => Array (
+ *       [show] => http://www.host.ru/backend/solutions/category/id/1
+ *       [up] => http://www.host.ru/backend/solutions/ctgup/id/1
+ *       [down] => http://www.host.ru/backend/solutions/ctgdown/id/1
+ *       [edit] => http://www.host.ru/backend/solutions/editctg/id/1
+ *       [remove] => http://www.host.ru/backend/solutions/rmvctg/id/1
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 2
+ *     [name] => Охранное телевидение
+ *     [url] => Array (
+ *       [show] => http://www.host.ru/backend/solutions/category/id/2
+ *       [up] => http://www.host.ru/backend/solutions/ctgup/id/2
+ *       [down] => http://www.host.ru/backend/solutions/ctgdown/id/2
+ *       [edit] => http://www.host.ru/backend/solutions/editctg/id/2
+ *       [remove] => http://www.host.ru/backend/solutions/rmvctg/id/2
+ *     )
+ *   )
+ *   [2] => Array (
+ *     [id] => 3
+ *     [name] => Контроль и управление доступом
+ *     [url] => Array (
+ *       [show] => http://www.host.ru/backend/solutions/category/id/3
+ *       [up] => http://www.host.ru/backend/solutions/ctgup/id/3
+ *       [down] => http://www.host.ru/backend/solutions/ctgdown/id/3
+ *       [edit] => http://www.host.ru/backend/solutions/editctg/id/3
+ *       [remove] => http://www.host.ru/backend/solutions/rmvctg/id/3
+ *     )
+ *   )
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -38,13 +74,20 @@ defined('ZCMS') or die('Access denied');
 
 <h2>Категории</h2>
 
+<p><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></p>
+
 <?php if (!empty($categories)): ?>
     <div id="all-categories">
         <ul>
         <?php foreach($categories as $item) : ?>
             <li>
-                <div><a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a></div>
                 <div>
+                    <?php echo $item['sortorder']; ?>.
+                    <a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a>
+                </div>
+                <div>
+                    <a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a>
+                    <a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a>
                     <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
                     <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
                 </div>

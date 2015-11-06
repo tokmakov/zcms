@@ -61,7 +61,7 @@ defined('ZCMS') or die('Access denied');
 <div id="add-edit-solution">
     <div>
         <div>Наименование</div>
-        <div><input type="text" name="name" maxlength="100" value="<?php echo $name; ?>" /></div>
+        <div><input type="text" name="name" maxlength="150" value="<?php echo $name; ?>" /></div>
     </div>
     <div>
         <div>Категория</div>

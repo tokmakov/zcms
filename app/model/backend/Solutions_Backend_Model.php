@@ -15,7 +15,9 @@ class Solutions_Backend_Model extends Backend_Model {
     public function getAllSolutions() {
         $query = "SELECT
                       `a`.`id` AS `ctg_id`, `a`.`name` AS `ctg_name`,
-                      `b`.`id` AS `item_id`, `b`.`name` AS `item_name`
+                      `b`.`id` AS `item_id`, `b`.`name` AS `item_name`,
+                      `a`.`sortorder` AS `ctg_sortorder`,
+                      `b`.`sortorder` AS `item_sortorder`
                   FROM
                       `solutions_categories` `a`
                       INNER JOIN `solutions` `b` ON `a`.`id` = `b`.`category`
@@ -32,9 +34,17 @@ class Solutions_Backend_Model extends Backend_Model {
             if ($ctg_id != $value['ctg_id']) {
                 $counter++;
                 $ctg_id = $value['ctg_id'];
-                $solutions[$counter] = array('id' => $value['ctg_id'], 'name' => $value['ctg_name']);
+                $solutions[$counter] = array(
+                    'id' => $value['ctg_id'],
+                    'name' => $value['ctg_name'],
+                    'sortorder' => $value['ctg_sortorder']
+                );
             }
-            $solutions[$counter]['childs'][] = array('id' => $value['item_id'], 'name' => $value['item_name']);
+            $solutions[$counter]['childs'][] = array(
+                'id' => $value['item_id'],
+                'name' => $value['item_name'],
+                'sortorder' => $value['item_sortorder']
+            );
         }
 
         // добавляем в массив URL ссылок для редактирования
@@ -73,7 +83,7 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function getAllCategories() {
         $query = "SELECT
-                      `id`, `name`
+                      `id`, `name`, `sortorder`
                   FROM
                       `solutions_categories`
                   WHERE
@@ -85,6 +95,8 @@ class Solutions_Backend_Model extends Backend_Model {
         foreach($categories as $key => $value) {
             $categories[$key]['url'] = array(
                 'show'   => $this->getURL('backend/solutions/category/id/' . $value['id']),
+                'up'     => $this->getURL('backend/solutions/ctgup/id/' . $value['id']),
+                'down'   => $this->getURL('backend/solutions/ctgdown/id/' . $value['id']),
                 'edit'   => $this->getURL('backend/solutions/editctg/id/' . $value['id']),
                 'remove' => $this->getURL('backend/solutions/rmvctg/id/' . $value['id'])
             );
@@ -97,7 +109,7 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function getCategorySolutions($id) {
         $query = "SELECT
-                      `id`, `name`
+                      `id`, `name`, `sortorder`
                   FROM
                       `solutions`
                   WHERE
@@ -109,6 +121,8 @@ class Solutions_Backend_Model extends Backend_Model {
         foreach($solutions  as $key => $value) {
             $solutions[$key]['url'] = array(
                 'show'   => $this->getURL('backend/solutions/show/id/' . $value['id']),
+                'up'     => $this->getURL('backend/solutions/sltnup/id/' . $value['id']),
+                'down'   => $this->getURL('backend/solutions/sltndown/id/' . $value['id']),
                 'edit'   => $this->getURL('backend/solutions/editsltn/id/' . $value['id']),
                 'remove' => $this->getURL('backend/solutions/rmvsltn/id/' . $value['id'])
             );
@@ -194,12 +208,142 @@ class Solutions_Backend_Model extends Backend_Model {
      * Функция удаляет категорию
      */
     public function removeCategory($id) {
-        // TODO: проверить, что категория пустая
+        // проверяем, что не существует типовых решений в этой категории
+        $query = "SELECT
+                      1
+                  FROM
+                      `solutions`
+                  WHERE
+                      `category` = :id
+                  LIMIT
+                      1";
+        $res = $this->database->fetchOne($query, array('id' => $id));
+        if ($res) {
+            return false;
+        }
+        // удаляем категорию
         $query = "DELETE FROM
                       `solutions_categories`
                   WHERE
                       `id` = :id";
         $this->database->execute($query, array('id' => $id));
+        // обновляем порядок следования категорий
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
+        $categories = $this->database->fetchAll($query);
+        $sortorder = 1;
+        foreach ($categories as $item) {
+            $query = "UPDATE
+                          `solutions_categories`
+                      SET
+                          `sortorder`=:sortorder
+                      WHERE
+                          `id` = :id";
+            $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
+            $sortorder++;
+        }
+    }
+
+    /**
+     * Функция опускает категорию вниз в списке
+     */
+    public function moveCategoryDown($id) {
+        $id_item_down = $id;
+        // порядок следования типового решения, которое опускается вниз
+        $query = "SELECT
+                      `sortorder`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      `id` = :id_item_down";
+        $order_down = $this->database->fetchOne($query, array('id_item_down' => $id_item_down));
+        // порядок следования и id категории, которая находится ниже
+        // и будет поднята вверх, поменявшись местами с категорией,
+        // которая опускается вниз
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('order_down' => $order_down));
+        if (is_array($res)) {
+            $id_item_up = $res['id'];
+            $order_up = $res['sortorder'];
+            // меняем местами типовые решения
+            $query = "UPDATE
+                          `solutions_categories`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions_categories`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
+    }
+
+    /**
+     * Функция поднимает категорию вверх в списке
+     */
+    public function moveCategoryUp($id) {
+        $id_item_up = $id;
+        // порядок следования категории, которая поднимается вверх
+        $query = "SELECT
+                      `sortorder`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      `id` = :id_item_up";
+        $order_up = $this->database->fetchOne($query, array('id_item_up' => $id_item_up));
+        // порядок следования и id категории, которая находится выше
+        // и будет опущена вниз, поменявшись местами с категорией,
+        // которая поднимается вверх
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('order_up' => $order_up));
+        if (is_array($res)) {
+            $id_item_down = $res['id'];
+            $order_down = $res['sortorder'];
+            // меняем местами категории
+            $query = "UPDATE
+                          `solutions_categories`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions_categories`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
     }
 
     /**
@@ -409,14 +553,25 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function getSolutionProducts($id) {
         $query = "SELECT
-                      `id`, `code`, `name`, `title`, `count`, `price`,
-                      `unit`, `heading`, `note`, `sortorder`
-                  FROM
-                      `solutions_products`
-                  WHERE
-                      `parent` = :parent
-                  ORDER BY
-                      `sortorder`";
+                      `a`.`id` AS `id`,
+                      `a`.`code` AS `code`,
+                      `a`.`name` AS `name`,
+                      `a`.`title` AS `title`,
+                      `a`.`price` AS `price`,
+                      CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
+                      `a`.`unit` AS `unit`,
+                      `a`.`count` AS `count`,
+                      `a`.`heading` AS `heading`,
+                      `a`.`note` AS `note`,
+                      `a`.`sortorder` AS `sortorder`,
+                      CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
+                FROM
+                    `solutions_products` `a` LEFT JOIN `products` `b`
+                    ON `a`.`code`=`b`.`code` AND `b`.`visible`=1
+                WHERE
+                    `a`.`parent` = :parent
+                ORDER BY
+                    `a`.`sortorder`";
         $products = $this->database->fetchAll($query, array('parent' => $id));
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($products  as $key => $value) {
@@ -434,17 +589,155 @@ class Solutions_Backend_Model extends Backend_Model {
      * Функция удаляет типовое решение
      */
     public function removeSolution($id) {
-        // TODO: изменить порядок сортировки типовых решений для категории
+        // родительская категория типового решения
+        $category = $this->getSolutionCategory($id);
+        // удаляем товары типового решения
         $query = "DELETE FROM
                       `solutions_products`
                   WHERE
                       `parent` = :id";
         $this->database->execute($query, array('id' => $id));
+        // удаляем типовое решение
         $query = "DELETE FROM
                       `solutions`
                   WHERE
                       `id` = :id";
         $this->database->execute($query, array('id' => $id));
+        // обновляем порядок следования типовых решений
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `category` = :category
+                  ORDER BY
+                      `sortorder`";
+        $solutions = $this->database->fetchAll($query, array('category' => $category));
+        $sortorder = 1;
+        foreach ($solutions as $item) {
+            $query = "UPDATE
+                          `solutions`
+                      SET
+                          `sortorder`=:sortorder
+                      WHERE
+                          `id` = :id";
+            $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
+            $sortorder++;
+        }
+    }
+
+    /**
+     * Функция опускает типовое решение вниз в списке
+     */
+    public function moveSolutionDown($id) {
+        $id_item_down = $id;
+        // порядок следования типового решения, которое опускается вниз
+        $query = "SELECT
+                      `sortorder`, `category`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `id` = :id_item_down";
+        $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
+        $order_down = $res['sortorder'];
+        $category = $res['category'];
+        // порядок следования и id типового решения, которое находится ниже
+        // и будет поднято вверх, поменявшись местами с типовым решением,
+        // которое опускается вниз
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `category` = :category AND `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('category' => $category, 'order_down' => $order_down));
+        if (is_array($res)) {
+            $id_item_up = $res['id'];
+            $order_up = $res['sortorder'];
+            // меняем местами типовые решения
+            $query = "UPDATE
+                          `solutions`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
+    }
+
+    /**
+     * Функция поднимает типовое решение вверх в списке
+     */
+    public function moveSolutionUp($id) {
+        $id_item_up = $id;
+        // порядок следования типового решения, которое поднимается вверх
+        $query = "SELECT
+                      `sortorder`, `category`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `id` = :id_item_up";
+        $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
+        $order_up = $res['sortorder'];
+        $category = $res['category'];
+        // порядок следования и id типового решения, которое находится выше
+        // и будет опущено вниз, поменявшись местами с типовым решением,
+        // которое поднимается вверх
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `category` = :category AND `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('category' => $category, 'order_up' => $order_up));
+        if (is_array($res)) {
+            $id_item_down = $res['id'];
+            $order_down = $res['sortorder'];
+            // меняем местами типовые решения
+            $query = "UPDATE
+                          `solutions`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $query = "UPDATE
+                          `solutions`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+        }
+    }
+
+    /**
+     * Функция возвращает идентификатор категории для типового решения
+     * с уникальным идентификатором $id
+     */
+    public function getSolutionCategory($id) {
+        $query = "SELECT
+                      `category`
+                  FROM
+                      `solutions`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetchOne($query, array('id' => $id));
     }
 
     /**
@@ -483,7 +776,7 @@ class Solutions_Backend_Model extends Backend_Model {
                       :shortdescr,
                       :count,
                       :price,
-                      0,
+                      :unit,
                       :heading,
                       :note,
                       :sortorder
@@ -518,7 +811,7 @@ class Solutions_Backend_Model extends Backend_Model {
                       `shortdescr` = :shortdescr,
                       `count`      = :count,
                       `price`      = :price,
-                      `unit`       = 0,
+                      `unit`       = :unit,
                       `heading`    = :heading,
                       `note`       = :note
                   WHERE
@@ -530,7 +823,33 @@ class Solutions_Backend_Model extends Backend_Model {
      * Функция удаляет товар из типового решения
      */
     public function removeSolutionProduct($id) {
-
+        $parent = $this->getProductParent($id);
+        $query = "DELETE FROM
+                      `solutions_products`
+                  WHERE
+                      `id` = :id";
+        $this->database->execute($query, array('id' => $id));
+        // обновляем порядок следования товаров в типовом решении
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `solutions_products`
+                  WHERE
+                      `parent` = :parent
+                  ORDER BY
+                      `sortorder`";
+        $products = $this->database->fetchAll($query, array('parent' => $parent));
+        $sortorder = 1;
+        foreach ($products as $item) {
+            $query = "UPDATE
+                          `solutions_products`
+                      SET
+                          `sortorder`=:sortorder
+                      WHERE
+                          `id` = :id";
+            $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
+            $sortorder++;
+        }
     }
 
     /**
@@ -651,7 +970,7 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function getProductByCode($code) {
         $query = "SELECT
-                      `name`, `title`, `shortdescr`, `price`
+                      `name`, `title`, `shortdescr`, `price`, `unit`
                   FROM
                       `products`
                   WHERE

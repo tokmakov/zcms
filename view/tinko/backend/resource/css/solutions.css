@@ -59,6 +59,8 @@ ul#solutions {
             #index-solutions > ul > li > ul > li > span:first-child {
                 width: 90%;
                 float: left;
+                white-space: nowrap;
+                overflow: hidden;
             }
             #index-solutions > ul > li > div > span:last-child,
             #index-solutions > ul > li > ul > li > span:last-child {
@@ -135,6 +137,8 @@ ul#solutions {
             #all-solutions > ul > li > div:first-child {
                 float: left;
                 width: 70%;
+                white-space: nowrap;
+                overflow: hidden;
             }
             #all-solutions > ul > li > div:last-child {
                 float: right;
@@ -207,19 +211,20 @@ ul#solutions {
                 height: 150px;
             }
             #add-edit-product  > div:nth-child(2) > div:last-child > input[type="text"] {
-                width: 50%;
+                width: 20%;
             }
             #add-edit-product  > div:nth-child(2) > div:last-child > span {
                 text-decoration: underline;
                 cursor: pointer;
             }
             #add-edit-product  > div#price-count-note > div:last-child > span {
-                display: inline-block;
-                width: 30%;
+                float: left;
+                width: 25%;
             }
-                #add-edit-product  > div#price-count-note > div:last-child > span > input[type="text"] {
+                #add-edit-product  > div#price-count-note > div:last-child > span > input[type="text"],
+                #add-edit-product  > div#price-count-note > div:last-child > span > select {
                     box-sizing: border-box;
                     padding: 3px;
-                    width: 35%;
+                    width: 55%;
                 }
 

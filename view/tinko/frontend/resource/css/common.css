@@ -2370,6 +2370,97 @@ body > .wrapper {
         max-width: 100%;
     }
 
+/* список типовых решений */
+#solutions-list {
+
+}
+    #solutions-list > div { /* отдельное типовое решение */
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    #solutions-list > div > h2 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            line-height: 19px;
+        }
+        #solutions-list > div > h2 > a {
+            font-size: 16px;
+            line-height: 19px;
+            font-weight: bold;
+            color: #395985;
+        }
+
+/* типовые решения, список категорий */
+#categories-solutions {
+    margin-bottom: 20px;
+}
+    #categories-solutions > div:first-child {
+        background-color: #323232;
+        border: 1px solid #323232;
+        color: #fff;
+        padding: 10px 15px;
+    }
+    #categories-solutions > div:last-child {
+        border: 1px solid #d1d1d1;
+        border-top: none;
+        overflow: hidden;
+        position: relative;
+    }
+        #categories-solutions > div:last-child > ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            float: left;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        #categories-solutions > div:last-child > ul:first-child {
+            border-right: 1px dashed #d1d1d1;
+        }
+        #categories-solutions > div:last-child > ul:only-of-type {
+            border-right: none;
+            width: 100%;
+            float: none;
+        }
+            #categories-solutions > div:last-child > ul > li {
+                padding: 0 30px 0 5px;
+                border-bottom: 1px dashed #d1d1d1;
+                height: 30px;
+                overflow: hidden;
+                position: relative;
+            }
+            #categories-solutions > div:last-child > ul > li:last-child {
+                border-bottom: none;
+            }
+                #categories-solutions > div:last-child > ul > li > span {
+                    display: table;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+                    #categories-solutions > div:last-child > ul > li > span > a,
+                    #categories-solutions > div:last-child > ul > li > span > span:first-child {
+                        display: table-cell;
+                        height: 30px;
+                        vertical-align: middle;
+                        font-size: 14px;
+                        line-height: 15px;
+                    }
+                    #categories-solutions > div:last-child > ul > li > span > span:last-child {
+                        display: block;
+                        position: absolute;
+                        font-size: 13px;
+                        line-height: 30px;
+                        height: 30px;
+                        width: 30px;
+                        text-align: center;
+                        background: #f0f0f0;
+                        top: 0;
+                        right: 0;
+                    }
+                    #categories-solutions > div:last-child > ul > li > span > a + span {
+                        color: #5390cc;
+                    }
+
 /* форма для оформления заказа */
 #checkout-order {
 
@@ -2529,14 +2620,25 @@ body > .wrapper {
 }
     #catalog-menu > div {
         border-top: 1px dashed #d1d1d1;
+        height: 36px;
     }
     #catalog-menu > div:first-child {
         border-top: none;
     }
-        #catalog-menu > div a {
-            padding: 5px 0;
-            min-height: 26px;
+        #catalog-menu > div > a {
+            display: block;
+            box-sizing: border-box;
+            width: 212px;
+            height: 36px;
+            float: left;
         }
+    #catalog-menu > div > span {
+        display: block;
+        width: 36px;
+        height: 36px;
+        float: right;
+        background: #4f5254;
+    }
     #catalog-menu > div.item-level-0 {
         background: #395985;
     }
@@ -2576,7 +2678,7 @@ body > .wrapper {
             #catalog-menu > div.item-level-4 a span {
                 display: table-cell;
                 vertical-align: middle;
-                height: 26px;
+                height: 36px;
                 position: relative;
                 line-height: 13px;
             }

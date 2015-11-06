@@ -68,6 +68,8 @@ class Category_Solutions_Backend_Controller extends Solutions_Backend_Controller
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
+            // URL страницы с формой для добавления типового решения
+            'addSltnUrl'  => $this->solutionsBackendModel->getURL('backend/solutions/addsltn'),
             // уникальный идентификатор категории
             'id'          => $this->params['id'],
             // наименование категории

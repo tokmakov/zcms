@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $products - массив товаров выбранного типового решения
+ * $units - единицы измерения
  * $addPrdUrl - URL страницы с формой для добавления товара
  *
  * $products = Array (
@@ -21,6 +22,7 @@
  *     [heading] =>
  *     [note] => 0
  *     [sortorder] => 1
+ *     [empty] = 0
  *     [url] => Array (
  *       [edit] => http://www.host.ru/backend/solutions/editprd/id/1
  *       [remove] => http://www.host.ru/backend/solutions/rmvprd/id/1
@@ -37,6 +39,7 @@
  *     [heading] =>
  *     [note] => 0
  *     [sortorder] => 1
+ *     [empty] = 1
  *     [url] => Array (
  *       [edit] => http://www.host.ru/backend/solutions/editprd/id/2
  *       [remove] => http://www.host.ru/backend/solutions/rmvprd/id/2
@@ -67,9 +70,10 @@ defined('ZCMS') or die('Access denied');
         <tr>
             <th>№</th>
             <th>Код</th>
-            <th width="60%">Наименование</th>
+            <th width="50%">Наименование</th>
             <th>Кол.</th>
             <th>Цена</th>
+            <th>Ед.изм.</th>
             <th>Вверх</th>
             <th>Вниз</th>
             <th>Ред.</th>
@@ -77,12 +81,24 @@ defined('ZCMS') or die('Access denied');
         </tr>
         <?php $totalCost = 0.0; ?>
         <?php foreach($products as $item) : ?>
+            <?php if ( ! empty($item['heading'])): ?>
+                <?php if ($item['sortorder'] != 1): ?>
+                    <tr>
+                        <td colspan="10" style="text-align: right;">Итого: <?php echo $totalCost; ?></td>
+                    </tr>
+                    <?php $totalCost = 0.0; ?>
+                <?php endif; ?>
+                <tr>
+                    <th colspan="10"><?php echo $item['heading']; ?></th>
+                </tr>
+            <?php endif; ?>
             <tr>
                 <td><?php echo $item['sortorder']; ?></td>
-                <td><?php echo $item['code']; ?></td>
+                <td<?php echo $item['empty'] ? ' class="selected"' : ''; ?>><?php echo $item['code']; ?></td>
                 <td><?php echo $item['name']; ?></td>
-                <td><?php echo $item['count']; ?></td>
+                <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
                 <td><?php echo $item['price']; ?></td>
+                <td><?php echo $units[$item['unit']]; ?></td>
                 <td><a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a></td>
                 <td><a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a></td>
                 <td><a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a></td>
@@ -91,7 +107,7 @@ defined('ZCMS') or die('Access denied');
             <?php $totalCost = $totalCost + $item['count'] * $item['price']; ?>
         <?php endforeach; ?>
         <tr>
-            <td colspan="9">Итого: <?php echo $totalCost; ?></td>
+            <td colspan="10" style="text-align: right;">Итого: <?php echo $totalCost; ?></td>
         </tr>
     </table>
 <?php else: ?>

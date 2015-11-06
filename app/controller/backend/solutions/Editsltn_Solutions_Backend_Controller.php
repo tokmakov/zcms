@@ -129,7 +129,7 @@ class Editsltn_Solutions_Backend_Controller extends Solutions_Backend_Controller
          * обрабатываем данные, полученные из формы
          */
         // наименование типового решения
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name']        = trim(utf8_substr($_POST['name'], 0, 150));
         // мета-тег keywords
         $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);

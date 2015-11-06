@@ -13,6 +13,8 @@
  * $title - функциональное наименование изделия
  * $shortdescr - краткое описание
  * $price - цена
+ * $unit - единица измерения
+ * $units - единицы измерения для возможности выбора
  * $count - количество
  * $note - сноска
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
@@ -52,6 +54,7 @@ defined('ZCMS') or die('Access denied');
         $title      = htmlspecialchars($savedFormData['title']);
         $shortdescr = htmlspecialchars($savedFormData['shortdescr']);
         $price      = $savedFormData['price'];
+        $unit       = $savedFormData['unit'];
         $count      = $savedFormData['count'];
         $note       = $savedFormData['note'];
     }
@@ -83,7 +86,17 @@ defined('ZCMS') or die('Access denied');
         <div>Цена, количество, сноска</div>
         <div>
             <span>цена <input type="text" name="price" value="<?php echo $price; ?>" /></span>
-            <span>количество <input type="text" name="count" value="<?php echo $count; ?>" /></span>
+            <span>
+                ед.изм.
+                <?php if (!empty($units)): ?>
+                    <select name="unit">
+                        <?php foreach ($units as $key => $value): ?>
+                            <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+            </span>
+            <span>кол. <input type="text" name="count" value="<?php echo $count; ?>" /></span>
             <span><input type="checkbox" name="note"<?php echo $note ? ' checked="checked"' : ''; ?> value="1" /> сноска</span>
         </div>
     </div>

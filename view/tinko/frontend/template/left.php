@@ -85,10 +85,11 @@ defined('ZCMS') or die('Access denied');
             <?php foreach ($catalogMenu as $item): ?>
                 <div class="item-level-<?php echo $item['level']; ?>">
                     <?php if (isset($item['current']) && $item['level']) $selected = true; /* выделяем текущую категорию */ ?>
-                    <a href="<?php echo $item['url']; ?>"<?php if($selected) echo ' class="selected"' ?>>
+                    <a href="<?php echo $item['url']; ?>"<?php if($selected) echo ' class="selected"'; ?>>
                     <span><?php echo $item['name']; ?></span>
                     </a>
                     <?php $selected = false; /* выделяем текущую категорию */ ?>
+                    <span></span>
                 </div>
             <?php endforeach; ?>
             </div>

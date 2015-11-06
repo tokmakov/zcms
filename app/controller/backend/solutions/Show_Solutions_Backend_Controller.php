@@ -62,6 +62,9 @@ class Show_Solutions_Backend_Controller extends Solutions_Backend_Controller {
         // получаем от модели массив товаров выбранного типового решения
         $products = $this->solutionsBackendModel->getSolutionProducts($this->params['id']);
 
+        // единицы измерения
+        $units = $this->solutionsBackendModel->getUnits();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -74,6 +77,8 @@ class Show_Solutions_Backend_Controller extends Solutions_Backend_Controller {
             'name'        => $name,
             // массив товаров выбранного типового решения
             'products'    => $products,
+            // единицы измерения
+            'units'       => $units,
             // URL страницы с формой для добавления товара
             'addPrdUrl'   => $this->solutionsBackendModel->getURL('backend/solutions/addprd/parent/' . $this->params['id']),
         );

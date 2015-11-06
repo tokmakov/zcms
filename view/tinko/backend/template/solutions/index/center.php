@@ -16,11 +16,13 @@
  *   [0] => Array (
  *     [id] => 1
  *     [name] => Охранно-пожарная сигнализация
+ *     [sortorder] => 1
  *     [edit] => http://www.host.ru/backend/solutions/editctg/id/1
  *     [childs] => Array (
  *       [0] => Array (
  *         [id] => 1
  *         [name] => Типовое решение № 1
+ *         [sortorder] => 1
  *         [url] => Array (
  *           [show] => http://www.host.ru/backend/solutions/show/id/1
  *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/1
@@ -29,6 +31,7 @@
  *       [1] => Array (
  *         [id] => 5
  *         [name] => Типовое решение № 2
+ *         [sortorder] => 2
  *         [url] => Array (
  *           [show] => http://www.host.ru/backend/solutions/show/id/5
  *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/5
@@ -39,11 +42,13 @@
  *   [1] => Array (
  *     [id] => 2
  *     [name] => Охранное телевидение
+ *     [sortorder] => 2
  *     [edit] => http://www.host.ru/backend/solutions/editctg/id/2
  *     [childs] => Array (
  *       [0] => Array (
  *         [id] => 2
  *         [name] => Типовое решение № 1
+ *         [sortorder] => 1
  *         [url] => Array (
  *           [show] => http://www.host.ru/backend/solutions/show/id/2
  *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/2
@@ -52,6 +57,7 @@
  *       [1] => Array (
  *         [id] => 3
  *         [name] => Типовое решение № 2
+ *         [sortorder] => 2
  *         [url] => Array (
  *           [show] => http://www.host.ru/backend/solutions/show/id/3
  *           [edit] => http://www.host.ru/backend/solutions/editsltn/id/3
@@ -93,14 +99,19 @@ defined('ZCMS') or die('Access denied');
             <li>
                 <div>
                     <span><?php echo $category['name']; ?></span>
-                    <span><a href="<?php echo $category['edit']; ?>" title="Редактировать">Ред.</a></span>
+                    <span><!-- <a href="<?php echo $category['edit']; ?>" title="Редактировать">Ред.</a> --></span>
                 </div>
                 <?php if (!empty($category['childs'])): ?>
                     <ul>
                     <?php foreach ($category['childs'] as $item): ?>
                         <li>
-                            <span><a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a></span>
-                            <span><a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a></span>
+                            <span>
+                                <?php echo $item['sortorder']; ?>.
+                                <a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a>
+                            </span>
+                            <span>
+                                <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                            </span>
                         </li>
                     <?php endforeach; ?>
                     </ul>
