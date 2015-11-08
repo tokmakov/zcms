@@ -89,9 +89,126 @@ defined('ZCMS') or die('Access denied');
                     <span><?php echo $item['name']; ?></span>
                     </a>
                     <?php $selected = false; /* выделяем текущую категорию */ ?>
-                    <span></span>
                 </div>
             <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<div class="side-block">
+    <div>Каталог оборудования</div>
+    <div class="no-padding">
+        <?php if (!empty($catalogMenu2)): ?>
+            <div id="catalog-menu-2">
+                <ul>
+                <?php foreach ($catalogMenu2 as $item1): ?>
+                    <?php
+                        $class = 'empty';
+                        if ($item1['count']) {
+                            if (isset($item1['opened'])) {
+                                $class = 'opened';
+                            } else {
+                                $class = 'closed';
+                            }
+                        }
+                    ?>
+                    <li class="item-<?php echo $class; ?>">
+                        <div>
+                            <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                            <a href="<?php echo $item1['url']; ?>"><span><?php echo $item1['name']; ?></span></a>
+                        </div>
+                        <?php if (isset($item1['childs'])): ?>
+                            <ul>
+                            <?php foreach ($item1['childs'] as $item2): ?>
+                                <?php
+                                    $class = 'empty';
+                                    if ($item2['count']) {
+                                        if (isset($item2['opened'])) {
+                                            $class = 'opened';
+                                        } else {
+                                            $class = 'closed';
+                                        }
+                                    }
+                                ?>
+                                <li class="item-<?php echo $class; ?>">
+                                    <div>
+                                        <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                                        <a href="<?php echo $item2['url']; ?>"><span><?php echo $item2['name']; ?></span></a>
+                                    </div>
+                                    <?php if (isset($item2['childs'])): ?>
+                                        <ul>
+                                        <?php foreach ($item2['childs'] as $item3): ?>
+                                            <?php
+                                                $class = 'empty';
+                                                if ($item3['count']) {
+                                                    if (isset($item3['opened'])) {
+                                                        $class = 'opened';
+                                                    } else {
+                                                        $class = 'closed';
+                                                    }
+                                                }
+                                            ?>
+                                            <li class="item-<?php echo $class; ?>">
+                                                <div>
+                                                    <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                                                    <a href="<?php echo $item3['url']; ?>"><span><?php echo $item3['name']; ?></span></a>
+                                                </div>
+                                                <?php if (isset($item3['childs'])): ?>
+                                                    <ul>
+                                                    <?php foreach ($item3['childs'] as $item4): ?>
+                                                        <?php
+                                                            $class = 'empty';
+                                                            if ($item4['count']) {
+                                                                if (isset($item4['opened'])) {
+                                                                    $class = 'opened';
+                                                                } else {
+                                                                    $class = 'closed';
+                                                                }
+                                                            }
+                                                        ?>
+                                                        <li class="item-<?php echo $class; ?>">
+                                                            <div>
+                                                                <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                                                                <a href="<?php echo $item4['url']; ?>"><span><?php echo $item4['name']; ?></span></a>
+                                                            </div>
+                                                            <?php if (isset($item4['childs'])): ?>
+                                                                <ul>
+                                                                <?php foreach ($item4['childs'] as $item5): ?>
+                                                                    <?php
+                                                                        $class = 'empty';
+                                                                        if ($item5['count']) {
+                                                                            if (isset($item5['opened'])) {
+                                                                                $class = 'opened';
+                                                                            } else {
+                                                                                $class = 'closed';
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                    <li class="item-<?php echo $class; ?>">
+                                                                        <div>
+                                                                            <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                                                                            <a href="<?php echo $item5['url']; ?>"><span><?php echo $item5['name']; ?></span></a>
+                                                                        </div>
+                                                                    </li>
+                                                                <?php endforeach; ?>
+                                                                </ul>
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                    </ul>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
             </div>
         <?php endif; ?>
     </div>
@@ -114,4 +231,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/left.php -->
-

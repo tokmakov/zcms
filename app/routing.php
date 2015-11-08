@@ -317,7 +317,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/search/query/$1/page/$2',
 
         // поиск по каталогу, XmlHttpRequest
-        '~^frontend/catalog/ajaxsearch$~i' => 'catalog/ajax-search',
+        '~^frontend/catalog/ajaxsearch$~i' =>
+        'catalog/ajax-search',
+
+        // подгрузка меню каталога, XmlHttpRequest
+        '~^frontend/catalog/ajaxmenu$~i' =>
+        'catalog/ajax-menu',
 
         // фильтр для выбранной категории, XmlHttpRequest
         '~^frontend/catalog/ajaxfilter/category/(\d+)$~i' =>
@@ -926,6 +931,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // поиск по каталогу, XmlHttpRequest
         '~^catalog/ajax-search$~i' =>
         'frontend/catalog/ajaxsearch',
+
+        // подгрузка меню каталога, XmlHttpRequest
+        '~^catalog/ajax-menu$~i' =>
+        'frontend/catalog/ajaxmenu',
 
         // категория каталога, фильтр для выбранной категории, XmlHttpRequest
         '~^catalog/ajax-filter/category/(\d+)$~i' =>

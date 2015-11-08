@@ -67,6 +67,50 @@ $(document).ready(function(){
     });
 
     /*
+     * Свернуть/развернуть список дочерних категорий меню каталога
+     */
+    $('#catalog-menu-2 li.item-closed > ul').hide();
+    $('#catalog-menu-2 span:not(.bullet-empty)').click(function(event) {
+        event.stopPropagation();
+        var _this = $(this);
+        if ($(this).hasClass('bullet-opened')) {
+            opened = true;
+            $(this).removeClass('bullet-opened').addClass('bullet-loader');
+        } else {
+            opened = false;
+            $(this).removeClass('bullet-closed').addClass('bullet-loader');
+        }
+        var item = $(this).parent().parent().parent();
+        if (item.children('ul').length == 0) {
+            var id = 5;
+            $.ajax({
+                type: 'POST',
+                url: '/catalog/ajax-menu',
+                dataType: 'html',
+                data: 'id=' + id,
+                success: function(html) {
+                    item.append(html);
+                    item.children('ul').hide().slideToggle('slow', function () {
+                        if (opened) {
+                            _this.removeClass('bullet-loader').addClass('bullet-closed');
+                        } else {
+                            _this.removeClass('bullet-loader').addClass('bullet-opened');
+                        }
+                    });
+                },
+            });
+        } else {
+            item.children('ul').slideToggle('slow', function () {
+                if (opened) {
+                    _this.removeClass('bullet-loader').addClass('bullet-closed');
+                } else {
+                    _this.removeClass('bullet-loader').addClass('bullet-opened');
+                }
+            });
+        }
+    });
+
+    /*
      * Свернуть/развернуть список производителей выбранной категории
      */
     $('#category-makers > div:last-child').hide();

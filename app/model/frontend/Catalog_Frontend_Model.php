@@ -5,10 +5,12 @@
  */
 class Catalog_Frontend_Model extends Frontend_Model {
 
+    // для блокирования ajax поиска для пользователя, в разработке
     private $userFrontendModel;
 
     public function __construct() {
         parent::__construct();
+        // для блокирования ajax поиска для пользователя, в разработке
         $this->userFrontendModel =
             isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
     }
@@ -90,15 +92,30 @@ class Catalog_Frontend_Model extends Frontend_Model {
         // добавляем в массив информацию об URL категорий
         foreach($root as $key => $value) {
             $root[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
-            if (isset($value['childs'])) {
-                foreach($value['childs'] as $k => $v) {
-                    $root[$key]['childs'][$k]['url'] = $this->getURL('frontend/catalog/category/id/' . $v['id']);
-                }
-            }
         }
         // строим дерево
         $tree = $this->makeTree($root);
         return $tree;
+    }
+
+    /**
+     * Функция возвращает дочерние категории категории с уникальным идентификатором $id
+     */
+    public function getCategoryChilds($id) {
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = :parent
+                  ORDER BY
+                      `sortorder`";
+        $childs = $this->database->fetchAll($query, array('parent' => $id));
+        // добавляем в массив информацию об URL категорий
+        foreach($childs as $key => $value) {
+            $childs[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+        }
+        return $childs;
     }
 
     /**
@@ -304,8 +321,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив идентификаторов всех потомков категории $id,
-     * т.е. дочерние, дочерние дочерних и т.п.
+     * Возвращает массив идентификаторов всех потомков категории $id, т.е.
+     * дочерние, дочерние дочерних и так далее
      */
     protected function allChildIds($id) {
         $childs = array();
@@ -575,13 +592,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
                           (`b`.`category` IN (" . $childs . ") OR `b`.`category2` IN (" . $childs . "))
                           AND `a`.`id` = " . $value['id'] . "
                           AND `b`.`visible` = 1";
-            if ($group) {
+            if ($group) { // фильтр по функциональной группе
                 $query = $query . " AND `b`.`group` = " . $group;
             }
-            if ($hit) {
+            if ($hit) { // фильтров по лидерам продаж
                 $query = $query . " AND `b`.`hit` = 1";
             }
-            if ($new) {
+            if ($new) { // фильтр по новинкам
                 $query = $query . " AND `b`.`new` = 1";
             }
             if ( ! empty($param)) { // фильтр по параметрам подбора
@@ -796,9 +813,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
             if ($param_id != $value['param_id']) {
                 $counter++;
                 $param_id = $value['param_id'];
-                $params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
+                $params[$counter] = array(
+                    'id' => $value['param_id'],
+                    'name' => $value['param_name']
+                );
             }
-            $params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name'], 'count' => $value['count']);
+            $params[$counter]['values'][] = array(
+                'id' => $value['value_id'],
+                'name' => $value['value_name'],
+                'count' => $value['count']
+            );
         }
 
         return $params;
@@ -1107,6 +1131,40 @@ class Catalog_Frontend_Model extends Frontend_Model {
         */
     }
 
+
+    /**
+     * Функция возвращает массив категорий каталога для построения навигационной
+     * панели (дерево каталога + путь до текущей категории); результат работы
+     * кэшируется
+     */
+    public function getCatalogMenu2($id = 0) {
+
+        $parents = $this->getAllCategoryParents($id);
+        $ids = implode(',', $parents);
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`parent` AS `parent`, `a`.`name` AS `name`,
+                      (SELECT COUNT(*) FROM `categories` `b` WHERE `a`.`id` = `b`.`parent`) AS `count`
+                  FROM
+                      `categories` `a`
+                  WHERE
+                      `parent` IN (SELECT `id` FROM `categories` WHERE `parent` = 0)
+                      OR `parent` IN (" . $ids . ")
+                  ORDER BY
+                      `a`.`sortorder`";
+        $categories = $this->database->fetchAll($query, array());
+
+        // добавляем в массив информацию об URL категорий
+        foreach ($categories as $key => $value) {
+            $categories[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+            if (in_array($value['id'], $parents)) {
+                $categories[$key]['opened'] = true;
+            }
+        }
+        // строим дерево
+        $tree = $this->makeTree($categories);
+        return $tree;
+    }
+
     /**
      * Функция возвращает массив всех родителей категории с уникальным
      * идентификатром $id; результат работы кэшируется
@@ -1139,7 +1197,12 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $path[] = $id;
         $current = $id;
         while ($current) {
-            $query = "SELECT `parent` FROM `categories` WHERE `id` = :current";
+            $query = "SELECT
+                          `parent`
+                      FROM
+                          `categories`
+                      WHERE
+                          `id` = :current";
             $res = $this->database->fetchOne($query, array('current' => $current), $this->enableDataCache);
             $path[] = $res;
             $current = $res;
@@ -1385,7 +1448,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if (utf8_strlen($search) < 2) {
             return '';
         }
-        // небольшок хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)
+        // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)
         if (preg_match('#[a-zA-Zа-яА-ЯёЁ]{2,}\d{2,}#u', $search)) {
             preg_match_all('#[a-zA-Zа-яА-ЯёЁ]{2,}\d{2,}#u', $search, $temp1);
             $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]{2,})(\d{2,})#u', '$1 $2', $search );
@@ -1424,8 +1487,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $query = $query." + ".$prd_name."*( IF( `a`.`name` LIKE '%".$words[0]."%', ".$weight.", 0 )";
         $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[0]."', 0.05, 0 )";
         $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
-        // как и для первого слова
+        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
+        // запроса, как и для первого слова
         for ($i = 1; $i < count($words); $i++) {
             $length = utf8_strlen($words[$i]);
             $weight = 0.5;
@@ -1441,7 +1504,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i-1].".?".$words[$i]."', 0.1, 0 )";
         }
         // если мы разделяли строку ABC123 на ABC и 123
-        if (!empty($matches)) {
+        if ( ! empty($matches)) {
             foreach ($matches as $item) {
                 $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.1, 0 )";
             }
@@ -1460,8 +1523,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $query = $query." - IF( LOWER(`a`.`title`) REGEXP '[[:<:]]".$words[0]."' AND LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[0]."', 0.05, 0 )";
         $query = $query." + IF( LOWER(`a`.`title`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
         $query = $query." - IF( LOWER(`a`.`title`) REGEXP '".$words[0]."[[:>:]]' AND LOWER(`a`.`name`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
-        // как и для первого слова
+        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
+        // запроса, как и для первого слова
         for ($i = 1; $i < count($words); $i++) {
             $length = utf8_strlen($words[$i]);
             $weight = 0.5;
@@ -1481,7 +1544,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query." - IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1].".?".$words[$i]."' AND LOWER(`a`.`name`) REGEXP '".$words[$i-1].".?".$words[$i]."', 0.1, 0  )";
         }
         // если мы разделяли строку ABC123 на ABC и 123
-        if (!empty($matches)) {
+        if ( ! empty($matches)) {
             foreach ($matches as $item) {
                 $query = $query." + IF( `a`.`title` LIKE '%".$item."%', 0.1, 0 )";
             }
@@ -1596,14 +1659,14 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
         $codes = array();
-        foreach($words as $word) {
+        foreach ($words as $word) {
             if (preg_match('#^\d{4}$#', $word)) $codes[] = '00'.$word;
             if (preg_match('#^\d{5}$#', $word)) $codes[] = '0'.$word;
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
         if (count($codes) > 0) {
             $query = $query." OR `a`.`code`='".$codes[0]."'";
-            for ($i = 1; $i < count( $codes ); $i++) {
+            for ($i = 1; $i < count($codes); $i++) {
                 $query = $query." OR `a`.`code`='".$codes[$i]."'";
             }
         }
@@ -1627,10 +1690,12 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $search;
     }
 
+    // для блокирования поиска для пользователя, в разработке
     private function searchLock() {
         file_put_contents( 'temp/search/' . $this->userFrontendModel->getVisitorId() . '.txt', '');
     }
 
+    // для блокирования поиска для пользователя, в разработке
     private function searchUnlock() {
         $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
         if (is_file($file)) {
@@ -1638,6 +1703,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
     }
 
+    // для блокирования поиска для пользователя, в разработке
     private function isSearchLocked() {
         $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
         return is_file($file) && ((time() - filemtime($file)) < 5);

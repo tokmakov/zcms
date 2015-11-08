@@ -2620,25 +2620,14 @@ body > .wrapper {
 }
     #catalog-menu > div {
         border-top: 1px dashed #d1d1d1;
-        height: 36px;
     }
     #catalog-menu > div:first-child {
         border-top: none;
     }
-        #catalog-menu > div > a {
-            display: block;
-            box-sizing: border-box;
-            width: 212px;
-            height: 36px;
-            float: left;
+        #catalog-menu > div a {
+            padding: 5px 0;
+            min-height: 26px;
         }
-    #catalog-menu > div > span {
-        display: block;
-        width: 36px;
-        height: 36px;
-        float: right;
-        background: #4f5254;
-    }
     #catalog-menu > div.item-level-0 {
         background: #395985;
     }
@@ -2678,7 +2667,7 @@ body > .wrapper {
             #catalog-menu > div.item-level-4 a span {
                 display: table-cell;
                 vertical-align: middle;
-                height: 36px;
+                height: 26px;
                 position: relative;
                 line-height: 13px;
             }
@@ -2721,6 +2710,100 @@ body > .wrapper {
         #catalog-menu > div.item-level-4 a {
             padding-left: 78px;
         }
+
+/* меню каталога */
+#catalog-menu-2 {
+
+}
+    #catalog-menu-2 ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #catalog-menu-2 li {
+        border-top: 1px dashed #d1d1d1;
+        background: #323232;
+        min-height: 36px;
+    }
+        #catalog-menu-2 > ul > li {
+            background: #395985;
+        }
+        #catalog-menu-2 > ul > li:first-child {
+            border-top: none;
+        }
+            #catalog-menu-2 > ul > li > ul > li > div {
+                margin-left: 14px;
+            }
+                #catalog-menu-2 > ul > li > ul > li > ul > li > div {
+                    margin-left: 26px;
+                }
+                    #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > div {
+                        margin-left: 39px;
+                    }
+                        #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > ul > li > div {
+                            margin-left: 52px;
+                        }
+        #catalog-menu-2 li > div {
+            min-height: 36px;
+            overflow: hidden;
+        }
+            #catalog-menu-2 li > div > span {
+                float: left;
+                width: 24px;
+                min-height: 36px;
+                position: relative;
+            }
+                #catalog-menu-2 li > div > span > span {
+                    position: absolute;
+                    width: 13px;
+                    height: 13px;
+                    top: 11px;
+                    left: 5px;
+                }
+                #catalog-menu-2 li > div > span > span.bullet-empty {
+                    background: url(../img/bullet-arrow.png) center center no-repeat;
+                }
+                #catalog-menu-2 li > div > span > span.bullet-loader {
+                    background: url(../img/bullet-black-loader.gif) center center no-repeat;
+                }
+                    #catalog-menu-2 > ul > li > div > span > span.bullet-loader {
+                        background: url(../img/bullet-blue-loader.gif) center center no-repeat;
+                    }
+                #catalog-menu-2 li > div > span > span.bullet-closed {
+                    background: url(../img/bullet-plus.png) center center no-repeat;
+                    cursor: pointer;
+                    border: 1px solid #fff;
+                }
+                #catalog-menu-2 li > div > span > span.bullet-opened {
+                    background: url(../img/bullet-minus.png) center center no-repeat;
+                    cursor: pointer;
+                    border: 1px solid #fff;
+                }
+            #catalog-menu-2 li > div > a {
+                float: right;
+                width: 223px;
+                min-height: 36px;
+                color: #fff;
+            }
+                #catalog-menu-2 > ul > li > ul > li > div > a {
+                    width: 210px;
+                }
+                    #catalog-menu-2 > ul > li > ul > li > ul > li > div > a {
+                        width: 198px;
+                    }
+                        #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > div > a {
+                            width: 185px;
+                        }
+                            #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
+                                width: 172px;
+                            }
+                #catalog-menu-2 li > div > a > span {
+                    display: table-cell;
+                    height: 36px;
+                    vertical-align: middle;
+                }
+
 
 /* список производителей */
 #makers-list-right {
