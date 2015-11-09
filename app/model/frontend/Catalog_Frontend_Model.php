@@ -103,13 +103,14 @@ class Catalog_Frontend_Model extends Frontend_Model {
      */
     public function getCategoryChilds($id) {
         $query = "SELECT
-                      `id`, `name`
+                      `a`.`id` AS `id`, `a`.`name` AS `name`,
+                      (SELECT COUNT(*) FROM `categories` `b` WHERE `a`.`id` = `b`.`parent`) AS `count`
                   FROM
-                      `categories`
+                      `categories` `a`
                   WHERE
-                      `parent` = :parent
+                      `a`.`parent` = :parent
                   ORDER BY
-                      `sortorder`";
+                      `a`.`sortorder`";
         $childs = $this->database->fetchAll($query, array('parent' => $id));
         // добавляем в массив информацию об URL категорий
         foreach($childs as $key => $value) {
@@ -1076,68 +1077,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив категорий каталога для построения навигационной
      * панели (дерево каталога + путь до текущей категории)
      */
-    protected function catalogMenu($id = 0) {
-        $path = $this->getAllCategoryParents($id);
-        return $this->catalogBranch($path, 0, $id);
-    }
-
-    /**
-     * Функция возвращает массив категорий каталога для построения навигационной
-     * панели (дерево каталога с одной раскрытой веткой)
-     */
-    private function catalogBranch($path, $level, $id) {
-        // этот код возвращает массив, где уровень вложенности задает переменная $level
-        $query = "SELECT `id`, `name` FROM `categories` WHERE `parent` = :parent ORDER BY `sortorder`";
-        $items = $this->database->fetchAll($query, array('parent' => $path[$level]), $this->enableDataCache);
-        $result = array();
-        foreach ($items as $item) {
-            $result[] = array(
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'url' => $this->getURL('frontend/catalog/category/id/' . $item['id']),
-                'level' => $level
-            );
-            if ($id == $item['id']) $result[count($result)-1]['current'] = true;
-            // получить подкатегории?
-            if (($level+1 < count($path)) && ($item['id'] == $path[$level+1])) {
-                if ($level == 0) $result[count($result)-1]['opened'] = true;
-                // рекурсивный вызов функции catalogBranch()
-                $out = $this->catalogBranch($path, $level + 1, $id);
-                // добавляем подкатегории в конец массива $result
-                foreach ($out as $value) {
-                    $result[] = $value;
-                }
-            }
-        }
-        return $result;
-        /*
-        // этот код возвращает массив, где уровень вложенности определается наличием вложенного массива childs
-        $query = "SELECT `id`, `name` FROM `categories` WHERE `parent` = :parent ORDER BY `sortorder`";
-        $res = $this->database->fetchAll($query, array('parent' => $path[$level]), $this->enableDataCache);
-        $result = array();
-        foreach ($res as $i => $item) {
-            $result[$i] = array('id' => $item['id'], 'name' => $item['name']);
-            // получить подкатегории?
-            if (($level+1 < count($path)) && ($item['id'] == $path[$level+1])) {
-                // рекурсивный вызов функции getCatalogBranch()
-                $out = $this->getCatalogBranch($path, $level + 1);
-                // добавляем подкатегории текущей категории
-                foreach ($out as $value) {
-                    $result[$i]['childs'][] = $value;
-                }
-            }
-        }
-        return $result;
-        */
-    }
-
-
-    /**
-     * Функция возвращает массив категорий каталога для построения навигационной
-     * панели (дерево каталога + путь до текущей категории); результат работы
-     * кэшируется
-     */
-    public function getCatalogMenu2($id = 0) {
+    public function catalogMenu($id = 0) {
 
         $parents = $this->getAllCategoryParents($id);
         $ids = implode(',', $parents);
@@ -1147,11 +1087,11 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   FROM
                       `categories` `a`
                   WHERE
-                      `parent` IN (SELECT `id` FROM `categories` WHERE `parent` = 0)
-                      OR `parent` IN (" . $ids . ")
+                      `a`.`parent` IN (SELECT `b`.`id` FROM `categories` `b` WHERE `b`.`parent` = 0)
+                      OR `a`.`parent` IN (" . $ids . ")
                   ORDER BY
                       `a`.`sortorder`";
-        $categories = $this->database->fetchAll($query, array());
+        $categories = $this->database->fetchAll($query);
 
         // добавляем в массив информацию об URL категорий
         foreach ($categories as $key => $value) {
@@ -1159,17 +1099,22 @@ class Catalog_Frontend_Model extends Frontend_Model {
             if (in_array($value['id'], $parents)) {
                 $categories[$key]['opened'] = true;
             }
+            if ($value['id'] == $id) {
+                $categories[$key]['current'] = true;
+            }
         }
+
         // строим дерево
         $tree = $this->makeTree($categories);
         return $tree;
+
     }
 
     /**
      * Функция возвращает массив всех родителей категории с уникальным
      * идентификатром $id; результат работы кэшируется
      */
-    private function getAllCategoryParents($id) {
+    private function getAllCategoryParents($id = 0) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
             return $this->allCategoryParents($id);
@@ -1189,8 +1134,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив всех родителей категории с уникальным
      * идентификатром $id
      */
-    protected function allCategoryParents($id) {
-        if ($id == 0) {
+    protected function allCategoryParents($id = 0) {
+        if (0 == $id) {
             return array(0 => 0);
         }
         $path = array();

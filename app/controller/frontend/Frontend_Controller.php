@@ -218,9 +218,6 @@ abstract class Frontend_Controller extends Base_Controller {
         // меню каталога (для левой колонки)
         $catalogMenu = $this->catalogFrontendModel->getCatalogMenu();
 
-        // меню каталога (для левой колонки)
-        $catalogMenu2 = $this->catalogFrontendModel->getCatalogMenu2();
-
         // список производителей (для левой колонки)
         $makers = $this->catalogFrontendModel->getAllMakers(15);
 
@@ -230,8 +227,6 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->leftVars = array(
             // каталог меню для левой колонки
             'catalogMenu'  => $catalogMenu,
-            // каталог меню для левой колонки
-            'catalogMenu2'  => $catalogMenu2,
             // массив производителей
             'makers'       => $makers,
             // URL ссылки на страницу со списком всех производителей

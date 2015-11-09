@@ -26,8 +26,6 @@ class Ajaxmenu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     public function request() {
 
-        sleep(2);
-
         // если не передан id категории или id категории не число
         if ( ! (isset($_POST['id']) && ctype_digit($_POST['id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');

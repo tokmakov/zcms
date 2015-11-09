@@ -81,114 +81,99 @@ defined('ZCMS') or die('Access denied');
     <div class="no-padding">
         <?php if (!empty($catalogMenu)): ?>
             <div id="catalog-menu">
-            <?php $selected = false; /* выделяем текущую категорию */ ?>
-            <?php foreach ($catalogMenu as $item): ?>
-                <div class="item-level-<?php echo $item['level']; ?>">
-                    <?php if (isset($item['current']) && $item['level']) $selected = true; /* выделяем текущую категорию */ ?>
-                    <a href="<?php echo $item['url']; ?>"<?php if($selected) echo ' class="selected"'; ?>>
-                    <span><?php echo $item['name']; ?></span>
-                    </a>
-                    <?php $selected = false; /* выделяем текущую категорию */ ?>
-                </div>
-            <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
-
-<div class="side-block">
-    <div>Каталог оборудования</div>
-    <div class="no-padding">
-        <?php if (!empty($catalogMenu2)): ?>
-            <div id="catalog-menu-2">
                 <ul>
-                <?php foreach ($catalogMenu2 as $item1): ?>
+                <?php foreach ($catalogMenu as $item1): ?>
                     <?php
-                        $class = 'empty';
+                        $class = 'root';
                         if ($item1['count']) {
+                            $class = $class . ' parent';
                             if (isset($item1['opened'])) {
-                                $class = 'opened';
+                                $class = $class . ' opened';
                             } else {
-                                $class = 'closed';
+                                $class = $class . ' closed';
                             }
                         }
                     ?>
-                    <li class="item-<?php echo $class; ?>">
+                    <li class="<?php echo $class; ?>">
                         <div>
-                            <span><span class="bullet-<?php echo $class; ?>"></span></span>
+                            <span><span></span></span>
                             <a href="<?php echo $item1['url']; ?>"><span><?php echo $item1['name']; ?></span></a>
                         </div>
                         <?php if (isset($item1['childs'])): ?>
                             <ul>
                             <?php foreach ($item1['childs'] as $item2): ?>
                                 <?php
-                                    $class = 'empty';
+                                    $class = '';
                                     if ($item2['count']) {
+                                        $class = 'parent';
                                         if (isset($item2['opened'])) {
-                                            $class = 'opened';
+                                            $class = $class . ' opened';
                                         } else {
-                                            $class = 'closed';
+                                            $class = $class . ' closed';
                                         }
                                     }
                                 ?>
-                                <li class="item-<?php echo $class; ?>">
+                                <li class="<?php echo $class; ?>">
                                     <div>
-                                        <span><span class="bullet-<?php echo $class; ?>"></span></span>
-                                        <a href="<?php echo $item2['url']; ?>"><span><?php echo $item2['name']; ?></span></a>
+                                        <span><span<?php if ($item2['count']) echo ' data-id="' . $item2['id'] . '"'; ?>></span></span>
+                                        <a href="<?php echo $item2['url']; ?>"<?php if (isset($item2['current'])) echo ' class="selected"'; ?>><span><?php echo $item2['name']; ?></span></a>
                                     </div>
                                     <?php if (isset($item2['childs'])): ?>
                                         <ul>
                                         <?php foreach ($item2['childs'] as $item3): ?>
                                             <?php
-                                                $class = 'empty';
+                                                $class = '';
                                                 if ($item3['count']) {
+                                                    $class = 'parent';
                                                     if (isset($item3['opened'])) {
-                                                        $class = 'opened';
+                                                        $class = $class . ' opened';
                                                     } else {
-                                                        $class = 'closed';
+                                                        $class = $class . ' closed';
                                                     }
                                                 }
                                             ?>
-                                            <li class="item-<?php echo $class; ?>">
+                                            <li class="<?php echo $class; ?>">
                                                 <div>
-                                                    <span><span class="bullet-<?php echo $class; ?>"></span></span>
-                                                    <a href="<?php echo $item3['url']; ?>"><span><?php echo $item3['name']; ?></span></a>
+                                                    <span><span<?php if ($item3['count']) echo ' data-id="' . $item3['id'] . '"'; ?>></span></span>
+                                                    <a href="<?php echo $item3['url']; ?>"<?php if (isset($item3['current'])) echo ' class="selected"'; ?>><span><?php echo $item3['name']; ?></span></a>
                                                 </div>
                                                 <?php if (isset($item3['childs'])): ?>
                                                     <ul>
                                                     <?php foreach ($item3['childs'] as $item4): ?>
                                                         <?php
-                                                            $class = 'empty';
+                                                            $class = '';
                                                             if ($item4['count']) {
+                                                                $class = 'parent';
                                                                 if (isset($item4['opened'])) {
-                                                                    $class = 'opened';
+                                                                    $class = $class . ' opened';
                                                                 } else {
-                                                                    $class = 'closed';
+                                                                    $class = $class . ' closed';
                                                                 }
                                                             }
                                                         ?>
-                                                        <li class="item-<?php echo $class; ?>">
+                                                        <li class="<?php echo $class; ?>">
                                                             <div>
-                                                                <span><span class="bullet-<?php echo $class; ?>"></span></span>
-                                                                <a href="<?php echo $item4['url']; ?>"><span><?php echo $item4['name']; ?></span></a>
+                                                                <span><span<?php if ($item4['count']) echo ' data-id="' . $item4['id'] . '"'; ?>></span></span>
+                                                                <a href="<?php echo $item4['url']; ?>"<?php if (isset($item4['current'])) echo ' class="selected"'; ?>><span><?php echo $item4['name']; ?></span></a>
                                                             </div>
                                                             <?php if (isset($item4['childs'])): ?>
                                                                 <ul>
                                                                 <?php foreach ($item4['childs'] as $item5): ?>
                                                                     <?php
-                                                                        $class = 'empty';
+                                                                        $class = '';
                                                                         if ($item5['count']) {
+                                                                            $class = 'parent';
                                                                             if (isset($item5['opened'])) {
-                                                                                $class = 'opened';
+                                                                                $class = $class . ' opened';
                                                                             } else {
-                                                                                $class = 'closed';
+                                                                                $class = $class . ' closed';
                                                                             }
                                                                         }
                                                                     ?>
-                                                                    <li class="item-<?php echo $class; ?>">
+                                                                    <li class="<?php echo $class; ?>">
                                                                         <div>
-                                                                            <span><span class="bullet-<?php echo $class; ?>"></span></span>
-                                                                            <a href="<?php echo $item5['url']; ?>"><span><?php echo $item5['name']; ?></span></a>
+                                                                            <span><span<?php if ($item5['count']) echo ' data-id="' . $item5['id'] . '"'; ?>></span></span>
+                                                                            <a href="<?php echo $item5['url']; ?>"<?php if (isset($item5['current'])) echo ' class="selected"'; ?>><span><?php echo $item5['name']; ?></span></a>
                                                                         </div>
                                                                     </li>
                                                                 <?php endforeach; ?>

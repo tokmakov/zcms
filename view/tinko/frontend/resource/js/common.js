@@ -3,7 +3,7 @@ if (window.location.hash.substr(0, 2) === '#!' && /^\/catalog\/category\/[0-9]+/
     window.location.replace(pathname);
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
 
     addBasketHandler();
 
@@ -69,46 +69,8 @@ $(document).ready(function(){
     /*
      * Свернуть/развернуть список дочерних категорий меню каталога
      */
-    $('#catalog-menu-2 li.item-closed > ul').hide();
-    $('#catalog-menu-2 span:not(.bullet-empty)').click(function(event) {
-        event.stopPropagation();
-        var _this = $(this);
-        if ($(this).hasClass('bullet-opened')) {
-            opened = true;
-            $(this).removeClass('bullet-opened').addClass('bullet-loader');
-        } else {
-            opened = false;
-            $(this).removeClass('bullet-closed').addClass('bullet-loader');
-        }
-        var item = $(this).parent().parent().parent();
-        if (item.children('ul').length == 0) {
-            var id = 5;
-            $.ajax({
-                type: 'POST',
-                url: '/catalog/ajax-menu',
-                dataType: 'html',
-                data: 'id=' + id,
-                success: function(html) {
-                    item.append(html);
-                    item.children('ul').hide().slideToggle('slow', function () {
-                        if (opened) {
-                            _this.removeClass('bullet-loader').addClass('bullet-closed');
-                        } else {
-                            _this.removeClass('bullet-loader').addClass('bullet-opened');
-                        }
-                    });
-                },
-            });
-        } else {
-            item.children('ul').slideToggle('slow', function () {
-                if (opened) {
-                    _this.removeClass('bullet-loader').addClass('bullet-closed');
-                } else {
-                    _this.removeClass('bullet-loader').addClass('bullet-opened');
-                }
-            });
-        }
-    });
+    $('#catalog-menu li.closed > ul').hide();
+    $('#catalog-menu li.parent > div > span > span').click(menuClickHandler);
 
     /*
      * Свернуть/развернуть список производителей выбранной категории
@@ -390,5 +352,58 @@ function addFilterHash() {
     }
     if (hash !== '') {
         window.location.hash = '#!' + hash;
+    }
+}
+
+function menuClickHandler(event) {
+    event.stopPropagation();
+    var item = $(this).parent().parent().parent();
+    if (item.hasClass('opened')) {
+        var opened = true;
+        item.removeClass('opened');
+    } else {
+        var opened = false;
+        item.removeClass('closed');
+    }
+    item.addClass('menu-loader');
+    if (item.children('ul').length == 0) {
+        var id = $(this).data('id');
+        $.ajax({
+            type: 'POST',
+            url: '/catalog/ajax-menu',
+            dataType: 'html',
+            data: 'id=' + id,
+            success: function(html) {
+                item.append(html);
+                item.children('ul').hide().slideToggle('normal', function () {
+                    item.removeClass('menu-loader');
+                    if (opened) {
+                        item.addClass('closed');
+                    } else {
+                        item.addClass('opened');
+                    }
+                    if (item.hasClass('root')) {
+                        item.siblings('li.opened').children('ul').slideToggle('normal', function () {
+                            $(this).parent().removeClass('opened').addClass('closed');
+                        });
+                    }
+                });
+                item.find('ul > li.parent > div > span > span').click(menuClickHandler);
+            },
+        });
+    } else {
+        item.children('ul').slideToggle('normal', function () {
+            item.removeClass('menu-loader');
+            if (opened) {
+                item.addClass('closed');
+            } else {
+                item.addClass('opened');
+            }
+            if (item.hasClass('root')) {
+                item.siblings('li.opened').children('ul').slideToggle('normal', function () {
+                    $(this).parent().removeClass('opened').addClass('closed');
+                });
+            }
+        });
     }
 }

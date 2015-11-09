@@ -2618,187 +2618,124 @@ body > .wrapper {
 #catalog-menu {
 
 }
-    #catalog-menu > div {
-        border-top: 1px dashed #d1d1d1;
-    }
-    #catalog-menu > div:first-child {
-        border-top: none;
-    }
-        #catalog-menu > div a {
-            padding: 5px 0;
-            min-height: 26px;
-        }
-    #catalog-menu > div.item-level-0 {
-        background: #395985;
-    }
-    #catalog-menu > div.item-level-1,
-    #catalog-menu > div.item-level-2,
-    #catalog-menu > div.item-level-3,
-    #catalog-menu > div.item-level-4 {
-        background: #323232;
-    }
-        #catalog-menu > div.item-level-0 a {
-            display: block;
-            padding-left: 15px;
-            background: #395985;
-            color: #fff;
-        }
-        #catalog-menu > div.item-level-1 a,
-        #catalog-menu > div.item-level-2 a,
-        #catalog-menu > div.item-level-3 a,
-        #catalog-menu > div.item-level-4 a {
-            display: block;
-            color: #fff;
-        }
-        #catalog-menu > div.item-level-1 a {
-            color: #fff;
-        }
-        #catalog-menu > div.item-level-2 a {
-            color: #8dc5fd;
-        }
-        #catalog-menu > div.item-level-3 a,
-        #catalog-menu > div.item-level-4 a {
-            color: #d1d1d1;
-        }
-            #catalog-menu > div.item-level-0 a span,
-            #catalog-menu > div.item-level-1 a span,
-            #catalog-menu > div.item-level-2 a span,
-            #catalog-menu > div.item-level-3 a span,
-            #catalog-menu > div.item-level-4 a span {
-                display: table-cell;
-                vertical-align: middle;
-                height: 26px;
-                position: relative;
-                line-height: 13px;
-            }
-            #catalog-menu > div.item-level-1 a span:before,
-            #catalog-menu > div.item-level-2 a span:before,
-            #catalog-menu > div.item-level-3 a span:before,
-            #catalog-menu > div.item-level-4 a span:before {
-                content: "»";
-                position: absolute;
-                display: block;
-                left: -15px;
-                top: 5px;
-                text-decoration: none;
-            }
-            #catalog-menu > div.item-level-1 a span:before {
-                color: #fff;
-            }
-            #catalog-menu > div.item-level-2 a span:before {
-                color: #8dc5fd;
-            }
-            #catalog-menu > div.item-level-3 a span:before,
-            #catalog-menu > div.item-level-4 a span:before {
-                color: #c3c3c3;
-            }
-            #catalog-menu > div.item-level-1 a.selected span:before,
-            #catalog-menu > div.item-level-2 a.selected span:before,
-            #catalog-menu > div.item-level-3 a.selected span:before,
-            #catalog-menu > div.item-level-4 a.selected span:before {
-                color: #ff6d00;
-            }
-        #catalog-menu > div.item-level-1 a {
-            padding-left: 32px;
-        }
-        #catalog-menu > div.item-level-2 a {
-            padding-left: 47px;
-        }
-        #catalog-menu > div.item-level-3 a {
-            padding-left: 63px;
-        }
-        #catalog-menu > div.item-level-4 a {
-            padding-left: 78px;
-        }
-
-/* меню каталога */
-#catalog-menu-2 {
-
-}
-    #catalog-menu-2 ul {
+    #catalog-menu ul {
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
-    #catalog-menu-2 li {
+    #catalog-menu li {
         border-top: 1px dashed #d1d1d1;
         background: #323232;
         min-height: 36px;
     }
-        #catalog-menu-2 > ul > li {
+        #catalog-menu > ul > li {
             background: #395985;
         }
-        #catalog-menu-2 > ul > li:first-child {
+        #catalog-menu > ul > li:first-child {
             border-top: none;
         }
-            #catalog-menu-2 > ul > li > ul > li > div {
+            #catalog-menu > ul > li > ul > li > div {
                 margin-left: 14px;
             }
-                #catalog-menu-2 > ul > li > ul > li > ul > li > div {
+                #catalog-menu > ul > li > ul > li > ul > li > div {
                     margin-left: 26px;
                 }
-                    #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > div {
+                    #catalog-menu > ul > li > ul > li > ul > li > ul > li > div {
                         margin-left: 39px;
                     }
-                        #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > ul > li > div {
+                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div {
                             margin-left: 52px;
                         }
-        #catalog-menu-2 li > div {
+        #catalog-menu li > div {
             min-height: 36px;
             overflow: hidden;
         }
-            #catalog-menu-2 li > div > span {
+            #catalog-menu li > div > span {
                 float: left;
                 width: 24px;
                 min-height: 36px;
                 position: relative;
             }
-                #catalog-menu-2 li > div > span > span {
+                #catalog-menu li > div > span > span {
                     position: absolute;
+                    box-sizing: border-box;
                     width: 13px;
                     height: 13px;
                     top: 11px;
                     left: 5px;
                 }
-                #catalog-menu-2 li > div > span > span.bullet-empty {
-                    background: url(../img/bullet-arrow.png) center center no-repeat;
+                #catalog-menu li > div > span > span {
+                    background: url(../img/bullet-white-arrow.png) center center no-repeat;
                 }
-                #catalog-menu-2 li > div > span > span.bullet-loader {
-                    background: url(../img/bullet-black-loader.gif) center center no-repeat;
-                }
-                    #catalog-menu-2 > ul > li > div > span > span.bullet-loader {
-                        background: url(../img/bullet-blue-loader.gif) center center no-repeat;
+                    #catalog-menu > ul > li > ul > li > ul > li > div > span > span {
+                        background: url(../img/bullet-blue-arrow.png) center center no-repeat;
                     }
-                #catalog-menu-2 li > div > span > span.bullet-closed {
-                    background: url(../img/bullet-plus.png) center center no-repeat;
-                    cursor: pointer;
-                    border: 1px solid #fff;
+                #catalog-menu li.parent.menu-loader > div > span > span {
+                    background: url(../img/bullet-white-loader.gif) center center no-repeat;
+                    border: 1px solid #d1d1d1;
                 }
-                #catalog-menu-2 li > div > span > span.bullet-opened {
-                    background: url(../img/bullet-minus.png) center center no-repeat;
+                    #catalog-menu > ul > li.parent.menu-loader > div > span > span {
+                        background: url(../img/bullet-root-loader.gif) center center no-repeat;
+                        border: 1px solid #fff;
+                    }
+                        #catalog-menu > ul > li > ul > li.parent.menu-loader > div > span > span {
+                            border: 1px solid #fff;
+                        }
+                            #catalog-menu > ul > li > ul > li > ul > li.parent.menu-loader > div > span > span {
+                                background: url(../img/bullet-blue-loader.gif) center center no-repeat;
+                                border: 1px solid #8dc5fd;
+                            }
+                #catalog-menu li.closed > div > span > span {
+                    background: url(../img/bullet-gray-plus.png) center center no-repeat;
                     cursor: pointer;
-                    border: 1px solid #fff;
+                    border: 1px solid #d1d1d1;
                 }
-            #catalog-menu-2 li > div > a {
+                    #catalog-menu > ul > li.closed > div > span > span,
+                    #catalog-menu > ul > li > ul > li.closed > div > span > span {
+                        background: url(../img/bullet-white-plus.png) center center no-repeat;
+                        border: 1px solid #d1d1d1;
+                    }
+                        #catalog-menu > ul > li > ul > li > ul > li.closed > div > span > span {
+                            background: url(../img/bullet-blue-plus.png) center center no-repeat;
+                            border: 1px solid #8dc5fd;
+                        }
+                #catalog-menu li.opened > div > span > span {
+                    background: url(../img/bullet-gray-minus.png) center center no-repeat;
+                    cursor: pointer;
+                    border: 1px solid #d1d1d1;
+                }
+                    #catalog-menu > ul > li.opened > div > span > span,
+                    #catalog-menu > ul > li > ul > li.opened > div > span > span {
+                        background: url(../img/bullet-white-minus.png) center center no-repeat;
+                        border: 1px solid #fff;
+                    }
+                        #catalog-menu > ul > li > ul > li > ul > li.opened > div > span > span {
+                            background: url(../img/bullet-blue-minus.png) center center no-repeat;
+                            border: 1px solid #8dc5fd;
+                        }
+            #catalog-menu li > div > a {
                 float: right;
                 width: 223px;
                 min-height: 36px;
                 color: #fff;
             }
-                #catalog-menu-2 > ul > li > ul > li > div > a {
+                #catalog-menu > ul > li > ul > li > div > a {
                     width: 210px;
                 }
-                    #catalog-menu-2 > ul > li > ul > li > ul > li > div > a {
+                    #catalog-menu > ul > li > ul > li > ul > li > div > a {
                         width: 198px;
+                        color: #8dc5fd;
                     }
-                        #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > div > a {
+                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > div > a {
                             width: 185px;
+                            color: #d1d1d1;
                         }
-                            #catalog-menu-2 > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
+                            #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
                                 width: 172px;
+                                color: #d1d1d1;
                             }
-                #catalog-menu-2 li > div > a > span {
+                #catalog-menu li > div > a > span {
                     display: table-cell;
                     height: 36px;
                     vertical-align: middle;

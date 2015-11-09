@@ -82,10 +82,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // чтобы раскрыть ветку текущей категории
         $this->leftVars['catalogMenu'] = $this->catalogFrontendModel->getCatalogMenu($this->params['id']);
 
-        // переопределяем переменную, которая будет передана в шаблон left.php,
-        // чтобы раскрыть ветку текущей категории
-        $this->leftVars['catalogMenu2'] = $this->catalogFrontendModel->getCatalogMenu2($this->params['id']);
-
     }
 
     /**
