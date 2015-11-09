@@ -1090,10 +1090,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^news/item/(\d+)$~i' =>
         'frontend/news/item/id/$1',
         // список новостей выбранной категории
-        '~^news/ctg/(\d+)$~i' =>
+        '~^news/category/(\d+)$~i' =>
         'frontend/news/category/id/$1',
         // список новостей выбранной категории, постраничная навигация
-        '~^news/ctg/(\d+)/page/(\d+)$~i' =>
+        '~^news/category/(\d+)/page/(\d+)$~i' =>
         'frontend/news/category/id/$1/page/$2',
 
         /*
