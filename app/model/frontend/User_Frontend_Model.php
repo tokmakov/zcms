@@ -761,8 +761,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         );
         // добавляем информацию о списке товаров заказа
         $query = "SELECT
-                      `product_id`, `code` AS `code`, `name`,
-                      `title`, `price`, `quantity`, `cost`
+                      `product_id`, `code`, `name`, `title`, `price`, `quantity`, `cost`
                   FROM
                       `orders_prds`
                   WHERE
@@ -804,9 +803,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `orders_prds` `a`
                       INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                      INNER JOIN `orders` `d` ON `a`.`order_id` = `d`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `orders` `e` ON `a`.`order_id` = `d`.`id`
                   WHERE
-                      `a`.`order_id` = :order_id AND `d`.`user_id` = :user_id AND `b`.`visible` = 1
+                      `a`.`order_id` = :order_id AND `e`.`user_id` = :user_id AND `b`.`visible` = 1
                   ORDER BY
                       `a`.`id`";
         $result = $this->database->fetchAll($query, array('order_id' => $id, 'user_id' => $this->userId));

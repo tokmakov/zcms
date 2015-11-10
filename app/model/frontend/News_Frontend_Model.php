@@ -8,6 +8,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает массив всех новостей; результаты работы кэшируются
      */
+    // TODO: переделать все кэширование
     public function getAllNews($start = 0) {
         // если не включено кэширование данных
         if (!$this->enableDataCache) {
@@ -38,7 +39,7 @@ class News_Frontend_Model extends Frontend_Model {
                   FROM `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
                   WHERE 1
                   ORDER BY `a`.`added` DESC
-                  LIMIT " . $start . ", " . Config::getInstance()->pager->frontend->news->perpage;
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->news->perpage;
         $news = $this->database->fetchAll($query);
         // добавляем в массив новостей информацию об URL новости, картинки, категории
         foreach($news as $key => $value) {
@@ -118,7 +119,7 @@ class News_Frontend_Model extends Frontend_Model {
                   FROM `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
                   WHERE `a`.`category` = :id
                   ORDER BY `a`.`added` DESC
-                  LIMIT " . $start . ", " . Config::getInstance()->pager->frontend->news->perpage;
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->news->perpage;
         $news = $this->database->fetchAll($query, array('id' => $id), $this->enableDataCache);
         // добавляем в массив новостей информацию об URL новости, картинки, категории
         foreach($news as $key => $value) {

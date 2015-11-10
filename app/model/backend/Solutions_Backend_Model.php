@@ -490,6 +490,7 @@ class Solutions_Backend_Model extends Backend_Model {
             $query = "INSERT INTO `solutions_products`
                       (
                           `parent`,
+                          `product_id`,
                           `code`,
                           `name`,
                           `title`,
@@ -503,6 +504,7 @@ class Solutions_Backend_Model extends Backend_Model {
                       )
                       SELECT
                           :parent,
+                          `id`,
                           `code`,
                           `name`,
                           `title`,
@@ -567,7 +569,7 @@ class Solutions_Backend_Model extends Backend_Model {
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
                 FROM
                     `solutions_products` `a` LEFT JOIN `products` `b`
-                    ON `a`.`code`=`b`.`code` AND `b`.`visible`=1
+                    ON `a`.`product_id`=`b`.`id` AND `b`.`visible`=1
                 WHERE
                     `a`.`parent` = :parent
                 ORDER BY
@@ -752,10 +754,23 @@ class Solutions_Backend_Model extends Backend_Model {
                   WHERE
                       `parent` = :parent";
         $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
+        // идентификатор товара
+        $data['product_id'] = 0;
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `products`
+                  WHERE
+                      `code` = :code";
+        $product_id = $this->database->fetchOne($query, array('code' => $data['code']));
+        if ($product_id) {
+            $data['product_id'] = $product_id;
+        }
         // добавляем товар
         $query = "INSERT INTO `solutions_products`
                   (
                       `parent`,
+                      `product_id`,
                       `code`,
                       `name`,
                       `title`,
@@ -770,6 +785,7 @@ class Solutions_Backend_Model extends Backend_Model {
                   VALUES
                   (
                       :parent,
+                      :product_id,
                       :code,
                       :name,
                       :title,
@@ -785,7 +801,8 @@ class Solutions_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция возвращает информацию о товаре $id
+     * Функция возвращает информацию о товаре типового решения с
+     * уникальным идентификатором $id
      */
     public function getSolutionProduct($id) {
         $query = "SELECT
@@ -802,9 +819,22 @@ class Solutions_Backend_Model extends Backend_Model {
      * Функция обновляет товар
      */
     public function updateSolutionProduct($data) {
+        // идентификатор товара в каталоге
+        $data['product_id'] = 0;
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `products`
+                  WHERE
+                      `code` = :code";
+        $product_id = $this->database->fetchOne($query, array('code' => $data['code']));
+        if ($product_id) {
+            $data['product_id'] = $product_id;
+        }
         $query = "UPDATE
                       `solutions_products`
                   SET
+                      `product_id` = :product_id,
                       `code`       = :code,
                       `name`       = :name,
                       `title`      = :title,

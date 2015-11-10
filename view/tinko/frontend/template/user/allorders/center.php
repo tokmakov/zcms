@@ -120,11 +120,11 @@ defined('ZCMS') or die('Access denied');
             </p>
             <table>
                 <tr>
-                    <th width="15%">Код</th>
-                    <th width="41%">Наименование</th>
-                    <th width="10%">Кол.</th>
-                    <th width="17%">Цена</th>
-                    <th width="17%">Стоим.</th>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th>Кол.</th>
+                    <th>Цена</th>
+                    <th>Стоим.</th>
                 </tr>
             <?php foreach ($order['products'] as $product): ?>
                 <tr>

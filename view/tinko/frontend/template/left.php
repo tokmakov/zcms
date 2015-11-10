@@ -72,6 +72,7 @@
  */
 
 defined('ZCMS') or die('Access denied');
+// TODO: пустой класс в элементах меню
 ?>
 
 <!-- Начало шаблона view/example/frontend/template/left.php -->

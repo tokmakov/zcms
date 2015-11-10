@@ -33,8 +33,33 @@ class Index_Solutions_Frontend_Controller extends Solutions_Frontend_Controller 
         // получаем от модели массив категорий
         $categories = $this->solutionsFrontendModel->getCategories();
 
+        // постраничная навигация
+        $page = 1;
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
+            $page = (int)$this->params['page'];
+        }
+        // общее кол-во типовых решений
+        $totalSolutions = $this->solutionsFrontendModel->getCountAllSolutions();
+
+        $temp = new Pager(
+            $page,                                               // текущая страница
+            $totalSolutions,                                     // общее кол-во типовых решений
+            $this->config->pager->frontend->solutions->perpage,  // типовых решений на страницу
+            $this->config->pager->frontend->solutions->leftright // кол-во ссылок слева и справа
+        );
+        $pager = $temp->getNavigation();
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
+            $this->notFoundRecord = true;
+            return;
+        }
+        if (false === $pager) { // постраничная навигация не нужна
+            $pager = null;
+        }
+        // стартовая позиция для SQL-запроса
+        $start = ($page - 1) * $this->config->pager->frontend->solutions->perpage;
+
         // получаем от модели массив всех типовых решений
-        $solutions = $this->solutionsFrontendModel->getAllSolutions();
+        $solutions = $this->solutionsFrontendModel->getAllSolutions($start);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -46,6 +71,10 @@ class Index_Solutions_Frontend_Controller extends Solutions_Frontend_Controller 
             'categories'  => $categories,
             // массив всех типовых решений
             'solutions'   => $solutions,
+            // постраничная навигация
+            'pager' => $pager,
+            // URL этой страницы
+            'thisPageUrl' => $this->solutionsFrontendModel->getURL('frontend/solutions/index'),
         );
 
     }

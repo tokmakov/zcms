@@ -516,18 +516,17 @@ body > .wrapper {
     border-collapse: collapse;
     width: 100%;
 }
-    .data-table tr {
-        background: #f5f5f5;
+    .data-table td, .data-table th {
+        padding: 5px;
+        vertical-align:top;
+        border: 1px solid #d1d1d1;
+        color: #323232;
     }
-        .data-table td, .data-table th {
-            padding: 4px;
-            vertical-align:top;
-            border: 1px solid #333;
-            color: #333;
-        }
-        .data-table th {
-            background: #eee;
-        }
+    .data-table th {
+        background-color: #f0f0f0;
+        font-weight: normal;
+        text-align: left;
+    }
 
 .selected {
     color: #ff6d00 !important;
@@ -2161,6 +2160,7 @@ body > .wrapper {
         }
             #user-orders-list > div > table tr th, #user-orders-list > div > table tr td {
                 border: 1px solid #d1d1d1;
+                font-weight: normal;
                 padding: 5px;
                 white-space: nowrap;
                 overflow: hidden;
@@ -2170,6 +2170,7 @@ body > .wrapper {
             }
             #user-orders-list > div > table tr th:nth-child(2) {
                 text-align: left;
+                width: 60%;
             }
             #user-orders-list > div > table tr td:nth-child(3) {
                 text-align: center;
@@ -2209,8 +2210,8 @@ body > .wrapper {
                 text-decoration: none;
             }
             #user-orders-list > div > div > div:first-child input[type="submit"] {
-                background: #e9751f;
-                border: 1px solid #e9751f;
+                background: #395985;
+                border: 1px solid #395985;
                 padding: 5px 0;
                 font-size: 14px;
                 color: #fff;
@@ -2371,19 +2372,19 @@ body > .wrapper {
     }
 
 /* список типовых решений */
-#solutions-list {
+#list-solutions {
 
 }
-    #solutions-list > div { /* отдельное типовое решение */
+    #list-solutions  > div { /* отдельное типовое решение */
         overflow: hidden;
         margin-bottom: 20px;
     }
-    #solutions-list > div > h2 {
+    #list-solutions  > div > h2 {
             margin: 0 0 5px 0;
             font-size: 16px;
             line-height: 19px;
         }
-        #solutions-list > div > h2 > a {
+        #list-solutions  > div > h2 > a {
             font-size: 16px;
             line-height: 19px;
             font-weight: bold;
@@ -2460,6 +2461,78 @@ body > .wrapper {
                     #categories-solutions > div:last-child > ul > li > span > a + span {
                         color: #5390cc;
                     }
+
+/* отдельное типовое решение */
+#item-solutions > h2, #item-solutions > h3, #item-solutions > h4 {
+    margin: 15px 0;
+    color: #395985;
+    font-weight: normal;
+}
+    #item-solutions > h2 {
+        font-size: 19px;
+    }
+    #item-solutions > h3 {
+        font-size: 16px;
+    }
+    #item-solutions > h4 {
+        font-size: 14px;
+    }
+    #item-solutions > p {
+        margin: 15px 0;
+    }
+    #item-solutions > ul, #item-solutions > ol {
+        margin: 15px 0 15px 30px;
+    }
+    #item-solutions img {
+        max-width: 100%;
+    }
+
+    #item-solutions table { /* таблица товаров */
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #item-solutions table tr th, #item-solutions table tr td {
+        border: 1px solid #d1d1d1;
+        font-weight: normal;
+        padding: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    #item-solutions table tr th {
+        background: #f0f0f0;
+    }
+    #item-solutions table tr th:nth-child(3) {
+        width: 50%;
+    }
+    #item-solutions table tr th.heading, #item-solutions table tr th:nth-child(3) {
+        text-align: left;
+    }
+    #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
+    #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(5) {
+        text-align: center;
+    }
+    #item-solutions table tr td:nth-child(6), #item-solutions table tr td:nth-child(7) {
+        text-align: right;
+    }
+
+    #item-solutions table tr:last-child td:first-child {
+        text-align: left;
+    }
+    #item-solutions table tr:last-child td:last-child {
+        text-align: right;
+    }
+    #item-solutions table tr td form input[type="submit"] {
+        background: #395985;
+        border: 1px solid #395985;
+        padding: 4px 15px;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+    }
+    #item-solutions table tr td strong {
+        color: #395985;
+        font-size: 18px;
+    }
 
 /* форма для оформления заказа */
 #checkout-order {

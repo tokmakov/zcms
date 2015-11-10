@@ -12,7 +12,7 @@ class Solutions_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех типовых решений во всех категориях
      */
-    public function getAllSolutions() {
+    public function getAllSolutions($start) {
         $query = "SELECT
                       `a`.`id` AS `ctg_id`, `a`.`name` AS `ctg_name`,
                       `b`.`id` AS `id`, `b`.`name` AS `name`,
@@ -23,10 +23,11 @@ class Solutions_Frontend_Model extends Frontend_Model {
                   WHERE
                       1
                   ORDER BY
-                      `a`.`sortorder`, `b`.`sortorder`";
+                      `a`.`sortorder`, `b`.`sortorder`
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->solutions->perpage;
         $solutions = $this->database->fetchAll($query);
 
-        // добавляем в массив URL ссылок для редактирования
+        // добавляем в массив URL ссылок
         foreach ($solutions as $key => $value) {
             $solutions[$key]['url'] = array(
                 'ctg' => $this->getURL('frontend/solutions/category/id/' . $value['ctg_id']),
@@ -38,17 +39,33 @@ class Solutions_Frontend_Model extends Frontend_Model {
     }
 
     /**
+     * Возвращает общее количество типовых решений (во всех категориях)
+     */
+    public function getCountAllSolutions() {
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `solutions`
+                  WHERE
+                      1";
+        return $this->database->fetchOne($query);
+    }
+
+    /**
      * Функция возвращает массив всех категорий типовых решений
      */
     public function getCategories() {
         $query = "SELECT
-                      `id`, `name`
+                      `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(`b`.`id`) AS `count`
                   FROM
-                      `solutions_categories`
+                      `solutions_categories` `a`
+                      LEFT JOIN `solutions` `b` ON `a`.`id` = `b`.`category`
                   WHERE
                       1
+                  GROUP BY
+                      1, 2
                   ORDER BY
-                      `sortorder`";
+                      `a`.`sortorder`";
         $categories = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на станицы категорий
         foreach ($categories as $key => $value) {
@@ -60,21 +77,36 @@ class Solutions_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех типовых решений выбранной категории $id
      */
-    public function getCategorySolutions($id) {
+    public function getCategorySolutions($id, $start) {
         $query = "SELECT
-                      `id`, `name`, `sortorder`
+                      `id`, `name`, `excerpt`, `sortorder`
                   FROM
                       `solutions`
                   WHERE
                       `category` = :category
                   ORDER BY
-                      `sortorder`";
+                      `sortorder`
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->solutions->perpage;
         $solutions = $this->database->fetchAll($query, array('category' => $id));
         // добавляем в массив URL ссылок на страницы типовых решений
         foreach($solutions  as $key => $value) {
             $solutions[$key]['url'] = $this->getURL('frontend/solutions/item/id/' . $value['id']);
         }
         return $solutions ;
+    }
+
+    /**
+     * Возвращает количество типовых решений в категории с уникальным
+     * идентификатором $id
+     */
+    public function getCountCategorySolutions($id) {
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `solutions`
+                  WHERE
+                      `category` = :id";
+        return $this->database->fetchOne($query, array('id' => $id));
     }
 
     /**
@@ -95,12 +127,14 @@ class Solutions_Frontend_Model extends Frontend_Model {
      */
     public function getSolution($id) {
         $query = "SELECT
-                      `category`, `name`, `keywords`, `description`,
-                      `excerpt`, `content1`, `content2`
+                      `a`.`name` AS `name`, `a`.`keywords` AS `keywords`, `a`.`description` AS `description`,
+                      `a`.`excerpt` AS `excerpt`, `a`.`content1` AS `content1`, `a`.`content2` AS `content2`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
                   FROM
-                      `solutions`
+                      `solutions` `a` INNER JOIN `solutions_categories` `b`
+                      ON `a`.`category` = `b`.`id`
                   WHERE
-                      `id` = :id";
+                      `a`.`id` = :id";
         return $this->database->fetch($query, array('id' => $id));
     }
 
@@ -123,7 +157,7 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
                 FROM
                     `solutions_products` `a` LEFT JOIN `products` `b`
-                    ON `a`.`code`=`b`.`code` AND `b`.`visible`=1
+                    ON `a`.`product_id`=`b`.`id` AND `b`.`visible`=1
                 WHERE
                     `a`.`parent` = :parent
                 ORDER BY
@@ -131,9 +165,39 @@ class Solutions_Frontend_Model extends Frontend_Model {
         $products = $this->database->fetchAll($query, array('parent' => $id));
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products  as $key => $value) {
-            $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            if ( ! $products[$key]['empty']) {
+                $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            }
         }
         return $products;
+    }
+
+    /**
+     * Функция добавляет в корзину все товары типового решения $id
+     */
+    public function addSolutionToBasket($id) {
+
+        // получаем все товары типового решения
+        $query = "SELECT
+                      `a`.`product_id` AS `id`, `a`.`count` AS `count`
+                  FROM
+                      `solutions_products` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                  WHERE
+                      `a`.`parent` = :parent AND `b`.`visible` = 1
+                  ORDER BY
+                      `a`.`sortorder`";
+        $result = $this->database->fetchAll($query, array('parent' => $id));
+
+        // через реестр обращаемся к экземпляру класса Basket_Frontend_Model
+        // и добавляем эти товары в корзину
+        $basketFrontendModel = $this->register->basketFrontendModel;
+        foreach ($result as $key => $value) {
+            $basketFrontendModel->addToBasket($value['id'], $value['count'], $key);
+        }
+
     }
 
 }

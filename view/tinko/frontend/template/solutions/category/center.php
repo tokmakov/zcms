@@ -1,13 +1,14 @@
 <?php
 /**
- * Главная страница типовых решений, список всех категорий + список всех типовых
- * решений, файл view/example/frontend/template/solutions/index/center.php,
+ * Список типовых решений выбранной категории,
+ * файл view/example/frontend/template/solutions/category/center.php,
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $categories - массив категорий типовых решений
- * $solutions - массив всех типовых решений
+ * $id - уникальный идентификатор категории
+ * $name - наименование категории
+ * $solutions - массив типовых решений
  * $pager - постраничная навигация
  * $thisPageUrl - URL этой страницы
  * 
@@ -30,7 +31,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/solutions/index/center.php -->
+<!-- Начало шаблона view/example/frontend/template/solutions/category/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -40,45 +41,16 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Типовые решения</h1>
-
-<?php if (!empty($categories)): // категории ?>
-    <div id="categories-solutions">
-        <div>Категории:</div>
-        <div>
-            <ul>
-                <?php
-                $divide = 0;
-                $count = count($categories);
-                if ($count > 5) {
-                    $divide = ceil($count/2);
-                }
-                ?>
-                <?php foreach ($categories as $key => $item): ?>
-                <li>
-                    <?php if ($item['count']): // есть типовые решения в категории? ?>
-                        <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
-                    <?php else: ?>
-                        <span><span><?php echo $item['name']; ?></span> <span>0</span></span>
-                    <?php endif; ?>
-                </li>
-                <?php if ($divide && $divide == ($key+1)): ?>
-            </ul><ul>
-                <?php endif; ?>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-<?php endif; ?>
+<h1><?php echo $name; ?></h1>
 
 <?php if (!empty($solutions)): // список типовых решений ?>
     <div id="list-solutions">
-    <?php foreach($solutions as $item): ?>
-        <div>
-            <h2><a href="<?php echo $item['url']['item']; ?>"><?php echo $item['name']; ?></a></h2>
-            <div><?php echo $item['excerpt']; ?></div>
-        </div>
-    <?php endforeach; ?>
+        <?php foreach($solutions as $item): ?>
+            <div>
+                <h2><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a></h2>
+                <div><?php echo $item['excerpt']; ?></div>
+            </div>
+        <?php endforeach; ?>
     </div>
 <?php endif; ?>
 
@@ -91,13 +63,13 @@ defined('ZCMS') or die('Access denied');
     <?php endif; ?>
     <?php if (isset($pager['prev'])): ?>
         <li>
-            <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['first'] != 1) ? '/page/'.$pager['prev'] : ''; ?>" class="prev-page"></a>
+            <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['prev'] != 1) ? '/page/'.$pager['prev'] : ''; ?>" class="prev-page"></a>
         </li>
     <?php endif; ?>
     <?php if (isset($pager['left'])): ?>
         <?php foreach ($pager['left'] as $left) : ?>
             <li>
-                <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['first'] != 1) ? '/page/'.$left : ''; ?>"><?php echo $left; ?></a>
+                <a href="<?php echo $thisPageUrl; ?><?php echo ($left != 1) ? '/page/'.$left : ''; ?>"><?php echo $left; ?></a>
             </li>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -126,6 +98,6 @@ defined('ZCMS') or die('Access denied');
     </ul>
 <?php endif; ?>
 
-<!-- Конец шаблона view/example/frontend/template/solutions/index/center.php -->
+<!-- Конец шаблона view/example/frontend/template/solutions/category/center.php -->
 
 
