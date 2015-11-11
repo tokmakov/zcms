@@ -1,7 +1,7 @@
 <?php
 /**
- * Класс Solutions_Frontend_Model для работы с типовыми решениями,
- * взаимодействует с базой данных, общедоступная часть сайта
+ * Класс Solutions_Frontend_Model для работы с типовыми решениями, взаимодействует
+ * с базой данных, общедоступная часть сайта
  */
 class Solutions_Frontend_Model extends Frontend_Model {
 
@@ -10,9 +10,30 @@ class Solutions_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив всех типовых решений во всех категориях
+     * Функция возвращает массив всех типовых решений во всех категориях,
+     * результат работы кэшируется
      */
     public function getAllSolutions($start) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->allSolutions($start);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-start-' . $start;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Функция возвращает массив всех типовых решений во всех категориях
+     */
+    protected function allSolutions($start) {
+
         $query = "SELECT
                       `a`.`id` AS `ctg_id`, `a`.`name` AS `ctg_name`,
                       `b`.`id` AS `id`, `b`.`name` AS `name`,
@@ -36,10 +57,12 @@ class Solutions_Frontend_Model extends Frontend_Model {
         }
 
         return $solutions;
+
     }
 
     /**
-     * Возвращает общее количество типовых решений (во всех категориях)
+     * Возвращает общее количество типовых решений (во всех категориях),
+     * результат работы кэшируется
      */
     public function getCountAllSolutions() {
         $query = "SELECT
@@ -48,13 +71,34 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `solutions`
                   WHERE
                       1";
-        return $this->database->fetchOne($query);
+        return $this->database->fetchOne($query, array(), $this->enableDataCache);
+    }
+
+    /**
+     * Функция возвращает массив всех категорий типовых решений, результат
+     * работы кэшируется
+     */
+    public function getCategories() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->categories();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
      * Функция возвращает массив всех категорий типовых решений
      */
-    public function getCategories() {
+    protected function categories() {
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(`b`.`id`) AS `count`
                   FROM
@@ -67,17 +111,41 @@ class Solutions_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `a`.`sortorder`";
         $categories = $this->database->fetchAll($query);
+
         // добавляем в массив URL ссылок на станицы категорий
         foreach ($categories as $key => $value) {
             $categories[$key]['url'] = $this->getURL('frontend/solutions/category/id/' . $value['id']);
         }
+
         return $categories;
+
+    }
+
+    /**
+     * Функция возвращает массив всех типовых решений выбранной категории $id,
+     * результат работы кэшируется
+     */
+    public function getCategorySolutions($id, $start = 0) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->categorySolutions($id, $start);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-start-' . $start;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
      * Функция возвращает массив всех типовых решений выбранной категории $id
      */
-    public function getCategorySolutions($id, $start) {
+    protected function categorySolutions($id, $start = 0) {
+
         $query = "SELECT
                       `id`, `name`, `excerpt`, `sortorder`
                   FROM
@@ -88,16 +156,19 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `sortorder`
                   LIMIT " . $start . ", " . $this->config->pager->frontend->solutions->perpage;
         $solutions = $this->database->fetchAll($query, array('category' => $id));
+
         // добавляем в массив URL ссылок на страницы типовых решений
-        foreach($solutions  as $key => $value) {
+        foreach ($solutions  as $key => $value) {
             $solutions[$key]['url'] = $this->getURL('frontend/solutions/item/id/' . $value['id']);
         }
+
         return $solutions ;
+
     }
 
     /**
      * Возвращает количество типовых решений в категории с уникальным
-     * идентификатором $id
+     * идентификатором $id, результат работы кэшируется
      */
     public function getCountCategorySolutions($id) {
         $query = "SELECT
@@ -106,11 +177,12 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `solutions`
                   WHERE
                       `category` = :id";
-        return $this->database->fetchOne($query, array('id' => $id));
+        return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
     }
 
     /**
-     * Возвращает информацию о категории с уникальным идентификатором $id
+     * Возвращает информацию о категории с уникальным идентификатором $id,
+     * результат работы кэшируется
      */
     public function getCategory($id) {
         $query = "SELECT
@@ -119,29 +191,52 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `solutions_categories`
                   WHERE
                       `id` = :id";
-        return $this->database->fetch($query, array('id' => $id));
+        return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
     }
 
     /**
-     * Возвращает информацию о типовом решении с уникальным идентификатором $id
+     * Возвращает информацию о типовом решении с уникальным идентификатором $id,
+     * результат работы кэшируется
      */
     public function getSolution($id) {
         $query = "SELECT
-                      `a`.`name` AS `name`, `a`.`keywords` AS `keywords`, `a`.`description` AS `description`,
-                      `a`.`excerpt` AS `excerpt`, `a`.`content1` AS `content1`, `a`.`content2` AS `content2`,
+                      `a`.`name` AS `name`, `a`.`keywords` AS `keywords`,
+                      `a`.`description` AS `description`, `a`.`excerpt` AS `excerpt`,
+                      `a`.`content1` AS `content1`, `a`.`content2` AS `content2`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
                   FROM
                       `solutions` `a` INNER JOIN `solutions_categories` `b`
                       ON `a`.`category` = `b`.`id`
                   WHERE
                       `a`.`id` = :id";
-        return $this->database->fetch($query, array('id' => $id));
+        return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
+    }
+
+    /**
+     * Функция возвращает массив товаров типового решения $id, результат
+     * работы кэшируется
+     */
+    public function getSolutionProducts($id) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->solutionProducts($id);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
      * Функция возвращает массив товаров типового решения $id
      */
-    public function getSolutionProducts($id) {
+    protected function solutionProducts($id) {
+
         $query = "SELECT
                       `b`.`id` AS `id`,
                       `a`.`code` AS `code`,
@@ -155,21 +250,24 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `a`.`note` AS `note`,
                       `a`.`sortorder` AS `sortorder`,
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
-                FROM
-                    `solutions_products` `a` LEFT JOIN `products` `b`
-                    ON `a`.`product_id`=`b`.`id` AND `b`.`visible`=1
-                WHERE
-                    `a`.`parent` = :parent
-                ORDER BY
-                    `a`.`sortorder`";
+                  FROM
+                      `solutions_products` `a` LEFT JOIN `products` `b`
+                      ON `a`.`product_id`=`b`.`id` AND `b`.`visible`=1
+                  WHERE
+                      `a`.`parent` = :parent
+                  ORDER BY
+                      `a`.`sortorder`";
         $products = $this->database->fetchAll($query, array('parent' => $id));
+
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products  as $key => $value) {
             if ( ! $products[$key]['empty']) {
                 $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
             }
         }
+
         return $products;
+
     }
 
     /**

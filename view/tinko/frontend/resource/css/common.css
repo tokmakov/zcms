@@ -1137,8 +1137,29 @@ body > .wrapper {
         background-color: #323232;
         border: 1px solid #323232;
         color: #fff;
-        padding: 10px 15px;
+        padding: 10px 5px;
+        overflow: hidden;
     }
+        #category-childs > div:first-child > span {
+            display: block;
+            overflow: hidden;
+            height: 17px;
+        }
+        #category-childs > div:first-child > span:first-child {
+            float: left;
+            width: 70%;
+            white-space: nowrap;
+        }
+        #category-childs > div:first-child > span:last-child {
+            float: right;
+            text-align: right;
+            width: 25%;
+        }
+            #category-childs > div:first-child > span:last-child > span {
+                font-size: 13px;
+                cursor: pointer;
+                border-bottom: 1px dashed #fff;
+            }
     #category-childs > div:last-child {
         border: 1px solid #d1d1d1;
         border-top: none;
@@ -1208,12 +1229,13 @@ body > .wrapper {
         background-color: #323232;
         border: 1px solid #323232;
         color: #fff;
-        padding: 10px 15px;
+        padding: 10px 5px;
         overflow: hidden;
     }
         #category-filters > div:first-child > span {
             display: block;
             overflow: hidden;
+            height: 17px;
         }
         #category-filters > div:first-child > span:first-child {
             float: left;

@@ -88,6 +88,8 @@ class Item_Solutions_Frontend_Controller extends Solutions_Frontend_Controller {
             'content1'    => $solution['content1'],
             // дополнительное содержание типового решения (заключение)
             'content2'    => $solution['content2'],
+            // атрибут action тега form для добавления товаров в корзину
+            'action'      => $this->solutionsFrontendModel->getURL('frontend/solutions/basket/id/' . $this->params['id']),
         );
 
     }

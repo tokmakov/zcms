@@ -502,6 +502,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // список типовых решений выбранной категории, постраничная навигация
         '~^frontend/solutions/category/id/(\d+)/page/(\d+)$~i' =>
         'solutions/category/$1/page/$2',
+        // добавление товаров типового решения в корзину
+        '~^frontend/solutions/basket/id/(\d+)$~i' =>
+        'solutions/basket/$1',
+        // добавление товаров типового решения в корзину, XmlHttpRequest
+        '~^frontend/solutions/ajaxbasket/id/(\d+)$~i' =>
+        'solutions/ajax-basket/$1',
 
         /*
          * страницы сайта
@@ -1114,6 +1120,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // список типовых решений выбранной категории, постраничная навигация
         '~^solutions/category/(\d+)/page/(\d+)$~i' =>
         'frontend/solutions/category/id/$1/page/$2',
+        // добавление товаров типового решения в корзину
+        '~^solutions/basket/(\d+)$~i' =>
+        'frontend/solutions/basket/id/$1',
+        // добавление товаров типового решения в корзину, XmlHttpRequest
+        '~^solutions/ajax-basket/(\d+)$~i' =>
+        'frontend/solutions/ajaxbasket/id/$1',
 
         /*
          * страницы сайта

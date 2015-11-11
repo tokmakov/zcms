@@ -236,7 +236,10 @@ for ($i = 0; $i <= 6; $i++) {
 
 <?php if (!empty($childCategories)): // дочерние категории ?>
     <div id="category-childs">
-        <div>Категории</div>
+        <div>
+            <span>Категории</span>
+            <span><span>скрыть</span></span>
+        </div>
         <div>
             <ul>
             <?php
@@ -276,7 +279,7 @@ for ($i = 0; $i <= 6; $i++) {
                 <span class="selected">включен</span>
             <?php endif; ?>
         </span>
-        <span><span>показать</span></span>
+        <span><span>скрыть</span></span>
     </div>
     <div>
         <form action="<?php echo $action; ?>" method="post">

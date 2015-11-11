@@ -161,7 +161,7 @@ abstract class Frontend_Controller extends Base_Controller {
         // пользователь авторизован?
         $this->authUser = $this->userFrontendModel->isAuthUser();
         // если не авторизован, пробуем войти автоматически
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             $this->authUser = $this->userFrontendModel->autoLogin();
         }
 

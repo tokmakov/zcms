@@ -104,7 +104,7 @@ abstract class Frontend_Model extends Base_Model {
     public function getURL($url) {
         $url = trim($url, '/');
         // если в настройках не разрешено использовать SEF (ЧПУ)
-        if (!$this->config->sef->enable) {
+        if ( ! $this->config->sef->enable) {
             return parent::getURL($url);
         }
         // если не включено кэширование данных

@@ -538,7 +538,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -632,7 +632,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new;
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -714,7 +714,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -842,7 +842,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -902,7 +902,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-nit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1180,6 +1180,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив всех производителей (если $limit=0)
      */
     protected function allMakers($limit = 0) {
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
                   FROM
@@ -1195,12 +1196,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if ($limit) {
             $query = $query . ' LIMIT ' . $limit;
         }
-        $makers = $this->database->fetchAll($query, array());
+        $makers = $this->database->fetchAll($query);
+
         // добавляем в массив URL ссылок на страницы отдельных производителей
         foreach($makers as $key => $value) {
             $makers[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
         }
+
         return $makers;
+
     }
 
     /**
@@ -1241,6 +1245,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив товаров производителя с уникальным идентификатором $id
      */
     protected function makerProducts($id, $sortorder = 0, $start = 0) {
+
         switch ($sortorder) { // сортировка
             case 0: $temp = '`b`.`globalsort`, `a`.`sortorder`';  break; // сортировка по умолчанию
             case 1: $temp = '`a`.`price`';                        break; // сортировка по цене, по возрастанию
@@ -1263,6 +1268,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   ORDER BY " . $temp . "
                   LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
         $products = $this->database->fetchAll($query, array('id' => $id));
+
         // добавляем в массив URL ссылок на товары и фото
         foreach($products as $key => $value) {
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -1278,7 +1284,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
             // атрибут action тега form для добавления товара в список сравнения
             $products[$key]['action']['compared'] = $this->getURL('frontend/compared/addprd');
         }
+
         return $products;
+
     }
 
     /**

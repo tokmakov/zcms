@@ -54,25 +54,24 @@
  *     [id] => 2252
  *     [name] => ABB
  *     [count] => 13
- *     [url] => /catalog/maker/2252
+ *     [url] => http://www.host.ru/catalog/maker/2252
  *   )
  *   [1] => Array (
  *     [id] => 2249
  *     [name] => ABRON
  *     [count] => 12
- *     [url] => /catalog/maker/2249
+ *     [url] => http://www.host.ru/catalog/maker/2249
  *   )
  *   [2] => Array (
  *     [id] => 318
  *     [name] => AccordTec
  *     [count] => 48
- *     [url] => /catalog/maker/318
+ *     [url] => http://www.host.ru/catalog/maker/318
  *   )
  * )
  */
 
 defined('ZCMS') or die('Access denied');
-// TODO: пустой класс в элементах меню
 ?>
 
 <!-- Начало шаблона view/example/frontend/template/left.php -->
@@ -114,7 +113,7 @@ defined('ZCMS') or die('Access denied');
                                         }
                                     }
                                 ?>
-                                <li class="<?php echo $class; ?>">
+                                <li<?php if ( ! empty($class)) echo ' class="' . $class . '"'; ?>>
                                     <div>
                                         <span><span<?php if ($item2['count']) echo ' data-id="' . $item2['id'] . '"'; ?>></span></span>
                                         <a href="<?php echo $item2['url']; ?>"<?php if (isset($item2['current'])) echo ' class="selected"'; ?>><span><?php echo $item2['name']; ?></span></a>
@@ -133,7 +132,7 @@ defined('ZCMS') or die('Access denied');
                                                     }
                                                 }
                                             ?>
-                                            <li class="<?php echo $class; ?>">
+                                            <li<?php if ( ! empty($class)) echo ' class="' . $class . '"'; ?>>
                                                 <div>
                                                     <span><span<?php if ($item3['count']) echo ' data-id="' . $item3['id'] . '"'; ?>></span></span>
                                                     <a href="<?php echo $item3['url']; ?>"<?php if (isset($item3['current'])) echo ' class="selected"'; ?>><span><?php echo $item3['name']; ?></span></a>
@@ -152,7 +151,7 @@ defined('ZCMS') or die('Access denied');
                                                                 }
                                                             }
                                                         ?>
-                                                        <li class="<?php echo $class; ?>">
+                                                        <li<?php if ( ! empty($class)) echo ' class="' . $class . '"'; ?>>
                                                             <div>
                                                                 <span><span<?php if ($item4['count']) echo ' data-id="' . $item4['id'] . '"'; ?>></span></span>
                                                                 <a href="<?php echo $item4['url']; ?>"<?php if (isset($item4['current'])) echo ' class="selected"'; ?>><span><?php echo $item4['name']; ?></span></a>
@@ -171,7 +170,7 @@ defined('ZCMS') or die('Access denied');
                                                                             }
                                                                         }
                                                                     ?>
-                                                                    <li class="<?php echo $class; ?>">
+                                                                    <li<?php if ( ! empty($class)) echo ' class="' . $class . '"'; ?>>
                                                                         <div>
                                                                             <span><span<?php if ($item5['count']) echo ' data-id="' . $item5['id'] . '"'; ?>></span></span>
                                                                             <a href="<?php echo $item5['url']; ?>"<?php if (isset($item5['current'])) echo ' class="selected"'; ?>><span><?php echo $item5['name']; ?></span></a>

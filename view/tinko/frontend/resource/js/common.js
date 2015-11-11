@@ -39,7 +39,7 @@ $(document).ready(function() {
         }
     });
     */
-    $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
+    $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function() {
         var query = $(this).val();
         if (query.length > 1) {
             $('#top-search > div').html('<div class="top-search-loader"></div>');
@@ -73,16 +73,44 @@ $(document).ready(function() {
     $('#catalog-menu li.parent > div > span > span').click(menuClickHandler);
 
     /*
-     * Свернуть/развернуть список производителей выбранной категории
+     * Свернуть/развернуть список дочерних категорий в каталоге
      */
-    $('#category-makers > div:last-child').hide();
-    $('#category-makers > div:first-child > span:last-child > span').click(function() {
-        $('#category-makers > div:last-child').slideToggle();
-        if ($(this).text() == 'показать') {
-            $(this).text('скрыть');
-        } else {
-            $(this).text('показать');
-        }
+    if ($.cookie('show_ctg_childs') !== undefined && $.cookie('show_ctg_childs') == 0) {
+        $('#category-childs > div:last-child').hide();
+        $('#category-childs > div:first-child > span:last-child > span').text('показать');
+    }
+    $('#category-childs > div:first-child > span:last-child > span').click(function() {
+        var _this = $(this);
+        $('#category-childs > div:last-child').slideToggle('normal', function() {
+            if (_this.text() == 'показать') {
+                _this.text('скрыть');
+                $.cookie('show_ctg_childs', 1, {expires: 365});
+            } else {
+                _this.text('показать');
+                $.cookie('show_ctg_childs', 0, {expires: 365});
+            }
+        });
+
+    });
+
+    /*
+     * Показать/скрыть фильтры товаров в каталоге
+     */
+    if ($.cookie('show_ctg_filters') !== undefined && $.cookie('show_ctg_filters') == 0) {
+        $('#category-filters > div:last-child').hide();
+        $('#category-filters > div:first-child > span:last-child > span').text('показать');
+    }
+    $('#category-filters > div:first-child > span:last-child > span').click(function() {
+        var _this = $(this);
+        $('#category-filters > div:last-child').slideToggle('normal', function() {
+            if (_this.text() == 'показать') {
+                _this.text('скрыть');
+                $.cookie('show_ctg_filters', 1, {expires: 365});
+            } else {
+                _this.text('показать');
+                $.cookie('show_ctg_filters', 0, {expires: 365});
+            }
+        });
     });
 
     /*
@@ -104,6 +132,37 @@ $(document).ready(function() {
     $('#category-filters form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
     $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
+
+    /*
+     * Добавление товаров типового решения в корзину, ajax
+     */
+    var solution_id = $('#add-solution-basket').data('id');
+    $('#add-solution-basket').ajaxForm({
+        target: '#side-basket',
+        url: '/solutions/ajax-basket/' + solution_id,
+        beforeSubmit: function() {
+            var sideBasketHeight = $('#side-basket').height();
+            var sideBasketWidth = $('#side-basket').width();
+            $('<div></div>').prependTo('#side-basket').addClass('overlay').height(sideBasketHeight).width(sideBasketWidth);
+        },
+        success: function() {
+            $('#side-basket > .overlay').remove();
+            $('<div>Товары добавлены в корзину</div>')
+                .prependTo('body')
+                .hide()
+                .addClass('modal-window')
+                .center()
+                .fadeIn(500, function() {
+                    $(this).delay(1000).fadeOut(500, function() {
+                        $(this).remove();
+                    });
+                });
+
+        },
+        error: function() {
+            alert('Ошибка при добавлении товаров в корзину');
+        }
+    });
 
     /*
      * Форма для редактирования личных данных пользователя
@@ -145,7 +204,7 @@ $(document).ready(function() {
         });
     });
     // если не отмечен checkbox «Юридическое лицо», скрываем часть формы, связанную с юридическим лицом
-    if (!$('#add-edit-profile input[name="legal_person"]').prop('checked')) {
+    if ( ! $('#add-edit-profile input[name="legal_person"]').prop('checked')) {
         $('#add-edit-profile > #legal-person').hide();
     }
     $('#add-edit-profile input[name="legal_person"]').change(function() {

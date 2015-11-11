@@ -14,7 +14,7 @@ class Menu_Frontend_Model extends Frontend_Model {
      */
     public function getMenu() {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->menu();
         }
 
@@ -33,11 +33,15 @@ class Menu_Frontend_Model extends Frontend_Model {
      */
     protected function menu() {
         // получаем все пункты меню
-        $query = "SELECT `id`, `name`, `url`, `parent`
-                  FROM `menu`
-                  WHERE 1
-                  ORDER BY `sortorder`";
-        $data = $this->database->fetchAll($query, array());
+        $query = "SELECT
+                      `id`, `name`, `url`, `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
+        $data = $this->database->fetchAll($query);
         // заменяем виртуальные адреса вида frontend/page/id/7 на SEF (ЧПУ)
         foreach ($data as $key => $value) {
             $data[$key]['url'] = $this->getURL($value['url']);

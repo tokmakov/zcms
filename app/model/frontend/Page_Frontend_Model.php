@@ -15,7 +15,7 @@ class Page_Frontend_Model extends Frontend_Model {
      */
     public function getPage($id) {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->page($id);
         }
 
@@ -33,9 +33,12 @@ class Page_Frontend_Model extends Frontend_Model {
      * Возвращает информацию о странице с уникальным идентификатором $id
      */
     protected function page($id) {
-        $query = "SELECT `name`, `title`, `description`, `keywords`, `parent`, `body`
-                  FROM `pages`
-                  WHERE `id` = :id";
+        $query = "SELECT
+                      `name`, `title`, `description`, `keywords`, `parent`, `body`
+                  FROM
+                      `pages`
+                  WHERE
+                      `id` = :id";
         return $this->database->fetch($query, array('id' => $id));
     }
 
@@ -45,7 +48,7 @@ class Page_Frontend_Model extends Frontend_Model {
      */
     public function getPagePath($id) {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->pagePath($id);
         }
 
@@ -63,21 +66,30 @@ class Page_Frontend_Model extends Frontend_Model {
      * Функция возвращает путь до страницы с уникальным идентификатором $id
      */
     protected function pagePath($id) {
-        $query = "SELECT `parent`
-                  FROM `pages`
-                  WHERE `id` = :id";
+        $query = "SELECT
+                      `parent`
+                  FROM
+                      `pages`
+                  WHERE
+                      `id` = :id";
         $parent = $this->database->fetchOne($query, array('id' => $id));
         $path = array();
         if ($parent) {
-            $query = "SELECT `id`, `name`, `parent`
-                      FROM `pages`
-                      WHERE `id` = :id";
+            $query = "SELECT
+                          `id`, `name`, `parent`
+                      FROM
+                          `pages`
+                      WHERE
+                          `id` = :id";
             $result = $this->database->fetch($query, array('id' => $parent));
             $path[] = array('url' => $this->getURL('frontend/page/index/id/' . $result['id']), 'name' => $result['name']);
             if ($result['parent']) {
-                $query = "SELECT `id`, `name`, `parent`
-                          FROM `pages`
-                          WHERE `id` = :id";
+                $query = "SELECT
+                              `id`, `name`, `parent`
+                          FROM
+                              `pages`
+                          WHERE
+                              `id` = :id";
                 $res = $this->database->fetch($query, array('id' => $result['parent']));
                 $path[] = array('url' => $this->getURL('frontend/page/index/id/' . $res['id']), 'name' => $res['name']);
             }
@@ -93,7 +105,7 @@ class Page_Frontend_Model extends Frontend_Model {
      */
     public function getAllPages() {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->allPages();
         }
 
@@ -112,10 +124,14 @@ class Page_Frontend_Model extends Frontend_Model {
      */
     protected function allPages() {
         // получаем все страницы
-        $query = "SELECT `id`, `name`, `parent`
-                  FROM `pages`
-                  WHERE 1
-                  ORDER BY `sortorder`";
+        $query = "SELECT
+                      `id`, `name`, `parent`
+                  FROM
+                      `pages`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
         $pages = $this->database->fetchAll($query);
         // добавляем в массив ссылки на страницы
         foreach($pages as $key => $value) {

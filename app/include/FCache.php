@@ -61,7 +61,7 @@ class FCache {
         while ($this->isLocked($key)) {
             usleep(1);
         }
-        if (!$this->isExists($key)) {
+        if ( ! $this->isExists($key)) {
             throw new Exception('Ошибка при чтении значения из кэша');
         }
         $name = md5($key) . '.txt';

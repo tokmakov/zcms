@@ -126,6 +126,7 @@ $settings = array(
         'frontend' => array( // общедоступная часть сайта
             'base' => array(
                 'jquery-2.1.1.min.js',
+                'jquery.cookie.js',
                 'jquery.form.min.js',
                 'center.js',
                 'common.js',

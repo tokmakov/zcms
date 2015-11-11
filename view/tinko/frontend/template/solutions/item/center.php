@@ -6,9 +6,12 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $id - уникальный идентификатор типового решения
  * $products - массив товаров типового решения
  * $units - единицы измерения
- *
+ * $content1 - основное содержание типового решения
+ * $content2 - дополнительное содержание типового решения (заключение)
+ * $action - атрибут action тега form для добавления товаров в корзину
  *
  * $units = Array (
  *   0 => 'руб',
@@ -82,7 +85,7 @@ defined('ZCMS') or die('Access denied');
             <?php endforeach; ?>
             <tr>
                 <td colspan="3">
-                    <form>
+                    <form action="<?php echo $action; ?>" method="post" id="add-solution-basket" data-id="<?php echo $id; ?>">
                         <input type="submit" name="submit" value="Добавить в корзину" />
                     </form>
                 </td>

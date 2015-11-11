@@ -15,7 +15,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         parent::__construct();
         // уникальный идентификатор посетителя сайта
-        if (!isset($this->userFrontendModel)) {
+        if ( ! isset($this->userFrontendModel)) {
             // экземпляр класса модели для работы с пользователями
             $this->userFrontendModel =
                 isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
@@ -32,9 +32,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
         // такой товар уже есть в корзине?
-        $query = "SELECT 1
-                  FROM `baskets`
-                  WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+        $query = "SELECT
+                      1
+                  FROM
+                      `baskets`
+                  WHERE
+                      `visitor_id` = :visitor_id AND `product_id` = :product_id";
         $data = array(
             'visitor_id' => $this->visitorId,
             'product_id' => $productId,
@@ -57,9 +60,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           NOW() - INTERVAL ".$delay." SECOND
                       )";
         } else { // если такой товар уже есть в корзине, обновляем количество и дату
-            $query = "UPDATE `baskets`
-                      SET `quantity` = `quantity` + :quantity, `added` = NOW()
-                      WHERE `visitor_id` = :visitor_id AND `product_id` = :product_id";
+            $query = "UPDATE
+                          `baskets`
+                      SET
+                          `quantity` = `quantity` + :quantity,
+                          `added` = NOW() - INTERVAL ".$delay." SECOND
+                      WHERE
+                          `visitor_id` = :visitor_id AND `product_id` = :product_id";
         }
         $this->database->execute($query, $data);
 
@@ -76,26 +83,29 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция обновляет количество товара в корзине покупателя
      */
     public function updateBasket() {
-        if (!isset($_POST['ids'])) {
+        if ( ! isset($_POST['ids'])) {
             return;
         }
-        if (!is_array($_POST['ids'])) {
+        if ( ! is_array($_POST['ids'])) {
             return;
         }
         foreach ($_POST['ids'] as $key => $value) {
             $key = (string)$key;
-            if (!ctype_digit($key)) {
+            if ( ! ctype_digit($key)) {
                 continue;
             }
-            if (!ctype_digit($value)) {
+            if ( ! ctype_digit($value)) {
                 continue;
             }
             $key = (int)$key;
             $value = (int)$value;
             if ($value) { // если количество товара не равно нулю
-                $query = "UPDATE `baskets`
-                          SET `quantity` = :quantity
-                          WHERE `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                $query = "UPDATE
+                              `baskets`
+                          SET
+                              `quantity` = :quantity
+                          WHERE
+                              `product_id` = :product_id AND `visitor_id` = :visitor_id";
                 $this->database->execute(
                     $query,
                     array(
@@ -105,8 +115,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                     )
                 );
             } else { // кол-во равно нулю, удаляем товар из корзины
-                $query = "DELETE FROM `baskets`
-                          WHERE `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                $query = "DELETE FROM
+                              `baskets`
+                          WHERE
+                              `product_id` = :product_id AND `visitor_id` = :visitor_id";
                 $this->database->execute(
                     $query,
                     array(
@@ -129,8 +141,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет товар из корзины покупателя
      */
     public function removeFromBasket($productId) {
-        $query = "DELETE FROM `baskets`
-                  WHERE `product_id` = :product_id AND `visitor_id` = :visitor_id";
+        $query = "DELETE FROM
+                      `baskets`
+                  WHERE
+                      `product_id` = :product_id AND `visitor_id` = :visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -308,7 +322,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция возвращает true, если коризина пуста и false, если в ней есть товары
      */
     public function isEmptyBasket() {
-        $query = "SELECT 1
+        $query = "SELECT
+                      1
                   FROM
                       `products` `a`
                       INNER JOIN `baskets` `b` ON `a`.`id` = `b`.`product_id`
@@ -316,7 +331,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
-                  LIMIT 1";
+                  LIMIT
+                      1";
         $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
         if (false === $res) {
             return true;
@@ -328,8 +344,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет все товары из корзины
      */
     public function clearBasket() {
-        $query = "DELETE FROM `baskets`
-                  WHERE `visitor_id` = :visitor_id";
+        $query = "DELETE FROM
+                      `baskets`
+                  WHERE
+                      `visitor_id` = :visitor_id";
         $this->database->execute($query, array('visitor_id' => $this->visitorId));
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
@@ -344,10 +362,16 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет все старые корзины
      */
     public function removeOldBaskets() {
-        $query = "DELETE FROM `baskets` WHERE `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
+        $query = "DELETE FROM
+                      `baskets`
+                  WHERE
+                      `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
         $this->database->execute($query);
 
-        $query = "DELETE FROM `baskets` WHERE `added` < NOW() - INTERVAL :days DAY";
+        $query = "DELETE FROM
+                      `baskets`
+                  WHERE
+                      `added` < NOW() - INTERVAL :days DAY";
         $this->database->execute($query, array('days' => $this->config->user->cookie));
     }
 
@@ -554,9 +578,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
 
-        $query = "UPDATE `baskets`
-                  SET `visitor_id` = :new_visitor_id
-                  WHERE `visitor_id` = :old_visitor_id";
+        $query = "UPDATE
+                      `baskets`
+                  SET
+                      `visitor_id` = :new_visitor_id
+                  WHERE
+                      `visitor_id` = :old_visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -592,8 +619,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
         foreach ($res as $item) {
-            $query = "DELETE FROM `baskets`
-                      WHERE `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
+            $query = "DELETE FROM
+                          `baskets`
+                      WHERE
+                          `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
             $this->database->execute(
                 $query,
                 array(
@@ -688,13 +717,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       20";
         $products = $this->database->fetchAll($query, array());
         // добавляем в массив товаров информацию об URL товаров, фото
-        foreach($products as $key => $value) {
+        foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
             // URL ссылки на страницу производителя
             $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
             // URL ссылки на фото товара
-            if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+            if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
             } else {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
