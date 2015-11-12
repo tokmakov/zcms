@@ -209,7 +209,16 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       ON `a`.`category` = `b`.`id`
                   WHERE
                       `a`.`id` = :id";
-        return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
+        $solution = $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
+        if (false === $solution) {
+            return false;
+        }
+        // URL ссылок на файл PDF и изображение
+        $solution['url'] = array(
+            'pdf' => $this->config->site->url . 'files/solutions/' . $id . '/' . $id . '.pdf',
+            'img' => $this->config->site->url . 'files/solutions/' . $id . '/' . $id . '.jpg'
+        );
+        return $solution;
     }
 
     /**

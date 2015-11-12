@@ -35,6 +35,9 @@ class Sitemap_Frontend_Controller extends Frontend_Controller {
         // получаем от модели массив всех страниц верхнего уровня и их детей
         $pages = $this->pageFrontendModel->getAllPages();
 
+        // получаем от модели массив категорий типовых решений
+        $solutionsCategories = $this->solutionsFrontendModel->getCategories();
+
         // получаем от модели массив категорий новостей
         $newsCategories = $this->newsFrontendModel->getCategories();
 
@@ -45,10 +48,11 @@ class Sitemap_Frontend_Controller extends Frontend_Controller {
          * переменные, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs'    => $breadcrumbs,    // хлебные крошки
-            'pages'          => $pages,          // массив страниц сайта
-            'newsCategories' => $newsCategories, // массив категорий новостей
-            'root'           => $root,           // массив категорий каталога
+            'breadcrumbs'         => $breadcrumbs,         // хлебные крошки
+            'pages'               => $pages,               // массив страниц сайта
+            'solutionsCategories' => $solutionsCategories, // массив категорий типовых решений
+            'newsCategories'      => $newsCategories,      // массив категорий новостей
+            'root'                => $root,                // массив категорий каталога
         );
 
     }

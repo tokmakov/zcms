@@ -70,6 +70,9 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
         // получаем массив всех категорий новостей
         $newsCategories = $this->menuBackendModel->getNewsCategories();
 
+        // получаем массив всех категорий типовых решений
+        $solutionsCategories = $this->menuBackendModel->getSolutionsCategories();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -94,6 +97,8 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
             'catalogCategories' => $catalogCategories,
             // массив категорий новостей
             'newsCategories'    => $newsCategories,
+            // массив категорий типовых решений
+            'solutionsCategories' => $solutionsCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные данные
         // формы и массив сообщений об ошибках

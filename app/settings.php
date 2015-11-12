@@ -83,9 +83,11 @@ $settings = array(
             'base' => array( // CSS-файлы, подключаемые ко всем страницам
                 'reset.css',
                 'common.css',
+                'awesome/font-awesome.min.css',
             ),
-            'catalog-product' => 'fancybox/jquery.fancybox.css',
             'index' => 'jquery.bxslider.css', // для главной страницы сайта
+            'solutions-item' => 'fancybox/jquery.fancybox.css',
+            'catalog-product' => 'fancybox/jquery.fancybox.css',
             'compared' => 'compared.css', // для страницы сравнения товаров
 
             /*
@@ -130,6 +132,11 @@ $settings = array(
                 'jquery.form.min.js',
                 'center.js',
                 'common.js',
+            ),
+            'solutions-item' => array(
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js'
             ),
             'catalog-product' => array(
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',

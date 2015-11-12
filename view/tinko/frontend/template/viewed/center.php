@@ -21,6 +21,8 @@
  *     [price] => 123.45
  *     [shortdescr] =>
  *     [image] => 8710c4a3ed9f660b5549092b5378c42c.jpg
+ *     [hit] => 0
+ *     [new] => 1
  *     [ctg_id] => 2
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
@@ -101,19 +103,27 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
             </div>
             <div class="product-line-image">
-                <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
+                <a href="<?php echo $product['url']['product']; ?>">
+                    <?php if ($product['hit']): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
+                    <?php if ($product['new']): ?><span class="new-product">Новинка</span><?php endif; ?>
+                    <img src="<?php echo $product['url']['image']; ?>" alt="" />
+                </a>
             </div>
             <div class="product-line-info">
                 <div>
-                    <span>Цена:</span>
-                    <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong> <?php echo $units[$product['unit']]; ?></span>
+                    <span>Цена, <?php echo $units[$product['unit']]; ?></span>
+                        <span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
+                            <span><strong><?php echo number_format($product['price2'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price3'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                        </span>
                 </div>
                 <div>
-                    <span>Код:</span>
-                    <span><strong><?php echo $product['code']; ?></strong></span>
+                    <span>Код</span>
+                    <span><?php echo $product['code']; ?></span>
                 </div>
                 <div>
-                    <span>Производитель:</span>
+                    <span>Производитель</span>
                     <span><a href="<?php echo $product['url']['maker']; ?>"><?php echo $product['mkr_name']; ?></a></span>
                 </div>
             </div>

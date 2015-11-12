@@ -411,8 +411,8 @@ for ($i = 0; $i <= 6; $i++) {
                         <span>Цена, <?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
-                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
-                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                            <span><strong><?php echo number_format($product['price2'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price3'], 2, '.', ''); ?></strong><span>оптовая</span></span>
                         </span>
                     </div>
                     <div>

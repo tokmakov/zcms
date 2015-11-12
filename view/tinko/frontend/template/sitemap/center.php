@@ -6,10 +6,11 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $pages - массив страниц сайта
+ * $solutionsCategories - массив категорий типовых решений
  * $newsCategories - массив категорий новостей
  * $root - массив категорий каталога верхнего уровня и их детей
- *
  */
+
 defined('ZCMS') or die('Access denied');
 ?>
 
@@ -47,6 +48,15 @@ defined('ZCMS') or die('Access denied');
             <?php endif; ?>
             </li>
         <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php if (!empty($solutionsCategories)): ?>
+        <h2>Типовые решения</h2>
+        <ul>
+            <?php foreach($solutionsCategories as $item): ?>
+                <li><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a></li>
+            <?php endforeach; ?>
         </ul>
     <?php endif; ?>
 

@@ -101,7 +101,6 @@ body > .wrapper {
             float: left;
             width: 61px;
             height: 80px;
-            float: left;
             text-decoration: none;
             background: url(../img/logo.png) left center no-repeat;
         }
@@ -119,57 +118,45 @@ body > .wrapper {
                 font-size: 12px;
                 text-align: right;
                 position: absolute;
-                left: 112px;
-                top: 17px;
+                left: 114px;
+                top: 19px;
                 letter-spacing: 3px;
             }
             #header #top-logo > div > span:last-child {
                 width: 194px;
-                height: 77px;
-                padding-top: 3px;
+                height: 72px;
+                padding-top: 8px;
                 font-size: 40px;
                 font-weight: bold;
-                line-height: 80px;
+                line-height: 74px;
                 letter-spacing: 6px;
                 color: #f5f5f5;
             }
                 #header #top-logo > div > span:last-child > span {
-                    font-size: 60px;
+                    font-size: 65px;
                     margin-right: -8px;
                 }
     #header #top-phone {
         position: absolute;
-        width: 255px;
-        height: 80px;
+        width: 200px;
+        height: 49px;
         right: 5px;
-        top: 0;
+        top: 32px;
+        font-size: 16px;
+        color: #fff;
+        text-align: right;
+        background: url(../img/phone.png) 30px 5px no-repeat;
+        background-size: 30px;
     }
-        #header #top-phone > div:first-child {
-            float: left;
-            width: 91px;
-            height: 80px;
-            color: #fff;
-            text-align: right;
-            background: url(../img/phone.png) right center no-repeat;
-        }
-        #header #top-phone > div:last-child {
-            width: 164px;
-            height: 80px;
-            font-size: 20px;
-            color: #fff;
-            text-align: right;
-            display: table-cell;
-            vertical-align: middle;
-        }
-            #header #top-phone > div:last-child > span {
-                font-size: 15px;
+            #header #top-phone > span {
+                font-size: 14px;
             }
     /*  форма поиска */
     #top-search {
         position: absolute;
         left: 260px;
-        right: 260px;
-        top: 26px;
+        right: 206px;
+        top: 36px;
     }
         #top-search form {
             overflow: hidden;
@@ -206,7 +193,7 @@ body > .wrapper {
             position: absolute;
             left: 0;
             right: 30px;
-            top: 45px;
+            top: 40px;
         }
             #top-search > div > div {
                 width: 100%;
@@ -258,7 +245,6 @@ body > .wrapper {
         top: 0;
         height: 23px;
         overflow: hidden;
-        display: none;
     }
         #header #top-menu > a {
             display: block;
@@ -267,43 +253,31 @@ body > .wrapper {
             float: right;
             margin-right: 2%;
             height: 23px;
-            padding-left: 29px;
-            background-size: 18px !important;
+            padding-left: 5px;
+            background: #323232;
+            color: #fff;
         }
         #header #top-menu > a:hover {
             text-decoration: none;
         }
-            #header #top-menu > a:first-child {
-                margin-right: 0;
+            #header #top-menu > a:hover > span {
+                text-decoration: underline;
+            }
+        #header #top-menu > a:first-child {
+            margin-right: 0;
+        }
+            #header #top-menu > a > i {
+                font-size: 17px;
+                line-height: 23px;
             }
             #header #top-menu > a > span {
-                display: block;
-                margin: 0 auto;
-                height: 23px;
-                color: #fff;
                 font-size: 14px;
                 line-height: 23px;
-                white-space: nowrap;
-                overflow: hidden;
+                vertical-align: top;
             }
-            #header #top-menu > a > span:last-child {
-                display: none;
-            }
-            #header #top-menu > a:nth-child(1) {
-                background: #323232 url(../img/basket-white.png) 5px 2px no-repeat;
-            }
-            #header #top-menu > a:nth-child(2) {
-                background: #323232 url(../img/user-white.png) 5px 2px no-repeat;
-            }
-            #header #top-menu > a:nth-child(3) {
-                background: #323232 url(../img/wished-white.png) 5px 2px no-repeat;
-            }
-            #header #top-menu > a:nth-child(4) {
-                background: #323232 url(../img/compared-white.png) 5px 2px no-repeat;
-            }
-            #header #top-menu > a:nth-child(5) {
-                background: #323232 url(../img/viewed-white.png) 5px 2px no-repeat;
-            }
+        #header #top-menu > a > span:last-child {
+            display: none;
+        }
 
 /*
  * ГЛАВНОЕ МЕНЮ
@@ -2490,6 +2464,22 @@ body > .wrapper {
     color: #395985;
     font-weight: normal;
 }
+    #item-solutions > a#download-solution {
+        display: block;
+        width: 43px;
+        height: 50px;
+        float: right;
+        font-size: 50px;
+        line-height: 50px;
+        margin: 0 0 15px 10px;
+        color: #5390cc;
+    }
+    #item-solutions > div#image-solution {
+        margin-bottom: 15px;
+    }
+        #item-solutions > div#image-solution img {
+            max-width: 100%;
+        }
     #item-solutions > h2 {
         font-size: 19px;
     }
@@ -3129,10 +3119,6 @@ body > .wrapper {
 
 
 @media screen and (max-width: 1285px) {
-    /* показываем верхнее меню */
-    #header #top-menu {
-        display: block;
-    }
     /* главное меню: убираем дочерние пункты */
     #menu > ul > li > ul {
         display: none;
@@ -3142,7 +3128,6 @@ body > .wrapper {
         display: none;
     }
     #top-search {
-        top: 36px;
         right: 5px;
     }
     /* основной контент: убираем правую колонку */
@@ -3173,16 +3158,12 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 1000px) {
-    /* главное меню: убираем НОВОСТИ */
-    #menu > ul > li:nth-child(7) {
-        display: none;
-    }
     /* верхнее меню */
-    #header #top-menu > a > span:first-child {
+    #header #top-menu > a > span:first-of-type{
         display: none;
     }
     #header #top-menu > a > span:last-child {
-        display: block;
+        display: inline;
     }
 }
 
@@ -3195,10 +3176,6 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 904px) {
-    /* главное меню: убираем О КОМПАНИИ */
-    #menu > ul > li:nth-child(1) {
-        display: none;
-    }
     /* основной контент: убираем левую колонку */
     #left {
         display: none;
@@ -3210,13 +3187,6 @@ body > .wrapper {
     /* уменьшаем карту проезда */
     #iskMap, #iskMap1, #iskMap2 {
         width: 95%;
-    }
-}
-
-@media screen and (max-width: 760px) {
-    /* главное меню: убираем ОБСЛУЖИВАНИЕ */
-    #menu > ul > li:nth-child(6) {
-        display: none;
     }
 }
 
@@ -3232,6 +3202,17 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 700px) {
+    /* уменьшаем главное меню */
+    #menu > ul > li > a {
+        padding: 10px;
+    }
+    /* верхнее меню */
+    #header .wrapper #top-menu > a > span {
+        display: none;
+    }
+    #header #top-menu > a {
+        text-align: center;
+    }
     /* вместе с этим часто покупают */
     .products-list-grid > div {
         width: 33.33333%;
@@ -3244,20 +3225,6 @@ body > .wrapper {
     }
     #checkout-order > div:last-child > div > div > div:last-child {
         text-align: center;
-    }
-}
-
-@media screen and (max-width: 670px) {
-    /* верхнее меню */
-    #header #top-menu > a > span:last-child {
-        display: none;
-    }
-    #header #top-menu > a:nth-child(1),
-    #header #top-menu > a:nth-child(2),
-    #header #top-menu > a:nth-child(3),
-    #header #top-menu > a:nth-child(4),
-    #header #top-menu > a:nth-child(5) {
-        background-position: center;
     }
 }
 
@@ -3293,10 +3260,6 @@ body > .wrapper {
     }
     #basket form p a {
         width: 40%;
-    }
-    /* уменьшаем главное меню */
-    #menu > ul > li > a {
-        padding: 10px;
     }
     /* список всех производителей */
     #all-makers > p > a {
@@ -3355,6 +3318,13 @@ body > .wrapper {
     /* список заказов зарегистрированного пользователя */
     #user-orders-list > div > div > div {
         width: 30%;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    /* главное меню: убираем НОВОСТИ*/
+    #menu > ul > li:nth-child(5) {
+        display: none;
     }
 }
 
@@ -3444,8 +3414,8 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 480px) {
-    /* главное меню: убираем ПРОЕКТИРОВАНИЕ */
-    #menu > ul > li:nth-child(4) {
+    /* главное меню: убираем О КОМПАНИИ */
+    #menu > ul > li:nth-child(1) {
         display: none;
     }
     /* уменьшаем карту проезда */
@@ -3500,9 +3470,22 @@ body > .wrapper {
     #login-user-center > ul {
         margin-left: 0;
     }
+    /* список товаров категории, скрываем оптовую цену */
+    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(3) {
+        display: none;
+    }
+    /* страница товара, скрываем оптовую цену */
+    #product .product-item-main .product-item-info > div:first-child > span:last-child > span:nth-child(3) {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 374px) {
+    /* уменьшаем главное меню */
+    .wrapper #menu > ul > li > a {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
     /* покупательская корзина */
     #basket form table tr th:nth-child(5), #basket form table tr td:nth-child(5) {
         display: none;
@@ -3515,11 +3498,6 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 332px) {
-    /* уменьшаем главное меню */
-    .wrapper #menu > ul > li > a {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
     /* форма по авторизации */
     #login-user-center > form > div > div:last-child > input[type="submit"] {
         width: 100%;
@@ -3531,10 +3509,6 @@ body > .wrapper {
 }
 
 @media screen and (max-width: 320px) {
-    /* главное меню: убираем ДОСТАВКА */
-    #menu > ul > li:nth-child(3) {
-        display: none;
-    }
     /* покупательская корзина */
     #basket form table tr th:nth-child(4), #basket form table tr td:nth-child(4) {
         display: none;

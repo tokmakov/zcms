@@ -11,24 +11,27 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
     }
 
     /**
-     * Функция получает от моделей Menu_Backend_Model, Page_Backend_Model, Catalog_Backend_Model
-     * данные, необходимые для формирования страницы с формой для добавления нового пункта меню
+     * Функция получает от модели Menu_Backend_Model данные, необходимые для
+     * формирования страницы с формой для добавления нового пункта меню
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу Menu_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Additem_Menu_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу Menu_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Additem_Menu_Backend_Controller
+         */
         parent::input();
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
-                $this->redirect('/backend/menu/additem');
+            if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
+                // перенаправляем администратора на страницу с формой для исправления ишибок
+                $this->redirect($this->menuBackendModel->getURL('backend/menu/additem'));
             } else {
-                $this->redirect('/backend/menu/index');
+                $this->redirect($this->menuBackendModel->getURL('backend/menu/index'));
             }
         }
 
@@ -52,22 +55,27 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
         // получаем массив всех категорий новостей
         $newsCategories = $this->menuBackendModel->getNewsCategories();
 
+        // получаем массив всех категорий типовых решений
+        $solutionsCategories = $this->menuBackendModel->getSolutionsCategories();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs'       => $breadcrumbs,
+            'breadcrumbs'         => $breadcrumbs,
             // атрибут action тега form
-            'action'            => $this->menuBackendModel->getURL('backend/menu/additem'),
+            'action'              => $this->menuBackendModel->getURL('backend/menu/additem'),
             // массив всех пунктов меню для возможности выбора родителя
-            'menuItems'         => $menuItems,
+            'menuItems'           => $menuItems,
             // массив всех страниц сайта
-            'pages'             => $pages,
+            'pages'               => $pages,
             // массив категорий каталога верхнего уровня
-            'catalogCategories' => $catalogCategories,
+            'catalogCategories'   => $catalogCategories,
             // массив категорий новостей
-            'newsCategories'    => $newsCategories,
+            'newsCategories'      => $newsCategories,
+            // массив категорий типовых решений
+            'solutionsCategories' => $solutionsCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addMenuItemForm')) {

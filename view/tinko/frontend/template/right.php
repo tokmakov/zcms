@@ -148,28 +148,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<?php if (!empty($viewedProducts)): /* просмотренные товары */ ?>
-    <div class="side-block">
-        <div id="viewed-heading">Вы уже смотрели</div>
-        <div class="no-padding">
-            <table>
-                <tr>
-                    <th width="20%">Код</th>
-                    <th width="55%">Наименование</th>
-                    <th width="25%">Цена</th>
-                </tr>
-                <?php foreach ($viewedProducts as $item): ?>
-                    <tr>
-                        <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
-                        <td><?php echo $item['name']; ?></td>
-                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-            <p class="all-products"><a href="<?php echo $viewedUrl; ?>">Все товары</a></p>
-        </div>
-    </div>
-<?php endif; ?>
+<div style="margin-top: 20px;">
+    <img src="/files/banners/side-banner.jpg" alt="" />
+</div>
 
 <!-- Конец шаблона view/example/frontend/template/right.php -->
 

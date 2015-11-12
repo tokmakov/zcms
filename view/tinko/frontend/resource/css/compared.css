@@ -1,15 +1,3 @@
-#header #top-menu {
-    display: block;
-}
-#header #top-phone {
-    top: 10px;
-}
-#top-search {
-    top: 36px;
-}
-#header #top-logo > div {
-    padding-top: 10px;
-}
 #left, #right {
     display: none;
 }
@@ -54,8 +42,21 @@
     padding-bottom: 10px;
 }
 
+@media screen and (max-width: 1200px) {
+    /* список товаров категории, скрываем мелкооптовую цену */
+    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 940px) {
+    /* список товаров категории */
     .products-list-line > div > .product-line-basket {
+        clear: left;
+        margin-left: 0;
+        padding-top: 0;
+    }
+    .products-list-line > div > .product-line-info {
         clear: left;
         margin-left: 0;
         padding-top: 12px;

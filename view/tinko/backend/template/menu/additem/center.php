@@ -11,6 +11,7 @@
  * $pages - массив всех страниц сайта
  * $catalogCategories - массив категорий каталога верхнего уровня
  * $newsCategories - массив категорий новостей
+ * $solutionsCategories - массив категорий типовых решений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках.
@@ -92,6 +93,7 @@ if (isset($savedFormData)) {
                             <option value="frontend/catalog/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </optgroup>
+                <?php endif; ?>
 
                 <?php if (!empty($newsCategories)): ?>
                     <optgroup label="Новости">
@@ -101,6 +103,14 @@ if (isset($savedFormData)) {
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
+
+                <?php if (!empty($solutionsCategories)): ?>
+                    <optgroup label="Типовые решения">
+                        <option value="frontend/solutions/index">Типовые решения</option>
+                        <?php foreach($solutionsCategories as $category) : ?>
+                            <option value="frontend/solutions/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
+                        <?php endforeach; ?>
+                    </optgroup>
                 <?php endif; ?>
             </select>
         </div>

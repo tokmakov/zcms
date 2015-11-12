@@ -80,6 +80,10 @@ class Item_Solutions_Frontend_Controller extends Solutions_Frontend_Controller {
             'id'          => $this->params['id'],
             // наименование типового решения
             'name'        => $solution['name'],
+            // URL ссылки для скачивания PDF-файла
+            'pdfURL'      => $solution['url']['pdf'],
+            // URL ссылки на файл изображения
+            'imgURL'      => $solution['url']['img'],
             // массив товаров типового решения
             'products'    => $products,
             // единицы измерения

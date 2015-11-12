@@ -13,14 +13,13 @@ class Menu_Backend_Model extends Backend_Model {
      * Функция возвращает данные о пункте меню с уникальным идентификатором $id
      */
     public function getMenuItem($id) {
-        $query = "SELECT `name`, `url`, `parent`
-                  FROM `menu`
-                  WHERE `id` = :id";
-        $res = $this->database->fetch($query, array('id' => $id));
-        if (false === $res) {
-            return null;
-        }
-        return $res;
+        $query = "SELECT
+                      `name`, `url`, `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetch($query, array('id' => $id));
     }
 
     /**
@@ -29,10 +28,14 @@ class Menu_Backend_Model extends Backend_Model {
      */
     public function getAllMenuItems() {
         // получаем все пункты меню
-        $query = "SELECT `id`, `name`, `parent`, `sortorder`
-                  FROM `menu`
-                  WHERE 1
-                  ORDER BY `sortorder`";
+        $query = "SELECT
+                      `id`, `name`, `parent`, `sortorder`
+                  FROM
+                      `menu`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
         $data = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок для редактирования, удаления, перемещения вверх и вниз
         foreach($data as $key => $value) {
@@ -55,10 +58,14 @@ class Menu_Backend_Model extends Backend_Model {
      */
     public function getMenuItems() {
         // получаем все пункты меню
-        $query = "SELECT `id`, `name`, `url`, `parent`
-                  FROM `menu`
-                  WHERE `parent` = 0 OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = 0)
-                  ORDER BY `sortorder`";
+        $query = "SELECT
+                      `id`, `name`, `url`, `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = 0 OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = 0)
+                  ORDER BY
+                      `sortorder`";
         $data = $this->database->fetchAll($query);
         // строим дерево
         $tree = $this->makeTree($data);
@@ -91,22 +98,47 @@ class Menu_Backend_Model extends Backend_Model {
      * отвечающих за добавление/редактирование пункта меню
      */
     public  function getRootCategories() {
-        $query = "SELECT `id`, `name` FROM `categories` WHERE `parent` = 0 ORDER BY `sortorder`";
-        $root = $this->database->fetchAll($query, array());
-        return $root;
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `categories`
+                  WHERE
+                      `parent` = 0
+                  ORDER BY
+                      `sortorder`";
+        return $this->database->fetchAll($query, array());
     }
 
     /**
-     * Возвращает массив категорий новостей для контроллеров, для контроллеров,
+     * Возвращает массив категорий новостей, для контроллеров,
      * отвечающих за добавление/редактирование пункта меню
      */
     public function getNewsCategories() {
-        $query = "SELECT `id`, `name`
-                  FROM `news_ctgs`
-                  WHERE 1
-                  ORDER BY `sortorder`";
-        $categories = $this->database->fetchAll($query);
-        return $categories;
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `news_ctgs`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
+        return $this->database->fetchAll($query);
+    }
+
+    /**
+     * Возвращает массив категорий типовых решений, для контроллеров,
+     * отвечающих за добавление/редактирование пункта меню
+     */
+    public function getSolutionsCategories() {
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `solutions_categories`
+                  WHERE
+                      1
+                  ORDER BY
+                      `sortorder`";
+        return $this->database->fetchAll($query);
     }
 
     /**
@@ -114,9 +146,12 @@ class Menu_Backend_Model extends Backend_Model {
      */
     public function addMenuItem($data) {
         // порядок сортировки
-        $query = "SELECT IFNULL(MAX(`sortorder`), 0)
-                  FROM `menu`
-                  WHERE `parent` = :parent";
+        $query = "SELECT
+                      IFNULL(MAX(`sortorder`), 0)
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = :parent";
         $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
 
         $query = "INSERT INTO `menu`
@@ -145,35 +180,56 @@ class Menu_Backend_Model extends Backend_Model {
         // если был изменен родитель обновляемого пункта меню
         if ($oldParent != $data['parent']) {
             // добавляем обновляемый пункт меню в конец списка дочерних элементов нового родителя
-            $query = "SELECT IFNULL(MAX(`sortorder`), 0)
-                      FROM `menu`
-                      WHERE `parent` = :parent";
+            $query = "SELECT
+                          IFNULL(MAX(`sortorder`), 0)
+                      FROM
+                          `menu`
+                      WHERE
+                          `parent` = :parent";
             $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
-            $query = "UPDATE `menu` SET
-                      `name` = :name,
-                      `url` = :url,
-                      `parent` = :parent,
-                      `sortorder` = :sortorder
-                  WHERE `id` = :id";
+            $query = "UPDATE
+                          `menu`
+                      SET
+                          `name`      = :name,
+                          `url`       = :url,
+                          `parent`    = :parent,
+                          `sortorder` = :sortorder
+                      WHERE
+                          `id` = :id";
             $this->database->execute($query, $data);
             // изменяем порядок сортировки пунктов меню, которые были с обновленным пунктом меню
             // на одном уровне до того, как он поменял родителя
-            $query = "SELECT `id` FROM `menu` WHERE `parent` = :parent ORDER BY `sortorder`";
+            $query = "SELECT
+                          `id`
+                      FROM
+                          `menu`
+                      WHERE
+                          `parent` = :parent
+                      ORDER BY
+                          `sortorder`";
             $childs = $this->database->fetchAll($query, array('parent' => $oldParent));
             if (count($childs) > 0) {
                 $sortorder = 1;
                 foreach ($childs as $child) {
-                    $query = "UPDATE `menu` SET `sortorder` = :sortorder WHERE `id` = :id";
+                    $query = "UPDATE
+                                  `menu`
+                              SET
+                                  `sortorder` = :sortorder
+                              WHERE
+                                  `id` = :id";
                     $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
                     $sortorder++;
                 }
             }
         } else {
             unset($data['parent']);
-            $query = "UPDATE `menu` SET
+            $query = "UPDATE
+                          `menu`
+                      SET
                           `name` = :name,
-                          `url` = :url
-                      WHERE `id` = :id";
+                          `url`  = :url
+                      WHERE
+                          `id` = :id";
             $this->database->execute($query, $data);
         }
     }
@@ -183,9 +239,12 @@ class Menu_Backend_Model extends Backend_Model {
      * пункта меню с уникальным идентификатором $id
      */
     public function getChildItems($id) {
-        $query = "SELECT `id`
-                  FROM `menu`
-                  WHERE `parent` = :id";
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = :id";
         $res = $this->database->fetchAll($query, array('id' => $id));
         $ids = array();
         foreach ($res as $item) {
@@ -199,9 +258,12 @@ class Menu_Backend_Model extends Backend_Model {
      * дочерних) пункта меню с уникальным идентификатором $id
      */
     public function getAllChildItems($id) {
-        $query = "SELECT `id`
-                  FROM `menu`
-                  WHERE `parent` = :id OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = :id)";
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = :id OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = :id)";
         $res = $this->database->fetchAll($query, array('id' => $id));
         $ids = array();
         foreach ($res as $item) {
@@ -215,11 +277,13 @@ class Menu_Backend_Model extends Backend_Model {
      * с уникальным идентификатором $id
      */
     public function getMenuItemParent($id) {
-        $query = "SELECT `parent`
-                  FROM `menu`
-                  WHERE `id` = :id";
-        $res = $this->database->fetchOne($query, array('id' => $id));
-        return $res;
+        $query = "SELECT
+                      `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetchOne($query, array('id' => $id));
     }
 
     /**
@@ -228,27 +292,64 @@ class Menu_Backend_Model extends Backend_Model {
     public function moveMenuItemDown($id) {
         $id_item_down = $id;
         // порядок следования пункта меню, который опускается вниз
-        $query = "SELECT `sortorder`, `parent`
-                  FROM `menu`
-                  WHERE `id` = :id_item_down";
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      `id` = :id_item_down";
         $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
         $order_down = $res['sortorder'];
         $parent = $res['parent'];
         // порядок следования и id пункта меню, который находится ниже и будет поднят вверх,
         // поменявшись местами с пунктом меню, который опускается вниз
-        $query = "SELECT `id`, `sortorder` FROM `menu`
-                  WHERE `parent` = :parent AND `sortorder` > :order_down
-                  ORDER BY `sortorder`
-                  LIMIT 1";
-        $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = :parent AND `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
+        $res = $this->database->fetch(
+            $query,
+            array(
+                'parent' => $parent,
+                'order_down' => $order_down
+            )
+        );
         if (is_array($res)) {
             $id_item_up = $res['id'];
             $order_up = $res['sortorder'];
             // меняем местами пункты меню
-            $query = "UPDATE `menu` SET `sortorder` = :order_down WHERE `id` = :id_item_up";
-            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
-            $query = "UPDATE `menu` SET `sortorder` = :order_up WHERE `id` = :id_item_down";
-            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+            $query = "UPDATE
+                          `menu`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
+            $query = "UPDATE
+                          `menu`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
         }
     }
 
@@ -258,27 +359,64 @@ class Menu_Backend_Model extends Backend_Model {
     public function moveMenuItemUp($id) {
         $id_item_up = $id;
         // порядок следования пункта меню, который поднимается вверх
-        $query = "SELECT `sortorder`, `parent`
-                  FROM `menu`
-                  WHERE `id` = :id_item_up";
+        $query = "SELECT
+                      `sortorder`, `parent`
+                  FROM
+                      `menu`
+                  WHERE
+                      `id` = :id_item_up";
         $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
         $order_up = $res['sortorder'];
         $parent = $res['parent'];
         // порядок следования и id пункта меню, который находится выше и будет опущен вниз,
         // поменявшись местами с пунктом меню, который поднимается вверх
-        $query = "SELECT `id`, `sortorder` FROM `menu`
-                  WHERE `parent` = :parent AND `sortorder` < :order_up
-                  ORDER BY `sortorder` DESC
-                  LIMIT 1";
-        $res = $this->database->fetch($query, array('parent' => $parent, 'order_up' => $order_up));
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `menu`
+                  WHERE
+                      `parent` = :parent AND `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
+        $res = $this->database->fetch(
+            $query,
+            array(
+                'parent' => $parent,
+                'order_up' => $order_up
+            )
+        );
         if (is_array($res)) {
             $id_item_down = $res['id'];
             $order_down = $res['sortorder'];
             // меняем местами пункты меню
-            $query = "UPDATE `menu` SET `sortorder` = :order_down WHERE `id` = :id_item_up";
-            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
-            $query = "UPDATE `menu` SET `sortorder` = :order_up WHERE `id` = :id_item_down";
-            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+            $query = "UPDATE
+                          `menu`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
+            $query = "UPDATE
+                          `menu`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
         }
     }
 

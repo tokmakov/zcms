@@ -136,10 +136,10 @@ defined('ZCMS') or die('Access denied');
                         <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>розничная</span>
                     </span>
                     <span>
-                        <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>мелкий опт</span>
+                        <span><?php echo number_format($price2, 2, '.', ''); ?></span> <span>мелкий опт</span>
                     </span>
                     <span>
-                        <span><?php echo number_format($price, 2, '.', ''); ?></span> <span>оптовая</span>
+                        <span><?php echo number_format($price3, 2, '.', ''); ?></span> <span>оптовая</span>
                     </span>
                 </span>
             </div>

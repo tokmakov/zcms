@@ -7,6 +7,8 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $id - уникальный идентификатор типового решения
+ * $pdfURL - URL ссылки для скачивания PDF-файла
+ * $imgURL - URL ссылки на файл изображения
  * $products - массив товаров типового решения
  * $units - единицы измерения
  * $content1 - основное содержание типового решения
@@ -40,7 +42,15 @@ defined('ZCMS') or die('Access denied');
 
 <div id="item-solutions">
 
+    <a href="<?php echo $pdfURL; ?>" id="download-solution" title="Скачать" target="_blank">
+        <i class="fa fa-file-pdf-o"></i>
+    </a>
+
     <?php echo $content1; ?>
+
+    <div id="image-solution">
+        <a href="<?php echo $imgURL; ?>" class="zoom"><img src="<?php echo $imgURL; ?>" alt="" /></a>
+    </div>
 
     <?php if (!empty($products)): ?>
         <table>

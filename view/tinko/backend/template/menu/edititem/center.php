@@ -1,7 +1,8 @@
 <?php
 /**
  * Форма для редактирования пункта меню,
- * файл view/example/backend/template/menu/edititem/center.php
+ * файл view/example/backend/template/menu/edititem/center.php,
+ * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
@@ -14,6 +15,7 @@
  * $pages - массив всех страниц сайта
  * $catalogCategories - массив категорий каталога верхнего уровня
  * $newsCategories - массив категорий новостей
+ * $solutionsCategories - массив категорий типовых решений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже отредактированными данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
@@ -22,7 +24,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- view/example/backend/template/menu/edititem/center.php -->
+<!-- Начало шаблона view/example/backend/template/menu/edititem/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -104,6 +106,15 @@ defined('ZCMS') or die('Access denied');
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
+
+                <?php if (!empty($solutionsCategories)): ?>
+                    <optgroup label="Типовые решения">
+                        <option value="frontend/solutions/index">Типовые решения</option>
+                        <?php foreach($solutionsCategories as $category) : ?>
+                            <option value="frontend/solutions/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
+                        <?php endforeach; ?>
+                    </optgroup>
+                <?php endif; ?>
             </select>
         </div>
     </div>
@@ -131,3 +142,5 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 </form>
+
+<!-- Конец шаблона view/example/backend/template/menu/edititem/center.php -->
