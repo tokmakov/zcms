@@ -135,13 +135,13 @@ defined('ZCMS') or die('Access denied');
                     <?php endif; ?>
                     <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
                 </form>
-                <form action="<?php echo $product['action']['wished']; /* удалить из отложенных */ ?>" method="post">
+                <form action="<?php echo $product['action']['wished']; /* удалить из избранного */ ?>" method="post">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                     <input type="hidden" name="return" value="wished" />
                     <?php if ($page > 1): ?>
                         <input type="hidden" name="page" value="<?php echo $page; ?>" />
                     <?php endif; ?>
-                    <input type="submit" name="submit" value="Удалить" title="Удалить из отложенных" class="selected" />
+                    <input type="submit" name="submit" value="Удалить" title="Удалить из избранного" class="selected" />
                 </form>
                 <form action="<?php echo $product['action']['compared']; /* добавить к сравнению */ ?>" method="post" class="add-compared-form">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />

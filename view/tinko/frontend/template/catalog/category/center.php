@@ -478,7 +478,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
-                        <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                        <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                     </form>
                     <form action="<?php echo $product['action']['compared']; ?>" method="post" class="add-compared-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />

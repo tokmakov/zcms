@@ -1424,6 +1424,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`unit` AS `unit`,
                       `a`.`shortdescr` AS `shortdescr`,
                       `a`.`image` AS `image`,
+                      `a`.`hit` AS `hit`,
+                      `a`.`new` AS `new`,
                       `b`.`id` AS `ctg_id`,
                       `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`,

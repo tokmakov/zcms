@@ -158,7 +158,7 @@ defined('ZCMS') or die('Access denied');
                 <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
                 <input type="hidden" name="return" value="product" />
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
-                <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
             </form>
             <form action="<?php echo $action['compared']; ?>" method="post" class="add-compared-form">
                 <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
@@ -168,13 +168,13 @@ defined('ZCMS') or die('Access denied');
             </form>
         </div>
         <div class="product-item-social">
-            <a href="http://vkontakte.ru/share.php?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="ВКонтакте"></a>
-            <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&amp;st._surl=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Одноклассники"></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Facebook"></a>
-            <a href="http://twitter.com/share?text=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Twitter"></a>
-            <a href="https://plus.google.com/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Google+"></a>
-            <a href="http://connect.mail.ru/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Мой Мир@Mail.Ru"></a>
-            <a href="mailto:?subject=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;body=<?php echo rawurldecode($thisPageUrl); ?>" target="_blank" title="Отправить на e-mail"></a>
+            <a href="http://vkontakte.ru/share.php?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="ВКонтакте" class="fa fa-vk"></a>
+            <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&amp;st._surl=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Одноклассники" class="fa fa-odnoklassniki"></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Facebook" class="fa fa-facebook"></a>
+            <a href="http://twitter.com/share?text=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Twitter" class="fa fa-twitter"></a>
+            <a href="https://plus.google.com/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Google+" class="fa fa-google-plus"></a>
+            <a href="http://connect.mail.ru/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Мой Мир@Mail.Ru" class="fa fa-at"></a>
+            <a href="mailto:?subject=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;body=<?php echo rawurldecode($thisPageUrl); ?>" target="_blank" title="Отправить на e-mail" class="fa fa-envelope-o"></a>
         </div>
         <div class="product-item-descr"><?php echo $shortdescr; ?></div>
     </div>
@@ -182,14 +182,14 @@ defined('ZCMS') or die('Access denied');
     <div class="product-item-others">
         <?php if (!empty($purpose)): ?>
             <div class="center-block">
-                <div><h3>Назначение:</h3></div>
+                <div><h3>Назначение</h3></div>
                 <div><?php echo nl2br($purpose); ?></div>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($techdata)): ?>
             <div class="center-block">
-                <div><h3>Технические характеристики:</h3></div>
+                <div><h3>Технические характеристики</h3></div>
                 <div class="no-padding">
                     <table>
                     <?php foreach($techdata as $item): ?>
@@ -205,28 +205,28 @@ defined('ZCMS') or die('Access denied');
 
         <?php if (!empty($features)): ?>
             <div class="center-block">
-                <div><h3>Особенности:</h3></div>
+                <div><h3>Особенности</h3></div>
                 <div><?php echo nl2br($features); ?></div>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($complect)): ?>
             <div class="center-block">
-                <div><h3>Комплектация:</h3></div>
+                <div><h3>Комплектация</h3></div>
                 <div><?php echo nl2br($complect); ?></div>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($equipment)): ?>
             <div class="center-block">
-                <div><h3>Дополнительное оборудование:</h3></div>
+                <div><h3>Дополнительное оборудование</h3></div>
                 <div><?php echo nl2br($equipment); ?></div>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($docs)): ?>
             <div class="center-block">
-                <div><h3>Документация:</h3></div>
+                <div><h3>Документация</h3></div>
                 <div>
                     <ul>
                     <?php foreach ($docs as $doc): ?>
@@ -239,7 +239,7 @@ defined('ZCMS') or die('Access denied');
 
         <?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
             <div class="center-block">
-                <div><h3>С этим товаром часто покупают</h3></div>
+                <div><h3>С этим товаром покупают</h3></div>
                 <div class="no-padding">
                     <div class="products-list-grid">
                         <?php foreach($recommendedProducts as $product): ?>

@@ -39,25 +39,16 @@
  * )
  *
  * $units = Array (
- *   0 => 'руб.',
- *   1 => 'руб./шт.',
- *   2 => 'руб./компл.',
- *   3 => 'руб./упак.',
- *   4 => 'руб./метр',
- *   5 => 'руб./пара',
- * )
+ *   0 => 'руб',
+ *   1 => 'руб/шт',
+ *   2 => 'руб/компл',
+ *   3 => 'руб/упак',
+ *   4 => 'руб/метр',
+ *   5 => 'руб/пара',
+ * );
  */
 
 defined('ZCMS') or die('Access denied');
-
-$units = Array (
-    0 => 'руб',
-    1 => 'руб/шт',
-    2 => 'руб/компл',
-    3 => 'руб/упак',
-    4 => 'руб/метр',
-    5 => 'руб/пара',
-);
 ?>
 
 <!-- Начало шаблона view/example/frontend/template/catalog/search/center.php -->
@@ -90,23 +81,27 @@ $units = Array (
                         <?php endif; ?>
                     </div>
                     <div class="product-line-image">
-                        <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
+                        <a href="<?php echo $product['url']['product']; ?>">
+                            <?php if ($product['hit']): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
+                            <?php if ($product['new']): ?><span class="new-product">Новинка</span><?php endif; ?>
+                            <img src="<?php echo $product['url']['image']; ?>" alt="" />
+                        </a>
                     </div>
                     <div class="product-line-info">
                         <div>
-                            <span>Цена, <?php echo $units[$product['unit']]; ?>:</span>
-                            <span>
-                                <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
-                                <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
-                                <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>оптовая</span></span>
-                            </span>
+                            <span>Цена, <?php echo $units[$product['unit']]; ?></span>
+                        <span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
+                            <span><strong><?php echo number_format($product['price2'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price3'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                        </span>
                         </div>
                         <div>
-                            <span>Код:</span>
+                            <span>Код</span>
                             <span><?php echo $product['code']; ?></span>
                         </div>
                         <div>
-                            <span>Производитель:</span>
+                            <span>Производитель</span>
                             <span><a href="<?php echo $product['url']['maker']; ?>"><?php echo $product['mkr_name']; ?></a></span>
                         </div>
                     </div>
@@ -128,7 +123,7 @@ $units = Array (
                             <?php if ($page > 1): ?>
                                 <input type="hidden" name="page" value="<?php echo $page; ?>" />
                             <?php endif; ?>
-                            <input type="submit" name="submit" value="Отложить" title="Добавить в отложенные" />
+                            <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                         </form>
                         <form action="<?php echo $product['action']['compared']; ?>" method="post" class="add-compared-form">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />

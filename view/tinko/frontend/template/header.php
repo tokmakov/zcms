@@ -46,7 +46,7 @@ defined('ZCMS') or die('Access denied');
     </a>
     <a href="<?php echo $wishedUrl; ?>" title="Отложенные товары">
         <i class="fa fa-star"></i>&nbsp;
-        <span>Отложенные товары</span><span>Избранное</span>
+        <span>Избранное</span><span>Избранное</span>
     </a>
     <a href="<?php echo $comparedUrl; ?>" title="Сравнение товаров">
         <i class="fa fa-balance-scale"></i>&nbsp;
