@@ -98,12 +98,12 @@ abstract class Base_Controller extends Base {
         $this->pageContent = $this->render(
             $this->wrapperTemplateFile,
             array(
-                'headContent' => $this->headContent,
+                'headContent'   => $this->headContent,
                 'headerContent' => $this->headerContent,
-                'menuContent' => $this->menuContent,
+                'menuContent'   => $this->menuContent,
                 'centerContent' => $this->centerContent,
-                'leftContent' => $this->leftContent,
-                'rightContent' => $this->rightContent,
+                'leftContent'   => $this->leftContent,
+                'rightContent'  => $this->rightContent,
                 'footerContent' => $this->footerContent,
             )
         );
@@ -207,7 +207,7 @@ abstract class Base_Controller extends Base {
 
         /*
          * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те
-         * файлы, которые будут на всех страницах сайта. Дальше в зависимости от имени
+         * файлы, которые будут на всех страницах сайта. Дальше, в зависимости от имени
          * контроллера. Тут возможны два варианта:
          * 1. Существует абстрактный класс Catalog_Frontend_Controller, у которого есть
          *    несколько дочерних классов: Product_Catalog_Frontend_Controller,
@@ -232,7 +232,7 @@ abstract class Base_Controller extends Base {
          *             'common.css',
          *         ),
          *         'index' => 'jquery.slider.css', // только для главной страницы сайта
-         *         'page' => 'page.css',           // только для страниц, формируемых Page_Frontend_Controller
+         *         'page' => 'page.css',           // для страниц сайта, формируемых Page_Frontend_Controller
          *         'catalog' => 'catalog.css',     // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
          *         'catalog-product' => array(     // только для страниц, которые формирует Product_Catalog_Frontend_Controller
          *             'product.css',

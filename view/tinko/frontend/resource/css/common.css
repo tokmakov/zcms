@@ -38,7 +38,6 @@ a:hover {
 /*
  * КАРКАС
  */
-
 .wrapper {
     max-width: 1250px;
     margin: 0 auto;
@@ -136,7 +135,7 @@ body > .wrapper {
                     font-size: 65px;
                     margin-right: -8px;
                 }
-    #header #top-phone {
+    #header #top-phone { /*  телефоны в шапке */
         position: absolute;
         width: 200px;
         height: 49px;
@@ -151,8 +150,7 @@ body > .wrapper {
             #header #top-phone > span {
                 font-size: 14px;
             }
-    /*  форма поиска */
-    #top-search {
+    #top-search { /*  форма поиска в шапке */
         position: absolute;
         left: 260px;
         right: 206px;
@@ -282,63 +280,66 @@ body > .wrapper {
 /*
  * ГЛАВНОЕ МЕНЮ
  */
-#menu ul {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    background: #323232;
+#menu {
+
 }
-#menu > ul > li {
-    float: left;
-}
-#menu > ul > li > ul {
-    top: 100%;
-    left: 0;
-}
-#menu li {
-    position: relative;
-}
-#menu a {
-    display: block;
-    white-space: nowrap;
-}
-#menu ul li li ul {
-    top: 0;
-    left: 100%;
-}
-#menu ul ul {
-    visibility: hidden;
-    position: absolute;
-    z-index: 2;
-    min-width: 240px;
-}
-#menu li:hover > ul {
-    visibility: visible;
-}
-#menu:after {
-    content: "";
-    clear: both;
-    display: block;
-}
-#menu a {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px 25px;
-    line-height: 1.2;
-}
-#menu a:hover {
-    background: #5390cc;
-}
-#menu > ul > li > a {
-    border-right: 1px solid #4f5254;
-}
-#menu > ul > li:last-child > a {
-    border-right: none;
-}
-#menu > ul > li > ul > li > a, #menu > ul > li > ul > li > ul > li > a {
-    border-top: 1px solid #4f5254;
-    padding: 7px 10px;
-}
+    #menu ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        background: #323232;
+    }
+        #menu > ul > li {
+            float: left;
+        }
+        #menu > ul > li > ul {
+            top: 100%;
+            left: 0;
+        }
+    #menu li {
+        position: relative;
+    }
+    #menu a {
+        display: block;
+        white-space: nowrap;
+    }
+            #menu ul li li ul {
+                top: 0;
+                left: 100%;
+            }
+        #menu ul ul {
+            visibility: hidden;
+            position: absolute;
+            z-index: 2;
+            min-width: 240px;
+        }
+        #menu li:hover > ul {
+            visibility: visible;
+        }
+    #menu:after {
+        content: "";
+        clear: both;
+        display: block;
+    }
+    #menu a {
+        text-decoration: none;
+        color: #fff;
+        padding: 10px 25px;
+        line-height: 1.2;
+    }
+    #menu a:hover {
+        background: #5390cc;
+    }
+            #menu > ul > li > a {
+                border-right: 1px solid #4f5254;
+            }
+            #menu > ul > li:last-child > a {
+                border-right: none;
+            }
+            #menu > ul > li > ul > li > a, #menu > ul > li > ul > li > ul > li > a {
+                border-top: 1px solid #4f5254;
+                padding: 7px 10px;
+            }
 /* анимация меню */
 /*
 #menu > ul > li > ul,
@@ -377,30 +378,30 @@ body > .wrapper {
 }
 
 /* информационные блоки в левой и правой колонке */
-#left .side-block, #right .side-block {
-    margin-top: 20px;
-    border: 1px solid #d1d1d1;
-    border-top: 5px solid #395985;
-    overflow: hidden;
-}
-    #left .side-block:last-child, #right .side-block:last-child {
-        margin-bottom: 20px;
+    #left .side-block, #right .side-block {
+        margin-top: 20px;
+        border: 1px solid #d1d1d1;
+        border-top: 5px solid #395985;
+        overflow: hidden;
     }
-    #left .side-block > div:first-child, #right .side-block > div:first-child {
-        padding: 15px;
-        font-size: 16px;
-        background: #f0f0f0;
-        border-bottom: 1px solid #d1d1d1;
-    }
-    #left .side-block > div:last-child, #right .side-block > div:last-child {
-        padding: 15px;
-    }
-    #left .side-block > div.no-padding, #right .side-block > div.no-padding {
-        padding: 0;
-    }
-    #right .side-block > div.no-padding {
-        padding: 15px 0;
-    }
+        #left .side-block:last-child, #right .side-block:last-child {
+            margin-bottom: 20px;
+        }
+        #left .side-block > div:first-child, #right .side-block > div:first-child {
+            padding: 15px;
+            font-size: 16px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #d1d1d1;
+        }
+        #left .side-block > div:last-child, #right .side-block > div:last-child {
+            padding: 15px;
+        }
+        #left .side-block > div.no-padding, #right .side-block > div.no-padding {
+            padding: 0;
+        }
+        #right .side-block > div.no-padding {
+            padding: 15px 0;
+        }
 
 /*
  * ЦЕНТРАЛЬНАЯ КОЛОНКА
@@ -712,9 +713,9 @@ body > .wrapper {
         margin-left: -31px;
         cursor: pointer;
     }
-#center-search-form > p {
-    margin: 15px 0;
-}
+    #center-search-form > p {
+        margin: 15px 0;
+    }
 
 /* постраничная навигация */
 .pager {
@@ -775,251 +776,251 @@ body > .wrapper {
 .products-list-line {
     margin-top: 30px;
 }
-.products-list-line > div { /* отдельный товар */
-    margin-bottom: 12px;
-    padding-bottom: 15px;
-    border-bottom: 1px dashed #5390cc;
-    overflow: hidden;
-}
-.products-list-line > div:last-child {
-    border-bottom: none;
-}
-    .products-list-line > div > .product-line-added { /* дата добавления */
-        font-size: 10px;
-        line-height: 10px;
-        color: #969696;
-        height: 10px;
+    .products-list-line > div { /* отдельный товар */
+        margin-bottom: 12px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #5390cc;
         overflow: hidden;
     }
-
-    .products-list-line > div > .product-line-heading { /* заголовки */
-        margin-bottom: 10px;
+    .products-list-line > div:last-child {
+        border-bottom: none;
     }
-        .products-list-line > div > .product-line-heading h2,
-        .products-list-line > div > .product-line-heading h3 {
-            margin: 0;
-        }
-        .products-list-line > div > .product-line-heading h2 a {
-            font-size: 16px;
-            color: #395985;
-        }
-        .products-list-line > div > .product-line-heading h3 {
-            font-weight: normal;
-            font-size: 14px;
+        .products-list-line > div > .product-line-added { /* дата добавления */
+            font-size: 10px;
+            line-height: 10px;
+            color: #969696;
+            height: 10px;
+            overflow: hidden;
         }
 
-    .products-list-line > div > .product-line-image { /* фото товара */
-        float: left;
-        width: 100px;
-        height: 100px;
-        padding: 9px;
-        border: 1px solid #d1d1d1;
-        background: #fff;
-    }
-        .products-list-line > div > .product-line-image > a {
-            display: block;
-            position: relative;
+        .products-list-line > div > .product-line-heading { /* заголовки */
+            margin-bottom: 10px;
+        }
+            .products-list-line > div > .product-line-heading h2,
+            .products-list-line > div > .product-line-heading h3 {
+                margin: 0;
+            }
+            .products-list-line > div > .product-line-heading h2 a {
+                font-size: 16px;
+                color: #395985;
+            }
+            .products-list-line > div > .product-line-heading h3 {
+                font-weight: normal;
+                font-size: 14px;
+            }
+
+        .products-list-line > div > .product-line-image { /* фото товара */
+            float: left;
             width: 100px;
             height: 100px;
+            padding: 9px;
+            border: 1px solid #d1d1d1;
+            background: #fff;
         }
-            .products-list-line > div > .product-line-image > a > img {
+            .products-list-line > div > .product-line-image > a {
+                display: block;
+                position: relative;
                 width: 100px;
                 height: 100px;
             }
-            .products-list-line > div > .product-line-image > a > span {
-                display: block;
-                position: absolute;
-                width: 58px;
-                height: 12px;
-                font-size: 10px;
-                line-height: 12px;
-                color: #fff;
-                padding-left: 1px;
-            }
-            .products-list-line > div > .product-line-image > a > span.hit-product {
-                background: #e9751f;
-                width: 72px;
-                left: -8px;
-                top: -8px;
-            }
-            .products-list-line > div > .product-line-image > a > span.new-product {
-                background: #395985;
-                width: 41px;
-                right: -8px;
-                top: -8px;
-            }
-
-    .products-list-line > div > .product-line-info { /* цена, код, производитель */
-        margin-bottom: 11px;
-        margin-left: 140px;
-        overflow: hidden;
-    }
-        .products-list-line > div > .product-line-info > div {
-            color: #969696;
-            font-size: 14px;
-            overflow: hidden;
-            border-bottom: 1px dashed #d1d1d1;
-            padding: 5px 0;
-        }
-        .products-list-line > div > .product-line-info > div:first-child {
-            padding: 0;
-        }
-            .products-list-line > div > .product-line-info > div > span {
-                overflow: hidden;
-            }
-            .products-list-line > div > .product-line-info > div > span:first-child {
-                float: left;
-                width: 35%;
-            }
-            .products-list-line > div > .product-line-info > div > span:last-child {
-                float: right;
-                width: 65%;
-                text-align: right;
-            }
-            .products-list-line > div > .product-line-info > div:first-child > span:first-child {
-                height: 26px;
-                line-height: 26px;
-            }
-            .products-list-line > div > .product-line-info > div:first-child > span:last-child {
-                word-spacing: 7px;
-            }
-                .products-list-line > div > .product-line-info > div:first-child > span:last-child > span {
-                    display: inline-block;
-                    word-spacing: normal;
-                    text-align: left;
+                .products-list-line > div > .product-line-image > a > img {
+                    width: 100px;
+                    height: 100px;
                 }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong,
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span {
-                        display: block;
-                    }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong { /* цена, число */
-                        color: #395985;
-                        font-size: 18px;
-                        line-height: 16px;
-                        text-align: center;
-                    }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
-                        color: #969696;
-                    }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
-                        font-size: 10px;
-                        line-height: 10px;
-                        font-style: italic;
-                    }
-                .products-list-line > div > .product-line-info > div:nth-child(2) > span:last-child { /* код, число */
-                    font-weight: bold;
-                    color: #323232;
+                .products-list-line > div > .product-line-image > a > span {
+                    display: block;
+                    position: absolute;
+                    width: 58px;
+                    height: 12px;
+                    font-size: 10px;
+                    line-height: 12px;
+                    color: #fff;
+                    padding-left: 1px;
+                }
+                .products-list-line > div > .product-line-image > a > span.hit-product {
+                    background: #e9751f;
+                    width: 72px;
+                    left: -8px;
+                    top: -8px;
+                }
+                .products-list-line > div > .product-line-image > a > span.new-product {
+                    background: #395985;
+                    width: 41px;
+                    right: -8px;
+                    top: -8px;
                 }
 
-    .products-list-line > div > .product-line-basket { /* добавить в корзину */
-        margin-left: 140px;
-        overflow: hidden;
-        margin-bottom: 12px;
-    }
-        .products-list-line > div > .product-line-basket > form {
-            float: right;
+        .products-list-line > div > .product-line-info { /* цена, код, производитель */
+            margin-bottom: 11px;
+            margin-left: 140px;
             overflow: hidden;
-            width: 25%;
-            box-sizing: border-box;
-            padding-right: 3%;
         }
-        .products-list-line > div > .product-line-basket > form:first-child {
-            float: left;
-            width: 50%;
-        }
-        .products-list-line > div > .product-line-basket > form:nth-child(2) {
-            padding-right: 0;
-        }
-            .products-list-line > div > .product-line-basket > form input {
-                display: block;
-                box-sizing: border-box;
-                height: 26px;
+            .products-list-line > div > .product-line-info > div {
+                color: #969696;
                 font-size: 14px;
-                line-height: 14px;
-                background: #f0f0f0;
-                border: 1px solid #d1d1d1;
-                outline: none;
-            }
-            .products-list-line > div > .product-line-basket > form input[type="submit"] {
-                cursor: pointer;
-            }
-            .products-list-line > div > .product-line-basket > form:first-child input {
-                float: left;
-            }
-            .products-list-line > div > .product-line-basket > form:first-child input[type="submit"] {
-                background: #395985;
-                border: 1px solid #395985;
-                color: #fff;
-                width: 75%;
-            }
-            .products-list-line  > div > .product-line-basket > form:first-child input[type="text"] {
-                width: 23%;
-                margin-right: 2%;
-                background: #fff;
-                text-align: center;
-                border: 1px solid #395985;
-            }
-            .products-list-line > div > .product-line-basket > form:not(:first-child) input[type="submit"] {
-                width: 100%;
-            }
-
-    .products-list-line > div > .product-line-descr { /* Краткое описание */
-        clear: left;
-        font-size: 14px;
-        color: #969696;
-    }
-
-    /* технические характеристики для страницы сравнения товаров */
-    .products-list-line > div > .product-line-techdata {
-        clear: left;
-        padding-top: 10px;
-    }
-        .products-list-line > div > .product-line-techdata > div:first-child {
-            background-color: #f0f0f0;
-            border: 1px solid #d1d1d1;
-            color: #323232;
-            padding: 5px;
-            overflow: hidden;
-        }
-            .products-list-line > div > .product-line-techdata > div:first-child > span:first-child {
-                float: left;
                 overflow: hidden;
-                width: 74%;
-                white-space: nowrap;
+                border-bottom: 1px dashed #d1d1d1;
+                padding: 5px 0;
             }
-            .products-list-line > div > .product-line-techdata > div:first-child > span:last-child {
-                float: right;
-                text-align: right;
-                width: 25%;
+            .products-list-line > div > .product-line-info > div:first-child {
+                padding: 0;
             }
-                .products-list-line > div > .product-line-techdata > div:first-child > span:last-child > span {
-                    font-size: 13px;
-                    cursor: pointer;
-                    border-bottom: 1px dashed #323232;
+                .products-list-line > div > .product-line-info > div > span {
+                    overflow: hidden;
                 }
-        .products-list-line > div > .product-line-techdata > div:last-child {
-            border: 1px solid #d1d1d1;
-            border-top: none;
+                .products-list-line > div > .product-line-info > div > span:first-child {
+                    float: left;
+                    width: 35%;
+                }
+                .products-list-line > div > .product-line-info > div > span:last-child {
+                    float: right;
+                    width: 65%;
+                    text-align: right;
+                }
+                .products-list-line > div > .product-line-info > div:first-child > span:first-child {
+                    height: 26px;
+                    line-height: 26px;
+                }
+                .products-list-line > div > .product-line-info > div:first-child > span:last-child {
+                    word-spacing: 7px;
+                }
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span {
+                        display: inline-block;
+                        word-spacing: normal;
+                        text-align: left;
+                    }
+                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong,
+                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span {
+                            display: block;
+                        }
+                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong { /* цена, число */
+                            color: #395985;
+                            font-size: 18px;
+                            line-height: 16px;
+                            text-align: center;
+                        }
+                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
+                            color: #969696;
+                        }
+                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
+                            font-size: 10px;
+                            line-height: 10px;
+                            font-style: italic;
+                        }
+                    .products-list-line > div > .product-line-info > div:nth-child(2) > span:last-child { /* код, число */
+                        font-weight: bold;
+                        color: #323232;
+                    }
+
+        .products-list-line > div > .product-line-basket { /* добавить в корзину */
+            margin-left: 140px;
             overflow: hidden;
+            margin-bottom: 12px;
         }
-            .products-list-line > div > .product-line-techdata > div:last-child > table {
-                width: 100%;
-                border-collapse: collapse;
+            .products-list-line > div > .product-line-basket > form {
+                float: right;
+                overflow: hidden;
+                width: 25%;
+                box-sizing: border-box;
+                padding-right: 3%;
             }
-                .products-list-line > div > .product-line-techdata > div:last-child > table tr td {
-                    border-bottom: 1px solid #d1d1d1;
-                    border-right: 1px solid #d1d1d1;
-                    padding: 3px 5px;
+            .products-list-line > div > .product-line-basket > form:first-child {
+                float: left;
+                width: 50%;
+            }
+            .products-list-line > div > .product-line-basket > form:nth-child(2) {
+                padding-right: 0;
+            }
+                .products-list-line > div > .product-line-basket > form input {
+                    display: block;
+                    box-sizing: border-box;
+                    height: 26px;
+                    font-size: 14px;
+                    line-height: 14px;
+                    background: #f0f0f0;
+                    border: 1px solid #d1d1d1;
+                    outline: none;
                 }
-                .products-list-line > div > .product-line-techdata > div:last-child > table tr:first-child td:first-child {
-                    width: 60%;
+                .products-list-line > div > .product-line-basket > form input[type="submit"] {
+                    cursor: pointer;
                 }
-                .products-list-line > div > .product-line-techdata > div:last-child > table tr td:last-child {
-                    border-right: none;
+                .products-list-line > div > .product-line-basket > form:first-child input {
+                    float: left;
                 }
-                .products-list-line > div > .product-line-techdata > div:last-child > table tr:last-child td {
-                    border-bottom: none;
+                .products-list-line > div > .product-line-basket > form:first-child input[type="submit"] {
+                    background: #395985;
+                    border: 1px solid #395985;
+                    color: #fff;
+                    width: 75%;
                 }
+                .products-list-line  > div > .product-line-basket > form:first-child input[type="text"] {
+                    width: 23%;
+                    margin-right: 2%;
+                    background: #fff;
+                    text-align: center;
+                    border: 1px solid #395985;
+                }
+                .products-list-line > div > .product-line-basket > form:not(:first-child) input[type="submit"] {
+                    width: 100%;
+                }
+
+        .products-list-line > div > .product-line-descr { /* краткое описание */
+            clear: left;
+            font-size: 14px;
+            color: #969696;
+        }
+
+        /* технические характеристики для страницы сравнения товаров */
+        .products-list-line > div > .product-line-techdata {
+            clear: left;
+            padding-top: 10px;
+        }
+            .products-list-line > div > .product-line-techdata > div:first-child {
+                background-color: #f0f0f0;
+                border: 1px solid #d1d1d1;
+                color: #323232;
+                padding: 5px;
+                overflow: hidden;
+            }
+                .products-list-line > div > .product-line-techdata > div:first-child > span:first-child {
+                    float: left;
+                    overflow: hidden;
+                    width: 74%;
+                    white-space: nowrap;
+                }
+                .products-list-line > div > .product-line-techdata > div:first-child > span:last-child {
+                    float: right;
+                    text-align: right;
+                    width: 25%;
+                }
+                    .products-list-line > div > .product-line-techdata > div:first-child > span:last-child > span {
+                        font-size: 13px;
+                        cursor: pointer;
+                        border-bottom: 1px dashed #323232;
+                    }
+            .products-list-line > div > .product-line-techdata > div:last-child {
+                border: 1px solid #d1d1d1;
+                border-top: none;
+                overflow: hidden;
+            }
+                .products-list-line > div > .product-line-techdata > div:last-child > table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                    .products-list-line > div > .product-line-techdata > div:last-child > table tr td {
+                        border-bottom: 1px solid #d1d1d1;
+                        border-right: 1px solid #d1d1d1;
+                        padding: 3px 5px;
+                    }
+                    .products-list-line > div > .product-line-techdata > div:last-child > table tr:first-child td:first-child {
+                        width: 60%;
+                    }
+                    .products-list-line > div > .product-line-techdata > div:last-child > table tr td:last-child {
+                        border-right: none;
+                    }
+                    .products-list-line > div > .product-line-techdata > div:last-child > table tr:last-child td {
+                        border-bottom: none;
+                    }
 
 /* список товаров, табличный вид */
 .products-list-grid {
@@ -1328,57 +1329,57 @@ body > .wrapper {
         border-bottom: 1px dashed #d1d1d1;
 
     }
-    #sort-orders > ul > li {
-        float: left;
-        border-right: 3px solid #fff;
-        border-bottom: 3px solid #fff;
-        box-sizing: border-box;
-        width: 12.5%;
-        min-width: 75px;
-        background: #f0f0f0;
-        overflow: hidden;
-        white-space: nowrap;
-        font-size: 12px;
-        line-height: 22px;
-    }
-    #sort-orders > ul > li:first-child {
-        padding: 0 3px;
-    }
-        #sort-orders > ul > li > a, #sort-orders > ul > li > span {
-            display: block;
+        #sort-orders > ul > li {
+            float: left;
+            border-right: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            box-sizing: border-box;
+            width: 12.5%;
+            min-width: 75px;
+            background: #f0f0f0;
+            overflow: hidden;
+            white-space: nowrap;
             font-size: 12px;
             line-height: 22px;
-            overflow: hidden;
+        }
+        #sort-orders > ul > li:first-child {
             padding: 0 3px;
         }
-        #sort-orders > ul > li > a:hover {
-            text-decoration: none;
-            color: #ff6d00;
-        }
-            #sort-orders > ul > li > a > span {
-                border-bottom: 1px dashed #5390cc;
+            #sort-orders > ul > li > a, #sort-orders > ul > li > span {
+                display: block;
+                font-size: 12px;
+                line-height: 22px;
+                overflow: hidden;
+                padding: 0 3px;
             }
-            #sort-orders > ul > li > a:hover > span {
-                border-bottom: 1px dashed #ff6d00;
+            #sort-orders > ul > li > a:hover {
+                text-decoration: none;
+                color: #ff6d00;
             }
-        #sort-orders > ul > li > a.sort-desc-blue, #sort-orders > ul > li > span.sort-desc-blue {
-            background: #f0f0f0 url('../img/sort-desc-blue.png') 95% center no-repeat;
-        }
-        #sort-orders > ul > li > a.sort-desc-blue:hover {
-            background-image: url('../img/sort-desc-orange.png');
-        }
-        #sort-orders > ul > li > a.sort-asc-blue, #sort-orders > ul > li > span.sort-asc-blue {
-            background: #f0f0f0 url('../img/sort-asc-blue.png') 95% center no-repeat;
-        }
-        #sort-orders > ul > li > a.sort-asc-blue:hover {
-            background-image: url('../img/sort-asc-orange.png');
-        }
-        #sort-orders > ul > li > a.sort-desc-orange, #sort-orders > ul > li > span.sort-desc-orange {
-            background: #f0f0f0 url('../img/sort-desc-orange.png') 95% center no-repeat;
-        }
-        #sort-orders > ul > li > a.sort-asc-orange, #sort-orders > ul > li > span.sort-asc-orange {
-            background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
-        }
+                #sort-orders > ul > li > a > span {
+                    border-bottom: 1px dashed #5390cc;
+                }
+                #sort-orders > ul > li > a:hover > span {
+                    border-bottom: 1px dashed #ff6d00;
+                }
+            #sort-orders > ul > li > a.sort-desc-blue, #sort-orders > ul > li > span.sort-desc-blue {
+                background: #f0f0f0 url('../img/sort-desc-blue.png') 95% center no-repeat;
+            }
+            #sort-orders > ul > li > a.sort-desc-blue:hover {
+                background-image: url('../img/sort-desc-orange.png');
+            }
+            #sort-orders > ul > li > a.sort-asc-blue, #sort-orders > ul > li > span.sort-asc-blue {
+                background: #f0f0f0 url('../img/sort-asc-blue.png') 95% center no-repeat;
+            }
+            #sort-orders > ul > li > a.sort-asc-blue:hover {
+                background-image: url('../img/sort-asc-orange.png');
+            }
+            #sort-orders > ul > li > a.sort-desc-orange, #sort-orders > ul > li > span.sort-desc-orange {
+                background: #f0f0f0 url('../img/sort-desc-orange.png') 95% center no-repeat;
+            }
+            #sort-orders > ul > li > a.sort-asc-orange, #sort-orders > ul > li > span.sort-asc-orange {
+                background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
+            }
 
 /* карточка товара */
 #product {
@@ -1576,67 +1577,67 @@ body > .wrapper {
 #all-makers {
     overflow: hidden;
 }
-#all-makers > ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    float: left;
-    width: 50%;
-    box-sizing: border-box;
-}
-#all-makers > ul:first-child {
-    border-right: 1px dashed #d1d1d1;
-}
-    #all-makers > ul > li {
-        padding-right: 30px;
-        border-bottom: 1px dashed #d1d1d1;
-        position: relative;
-        overflow: hidden;
+    #all-makers > ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
     }
-    #all-makers > ul > li:last-child {
-        border-bottom: none;
+    #all-makers > ul:first-child {
+        border-right: 1px dashed #d1d1d1;
     }
-        #all-makers > ul > li > span {
-            display: block;
+        #all-makers > ul > li {
+            padding-right: 30px;
+            border-bottom: 1px dashed #d1d1d1;
+            position: relative;
+            overflow: hidden;
         }
-            #all-makers > ul > li > span > a {
+        #all-makers > ul > li:last-child {
+            border-bottom: none;
+        }
+            #all-makers > ul > li > span {
                 display: block;
-                font-size: 14px;
-                line-height: 26px;
-                padding-left: 5px;
-                height: 26px;
-                white-space: nowrap;
             }
-            #all-makers > ul > li > span > span {
-                display: block;
-                position: absolute;
-                font-size: 13px;
-                line-height: 26px;
-                height: 26px;
-                width: 30px;
-                text-align: center;
-                background: #f0f0f0;
-                top: 0;
-                right: 0;
-                color: #5390cc;
-            }
+                #all-makers > ul > li > span > a {
+                    display: block;
+                    font-size: 14px;
+                    line-height: 26px;
+                    padding-left: 5px;
+                    height: 26px;
+                    white-space: nowrap;
+                }
+                #all-makers > ul > li > span > span {
+                    display: block;
+                    position: absolute;
+                    font-size: 13px;
+                    line-height: 26px;
+                    height: 26px;
+                    width: 30px;
+                    text-align: center;
+                    background: #f0f0f0;
+                    top: 0;
+                    right: 0;
+                    color: #5390cc;
+                }
 
-#all-makers > p {
-    clear: both;
-    padding: 15px;
-    border-top: 1px solid #d1d1d1;
-}
-    #all-makers > p > a {
-        display: block;
-        text-align: center;
-        background: #395985;
-        color: #fff;
-        padding: 6px 0;
-        width: 30%;
+    #all-makers > p {
+        clear: both;
+        padding: 15px;
+        border-top: 1px solid #d1d1d1;
     }
-    #all-makers > p > a:hover {
-        text-decoration: none;
-    }
+        #all-makers > p > a {
+            display: block;
+            text-align: center;
+            background: #395985;
+            color: #fff;
+            padding: 6px 0;
+            width: 30%;
+        }
+        #all-makers > p > a:hover {
+            text-decoration: none;
+        }
 
 /* покупательская корзина, центральная колонка */
 #basket {
@@ -1966,12 +1967,12 @@ body > .wrapper {
     #add-edit-profile #legal-person-help, #add-edit-profile #profile-title-help {
         background: #395985;
         color: #fff;
-        border-radius: 10px;
+        border-radius: 8px;
         font-weight: bold;
         padding: 0 4px;
         cursor: pointer;
-        font-size: 13px;
-        line-height: 13px;
+        font-size: 14px;
+        line-height: 14px;
     }
     #add-edit-profile > div {
         position: relative;
@@ -2239,15 +2240,15 @@ body > .wrapper {
     #user-order > p {
         text-align: right;
     }
-    #user-order > p > span {
-        color: #395985;
-        font-weight: bold;
-    }
+        #user-order > p > span {
+            color: #395985;
+            font-weight: bold;
+        }
     #user-order > ul {
         padding-left: 20px;
     }
 
-/* список новостей */
+/* список новостей (всех новостей или выбранной категории) */
 #news-list {
 
 }
@@ -2487,48 +2488,48 @@ body > .wrapper {
         border-collapse: collapse;
         width: 100%;
     }
-    #item-solutions table tr th, #item-solutions table tr td {
-        border: 1px solid #d1d1d1;
-        font-weight: normal;
-        padding: 5px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    #item-solutions table tr th {
-        background: #f0f0f0;
-    }
-    #item-solutions table tr th:nth-child(3) {
-        width: 50%;
-    }
-    #item-solutions table tr th.heading, #item-solutions table tr th:nth-child(3) {
-        text-align: left;
-    }
-    #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
-    #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(5) {
-        text-align: center;
-    }
-    #item-solutions table tr td:nth-child(6), #item-solutions table tr td:nth-child(7) {
-        text-align: right;
-    }
+        #item-solutions table tr th, #item-solutions table tr td {
+            border: 1px solid #d1d1d1;
+            font-weight: normal;
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        #item-solutions table tr th {
+            background: #f0f0f0;
+        }
+        #item-solutions table tr th:nth-child(3) {
+            width: 50%;
+        }
+        #item-solutions table tr th.heading, #item-solutions table tr th:nth-child(3) {
+            text-align: left;
+        }
+        #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
+        #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(5) {
+            text-align: center;
+        }
+        #item-solutions table tr td:nth-child(6), #item-solutions table tr td:nth-child(7) {
+            text-align: right;
+        }
 
-    #item-solutions table tr:last-child td:first-child {
-        text-align: left;
-    }
-    #item-solutions table tr:last-child td:last-child {
-        text-align: right;
-    }
-    #item-solutions table tr td form input[type="submit"] {
-        background: #395985;
-        border: 1px solid #395985;
-        padding: 4px 15px;
-        font-size: 14px;
-        color: #fff;
-        cursor: pointer;
-    }
-    #item-solutions table tr td strong {
-        color: #395985;
-        font-size: 18px;
-    }
+        #item-solutions table tr:last-child td:first-child {
+            text-align: left;
+        }
+        #item-solutions table tr:last-child td:last-child {
+            text-align: right;
+        }
+            #item-solutions table tr td form input[type="submit"] {
+                background: #395985;
+                border: 1px solid #395985;
+                padding: 4px 15px;
+                font-size: 14px;
+                color: #fff;
+                cursor: pointer;
+            }
+            #item-solutions table tr td strong {
+                color: #395985;
+                font-size: 18px;
+            }
 
 /* форма для оформления заказа */
 #checkout-order {
@@ -2537,12 +2538,12 @@ body > .wrapper {
     #checkout-order .legal_person_help, #checkout-order .make_profile_help {
         background: #395985;
         color: #fff;
-        border-radius: 10px;
+        border-radius: 8px;
         font-weight: bold;
         padding: 0 4px;
         cursor: pointer;
-        font-size: 13px;
-        line-height: 13px;
+        font-size: 14px;
+        line-height: 14px;
     }
     #checkout-order > div {
         margin: 20px 0;

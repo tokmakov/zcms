@@ -26,10 +26,10 @@ class Index_Frontend_Controller extends Frontend_Controller {
         $index = $this->indexFrontendModel->getIndexPage();
 
         $this->title = $index['title'];
-        if (!empty($index['keywords'])) {
+        if ( ! empty($index['keywords'])) {
             $this->keywords = $index['keywords'];
         }
-        if (!empty($index['description'])) {
+        if ( ! empty($index['description'])) {
             $this->description = $index['description'];
         }
 

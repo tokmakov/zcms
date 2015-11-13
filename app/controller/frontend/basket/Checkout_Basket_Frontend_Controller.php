@@ -81,7 +81,11 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             'success'     => $success,
         );
         if ($success) { // заказ размещен, большинство переменных в шаблоне не нужны
-            unset($this->centerVars['action'], $this->centerVars['authUser'], $this->centerVars['profiles']);
+            unset(
+                $this->centerVars['action'],
+                $this->centerVars['authUser'],
+                $this->centerVars['profiles']
+            );
         }
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
@@ -114,30 +118,39 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // телефон контактного лица получателя
         $form['recipient_phone']   = trim(utf8_substr(strip_tags($_POST['recipient_phone']), 0, 32));
 
-        if (isset($_POST['own_shipping'])) {          // самовывоз?
-            $form['own_shipping']               = 1;
+        if (isset($_POST['own_shipping'])) { // самовывоз?
+            $form['own_shipping']               = 1;  // да, самовывоз
             $form['recipient_physical_address'] = ''; // адрес доставки
             $form['recipient_city']             = ''; // город (адрес доставки)
             $form['recipient_postal_index']     = ''; // почтовый индекс
         } else {
-            $form['own_shipping']               = 0;
+            $form['own_shipping']               = 0;  // нет, не самовывоз, а доставка по адресу
             $form['recipient_physical_address'] = trim(utf8_substr(strip_tags($_POST['recipient_physical_address']), 0, 250));
             $form['recipient_city']             = trim(utf8_substr(strip_tags($_POST['recipient_city']), 0, 32));
             $form['recipient_postal_index']     = trim(utf8_substr(strip_tags($_POST['recipient_postal_index']), 0, 32));
         }
 
         if (isset($_POST['recipient_legal_person'])) { // получатель - юридическое лицо?
+            // получатель - юридическое лицо
             $form['recipient_legal_person']  = 1;
+            // название компании получателя
             $form['recipient_company']       = trim(utf8_substr(strip_tags($_POST['recipient_company']), 0, 64));
+            // генеральный директор компании получателя
             $form['recipient_ceo_name']      = trim(utf8_substr(strip_tags($_POST['recipient_ceo_name']), 0, 64));
+            // название компании получателя
             $form['recipient_legal_address'] = trim(utf8_substr(strip_tags($_POST['recipient_legal_address']), 0, 250));
+            // название банка компании получателя
             $form['recipient_bank_name']     = trim(utf8_substr(strip_tags($_POST['recipient_bank_name']), 0, 64));
+            // ИНН компании получателя
             $form['recipient_inn']           = trim(utf8_substr(strip_tags($_POST['recipient_inn']), 0, 32));
+            // БИК компании получателя
             $form['recipient_bik']           = trim(utf8_substr(strip_tags($_POST['recipient_bik']), 0, 32));
+            // номер расчетного счета в банке компании получателя
             $form['recipient_settl_acc']     = trim(utf8_substr(strip_tags($_POST['recipient_settl_acc']), 0, 32));
+            // номер корреспондентского счета компании получателя
             $form['recipient_corr_acc']      = trim(utf8_substr(strip_tags($_POST['recipient_corr_acc']), 0, 32));
         } else {
-            $form['recipient_legal_person']  = 0;
+            $form['recipient_legal_person']  = 0;  // получатель - не юридическое лицо
             $form['recipient_company']       = ''; // название компании получателя
             $form['recipient_ceo_name']      = ''; // генеральный директор компании получателя
             $form['recipient_legal_address'] = ''; // юридический адрес компании получателя
@@ -148,29 +161,39 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['recipient_corr_acc']      = ''; // номер корреспондентского счета компании получателя
         }
 
-        if (isset($_POST['recipient_payer_different'])) { // плательщик и получатель различаются
+        if (isset($_POST['recipient_payer_different'])) { // плательщик и получатель различаются?
+            // плательщик и получатель различаются
             $form['recipient_payer_different'] = 1;
             // имя контактного лица плательщика
-            $form['payer_name']    = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
+            $form['payer_name']                = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
             // фамилия контактного лица плательщика
-            $form['payer_surname'] = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 32));
+            $form['payer_surname']             = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 32));
             // e-mail контактного лица плательщика
-            $form['payer_email']   = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 32));
+            $form['payer_email']               = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 32));
             // телефон контактного лица плательщика
-            $form['payer_phone']   = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 32));
+            $form['payer_phone']               = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 32));
 
             if (isset($_POST['payer_legal_person'])) { // плательщик - юридическое лицо?
+                // плательщик - юридическое лицо
                 $form['payer_legal_person']  = 1;
+                // название компании плательщика
                 $form['payer_company']       = trim(utf8_substr(strip_tags($_POST['payer_company']), 0, 64));
+                // генеральный директор компании плательщика
                 $form['payer_ceo_name']      = trim(utf8_substr(strip_tags($_POST['payer_ceo_name']), 0, 64));
+                // юридический адрес компании плательщика
                 $form['payer_legal_address'] = trim(utf8_substr(strip_tags($_POST['payer_legal_address']), 0, 250));
+                // название банка компании плательщика
                 $form['payer_bank_name']     = trim(utf8_substr(strip_tags($_POST['payer_bank_name']), 0, 64));
+                // ИНН компании плательщика
                 $form['payer_inn']           = trim(utf8_substr(strip_tags($_POST['payer_inn']), 0, 32));
+                // БИК компании плательщика
                 $form['payer_bik']           = trim(utf8_substr(strip_tags($_POST['payer_bik']), 0, 32));
+                // номер расчетного счета в банке компании плательщика
                 $form['payer_settl_acc']     = trim(utf8_substr(strip_tags($_POST['payer_settl_acc']), 0, 32));
+                // номер корреспондентского счета компании плательщика
                 $form['payer_corr_acc']      = trim(utf8_substr(strip_tags($_POST['payer_corr_acc']), 0, 32));
             } else {
-                $form['payer_legal_person']  = 0;
+                $form['payer_legal_person']  = 0;  // плательщик - не юридическое лицо
                 $form['payer_company']       = ''; // название компании плательщика
                 $form['payer_ceo_name']      = ''; // генеральный директор компании плательщика
                 $form['payer_legal_address'] = ''; // юридический адрес компании плательщика
@@ -181,12 +204,13 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $form['payer_corr_acc']      = ''; // номер корреспондентского счета компании плательщика
             }
         } else {
+            // плательщик и получатель не различаются
             $form['recipient_payer_different'] = 0;
             // контактное лицо
-            $form['payer_name']    = $form['recipient_name'];
-            $form['payer_surname'] = $form['recipient_surname'];
-            $form['payer_email']   = $form['recipient_email'];
-            $form['payer_phone']   = $form['recipient_phone'];
+            $form['payer_name']          = $form['recipient_name'];
+            $form['payer_surname']       = $form['recipient_surname'];
+            $form['payer_email']         = $form['recipient_email'];
+            $form['payer_phone']         = $form['recipient_phone'];
             // юридическое лицо
             $form['payer_legal_person']  = $form['recipient_legal_person'];
             $form['payer_company']       = $form['recipient_company'];
@@ -213,7 +237,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         if (empty($form['recipient_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
         }
-        if (!$form['own_shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
+        if ( ! $form['own_shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
             if (empty($form['recipient_physical_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Адрес доставки»';
             }
@@ -299,49 +323,51 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // создать профиль получателя?
         if ($this->authUser && isset($_POST['make_recipient_profile'])) {
             $data = array(
-                'title' => 'Профиль получателя',
-                'name' => $form['recipient_name'],
-                'surname' => $form['recipient_surname'],
-                'email' => $form['recipient_email'],
-                'phone' => $form['recipient_phone'],
-                'own_shipping' => $form['own_shipping'],
+                'title'            => 'Профиль получателя',
+                'name'             => $form['recipient_name'],
+                'surname'          => $form['recipient_surname'],
+                'email'            => $form['recipient_email'],
+                'phone'            => $form['recipient_phone'],
+                'own_shipping'     => $form['own_shipping'],
                 'physical_address' => $form['recipient_physical_address'],
-                'city' => $form['recipient_city'],
-                'postal_index' => $form['recipient_postal_index'],
-                'legal_person' => $form['recipient_legal_person'],
-                'company' => $form['recipient_company'],
-                'ceo_name' => $form['recipient_ceo_name'],
-                'legal_address' => $form['recipient_legal_address'],
-                'bank_name' => $form['recipient_bank_name'],
-                'inn' => $form['recipient_inn'],
-                'bik' => $form['recipient_bik'],
-                'settl_acc' => $form['recipient_settl_acc'],
-                'corr_acc' => $form['recipient_corr_acc'],
+                'city'             => $form['recipient_city'],
+                'postal_index'     => $form['recipient_postal_index'],
+                'legal_person'     => $form['recipient_legal_person'],
+                'company'          => $form['recipient_company'],
+                'ceo_name'         => $form['recipient_ceo_name'],
+                'legal_address'    => $form['recipient_legal_address'],
+                'bank_name'        => $form['recipient_bank_name'],
+                'inn'              => $form['recipient_inn'],
+                'bik'              => $form['recipient_bik'],
+                'settl_acc'        => $form['recipient_settl_acc'],
+                'corr_acc'         => $form['recipient_corr_acc'],
             );
+            // создаем профиль получателя
             $this->userFrontendModel->addProfile($data);
         }
         // создать профиль плательщика?
         if ($this->authUser && $form['recipient_payer_different'] && isset($_POST['make_payer_profile'])) {
             $data = array(
-                'title' => 'Профиль плательщика',
-                'name' => $form['payer_name'],
-                'surname' => $form['payer_surname'],
-                'email' => $form['payer_email'],
-                'phone' => $form['payer_phone'],
-                'own_shipping' => 1,
+                'title'            => 'Профиль плательщика',
+                'name'             => $form['payer_name'],
+                'surname'          => $form['payer_surname'],
+                'email'            => $form['payer_email'],
+                'phone'            => $form['payer_phone'],
+                'own_shipping'     => 1,
                 'physical_address' => '',
-                'city' => '',
-                'postal_index' => '',
-                'legal_person' => $form['payer_legal_person'],
-                'company' => $form['payer_company'],
-                'ceo_name' => $form['payer_ceo_name'],
-                'legal_address' => $form['payer_legal_address'],
-                'bank_name' => $form['payer_bank_name'],
-                'inn' => $form['payer_inn'],
-                'bik' => $form['payer_bik'],
-                'settl_acc' => $form['payer_settl_acc'],
-                'corr_acc' => $form['payer_corr_acc'],
+                'city'             => '',
+                'postal_index'     => '',
+                'legal_person'     => $form['payer_legal_person'],
+                'company'          => $form['payer_company'],
+                'ceo_name'         => $form['payer_ceo_name'],
+                'legal_address'    => $form['payer_legal_address'],
+                'bank_name'        => $form['payer_bank_name'],
+                'inn'              => $form['payer_inn'],
+                'bik'              => $form['payer_bik'],
+                'settl_acc'        => $form['payer_settl_acc'],
+                'corr_acc'         => $form['payer_corr_acc'],
             );
+            // создаем профиль плательщика
             $this->userFrontendModel->addProfile($data);
         }
 
@@ -353,7 +379,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // обращаемся к модели корзины для создания заказа
         $result = $this->basketFrontendModel->createOrder($email, $data);
 
-        if (!$result) {
+        if ( ! $result) {
             $form['errorMessage'] = array('Произошла ошибка при добавлении заказа, попробуйте еще раз');
             $this->setSessionData('checkoutOrderForm', $form);
             return false;

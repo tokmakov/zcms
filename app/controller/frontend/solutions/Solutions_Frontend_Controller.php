@@ -24,9 +24,9 @@ abstract class Solutions_Frontend_Controller extends Frontend_Controller {
          */
         parent::input();
 
-        //$this->title = $this->config->meta->catalog->title;
-        //$this->keywords = $this->config->meta->catalog->keywords;
-        //$this->description = $this->config->meta->catalog->description;
+        $this->title = $this->config->meta->solutions->title;
+        $this->keywords = $this->config->meta->solutions->keywords;
+        $this->description = $this->config->meta->solutions->description;
 
     }
 
