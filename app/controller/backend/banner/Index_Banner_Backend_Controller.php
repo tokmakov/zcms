@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Index_Start_Backend_Controller формирует страницу управления баннерами,
+ * Класс Index_Banner_Backend_Controller формирует страницу управления баннерами,
  * получает данные от модели Banner_Backend_Model, административная часть сайта
  */
 class Index_Banner_Backend_Controller extends Banner_Backend_Controller {
@@ -41,9 +41,9 @@ class Index_Banner_Backend_Controller extends Banner_Backend_Controller {
             // хлебные крошки
             'breadcrumbs'  => $breadcrumbs,
             // массив всех баннеров
-            'banners'   => $banners,
+            'banners'      => $banners,
             // URL страницы с формой для добавления баннера
-            'addBannerUrl' => $this->startBackendModel->getURL('backend/banner/add'),
+            'addBannerUrl' => $this->bannerBackendModel->getURL('backend/banner/add'),
         );
 
     }
