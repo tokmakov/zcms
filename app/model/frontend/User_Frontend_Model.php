@@ -79,6 +79,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     }
 
     /**
+     * Функция возвращает уникальный идентификатор посетителя сайта
+     */
+    public function getUserType() {
+        if ($this->authUser) {
+            return $this->user['type'];
+        }
+        return 0;
+    }
+
+    /**
      * Добавить наблюдателя за событием авторизации посетителя,
      * реализация шаблона проектирования «Наблюдатель»
      */
@@ -122,7 +132,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         if (!isset($this->user)) {
             $query = "SELECT
-                          `id`, `name`, `surname`, `email`, `visitor_id`, `newuser`
+                          `id`, `name`, `surname`, `email`, `type`, `visitor_id`, `newuser`
                       FROM
                           `users`
                       WHERE
@@ -165,6 +175,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                         `name`,
                         `surname`,
                         `email`,
+                        `type`,
                         `password`,
                         `visitor_id`,
                         `newuser`
@@ -174,6 +185,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                         :name,
                         :surname,
                         :email,
+                        0,
                         :password,
                         :visitor_id,
                         5
@@ -411,8 +423,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 $query,
                 array(
                     'visitor_id' => $_COOKIE['visitor'],
-                    'token1' => $token1,
-                    'token2' => $token2
+                    'token1'     => $token1,
+                    'token2'     => $token2
                 )
             );
             if (false === $res) {

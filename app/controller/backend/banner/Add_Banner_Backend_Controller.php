@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Editbnr_Start_Backend_Controller для редактирования баннера на главной
- * странице, формирует страницу с формой для редактирования баннера, обновляет
- * запись в таблице БД banners, работает с моделью Start_Backend_Model
+ * Класс Add_Banner_Backend_Controller для добавления нового баннера, формирует
+ * страницу с формой для добавления баннера, добавляет запись в таблицу БД banners,
+ * работает с моделью Banner_Backend_Model
  */
-class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
+class Add_Banner_Backend_Controller extends Banner_Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -12,51 +12,36 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * с формой для редактирования баннера
+     * с формой для добавления баннера; в данном случае никаких данных получать
+     * не нужно
      */
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Start_Backend_Controller,
+         * сначала обращаемся к родительскому классу Banner_Backend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Editbnr_Start_Backend_Controller
+         * Add_Banner_Backend_Controller
          */
         parent::input();
 
-        // если не передан id баннера или id баннера не число
-        if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
-            $this->notFoundRecord = true;
-            return;
-        } else {
-            $this->params['id'] = (int)$this->params['id'];
-        }
-
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if ($this->validateForm()) { // ошибок не было, обновление баннера прошло успешно
-                $this->redirect($this->startBackendModel->getURL('backend/start/index'));
-            } else { // при заполнении формы были допущены ошибки, опять показываем форму
-                $this->redirect($this->startBackendModel->getURL('backend/start/editbnr/id/' . $this->params['id']));
+            if ($this->validateForm()) { // ошибок не было, добавление баннера прошло успешно
+                $this->redirect($this->bannerBackendModel->getURL('backend/banner/index'));
+            } else { // если при заполнении формы были допущены ошибки
+                $this->redirect($this->bannerBackendModel->getURL('backend/banner/add'));
             }
         }
 
-        $this->title = 'Редактирование баннера. ' . $this->title;
+        $this->title = 'Новый баннер. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->startBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->startBackendModel->getURL('backend/start/index'), 'name' => 'Витрина'),
+            array('url' => $this->bannerBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array('url' => $this->bannerBackendModel->getURL('backend/banner/index'), 'name' => 'Баннеры'),
         );
-
-        // получаем от модели информацию о баннере
-        $banner = $this->startBackendModel->getBanner($this->params['id']);
-        // если запрошенный баннер не найден в БД
-        if (empty($banner)) {
-            $this->notFoundRecord = true;
-            return;
-        }
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -65,31 +50,21 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->startBackendModel->getURL('backend/start/editbnr/id/' . $this->params['id']),
-            // уникальный идентификатор баннера
-            'id'          => $this->params['id'],
-            // наименование баннера
-            'name'        => $banner['name'],
-            // URL ссылки с баннера
-            'url'         => $banner['url'],
-            // alt текст баннера
-            'alttext'     => $banner['alttext'],
-            // показывать баннер?
-            'visible'     => $banner['visible'],
+            'action'      => $this->bannerBackendModel->getURL('backend/banner/add'),
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
-        if ($this->issetSessionData('editStartBannerForm')) {
-            $this->centerVars['savedFormData'] = $this->getSessionData('editStartBannerForm');
+        if ($this->issetSessionData('addBannerForm')) {
+            $this->centerVars['savedFormData'] = $this->getSessionData('addBannerForm');
             $this->centerVars['errorMessage'] = $this->centerVars['savedFormData']['errorMessage'];
             unset($this->centerVars['savedFormData']['errorMessage']);
-            $this->unsetSessionData('editStartBannerForm');
+            $this->unsetSessionData('addBannerForm');
         }
     }
 
     /**
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
-     * функция возвращает false; если ошибок нет, функция обновляет баннер и возвращает true
+     * функция возвращает false; если ошибок нет, функция добавляет баннер и возвращает true
      */
     protected function validateForm() {
 
@@ -120,15 +95,15 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
          */
         if (!empty($errorMessage)) {
             $data['errorMessage'] = $this->errorMessage;
-            $this->setSessionData('editStartBannerForm', $data);
+            $this->setSessionData('addBannerForm', $data);
             return false;
         }
 
-        // обращаемся к модели для обновления баннера
-        $data['id'] = $this->params['id'];
-        $this->startBackendModel->updateBanner($data);
+        // обращаемся к модели для добавления нового баннера
+        $this->bannerBackendModel->addBanner($data);
 
         return true;
+
     }
 
 }

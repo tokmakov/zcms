@@ -55,6 +55,9 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
             return;
         }
 
+        // типы пользователей, для возможности выбора
+        $types = $this->userBackendModel->getUserTypes();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -62,11 +65,15 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'  => $this->userBackendModel->getURL('backend/user/edit/id/' . $this->params['id']),
+            'action'      => $this->userBackendModel->getURL('backend/user/edit/id/' . $this->params['id']),
             // имя пользовтеля
-            'name'    => $user['name'],
+            'name'        => $user['name'],
             // фамилия пользовтеля
-            'surname' => $user['surname'],
+            'surname'     => $user['surname'],
+            // тип пользователя
+            'type'        => $user['type'],
+            // типы пользователей, для возможности выбора
+            'types'       => $types,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
@@ -96,6 +103,8 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
             $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
             $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32)); // подтверждение пароля
         }
+
+        $data['type'] = (int)$_POST['type']; // тип пользователя
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {

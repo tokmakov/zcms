@@ -1,12 +1,11 @@
 <?php
 /**
- * Страница управления витриной (главная страница сайта),
- * файл view/example/backend/template/start/index/center.php,
+ * Страница управления баннерами,
+ * файл view/example/backend/template/banner/index/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $editStartUrl - URL страницы с формой для редактирования витрины
  * $banners - массив баннеров
  * $addBannerUrl - URL страницы с формой для добавления баннера
  */
@@ -14,7 +13,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/start/index/center.php -->
+<!-- Начало шаблона view/example/backend/template/banner/index/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -24,12 +23,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Витрина</h1>
-
-<p><a href="<?php echo $editStartUrl; ?>">Редактировать витрину</a></p>
+<h1>Баннеры</h1>
 
 <?php if (!empty($banners)): ?>
-    <h2>Баннеры</h2>
     <div id="all-banners">
         <ul>
             <?php foreach($banners as $item) : ?>
@@ -49,4 +45,4 @@ defined('ZCMS') or die('Access denied');
 
 <p><a href="<?php echo $addBannerUrl; ?>">Добавить баннер</a></p>
 
-<!-- Конец шаблона view/example/backend/template/start/index/center.php -->
+<!-- Конец шаблона view/example/backend/template/banner/index/center.php -->

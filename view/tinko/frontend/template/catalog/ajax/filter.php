@@ -32,14 +32,16 @@ for ($i = 0; $i <= 6; $i++) {
 
 <ul>
     <?php
+        $border = 0;
         $divide = 0;
         $count = count($childs);
-        if ($count > 5) {
+        if ($count > 3) {
             $divide = ceil($count/2);
+            $border = $count%2;
         }
     ?>
     <?php foreach($childs as $key => $item): ?>
-        <li>
+        <li<?php if (($key == $count-1) && $border) echo ' class="category-last-child-border"'; ?>>
             <?php if ($item['count']): // есть товары в категории? ?>
                 <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
             <?php else: ?>
@@ -47,7 +49,8 @@ for ($i = 0; $i <= 6; $i++) {
             <?php endif; ?>
         </li>
         <?php if ($divide && $divide == ($key+1)): ?>
-            </ul><ul>
+            </ul>
+            <ul>
         <?php endif; ?>
     <?php endforeach; ?>
 </ul>
@@ -160,8 +163,8 @@ for ($i = 0; $i <= 6; $i++) {
                         <span>Цена, <?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
-                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
-                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                            <span><strong><?php echo number_format($product['price2'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price3'], 2, '.', ''); ?></strong><span>оптовая</span></span>
                         </span>
                     </div>
                     <div>

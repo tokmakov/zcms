@@ -1,7 +1,7 @@
 <?php
 /**
- * Форма для редактирования баннера на главной странице сайта,
- * файл view/example/backend/template/start/editbnr/center.php,
+ * Форма для редактирования баннера,
+ * файл view/example/backend/template/banner/edit/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -20,7 +20,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/start/editbnr/center.php -->
+<!-- Начало шаблона view/example/backend/template/banner/edit/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -71,9 +71,9 @@ defined('ZCMS') or die('Access denied');
         <div>Изображение</div>
         <div>
             <input type="file" name="image" />
-            <?php if (is_file('./files/index/banners/' . $id . '.jpg')): ?>
+            <?php if (is_file('./files/banner/' . $id . '.jpg')): ?>
                 <input type="checkbox" name="remove_image" value="1" /> удалить
-                <a href="/files/index/banners/<?php echo $id; ?>.jpg" class="zoom">изображение</a>
+                <a href="/files/banner/<?php echo $id; ?>.jpg" class="zoom">изображение</a>
             <?php endif; ?>
         </div>
     </div>
@@ -88,4 +88,4 @@ defined('ZCMS') or die('Access denied');
 </div>
 </form>
 
-<!-- Конец шаблона view/example/backend/template/start/editbnr/center.php -->
+<!-- Конец шаблона view/example/backend/template/banner/edit/center.php -->

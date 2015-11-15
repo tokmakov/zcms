@@ -15,7 +15,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/start/edit/center.php -->
+<!-- Начало шаблона view/example/backend/template/start/addbnr/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -78,4 +78,4 @@ defined('ZCMS') or die('Access denied');
 </div>
 </form>
 
-<!-- Конец шаблона view/example/backend/template/start/edit/center.php -->
+<!-- Конец шаблона view/example/backend/template/start/addbnr/center.php -->

@@ -39,10 +39,14 @@
             float: left;
             width: 70%;
         }
-            #add-edit-user > div > div:last-child > input[type="text"] {
+            #add-edit-user > div > div:last-child > input[type="text"],
+            #add-edit-user > div > div:last-child > select {
                 width: 100%;
                 box-sizing: border-box;
                 padding: 3px;
+            }
+            #add-edit-user > div > div:last-child > select {
+                width: 50%;
             }
 
 /* список заказов пользователя */

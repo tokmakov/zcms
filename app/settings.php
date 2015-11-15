@@ -127,6 +127,7 @@ $settings = array(
             'order'     => 'order.css',
             'user'      => 'user.css',
             'admin'     => 'admin.css',
+            'banner'    => 'banner.css',
         ),
     ),
     'js' => array( // js-файлы, подключаемые к странице

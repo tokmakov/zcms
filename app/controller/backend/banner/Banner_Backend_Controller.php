@@ -1,9 +1,9 @@
 <?php
 /**
- * Абстрактный класс Page_Backend_Controller, родительский для всех контроллеров,
- * работающих со страницами сайта, административная часть сайта
+ * Абстрактный класс Banner_Backend_Controller, родительский для всех контроллеров,
+ * работающих со баннерами, административная часть сайта
  */
-abstract class Page_Backend_Controller extends Backend_Controller {
+abstract class Banner_Backend_Controller extends Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -11,7 +11,7 @@ abstract class Page_Backend_Controller extends Backend_Controller {
 
     /**
      * Функция получает от моделей данные, необходимые для работы всех
-     * потомков класса Page_Backend_Controller
+     * потомков класса Banner_Backend_Controller
      */
     protected function input() {
 
@@ -20,7 +20,7 @@ abstract class Page_Backend_Controller extends Backend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы всех потомков
-         * Page_Backend_Controller
+         * Banner_Backend_Controller
          */
         parent::input();
 

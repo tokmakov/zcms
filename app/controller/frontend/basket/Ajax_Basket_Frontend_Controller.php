@@ -47,8 +47,8 @@ class Ajax_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // получаем от модели массив товаров в корзине (для правой колонки)
         $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();
 
-        // общая стоимость товаров в корзине
-        $sideBasketTotalCost = $this->basketFrontendModel->getTotalCost();
+        // общая стоимость товаров в корзине (для правой колонки)
+        $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
 
         // получаем html-код товаров в корзине (для правой колонки)
         $this->pageContent = $this->render(

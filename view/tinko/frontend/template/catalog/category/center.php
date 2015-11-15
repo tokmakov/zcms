@@ -243,14 +243,16 @@ for ($i = 0; $i <= 6; $i++) {
         <div>
             <ul>
             <?php
+                $border = 0;
                 $divide = 0;
                 $count = count($childCategories);
-                if ($count > 5) {
+                if ($count > 3) {
                     $divide = ceil($count/2);
+                    $border = $count%2;
                 }
             ?>
             <?php foreach ($childCategories as $key => $item): ?>
-                <li>
+                <li<?php if (($key == $count-1) && $border) echo ' class="category-last-child-border"'; ?>>
                     <?php if ($item['count']): // есть товары в категории? ?>
                         <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
                     <?php else: ?>
@@ -258,7 +260,8 @@ for ($i = 0; $i <= 6; $i++) {
                     <?php endif; ?>
                 </li>
                 <?php if ($divide && $divide == ($key+1)): ?>
-                    </ul><ul>
+                    </ul>
+                    <ul>
                 <?php endif; ?>
             <?php endforeach; ?>
             </ul>

@@ -1,42 +1,12 @@
 <?php
 /**
- * Класс Start_Backend_Model для работы с главной страницей сайта,
- * взаимодействует с базой данных, административная часть сайта
+ * Класс Banner_Backend_Model для работы с баннерами, взаимодействует
+ * с базой данных, административная часть сайта
  */
-class Start_Backend_Model extends Backend_Model {
+class Banner_Backend_Model extends Backend_Model {
 
     public function __construct() {
         parent::__construct();
-    }
-
-    /**
-     * Функция возвращает данные о главной странице сайта
-     */
-    public function getStartPage() {
-        $query = "SELECT
-                      `name`, `title`, `description`, `keywords`, `body`
-                  FROM
-                      `start`
-                  WHERE
-                      `id` = 1";
-        return $this->database->fetch($query, array());
-    }
-
-    /**
-     * Функция обновляет главную страницу (запись в таблице start базы данных)
-     */
-    public function updateStartPage($data) {
-        $query = "UPDATE
-                      `start`
-                  SET
-                      `name` = :name,
-                      `title` = :title,
-                      `description` = :description,
-                      `keywords` = :keywords,
-                      `body` = :body
-                  WHERE
-                      `id` = 1";
-        $this->database->execute($query, $data);
     }
 
     /**
@@ -46,7 +16,7 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `id`, `name`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`, `visible`, `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       1
                   ORDER BY
@@ -55,10 +25,10 @@ class Start_Backend_Model extends Backend_Model {
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($banners as $key => $value) {
             $banners[$key]['url'] = array(
-                'up'     => $this->getURL('backend/start/bannerup/id/' . $value['id']),
-                'down'   => $this->getURL('backend/start/bannerdown/id/' . $value['id']),
-                'edit'   => $this->getURL('backend/start/editbnr/id/' . $value['id']),
-                'remove' => $this->getURL('backend/start/rmvbnr/id/' . $value['id'])
+                'up'     => $this->getURL('backend/banner/moveup/id/' . $value['id']),
+                'down'   => $this->getURL('backend/banner/movedown/id/' . $value['id']),
+                'edit'   => $this->getURL('backend/banner/edit/id/' . $value['id']),
+                'remove' => $this->getURL('backend/banner/remove/id/' . $value['id'])
             );
         }
         return $banners;
@@ -71,14 +41,14 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `id`, `name`, `url`, `alttext`, `added`, `visible`, `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       `id` = :id";
         return $this->database->fetch($query, array('id' => $id));
     }
 
     /**
-     * Функция добавляет беннер (новую запись в таблицу slider базы данных)
+     * Функция добавляет беннер (новую запись в таблицу banners базы данных)
      */
     public function addBanner($data) {
 
@@ -87,12 +57,12 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       IFNULL(MAX(`sortorder`), 0)
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       1";
         $data['sortorder'] = $this->database->fetchOne($query, array()) + 1;
 
-        $query = "INSERT INTO `slider`
+        $query = "INSERT INTO `banners`
                   (
                       `name`,
                       `url`,
@@ -119,12 +89,12 @@ class Start_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет баннер (запись в таблице slider базы данных)
+     * Функция обновляет баннер (запись в таблице banners базы данных)
      */
     public function updateBanner($data) {
 
         $query = "UPDATE
-                      `slider`
+                      `banners`
                   SET
                       `name` = :name,
                       `url`  = :url,
@@ -147,8 +117,8 @@ class Start_Backend_Model extends Backend_Model {
 
         // удаляем изображение, загруженное ранее
         if (isset($_POST['remove_image'])) {
-            if (is_file('./files/index/slider/' . $id . '.jpg')) {
-                unlink('./files/index/slider/' . $id . '.jpg');
+            if (is_file('./files/banner/' . $id . '.jpg')) {
+                unlink('./files/banner/' . $id . '.jpg');
             }
         }
 
@@ -162,9 +132,9 @@ class Start_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        './files/index/slider/'. $id . '.jpg',
-                        1000,
-                        300,
+                        './files/banner/'. $id . '.jpg',
+                        250,
+                        250,
                         'jpg'
                     );
                 }
@@ -181,7 +151,7 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       `id` = :id_item_down";
         $order_down = $this->database->fetchOne($query, array('id_item_down' => $id_item_down));
@@ -190,7 +160,7 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       `sortorder` > :order_down
                   ORDER BY
@@ -203,19 +173,31 @@ class Start_Backend_Model extends Backend_Model {
             $order_up = $res['sortorder'];
             // меняем местами баннеры
             $query = "UPDATE
-                          `slider`
+                          `banners`
                       SET
                           `sortorder` = :order_down
                       WHERE
                           `id` = :id_item_up";
-            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
             $query = "UPDATE
-                          `slider`
+                          `banners`
                       SET
                           `sortorder` = :order_up
                       WHERE
                           `id` = :id_item_down";
-            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
         }
     }
 
@@ -228,7 +210,7 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       `id` = :id_item_up";
         $order_up = $this->database->fetchOne($query, array('id_item_up' => $id_item_up));
@@ -237,7 +219,7 @@ class Start_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       `sortorder` < :order_up
                   ORDER BY
@@ -250,19 +232,31 @@ class Start_Backend_Model extends Backend_Model {
             $order_down = $res['sortorder'];
             // меняем местами баннеры
             $query = "UPDATE
-                          `slider`
+                          `banners`
                       SET
                           `sortorder` = :order_down
                       WHERE
                           `id` = :id_item_up";
-            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
             $query = "UPDATE
                           `banners`
                       SET
                           `sortorder` = :order_up
                       WHERE
                           `id` = :id_item_down";
-            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
         }
     }
 
@@ -270,18 +264,18 @@ class Start_Backend_Model extends Backend_Model {
      * Функция для удаления баннера с уникальным идентификатором $id
      */
     public function removeBanner($id) {
-        // удаляем запись в таблице `slider` БД
+        // удаляем запись в таблице `banners` БД
         $query = "DELETE FROM `banners` WHERE `id` = :id";
         $this->database->execute($query, array('id' => $id));
         // удаляем файл изображения
-        if (is_file('./files/index/slider/' . $id . '.jpg')) {
-            unlink('./files/index/slider/' . $id . '.jpg');
+        if (is_file('./files/banner/' . $id . '.jpg')) {
+            unlink('./files/banner/' . $id . '.jpg');
         }
         // обновляем порядок следования баннеров
         $query = "SELECT
                       `id`
                   FROM
-                      `slider`
+                      `banners`
                   WHERE
                       1
                   ORDER BY
@@ -291,7 +285,7 @@ class Start_Backend_Model extends Backend_Model {
             $sortorder = 1;
             foreach ($banners as $banner) {
                 $query = "UPDATE
-                              `slider`
+                              `banners`
                           SET
                               `sortorder` = :sortorder
                           WHERE

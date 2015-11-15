@@ -36,25 +36,26 @@ class User_Backend_Model extends Backend_Model {
      * Возвращает общее количество пользователей
      */
     public function getCountAllUsers() {
-        $query = "SELECT COUNT(*)
-                  FROM `users`
-                  WHERE 1";
-        $res = $this->database->fetchOne($query);
-        return $res;
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `users`
+                  WHERE
+                      1";
+        return $this->database->fetchOne($query);
     }
 
     /**
      * Возвращает информацию о пользователе с уникальным идентификатором $id
      */
     public function getUser($id) {
-        $query = "SELECT `name`, `surname`, `email`
-                  FROM `users`
-                  WHERE `id` = :id";
-        $res = $this->database->fetch($query, array('id' => $id));
-        if (false === $res) {
-            return null;
-        }
-        return $res;
+        $query = "SELECT
+                      `name`, `surname`, `email`, `type`
+                  FROM
+                      `users`
+                  WHERE
+                      `id` = :id";
+        return $this->database->fetch($query, array('id' => $id));
     }
 
     /**
@@ -98,11 +99,13 @@ class User_Backend_Model extends Backend_Model {
      * Возвращает кол-во заказов пользователя с уникальным идентификатором $id
      */
     public function getCountUserOrders($id) {
-        $query = "SELECT COUNT(*)
-                  FROM `orders`
-                  WHERE `user_id` = :user_id";
-        $res = $this->database->fetchOne($query, array('user_id' => $id));
-        return $res;
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `orders`
+                  WHERE
+                      `user_id` = :user_id";
+        return $this->database->fetchOne($query, array('user_id' => $id));
     }
 
     /**
@@ -110,9 +113,12 @@ class User_Backend_Model extends Backend_Model {
      * true, если пользователь с таким e-mail уже есть в таблице users
      */
     public function isUserExists($email) {
-        $query = "SELECT 1
-                  FROM `users`
-                  WHERE `email` = :email";
+        $query = "SELECT
+                      1
+                  FROM
+                      `users`
+                  WHERE
+                      `email` = :email";
         $res = $this->database->fetch($query, array('email' => $email));
         if (false === $res) {
             return false;
@@ -129,6 +135,7 @@ class User_Backend_Model extends Backend_Model {
                         `name`,
                         `surname`,
                         `email`,
+                        `type`,
                         `password`,
                         `visitor_id`
                     )
@@ -137,6 +144,7 @@ class User_Backend_Model extends Backend_Model {
                         :name,
                         :surname,
                         :email,
+                        :type,
                         :password,
                         :visitor_id
                     )";
@@ -152,8 +160,9 @@ class User_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `users`
                       SET
-                          `name` = :name,
-                          `surname` = :surname,
+                          `name`     = :name,
+                          `surname`  = :surname,
+                          `type`     = :type,
                           `password` = :password
                       WHERE
                           `id` = :id";
@@ -161,8 +170,9 @@ class User_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `users`
                       SET
-                          `name` = :name,
-                          `surname` = :surname
+                          `name`    = :name,
+                          `surname` = :surname,
+                          `type`    = :type
                       WHERE
                           `id` = :id";
         }
@@ -175,6 +185,22 @@ class User_Backend_Model extends Backend_Model {
      */
     public function removeUser($id) {
 
+    }
+
+    /**
+     * Функция возвращает типы пользователя; тип пользователя определяет скидку
+     */
+    public function getUserTypes() {
+        $types = array(
+            1 => 'Розница',
+            2 => 'Цена 2',
+            3 => 'Цена 3',
+            4 => 'Цена 4',
+            5 => 'Цена 5',
+            6 => 'Цена 6',
+            7 => 'Цена 7',
+        );
+        return $types;
     }
 
 }

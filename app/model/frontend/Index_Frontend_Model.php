@@ -67,7 +67,7 @@ class Index_Frontend_Model extends Frontend_Model {
         $query = "SELECT
                       `id`, `name`, `url`, `alttext`
                   FROM
-                      `banners`
+                      `slider`
                   WHERE
                       `visible` = 1
                   ORDER BY

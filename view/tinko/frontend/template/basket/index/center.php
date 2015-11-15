@@ -6,21 +6,13 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $basketProducts - массив товаров в корзине
- * $amount - полная стоимость товаров в корзине
+ * $amount - полная стоимость товаров в корзине без учета скидки
+ * $userAmount - полная стоимость товаров в корзине с учетом скидки
  * $checkoutUrl - URL ссылки оформления заказа
- * $wishedProducts - массив отложенных товаров
- * $viewedProducts - массив просмотренных товаров
+ * $units - массив единиц измерения товара
+ * $type - тип пользователя
+ * $recommendedProducts - массив рекомендованных товаров
  */
-
-$units = Array (
-    0 => 'руб',
-    1 => 'руб/шт',
-    2 => 'руб/компл',
-    3 => 'руб/упак',
-    4 => 'руб/метр',
-    5 => 'руб/метр',
-    6 => 'руб/пара',
-);
 
 defined('ZCMS') or die('Access denied');
 
@@ -43,27 +35,36 @@ defined('ZCMS') or die('Access denied');
     <form action="<?php echo $action; ?>" method="post">
         <table>
             <tr>
-                <th width="10%">Код</th>
-                <th width="55%">Наименование</th>
-                <th width="10%">Кол.</th>
-                <th width="10%">Цена</th>
-                <th width="10%">Стоим.</th>
-                <th width="5%">Удл.</th>
+                <th>Код</th>
+                <th>Наименование</th>
+                <th>Кол.</th>
+                <th>Цена</th>
+                <th>Стоим.</th>
+                <th>Удл.</th>
             </tr>
-        <?php foreach($basketProducts as $item): ?>
-            <tr>
-                <td><a href="<?php echo $item['url']['product']; ?>"><?php echo $item['code']; ?></a></td>
-                <td><?php echo $item['name']; ?></td>
-                <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" size="3" /></td>
-                <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                <td><?php echo number_format($item['cost'], 2, '.', ''); ?></td>
-                <td><a href="<?php echo $item['url']['remove']; ?>">Удл.</a></td>
-            </tr>
-        <?php endforeach; ?>
+            <?php foreach($basketProducts as $item): ?>
+                <tr>
+                    <td><?php echo $item['code']; ?></td>
+                    <td><a href="<?php echo $item['url']['product']; ?>"><?php echo $item['name']; ?></a></td>
+                    <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" size="3" /></td>
+                    <td><?php echo number_format($item['user_price'], 2, '.', ''); ?></td>
+                    <td><?php echo number_format($item['user_cost'], 2, '.', ''); ?></td>
+                    <td><a href="<?php echo $item['url']['remove']; ?>">Удл.</a></td>
+                </tr>
+            <?php endforeach; ?>
+            <?php if ($type > 1): ?>
+                <tr><td colspan="6" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+            <?php endif; ?>
         </table>
         <div>
             <span><input type="submit" name="submit" value="Пересчитать" /></span>
-            <span>Итого: <span><?php echo number_format($amount, 2, '.', ''); ?></span> руб.</span>
+            <span>
+                <?php if ($type > 1): ?>
+                    <strong>&nbsp;<?php echo number_format($amount, 2, '.', ''); ?>&nbsp;</strong>
+                <?php endif; ?>
+                <strong><?php echo number_format($userAmount, 2, '.', ''); ?></strong>
+                руб.
+            </span>
         </div>
         <p><a href="<?php echo $checkoutUrl; ?>">Оформить заказ</a></p>
     </form>
@@ -74,7 +75,7 @@ defined('ZCMS') or die('Access denied');
 
 <?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
     <div class="center-block">
-        <div><h2>С этими товарами часто покупают</h2></div>
+        <div><h2>С этими товарами покупают</h2></div>
         <div class="no-padding">
             <div class="products-list-grid">
                 <?php foreach($recommendedProducts as $product): ?>

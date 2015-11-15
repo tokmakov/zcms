@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Editbnr_Start_Backend_Controller для редактирования баннера на главной
- * странице, формирует страницу с формой для редактирования баннера, обновляет
- * запись в таблице БД banners, работает с моделью Start_Backend_Model
+ * Класс Edit_Banner_Backend_Controller для редактирования баннера на главной, формирует
+ * страницу с формой для редактирования баннера, обновляет запись в таблице БД banners,
+ * работает с моделью Banner_Backend_Model
  */
-class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
+class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -17,11 +17,11 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Start_Backend_Controller,
+         * сначала обращаемся к родительскому классу Banner_Backend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Editbnr_Start_Backend_Controller
+         * Edit_Banner_Backend_Controller
          */
         parent::input();
 
@@ -36,9 +36,9 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
             if ($this->validateForm()) { // ошибок не было, обновление баннера прошло успешно
-                $this->redirect($this->startBackendModel->getURL('backend/start/index'));
+                $this->redirect($this->bannerBackendModel->getURL('backend/banner/index'));
             } else { // при заполнении формы были допущены ошибки, опять показываем форму
-                $this->redirect($this->startBackendModel->getURL('backend/start/editbnr/id/' . $this->params['id']));
+                $this->redirect($this->bannerBackendModel->getURL('backend/banner/edit/id/' . $this->params['id']));
             }
         }
 
@@ -46,12 +46,12 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->startBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->startBackendModel->getURL('backend/start/index'), 'name' => 'Витрина'),
+            array('url' => $this->bannerBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array('url' => $this->bannerBackendModel->getURL('backend/banner/index'), 'name' => 'Баннеры'),
         );
 
         // получаем от модели информацию о баннере
-        $banner = $this->startBackendModel->getBanner($this->params['id']);
+        $banner = $this->bannerBackendModel->getBanner($this->params['id']);
         // если запрошенный баннер не найден в БД
         if (empty($banner)) {
             $this->notFoundRecord = true;
@@ -79,11 +79,11 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
-        if ($this->issetSessionData('editStartBannerForm')) {
-            $this->centerVars['savedFormData'] = $this->getSessionData('editStartBannerForm');
+        if ($this->issetSessionData('editBannerForm')) {
+            $this->centerVars['savedFormData'] = $this->getSessionData('editBannerForm');
             $this->centerVars['errorMessage'] = $this->centerVars['savedFormData']['errorMessage'];
             unset($this->centerVars['savedFormData']['errorMessage']);
-            $this->unsetSessionData('editStartBannerForm');
+            $this->unsetSessionData('editBannerForm');
         }
     }
 
@@ -120,13 +120,15 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
          */
         if (!empty($errorMessage)) {
             $data['errorMessage'] = $this->errorMessage;
-            $this->setSessionData('editStartBannerForm', $data);
+            $this->setSessionData('editBannerForm', $data);
             return false;
         }
 
-        // обращаемся к модели для обновления баннера
+        // уникальный идентификатор баннера
         $data['id'] = $this->params['id'];
-        $this->startBackendModel->updateBanner($data);
+
+        // обращаемся к модели для обновления баннера
+        $this->bannerBackendModel->updateBanner($data);
 
         return true;
     }

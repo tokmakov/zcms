@@ -1,26 +1,22 @@
 <?php
 /**
- * Форма для редактирования баннера на главной странице сайта,
- * файл view/example/backend/template/start/editbnr/center.php,
- * административная часть сайта
+ * Форма для добавления баннера,
+ * файл view/example/backend/template/banner/add/center.php,
+ * адиминистративная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
- * $id - уникальный идентификатор баннера
- * $name - наименование баннера
- * $url - URL ссылки с баннера
- * $alttext - alt текст баннера
- * $visible - показывать баннер?
- * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
- * снова предъявить форму, заполненную уже отредактированными данными и вывести сообщение об ошибках.
+ * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки,
+ * мы должны снова предъявить форму, заполненную уже отредактированными данными и вывести
+ * сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
  */
 
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/start/editbnr/center.php -->
+<!-- Начало шаблона view/example/backend/template/banner/add/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -30,9 +26,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Редактирование баннера</h1>
+<h1>Новый баннер</h1>
 
-<?php if (isset($errorMessage) && count($errorMessage) > 0): ?>
+<?php if (!empty($errorMessage)): ?>
     <ul>
     <?php foreach($errorMessage as $message): ?>
         <li><?php echo $message; ?></li>
@@ -41,9 +37,10 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name    = htmlspecialchars($name);
-    $url     = htmlspecialchars($url);
-    $alttext = htmlspecialchars($alttext);
+    $name    = '';
+    $url     = '';
+    $alttext = '';
+    $visible = 1;
 
     if (isset($savedFormData)) {
         $name    = htmlspecialchars($savedFormData['name']);
@@ -69,13 +66,7 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Изображение</div>
-        <div>
-            <input type="file" name="image" />
-            <?php if (is_file('./files/index/banners/' . $id . '.jpg')): ?>
-                <input type="checkbox" name="remove_image" value="1" /> удалить
-                <a href="/files/index/banners/<?php echo $id; ?>.jpg" class="zoom">изображение</a>
-            <?php endif; ?>
-        </div>
+        <div><input type="file" name="image" /></div>
     </div>
     <div>
         <div></div>
@@ -88,4 +79,4 @@ defined('ZCMS') or die('Access denied');
 </div>
 </form>
 
-<!-- Конец шаблона view/example/backend/template/start/editbnr/center.php -->
+<!-- Конец шаблона view/example/backend/template/banner/add/center.php -->

@@ -15,12 +15,11 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         parent::__construct();
         // уникальный идентификатор посетителя сайта
-        if ( ! isset($this->userFrontendModel)) {
+        if ( ! isset($this->register->userFrontendModel)) {
             // экземпляр класса модели для работы с пользователями
-            $this->userFrontendModel =
-                isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
+            new User_Frontend_Model();
         }
-        $this->visitorId = $this->userFrontendModel->getVisitorId();
+        $this->visitorId = $this->register->userFrontendModel->getVisitorId();
 
     }
 
@@ -166,6 +165,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * для центральной колонки, полный вариант
      */
     public function getBasketProducts() {
+        // тип пользователя
+        $type = $this->register->userFrontendModel->getUserType();
+        $price = 'price';
+        if ($type > 1) {
+            $price = 'price' . $type;
+        }
         $query = "SELECT
                       `a`.`id` AS `id`,
                       `a`.`code` AS `code`,
@@ -173,6 +178,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       `a`.`title` AS `title`,
                       `a`.`shortdescr` AS `shortdescr`,
                       `a`.`price` AS `price`,
+                      `a`.`" . $price . "` AS `user_price`,
                       `a`.`unit` AS `unit`,
                       `a`.`image` AS `image`,
                       `c`.`id` AS `ctg_id`,
@@ -182,7 +188,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       DATE_FORMAT(`b`.`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`b`.`added`, '%H:%i:%s') AS `time`,
                       `b`.`quantity` AS `quantity`,
-                      `a`.`price`*`b`.`quantity` AS `cost`
+                      `a`.`price`*`b`.`quantity` AS `cost`,
+                      `a`.`" . $price . "`*`b`.`quantity` AS `user_cost`
                   FROM
                       `products` `a`
                       INNER JOIN `baskets` `b` ON `a`.`id` = `b`.`product_id`
@@ -217,7 +224,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getSideBasketProducts() {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->sideBasketProducts();
         }
 
@@ -268,8 +275,15 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * для центральной колонки
      */
     public function getTotalCost() {
+        // тип пользователя
+        $type = $this->register->userFrontendModel->getUserType();
+        $price = 'price';
+        if ($type > 1) {
+            $price = 'price' . $type;
+        }
         $query = "SELECT
-                      SUM(`a`.`price` * `b`.`quantity`)
+                      SUM(`a`.`price` * `b`.`quantity`) AS `amount`,
+                      SUM(`a`.`" . $price . "` * `b`.`quantity`) AS `user_amount`
                   FROM
                       `products` `a`
                       INNER JOIN `baskets` `b` ON `a`.`id` = `b`.`product_id`
@@ -277,8 +291,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-        return $res;
+        return $this->database->fetch($query, array('visitor_id' => $this->visitorId));
     }
 
     /**
@@ -385,7 +398,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             return false;
         }
 
-        $data['amount'] = $this->getTotalCost();
+        // общая стоимость товаров в корзине
+        $temp = $this->getTotalCost();
+        // общая стоимость товаров в корзине без учета скидки
+        $data['amount'] = $temp['amount'];
+        // общая стоимость товаров в корзине с учетом скидки
+        $data['user_amount'] = $temp['user_amount'];
 
         // начинаем транзакцию
         try {
@@ -394,6 +412,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       (
                           `user_id`,
                           `amount`,
+                          `user_amount`,
                           `details`,
                           `added`,
                           `status`
@@ -402,6 +421,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       (
                           :user_id,
                           :amount,
+                          :user_amount,
                           :details,
                           NOW(),
                           0
@@ -418,8 +438,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                               `name`,
                               `title`,
                               `price`,
+                              `user_price`,
                               `quantity`,
-                              `cost`
+                              `cost`,
+                              `user_cost`
                           )
                           VALUES
                           (
@@ -429,18 +451,22 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                               :name,
                               :title,
                               :price,
+                              :user_price,
                               :quantity,
-                              :cost
+                              :cost,
+                              :user_cost
                           )";
-                unset($product['unit']);
-                unset($product['shortdescr']);
-                unset($product['image']);
-                unset($product['ctg_id']);
-                unset($product['ctg_name']);
-                unset($product['mkr_id']);
-                unset($product['mkr_name']);
-                unset($product['date']);
-                unset($product['time']);
+                unset(
+                    $product['unit'],
+                    $product['shortdescr'],
+                    $product['image'],
+                    $product['ctg_id'],
+                    $product['ctg_name'],
+                    $product['mkr_id'],
+                    $product['mkr_name'],
+                    $product['date'],
+                    $product['time']
+                );
                 $product['order_id'] = $orderId;
                 $this->database->execute($query, $product);
             }
@@ -449,18 +475,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->database->commit();
             $success = true;
 
-            // отправляем письма покупателю и администратору
-            $this->sendOrderMail($email, $orderId, $data, $products);
-
         } catch(Exception $e) {
             // откатываем назад транзакцию
             $this->database->rollBack();
             $success = false;
         }
 
-        // очищаем корзину
         if ($success) {
+            // очищаем корзину
             $this->clearBasket();
+            // отправляем письма покупателю и администратору
+            $this->sendOrderMail($email, $orderId, $data, $products);
         }
 
         // удаляем старые корзины
@@ -483,12 +508,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $html = $html . '<td>'.$product['code'].'</td>';
             $html = $html . '<td>'.$product['name'].'</td>';
             $html = $html . '<td>'.$product['quantity'].'</td>';
-            $html = $html . '<td>'.number_format($product['price'], 2, '.', '').'</td>';
-            $html = $html . '<td>'.number_format($product['cost'], 2, '.', '').'</td>' . PHP_EOL;
+            $html = $html . '<td>'.number_format($product['user_price'], 2, '.', '').'</td>';
+            $html = $html . '<td>'.number_format($product['user_cost'], 2, '.', '').'</td>' . PHP_EOL;
             $html = $html . '</tr>' . PHP_EOL;
         }
         $html = $html . '<tr>' . PHP_EOL;
-        $html = $html . '<td colspan="4" align="right">Итого</th><td>'.number_format($data['amount'], 2, '.', '').'</td>' . PHP_EOL;
+        $html = $html . '<td colspan="4" align="right">Итого</th><td>'.number_format($data['user_amount'], 2, '.', '').'</td>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
         $html = $html . '</table>' . PHP_EOL;
 
@@ -626,7 +651,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->database->execute(
                 $query,
                 array(
-                    'id' => $item['id'],
+                    'id'         => $item['id'],
                     'product_id' => $item['product_id'],
                     'visitor_id' => $this->visitorId
                 )
@@ -637,7 +662,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           `quantity` = :quantity
                       WHERE
                           `id` = :id";
-            $this->database->execute($query, array('id' => $item['id'], 'quantity' => $item['quantity']));
+            $this->database->execute(
+                $query,
+                array(
+                    'id'       => $item['id'],
+                    'quantity' => $item['quantity']
+                )
+            );
         }
 
     }

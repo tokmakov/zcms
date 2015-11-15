@@ -11,6 +11,11 @@ abstract class Backend_Controller extends Base_Controller {
     protected $adminBackendModel;
 
     /**
+     * экземпляр класса модели для работы с баннерами
+     */
+    protected $bannerBackendModel;
+
+    /**
      * экземпляр класса модели для работы с кэшем, класс-пустышка,
      * только для доступа к родительским свойствам и методам
      */
@@ -82,6 +87,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с администратором сайта
         $this->adminBackendModel =
             isset($this->register->adminBackendModel) ? $this->register->adminBackendModel : new Admin_Backend_Model();
+
+        // экземпляр класса модели для работы с баннерами
+        $this->bannerBackendModel =
+            isset($this->register->bannerBackendModel) ? $this->register->bannerBackendModel : new Banner_Backend_Model();
 
         // экземпляр класса модели для работы с кэшем, класс-пустышка
         $this->cacheBackendModel =
@@ -203,6 +212,10 @@ abstract class Backend_Controller extends Base_Controller {
             array(
                 'name' => 'Страницы',
                 'url' => $this->pageBackendModel->getURL('backend/page/index')
+            ),
+            array(
+                'name' => 'Баннеры',
+                'url' => $this->bannerBackendModel->getURL('backend/banner/index')
             ),
             array(
                 'name' => 'Кэш',
