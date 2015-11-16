@@ -215,9 +215,15 @@ class Solutions_Frontend_Model extends Frontend_Model {
         }
         // URL ссылок на файл PDF и изображение
         $solution['url'] = array(
-            'pdf' => $this->config->site->url . 'files/solutions/' . $id . '/' . $id . '.pdf',
-            'img' => $this->config->site->url . 'files/solutions/' . $id . '/' . $id . '.jpg'
+            'pdf' => null,
+            'img' => null
         );
+        if (is_file('files/solutions/' . $id . '.pdf')) {
+            $solution['url']['pdf'] = $this->config->site->url . 'files/solutions/' . $id . '.pdf';
+        }
+        if (is_file('files/solutions/' . $id . '.pdf')) {
+            $solution['url']['img'] = $this->config->site->url . 'files/solutions/' . $id . '.jpg';
+        }
         return $solution;
     }
 
@@ -251,6 +257,7 @@ class Solutions_Frontend_Model extends Frontend_Model {
                       `a`.`code` AS `code`,
                       `a`.`name` AS `name`,
                       `a`.`title` AS `title`,
+                      `a`.`shortdescr` AS `shortdescr`,
                       `a`.`price` AS `price`,
                       CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
                       `a`.`unit` AS `unit`,

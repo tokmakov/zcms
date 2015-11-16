@@ -42,15 +42,19 @@ defined('ZCMS') or die('Access denied');
 
 <div id="item-solutions">
 
-    <a href="<?php echo $pdfURL; ?>" id="download-solution" title="Скачать" target="_blank">
-        <i class="fa fa-file-pdf-o"></i>
-    </a>
+    <?php if (!empty($pdfURL)): ?>
+        <a href="<?php echo $pdfURL; ?>" id="download-solution" title="Скачать" target="_blank">
+            <i class="fa fa-file-pdf-o"></i>
+        </a>
+    <?php endif; ?>
 
     <?php echo $content1; ?>
 
-    <div id="image-solution">
-        <a href="<?php echo $imgURL; ?>" class="zoom"><img src="<?php echo $imgURL; ?>" alt="" /></a>
-    </div>
+    <?php if (!empty($imgURL)): ?>
+        <div id="image-solution">
+            <a href="<?php echo $imgURL; ?>" class="zoom"><img src="<?php echo $imgURL; ?>" alt="" /></a>
+        </div>
+    <?php endif; ?>
 
     <?php if (!empty($products)): ?>
         <table>
@@ -85,7 +89,13 @@ defined('ZCMS') or die('Access denied');
                     <?php else: ?>
                         <td><?php echo $item['code']; ?></td>
                     <?php endif; ?>
-                    <td><?php echo $item['name']; ?></td>
+                    <td>
+                        <span><?php echo $item['name']; ?></span>
+                        <div>
+                            <span><?php echo $item['title']; ?></span>
+                            <span><?php echo nl2br($item['shortdescr']); ?></span>
+                        </div>
+                    </td>
                     <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
                     <td><?php echo $units[$item['unit']]; ?></td>
                     <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>

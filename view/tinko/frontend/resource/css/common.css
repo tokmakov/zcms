@@ -2494,6 +2494,9 @@ body > .wrapper {
     #item-solutions > ul, #item-solutions > ol {
         margin: 15px 0 15px 30px;
     }
+        #item-solutions > ul ul, #item-solutions > ol ul, #item-solutions > ol ol, #item-solutions > ul ol {
+            margin: 10px 0 10px 20px;
+        }
     #item-solutions img {
         max-width: 100%;
     }
@@ -2506,14 +2509,31 @@ body > .wrapper {
             border: 1px solid #d1d1d1;
             font-weight: normal;
             padding: 5px;
-            white-space: nowrap;
-            overflow: hidden;
+        }
+        #item-solutions table tr td {
+            vertical-align: top;
         }
         #item-solutions table tr th {
             background: #f0f0f0;
         }
-        #item-solutions table tr th:nth-child(3) {
+        #item-solutions table tr th:nth-child(3), #item-solutions table tr td:nth-child(3) {
             width: 50%;
+        }
+        #item-solutions table tr td:nth-child(3) > span {
+            color: #395985;
+            border-bottom: 1px dashed #395985;
+            cursor: pointer;
+        }
+        #item-solutions table tr td:nth-child(3) > div > span {
+            display: block;
+        }
+        #item-solutions table tr td:nth-child(3) > div > span:first-child {
+            margin-top: 2px;
+        }
+        #item-solutions table tr td:nth-child(3) > div > span:last-child {
+            font-size: 13px;
+            margin-top: 4px;
+            color: #969696;
         }
         #item-solutions table tr th.heading, #item-solutions table tr th:nth-child(3) {
             text-align: left;

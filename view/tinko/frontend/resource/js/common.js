@@ -134,6 +134,14 @@ $(document).ready(function() {
     $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
 
     /*
+     * Свернуть/развернуть краткое описание товара типового решения
+     */
+    $('#item-solutions table tr td:nth-child(3) > div').hide();
+    $('#item-solutions table tr td:nth-child(3) > span').click(function () {
+        $(this).next().slideToggle();
+    });
+
+    /*
      * Добавление товаров типового решения в корзину, ajax
      */
     var solution_id = $('#add-solution-basket').data('id');

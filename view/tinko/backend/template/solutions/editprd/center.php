@@ -76,7 +76,7 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Функциональное наименование</div>
-        <div><input type="text" name="title" maxlength="250" value="<?php echo $name; ?>" /></div>
+        <div><input type="text" name="title" maxlength="250" value="<?php echo $title; ?>" /></div>
     </div>
     <div>
         <div>Краткое описание</div>

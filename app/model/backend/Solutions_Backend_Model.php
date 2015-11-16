@@ -432,11 +432,6 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     private function uploadImage($id) {
 
-        // создаем директорию для хранения файлов типового решения
-        if ( ! is_dir('files/solutions/' . $id)) {
-            mkdir('files/solutions/' . $id);
-        }
-
         // проверяем, пришел ли файл изображения
         if ( ! empty($_FILES['image']['name'])) {
             // проверяем, что при загрузке не произошло ошибок
@@ -447,7 +442,7 @@ class Solutions_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        'files/solutions/' . $id . '/' . $id . '.jpg',
+                        'files/solutions/' . $id . '.jpg',
                         1200,
                         0,
                         'jpg'
@@ -463,18 +458,13 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     private function uploadPDF($id) {
 
-        // создаем директорию для хранения файлов типового решения
-        if ( ! is_dir('files/solutions/' . $id)) {
-            mkdir('files/solutions/' . $id);
-        }
-
         // проверяем, пришел ли файл PDF
         if ( ! empty($_FILES['pdf']['name'])) {
             // проверяем, что при загрузке не произошло ошибок
             if (0 == $_FILES['pdf']['error']) {
                 // если файл загружен успешно, то проверяем - PDF?
                 if ('application/pdf' == $_FILES['pdf']['type']) {
-                    move_uploaded_file($_FILES['pdf']['tmp_name'], 'files/solutions/' . $id . '/' . $id . '.pdf');
+                    move_uploaded_file($_FILES['pdf']['tmp_name'], 'files/solutions/' . $id . '.pdf');
                 }
             }
         }
@@ -625,6 +615,13 @@ class Solutions_Backend_Model extends Backend_Model {
                           `id` = :id";
             $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
             $sortorder++;
+        }
+        // удаляем файлы
+        if (is_file('files/solutions/' . $id . '.pdf')) {
+            unlink('files/solutions/' . $id . '.pdf');
+        }
+        if (is_file('files/solutions/' . $id . '.jpg')) {
+            unlink('files/solutions/' . $id . '.jpg');
         }
     }
 
