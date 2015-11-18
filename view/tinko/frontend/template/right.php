@@ -149,7 +149,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div style="margin-top: 20px;">
-    <img src="/files/banners/side-banner.jpg" alt="" />
+    <img src="/files/banner/side-banner.jpg" alt="" />
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/right.php -->

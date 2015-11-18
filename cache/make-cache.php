@@ -55,6 +55,7 @@ foreach($pages as $page) {
     unset($register->pageFrontendController);
 }
 */
+
 $query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 10";
 $products = $register->database->fetchAll($query, array());
 foreach($products as $product) {

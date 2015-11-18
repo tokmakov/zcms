@@ -74,7 +74,7 @@ defined('ZCMS') or die('Access denied');
 <?php if (!empty($banners)): // баннеры ?>
     <ul class="slider">
     <?php foreach($banners as $item): ?>
-        <li><a href="<?php echo $item['url']; ?>"><img src="/files/index/banners/<?php echo $item['id']; ?>.jpg" alt="<?php echo $item['alttext']; ?>"></a></li>
+        <li><a href="<?php echo $item['url']; ?>"><img src="/files/index/slider/<?php echo $item['id']; ?>.jpg" alt="<?php echo $item['alttext']; ?>"></a></li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>
