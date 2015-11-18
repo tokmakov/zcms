@@ -28,12 +28,11 @@ $register->cache = Cache::getInstance();
 // база данных
 $register->database = Database::getInstance();
 
-if (is_file('catalog-temp.xml')) unlink('catalog-temp.xml');
-
-file_put_contents('catalog-temp.xml', '<?xml version="1.0" encoding="utf-8" ?><catalog>', FILE_APPEND);
+$handle = fopen('catalog-temp.xml', 'w');
+fwrite($handle, '<?xml version="1.0" encoding="utf-8" ?><catalog>');
 
 // получаем все категории
-file_put_contents('catalog-temp.xml', '<categories>', FILE_APPEND);
+fwrite($handle, '<categories>');
 $query = "SELECT `id`, `parent`, `name`, `sortorder` FROM `categories` WHERE 1 ORDER BY `id`";
 $categories = $register->database->fetchAll($query);
 foreach ($categories as $item) {
@@ -41,16 +40,12 @@ foreach ($categories as $item) {
     $text = '<category id="' . $item['id'] . '" parent="' . $item['parent'] . '" sortorder="' . $item['sortorder'] . '">';
     $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
     $text = $text . '</category>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</categories>', FILE_APPEND);
+fwrite($handle, '</categories>');
 
 // получаем всех производителей
-file_put_contents('catalog-temp.xml', '<makers>', FILE_APPEND);
+fwrite($handle, '<makers>');
 $query = "SELECT `id`, `name` FROM `makers` WHERE 1 ORDER BY `id`";
 $makers = $register->database->fetchAll($query);
 foreach ($makers as $item) {
@@ -58,16 +53,12 @@ foreach ($makers as $item) {
     $text = '<maker id="' . $item['id'] . '">';
     $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
     $text = $text . '</maker>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</makers>', FILE_APPEND);
+fwrite($handle, '</makers>');
 
 // получаем функциональные группы
-file_put_contents('catalog-temp.xml', '<groups>', FILE_APPEND);
+fwrite($handle, '<groups>');
 $query = "SELECT `id`, `name` FROM `groups` WHERE 1 ORDER BY `id`";
 $groups = $register->database->fetchAll($query);
 foreach ($groups as $item) {
@@ -75,18 +66,14 @@ foreach ($groups as $item) {
     $text = '<group id="' . $item['id'] . '">';
     $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
     $text = $text . '</group>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</groups>', FILE_APPEND);
+fwrite($handle, '</groups>');
 
 // получаем все параметры и все значения
-file_put_contents('catalog-temp.xml', '<params>', FILE_APPEND);
+fwrite($handle, '<params>');
 // получаем параметры
-file_put_contents('catalog-temp.xml', '<names>', FILE_APPEND);
+fwrite($handle, '<names>');
 $query = "SELECT `id`, `name` FROM `params` WHERE 1 ORDER BY `id`";
 $names = $register->database->fetchAll($query);
 foreach ($names as $item) {
@@ -94,15 +81,11 @@ foreach ($names as $item) {
     $text = '<name id="' . $item['id'] . '">';
     $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
     $text = $text . '</name>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</names>', FILE_APPEND);
+fwrite($handle, '</names>');
 // получаем значения
-file_put_contents('catalog-temp.xml', '<values>', FILE_APPEND);
+fwrite($handle, '<values>');
 $query = "SELECT `id`, `name` FROM `values` WHERE 1 ORDER BY `id`";
 $values = $register->database->fetchAll($query);
 foreach ($values as $item) {
@@ -110,21 +93,19 @@ foreach ($values as $item) {
     $text = '<value id="' . $item['id'] . '">';
     $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
     $text = $text . '</value>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</values>', FILE_APPEND);
-file_put_contents('catalog-temp.xml', '</params>', FILE_APPEND);
+fwrite($handle, '</values>');
+fwrite($handle, '</params>');
 
 // получаем все товары
-file_put_contents('catalog-temp.xml', '<products>', FILE_APPEND);
-$query = "SELECT * FROM `products` WHERE 1 ORDER BY `id` LIMIT 1000";
+fwrite($handle, '<products>');
+$query = "SELECT * FROM `products` WHERE 1 ORDER BY `id`";
 $products = $register->database->fetchAll($query);
+$i = 0;
 foreach ($products as $item) {
-    echo 'product id='.$item['id'].PHP_EOL;
+    $i++;
+    echo $i . ' product id=' . $item['id'] . PHP_EOL;
     $category = $item['category'];
     if (!empty($item['category2'])) $category = $category.','.$item['category2'];
     $text = '<product code="' . $item['code'] . '" category="' . $category . '" group="' . $item['group'] . '" maker="' . $item['maker'] . '"  hit="' . $item['hit'] . '" new="' . $item['new'] . '" sortorder="' . $item['sortorder'] . '">';
@@ -134,6 +115,14 @@ foreach ($products as $item) {
     } else {
         $text = $text . '<title/>';
     }
+    $text = $text . '<price>' . $item['price'] .  '</price>';
+    $text = $text . '<price2>' . $item['price2'] .  '</price2>';
+    $text = $text . '<price3>' . $item['price3'] .  '</price3>';
+    $text = $text . '<price4>' . $item['price4'] .  '</price4>';
+    $text = $text . '<price5>' . $item['price5'] .  '</price5>';
+    $text = $text . '<price6>' . $item['price6'] .  '</price6>';
+    $text = $text . '<price7>' . $item['price7'] .  '</price7>';
+    $text = $text . '<unit>' . $item['unit'] .  '</unit>';
     if (!empty($item['shortdescr'])) {
         $text = $text . '<shortdescr><![CDATA[' . trim($item['shortdescr']) . ']]></shortdescr>';
     } else {
@@ -171,10 +160,10 @@ foreach ($products as $item) {
     } else {
         $text = $text . '<equipment/>';
     }
-    if (!empty($item['additional'])) {
-        $text = $text . '<additional><![CDATA[' . trim($item['equipment']) . ']]></additional>';
+    if (!empty($item['padding'])) {
+        $text = $text . '<padding><![CDATA[' . trim($item['equipment']) . ']]></padding>';
     } else {
-        $text = $text . '<additional/>';
+        $text = $text . '<padding/>';
     }
     $text = $text . '<image>' . trim($item['image']) . '</image>';
     // файлы документации
@@ -187,11 +176,11 @@ foreach ($products as $item) {
     $text = $text . '</docs>';
     // сертификаты
     $text = $text . '<certs>';
-    //$query = "SELECT `cert_id` FROM `cert_prod` WHERE `prod_id` = :id";
-    //$docs = $register->database->fetchAll($query, array('id' => $item['id']));
-    //foreach ($certs as $cert) {
-        //$text = $text . '<cert id="' . $cert['cert_id'] . '">';
-    //}
+    $query = "SELECT `cert_id` FROM `cert_prod` WHERE `prod_id` = :id";
+    $certs = $register->database->fetchAll($query, array('id' => $item['id']));
+    foreach ($certs as $cert) {
+        $text = $text . '<cert id="' . $cert['cert_id'] . '">';
+    }
     $text = $text . '</certs>';
     // связанные товары
     $text = $text . '<linked>';
@@ -207,33 +196,29 @@ foreach ($products as $item) {
     $text = $text . '</linked>';
 
     $text = $text . '</product>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</products>', FILE_APPEND);
+fwrite($handle, '</products>');
 
 // получаем все файлы документации
-file_put_contents('catalog-temp.xml', '<docs>', FILE_APPEND);
-$query = "SELECT `id`, `title`, `filename`, `md5` FROM `docs` WHERE 1 ORDER BY `id` LIMIT 1000";
+fwrite($handle, '<docs>');
+$query = "SELECT `id`, `title`, `filename`, `md5` FROM `docs` WHERE 1 ORDER BY `id`";
 $docs = $register->database->fetchAll($query);
+$i = 0;
 foreach ($docs as $item) {
-    echo 'doc id='.$item['id'].PHP_EOL;
+    $i++;
+    echo $i.' doc id='.$item['id'].PHP_EOL;
     $text = '<doc id="' . $item['id'] . '">';
     $text = $text . '<title><![CDATA[' . trim($item['title']) . ']]></title>';
     $text = $text . '<file>' . trim($item['filename']) . '</file>';
     $text = $text . '<md5>' . trim($item['md5']) . '</md5>';
     $text = $text . '</doc>';
-    file_put_contents(
-        'catalog-temp.xml',
-        $text,
-        FILE_APPEND
-    );
+    fwrite($handle, $text);
 }
-file_put_contents('catalog-temp.xml', '</docs>', FILE_APPEND);
+fwrite($handle, '</docs>');
 
-file_put_contents('catalog-temp.xml', '<certs></certs>', FILE_APPEND);
+fwrite($handle, '<certs></certs>');
 
-file_put_contents('catalog-temp.xml', '</catalog>', FILE_APPEND);
+fwrite($handle, '</catalog>');
+
+fclose($handle);

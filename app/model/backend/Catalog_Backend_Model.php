@@ -909,8 +909,8 @@ class Catalog_Backend_Model extends Backend_Model {
                       :globalsort
                   )";
         $this->database->execute($query, $data);
-        // изменяем порядок сортировки категорий
-        $this->updateSortOrderAllCategories($data['parent']);
+        // изменяем порядок сортировки всех категорий
+        $this->updateSortOrderAllCategories();
     }
 
     /**
@@ -943,8 +943,6 @@ class Catalog_Backend_Model extends Backend_Model {
                     'id' => $data['id'],
                 )
             );
-            // изменяем порядок сортировки категорий
-            $this->updateSortOrderAllCategories($data['parent']);
             // обновляем порядок категорий внутри той категории, откуда была перемещена категория
             $query = "SELECT
                           `id`
@@ -974,8 +972,8 @@ class Catalog_Backend_Model extends Backend_Model {
                     $sortorder++;
                 }
             }
-            // изменяем порядок сортировки категорий
-            $this->updateSortOrderAllCategories($oldParent);
+            // изменяем порядок сортировки всех категорий
+            $this->updateSortOrderAllCategories();
         }
 
         // обновляем категорию
@@ -1057,7 +1055,7 @@ class Catalog_Backend_Model extends Backend_Model {
             );
 
             // изменяем порядок сортировки всех категорий
-            $this->updateSortOrderAllCategories($parent);
+            $this->updateSortOrderAllCategories();
         }
     }
 
@@ -1127,7 +1125,7 @@ class Catalog_Backend_Model extends Backend_Model {
             );
 
             // изменяем порядок сортировки всех категорий
-            $this->updateSortOrderAllCategories($parent);
+            $this->updateSortOrderAllCategories();
         }
     }
 
@@ -1208,7 +1206,7 @@ class Catalog_Backend_Model extends Backend_Model {
         }
 
         // изменяем порядок сортировки всех категорий
-        $this->updateSortOrderAllCategories($parent);
+        $this->updateSortOrderAllCategories();
 
         return true;
     }
@@ -1301,11 +1299,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       `makers`
                   WHERE
                       `id` = :id";
-        $maker = $this->database->fetch($query, array('id' => $id));
-        if (false === $maker) {
-            return null;
-        }
-        return $maker;
+        return $this->database->fetch($query, array('id' => $id));
     }
 
     /**

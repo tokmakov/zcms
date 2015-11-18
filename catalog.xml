@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<catalog>
+    <categories>
+        <category id="1" parent="0" sortorder="1">Охранно-пожарная сигнализация</category>
+        <category id="2" parent="1" sortorder="1">Извещатели охранные</category>
+        <category id="3" parent="1" sortorder="2">Извещатели пожарные</category>
+        <category id="4" parent="1" sortorder="3">Приборы приемно-контрольные</category>
+    </categories>
+    <makers>
+        <maker id="1">Бевард</maker>
+        <maker id="2">Болид</maker>
+        <maker id="3">Риэлта</maker>
+    </makers>
+    <groups>
+        <group id="1">Извещатель охранный</group>
+        <group id="2">Извещатель пожарный</group>
+        <group id="3">Прибор приемно-контрольный</group>
+    </groups>
+    <params>
+        <names>
+            <name id="1">Напряжение питания, В</name>
+            <name id="2">Ток потребления, мкА</name>
+            <name id="3">Диапазон рабочих температур, °С</name>
+        </names>
+        <values>
+            <value id="1">12</value>
+            <value id="2">24</value>
+            <value id="3">30</value>
+            <value id="4">50</value>
+            <value id="5">да</value>
+            <value id="6">нет</value>
+            <value id="7">-50…+50</value>
+        </values>
+    </params>
+    <products>
+        <product code="001001" category="2,14" group="1" maker="1" hit="1" new="0" sortorder="1">
+            <name>ИО 102-2 (СМК-1)</name>
+            <title>Извещатель охранный точечный магнитоконтактный</title>
+            <price>123.45</price>
+            <price2>123.45</price2>
+            <price3>123.45</price3>
+            <price4>123.45</price4>
+            <price5>123.45</price5>
+            <price6>123.45</price6>
+            <price7>123.45</price7>
+            <unit>1</unit>
+            <shortdescr>Накладной, 58х11х11 мм</shortdescr>
+            <purpose>Предназначен для блокировки дверных и оконных проемов...</purpose>
+            <techdata>
+                <item>
+                    <name>Маркировка по взрывозащите</name>
+                    <value>нет</value>
+                </item>
+                <item>
+                    <name>Тип контактов</name>
+                    <value>НЗ</value>
+                </item>
+                <item>
+                    <name>Диапазон рабочих температур, °С</name>
+                    <value>-50…+50</value>
+                </item>
+            </techdata>
+            <features>Накладной, предназначен для поверхностного монтажа на...</features>
+            <complect></complect>
+            <equipment></equipment>
+            <padding>Извещатель состоит из магнитоуправляемого датчика на основе...</padding>
+            <image>0a40a776f55c0669c89adab7f744e3c5.jpg</image>
+            <params>
+                <param name="1" value="1" />
+                <param name="1" value="2" />
+                <param name="2" value="3" />
+                <param name="3" value="7" />
+            </params>
+            <docs>
+                <doc id="1" />
+                <doc id="2" />
+            </docs>
+            <certs>
+                <cert id="1" />
+                <cert id="2" />
+            </certs>
+            <linked>
+                <prd code="004432" count="1502" />
+                <prd code="005126" count="1480" />
+                <prd code="002248" count="1035" />
+            </linked>
+        </product>
+    </products>
+    <docs>
+        <doc id="1">
+            <title>Руководство по эксплуатации</title>
+            <file>6369D206EB7F4D70C9C0C3332D46192D.pdf</file>
+            <md5></md5>
+        </doc>
+        <doc id="2">
+            <title>Паспорт</title>
+            <file>189420340E94EB70136C357E867CC62E.pdf</file>
+            <md5></md5>
+        </doc>
+    </docs>
+    <certs>
+        <cert id="1">
+            <title>Сертификат соответствия</title>
+            <files>
+                <name>014789C37F615515E810457C2DC3D00B.jpg</name>
+                <count>3</count>
+            </files>
+        </cert>
+        <cert id="2">
+            <title>Сертификат соответствия</title>
+            <files>
+                <name>F0054DA16A163660EC28DD48FAD9FA98.jpg</name>
+                <count>1</count>
+            </files>
+        </cert>
+    </certs>
+</catalog>

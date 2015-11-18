@@ -9,10 +9,6 @@ define('ZCMS', true);
 
 chdir('..');
 
-if (is_file('temp/parse-res.html')) unlink('temp/parse-res.html');
-
-ob_start();
-
 // поддержка кодировки UTF-8
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
@@ -32,28 +28,62 @@ $register->cache = Cache::getInstance();
 // база данных
 $register->database = Database::getInstance();
 
+$register->database->execute('TRUNCATE TABLE `temp_categories`');
+$register->database->execute('TRUNCATE TABLE `temp_makers`');
+$register->database->execute('TRUNCATE TABLE `temp_groups`');
+$register->database->execute('TRUNCATE TABLE `temp_params`');
+$register->database->execute('TRUNCATE TABLE `temp_values`');
+$register->database->execute('TRUNCATE TABLE `temp_products`');
+$register->database->execute('TRUNCATE TABLE `temp_product_param_value`');
+$register->database->execute('TRUNCATE TABLE `temp_doc_prd`');
+$register->database->execute('TRUNCATE TABLE `temp_cert_prod`');
+$register->database->execute('TRUNCATE TABLE `temp_related`');
+$register->database->execute('TRUNCATE TABLE `temp_docs`');
+$register->database->execute('TRUNCATE TABLE `temp_certs`');
+
+
 $reader = new XMLReader();
 $reader->open('catalog-temp.xml');
 $item = array();
 while ($reader->read()) {
     // КАТЕГОРИИ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'categories') {
-        echo '<h1>Категории</h1>';
         // проходим в цикле все дочерние элементы элемента <categories>
         while ($reader->read()) {
             // отдельный элемент <category>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'category') {
-                echo '<h2>Категория</h2>';
-                // атрибуты элемента <category>
-                $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
-                $parent = $reader->getAttribute('parent');
-                echo '<div>Атрибут parent: ' . $parent . '</div>';
-                $sortorder = $reader->getAttribute('sortorder');
-                echo '<div>Атрибут sortorder: ' . $sortorder . '</div>';
+                $data = array();
+                $data['id'] = (int)$reader->getAttribute('id');
+                echo 'category id=' . $data['id'] . PHP_EOL;
+                $data['parent'] = (int)$reader->getAttribute('parent');
+                $data['sortorder'] = (int)$reader->getAttribute('sortorder');
                 // читаем дальше для получения текстового элемента
                 $reader->read();
-                echo '<div>Наименование категории: ' . $reader->value . '</div>';
+                $data['name'] = $reader->value;
+                $data['keywords'] = '';
+                $data['description'] = '';
+                $data['globalsort'] = '00000000000000000000';
+                $query = "INSERT INTO `temp_categories`
+                          (
+                              `id`,
+                              `parent`,
+                              `name`,
+                              `keywords`,
+                              `description`,
+                              `sortorder`,
+                              `globalsort`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :parent,
+                              :name,
+                              :keywords,
+                              :description,
+                              :sortorder,
+                              :globalsort
+                           )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'categories') {
                 break;
@@ -63,18 +93,39 @@ while ($reader->read()) {
 
     // ПРОИЗВОДИТЕЛИ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'makers') { // элемент <makers>
-        echo '<h1>Производители</h1>';
         // проходим в цикле все дочерние элементы элемента <makers>
         while ($reader->read()) {
             // отдельный элемент <maker>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'maker') {
-                echo '<h2>Производитель</h2>';
-                // атрибуты элемента <maker>
-                $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                $data = array();
+                $data['id']= (int)$reader->getAttribute('id');
+                echo 'maker id=' . $data['id'] . PHP_EOL;
                 // читаем дальше для получения текстового элемента
                 $reader->read();
-                echo '<div>Наименование производителя: ' . $reader->value . '</div>';
+                $data['name'] = $reader->value;
+                $data['altname'] = '';
+                $data['keywords'] = '';
+                $data['description'] = '';
+                $data['body'] = '';
+                $query = "INSERT INTO `temp_makers`
+                  (
+                      `id`,
+                      `name`,
+                      `altname`,
+                      `keywords`,
+                      `description`,
+                      `body`
+                  )
+                  VALUES
+                  (
+                      :id,
+                      :name,
+                      :altname,
+                      :keywords,
+                      :description,
+                      :body
+                  )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'makers') {
                 break;
@@ -84,18 +135,27 @@ while ($reader->read()) {
 
     // ФУНКЦИОНАЛЬНЫЕ ГРУППЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'groups') { // элемент <groups>
-        echo '<h1>Функциональные группы</h1>';
         // проходим в цикле все дочерние элементы элемента <groups>
         while ($reader->read()) {
             // отдельный элемент <group>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'group') {
-                echo '<h2>Группа</h2>';
-                // атрибуты элемента <group>
-                $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                $data = array();
+                $data['id'] = $reader->getAttribute('id');
+                echo 'group id=' . $data['id'] . PHP_EOL;
                 // читаем дальше для получения текстового элемента
                 $reader->read();
-                echo '<div>Наименование группы: ' . $reader->value . '</div>';
+                $data['name'] = $reader->value;
+                $query = "INSERT INTO `temp_groups`
+                          (
+                              `id`,
+                              `name`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :name
+                          )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'groups') {
                 break;
@@ -105,20 +165,29 @@ while ($reader->read()) {
 
     // ПАРАМЕТРЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') { // элемент <params>
-        echo '<h1>Параметры</h1>';
         // читаем дальше для получения элемента <names>
         $reader->read();
-        echo '<h2>Наименования параметров</h2>';
         // проходим в цикле все дочерние элементы элемента <names>
         while ($reader->read()) {
             // отдельный элемент <name>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
-                // атрибуты элемента <name>
-                $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                $data = array();
+                $data['id'] = $reader->getAttribute('id');
+                echo 'params name id=' . $data['id'] . PHP_EOL;
                 // читаем дальше для получения текстового элемента
                 $reader->read();
-                echo '<div>Наименование параметра: ' . $reader->value . '</div>';
+                $data['name'] = $reader->value;
+                $query = "INSERT INTO `temp_params`
+                          (
+                              `id`,
+                              `name`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :name
+                          )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'names') {
                 break;
@@ -126,17 +195,27 @@ while ($reader->read()) {
         }
         // читаем дальше для получения элемента <values>
         $reader->read();
-        echo '<h2>Значения параметров</h2>';
         // проходим в цикле все дочерние элементы элемента <values>
         while ($reader->read()) {
             // отдельный элемент <value>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'value') {
-                // атрибуты элемента <value>
-                $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                $data = array();
+                $data['id'] = $reader->getAttribute('id');
+                echo 'params value id=' . $data['id'] . PHP_EOL;
                 // читаем дальше для получения текстового элемента
                 $reader->read();
-                echo '<div>Значение параметра: ' . $reader->value . '</div>';
+                $data['name'] = $reader->value;
+                $query = "INSERT INTO `temp_values`
+                          (
+                              `id`,
+                              `name`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :name
+                          )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'values') {
                 break;
@@ -146,169 +225,357 @@ while ($reader->read()) {
 
     // ТОВАРЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'products') { // элемент <products>
-        echo '<h1>Товары</h1>';
         // проходим в цикле все дочерние элементы элемента <products>
         while ($reader->read()) {
             // отдельный элемент <product>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'product') {
-                echo '<h2>Товар</h2>';
-                // атрибуты элемента <product>
-                $code = $reader->getAttribute('code');
-                echo '<div>Атрибут code: ' . $code . '</div>';
-                // проходим в цикле все дочерние элементы элемента <products>
+                $data = array();
+                $data['id'] = (int)$reader->getAttribute('code');
+                echo 'product id=' . $data['id'] . PHP_EOL;
+                $temp = explode(',', $reader->getAttribute('category'));
+                $data['category'] = (int)$temp[0];
+                $data['category2'] = 0;
+                if (isset($temp[1])) {
+                    $data['category2'] = (int)$temp[1];
+                }
+                $data['group'] = (int)$reader->getAttribute('group');
+                $data['maker'] = (int)$reader->getAttribute('maker');
+                $data['hit'] = (int)$reader->getAttribute('hit');
+                $data['new'] = (int)$reader->getAttribute('new');
+                $data['code'] = $reader->getAttribute('code');
+                $data['sortorder'] = (int)$reader->getAttribute('sortorder');
+                // проходим все дочерние элементы элемента <products>
                 while ($reader->read()) {
                     // торговое наименование
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $name = $reader->value;
-                        echo '<div>Торговое наименование: ' . $name . '</div>';
+                        $data['name'] = trim($reader->value);
                     }
                     // функциональное наименование
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'title') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $title = $reader->value;
-                        echo '<div>Функциональное наименование: ' . $title . '</div>';
+                        $data['title'] = trim($reader->value);
+                    }
+                    // цена
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price2') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price2'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price3') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price3'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price4') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price4'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price5') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price5'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price6') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price6'] = (float)trim($reader->value);
+                    }
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'price7') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['price7'] = (float)trim($reader->value);
+                    }
+                    // единица измерения
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'unit') {
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['unit'] = (int)trim($reader->value);
                     }
                     // краткое описание
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'shortdescr') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $shortdescr = $reader->value;
-                        echo '<div>Краткое описание: ' . $shortdescr . '</div>';
+                        $data['shortdescr'] = trim($reader->value);
                     }
                     // назначение
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'purpose') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $purpose = $reader->value;
-                        echo '<div>Назначение: ' . $purpose . '</div>';
+                        $data['purpose'] = $reader->value;
                     }
                     // технические характеристики
+                    $techdata = array();
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'techdata') {
-                        echo '<h4>Технические характеристики</h4>';
                         // проходим в цикле все дочерние элементы элемента <techdata>
+                        $name = array();
+                        $value = array();
                         while ($reader->read()) {
-                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
-                                $reader->read();
-                                $name = $reader->value;
-                                echo '<div>Наименование пареметра: ' . $name . '</div>';
-                            }
-                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'value') {
-                                $reader->read();
-                                $value = $reader->value;
-                                echo '<div>Значение пареметра: ' . $value . '</div>';
+                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'item') {
+                                // проходим в цикле все дочерние элементы элемента <item>
+                                while ($reader->read()) {
+                                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
+                                        $reader->read();
+                                        $name[] = trim($reader->value);
+                                    }
+                                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'value') {
+                                        $reader->read();
+                                        $value[] = $reader->value;
+                                    }
+                                    if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'item') {
+                                        break;
+                                    }
+                                }
                             }
                             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'techdata') {
                                 break;
                             }
+                        }
+                        foreach ($name as $k => $v) {
+                            $techdata[] = array($v, $value[$k]);
+                        }
+                        $data['techdata'] = '';
+                        if (!empty($techdata)) {
+                            $data['techdata'] = serialize($techdata);
                         }
                     }
                     // особенности
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'features') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $features = $reader->value;
-                        echo '<div>Особенности: ' . $features . '</div>';
+                        $data['features'] = trim($reader->value);
                     }
                     // комплектация
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'complect') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $complect = $reader->value;
-                        echo '<div>Комплектация: ' . $complect . '</div>';
+                        $data['complect'] = trim($reader->value);
                     }
                     // доп.оборудование
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'equipment') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $equipment = $reader->value;
-                        echo '<div>Доп.оборудование: ' . $equipment . '</div>';
+                        $data['equipment'] = trim($reader->value);
                     }
                     // доп.информация
-                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'additional') {
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'padding') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $additional = $reader->value;
-                        echo '<div>Доп.информация: ' . $additional . '</div>';
+                        $data['padding'] = trim($reader->value);
                     }
                     // фото
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'image') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
-                        $image = $reader->value;
-                        echo '<div>Фото: ' . $image . '</div>';
+                        $data['image'] = trim($reader->value);
                     }
                     // параметры подбора
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') {
-                        echo '<h4>Параметры подбора</h4>';
                         // проходим в цикле все дочерние элементы элемента <params>
+                        $params = array();
                         while ($reader->read()) {
                             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'param') {
                                 // атрибуты элемента <param>
                                 $name = $reader->getAttribute('name');
-                                echo '<div>Атрибут name: ' . $name . '</div>';
                                 $value = $reader->getAttribute('value');
-                                echo '<div>Атрибут value: ' . $value . '</div>';
+                                $params[] = array($name, $value);
                             }
                             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'params') {
                                 break;
                             }
                         }
+                        foreach ($params as $value) {
+                            $query = "INSERT INTO `temp_product_param_value`
+                                      (
+                                          `product_id`,
+                                          `param_id`,
+                                          `value_id`
+                                      )
+                                      VALUES
+                                      (
+                                          :product_id,
+                                          :param_id,
+                                          :value_id
+                                      )";
+                            $this->database->execute(
+                                $query,
+                                array(
+                                    'product_id' => $data['id'],
+                                    'param_id' => $value[0],
+                                    'value_id' => $value[1]
+                                )
+                            );
+                        }
                     }
                     // файлы документации
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') {
-                        echo '<h4>Файлы документации</h4>';
                         // проходим в цикле все дочерние элементы элемента <docs>
+                        $doc_ids = array();
                         while ($reader->read()) {
                             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc') {
                                 // атрибуты элемента <doc>
-                                $id = $reader->getAttribute('id');
-                                echo '<div>Атрибут id: ' . $id . '</div>';
+                                $doc_ids[] = $reader->getAttribute('id');
                             }
                             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'docs') {
                                 break;
                             }
                         }
+                        foreach ($doc_ids as $doc_id) {
+                            $query = "INSERT INTO `temp_doc_prd`
+                                      (
+                                          `prd_id`,
+                                          `doc_id`
+                                      )
+                                      VALUES
+                                      (
+                                          :prd_id,
+                                          :doc_id
+                                      )";
+                            $register->database->execute($query, array('prd_id' => $data['id'], 'doc_id' => $doc_id));
+                        }
                     }
                     // сертификаты
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs') {
-                        echo '<h4>Сертификаты</h4>';
                         // проходим в цикле все дочерние элементы элемента <certs>
+                        $cert_ids = array();
                         while ($reader->read()) {
                             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'cert') {
                                 // атрибуты элемента <cert>
-                                $id = $reader->getAttribute('id');
-                                echo '<div>Атрибут id: ' . $id . '</div>';
+                                $cert_ids[] = $reader->getAttribute('id');
                             }
                             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'certs') {
                                 break;
                             }
                         }
+                        foreach ($cert_ids as $cert_id) {
+                            $query = "INSERT INTO `temp_cert_prod`
+                                      (
+                                          `prod_id`,
+                                          `cert_id`
+                                      )
+                                      VALUES
+                                      (
+                                          :prod_id,
+                                          :cert_id
+                                      )";
+                            $register->database->execute($query, array('prod_id' => $data['id'], 'cert_id' => $cert_id));
+                        }
                     }
                     // связанные товары
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'linked') {
-                        echo '<h4>Связанные товары</h4>';
                         // проходим в цикле все дочерние элементы элемента <docs>
+                        $rel_ids_cnts = array();
                         while ($reader->read()) {
                             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'prd') {
                                 // атрибуты элемента <prd>
-                                $code = $reader->getAttribute('code');
-                                echo '<div>Атрибут code: ' . $code . '</div>';
-                                $count = $reader->getAttribute('count');
-                                echo '<div>Атрибут count: ' . $count . '</div>';
+                                $id = (int)$reader->getAttribute('code');
+                                $count = (int)$reader->getAttribute('count');
+                                $rel_ids_cnts[] = array($id, $count);
                             }
                             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'linked') {
                                 break;
                             }
                         }
+                        foreach ($rel_ids_cnts as $item) {
+                            $query = "INSERT INTO `temp_related`
+                                      (
+                                          `id1`,
+                                          `id2`,
+                                          `count`
+                                      )
+                                      VALUES
+                                      (
+                                          :id1,
+                                          :id2,
+                                          :count
+                                      )";
+                            $register->database->execute(
+                                $query,
+                                array('id1' => $data['id'], 'id2' => $item[0], 'count' => $item[1])
+                            );
+                        }
                     }
-
                     if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'product') {
                         break;
                     }
                 }
+                $data['keywords'] = '';
+                $data['description'] = '';
+                $query = "INSERT INTO `temp_products`
+                          (
+                              `id`,
+                              `category`,
+                              `category2`,
+                              `group`,
+                              `maker`,
+                              `hit`,
+                              `new`,
+                              `code`,
+                              `name`,
+                              `title`,
+                              `keywords`,
+                              `description`,
+                              `shortdescr`,
+                              `purpose`,
+                              `techdata`,
+                              `features`,
+                              `complect`,
+                              `equipment`,
+                              `padding`,
+                              `price`,
+                              `price2`,
+                              `price3`,
+                              `price4`,
+                              `price5`,
+                              `price6`,
+                              `price7`,
+                              `unit`,
+                              `image`,
+                              `sortorder`,
+                              `updated`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :category,
+                              :category2,
+                              :group,
+                              :maker,
+                              :hit,
+                              :new,
+                              :code,
+                              :name,
+                              :title,
+                              :keywords,
+                              :description,
+                              :shortdescr,
+                              :purpose,
+                              :techdata,
+                              :features,
+                              :complect,
+                              :equipment,
+                              :padding,
+                              :price,
+                              :price2,
+                              :price3,
+                              :price4,
+                              :price5,
+                              :price6,
+                              :price7,
+                              :unit,
+                              :image,
+                              :sortorder,
+                              NOW()
+                          )";
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'products') {
                 break;
@@ -318,15 +585,13 @@ while ($reader->read()) {
 
     // ФАЙЛЫ ДОКУМЕНТАЦИИ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') { // элемент <docs>
-        echo '<h1>Файлы документации</h1>';
         // проходим в цикле все дочерние элементы элемента <docs>
         while ($reader->read()) {
             // отдельный элемент <doc>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc') {
-                echo '<h2>Документ</h2>';
                 // атрибуты элемента <doc>
                 $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                echo 'doc id=' . $id . PHP_EOL;
                 // дочерние элементы элемента <doc>
                 while ($reader->read()) {
                     // наименование документа
@@ -334,26 +599,50 @@ while ($reader->read()) {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
                         $title = $reader->value;
-                        echo '<div>Наименование документа: ' . $title . '</div>';
                     }
                     // имя файла
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'file') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
                         $file = $reader->value;
-                        echo '<div>Имя файла: ' . $file . '</div>';
+                        $ext = pathinfo($file, PATHINFO_EXTENSION);
                     }
                     // сумма md5 файла
                     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'md5') {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
                         $md5 = $reader->value;
-                        echo '<div>Сумма md5 файла: ' . $md5 . '</div>';
                     }
                     if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'doc') {
                         break;
                     }
                 }
+                $query = "INSERT INTO `temp_docs`
+                          (
+                              `id`,
+                              `title`,
+                              `filename`,
+                              `filetype`,
+                              `md5`,
+                              `uploaded`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :title,
+                              :filename,
+                              :filetype,
+                              :md5,
+                              NOW()
+                          )";
+                $data = array(
+                    'id' => $id,
+                    'title' => $title,
+                    'filename' => $file,
+                    'filetype' => $ext,
+                    'md5' => $md5
+                );
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'docs') {
                 break;
@@ -363,15 +652,13 @@ while ($reader->read()) {
 
     // СЕРТИФИКАТЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs') { // элемент <certs>
-        echo '<h1>Сертификаты</h1>';
         // проходим в цикле все дочерние элементы элемента <certs>
         while ($reader->read()) {
             // отдельный элемент <cert>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'cert') {
-                echo '<h2>Сертификат</h2>';
                 // атрибуты элемента <cert>
                 $id = $reader->getAttribute('id');
-                echo '<div>Атрибут id: ' . $id . '</div>';
+                echo 'cert id=' . $id . PHP_EOL;
                 // дочерние элементы элемента <cert>
                 while ($reader->read()) {
                     // наименование сертификата
@@ -379,27 +666,26 @@ while ($reader->read()) {
                         // читаем дальше для получения текстового элемента
                         $reader->read();
                         $title = $reader->value;
-                        echo '<div>Наименование документа: ' . $title . '</div>';
                     }
-                    // информация о файле
-                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'file') {
-                        // дочерние элементы элемента <file>
+                    // информация о файлах
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'files') {
+                        // дочерние элементы элемента <files>
                         while ($reader->read()) {
                             // имя файла
                             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
                                 // читаем дальше для получения текстового элемента
                                 $reader->read();
                                 $name = $reader->value;
-                                echo '<div>Имя файла: ' . $name . '</div>';
+                                $ext = pathinfo($name, PATHINFO_EXTENSION);
                             }
-                            // сумма md5
-                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'md5') {
+                            // количество страниц
+                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'count') {
                                 // читаем дальше для получения текстового элемента
                                 $reader->read();
-                                $md5 = $reader->value;
-                                echo '<div>Сумма md5: ' . $md5 . '</div>';
+                                $count = $reader->value;
+                                echo '<div>Количество страниц: ' . $count . '</div>';
                             }
-                            if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'file') {
+                            if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'files') {
                                 break;
                             }
                         }
@@ -408,6 +694,27 @@ while ($reader->read()) {
                         break;
                     }
                 }
+                $query = "INSERT INTO `temp_certs`
+                          (
+                              `id`,
+                              `title`,
+                              `filename`,
+                              `count`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :title,
+                              :filename,
+                              :count
+                          )";
+                $data = array(
+                    'id' => $id,
+                    'title' => $title,
+                    'filename' => $file,
+                    'count' => $count
+                );
+                $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'certs') {
                 break;
@@ -417,6 +724,39 @@ while ($reader->read()) {
 
 }
 
-$res = ob_get_clean();
-//echo $res;
-file_put_contents('temp/parse-res.html', $res);
+$query ="SELECT `id` FROM `temp_categories` WHERE `parent` = 0 ORDER BY `sortorder`";
+$roots = $register->database->fetchAll($query);
+$i = 1;
+foreach($roots as $root) {
+    $sort = $i;
+    if (strlen($sort) == 1) $sort = '0' . $sort;
+    $query = "UPDATE `temp_categories` SET `globalsort` = '" . $sort . "000000000000000000' WHERE `id` = " . $root['id'];
+    echo $query . PHP_EOL;
+    $register->database->execute($query);
+    updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
+    $i++;
+}
+
+function updateSortOrderAllCategories($id, $sortorder, $level) {
+    $register = Register::getInstance();
+    // начало и конец строки, задающей сортировку
+    $before = substr($sortorder, 0, $level * 2);
+    $after = str_repeat('0', 18 - $level * 2);
+    // получаем массив дочерних категорий
+    $query = "SELECT `id` FROM `temp_categories` WHERE `parent` = ".$id." ORDER BY `sortorder`";
+    $childs = $register->database->fetchAll($query);
+    $i = 1;
+    foreach($childs as $child) {
+        $globalsort = $i;
+        if (strlen($globalsort) == 1) {
+            $globalsort = '0' . $globalsort;
+        }
+        $globalsort = $before . $globalsort . $after;
+        $query = "UPDATE `temp_categories` SET `globalsort` = '".$globalsort."' WHERE `id` = ".$child['id'];
+        echo $query . PHP_EOL;
+        $register->database->execute($query);
+        // рекурсивно вызываем updateSortOrderAllCategories()
+        updateSortOrderAllCategories($child['id'], $globalsort, $level + 1);
+        $i++;
+    }
+}
