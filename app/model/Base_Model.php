@@ -54,4 +54,17 @@ abstract class Base_Model extends Base {
         return $units;
     }
 
+    /**
+     * Функция возвращает список офисов для самовывоза товара со склада
+     */
+    public function getOffices() {
+        $offices = array(
+            1 => 'Центральный офис',
+            2 => 'Офис продаж «Сокол»',
+            3 => 'Офис продаж «Мещанский»',
+            4 => 'Офис продаж «Нагорный»',
+        );
+        return $offices;
+    }
+
 }

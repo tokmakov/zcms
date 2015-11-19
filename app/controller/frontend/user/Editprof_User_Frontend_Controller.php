@@ -64,6 +64,9 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             return;
         }
 
+        // получаем от модели список офисов для самовывоза товара со склада
+        $offices = $this->userFrontendModel->getOffices();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -86,6 +89,8 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             'phone'            => $profile['phone'],
             // самовывоз со склада?
             'own_shipping'     => $profile['own_shipping'],
+            // массив офисов для самовывоза
+            'offices'          => $offices,
             // фактический адрес
             'physical_address' => $profile['physical_address'],
             // город (фактический адрес)
@@ -140,6 +145,9 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         if (isset($_POST['own_shipping'])) { // самовывоз со склада?
             $data['own_shipping']     = 1;
+            if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
+                $data['own_shipping'] = $_POST['office'];
+            }
             $data['physical_address'] = '';
             $data['city']             = '';
             $data['postal_index']     = '';

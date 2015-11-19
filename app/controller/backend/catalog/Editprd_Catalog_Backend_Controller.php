@@ -125,6 +125,12 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'description' => $product['description'],
             // цена
             'price'       => $product['price'],
+            'price2'      => $product['price2'],
+            'price3'      => $product['price3'],
+            'price4'      => $product['price4'],
+            'price5'      => $product['price5'],
+            'price6'      => $product['price6'],
+            'price7'      => $product['price7'],
             // единица измерения
             'unit'        => $product['unit'],
             // все единицы измерения для возможности выбора
@@ -141,6 +147,8 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'complect'    => $product['complect'],
             // дополнительное оборудование
             'equipment'   => $product['equipment'],
+            // дополнительная информация
+            'padding'     => $product['padding'],
             // файлы документации
             'docs'        => $product['docs'],
         );
@@ -170,26 +178,41 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));        // наименование изделия
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));       // функциональное наименование изделия
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));    // мета-тег keywords
+
+        // наименование изделия
+        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        // функциональное наименование изделия
+        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));
+        // мета-тег keywords
+        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // мета-тег description
+        // мета-тег description
+        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
-        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));         // код (артикул) товара
-        $data['shortdescr']  = trim(utf8_substr($_POST['shortdescr'], 0, 2000)); // краткое описание
-        $data['purpose']     = trim(utf8_substr($_POST['purpose'], 0, 4500));    // назначение изделия
-        $data['features']    = trim(utf8_substr($_POST['features'], 0, 4500));   // особенности изделия
-        $data['complect']    = trim(utf8_substr($_POST['complect'], 0, 4500));   // комплектация изделия
-        $data['equipment']   = trim(utf8_substr($_POST['equipment'], 0, 4500));  // дополнительное оборудование
+        // код (артикул) товара
+        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));
+        // краткое описание
+        $data['shortdescr']  = trim(utf8_substr($_POST['shortdescr'], 0, 2000));
+        // назначение изделия
+        $data['purpose']     = trim($_POST['purpose']);
+        // особенности изделия
+        $data['features']    = trim($_POST['features']);
+        // комплектация изделия
+        $data['complect']    = trim($_POST['complect']);
+        // дополнительное оборудование
+        $data['equipment']   = trim($_POST['equipment']);
+        // дополнительно
+        $data['padding']     = trim($_POST['padding']);
 
         // технические характеристики
         $data['techdata'] = '';
+        $techdataName = array();
         foreach ($_POST['techdata_name'] as $name) {
             $tmp = trim(utf8_substr($name, 0, 250));
             $tmp = preg_replace('~\s+~', ' ', $tmp);
             $techdataName[] = $tmp;
         }
+        $techdataValue = array();
         foreach ($_POST['techdata_value'] as $value) {
             $tmp = trim(utf8_substr($value, 0, 250));
             $tmp = preg_replace('~\s+~', ' ', $tmp);
@@ -211,6 +234,36 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $temp = trim($_POST['price']);
         if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
             $data['price'] = (float)$temp;
+        }
+        $data['price2'] = 0.0;
+        $temp = trim($_POST['price2']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price2'] = (float)$temp;
+        }
+        $data['price3'] = 0.0;
+        $temp = trim($_POST['price3']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price3'] = (float)$temp;
+        }
+        $data['price4'] = 0.0;
+        $temp = trim($_POST['price4']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price4'] = (float)$temp;
+        }
+        $data['price5'] = 0.0;
+        $temp = trim($_POST['price5']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price5'] = (float)$temp;
+        }
+        $data['price6'] = 0.0;
+        $temp = trim($_POST['price6']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price6'] = (float)$temp;
+        }
+        $data['price7'] = 0.0;
+        $temp = trim($_POST['price7']);
+        if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
+            $data['price7'] = (float)$temp;
         }
 
         // единица измерения
@@ -270,9 +323,11 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             $errorMessage[] = 'Не заполнено обязательное поле «Код (артикул)»';
         }
 
-        // были допущены ошибки при заполнении формы, сохраняем введенные
-        // пользователем данные, чтобы после редиректа снова показать форму,
-        // заполненную введенными ранее данными и сообщением об ошибке
+        /*
+         * были допущены ошибки при заполнении формы, сохраняем введенные
+         * пользователем данные, чтобы после редиректа снова показать форму,
+         * заполненную введенными ранее данными и сообщением об ошибке
+         */
         if (!empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             if (!empty($data['techdata'])) {

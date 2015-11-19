@@ -79,13 +79,36 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     }
 
     /**
-     * Функция возвращает уникальный идентификатор посетителя сайта
+     * Функция возвращает тип пользователя или ноль, если пользователь
+     * не авторизован
      */
     public function getUserType() {
         if ($this->authUser) {
             return $this->user['type'];
         }
         return 0;
+    }
+
+    /**
+     * Функция возвращает уникальный идентификатор авторизованного
+     * пользователя
+     */
+    public function getUserId() {
+        if ( ! $this->authUser) {
+            throw new Exception('Попытка получить идентификатор не авторизованного пользователя');
+        }
+        return $this->userId;
+    }
+
+    /**
+     * Функция возвращает адрес электронной почты авторизованного
+     * пользователя
+     */
+    public function getUserEmail() {
+        if ( ! $this->authUser) {
+            throw new Exception('Попытка получить e-mail не авторизованного пользователя');
+        }
+        return $this->user['email'];
     }
 
     /**
@@ -126,11 +149,11 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getUser() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить данные не авторизованного пользователя');
         }
 
-        if (!isset($this->user)) {
+        if ( ! isset($this->user)) {
             $query = "SELECT
                           `id`, `name`, `surname`, `email`, `type`, `visitor_id`, `newuser`
                       FROM
@@ -200,7 +223,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function updateUser($data) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка обновить данные не авторизованного пользователя');
         }
 
@@ -233,7 +256,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function isNewUser() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить статус не авторизованного пользователя');
         }
 
@@ -496,6 +519,27 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         return $profiles;
+
+    }
+
+    /**
+     * Функция возвращает массив профилей авторизованного пользователя
+     */
+    public function getUserProfiles() {
+
+        if (!$this->authUser) {
+            throw new Exception('Попытка получить профили не авторизованного пользователя');
+        }
+
+        $query = "SELECT
+                      `id`, `title`
+                  FROM
+                      `profiles`
+                  WHERE
+                      `user_id` = :user_id
+                  ORDER BY
+                      `id`";
+        return $this->database->fetchAll($query, array('user_id' => $this->userId));
 
     }
 
@@ -816,17 +860,17 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
-                      INNER JOIN `orders` `e` ON `a`.`order_id` = `d`.`id`
+                      INNER JOIN `orders` `e` ON `a`.`order_id` = `e`.`id`
                   WHERE
                       `a`.`order_id` = :order_id AND `e`.`user_id` = :user_id AND `b`.`visible` = 1
                   ORDER BY
                       `a`.`id`";
-        $result = $this->database->fetchAll($query, array('order_id' => $id, 'user_id' => $this->userId));
+        $products = $this->database->fetchAll($query, array('order_id' => $id, 'user_id' => $this->userId));
 
         // через реестр обращаемся к экземпляру класса Basket_Frontend_Model
         // и добавляем эти товары в корзину
         $basketFrontendModel = $this->register->basketFrontendModel;
-        foreach ($result as $key => $value) {
+        foreach ($products as $key => $value) {
             $basketFrontendModel->addToBasket($value['id'], $value['count'], $key);
         }
 

@@ -55,8 +55,11 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // получаем от модели массив профилей пользователя
         $profiles = array();
         if ($this->authUser) {
-            $profiles = $this->userFrontendModel->getAllProfiles();
+            $profiles = $this->userFrontendModel->getUserProfiles();
         }
+
+        // получаем от модели список офисов для самовывоза товара со склада
+        $offices = $this->userFrontendModel->getOffices();
 
         // если true, данные формы успешно отправлены, заказ размещен
         $success  = false;
@@ -77,6 +80,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             'authUser'    => $this->authUser,
             // массив профилей пользователя
             'profiles'    => $profiles,
+            // массив офисов для самовывоза
+            'offices'     => $offices,
             // если true, заказ размещен
             'success'     => $success,
         );
@@ -84,7 +89,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             unset(
                 $this->centerVars['action'],
                 $this->centerVars['authUser'],
-                $this->centerVars['profiles']
+                $this->centerVars['profiles'],
+                $this->centerVars['offices']
             );
         }
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
@@ -119,7 +125,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         $form['recipient_phone']   = trim(utf8_substr(strip_tags($_POST['recipient_phone']), 0, 32));
 
         if (isset($_POST['own_shipping'])) { // самовывоз?
-            $form['own_shipping']               = 1;  // да, самовывоз
+            $form['own_shipping']               = 1; // да, самовывоз
+            if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
+                $form['own_shipping'] = $_POST['office'];
+            }
             $form['recipient_physical_address'] = ''; // адрес доставки
             $form['recipient_city']             = ''; // город (адрес доставки)
             $form['recipient_postal_index']     = ''; // почтовый индекс
@@ -371,13 +380,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->userFrontendModel->addProfile($data);
         }
 
-        $data = array(
-            'user_id' => $this->authUser ? $this->user['id'] : 0,
-            'details' => serialize($form),
-        );
-        $email = $this->authUser ? $this->user['email'] : null;
         // обращаемся к модели корзины для создания заказа
-        $result = $this->basketFrontendModel->createOrder($email, $data);
+        $result = $this->basketFrontendModel->createOrder($form);
 
         if ( ! $result) {
             $form['errorMessage'] = array('Произошла ошибка при добавлении заказа, попробуйте еще раз');

@@ -28,7 +28,14 @@
  * $shortdescr - краткое описание
  * $purpose - назначение изделия
  * $techdata - технические характеристики
- * $price - цена товара
+ * $features - особенности изделия
+ * $complect - комплектация изделия
+ * $equipment - дополнительное оборудование
+ * $padding - дополнительная информация
+ * $price, $price2, $price3, ... - цена товара
+ * $unit - единица измерения
+ * $units - все единицы измерения для возможности выбора
+ * $docs - файлы документации
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже
  * отредактированными данными и вывести сообщение об ошибках.
@@ -136,12 +143,37 @@ defined('ZCMS') or die('Access denied');
         if (empty($price)) {
             $price   = '';
         }
+        $price2      = $savedFormData['price2'];
+        if (empty($price2)) {
+            $price2  = '';
+        }
+        $price3      = $savedFormData['price3'];
+        if (empty($price3)) {
+            $price3  = '';
+        }
+        $price4      = $savedFormData['price4'];
+        if (empty($price4)) {
+            $price4  = '';
+        }
+        $price5      = $savedFormData['price5'];
+        if (empty($price5)) {
+            $price5  = '';
+        }
+        $price6      = $savedFormData['price6'];
+        if (empty($price6)) {
+            $price6  = '';
+        }
+        $price7      = $savedFormData['price7'];
+        if (empty($price7)) {
+            $price7  = '';
+        }
         $unit        = $savedFormData['unit'];
         $shortdescr  = htmlspecialchars($savedFormData['purpose']);
         $purpose     = htmlspecialchars($savedFormData['shortdescr']);
         $features    = htmlspecialchars($savedFormData['features']);
-        $complect    = htmlspecialchars($savedFormData['purpose']);
+        $complect    = htmlspecialchars($savedFormData['complect']);
         $equipment   = htmlspecialchars($savedFormData['equipment']);
+        $padding     = htmlspecialchars($savedFormData['padding']);
         if (count($savedFormData['techdata']) > 0) {
             $techdata = array();
             foreach ($savedFormData['techdata'] as $value) {
@@ -294,9 +326,17 @@ defined('ZCMS') or die('Access denied');
         <div>Код (артикул)</div>
         <div><input type="text" name="code" value="<?php echo $code; ?>" /></div>
     </div>
-    <div>
+    <div id="price">
         <div>Цена</div>
-        <div><input type="text" name="price" value="<?php echo $price; ?>" /></div>
+        <div>
+            <input type="text" name="price" value="<?php echo $price; ?>" />
+            <input type="text" name="price2" value="<?php echo $price2; ?>" />
+            <input type="text" name="price3" value="<?php echo $price3; ?>" />
+            <input type="text" name="price4" value="<?php echo $price4; ?>" />
+            <input type="text" name="price5" value="<?php echo $price5; ?>" />
+            <input type="text" name="price6" value="<?php echo $price6; ?>" />
+            <input type="text" name="price7" value="<?php echo $price7; ?>" />
+        </div>
     </div>
     <div>
         <div>Единица измерения</div>
@@ -326,7 +366,7 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Назначение изделия</div>
-        <div><textarea name="purpose" maxlength="4500"><?php echo $purpose; ?></textarea></div>
+        <div><textarea name="purpose"><?php echo $purpose; ?></textarea></div>
     </div>
     <div id="techdata">
         <div>Технические характеристики</div>
@@ -351,15 +391,19 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Особенности</div>
-        <div><textarea name="features" maxlength="4500"><?php echo $features; ?></textarea></div>
+        <div><textarea name="features"><?php echo $features; ?></textarea></div>
     </div>
     <div>
         <div>Комплектация</div>
-        <div><textarea name="complect" maxlength="4500"><?php echo $complect; ?></textarea></div>
+        <div><textarea name="complect"><?php echo $complect; ?></textarea></div>
     </div>
     <div>
         <div>Доп. оборудование</div>
-        <div><textarea name="equipment" maxlength="4500"><?php echo $equipment; ?></textarea></div>
+        <div><textarea name="equipment"><?php echo $equipment; ?></textarea></div>
+    </div>
+    <div>
+        <div>Дополнительно</div>
+        <div><textarea name="padding"><?php echo $padding; ?></textarea></div>
     </div>
     <div id="docs">
         <div>Документация</div>

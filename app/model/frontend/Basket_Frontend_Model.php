@@ -392,18 +392,25 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция создает заказ: записывает данные в таблицы БД orders и orders_prds,
      * удаляет товары из корзины. Дополнительно очищает старые корзины.
      */
-    public function createOrder($email, $data) {
+    public function createOrder($form) {
+
         $products = $this->getBasketProducts();
         if (count($products) == 0) {
             return false;
         }
 
+        $data = array();
+        // уникальный идентификатор авторизованного пользователя или ноль
+        $data['user_id'] =
+            $this->register->userFrontendModel->isAuthUser() ? $this->register->userFrontendModel->getUserId() : 0;
         // общая стоимость товаров в корзине
         $temp = $this->getTotalCost();
         // общая стоимость товаров в корзине без учета скидки
         $data['amount'] = $temp['amount'];
         // общая стоимость товаров в корзине с учетом скидки
         $data['user_amount'] = $temp['user_amount'];
+        // подробная информация о покупателе
+        $data['details'] = serialize($form);
 
         // начинаем транзакцию
         try {
@@ -465,7 +472,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                     $product['mkr_id'],
                     $product['mkr_name'],
                     $product['date'],
-                    $product['time']
+                    $product['time'],
+                    $product['url']
                 );
                 $product['order_id'] = $orderId;
                 $this->database->execute($query, $product);
@@ -485,7 +493,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             // очищаем корзину
             $this->clearBasket();
             // отправляем письма покупателю и администратору
-            $this->sendOrderMail($email, $orderId, $data, $products);
+            if ($this->register->userFrontendModel->isAuthUser()) {
+                $email = $this->register->userFrontendModel->getUserEmail();
+            } else {
+                $email = $form['recipient_email'];
+            }
+            //$this->sendOrderMail($email, $orderId, $form, $products);
         }
 
         // удаляем старые корзины
@@ -497,7 +510,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция формирует и отправляет письма о заказе покупателю и администратору
      */
-    private function sendOrderMail($email, $orderId, $data, $products) {
+    private function sendOrderMail($email, $orderId, $details, $products) {
         $html = '<h2>Заказ № '.$orderId.'</h2>' . PHP_EOL;
         $html = $html . '<table border="1">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
@@ -516,8 +529,6 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '<td colspan="4" align="right">Итого</th><td>'.number_format($data['user_amount'], 2, '.', '').'</td>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
         $html = $html . '</table>' . PHP_EOL;
-
-        $details = unserialize($data['details']);
 
         $html = $html . '<h3>Получатель</h3>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;

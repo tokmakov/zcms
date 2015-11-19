@@ -32,37 +32,49 @@ $(document).ready(function() {
         });
     });
 
-    // если не отмечен checkbox «Плательщик и получатель различаются», скрываем часть формы, связанную с плательщиком
+    // если не отмечен checkbox «Плательщик и получатель различаются»,
+    // скрываем часть формы, связанную с плательщиком
     if (!$('#checkout-order input[name="recipient_payer_different"]').prop('checked')) {
         $('#checkout-order #payer-order').hide();
     }
-    // при изменении состояния checkbox «Плательщик и получатель различаются», скрываем/показываем часть формы, связанную с плательщиком
+    // при изменении состояния checkbox «Плательщик и получатель различаются»,
+    // скрываем/показываем часть формы, связанную с плательщиком
     $('#checkout-order input[name="recipient_payer_different"]').change(function() {
         $('#checkout-order #payer-order').slideToggle();
     });
-    // если не отмечен checkbox «Юридическое лицо» для получателя, скрываем часть формы, связанную с юр.лицом получателя
+    // если не отмечен checkbox «Юридическое лицо» для получателя,
+    // скрываем часть формы, связанную с юр.лицом получателя
     if (!$('#checkout-order input[name="recipient_legal_person"]').prop('checked')) {
         $('#checkout-order #recipient-legal-person').hide();
     }
-    // при изменении состояния checkbox «Юридическое лицо» для получателя, скрываем/показываем часть формы, связанную с юр.лицом получателя
+    // при изменении состояния checkbox «Юридическое лицо» для получателя,
+    // скрываем/показываем часть формы, связанную с юр.лицом получателя
     $('#checkout-order input[name="recipient_legal_person"]').change(function() {
         $('#checkout-order #recipient-legal-person').slideToggle();
     });
 
-    // если отмечен checkbox «Самовывоз со склада» для получателя, скрываем часть формы, связанную с адресом доставки
+    // если отмечен checkbox «Самовывоз со склада» для получателя, скрываем
+    // часть формы, связанную с адресом доставки
     if ($('#checkout-order input[name="own_shipping"]').prop('checked')) {
         $('#checkout-order #recipient-physical-address').hide();
+    } else {
+        $('#checkout-order select[name="office"]').hide();
     }
-    // при изменении состояния checkbox «Самовывоз со склада» для получателя, скрываем/показываем часть формы, связанную с адресом доставки получателя
+    // при изменении состояния checkbox «Самовывоз со склада» для получателя,
+    // скрываем/показываем часть формы, связанную с адресом доставки получателя
     $('#checkout-order input[name="own_shipping"]').change(function() {
-        $('#checkout-order #recipient-physical-address').slideToggle();
+        $('#checkout-order #recipient-physical-address').slideToggle('normal', function() {
+            $('#checkout-order select[name="office"]').toggle();
+        });
     });
 
-    // если не отмечен checkbox «Юридическое лицо» для плательщика, скрываем часть формы, связанную с юр.лицом плательщика
+    // если не отмечен checkbox «Юридическое лицо» для плательщика,
+    // скрываем часть формы, связанную с юр.лицом плательщика
     if (!$('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
         $('#checkout-order #payer-legal-person').hide();
     }
-    // при изменении состояния checkbox «Юридическое лицо» для плательщика, скрываем/показываем часть формы, связанную с юр.лицом плательщика
+    // при изменении состояния checkbox «Юридическое лицо» для плательщика,
+    // скрываем/показываем часть формы, связанную с юр.лицом плательщика
     $('#checkout-order input[name="payer_legal_person"]').change(function() {
         $('#checkout-order #payer-legal-person').slideToggle();
     });
@@ -71,6 +83,7 @@ $(document).ready(function() {
     $('#checkout-order select[name="recipient_profile"]').change(function() {
         // возвращаем все поля формы, связанные с получателем, в исходное состояние
         $('#checkout-order #recipient-order input[type="text"]').val('');
+        $('#checkout-order select[name="office"] option:selected').prop('selected', false);
         if ($('#checkout-order input[name="recipient_legal_person"]').prop('checked')) {
             // в Firefox это не работает
             // $('#checkout-order input[name="recipient_legal_person"]').prop('checked', false).change();
@@ -83,7 +96,9 @@ $(document).ready(function() {
             // $('#checkout-order input[name="own_shipping"]').prop('checked', true).change();
             // поэтому так
             $('#checkout-order input[name="own_shipping"]').prop('checked', true);
-            $('#checkout-order #recipient-physical-address').slideUp();
+            $('#checkout-order #recipient-physical-address').slideUp('normal', function() {
+                $('#checkout-order select[name="office"]').show();
+            });
         }
 
         var recipientProfileId = $(this).val();
@@ -94,10 +109,14 @@ $(document).ready(function() {
             if (data.title === undefined) {
                 return;
             }
-            $('#checkout-order input[name="recipient_name"]').val(data.name); // имя контактного лица получателя
-            $('#checkout-order input[name="recipient_surname"]').val(data.surname); // фамилия контактного лица получателя
-            $('#checkout-order input[name="recipient_email"]').val(data.email); // e-mail контактного лица получателя
-            $('#checkout-order input[name="recipient_phone"]').val(data.phone); // телефон контактного лица получателя
+            // имя контактного лица получателя
+            $('#checkout-order input[name="recipient_name"]').val(data.name);
+            // фамилия контактного лица получателя
+            $('#checkout-order input[name="recipient_surname"]').val(data.surname);
+            // e-mail контактного лица получателя
+            $('#checkout-order input[name="recipient_email"]').val(data.email);
+            // телефон контактного лица получателя
+            $('#checkout-order input[name="recipient_phone"]').val(data.phone);
             if (data.legal_person === '1') { // получатель - юридическое лицо?
                 if (!$('#checkout-order input[name="recipient_legal_person"]').prop('checked')) {
                     // в Firefox это не работает
@@ -121,11 +140,22 @@ $(document).ready(function() {
                     // $('#checkout-order input[name="own_shipping"]').prop('checked', false).change();
                     // поэтому так
                     $('#checkout-order input[name="own_shipping"]').prop('checked', false);
-                    $('#checkout-order #recipient-physical-address').slideToggle();
+                    $('#checkout-order #recipient-physical-address').slideDown('normal', function() {
+                        $('#checkout-order select[name="office"]').hide();
+                    });
                 }
                 $('#checkout-order input[name="recipient_physical_address"]').val(data.physical_address);
                 $('#checkout-order input[name="recipient_city"]').val(data.city);
                 $('#checkout-order input[name="recipient_postal_index"]').val(data.postal_index);
+            } else {
+                // из какого офиса забирать заказ?
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (data.own_shipping == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
             }
         }, 'json');
     });
@@ -150,11 +180,15 @@ $(document).ready(function() {
             if (data.title === undefined) {
                 return;
             }
-            $('#checkout-order input[name="payer_name"]').val(data.name); // имя контактного лица плательщика
-            $('#checkout-order input[name="payer_surname"]').val(data.surname); // фамилия контактного лица плательщика
-            $('#checkout-order input[name="payer_email"]').val(data.email); // e-mail контактного лица плательщика
-            $('#checkout-order input[name="payer_phone"]').val(data.phone); // телефон контактного лица плательщика
-            if (data.legal_person === '1') { // плательщика - юридическое лицо?
+            // имя контактного лица плательщика
+            $('#checkout-order input[name="payer_name"]').val(data.name);
+            // фамилия контактного лица плательщика
+            $('#checkout-order input[name="payer_surname"]').val(data.surname);
+            // e-mail контактного лица плательщика
+            $('#checkout-order input[name="payer_email"]').val(data.email);
+            // телефон контактного лица плательщика
+            $('#checkout-order input[name="payer_phone"]').val(data.phone);
+            if (data.legal_person === '1') { // плательщик - юридическое лицо?
                 if (!$('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
                     // в Firefox это не работает
                     // $('#checkout-order input[name="payer_legal_person"]').prop('checked', true).change();

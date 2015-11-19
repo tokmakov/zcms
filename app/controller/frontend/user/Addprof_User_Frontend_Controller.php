@@ -48,6 +48,9 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
             array('url' => $this->userFrontendModel->getURL('frontend/user/allprof'), 'name' => 'Ваши профили'),
         );
 
+        // получаем от модели список офисов для самовывоза товара со склада
+        $offices = $this->userFrontendModel->getOffices();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -55,7 +58,9 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/addprof'),
+            'action'      => $this->userFrontendModel->getURL('frontend/user/addprof'),
+            // массив офисов для самовывоза
+            'offices'     => $offices,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
@@ -85,6 +90,9 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         if (isset($_POST['own_shipping'])) { // самовывоз со склада?
             $data['own_shipping']     = 1;
+            if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
+                $data['own_shipping'] = $_POST['office'];
+            }
             $data['physical_address'] = '';
             $data['city']             = '';
             $data['postal_index']     = '';

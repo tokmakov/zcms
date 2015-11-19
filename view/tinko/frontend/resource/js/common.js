@@ -221,9 +221,13 @@ $(document).ready(function() {
     // если отмечен checkbox «Самовывоз со склада», скрываем часть формы, связанную с адресом доставки
     if ($('#add-edit-profile input[name="own_shipping"]').prop('checked')) {
         $('#add-edit-profile > #physical-address').hide();
+    } else {
+        $('#add-edit-profile select[name="office"]').hide();
     }
     $('#add-edit-profile input[name="own_shipping"]').change(function() {
-        $('#add-edit-profile > #physical-address').slideToggle();
+        $('#add-edit-profile > #physical-address').slideToggle('normal', function() {
+            $('#add-edit-profile select[name="office"]').toggle();
+        });
     });
 
 });

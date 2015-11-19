@@ -25,13 +25,17 @@ defined('ZCMS') or die('Access denied');
 <h1>Заказ № <?php echo $order['order_id']; ?></h1>
 
 <div id="user-order">
+    <p>
+        <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
+        <span>Итого: <strong><?php echo number_format($order['amount'], 2, '.', ''); ?></strong> руб.</span>
+    </p>
     <table>
         <tr>
-            <th width="15%">Код</th>
-            <th width="41%">Наименование</th>
-            <th width="10%">Кол.</th>
-            <th width="17%">Цена</th>
-            <th width="17%">Стоим.</th>
+            <th>Код</th>
+            <th>Наименование</th>
+            <th>Кол.</th>
+            <th>Цена</th>
+            <th>Стоим.</th>
         </tr>
         <?php foreach ($order['products'] as $product): ?>
            <tr>
@@ -44,8 +48,6 @@ defined('ZCMS') or die('Access denied');
         <?php endforeach; ?>
 
     </table>
-
-    <p>Итого: <span><?php echo number_format($order['amount'], 2, '.', ''); ?></span> руб.</p>
 
     <h2>Получатель</h2>
     <ul>

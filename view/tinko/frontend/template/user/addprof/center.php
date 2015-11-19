@@ -6,9 +6,17 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $offices - массив офисов для самовывоза
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже введенными данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
+ *
+ * $offices = Array (
+ *   [1] => Центральный офис
+ *   [2] => Офис продаж «Сокол»
+ *   [3] => Офис продаж «Мещанский»
+ *   [4] => Офис продаж «Нагорный»
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -149,6 +157,15 @@ defined('ZCMS') or die('Access denied');
 
     <div>
         <label><input type="checkbox" name="own_shipping" value="1"<?php echo $own_shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
+        <?php if (!empty($offices)): ?>
+            <select name="office">
+                <?php foreach($offices as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                        <?php echo $value; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
     </div>
 
     <div id="physical-address">

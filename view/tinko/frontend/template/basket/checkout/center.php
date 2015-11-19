@@ -8,6 +8,7 @@
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
  * $profiles - массив профилей зарегистрированного и авторизованного пользователя
+ * $offices - список офисов для самовывоза товара со склада
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены
  * ошибки, мы должны снова предъявить форму, заполненную уже введенными данными и
  * вывести сообщение об ошибках.
@@ -15,6 +16,13 @@
  *
  * $success - признак успешного размещения заказа (если $success=true,то будут доступны
  * только две переменные: $success и $breadcrumbs, потому как остальные просто не нужны)
+ *
+ * $offices = Array (
+ *   [1] => Центральный офис
+ *   [2] => Офис продаж «Сокол»
+ *   [3] => Офис продаж «Мещанский»
+ *   [4] => Офис продаж «Нагорный»
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -141,9 +149,9 @@ defined('ZCMS') or die('Access denied');
                     <div>
                         <select name="recipient_profile">
                             <option value="0">Выберите</option>
-                        <?php foreach ($profiles as $profile): ?>
-                            <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
-                        <?php endforeach; ?>
+                            <?php foreach ($profiles as $profile): ?>
+                                <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -210,8 +218,17 @@ defined('ZCMS') or die('Access denied');
             </div>
         </div>
 
-        <div>
+        <div id="recipient-own-shipping">
             <label><input type="checkbox" name="own_shipping"<?php if ($own_shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
+            <?php if (!empty($offices)): ?>
+                <select name="office">
+                <?php foreach($offices as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                        <?php echo $value; ?>
+                    </option>
+                <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
         </div>
 
         <div id="recipient-physical-address">

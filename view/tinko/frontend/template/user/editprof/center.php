@@ -14,6 +14,8 @@
  * $surname - фамилия контактного лица
  * $email - e-mail контактного лица
  * $phone - телефон контактного лица
+ * $own_shipping - самовывоз со склада?
+ * $offices - массив офисов для самовывоза
  * $physical_address - адрес доставки
  * $city - город (адрес доставки)
  * $postal_index - почтовый индекс (адрес доставки)
@@ -31,6 +33,13 @@
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
+ *
+ * $offices = Array (
+ *   [1] => Центральный офис
+ *   [2] => Офис продаж «Сокол»
+ *   [3] => Офис продаж «Мещанский»
+ *   [4] => Офис продаж «Нагорный»
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -169,6 +178,15 @@ if (isset($savedFormData)) {
 
     <div>
         <label><input type="checkbox" name="own_shipping" value="1"<?php echo $own_shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
+        <?php if (!empty($offices)): ?>
+            <select name="office">
+                <?php foreach($offices as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                        <?php echo $value; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
     </div>
 
     <div id="physical-address">

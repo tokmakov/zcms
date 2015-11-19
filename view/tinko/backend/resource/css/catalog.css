@@ -31,6 +31,10 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
+            #add-edit-product > div#price > div:last-child > input[type="text"] {
+                width: 13%;
+                display: inline-block;
+            }
             #add-edit-product > div > div:last-child > textarea {
                 height: 100px;
             }

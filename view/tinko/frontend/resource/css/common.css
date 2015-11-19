@@ -1992,6 +1992,11 @@ body > .wrapper {
         position: relative;
         margin-top: 20px;
     }
+    #add-edit-profile > div:nth-child(5) {
+        margin-top: 25px;
+        height: 24px;
+        line-height: 24px;
+    }
     #add-edit-profile > div:nth-child(3),
     #add-edit-profile > div:nth-child(4),
     #add-edit-profile > div:nth-child(6) {
@@ -2003,6 +2008,14 @@ body > .wrapper {
     #add-edit-profile > div:first-child {
         margin-top: 0;
     }
+    #add-edit-profile select[name="office"] {
+        font-size: 14px;
+        line-height: 14px;
+        box-sizing: border-box;
+        padding: 2px;
+        border: 1px solid #d1d1d1;
+        margin-left: 39px;
+    }
     #add-edit-profile input[type="checkbox"] {
         position: relative;
         top: 3px;
@@ -2013,6 +2026,7 @@ body > .wrapper {
         cursor: pointer;
         border-bottom: 1px dashed #323232;
         margin: 0 7px 0 5px;
+        line-height: normal;
     }
         #add-edit-profile > div > div {
             overflow: hidden;
@@ -2129,10 +2143,11 @@ body > .wrapper {
         border-bottom: none;
     }
         #user-orders-list > div > p {
-            margin-bottom: 7px;
+            margin-bottom: 4px;
             color: #969696;
             font-size: 14px;
             overflow: hidden;
+            line-height: 18px;
         }
             #user-orders-list > div > p > span {
                 display: block;
@@ -2146,12 +2161,12 @@ body > .wrapper {
             }
                 #user-orders-list > div > p > span:last-child > strong {
                     color: #395985;
+                    font-size: 18px;
                 }
 
         #user-orders-list > div > table { /* таблица заказа */
             border-collapse: collapse;
             width: 100%;
-            table-layout: fixed;
         }
             #user-orders-list > div > table tr th, #user-orders-list > div > table tr td {
                 border: 1px solid #d1d1d1;
@@ -2216,49 +2231,65 @@ body > .wrapper {
 
 
 /* отдельный заказ пользователя в личном кабинете */
-#user-order > table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
+#user-order {
+
 }
-    #user-order > table tr th, #user-order > table tr td {
-        border: 1px solid #d1d1d1;
-        padding: 5px;
-        white-space: nowrap;
+    #user-order > p {
+        margin-bottom: 4px;
+        color: #969696;
+        font-size: 14px;
         overflow: hidden;
+        line-height: 18px;
     }
-    #user-order > table tr th {
-        background: #f0f0f0;
+    #user-order > p > span {
+        display: block;
     }
-    #user-order > table tr th:nth-child(2) {
-        text-align: left;
+    #user-order > p > span:first-child {
+        float: left;
     }
-    #user-order > table tr td:nth-child(3) {
-        text-align: center;
-    }
-    #user-order  > table tr td:nth-child(4), #user-order > table tr td:nth-child(5) {
+    #user-order > p > span:last-child {
+        float: right;
         text-align: right;
     }
-    #user-order > table tr td:first-child {
-        text-align: center;
+    #user-order > p > span:last-child > strong {
+        color: #395985;
+        font-size: 18px;
     }
+    #user-order > table { /* таблица заказа */
+        border-collapse: collapse;
+        width: 100%;
+    }
+        #user-order > table tr th, #user-order > table tr td {
+            border: 1px solid #d1d1d1;
+            font-weight: normal;
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        #user-order > table tr th {
+            background: #f0f0f0;
+        }
+        #user-order > table tr th:nth-child(2) {
+            text-align: left;
+            width: 60%;
+        }
+        #user-order > table tr td:nth-child(3) {
+            text-align: center;
+        }
+        #user-order > table tr td:nth-child(4), #user-order > table tr td:nth-child(5) {
+            text-align: right;
+        }
+        #user-order > table tr td:first-child {
+            text-align: center;
+        }
     #user-order > h2 {
         font-size: 19px;
-        margin: 15px 0;
+        margin: 25px 0 15px 0;
         color: #395985;
         font-weight: normal;
     }
-    #user-order > p, #user-order > ul {
-        margin: 15px 0;
-    }
-    #user-order > p {
-        text-align: right;
-    }
-        #user-order > p > span {
-            color: #395985;
-            font-weight: bold;
-        }
     #user-order > ul {
+        margin: 15px 0;
         padding-left: 20px;
     }
 
@@ -2587,8 +2618,13 @@ body > .wrapper {
         top: 3px;
         border: 1px solid #d1d1d1;
     }
-    #checkout-order input[name="own_shipping"] { /* самовывоз со склада */
-        margin-top: 14px;
+    #checkout-order select[name="office"] {
+        font-size: 14px;
+        line-height: 14px;
+        box-sizing: border-box;
+        padding: 2px;
+        border: 1px solid #d1d1d1;
+        margin-left: 29px;
     }
     /*
     #recipient-order + div {
@@ -2646,6 +2682,15 @@ body > .wrapper {
             padding: 20px 10px 10px 10px;
             margin-top: 20px;
         }
+        #checkout-order > #recipient-order > #recipient-own-shipping {
+            height: 24px;
+            margin-top: 14px;
+            line-height: 24px;
+        }
+            #checkout-order > #recipient-order > #recipient-own-shipping > label > span {
+                line-height: normal;
+            }
+
             #checkout-order > #payer-order > #payer-legal-person > h3,
             #checkout-order > #recipient-order > #recipient-legal-person > h3,
             #checkout-order > #payer-order > #payer-physical-person > h3,
@@ -3439,6 +3484,20 @@ body > .wrapper {
         margin-bottom: 3px;
     }
     #new-password > div > div:last-child > input[type="submit"] {
+        width: 100%;
+    }
+    /* форма оформления заказа */
+    #checkout-order select[name="office"] {
+        display: block;
+        margin-top: 12px;
+        margin-left: 0;
+        width: 100%;
+    }
+    /* форма добавления/редактирования профиля */
+    #add-edit-profile select[name="office"] {
+        display: block;
+        margin-top: 12px;
+        margin-left: 0;
         width: 100%;
     }
 }
