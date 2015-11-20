@@ -34,7 +34,7 @@ defined('ZCMS') or die('Access denied');
 <!-- Начало шаблона view/example/frontend/template/right.php -->
 
 <div class="side-block">
-    <div id="user-heading">Личный кабинет</div>
+    <div><i class="fa fa-user"></i>&nbsp;&nbsp;Личный кабинет</div>
     <?php if ($authUser): ?>
         <div>
             <ul id="logged-user-right">
@@ -62,7 +62,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div class="side-block">
-    <div id="basket-heading">Ваша корзина</div>
+    <div><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Ваша корзина</div>
     <div class="no-padding">
         <div id="side-basket">
         <?php if (!empty($basketProducts)): /* покупательская корзина */ ?>
@@ -95,7 +95,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div class="side-block">
-    <div id="wished-heading">Отложенные товары</div>
+    <div><i class="fa fa-star"></i>&nbsp;&nbsp;Избранное</div>
     <div class="no-padding">
         <div id="side-wished">
         <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
@@ -122,7 +122,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div class="side-block">
-    <div id="compared-heading">Сравнение товаров</div>
+    <div><i class="fa fa-balance-scale"></i>&nbsp;&nbsp;Сравнение товаров</div>
     <div class="no-padding">
         <div id="side-compared">
         <?php if (!empty($comparedProducts)): /* товары для сравнения */ ?>

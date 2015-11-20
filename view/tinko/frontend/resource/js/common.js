@@ -423,6 +423,8 @@ function addFilterHash() {
     }
     if (hash !== '') {
         window.location.hash = '#!' + hash;
+    } else {
+        history.pushState('', document.title, window.location.pathname);
     }
 }
 

@@ -61,8 +61,8 @@ class Router {
          * будет запущен в работу и параметры, передаваемые этому контроллеру.
          * Таким образом приложение можно запускать из командной строки для
          * формирования кэша, см. исходный код файла cache/make-cache.php.
-         */        
-        if (!empty($class)) {
+         */
+        if ( ! empty($class)) {
             $temp = explode('_', strtolower($class));
             /*
              * Имя класса будет:
@@ -98,7 +98,7 @@ class Router {
                     }
                 } else {
                     throw new Exception( 'Класс контроллера ' . $class . ' не найден');
-                }    
+                }
             } else {
                 throw new Exception( 'Класс контроллера ' . $class . ' не найден');
             }
@@ -123,7 +123,7 @@ class Router {
             $this->backend = true;
         }
         // включена поддержка SEF (ЧПУ)?
-        if (!$this->backend && Config::getInstance()->sef->enable) {
+        if ( (!$this->backend) && Config::getInstance()->sef->enable) {
             $path = $this->getCapUrl($path);
             if (is_null($path)) {
                 $this->controller = 'notfound';
@@ -134,7 +134,7 @@ class Router {
         }
         // из $path извлекаем имя контроллера и действие
         $pattern = '~^(frontend|backend)/([a-z][a-z0-9]*)/([a-z][a-z0-9]*)~i';
-        if (!preg_match($pattern, $path, $matches)) {
+        if ( ! preg_match($pattern, $path, $matches)) {
             $this->controller = 'notfound';
             $frontback = ($this->backend) ? 'Backend' : 'Frontend';
             $this->controllerClassName = 'Notfound_' . $frontback . '_Controller';
@@ -171,7 +171,7 @@ class Router {
             if ($reflection->isAbstract()) { // класс абстрактный, первый вариант
                 // составляем имя класса из четырех частей, разделенных символом подчеркивания
                 $this->controllerClassName = ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
-                if (!class_exists($this->controllerClassName)) {  // такого дочернего класса нет
+                if ( ! class_exists($this->controllerClassName)) {  // такого дочернего класса нет
                     $this->controller = 'notfound';
                     $this->action = 'index';
                     $this->controllerClassName = 'Notfound_'.$frontback.'_Controller';
@@ -189,7 +189,7 @@ class Router {
 
         // получаем параметры
         $params = preg_replace($pattern, '', $path);
-        if (!empty($params)) {
+        if ( ! empty($params)) {
             $pattern = '~^(/([a-z][a-z0-9_]*)/([a-z0-9%+_.-]+))+$~i';
             if (preg_match($pattern, $params)) {
                 $params = trim($params, '/');
@@ -267,7 +267,7 @@ class Router {
         */
         return null;
     }
-    
+
     public function destroy() {
         self::$instance = null;
     }

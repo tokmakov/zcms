@@ -724,7 +724,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         $query = "SELECT
-                      `id` AS `order_id`, `amount`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      `id` AS `order_id`, `amount`, `user_amount`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i:%s') AS `time`, `status`
                   FROM
                       `orders`
@@ -738,8 +738,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         foreach ($orders as $key => $value) {
             $query = "SELECT
                           `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
-                          `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`quantity` AS `quantity`,
-                          `a`.`cost` AS `cost`, !ISNULL(`b`.`id`) AS `exists`
+                          `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
+                          `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
+                          !ISNULL(`b`.`id`) AS `exists`
                       FROM
                           `orders_prds` `a` LEFT JOIN `products` `b`
                           ON `a`.`product_id` = `b`.`id`
@@ -794,7 +795,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         // общая информация о заказе (сумма, покупатель и плательщик, статус)
         $query = "SELECT
-                      `amount`, `details`, `status`,
+                      `amount`, `user_amount`, `details`, `status`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
                   FROM
@@ -809,6 +810,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             array(
                 'order_id' => $id,
                 'amount' => $result['amount'],
+                'user_amount' => $result['user_amount'],
                 'date' => $result['date'],
                 'time' => $result['time'],
                 'status' => $result['status']
@@ -817,27 +819,15 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         );
         // добавляем информацию о списке товаров заказа
         $query = "SELECT
-                      `product_id`, `code`, `name`, `title`, `price`, `quantity`, `cost`
+                      `product_id`, `code`, `name`, `title`, `price`,
+                      `user_price`, `quantity`, `cost`, `user_cost`
                   FROM
                       `orders_prds`
                   WHERE
                       `order_id` = :order_id
                   ORDER BY
                       `id`";
-        $result = $this->database->fetchAll($query, array('order_id' => $id));
-        $products = array();
-        foreach($result as $item) {
-            $products[] = array(
-                'product_id' => $item['product_id'],
-                'code' => $item['code'],
-                'name' => $item['name'],
-                'title' => $item['title'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'cost' => $item['cost'],
-            );
-        }
-        $order['products'] = $products;
+        $order['products'] = $this->database->fetchAll($query, array('order_id' => $id));
 
         return $order;
 

@@ -238,3 +238,15 @@
 #5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+20.11.2015 12:06:24
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/3/sort/1/sort/2
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 136
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1390): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(284): Catalog_Frontend_Model->getCategorySortOrders('3', 0, 0, 0, 0, Array)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(75): Category_Catalog_Frontend_Controller->getCategory()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Category_Catalog_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

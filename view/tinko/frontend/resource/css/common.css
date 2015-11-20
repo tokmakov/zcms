@@ -377,7 +377,7 @@ body > .wrapper {
     font-size: 13px;
 }
 
-/* информационные блоки в левой и правой колонке */
+    /* информационные блоки в левой и правой колонке */
     #left .side-block, #right .side-block {
         margin-top: 20px;
         border: 1px solid #d1d1d1;
@@ -390,6 +390,7 @@ body > .wrapper {
         #left .side-block > div:first-child, #right .side-block > div:first-child {
             padding: 15px;
             font-size: 16px;
+            line-height: 16px;
             background: #f0f0f0;
             border-bottom: 1px solid #d1d1d1;
         }
@@ -556,7 +557,7 @@ body > .wrapper {
 
 /* сообщение об ошибке */
 .error-message {
-    border: 1px solid #d1d1d1;
+    border: 1px solid #e9751f;
     border-top: 5px solid #e9751f;
     overflow: hidden;
     padding: 15px;
@@ -564,6 +565,7 @@ body > .wrapper {
 }
     .error-message > ul {
         margin-left: 20px;
+        color: #e9751f;
     }
 
 .center-block {
@@ -765,7 +767,7 @@ body > .wrapper {
         }
 
 .form-field-required {
-    color: #f00;
+    color: #e9751f;
 }
 
 #category-products {
@@ -839,7 +841,7 @@ body > .wrapper {
                 }
                 .products-list-line > div > .product-line-image > a > span.hit-product {
                     background: #e9751f;
-                    width: 72px;
+                    width: 68px;
                     left: -8px;
                     top: -8px;
                 }
@@ -2191,6 +2193,10 @@ body > .wrapper {
             #user-orders-list > div > table tr td:first-child {
                 text-align: center;
             }
+            #user-orders-list > div > table tr:last-child td.note-user-price {
+                color: #e9751f;
+                text-align: left;
+            }
             #user-orders-list > div > div { /* повторить заказ, подробнее */
                 margin-top: 10px;
                 overflow: hidden;
@@ -2281,6 +2287,10 @@ body > .wrapper {
         }
         #user-order > table tr td:first-child {
             text-align: center;
+        }
+        #user-order > table tr:last-child td.note-user-price {
+            color: #e9751f;
+            text-align: left;
         }
     #user-order > h2 {
         font-size: 19px;
@@ -2683,7 +2693,7 @@ body > .wrapper {
             margin-top: 20px;
         }
         #checkout-order > #recipient-order > #recipient-own-shipping {
-            height: 24px;
+            min-height: 24px;
             margin-top: 14px;
             line-height: 24px;
         }
@@ -3109,31 +3119,21 @@ body > .wrapper {
     }
 
 /* заголовки для личного кабинета, корзины, списка сравнения, отложенных и просмотренных товаров */
-#user-heading {
-    background: #f0f0f0 url(../img/user-black.png) 15px center no-repeat !important;
-    background-size: 20px !important;
-    padding-left:45px !important;
+#right .side-block > div:first-child > i {
+    font-size: 18px;
 }
-#basket-heading {
-    background: #f0f0f0 url(../img/basket-black.png) 15px center no-repeat !important;
-    background-size: 20px !important;
-    padding-left: 45px !important;
-}
-#wished-heading {
-    background: #f0f0f0 url(../img/wished-black.png) 15px center no-repeat !important;
-    background-size: 20px !important;
-    padding-left: 45px !important;
-}
-#compared-heading {
-    background: #f0f0f0 url(../img/compared-black.png) 15px center no-repeat !important;
-    background-size: 20px !important;
-    padding-left: 45px !important;
-}
-#viewed-heading {
-    background: #f0f0f0 url(../img/viewed-black.png) 15px center no-repeat !important;
-    background-size: 20px !important;
-    padding-left: 45px !important;
-}
+    #right .side-block > div:first-child > i.fa-shopping-cart {
+        font-size: 20px;
+        position: relative;
+        top: 1px;
+    }
+    #right .side-block > div:first-child > i.fa-balance-scale {
+        font-size: 16px;
+    }
+    #right .side-block > div:first-child > i.fa-star {
+        position: relative;
+        top: 2px;
+    }
 
 /* пустая корзина, пустой список сравнения, пустой список отложенных товаров */
 .empty-list-right {

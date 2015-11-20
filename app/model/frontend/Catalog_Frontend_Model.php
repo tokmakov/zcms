@@ -1304,6 +1304,96 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
+     * Функция возвращает массив ссылок для сортировки товаров категории $id по цене,
+     * наименованию, коду (артикулу)
+     */
+    public function getCategoryURL($id, $group, $maker, $hit, $new, $param, $sort) {
+
+        $url = 'frontend/catalog/category/id/' . $id;
+        if ($group) {
+            $url = $url . '/group/' . $group;
+        }
+        if ($maker) {
+            $url = $url . '/maker/' . $maker;
+        }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
+        }
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        return $this->getURL($url);
+
+    }
+
+    /**
+     * Функция возвращает массив ссылок для сортировки товаров категории $id по цене,
+     * наименованию, коду (артикулу)
+     */
+    public function getCategorySortOrders($id, $group, $maker, $hit, $new, $param) {
+
+        $url = 'frontend/catalog/category/id/' . $id;
+        if ($group) {
+            $url = $url . '/group/' . $group;
+        }
+        if ($maker) {
+            $url = $url . '/maker/' . $maker;
+        }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
+        }
+        /*
+         * варианты сортировки:
+         * 0 - по умолчанию,
+         * 1 - по цене, по возрастанию
+         * 2 - по цене, по убыванию
+         * 3 - по наименованию, по возрастанию
+         * 4 - по наименованию, по убыванию
+         * 5 - по коду, по возрастанию
+         * 6 - по коду, по убыванию
+         */
+        $sortorders = array();
+        for ($i = 0; $i <= 6; $i++) {
+            switch ($i) {
+                case 0: $name = 'без сортировки';  break;
+                case 1: $name = 'цена, возр.';     break;
+                case 2: $name = 'цена, убыв.';     break;
+                case 3: $name = 'название, возр.'; break;
+                case 4: $name = 'название, убыв.'; break;
+                case 5: $name = 'код, возр.';      break;
+                case 6: $name = 'код, убыв.';      break;
+            }
+            $temp = $i ? $url . '/sort/' . $i : $url;
+            $sortorders[$i] = array(
+                'url'  => $this->getURL($temp),
+                'name' => $name
+            );
+        }
+        return $sortorders;
+
+    }
+
+    /**
      * Функция возвращает результаты поиска по каталогу; результат работы
      * кэшируется
      */

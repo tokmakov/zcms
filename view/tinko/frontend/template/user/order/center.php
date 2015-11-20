@@ -46,7 +46,9 @@ defined('ZCMS') or die('Access denied');
                <td><?php echo number_format($product['cost'], 2, '.', ''); ?></td>
            </tr>
         <?php endforeach; ?>
-
+        <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
+            <tr><td colspan="5" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+        <?php endif; ?>
     </table>
 
     <h2>Получатель</h2>

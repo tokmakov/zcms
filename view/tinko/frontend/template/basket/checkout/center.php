@@ -249,14 +249,21 @@ defined('ZCMS') or die('Access denied');
 
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
-                <label><input type="checkbox" name="make_recipient_profile" checked="checked" value="1" /> <span>Создать профиль получателя</span></label> <span class="make_profile_help">?</span>
+                <label>
+                    <input type="checkbox" name="make_recipient_profile" checked="checked" value="1" />
+                    <span>Создать профиль получателя</span>
+                </label>
+                <span class="make_profile_help">?</span>
             </div>
         <?php endif; ?>
 
     </div>
 
     <div>
-        <label><input type="checkbox" name="recipient_payer_different"<?php if ($recipient_payer_different) echo ' checked="checked"'; ?> value="1" /> <span>Плательщик и получатель различаются</span></label>
+        <label>
+            <input type="checkbox" name="recipient_payer_different"<?php if ($recipient_payer_different) echo ' checked="checked"'; ?> value="1" />
+            <span>Плательщик и получатель различаются</span>
+        </label>
     </div>
 
     <div id="payer-order">
@@ -280,7 +287,11 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
 
         <div>
-            <label><input type="checkbox" name="payer_legal_person"<?php if ($payer_legal_person) echo ' checked="checked"'; ?> value="1" /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
+            <label>
+                <input type="checkbox" name="payer_legal_person"<?php if ($payer_legal_person) echo ' checked="checked"'; ?> value="1" />
+                <span>Юридическое лицо</span>
+            </label>
+            <span class="legal_person_help">?</span>
         </div>
 
         <div id="payer-legal-person">
@@ -341,7 +352,11 @@ defined('ZCMS') or die('Access denied');
 
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
-                <label><input type="checkbox" name="make_payer_profile" checked="checked" value="1" /> <span>Создать профиль плательщика</span></label> <span class="make_profile_help">?</span>
+                <label>
+                    <input type="checkbox" name="make_payer_profile" checked="checked" value="1" />
+                    <span>Создать профиль плательщика</span>
+                </label>
+                <span class="make_profile_help">?</span>
             </div>
         <?php endif; ?>
 

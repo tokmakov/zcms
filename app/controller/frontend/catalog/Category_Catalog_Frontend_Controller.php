@@ -29,43 +29,16 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
-        // если данные формы были отправлены (выбор функциональной группы или производителя)
+        // если данные формы были отправлены: выбор функциональной группы, производителя,
+        // параметров; для пользователей, у которых отключен JavaScript
         if ($this->isPostMethod()) {
-            $url = 'frontend/catalog/category/id/' . $this->params['id'];
-            $grp = false;
-            if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
-                $url = $url . '/group/' . $_POST['group'];
-                $grp = true;
-            }
-            if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
-                $url = $url . '/maker/' . $_POST['maker'];
-            }
-            if (isset($_POST['hit'])) {
-                $url = $url . '/hit/1';
-            }
-            if (isset($_POST['new'])) {
-                $url = $url . '/new/1';
-            }
-            if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
-                $param = array();
-                foreach ($_POST['param'] as $key => $value) {
-                    if ($key > 0 && ctype_digit($value) && $value > 0) {
-                        $param[] = $key . '.' . $value;
-                    }
-                }
-                if ( ! empty($param)) {
-                    $url = $url . '/param/' . implode('-', $param);
-                }
-            }
-            if (isset($_POST['sort'])
-                && ctype_digit($_POST['sort'])
-                && in_array($_POST['sort'], array(1,2,3,4,5,6))
-            ) {
-                $url = $url . '/sort/' . $_POST['sort'];
-            }
-            $this->redirect($this->catalogFrontendModel->getURL($url));
+            // обрабатываем отправленные данные формы, после чего делаем редирект
+            // на страницу категории, но уже с параметрами формы в URL
+            $this->processFormData();
         }
 
         /*
@@ -100,10 +73,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         $this->title = $category['name'];
 
-        if (!empty($category['keywords'])) {
+        if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
         }
-        if (!empty($category['description'])) {
+        if ( ! empty($category['description'])) {
             $this->description = $category['description'];
         }
 
@@ -168,31 +141,79 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели массив дочерних категорий
-        $childCategories = $this->catalogFrontendModel->getChildCategories($this->params['id'], $group, $maker, $hit, $new, $param, $sort);
+        $childCategories = $this->catalogFrontendModel->getChildCategories(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort
+        );
 
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getCategoryGroups($this->params['id'], $maker, $hit, $new);
+        $groups = $this->catalogFrontendModel->getCategoryGroups(
+            $this->params['id'],
+            $maker,
+            $hit,
+            $new
+        );
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getCategoryMakers($this->params['id'], $group, $hit, $new, $param);
+        $makers = $this->catalogFrontendModel->getCategoryMakers(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $param
+        );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams($this->params['id'], $group, $maker, $hit, $new, $param);
+        $params = $this->catalogFrontendModel->getGroupParams(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountHit($this->params['id'], $group, $maker, $hit, $new, $param);
+        $countHit = $this->catalogFrontendModel->getCountHit(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountNew($this->params['id'], $group, $maker, $hit, $new, $param);
+        $countNew = $this->catalogFrontendModel->getCountNew(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
         // общее кол-во товаров категории
-        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts($this->params['id'], $group, $maker, $hit, $new, $param);
-
+        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
         $temp = new Pager(
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров категории
@@ -211,78 +232,44 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив товаров категории
-        $products = $this->catalogFrontendModel->getCategoryProducts($this->params['id'], $group, $maker, $hit, $new, $param, $sort, $start);
-
-        /*
-         * Варианты сортировки:
-         * 0 - по умолчанию,
-         * 1 - по цене, по возрастанию
-         * 2 - по цене, по убыванию
-         * 3 - по наименованию, по возрастанию
-         * 4 - по наименованию, по убыванию
-         * 5 - по коду, по возрастанию
-         * 6 - по коду, по убыванию
-         */
-        for ($i = 0; $i <= 6; $i++) {
-            $url = 'frontend/catalog/category/id/' . $this->params['id'];
-            if ($group) {
-                $url = $url . '/group/' . $group;
-            }
-            if ($maker) {
-                $url = $url . '/maker/' . $maker;
-            }
-            if ($hit) {
-                $url = $url . '/hit/1';
-            }
-            if ($new) {
-                $url = $url . '/new/1';
-            }
-            if ( ! empty($param)) {
-                $url = $url . '/param/' . $this->params['param'];
-            }
-            if ($i) {
-                $url = $url . '/sort/' . $i;
-            }
-            switch ($i) {
-                case 0: $name = 'без сортировки';  break;
-                case 1: $name = 'цена, возр.';     break;
-                case 2: $name = 'цена, убыв.';     break;
-                case 3: $name = 'название, возр.'; break;
-                case 4: $name = 'название, убыв.'; break;
-                case 5: $name = 'код, возр.';      break;
-                case 6: $name = 'код, убыв.';      break;
-            }
-            $sortorders[$i] = array(
-                'url' => $this->catalogFrontendModel->getURL($url),
-                'name' => $name
-            );
-        }
+        $products = $this->catalogFrontendModel->getCategoryProducts(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort,
+            $start
+        );
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
 
-        // URL этой страницы, атрибут action тега форм
-        $url = $action = 'frontend/catalog/category/id/' . $this->params['id'];
+        // ссылки для сортировки товаров по цене, наменованию, коду
+        $sortorders = $this->catalogFrontendModel->getCategorySortOrders(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
+
+        // URL этой страницы
+        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort
+        );
+
+        // атрибут action тега форм
+        $action = 'frontend/catalog/category/id/' . $this->params['id'];
         $action = $this->catalogFrontendModel->getURL($action);
-        if ($group) {
-            $url = $url . '/group/' . $group;
-        }
-        if ($maker) {
-            $url = $url . '/maker/' . $maker;
-        }
-        if ($hit) {
-            $url = $url . '/hit/1';
-        }
-        if ($new) {
-            $url = $url . '/new/1';
-        }
-        if ( ! empty($param)) {
-            $url = $url . '/param/' . $this->params['param'];
-        }
-        if ($sort) {
-            $url = $url . '/sort/' . $sort;
-        }
-        $thisPageUrl = $this->catalogFrontendModel->getURL($url);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -312,6 +299,47 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'page'            => $page,               // текущая страница
         );
 
+    }
+
+    /**
+     * Вспомогательная функция, обрабатывает отправленные данные формы, если у посетителя отключен
+     * JavaScript, после чего делает редирект на страницу категории, но уже с параметрами в URL
+     *
+     */
+    private function processFormData() {
+        $url = 'frontend/catalog/category/id/' . $this->params['id'];
+        $grp = false;
+        if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
+            $url = $url . '/group/' . $_POST['group'];
+            $grp = true;
+        }
+        if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
+            $url = $url . '/maker/' . $_POST['maker'];
+        }
+        if (isset($_POST['hit'])) {
+            $url = $url . '/hit/1';
+        }
+        if (isset($_POST['new'])) {
+            $url = $url . '/new/1';
+        }
+        if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
+            $param = array();
+            foreach ($_POST['param'] as $key => $value) {
+                if ($key > 0 && ctype_digit($value) && $value > 0) {
+                    $param[] = $key . '.' . $value;
+                }
+            }
+            if ( ! empty($param)) {
+                $url = $url . '/param/' . implode('-', $param);
+            }
+        }
+        if (isset($_POST['sort'])
+            && ctype_digit($_POST['sort'])
+            && in_array($_POST['sort'], array(1,2,3,4,5,6))
+        ) {
+            $url = $url . '/sort/' . $_POST['sort'];
+        }
+        $this->redirect($this->catalogFrontendModel->getURL($url));
     }
 
 }

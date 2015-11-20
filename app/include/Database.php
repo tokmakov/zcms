@@ -82,7 +82,7 @@ class Database {
          * 3. public function fetchOne() и private function pdoFetchOne()
          */
         $function = 'pdo' . ucfirst($function);
-        if (!method_exists($this, $function)) {
+        if ( ! method_exists($this, $function)) {
             throw new Exception('Метод ' . __CLASS__ . '::' . $function . ' не существует');
         }
 
@@ -209,7 +209,7 @@ class Database {
      */
     public function fetchOne($query, $params = array(), $cache = false) {
         // если кэширование запрещено
-        if (!$cache) {
+        if ( ! $cache) {
             return $this->pdoFetchOne($query, $params);
         }
 

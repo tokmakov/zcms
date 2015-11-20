@@ -176,7 +176,26 @@ class Catalog_Backend_Model extends Backend_Model {
      * Функция возвращает уровень вложенности категории
      */
     private function getCategoryLevel($id) {
-        return count($this->getCategoryPath($id));
+        return count($this->getCategoryParents($id));
+    }
+
+    /**
+     * Функция возвращает массив всех предков категории $id
+     */
+    private function getCategoryParents($id) {
+        $parents = array();
+        $current = $id;
+        while ($current) {
+            $parents[] = $current;
+            $query = "SELECT
+                          `parent`
+                      FROM
+                          `categories`
+                      WHERE
+                          `id` = :current";
+            $current = $this->database->fetchOne($query, array('current' => $current));
+        }
+        return $parents;
     }
 
     /**
@@ -202,7 +221,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       `category`, `category2`, `group`, `maker`, `code`, `name`, `title`,
                       `keywords`, `description`, `shortdescr`, `purpose`, `techdata`,
                       `features`, `complect`, `equipment`, `padding`, `price`, `price2`,
-                       `price3`, `price4`, `price5`, `price6`, `price7`, `unit`, `image`,
+                      `price3`, `price4`, `price5`, `price6`, `price7`, `unit`, `image`,
                       `sortorder`
                   FROM
                       `products`
@@ -254,7 +273,12 @@ class Catalog_Backend_Model extends Backend_Model {
 
         // порядок сортировки
         $data['sortorder'] = 0;
-        $query = "SELECT IFNULL(MAX(`sortorder`), 0) FROM `products` WHERE `category` = :category";
+        $query = "SELECT
+                      IFNULL(MAX(`sortorder`), 0)
+                  FROM
+                      `products`
+                  WHERE
+                      `category` = :category";
         $data['sortorder'] = $this->database->fetchOne($query, array('category' => $data['category'])) + 1;
 
         $params = $data['params'];
@@ -508,36 +532,37 @@ class Catalog_Backend_Model extends Backend_Model {
         }
 
         // проверяем, пришел ли файл изображения товара
-        if (!empty($_FILES['image']['name'])) {
+        if ( ! empty($_FILES['image']['name'])) {
             // проверяем, что при загрузке не произошло ошибок
             if ($_FILES['image']['error'] == 0) {
                 // если файл загружен успешно, то проверяем - изображение?
                 $mimetypes = array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png');
                 if (in_array($_FILES['image']['type'], $mimetypes)) {
                     // сначала удаляем старое изображение (при обновлении товара)
-                    if (!isset($_POST['remove_image'])) {
+                    // если оно уже не было удалено чуть раньше
+                    if ( ! isset($_POST['remove_image'])) {
                         $this->removeProductImage($id);
                     }
                     // имя файла
                     $name = md5(uniqid(rand(), true)).'.jpg';
                     $image = $name[0] . '/' . $name[1] . '/' . $name;
-                    if (!is_dir('./files/catalog/imgs/small/' . $name[0])) {
-                        mkdir('./files/catalog/imgs/small/' . $name[0]);
+                    if ( ! is_dir('files/catalog/imgs/small/' . $name[0])) {
+                        mkdir('files/catalog/imgs/small/' . $name[0]);
                     }
-                    if (!is_dir('./files/catalog/imgs/small/' . $name[0] . '/' . $name[1])) {
-                        mkdir('./files/catalog/imgs/small/' . $name[0] . '/' . $name[1]);
+                    if ( ! is_dir('files/catalog/imgs/small/' . $name[0] . '/' . $name[1])) {
+                        mkdir('files/catalog/imgs/small/' . $name[0] . '/' . $name[1]);
                     }
-                    if (!is_dir('./files/catalog/imgs/medium/' . $name[0])) {
-                        mkdir('./files/catalog/imgs/medium/' . $name[0]);
+                    if ( ! is_dir('files/catalog/imgs/medium/' . $name[0])) {
+                        mkdir('files/catalog/imgs/medium/' . $name[0]);
                     }
-                    if (!is_dir('./files/catalog/imgs/medium/' . $name[0] . '/' . $name[1])) {
-                        mkdir('./files/catalog/imgs/medium/' . $name[0] . '/' . $name[1]);
+                    if ( ! is_dir('files/catalog/imgs/medium/' . $name[0] . '/' . $name[1])) {
+                        mkdir('files/catalog/imgs/medium/' . $name[0] . '/' . $name[1]);
                     }
-                    if (!is_dir('./files/catalog/imgs/big/' . $name[0])) {
-                        mkdir('./files/catalog/imgs/big/' . $name[0]);
+                    if ( ! is_dir('files/catalog/imgs/big/' . $name[0])) {
+                        mkdir('files/catalog/imgs/big/' . $name[0]);
                     }
-                    if (!is_dir('./files/catalog/imgs/big/' . $name[0] . '/' . $name[1])) {
-                        mkdir('./files/catalog/imgs/big/' . $name[0] . '/' . $name[1]);
+                    if ( ! is_dir('files/catalog/imgs/big/' . $name[0] . '/' . $name[1])) {
+                        mkdir('files/catalog/imgs/big/' . $name[0] . '/' . $name[1]);
                     }
                     // изменяем размер изображения
                     $this->resizeImage( // маленькое
@@ -594,14 +619,14 @@ class Catalog_Backend_Model extends Backend_Model {
         if (empty($image)) {
             return;
         }
-        if (is_file('./files/catalog/imgs/big/' . $image)) {
-            unlink('./files/catalog/imgs/big/' . $image);
+        if (is_file('files/catalog/imgs/big/' . $image)) {
+            unlink('files/catalog/imgs/big/' . $image);
         }
-        if (is_file('./files/catalog/imgs/medium/' . $image)) {
-            unlink('./files/catalog/imgs/medium/' . $image);
+        if (is_file('files/catalog/imgs/medium/' . $image)) {
+            unlink('files/catalog/imgs/medium/' . $image);
         }
-        if (is_file('./files/catalog/imgs/small/' . $image)) {
-            unlink('./files/catalog/imgs/small/' . $image);
+        if (is_file('files/catalog/imgs/small/' . $image)) {
+            unlink('files/catalog/imgs/small/' . $image);
         }
         $query = "UPDATE
                       `products`
@@ -623,7 +648,7 @@ class Catalog_Backend_Model extends Backend_Model {
         if (isset($_POST['update_doc_ids'])) {
             $count = count($_POST['update_doc_ids']);
             for ($i = 0; $i < $count; $i++) {
-                if (!ctype_digit($_POST['update_doc_ids'][$i])) {
+                if ( ! ctype_digit($_POST['update_doc_ids'][$i])) {
                     continue;
                 }
                 $title = trim(utf8_substr($_POST['update_doc_titles'][$i], 0, 120));
@@ -670,8 +695,8 @@ class Catalog_Backend_Model extends Backend_Model {
                               `doc_id` = :doc_id";
                 $res = $this->database->fetchOne($query, array('doc_id' => $doc_id));
                 if (false === $res) { // можно удалять сам файл и запись о нем в таблице БД docs
-                    if (is_file( './files/catalog/docs/' . $fileName ) ) {
-                        unlink( './files/catalog/docs/' . $fileName );
+                    if (is_file( 'files/catalog/docs/' . $fileName ) ) {
+                        unlink( 'files/catalog/docs/' . $fileName );
                     }
                     $query = "DELETE FROM
                                   `docs`
@@ -702,10 +727,10 @@ class Catalog_Backend_Model extends Backend_Model {
                 continue;
             }
             $ext = pathinfo($_FILES['add_doc_files']['name'][$i], PATHINFO_EXTENSION);
-            if (!in_array($ext, $exts)) { // недопустимое расширение файла
+            if ( ! in_array($ext, $exts)) { // недопустимое расширение файла
                 continue;
             }
-            if (!in_array($_FILES['add_doc_files']['type'][$i], $mimeTypes) ) { // недопустимый mime-тип файла
+            if ( ! in_array($_FILES['add_doc_files']['type'][$i], $mimeTypes) ) { // недопустимый mime-тип файла
                 continue;
             }
             $title = trim(utf8_substr($_POST['add_doc_titles'][$i], 0, 120));
@@ -720,15 +745,15 @@ class Catalog_Backend_Model extends Backend_Model {
             $res = $this->database->fetchOne($query, array('md5' => $md5));
             if (false === $res) { // такого файла еще нет
                 $name = md5(uniqid(rand(), true)) . '.' . $ext;
-                if (!is_dir('./files/catalog/docs/' . $name[0])) {
-                    mkdir('./files/catalog/docs/' . $name[0]);
+                if (!is_dir('files/catalog/docs/' . $name[0])) {
+                    mkdir('files/catalog/docs/' . $name[0]);
                 }
-                if (!is_dir('./files/catalog/docs/' . $name[0] . '/' . $name[1])) {
-                    mkdir('./files/catalog/docs/' . $name[0] . '/' . $name[1]);
+                if (!is_dir('files/catalog/docs/' . $name[0] . '/' . $name[1])) {
+                    mkdir('files/catalog/docs/' . $name[0] . '/' . $name[1]);
                 }
                 $fileName = $name[0] . '/' . $name[1] . '/' . $name;
                 // сохраняем файл
-                if ( ! move_uploaded_file($_FILES['add_doc_files']['tmp_name'][$i], './files/catalog/docs/' . $fileName)) {
+                if ( ! move_uploaded_file($_FILES['add_doc_files']['tmp_name'][$i], 'files/catalog/docs/' . $fileName)) {
                     continue;
                 }
                 $query = "INSERT INTO `docs`
@@ -748,10 +773,10 @@ class Catalog_Backend_Model extends Backend_Model {
                               NOW()
                           )";
                 $data = array(
-                    'title' => $title,
+                    'title'    => $title,
                     'filename' => $fileName,
                     'filetype' => $ext,
-                    'md5' => $md5
+                    'md5'      => $md5
                 );
                 $this->database->execute($query, $data);
                 $docId = $this->database->lastInsertId();
@@ -827,7 +852,7 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'order_up' => $order_up,
+                    'order_up'     => $order_up,
                     'id_item_down' => $id_item_down
                 )
             );
@@ -888,7 +913,7 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'order_up' => $order_up,
+                    'order_up'     => $order_up,
                     'id_item_down' => $id_item_down
                 )
             );
@@ -920,6 +945,16 @@ class Catalog_Backend_Model extends Backend_Model {
                   WHERE
                       `parent` = :parent";
         $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
+        /*
+         * Устанавливаем для новой категории значение globalsort, которое имеет вид 07120315000000000000;
+         * здесь
+         * 07 - порядок сортировки категории самого верхнего уровня,
+         * 12 - порядок сортировки следующей категории в иерархии предков и т.п.
+         * 15 - это порядок сортировки самой категории, совпадает с sortorder
+         * Таким образом, чтобы получить значение globalsort для новой категории, нужно получить значение
+         * globalsort родительской категории, например 07120300000000000000, взять оттуда 071203, добавить
+         * к этому sortorder новой категории, например 15, и добавить в конце нули: 071203+15+000000000000
+         */
         if ($data['parent']) { // если родитель - это обычная категория
             $query = "SELECT
                           `globalsort`
@@ -941,6 +976,7 @@ class Catalog_Backend_Model extends Backend_Model {
             $globalsort = '0' . $globalsort;
         }
         $data['globalsort'] = $before . $globalsort . $after;
+        // добавляем новую категорию
         $query = "INSERT INTO `categories`
                   (
                       `parent`,
@@ -989,9 +1025,9 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'parent' => $data['parent'],
+                    'parent'    => $data['parent'],
                     'sortorder' => $sortorder,
-                    'id' => $data['id'],
+                    'id'        => $data['id'],
                 )
             );
             // изменяем порядок сортировки категорий
@@ -1034,8 +1070,8 @@ class Catalog_Backend_Model extends Backend_Model {
         $query = "UPDATE
                       `categories`
                   SET
-                      `name` = :name,
-                      `keywords` = :keywords,
+                      `name`        = :name,
+                      `keywords`    = :keywords,
                       `description` = :description
                   WHERE
                       `id` = :id";
@@ -1102,7 +1138,7 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'order_up' => $order_up,
+                    'order_up'     => $order_up,
                     'id_item_down' => $id_item_down
                 )
             );
@@ -1172,7 +1208,7 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'order_up' => $order_up,
+                    'order_up'     => $order_up,
                     'id_item_down' => $id_item_down
                 )
             );
@@ -1265,9 +1301,21 @@ class Catalog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет порядок сортировки всех категорий
+     * Функция обновляет порядок сортировки всех потомков категории $id
      */
     private function updateSortOrderAllCategories($id = 0) {
+        /*
+         * Значение globalsort, которое обновляет данная функция для всех потомков категории $id,
+         * имеет вид 07120315000000000000, где
+         * 07 - порядок сортировки категории самого верхнего уровня,
+         * 12 - порядок сортировки следующей категории в иерархии предков и т.п.
+         * 15 - это порядок сортировки самой категории, совпадает с sortorder
+         * Таким образом, чтобы получить значение globalsort для какой-нибудь категории, нужно взять
+         * значение globalsort родительской категории, например 07120300000000000000, извлечь оттуда
+         * 071203, добавить к этому sortorder этой категории, например 15, и добавить в конце нули:
+         * 071203+15+000000000000
+         */
+
         // получаем порядок сортировки категории
         if ($id) { // если это обычная категория
             $query = "SELECT `globalsort` FROM `categories` WHERE `id` = :id";
@@ -1326,7 +1374,7 @@ class Catalog_Backend_Model extends Backend_Model {
 
     /**
      * Функция возвращает массив всех производителей для контроллеров,
-     * отвечающих за добавление и редактирование товара
+     * отвечающих за добавление и редактирование производителей
      */
     public function getMakers() {
         $query = "SELECT
@@ -1337,8 +1385,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       1
                   ORDER BY
                       `name`";
-        $makers = $this->database->fetchAll($query);
-        return $makers;
+        return $this->database->fetchAll($query);
     }
 
     /**
@@ -1387,11 +1434,11 @@ class Catalog_Backend_Model extends Backend_Model {
         $query = "UPDATE
                       `makers`
                   SET
-                      `name` = :name,
-                      `altname` = :altname,
-                      `keywords` = :keywords,
+                      `name`        = :name,
+                      `altname`     = :altname,
+                      `keywords`    = :keywords,
                       `description` = :description,
-                      `body` = :body
+                      `body`        = :body
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);

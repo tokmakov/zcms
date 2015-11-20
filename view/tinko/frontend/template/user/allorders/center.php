@@ -14,7 +14,8 @@
  * $orders = Array (
  *   [0] => Array (
  *     [order_id] => 38
- *     [amount] => 42296
+ *     [amount] => 42296.00
+ *     [user_amount] => 40147.00
  *     [date] => 04.12.2014
  *     [time] => 16:44:13
  *     [status] => 0
@@ -27,6 +28,7 @@
  *         [name] => ИП 103-5/1-А3
  *         [title] => Извещатель пожарный тепловой максимальный
  *         [price] => 300.00
+ *         [user_price] => 280.00
  *         [quantity] => 2
  *         [cost] => 600.00
  *         [exists] => 1
@@ -38,6 +40,7 @@
  *         [name] => ИП 103-5/2-А1 (н.з.)
  *         [title] => Извещатель пожарный тепловой максимальный
  *         [price] => 330.00
+ *         [user_price] => 330.00
  *         [quantity] => 2
  *         [cost] => 660.00
  *         [exists] => 1
@@ -47,7 +50,8 @@
  *   )
  *   [1] => Array (
  *     [order_id] => 34
- *     [amount] => 144153
+ *     [amount] => 144153.00
+ *     [user_amount] => 134279.00
  *     [date] => 03.12.2014
  *     [time] => 16:25:12
  *     [status] => 0
@@ -60,6 +64,7 @@
  *         [name] => ИО 102-2 (СМК-1)
  *         [title] => Извещатель охранный точечный магнитоконтактный
  *         [price] => 32.90
+ *         [user_price] => 30.00
  *         [quantity] => 9
  *         [cost] => 296.10
  *         [exists] => 1
@@ -71,6 +76,7 @@
  *         [name] => ИО 102-11М (СМК-3)
  *         [title] => Извещатель охранный точечный магнитоконтактный
  *         [price] => 34.00
+ *         [user_price] => 31.00
  *         [quantity] => 1
  *         [cost] => 34.00
  *         [exists] => 1
@@ -79,7 +85,7 @@
  *     )
  *   )
  * )
- * 
+ *
  * $pager = Array (
  *     [first] => 1
  *     [prev] => 2
@@ -93,7 +99,7 @@
  *         [0] => 4
  *     )
  * )
- * 
+ *
  */
 
 defined('ZCMS') or die('Access denied');
@@ -116,7 +122,7 @@ defined('ZCMS') or die('Access denied');
         <div>
             <p>
                 <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
-                <span>Итого: <strong><?php echo number_format($order['amount'], 2, '.', ''); ?></strong> руб.</span>
+                <span>Итого: <strong><?php echo number_format($order['user_amount'], 2, '.', ''); ?></strong> руб.</span>
             </p>
             <table>
                 <tr>
@@ -135,10 +141,13 @@ defined('ZCMS') or die('Access denied');
                     <?php endif; ?>
                     <td><?php echo $product['name']; ?></td>
                     <td><?php echo $product['quantity']; ?></td>
-                    <td><?php echo number_format($product['price'], 2, '.', ''); ?></td>
-                    <td><?php echo number_format($product['cost'], 2, '.', ''); ?></td>
+                    <td><?php echo number_format($product['user_price'], 2, '.', ''); ?></td>
+                    <td><?php echo number_format($product['user_cost'], 2, '.', ''); ?></td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
+                <tr><td colspan="5" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+            <?php endif; ?>
             </table>
             <div>
                 <div>
