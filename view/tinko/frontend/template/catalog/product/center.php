@@ -22,8 +22,10 @@
  * $features - особенности изделия
  * $complect - комплектация
  * $equipment - доп. оборудование
+ * $padding - доп. информация
  * $docs - файлы документации
- * $action - атирибут action тега form формы для добавления товара в корзину, в список отложенных, в список сравнения
+ * $action - атирибут action тега form формы для добавления товара
+ * в корзину, в список отложенных, в список сравнения
  *
  * $units = Array (
  *   0 => 'руб',
@@ -37,18 +39,18 @@
  * $maker = Array (
  *   [id] => 22
  *   [name] => РЗМКП
- *   [url] => /catalog/maker/22
+ *   [url] => http://www.host.ru/catalog/maker/22
  * )
  *
  * $image = Array (
- *   [medium] => /files/catalog/products/medium/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
- *   [big] => /files/catalog/products/big/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
+ *   [medium] => http://www.host.ru/files/catalog/imgs/medium/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
+ *   [big] => http://www.host.ru/files/catalog/imgs/big/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
  * )
  *
  * $action = Array (
- *   [basket] => /basket/addprd
- *   [wished] => /wished/addprd
- *   [compared] => /compared/addprd
+ *   [basket] => http://www.host.ru/basket/addprd
+ *   [wished] => http://www.host.ru/wished/addprd
+ *   [compared] => http://www.host.ru/compared/addprd
  * )
  *
  * $docs = Array (
@@ -56,13 +58,13 @@
  *     [id] => 36
  *     [title] => Руководство по эксплуатации
  *     [type] => pdf
- *     [url] => /files/catalog/docs/3/9/396785fd3a56127cf43d2bf14105dd91.pdf
+ *     [url] => http://www.host.ru/files/catalog/docs/3/9/396785fd3a56127cf43d2bf14105dd91.pdf
  *   )
  *   [1] => Array (
  *     [id] => 37
  *     [title] => Схема подключения
  *     [type] => pdf
- *     [url] => /files/catalog/docs/5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
+ *     [url] => http://www.host.ru/files/catalog/docs/5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
  *   )
  * )
  *
@@ -74,18 +76,18 @@
  *     [title] => Модуль релейных выходов
  *     [price] => 5197.00
  *     [unit] => 1
- *     [shortdescr] => Модуль релейных выходов и оптоизолированных входов для PowerVN4 Pro 4. Модуль "MB-RIO 4/16" предназначен для приема, гальванического разделения дискретных сигналов от датчиков охраны и передачи их в устройство TitanVN, PowerVN4 Pro 4, PowerVN4 Pro 3, TinyVN4 Pro 3. Модуль "MB-RIO 4/16" имеет 4 релейных выхода типа "сухой контакт" для управления внешними исполнительными устройств
- *     [image] => 2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
+ *     [shortdescr] => Модуль релейных выходов и оптоизолированных входов для PowerVN4 Pro...
+ *     [image] => http://www.host.ru/files/catalog/imgs/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
  *     [ctg_id] => 598
  *     [ctg_name] => Компоненты и ПО
  *     [mkr_id] => 558
  *     [mkr_name] => VideoNet
  *     [url] => Array (
- *       [product] => /catalog/product/65498
- *       [maker] => /catalog/maker/558
- *       [image] => /files/catalog/products/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
+ *       [product] => http://www.host.ru/catalog/product/65498
+ *       [maker] => http://www.host.ru/catalog/maker/558
+ *       [image] => http://www.host.ru/files/catalog/products/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
  *     )
- *     [action] => /basket/addprd
+ *     [action] => http://www.host.ru/basket/addprd
  *   )
  *   [1] => Array (
  *     ..........
@@ -221,6 +223,13 @@ defined('ZCMS') or die('Access denied');
             <div class="center-block">
                 <div><h3>Дополнительное оборудование</h3></div>
                 <div><?php echo nl2br($equipment); ?></div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($padding)): ?>
+            <div class="center-block">
+                <div><h3>Дополнительная информация</h3></div>
+                <div><?php echo nl2br($padding); ?></div>
             </div>
         <?php endif; ?>
 

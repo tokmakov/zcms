@@ -1,8 +1,8 @@
 <?php
 /**
  * Класс Index_Catalog_Frontend_Controller формирует главную страницу каталога,
- * т.е. список категорий верхнего уровня, получает данные от модели
- * Catalog_Frontend_Model, общедоступная часть сайта
+ * т.е. список категорий верхнего уровня + список производителей, получает данные
+ * от модели Catalog_Frontend_Model, общедоступная часть сайта
  */
 class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -27,7 +27,10 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+            ),
         );
 
         // получаем от модели массив категорий верхнего уровня
@@ -41,11 +44,11 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'  => $breadcrumbs,
             // массив категорий верхнего уровня
-            'root'        => $root,
+            'root'         => $root,
             // массив производителей
-            'makers'      => $makers,
+            'makers'       => $makers,
             // URL ссылки на страницу со списком всех производителей
             'allMakersUrl' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
         );

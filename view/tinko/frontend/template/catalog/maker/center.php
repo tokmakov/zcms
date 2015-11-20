@@ -22,20 +22,21 @@
  *     [code] => 230524
  *     [name] => AVP-453 (PAL)
  *     [title] => Видеопанель вызывная цветная
- *     [image] => 6/9/690535d0ce3fd37599827a20d9ced8de.jpg
- *     [price] => 3159
+ *     [price] => 3159.00
+ *     [price2] => 3059.00
+ *     [price3] => 2959.00
  *     [unit] => 1
  *     [shortdescr] => Дверной блок, накладной, ЛС 4-х пров.; 420 Твл, ИК-подветка; -50…+50°С; 140х70х20 мм
  *     [ctg_id] => 844
  *     [ctg_name] => Видеопенели вызывные
  *     [url] => Array (
- *       [product] => /catalog/product/230524
- *       [image] => /files/catalog/products/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
+ *       [product] => http://www.host.ru/catalog/product/230524
+ *       [image] => http://www.host.ru/files/catalog/imgs/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
  *     )
  *     [action] => Array (
- *       [basket] => /basket/addprd
- *       [wished] => /wished/addprd
- *       [compared] => /compared/addprd
+ *       [basket] => http://www.host.ru/basket/addprd
+ *       [wished] => http://www.host.ru/wished/addprd
+ *       [compared] => http://www.host.ru/compared/addprd
  *     )
  *   )
  *   [1] => Array (
@@ -46,31 +47,31 @@
  *
  * $sortorders = Array (
  *   [0] => Array (
- *     [url] => /catalog/maker/74
+ *     [url] => http://www.host.ru/catalog/maker/74
  *     [name] => без сортировки
  *   )
  *   [1] => Array (
- *     [url] => /catalog/maker/74/sort/1
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/1
  *     [name] => цена, возр.
  *   )
  *   [2] => Array (
- *     [url] => /catalog/maker/74/sort/2
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/2
  *     [name] => цена, убыв.
  *   )
  *   [3] => Array (
- *     [url] => /catalog/maker/74/sort/3
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/3
  *     [name] => название, возр.
  *   )
  *   [4] => Array (
- *     [url] => /catalog/maker/74/sort/4
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/4
  *     [name] => название, убыв.
  *   )
  *   [5] => Array (
- *     [url] => /catalog/maker/74/sort/5
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/5
  *     [name] => код, возр.
  *   )
  *   [6] => Array (
- *     [url] => /catalog/maker/74/sort/6
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/6
  *     [name] => код, убыв.
  *   )
  * )
@@ -283,4 +284,3 @@ for ($i = 0; $i <= 6; $i++) {
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/catalog/maker/center.php -->
-

@@ -41,7 +41,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             return;
         }
 
-        $this->title = $maker['name'] . '. Все изделия производителя. ' . $this->title;
+        $this->title = $maker['name'] . '. Все товары производителя.';
 
         if (!empty($maker['keywords'])) {
             $this->keywords = $maker['keywords'];
@@ -52,9 +52,18 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->catalogFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
-            array('url' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'), 'name' => 'Производители'),
+            array(
+                'name' => 'Главная',
+                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+            ),
+            array(
+                'name' => 'Производители',
+                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs')
+            ),
         );
 
         // включена сортировка?
@@ -66,22 +75,23 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $sort = $this->params['sort'];
         }
 
-        // постраничная навигация
-        $currentPage = 1;
-        if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+        /*
+         * постраничная навигация
+         */
+        $page = 1;
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
+            $page = $this->params['page'];
         }
         // общее кол-во товаров производителя
         $totalProducts = $this->catalogFrontendModel->getCountMakerProducts($this->params['id']);
-
         $temp = new Pager(
-            $currentPage,                                       // текущая страница
+            $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров производителя
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -89,7 +99,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * $this->config->pager->frontend->products->perpage;
+        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив всех товаров производителя
         $products = $this->catalogFrontendModel->getMakerProducts($this->params['id'], $sort, $start);
@@ -109,11 +119,6 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             if ($i) {
                 $url = $url . '/sort/' . $i;
             }
-            /*
-            if ($currentPage > 1) {
-                $url = $url . '/page/' . $currentPage;
-            }
-            */
             switch ($i) {
                 case 0: $name = 'без сортировки';  break;
                 case 1: $name = 'цена, возр.';     break;
@@ -124,7 +129,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 case 6: $name = 'код, убыв.';      break;
             }
             $sortorders[$i] = array(
-                'url' => $this->catalogFrontendModel->getURL($url),
+                'url'  => $this->catalogFrontendModel->getURL($url),
                 'name' => $name
             );
         }
@@ -161,7 +166,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // постраничная навигация
             'pager'       => $pager,
             // текущая страница
-            'page'        => $currentPage,
+            'page'        => $page,
         );
 
     }

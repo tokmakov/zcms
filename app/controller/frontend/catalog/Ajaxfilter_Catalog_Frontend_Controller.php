@@ -152,7 +152,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
             $sort
         );
 
-        // формируем HTML результатов поиска
+        // формируем HTML результатов фильтрации товаров
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/ajax/filter.php',
             array(

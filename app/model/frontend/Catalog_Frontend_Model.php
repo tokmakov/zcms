@@ -148,7 +148,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`price` AS `price`, `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
                       `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`, `a`.`purpose` AS `purpose`,
                       `a`.`techdata` AS `techdata`, `a`.`features` AS `features`, `a`.`complect` AS `complect`,
-                      `a`.`equipment` AS `equipment`, `a`.`category2` AS `second`,
+                      `a`.`equipment` AS `equipment`, `a`.`padding` AS `padding`, `a`.`category2` AS `second`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
                   FROM
@@ -159,7 +159,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`id` = :id AND `a`.`visible` = 1";
         $product = $this->database->fetch($query, array('id' => $id));
         if (false === $product) {
-            return false;
+            return null;
         }
         // добавляем информацию о файлах документации
         $query = "SELECT
@@ -172,8 +172,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `b`.`prd_id` = :id
                   ORDER BY
                       `a`.`title`";
-        $docs = $this->database->fetchAll($query, array('id' => $id));
-        $product['docs'] = $docs;
+        $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
+
         return $product;
     }
 

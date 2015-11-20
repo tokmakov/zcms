@@ -364,8 +364,8 @@ class Catalog_Backend_Model extends Backend_Model {
                     $query,
                     array(
                         'product_id' => $id,
-                        'param_id' => $key,
-                        'value_id' => $v
+                        'param_id'   => $key,
+                        'value_id'   => $v
                     )
                 );
             }
@@ -412,9 +412,9 @@ class Catalog_Backend_Model extends Backend_Model {
             $this->database->execute(
                 $query,
                 array(
-                    'category' => $data['category'],
+                    'category'  => $data['category'],
                     'sortorder' => $sortorder,
-                    'id' => $data['id']
+                    'id'        => $data['id']
                 )
             );
             // обновляем порядок сортировки в старой родительской категории
@@ -440,7 +440,7 @@ class Catalog_Backend_Model extends Backend_Model {
                         $query,
                         array(
                             'sortorder' => $sortorder,
-                            'id' => $prd['id']
+                            'id'        => $prd['id']
                         )
                     );
                     $sortorder++;
@@ -506,8 +506,8 @@ class Catalog_Backend_Model extends Backend_Model {
                     $query,
                     array(
                         'product_id' => $data['id'],
-                        'param_id' => $key,
-                        'value_id' => $v
+                        'param_id'   => $key,
+                        'value_id'   => $v
                     )
                 );
             }
@@ -597,7 +597,7 @@ class Catalog_Backend_Model extends Backend_Model {
                         $query,
                         array(
                             'image' => $image,
-                            'id' => $id
+                            'id'    => $id
                         )
                     );
                 }
@@ -803,7 +803,7 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function moveProductDown($id) {
         $id_item_down = $id;
-        // порядок следования товара, который опускается вниз
+        // получаем порядок следования и родительскую категорию товара, который опускается вниз
         $query = "SELECT
                       `sortorder`, `category`
                   FROM
@@ -813,8 +813,8 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
         $order_down = $res['sortorder'];
         $parent = $res['category'];
-        // порядок следования и id товара, который находится ниже и будет поднят вверх,
-        // поменявшись местами с товаром, который опускается вниз
+        // получаем порядок следования и id товара, который находится ниже и будет
+        // поднят вверх, поменявшись местами с товаром, который опускается вниз
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
@@ -826,6 +826,8 @@ class Catalog_Backend_Model extends Backend_Model {
                   LIMIT
                       1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
+        // если запрос вернул false, значит товар и так самый последний
+        // в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_up = $res['id'];
             $order_up = $res['sortorder'];
@@ -864,7 +866,7 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function moveProductUp($id) {
         $id_item_up = $id;
-        // порядок следования товара, который поднимается вверх
+        // получаем порядок следования и родительскую категорию товара, который поднимается вверх
         $query = "SELECT
                       `sortorder`, `category`
                   FROM
@@ -874,8 +876,8 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
         $order_up = $res['sortorder'];
         $parent = $res['category'];
-        // порядок следования и id товара, который находится выше и будет опущен вниз,
-        // поменявшись местами с товаром, который поднимается вверх
+        // получаем порядок следования и id товара, который находится выше и будет
+        // опущен вниз, поменявшись местами с товаром, который поднимается вверх
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
@@ -887,6 +889,8 @@ class Catalog_Backend_Model extends Backend_Model {
                   LIMIT
                       1";
         $res = $this->database->fetch($query, array('parent' => $parent, 'order_up' => $order_up));
+        // если запрос вернул false, значит товар и так самый первый
+        // в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_down = $res['id'];
             $order_down = $res['sortorder'];
@@ -1055,7 +1059,7 @@ class Catalog_Backend_Model extends Backend_Model {
                         $query,
                         array(
                             'sortorder' => $sortorder,
-                            'id' => $ctg['id']
+                            'id'        => $ctg['id']
                         )
                     );
                     $sortorder++;
@@ -1083,7 +1087,7 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function moveCategoryDown($id) {
         $id_item_down = $id;
-        // порядок следования категории, которая опускается вниз
+        // получаем порядок следования и родителя категории, которая опускается вниз
         $query = "SELECT
                       `sortorder`, `parent`
                   FROM
@@ -1093,8 +1097,8 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch($query, array('id_item_down' => $id_item_down));
         $order_down = $res['sortorder'];
         $parent = $res['parent'];
-        // порядок следования и id категории, которая находится ниже и будет поднята вверх,
-        // поменявшись местами с категорией, которая опускается вниз
+        // получаем порядок следования и id категории, которая находится ниже и будет
+        // поднята вверх, поменявшись местами с категорией, которая опускается вниз
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
@@ -1108,10 +1112,12 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch(
             $query,
             array(
-                'parent' => $parent,
+                'parent'     => $parent,
                 'order_down' => $order_down
             )
         );
+        // если запрос вернул false, значит категория и так самая последняя
+        // в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_up = $res['id'];
             $order_up = $res['sortorder'];
@@ -1153,7 +1159,7 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function moveCategoryUp($id) {
         $id_item_up = $id;
-        // порядок следования категории, которая поднимается вверх
+        // получаем порядок следования и родителя категории, которая поднимается вверх
         $query = "SELECT
                       `sortorder`, `parent`
                   FROM
@@ -1163,8 +1169,8 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch($query, array('id_item_up' => $id_item_up));
         $order_up = $res['sortorder'];
         $parent = $res['parent'];
-        // порядок следования и id категории, которая находится выше и будет опущена вниз,
-        // поменявшись местами с категорией, которая поднимается вверх
+        // получаем порядок следования и id категории, которая находится выше и будет
+        // опущена вниз, поменявшись местами с категорией, которая поднимается вверх
         $query = "SELECT
                       `id`, `sortorder`
                   FROM
@@ -1178,10 +1184,12 @@ class Catalog_Backend_Model extends Backend_Model {
         $res = $this->database->fetch(
             $query,
             array(
-                'parent' => $parent,
+                'parent'   => $parent,
                 'order_up' => $order_up
             )
         );
+        // если запрос вернул false, значит категория и так самая первая
+        // в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_down = $res['id'];
             $order_down = $res['sortorder'];
@@ -1287,7 +1295,7 @@ class Catalog_Backend_Model extends Backend_Model {
                     $query,
                     array(
                         'sortorder' => $sortorder,
-                        'id' => $ctg['id']
+                        'id'        => $ctg['id']
                     )
                 );
                 $sortorder++;

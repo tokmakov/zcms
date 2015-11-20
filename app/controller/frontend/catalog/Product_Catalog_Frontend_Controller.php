@@ -50,7 +50,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * формирования кэша. См. комментарии в начале конструктора класса Router в файле
          * app/include/Router.php и исходный код файла cache/make-cache.php.
          */
-        if (!isset($this->config->cache->make)) {
+        if ( ! isset($this->config->cache->make)) {
             // добавляем товар в список просмотренных
             $this->viewedFrontendModel->addToViewed($this->params['id']);
         }
@@ -87,13 +87,13 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = $this->catalogFrontendModel->getCategoryPath($product['ctg_id']); // путь до категории
         // если товар размещен в двух категориях
         $breadcrumbs2 = null;
-        if (!empty($product['second'])) {
+        if ( ! empty($product['second'])) {
             $breadcrumbs2 = $this->catalogFrontendModel->getCategoryPath($product['second']); // путь до категории
         }
 
         // технические характеристики
         $techdata = array();
-        if (!empty($product['techdata'])) {
+        if ( ! empty($product['techdata'])) {
             $techdata = unserialize($product['techdata']);
         }
 
@@ -170,8 +170,10 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'complect'     => $product['complect'],
             // доп. оборудование
             'equipment'    => $product['equipment'],
-            'docs'         => $product['docs'],
+            // доп. информация
+            'padding'      => $product['padding'],
             // файлы документации
+            'docs'         => $product['docs'],
             // атирибут action тега form формы для добавления товара в корзину, в список отложенных, в список сравнения
             'action'       => array(
                 'basket'   => $this->catalogFrontendModel->getURL('frontend/basket/addprd'),

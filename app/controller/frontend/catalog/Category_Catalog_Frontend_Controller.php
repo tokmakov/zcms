@@ -202,7 +202,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * постраничная навигация
          */
         $page = 1;
-        if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = $this->params['page'];
         }
         // общее кол-во товаров категории
@@ -267,9 +267,8 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $sort
         );
 
-        // атрибут action тега форм
-        $action = 'frontend/catalog/category/id/' . $this->params['id'];
-        $action = $this->catalogFrontendModel->getURL($action);
+        // атрибут action тега form
+        $action = $this->catalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

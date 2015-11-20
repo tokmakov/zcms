@@ -29,8 +29,14 @@ class Allmkrs_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->catalogFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+            ),
         );
 
         // получаем от модели массив всех производителей

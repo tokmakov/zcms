@@ -40,8 +40,16 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $this->description = 'Поиск по каталогу. ' . $this->description;
 
         // формируем хлебные крошки
-        $breadcrumbs[] = array('url' => $this->catalogFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная');
-        $breadcrumbs[] = array('url' => $this->catalogFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог');
+        $breadcrumbs = array(
+            array(
+                'name' => 'Главная',
+                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+            )
+        );
 
         if (empty($this->params['query'])) {
             $this->centerVars['action'] = $this->catalogFrontendModel->getURL('frontend/catalog/search');
@@ -51,22 +59,23 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         $this->params['query'] = str_replace('|', '/', $this->params['query']);
 
-        // постраничная навигация
-        $currentPage = 1;
-        if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+        /*
+         * постраничная навигация
+         */
+        $page = 1;
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
+            $page = $this->params['page'];
         }
         // общее кол-во результатов поиска
         $totalProducts = $this->catalogFrontendModel->getCountSearchResults($this->params['query']);
-
         $temp = new Pager(
-            $currentPage,                                       // текущая страница
+            $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во результатов поиска
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -74,7 +83,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * $this->config->pager->frontend->products->perpage;
+        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив результатов поиска
         $results = $this->catalogFrontendModel->getSearchResults($this->params['query'], $start);
@@ -101,7 +110,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // постраничная навигация
             'pager'       => $pager,
             // текущая страница
-            'page'        => $currentPage,
+            'page'        => $page,
         );
 
     }
