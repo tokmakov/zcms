@@ -5,10 +5,13 @@
  */
 class News_Frontend_Model extends Frontend_Model {
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     /**
      * Возвращает массив всех новостей; результаты работы кэшируются
      */
-    // TODO: переделать все кэширование
     public function getAllNews($start = 0) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
@@ -107,9 +110,12 @@ class News_Frontend_Model extends Frontend_Model {
                          DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
                          DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
                          `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
-                  FROM `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
-                  WHERE `a`.`category` = :id
-                  ORDER BY `a`.`added` DESC
+                  FROM
+                      `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
+                  WHERE
+                      `a`.`category` = :id
+                  ORDER BY
+                      `a`.`added` DESC
                   LIMIT " . $start . ", " . $this->config->pager->frontend->news->perpage;
         $news = $this->database->fetchAll($query, array('id' => $id), $this->enableDataCache);
         // добавляем в массив новостей информацию об URL новости, картинки, категории

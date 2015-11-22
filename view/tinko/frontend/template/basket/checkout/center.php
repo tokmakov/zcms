@@ -56,27 +56,27 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $recipient_name             = ''; // имя контактного лица получателя
-    $recipient_surname          = ''; // фамилия контактного лица получателя
-    $recipient_email            = ''; // e-mail контактного лица получателя
-    $recipient_phone            = ''; // телефон контактного лица получателя
+    $buyer_name             = ''; // имя контактного лица получателя
+    $buyer_surname          = ''; // фамилия контактного лица получателя
+    $buyer_email            = ''; // e-mail контактного лица получателя
+    $buyer_phone            = ''; // телефон контактного лица получателя
 
     $own_shipping               = 1;  // самовывоз?
-    $recipient_physical_address = ''; // адрес доставки получателя
-    $recipient_city             = ''; // город
-    $recipient_postal_index     = ''; // почтовый индекс
+    $buyer_physical_address = ''; // адрес доставки получателя
+    $buyer_city             = ''; // город
+    $buyer_postal_index     = ''; // почтовый индекс
 
-    $recipient_legal_person     = 0;  // получатель - юридическое лицо?
-    $recipient_company          = ''; // название компании получателя
-    $recipient_ceo_name         = ''; // генеральный директор компании получателя
-    $recipient_legal_address    = ''; // юридический адрес компании получателя
-    $recipient_bank_name        = ''; // название банка компании получателя
-    $recipient_inn              = ''; // ИНН компании получателя
-    $recipient_bik              = ''; // БИК компании получателя
-    $recipient_settl_acc        = ''; // расчетный счет компании получателя
-    $recipient_corr_acc         = ''; // корреспондентский счет компании получателя
+    $buyer_legal_person     = 0;  // получатель - юридическое лицо?
+    $buyer_company          = ''; // название компании получателя
+    $buyer_ceo_name         = ''; // генеральный директор компании получателя
+    $buyer_legal_address    = ''; // юридический адрес компании получателя
+    $buyer_bank_name        = ''; // название банка компании получателя
+    $buyer_inn              = ''; // ИНН компании получателя
+    $buyer_bik              = ''; // БИК компании получателя
+    $buyer_settl_acc        = ''; // расчетный счет компании получателя
+    $buyer_corr_acc         = ''; // корреспондентский счет компании получателя
 
-    $recipient_payer_different  = 0;  // плательщик и получатель различаются?
+    $buyer_payer_different  = 0;  // плательщик и получатель различаются?
 
     $payer_name                 = ''; // имя контактного лица плательщика
     $payer_surname              = ''; // фамилия контактного лица плательщика
@@ -96,27 +96,27 @@ defined('ZCMS') or die('Access denied');
     $comment                    = ''; // комментарий к заказу
 
     if (isset($savedFormData)) {
-        $recipient_name             = htmlspecialchars($savedFormData['recipient_name']);
-        $recipient_surname          = htmlspecialchars($savedFormData['recipient_surname']);
-        $recipient_email            = htmlspecialchars($savedFormData['recipient_email']);
-        $recipient_phone            = htmlspecialchars($savedFormData['recipient_phone']);
+        $buyer_name             = htmlspecialchars($savedFormData['buyer_name']);
+        $buyer_surname          = htmlspecialchars($savedFormData['buyer_surname']);
+        $buyer_email            = htmlspecialchars($savedFormData['buyer_email']);
+        $buyer_phone            = htmlspecialchars($savedFormData['buyer_phone']);
 
         $own_shipping               = $savedFormData['own_shipping'];
-        $recipient_physical_address = htmlspecialchars($savedFormData['recipient_physical_address']);
-        $recipient_city             = htmlspecialchars($savedFormData['recipient_city']);
-        $recipient_postal_index     = htmlspecialchars($savedFormData['recipient_postal_index']);
+        $buyer_physical_address = htmlspecialchars($savedFormData['buyer_physical_address']);
+        $buyer_city             = htmlspecialchars($savedFormData['buyer_city']);
+        $buyer_postal_index     = htmlspecialchars($savedFormData['buyer_postal_index']);
 
-        $recipient_legal_person     = $savedFormData['recipient_legal_person'];
-        $recipient_company          = htmlspecialchars($savedFormData['recipient_company']);
-        $recipient_ceo_name         = htmlspecialchars($savedFormData['recipient_ceo_name']);
-        $recipient_legal_address    = htmlspecialchars($savedFormData['recipient_legal_address']);
-        $recipient_bank_name        = htmlspecialchars($savedFormData['recipient_bank_name']);
-        $recipient_inn              = htmlspecialchars($savedFormData['recipient_inn']);
-        $recipient_bik              = htmlspecialchars($savedFormData['recipient_bik']);
-        $recipient_settl_acc        = htmlspecialchars($savedFormData['recipient_settl_acc']);
-        $recipient_corr_acc         = htmlspecialchars($savedFormData['recipient_corr_acc']);
+        $buyer_legal_person     = $savedFormData['buyer_legal_person'];
+        $buyer_company          = htmlspecialchars($savedFormData['buyer_company']);
+        $buyer_ceo_name         = htmlspecialchars($savedFormData['buyer_ceo_name']);
+        $buyer_legal_address    = htmlspecialchars($savedFormData['buyer_legal_address']);
+        $buyer_bank_name        = htmlspecialchars($savedFormData['buyer_bank_name']);
+        $buyer_inn              = htmlspecialchars($savedFormData['buyer_inn']);
+        $buyer_bik              = htmlspecialchars($savedFormData['buyer_bik']);
+        $buyer_settl_acc        = htmlspecialchars($savedFormData['buyer_settl_acc']);
+        $buyer_corr_acc         = htmlspecialchars($savedFormData['buyer_corr_acc']);
 
-        $recipient_payer_different  = $savedFormData['recipient_payer_different'];
+        $buyer_payer_different  = $savedFormData['buyer_payer_different'];
 
         $payer_name                 = htmlspecialchars($savedFormData['payer_name']);
         $payer_surname              = htmlspecialchars($savedFormData['payer_surname']);
@@ -138,16 +138,16 @@ defined('ZCMS') or die('Access denied');
 
 <form action="<?php echo $action; ?>" method="post" id="checkout-order">
 
-    <div id="recipient-order">
+    <div id="buyer-order">
 
         <h2>Получатель</h2>
 
         <?php if ($authUser && !empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
-            <div id="recipient-profile">
+            <div id="buyer-profile">
                 <div>
                     <div>Профиль получателя</div>
                     <div>
-                        <select name="recipient_profile">
+                        <select name="buyer_profile">
                             <option value="0">Выберите</option>
                             <?php foreach ($profiles as $profile): ?>
                                 <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
@@ -159,70 +159,70 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
 
         <div>
-            <label><input type="checkbox" name="recipient_legal_person"<?php if ($recipient_legal_person) echo ' checked="checked"'; ?> value="1" /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
+            <label><input type="checkbox" name="buyer_legal_person"<?php if ($buyer_legal_person) echo ' checked="checked"'; ?> value="1" /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
         </div>
 
-        <div id="recipient-legal-person">
+        <div id="buyer-legal-person">
             <h3>Юридическое лицо</h3>
             <div>
                 <div>Название компании <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_company" maxlength="64" value="<?php echo $recipient_company; ?>" /></div>
+                <div><input type="text" name="buyer_company" maxlength="64" value="<?php echo $buyer_company; ?>" /></div>
             </div>
             <div>
                 <div>Генеральный директор <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_ceo_name" maxlength="64" value="<?php echo $recipient_ceo_name; ?>" /></div>
+                <div><input type="text" name="buyer_ceo_name" maxlength="64" value="<?php echo $buyer_ceo_name; ?>" /></div>
             </div>
             <div>
                 <div>Юридический адрес <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_legal_address" maxlength="250" value="<?php echo $recipient_legal_address; ?>" /></div>
+                <div><input type="text" name="buyer_legal_address" maxlength="250" value="<?php echo $buyer_legal_address; ?>" /></div>
             </div>
             <div>
                 <div>ИНН <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_inn" maxlength="32" value="<?php echo $recipient_inn; ?>" /></div>
+                <div><input type="text" name="buyer_inn" maxlength="32" value="<?php echo $buyer_inn; ?>" /></div>
             </div>
             <div>
                 <div>Название банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_bank_name" maxlength="64" value="<?php echo $recipient_bank_name; ?>" /></div>
+                <div><input type="text" name="buyer_bank_name" maxlength="64" value="<?php echo $buyer_bank_name; ?>" /></div>
             </div>
             <div>
                 <div>БИК <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_bik" maxlength="32" value="<?php echo $recipient_bik; ?>" /></div>
+                <div><input type="text" name="buyer_bik" maxlength="32" value="<?php echo $buyer_bik; ?>" /></div>
             </div>
             <div>
                 <div>Расчетный счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_settl_acc" maxlength="32" value="<?php echo $recipient_settl_acc; ?>" /></div>
+                <div><input type="text" name="buyer_settl_acc" maxlength="32" value="<?php echo $buyer_settl_acc; ?>" /></div>
             </div>
             <div>
                 <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_corr_acc" maxlength="32" value="<?php echo $recipient_corr_acc; ?>" /></div>
+                <div><input type="text" name="buyer_corr_acc" maxlength="32" value="<?php echo $buyer_corr_acc; ?>" /></div>
             </div>
         </div>
 
-        <div id="recipient-physical-person">
+        <div id="buyer-physical-person">
             <h3>Контактное лицо</h3>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_surname" maxlength="32" value="<?php echo $recipient_surname; ?>" /></div>
+                <div><input type="text" name="buyer_surname" maxlength="32" value="<?php echo $buyer_surname; ?>" /></div>
             </div>
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_name" maxlength="32" value="<?php echo $recipient_name; ?>" /></div>
+                <div><input type="text" name="buyer_name" maxlength="32" value="<?php echo $buyer_name; ?>" /></div>
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_email" maxlength="32" value="<?php echo $recipient_email; ?>" /></div>
+                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" /></div>
             </div>
             <div>
                 <div>Телефон</div>
-                <div><input type="text" name="recipient_phone" maxlength="32" value="<?php echo $recipient_phone; ?>" /></div>
+                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" /></div>
             </div>
         </div>
 
-        <div id="recipient-own-shipping">
+        <div id="buyer-own-shipping">
             <label><input type="checkbox" name="own_shipping"<?php if ($own_shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
             <?php if (!empty($offices)): ?>
                 <select name="office">
-                <?php foreach($offices as $key => $value): ?>
+                <?php foreach ($offices as $key => $value): ?>
                     <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
                         <?php echo $value; ?>
                     </option>
@@ -231,26 +231,26 @@ defined('ZCMS') or die('Access denied');
             <?php endif; ?>
         </div>
 
-        <div id="recipient-physical-address">
+        <div id="buyer-physical-address">
             <h3>Адрес доставки</h3>
             <div>
                 <div>Адрес <span class="form-field-required">*</span></div>
-                <div><input type="text" name="recipient_physical_address" maxlength="250" value="<?php echo $recipient_physical_address; ?>" /></div>
+                <div><input type="text" name="buyer_physical_address" maxlength="250" value="<?php echo $buyer_physical_address; ?>" /></div>
             </div>
             <div>
                 <div>Город</div>
-                <div><input type="text" name="recipient_city" maxlength="32" value="<?php echo $recipient_city; ?>" /></div>
+                <div><input type="text" name="buyer_city" maxlength="32" value="<?php echo $buyer_city; ?>" /></div>
             </div>
             <div>
                 <div>Почтовый индекс</div>
-                <div><input type="text" name="recipient_postal_index" maxlength="32" value="<?php echo $recipient_postal_index; ?>" /></div>
+                <div><input type="text" name="buyer_postal_index" maxlength="32" value="<?php echo $buyer_postal_index; ?>" /></div>
             </div>
         </div>
 
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
                 <label>
-                    <input type="checkbox" name="make_recipient_profile" checked="checked" value="1" />
+                    <input type="checkbox" name="make_buyer_profile" checked="checked" value="1" />
                     <span>Создать профиль получателя</span>
                 </label>
                 <span class="make_profile_help">?</span>
@@ -261,7 +261,7 @@ defined('ZCMS') or die('Access denied');
 
     <div>
         <label>
-            <input type="checkbox" name="recipient_payer_different"<?php if ($recipient_payer_different) echo ' checked="checked"'; ?> value="1" />
+            <input type="checkbox" name="buyer_payer_different"<?php if ($buyer_payer_different) echo ' checked="checked"'; ?> value="1" />
             <span>Плательщик и получатель различаются</span>
         </label>
     </div>

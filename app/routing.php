@@ -520,6 +520,16 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/sitemap/index$~i' =>
         'sitemap',
+
+        /*
+         * обмен данными с 1С
+         */
+        '~^frontend/exchange/neworders/access/([a-f0-9]{32})$~i' =>
+        'exchange/get-new-orders/access/$1',
+        '~^frontend/exchange/order/id/(\d+)/access/([a-f0-9]{32})$~i' =>
+        'exchange/get-order/id/$1/access/$2',
+        '~^frontend/exchange/setstatus/order/(\d+)/status/(\d+)/access/([a-f0-9]{32})$~i' =>
+        'exchange/set-order-status/order/$1/status/$2/access/$3',
     ),
 
     /*
@@ -1138,5 +1148,15 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^sitemap$~i' =>
         'frontend/sitemap/index',
+
+        /*
+         * обмен данными с 1С
+         */
+        '~^exchange/get-new-orders/access/([a-f0-9]{32})$~i' =>
+        'frontend/exchange/neworders/access/$1',
+        '~^exchange/get-order/id/(\d+)/access/([a-f0-9]{32})$~i' =>
+        'frontend/exchange/order/id/$1/access/$2',
+        '~^exchange/set-order-status/order/(\d+)/status/(\d+)/access/([a-f0-9]{32})$~i' =>
+        'frontend/exchange/setstatus/order/$1/status/$2/access/$3',
     )
 );

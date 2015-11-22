@@ -116,63 +116,63 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          */
 
         // имя контактного лица получателя
-        $form['recipient_name']    = trim(utf8_substr(strip_tags($_POST['recipient_name']), 0, 32));
+        $form['buyer_name']    = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 32));
         // фамилия контактного лица получателя
-        $form['recipient_surname'] = trim(utf8_substr(strip_tags($_POST['recipient_surname']), 0, 32));
+        $form['buyer_surname'] = trim(utf8_substr(strip_tags($_POST['buyer_surname']), 0, 32));
         // e-mail контактного лица получателя
-        $form['recipient_email']   = trim(utf8_substr(strip_tags($_POST['recipient_email']), 0, 32));
+        $form['buyer_email']   = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 32));
         // телефон контактного лица получателя
-        $form['recipient_phone']   = trim(utf8_substr(strip_tags($_POST['recipient_phone']), 0, 32));
+        $form['buyer_phone']   = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 32));
 
         if (isset($_POST['own_shipping'])) { // самовывоз?
             $form['own_shipping']               = 1; // да, самовывоз
             if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
                 $form['own_shipping'] = $_POST['office'];
             }
-            $form['recipient_physical_address'] = ''; // адрес доставки
-            $form['recipient_city']             = ''; // город (адрес доставки)
-            $form['recipient_postal_index']     = ''; // почтовый индекс
+            $form['buyer_physical_address'] = ''; // адрес доставки
+            $form['buyer_city']             = ''; // город (адрес доставки)
+            $form['buyer_postal_index']     = ''; // почтовый индекс
         } else {
             $form['own_shipping']               = 0;  // нет, не самовывоз, а доставка по адресу
-            $form['recipient_physical_address'] = trim(utf8_substr(strip_tags($_POST['recipient_physical_address']), 0, 250));
-            $form['recipient_city']             = trim(utf8_substr(strip_tags($_POST['recipient_city']), 0, 32));
-            $form['recipient_postal_index']     = trim(utf8_substr(strip_tags($_POST['recipient_postal_index']), 0, 32));
+            $form['buyer_physical_address'] = trim(utf8_substr(strip_tags($_POST['buyer_physical_address']), 0, 250));
+            $form['buyer_city']             = trim(utf8_substr(strip_tags($_POST['buyer_city']), 0, 32));
+            $form['buyer_postal_index']     = trim(utf8_substr(strip_tags($_POST['buyer_postal_index']), 0, 32));
         }
 
-        if (isset($_POST['recipient_legal_person'])) { // получатель - юридическое лицо?
+        if (isset($_POST['buyer_legal_person'])) { // получатель - юридическое лицо?
             // получатель - юридическое лицо
-            $form['recipient_legal_person']  = 1;
+            $form['buyer_legal_person']  = 1;
             // название компании получателя
-            $form['recipient_company']       = trim(utf8_substr(strip_tags($_POST['recipient_company']), 0, 64));
+            $form['buyer_company']       = trim(utf8_substr(strip_tags($_POST['buyer_company']), 0, 64));
             // генеральный директор компании получателя
-            $form['recipient_ceo_name']      = trim(utf8_substr(strip_tags($_POST['recipient_ceo_name']), 0, 64));
+            $form['buyer_ceo_name']      = trim(utf8_substr(strip_tags($_POST['buyer_ceo_name']), 0, 64));
             // название компании получателя
-            $form['recipient_legal_address'] = trim(utf8_substr(strip_tags($_POST['recipient_legal_address']), 0, 250));
+            $form['buyer_legal_address'] = trim(utf8_substr(strip_tags($_POST['buyer_legal_address']), 0, 250));
             // название банка компании получателя
-            $form['recipient_bank_name']     = trim(utf8_substr(strip_tags($_POST['recipient_bank_name']), 0, 64));
+            $form['buyer_bank_name']     = trim(utf8_substr(strip_tags($_POST['buyer_bank_name']), 0, 64));
             // ИНН компании получателя
-            $form['recipient_inn']           = trim(utf8_substr(strip_tags($_POST['recipient_inn']), 0, 32));
+            $form['buyer_inn']           = trim(utf8_substr(strip_tags($_POST['buyer_inn']), 0, 32));
             // БИК компании получателя
-            $form['recipient_bik']           = trim(utf8_substr(strip_tags($_POST['recipient_bik']), 0, 32));
+            $form['buyer_bik']           = trim(utf8_substr(strip_tags($_POST['buyer_bik']), 0, 32));
             // номер расчетного счета в банке компании получателя
-            $form['recipient_settl_acc']     = trim(utf8_substr(strip_tags($_POST['recipient_settl_acc']), 0, 32));
+            $form['buyer_settl_acc']     = trim(utf8_substr(strip_tags($_POST['buyer_settl_acc']), 0, 32));
             // номер корреспондентского счета компании получателя
-            $form['recipient_corr_acc']      = trim(utf8_substr(strip_tags($_POST['recipient_corr_acc']), 0, 32));
+            $form['buyer_corr_acc']      = trim(utf8_substr(strip_tags($_POST['buyer_corr_acc']), 0, 32));
         } else {
-            $form['recipient_legal_person']  = 0;  // получатель - не юридическое лицо
-            $form['recipient_company']       = ''; // название компании получателя
-            $form['recipient_ceo_name']      = ''; // генеральный директор компании получателя
-            $form['recipient_legal_address'] = ''; // юридический адрес компании получателя
-            $form['recipient_bank_name']     = ''; // название банка компании получателя
-            $form['recipient_inn']           = ''; // ИНН компании получателя
-            $form['recipient_bik']           = ''; // БИК компании получателя
-            $form['recipient_settl_acc']     = ''; // номер расчетного счета в банке компании получателя
-            $form['recipient_corr_acc']      = ''; // номер корреспондентского счета компании получателя
+            $form['buyer_legal_person']  = 0;  // получатель - не юридическое лицо
+            $form['buyer_company']       = ''; // название компании получателя
+            $form['buyer_ceo_name']      = ''; // генеральный директор компании получателя
+            $form['buyer_legal_address'] = ''; // юридический адрес компании получателя
+            $form['buyer_bank_name']     = ''; // название банка компании получателя
+            $form['buyer_inn']           = ''; // ИНН компании получателя
+            $form['buyer_bik']           = ''; // БИК компании получателя
+            $form['buyer_settl_acc']     = ''; // номер расчетного счета в банке компании получателя
+            $form['buyer_corr_acc']      = ''; // номер корреспондентского счета компании получателя
         }
 
-        if (isset($_POST['recipient_payer_different'])) { // плательщик и получатель различаются?
+        if (isset($_POST['buyer_payer_different'])) { // плательщик и получатель различаются?
             // плательщик и получатель различаются
-            $form['recipient_payer_different'] = 1;
+            $form['buyer_payer_different'] = 1;
             // имя контактного лица плательщика
             $form['payer_name']                = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
             // фамилия контактного лица плательщика
@@ -214,22 +214,22 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             }
         } else {
             // плательщик и получатель не различаются
-            $form['recipient_payer_different'] = 0;
+            $form['buyer_payer_different'] = 0;
             // контактное лицо
-            $form['payer_name']          = $form['recipient_name'];
-            $form['payer_surname']       = $form['recipient_surname'];
-            $form['payer_email']         = $form['recipient_email'];
-            $form['payer_phone']         = $form['recipient_phone'];
+            $form['payer_name']          = $form['buyer_name'];
+            $form['payer_surname']       = $form['buyer_surname'];
+            $form['payer_email']         = $form['buyer_email'];
+            $form['payer_phone']         = $form['buyer_phone'];
             // юридическое лицо
-            $form['payer_legal_person']  = $form['recipient_legal_person'];
-            $form['payer_company']       = $form['recipient_company'];
-            $form['payer_ceo_name']      = $form['recipient_ceo_name'];
-            $form['payer_legal_address'] = $form['recipient_legal_address'];
-            $form['payer_bank_name']     = $form['recipient_bank_name'];
-            $form['payer_inn']           = $form['recipient_inn'];
-            $form['payer_bik']           = $form['recipient_bik'];
-            $form['payer_settl_acc']     = $form['recipient_settl_acc'];
-            $form['payer_corr_acc']      = $form['recipient_corr_acc'];
+            $form['payer_legal_person']  = $form['buyer_legal_person'];
+            $form['payer_company']       = $form['buyer_company'];
+            $form['payer_ceo_name']      = $form['buyer_ceo_name'];
+            $form['payer_legal_address'] = $form['buyer_legal_address'];
+            $form['payer_bank_name']     = $form['buyer_bank_name'];
+            $form['payer_inn']           = $form['buyer_inn'];
+            $form['payer_bik']           = $form['buyer_bik'];
+            $form['payer_settl_acc']     = $form['buyer_settl_acc'];
+            $form['payer_corr_acc']      = $form['buyer_corr_acc'];
         }
 
         $form['comment'] = trim(utf8_substr(strip_tags($_POST['comment']), 0, 250));
@@ -237,49 +237,49 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         /*
          * были допущены ошибки при заполнении формы?
          */
-        if (empty($form['recipient_name'])) {
+        if (empty($form['buyer_name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Имя контактного лица получателя»';
         }
-        if (empty($form['recipient_surname'])) {
+        if (empty($form['buyer_surname'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Фамилия контактного лица получателя»';
         }
-        if (empty($form['recipient_email'])) {
+        if (empty($form['buyer_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
         }
         if ( ! $form['own_shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
-            if (empty($form['recipient_physical_address'])) {
+            if (empty($form['buyer_physical_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Адрес доставки»';
             }
         }
         // если получатель - юридическое лицо
-        if ($form['recipient_legal_person']) {
-            if (empty($form['recipient_company'])) {
+        if ($form['buyer_legal_person']) {
+            if (empty($form['buyer_company'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Название компании получателя»';
             }
-            if (empty($form['recipient_ceo_name'])) {
+            if (empty($form['buyer_ceo_name'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Генеральный директор компании получателя»';
             }
-            if (empty($form['recipient_legal_address'])) {
+            if (empty($form['buyer_legal_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Юридический адрес компании получателя»';
             }
-            if (empty($form['recipient_inn'])) {
+            if (empty($form['buyer_inn'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «ИНН компании получателя»';
             }
-            if (empty($form['recipient_bank_name'])) {
+            if (empty($form['buyer_bank_name'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Название банка компании получателя»';
             }
-            if (empty($form['recipient_bik'])) {
+            if (empty($form['buyer_bik'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «БИК компании получателя»';
             }
-            if (empty($form['recipient_settl_acc'])) {
+            if (empty($form['buyer_settl_acc'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Расчетный счет компании получателя»';
             }
-            if (empty($form['recipient_corr_acc'])) {
+            if (empty($form['buyer_corr_acc'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Корреспондентский счет компании получателя»';
             }
         }
         // если плательщик и получатель различаются
-        if ($form['recipient_payer_different']) {
+        if ($form['buyer_payer_different']) {
             if (empty($form['payer_name'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Имя контактного лица плательщика»';
             }
@@ -330,32 +330,32 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // создать профиль получателя?
-        if ($this->authUser && isset($_POST['make_recipient_profile'])) {
+        if ($this->authUser && isset($_POST['make_buyer_profile'])) {
             $data = array(
                 'title'            => 'Профиль получателя',
-                'name'             => $form['recipient_name'],
-                'surname'          => $form['recipient_surname'],
-                'email'            => $form['recipient_email'],
-                'phone'            => $form['recipient_phone'],
+                'name'             => $form['buyer_name'],
+                'surname'          => $form['buyer_surname'],
+                'email'            => $form['buyer_email'],
+                'phone'            => $form['buyer_phone'],
                 'own_shipping'     => $form['own_shipping'],
-                'physical_address' => $form['recipient_physical_address'],
-                'city'             => $form['recipient_city'],
-                'postal_index'     => $form['recipient_postal_index'],
-                'legal_person'     => $form['recipient_legal_person'],
-                'company'          => $form['recipient_company'],
-                'ceo_name'         => $form['recipient_ceo_name'],
-                'legal_address'    => $form['recipient_legal_address'],
-                'bank_name'        => $form['recipient_bank_name'],
-                'inn'              => $form['recipient_inn'],
-                'bik'              => $form['recipient_bik'],
-                'settl_acc'        => $form['recipient_settl_acc'],
-                'corr_acc'         => $form['recipient_corr_acc'],
+                'physical_address' => $form['buyer_physical_address'],
+                'city'             => $form['buyer_city'],
+                'postal_index'     => $form['buyer_postal_index'],
+                'legal_person'     => $form['buyer_legal_person'],
+                'company'          => $form['buyer_company'],
+                'ceo_name'         => $form['buyer_ceo_name'],
+                'legal_address'    => $form['buyer_legal_address'],
+                'bank_name'        => $form['buyer_bank_name'],
+                'inn'              => $form['buyer_inn'],
+                'bik'              => $form['buyer_bik'],
+                'settl_acc'        => $form['buyer_settl_acc'],
+                'corr_acc'         => $form['buyer_corr_acc'],
             );
             // создаем профиль получателя
             $this->userFrontendModel->addProfile($data);
         }
         // создать профиль плательщика?
-        if ($this->authUser && $form['recipient_payer_different'] && isset($_POST['make_payer_profile'])) {
+        if ($this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])) {
             $data = array(
                 'title'            => 'Профиль плательщика',
                 'name'             => $form['payer_name'],

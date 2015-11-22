@@ -61,35 +61,35 @@ defined('ZCMS') or die('Access denied');
 
 <h2>Получатель</h2>
 <ul>
-    <li>Имя: <?php echo $order['recipient_name']; ?></li>
-    <li>Фамилия: <?php echo $order['recipient_surname']; ?></li>
-    <li>E-mail: <?php echo $order['recipient_email']; ?></li>
-    <li>Телефон: <?php echo $order['recipient_phone']; ?></li>
+    <li>Имя: <?php echo $order['buyer_name']; ?></li>
+    <li>Фамилия: <?php echo $order['buyer_surname']; ?></li>
+    <li>E-mail: <?php echo $order['buyer_email']; ?></li>
+    <li>Телефон: <?php echo $order['buyer_phone']; ?></li>
 </ul>
 <ul>
 <?php if (!$order['own_shipping']): ?>
-    <li>Адрес доставки: <?php echo $order['recipient_physical_address']; ?></li>
-    <li>Город: <?php echo $order['recipient_city']; ?></li>
-    <li>Почтовый индекс: <?php echo $order['recipient_postal_index']; ?></li>
+    <li>Адрес доставки: <?php echo $order['buyer_physical_address']; ?></li>
+    <li>Город: <?php echo $order['buyer_city']; ?></li>
+    <li>Почтовый индекс: <?php echo $order['buyer_postal_index']; ?></li>
 <?php else: ?>
     <li>Самовывоз со склада</li>
 <?php endif; ?>
 </ul>
-<?php if ($order['recipient_legal_person']): ?>
+<?php if ($order['buyer_legal_person']): ?>
     <ul>
-        <li>Название компании: <?php echo $order['recipient_company']; ?></li>
-        <li>Генеральный директор: <?php echo $order['recipient_ceo_name']; ?></li>
-        <li>Юридический адрес: <?php echo $order['recipient_legal_address']; ?></li>
-        <li>ИНН: <?php echo $order['recipient_inn']; ?></li>
-        <li>Название банка: <?php echo $order['recipient_bank_name']; ?></li>
-        <li>БИК: <?php echo $order['recipient_bik']; ?></li>
-        <li>Расчетный счет: <?php echo $order['recipient_settl_acc']; ?></li>
-        <li>Корреспондентский счет: <?php echo $order['recipient_corr_acc']; ?></li>
+        <li>Название компании: <?php echo $order['buyer_company']; ?></li>
+        <li>Генеральный директор: <?php echo $order['buyer_ceo_name']; ?></li>
+        <li>Юридический адрес: <?php echo $order['buyer_legal_address']; ?></li>
+        <li>ИНН: <?php echo $order['buyer_inn']; ?></li>
+        <li>Название банка: <?php echo $order['buyer_bank_name']; ?></li>
+        <li>БИК: <?php echo $order['buyer_bik']; ?></li>
+        <li>Расчетный счет: <?php echo $order['buyer_settl_acc']; ?></li>
+        <li>Корреспондентский счет: <?php echo $order['buyer_corr_acc']; ?></li>
     </ul>
 <?php endif; ?>
 
 
-<?php if ($order['recipient_payer_different']): ?>
+<?php if ($order['buyer_payer_different']): ?>
     <h2>Плательщик</h2>
     <ul>
         <li>Имя: <?php echo $order['payer_name']; ?></li>
