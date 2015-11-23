@@ -8,6 +8,9 @@
 .products-list-line {
     word-spacing: -4px;
 }
+.products-list-line > p {
+    word-spacing: normal;
+}
 .products-list-line > div {
     word-spacing: normal;
     width: 49.4%;

@@ -37,7 +37,7 @@ defined('ZCMS') or die('Access denied');
 		<li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
 		<li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
 		<li><a href="<?php echo $basketUrl; ?>">Ваша корзина</a></li>
-		<li><a href="<?php echo $userWishedUrl; ?>">Отложенные товары</a></li>
+		<li><a href="<?php echo $userWishedUrl; ?>">Избранное</a></li>
 		<li><a href="<?php echo $userViewedUrl; ?>">Вы уже смотрели</a></li>
 		<li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
 	</ul>

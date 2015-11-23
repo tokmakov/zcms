@@ -95,52 +95,31 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div class="side-block">
-    <div><i class="fa fa-star"></i>&nbsp;&nbsp;Избранное</div>
-    <div class="no-padding">
-        <div id="side-wished">
-        <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
-            <table>
-                <tr>
-                    <th width="20%">Код</th>
-                    <th width="55%">Наименование</th>
-                    <th width="25%">Цена</th>
-                </tr>
-                <?php foreach ($wishedProducts as $item): ?>
-                    <tr>
-                        <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
-                        <td><?php echo $item['name']; ?></td>
-                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-            <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все товары</a></p>
-        <?php else: ?>
-            <p class="empty-list-right">Нет отложенных товаров</p>
-        <?php endif; ?>
-        </div>
-    </div>
-</div>
-
-<div class="side-block">
     <div><i class="fa fa-balance-scale"></i>&nbsp;&nbsp;Сравнение товаров</div>
     <div class="no-padding">
         <div id="side-compared">
         <?php if (!empty($comparedProducts)): /* товары для сравнения */ ?>
             <table>
                 <tr>
-                    <th width="20%">Код</th>
-                    <th width="55%">Наименование</th>
-                    <th width="25%">Цена</th>
+                    <th width="21%">Код</th>
+                    <th width="70%">Наименование</th>
+                    <th width="9%"></th>
                 </tr>
                 <?php foreach ($comparedProducts as $item): ?>
                     <tr>
                         <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
                         <td><?php echo $item['name']; ?></td>
-                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
+                        <td>
+                            <form action="http://www.host2.ru/compared/rmvprd" method="post">
+                                <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                                <input type="hidden" name="return" value="compared">
+                                <button type="submit" name="submit" title="Удалить из сравнения"><i class="fa fa-times"></i></button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <p class="all-products"><a href="<?php echo $comparedUrl; ?>">Все товары</a></p>
+            <p class="all-products"><a href="<?php echo $comparedUrl; ?>">Перейти к сравнению</a></p>
         <?php else: ?>
             <p class="empty-list-right">Нет товаров для сравнения</p>
         <?php endif; ?>

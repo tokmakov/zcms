@@ -37,7 +37,7 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
         $this->comparedFrontendModel->removeFromCompared($product_id);
 
         // куда перенаправить посетителя после удаления товара из списка сравнения?
-        if (!isset($_POST['return'])) {
+        if ( ! isset($_POST['return'])) {
             $this->redirect($this->comparedFrontendModel->getURL('frontend/compared/index'));
         }
 
@@ -81,20 +81,6 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
                     $url = $url . '/page/' . $_POST['page'];
                 }
             }
-        } elseif ($_POST['return'] == 'compared') { // перенаправляем на страницу сравнения товаров
-            $url = 'frontend/compared/index';
-            if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
-                // если удален последний товар для сравнения на странице, мы
-                // дожны посетителя перенаправить на предыдущую страницу
-                $totalPages = $this->comparedFrontendModel->getTotalPages();
-                if ($_POST['page'] > $totalPages) {
-                    if ($totalPages > 1) {
-                        $url = $url . '/page/' . $totalPages;
-                    }
-                } else {
-                    $url = $url . '/page/' . $_POST['page'];
-                }
-            }
         } elseif ($_POST['return'] == 'wished') { // перенаправляем на страницу отложенных товаров
             $url = 'frontend/wished/index';
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
@@ -104,6 +90,16 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
             $url = 'frontend/viewed/index';
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                 $url = $url . '/page/' . $_POST['page'];
+            }
+        } elseif ($_POST['return'] == 'search') { // перенаправляем на страницу результатов поиска по каталогу
+            if ( ! empty($_POST['query'])) {
+                $query = rawurlencode(utf8_substr($_POST['query'], 0, 64));
+                $url = 'frontend/catalog/search/query/' . $query;
+                if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
+                    $url = $url . '/page/' . $_POST['page'];
+                }
+            } else {
+                $url = 'frontend/catalog/search';
             }
         }
 

@@ -50,10 +50,10 @@ defined('ZCMS') or die('Access denied');
     $surname          = ''; // фамилия контактного лица
     $email            = ''; // e-mail контактного лица
     $phone            = ''; // телефон контактного лица
-    $own_shipping     = 1;  // самовывоз со склада?
-    $physical_address = ''; // фактический адрес
-    $city             = ''; // город
-    $postal_index     = ''; // почтовый индекс
+    $shipping         = 1;  // самовывоз со склада?
+    $shipping_address = ''; // адрес доставки
+    $shipping_city    = ''; // город доставки
+    $shipping_index   = ''; // почтовый индекс
     $legal_person     = 0;  // юридическое лицо?
     $company          = ''; // название компании
     $ceo_name         = ''; // генеральный директор
@@ -70,10 +70,10 @@ defined('ZCMS') or die('Access denied');
         $surname          = htmlspecialchars($savedFormData['surname']);
         $email            = htmlspecialchars($savedFormData['email']);
         $phone            = htmlspecialchars($savedFormData['phone']);
-        $own_shipping     = $savedFormData['own_shipping'];
-        $physical_address = htmlspecialchars($savedFormData['physical_address']);
-        $city             = htmlspecialchars($savedFormData['city']);
-        $postal_index     = htmlspecialchars($savedFormData['postal_index']);
+        $shipping         = $savedFormData['shipping'];
+        $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
+        $shipping_city    = htmlspecialchars($savedFormData['shipping_city']);
+        $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
         $legal_person     = $savedFormData['legal_person'];
         $company          = htmlspecialchars($savedFormData['company']);
         $ceo_name         = htmlspecialchars($savedFormData['ceo_name']);
@@ -156,11 +156,11 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div>
-        <label><input type="checkbox" name="own_shipping" value="1"<?php echo $own_shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
+        <label><input type="checkbox" name="shipping" value="1"<?php echo $shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
         <?php if (!empty($offices)): ?>
             <select name="office">
                 <?php foreach($offices as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
                         <?php echo $value; ?>
                     </option>
                 <?php endforeach; ?>
@@ -168,19 +168,19 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </div>
 
-    <div id="physical-address">
+    <div id="shipping-address-city-index">
         <h2>Адрес доставки</h2>
         <div>
             <div>Адрес <span class="form-field-required">*</span></div>
-            <div><input type="text" name="physical_address" maxlength="250" value="<?php echo $physical_address; ?>" /></div>
+            <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
         </div>
         <div>
             <div>Город</div>
-            <div><input type="text" name="city" maxlength="32" value="<?php echo $city; ?>" /></div>
+            <div><input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" /></div>
         </div>
         <div>
             <div>Почтовый индекс</div>
-            <div><input type="text" name="postal_index" maxlength="32" value="<?php echo $postal_index; ?>" /></div>
+            <div><input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" /></div>
         </div>
     </div>
 
@@ -194,4 +194,3 @@ defined('ZCMS') or die('Access denied');
 </form>
 
 <!-- Конец шаблона view/example/backend/template/catalog/addprof/center.php -->
-

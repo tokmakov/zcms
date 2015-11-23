@@ -45,7 +45,7 @@
  *     .....
  *   )
  * )
- * 
+ *
  * $units = Array (
  *     0 => 'руб',
  *     1 => 'руб/шт',
@@ -54,7 +54,7 @@
  *     4 => 'руб/метр',
  *     5 => 'руб/пара',
  * )
- * 
+ *
  * $pager = Array (
  *     [first] => 1
  *     [prev] => 2
@@ -68,7 +68,7 @@
  *         [0] => 4
  *     )
  * )
- * 
+ *
  */
 
 defined('ZCMS') or die('Access denied');
@@ -84,7 +84,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Отложенные товары</h1>
+<h1>Избранное</h1>
 
 <?php if (!empty($wishedProducts)): // отложенные товары ?>
     <div class="products-list-line">

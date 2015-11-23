@@ -69,13 +69,18 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->register->cache->removeValue($key);
         }
 
+        // удаляем старые товары
+        if (rand(1, 100) == 50) {
+            $this->removeOldCompared();
+        }
+
     }
 
     /**
      * Функция возвращает массив товаров, отложенных для сравнения;
      * для центральной колонки, полный вариант
      */
-    public function getComparedProducts($start = 0) {
+    public function getComparedProducts() {
         $query = "SELECT
                       `a`.`id` AS `id`,
                       `a`.`code` AS `code`,
@@ -105,7 +110,8 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
+                  LIMIT
+                      10";
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         foreach($products as $key => $value) {
@@ -177,43 +183,14 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
-                  LIMIT " . $this->config->pager->frontend->products->perpage;
+                  LIMIT
+                      10";
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products as $key => $value) {
             $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
         }
         return $products;
-    }
-
-    /**
-     * Функция возвращает кол-во товаров, отложенных посетителем для сравнения
-     */
-    public function getCountComparedProducts() {
-        $query = "SELECT
-                      COUNT(*)
-                  FROM
-                      `products` `a`
-                      INNER JOIN `compared` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
-                  WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-
-        // удаляем старые товары
-        if (rand(1, 100) == 50) {
-            $this->removeOldCompared();
-        }
-
-        return $res;
-    }
-
-    /**
-     * Функция возвращает кол-во страниц, которые нужны для показа всех товаров для сравнеия
-     */
-    public function getTotalPages() {
-        return ceil($this->getCountComparedProducts() / $this->config->pager->frontend->products->perpage);
     }
 
     /**

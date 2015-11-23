@@ -1382,6 +1382,10 @@ body > .wrapper {
             #sort-orders > ul > li > a.sort-asc-orange, #sort-orders > ul > li > span.sort-asc-orange {
                 background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
             }
+/* список товаров категории */
+#category-products {
+    min-height: 100px;
+}
 
 /* карточка товара */
 #product {
@@ -2650,7 +2654,7 @@ body > .wrapper {
         background: #fafafa;
         border: 1px solid #d1d1d1;
         padding: 15px;
-        margin-top: 40px;
+        margin-top: 45px;
     }
         #checkout-order > #payer-order > h2, #checkout-order > #buyer-order > h2 { /* заголовки для блоков Получатель и Плательщик */
             position: absolute;
@@ -2680,19 +2684,19 @@ body > .wrapper {
         #checkout-order > #buyer-order > #buyer-legal-person,
         #checkout-order > #payer-order > #payer-physical-person,
         #checkout-order > #buyer-order > #buyer-physical-person,
-        #checkout-order > #buyer-order > #buyer-physical-address { /* рамка для блоков юридические лицо и контактное лицо */
+        #checkout-order > #buyer-order > #buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
             position: relative;
             background: #fff;
             border: 1px solid #d1d1d1;
             padding: 20px 10px 10px 10px;
             margin-top: 20px;
         }
-        #checkout-order > #buyer-order > #buyer-own-shipping {
+        #checkout-order > #buyer-order > #buyer-shipping {
             min-height: 24px;
             margin-top: 14px;
             line-height: 24px;
         }
-            #checkout-order > #buyer-order > #buyer-own-shipping > label > span {
+            #checkout-order > #buyer-order > #buyer-shipping > label > span {
                 line-height: normal;
             }
 
@@ -2700,12 +2704,13 @@ body > .wrapper {
             #checkout-order > #buyer-order > #buyer-legal-person > h3,
             #checkout-order > #payer-order > #payer-physical-person > h3,
             #checkout-order > #buyer-order > #buyer-physical-person > h3,
-            #checkout-order > #buyer-order > #buyer-physical-address > h3 { /* заголовок для блоков юридические лицо и контактное лицо */
+            #checkout-order > #buyer-order > #buyer-shipping-details > h3 { /* заголовок для блоков юридические лицо и контактное лицо */
                 position: absolute;
                 margin: 0;
                 left: 20px;
                 top: -8px;
                 background: #fff;
+                background: linear-gradient(to bottom, #fafafa, #fff);
                 font-size: 14px;
                 line-height: 14px;
                 font-weight: normal;
@@ -3072,6 +3077,18 @@ body > .wrapper {
         .side-block > div:last-child table tr td:first-child {
             text-align: center;
         }
+            .side-block > div:last-child table tr td form button {
+                border: none;
+                background: transparent;
+                color: #395985;
+                cursor: pointer;
+                width: 13px;
+                height: 13px;
+            }
+            .side-block > div:last-child table tr td form button:hover {
+                color: #e9751f;
+            }
+
 
 /* ссылки на страницу с корзиной и оформления заказа */
 .side-block > div:last-child #goto-basket-checkout {

@@ -11,6 +11,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
      */
     private $output;
 
+
     public function __construct($params = null) {
         if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');

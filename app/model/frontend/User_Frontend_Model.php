@@ -553,9 +553,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         $query = "SELECT
-                      `title`, `name`, `surname`, `email`, `phone`, `own_shipping`, `physical_address`,
-                      `city`, `postal_index`, `legal_person`, `company`, `ceo_name`, `legal_address`,
-                      `bank_name`, `inn`, `bik`, `settl_acc`, `corr_acc`
+                      `title`, `name`, `surname`, `email`, `phone`, `shipping`, `shipping_address`,
+                      `shipping_city`, `shipping_index`, `legal_person`, `company`, `ceo_name`,
+                      `legal_address`, `bank_name`, `inn`, `bik`, `settl_acc`, `corr_acc`
                   FROM
                       `profiles`
                   WHERE
@@ -581,10 +581,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                         `surname`,
                         `email`,
                         `phone`,
-                        `own_shipping`,
-                        `physical_address`,
-                        `city`,
-                        `postal_index`,
+                        `shipping`,
+                        `shipping_address`,
+                        `shipping_city`,
+                        `shipping_index`,
                         `legal_person`,
                         `company`,
                         `ceo_name`,
@@ -603,10 +603,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                         :surname,
                         :email,
                         :phone,
-                        :own_shipping,
-                        :physical_address,
-                        :city,
-                        :postal_index,
+                        :shipping,
+                        :shipping_address,
+                        :shipping_city,
+                        :shipping_index,
                         :legal_person,
                         :company,
                         :ceo_name,
@@ -634,24 +634,24 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $query = "UPDATE
                       `profiles`
                   SET
-                      `title` = :title,
-                      `name` = :name,
-                      `surname` = :surname,
-                      `email` = :email,
-                      `phone` = :phone,
-                      `own_shipping` = :own_shipping,
-                      `physical_address` = :physical_address,
-                      `city` = :city,
-                      `postal_index` = :postal_index,
-                      `legal_person` = :legal_person,
-                      `company` = :company,
-                      `ceo_name` = :ceo_name,
-                      `legal_address` = :legal_address,
-                      `bank_name` = :bank_name,
-                      `inn` = :inn,
-                      `bik` = :bik,
-                      `settl_acc` = :settl_acc,
-                      `corr_acc` = :corr_acc
+                      `title`            = :title,
+                      `name`             = :name,
+                      `surname`          = :surname,
+                      `email`            = :email,
+                      `phone`            = :phone,
+                      `shipping`         = :shipping,
+                      `shipping_address` = :shipping_address,
+                      `shipping_city`    = :shipping_city,
+                      `shipping_index`   = :shipping_index,
+                      `legal_person`     = :legal_person,
+                      `company`          = :company,
+                      `ceo_name`         = :ceo_name,
+                      `legal_address`    = :legal_address,
+                      `bank_name`        = :bank_name,
+                      `inn`              = :inn,
+                      `bik`              = :bik,
+                      `settl_acc`        = :settl_acc,
+                      `corr_acc`         = :corr_acc
                   WHERE
                       `id` = :id AND user_id = :user_id";
         $data['user_id'] = $this->userId;

@@ -238,14 +238,8 @@ abstract class Frontend_Controller extends Base_Controller {
         // общая стоимость товаров в корзине (для правой колонки)
         $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
 
-        // получаем от модели массив последних отложенных товаров (для правой колонки)
-        $lastWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
-
-        // получаем от модели массив последних отложенных для сравнения товаров (для правой колонки)
+        // получаем от модели массив последних товаров для сравнения (для правой колонки)
         $lastComparedProducts = $this->comparedFrontendModel->getSideComparedProducts();
-
-        // получаем от модели массив последних просмотренных товаров (для правой колонки)
-        $lastViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
 
         /*
          * массив переменных, которые будут переданы в шаблон right.php
@@ -279,18 +273,10 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->rightVars['basketUrl']        = $this->basketFrontendModel->getURL('frontend/basket/index');
         // URL ссылки на страницу оформления заказа
         $this->rightVars['checkoutUrl']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
-        // массив отложенных товаров
-        $this->rightVars['wishedProducts']   = $lastWishedProducts;
-        // URL ссылки на страницу отложенных товаров
-        $this->rightVars['wishedUrl']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
         // массив товаров для сравнения
         $this->rightVars['comparedProducts'] = $lastComparedProducts;
         // URL ссылки на страницу товаров для сравнения
         $this->rightVars['comparedUrl']      = $this->comparedFrontendModel->getURL('frontend/compared/index');
-        // массив просмотренных товаров
-        $this->rightVars['viewedProducts']   = $lastViewedProducts;
-        // URL ссылки на страницу просмотренных товаров
-        $this->rightVars['viewedUrl']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
 
         /*
          * массив переменных, которые будут переданы в шаблон footer.php

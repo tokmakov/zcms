@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Ajax_Wished_Frontend_Controller принимает запрос XmlHttpRequest,
- * добавляет товар в список отложенных (или удаляет из списка), работает
+ * добавляет товар в список избанных (или удаляет из списка), работает
  * с моделью Wished_Frontend_Model, общедоступная часть сайта
  */
 class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
@@ -14,7 +14,7 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         parent::__construct($params);
         // не использовать кэширование шаблона списка отложенных товаров в
         // правой колонке, потому как вероятность, что у двух пользователей
-        // совпадут списки отложенных товаров, довольно мала
+        // совпадут списки избанных товаров, довольно мала
         $this->notUseCache = true;
     }
 
@@ -24,6 +24,8 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
+        } else {
+            $product_id = (int)$_POST['product_id'];
         }
 
         // добавляем товар в список отложенных или удаляем?
@@ -34,16 +36,17 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
         if ('addprd' == $this->params['action']) {
             // добавляем товар в список отложенных
-            $this->wishedFrontendModel->addToWished($_POST['product_id']);
+            $this->wishedFrontendModel->addToWished($product_id);
         } else {
             // удаляем товар из списка отложенных
-            $this->wishedFrontendModel->removeFromWished($_POST['product_id']);
+            $this->wishedFrontendModel->removeFromWished($product_id);
         }
 
-        // получаем от модели массив отложенных товаров (для правой колонки)
+        /*
+        // получаем от модели массив избанных товаров (для правой колонки)
         $sideWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
 
-        // получаем html-код отложенных товаров (для правой колонки)
+        // получаем html-код избранных товаров (для правой колонки)
         $this->pageContent = $this->render(
             $this->config->site->theme . '/frontend/template/wished/ajax/wished.php',
             array(
@@ -51,6 +54,13 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                 'wishedUrl'           => $this->wishedFrontendModel->getURL('frontend/wished/index'),
             )
         );
+        */
+
+        if ($this->params['action'] == 'addprd') {
+            $this->pageContent = 'Товар добавлен в избранное';
+        } else {
+            $this->pageContent = 'Товар удален из избранного';
+        }
     }
 
 }

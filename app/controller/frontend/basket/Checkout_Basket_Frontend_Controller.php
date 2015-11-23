@@ -124,19 +124,19 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // телефон контактного лица получателя
         $form['buyer_phone']   = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 32));
 
-        if (isset($_POST['own_shipping'])) { // самовывоз?
-            $form['own_shipping']               = 1; // да, самовывоз
+        if (isset($_POST['shipping'])) { // самовывоз
+            $form['shipping']               = 1;
             if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
                 $form['own_shipping'] = $_POST['office'];
             }
-            $form['buyer_physical_address'] = ''; // адрес доставки
-            $form['buyer_city']             = ''; // город (адрес доставки)
-            $form['buyer_postal_index']     = ''; // почтовый индекс
-        } else {
-            $form['own_shipping']               = 0;  // нет, не самовывоз, а доставка по адресу
-            $form['buyer_physical_address'] = trim(utf8_substr(strip_tags($_POST['buyer_physical_address']), 0, 250));
-            $form['buyer_city']             = trim(utf8_substr(strip_tags($_POST['buyer_city']), 0, 32));
-            $form['buyer_postal_index']     = trim(utf8_substr(strip_tags($_POST['buyer_postal_index']), 0, 32));
+            $form['buyer_shipping_address'] = ''; // адрес доставки
+            $form['buyer_shipping_city']    = ''; // город доставки
+            $form['buyer_shipping_index']   = ''; // почтовый индекс
+        } else { // доставка по адресу
+            $form['shipping']               = 0;
+            $form['buyer_shipping_address'] = trim(utf8_substr(strip_tags($_POST['buyer_shipping_address']), 0, 250));
+            $form['buyer_shipping_city']    = trim(utf8_substr(strip_tags($_POST['buyer_shipping_city']), 0, 32));
+            $form['buyer_shipping_index']   = trim(utf8_substr(strip_tags($_POST['buyer_shipping_index']), 0, 32));
         }
 
         if (isset($_POST['buyer_legal_person'])) { // получатель - юридическое лицо?
@@ -170,8 +170,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['buyer_corr_acc']      = ''; // номер корреспондентского счета компании получателя
         }
 
-        if (isset($_POST['buyer_payer_different'])) { // плательщик и получатель различаются?
-            // плательщик и получатель различаются
+        if (isset($_POST['buyer_payer_different'])) { // получатель и плательщик различаются?
+            // получатель и плательщик различаются
             $form['buyer_payer_different'] = 1;
             // имя контактного лица плательщика
             $form['payer_name']                = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
@@ -216,20 +216,20 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // плательщик и получатель не различаются
             $form['buyer_payer_different'] = 0;
             // контактное лицо
-            $form['payer_name']          = $form['buyer_name'];
-            $form['payer_surname']       = $form['buyer_surname'];
-            $form['payer_email']         = $form['buyer_email'];
-            $form['payer_phone']         = $form['buyer_phone'];
+            $form['payer_name']            = $form['buyer_name'];
+            $form['payer_surname']         = $form['buyer_surname'];
+            $form['payer_email']           = $form['buyer_email'];
+            $form['payer_phone']           = $form['buyer_phone'];
             // юридическое лицо
-            $form['payer_legal_person']  = $form['buyer_legal_person'];
-            $form['payer_company']       = $form['buyer_company'];
-            $form['payer_ceo_name']      = $form['buyer_ceo_name'];
-            $form['payer_legal_address'] = $form['buyer_legal_address'];
-            $form['payer_bank_name']     = $form['buyer_bank_name'];
-            $form['payer_inn']           = $form['buyer_inn'];
-            $form['payer_bik']           = $form['buyer_bik'];
-            $form['payer_settl_acc']     = $form['buyer_settl_acc'];
-            $form['payer_corr_acc']      = $form['buyer_corr_acc'];
+            $form['payer_legal_person']    = $form['buyer_legal_person'];
+            $form['payer_company']         = $form['buyer_company'];
+            $form['payer_ceo_name']        = $form['buyer_ceo_name'];
+            $form['payer_legal_address']   = $form['buyer_legal_address'];
+            $form['payer_bank_name']       = $form['buyer_bank_name'];
+            $form['payer_inn']             = $form['buyer_inn'];
+            $form['payer_bik']             = $form['buyer_bik'];
+            $form['payer_settl_acc']       = $form['buyer_settl_acc'];
+            $form['payer_corr_acc']        = $form['buyer_corr_acc'];
         }
 
         $form['comment'] = trim(utf8_substr(strip_tags($_POST['comment']), 0, 250));
@@ -246,8 +246,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         if (empty($form['buyer_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
         }
-        if ( ! $form['own_shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
-            if (empty($form['buyer_physical_address'])) {
+        if ( ! $form['shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
+            if (empty($form['buyer_shipping_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Адрес доставки»';
             }
         }
@@ -337,10 +337,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'surname'          => $form['buyer_surname'],
                 'email'            => $form['buyer_email'],
                 'phone'            => $form['buyer_phone'],
-                'own_shipping'     => $form['own_shipping'],
-                'physical_address' => $form['buyer_physical_address'],
-                'city'             => $form['buyer_city'],
-                'postal_index'     => $form['buyer_postal_index'],
+                'shipping'         => $form['shipping'],
+                'shipping_address' => $form['buyer_shipping_address'],
+                'shipping_city'    => $form['buyer_shipping_city'],
+                'shipping_index'   => $form['buyer_shipping_index'],
                 'legal_person'     => $form['buyer_legal_person'],
                 'company'          => $form['buyer_company'],
                 'ceo_name'         => $form['buyer_ceo_name'],
@@ -362,10 +362,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'surname'          => $form['payer_surname'],
                 'email'            => $form['payer_email'],
                 'phone'            => $form['payer_phone'],
-                'own_shipping'     => 1,
-                'physical_address' => '',
-                'city'             => '',
-                'postal_index'     => '',
+                'shipping'         => 1,
+                'shipping_address' => '',
+                'shipping_city'    => '',
+                'shipping_index'   => '',
                 'legal_person'     => $form['payer_legal_person'],
                 'company'          => $form['payer_company'],
                 'ceo_name'         => $form['payer_ceo_name'],

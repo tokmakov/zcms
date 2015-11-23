@@ -55,15 +55,15 @@ $(document).ready(function() {
 
     // если отмечен checkbox «Самовывоз со склада» для получателя, скрываем
     // часть формы, связанную с адресом доставки
-    if ($('#checkout-order input[name="own_shipping"]').prop('checked')) {
-        $('#checkout-order #buyer-physical-address').hide();
+    if ($('#checkout-order input[name="shipping"]').prop('checked')) {
+        $('#checkout-order #buyer-shipping-details').hide();
     } else {
         $('#checkout-order select[name="office"]').hide();
     }
     // при изменении состояния checkbox «Самовывоз со склада» для получателя,
     // скрываем/показываем часть формы, связанную с адресом доставки получателя
-    $('#checkout-order input[name="own_shipping"]').change(function() {
-        $('#checkout-order #buyer-physical-address').slideToggle('normal', function() {
+    $('#checkout-order input[name="shipping"]').change(function() {
+        $('#checkout-order #buyer-shipping-details').slideToggle('normal', function() {
             $('#checkout-order select[name="office"]').toggle();
         });
     });
@@ -91,12 +91,12 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_legal_person"]').prop('checked', false);
             $('#checkout-order #buyer-order #buyer-legal-person').slideUp();
         }
-        if (!$('#checkout-order input[name="own_shipping"]').prop('checked')) {
+        if (!$('#checkout-order input[name="shipping"]').prop('checked')) {
             // в Firefox это не работает
-            // $('#checkout-order input[name="own_shipping"]').prop('checked', true).change();
+            // $('#checkout-order input[name="shipping"]').prop('checked', true).change();
             // поэтому так
-            $('#checkout-order input[name="own_shipping"]').prop('checked', true);
-            $('#checkout-order #buyer-physical-address').slideUp('normal', function() {
+            $('#checkout-order input[name="shipping"]').prop('checked', true);
+            $('#checkout-order #buyer-shipping-details').slideUp('normal', function() {
                 $('#checkout-order select[name="office"]').show();
             });
         }
@@ -134,23 +134,23 @@ $(document).ready(function() {
                 $('#checkout-order input[name="buyer_settl_acc"]').val(data.settl_acc);
                 $('#checkout-order input[name="buyer_corr_acc"]').val(data.corr_acc);
             }
-            if (data.own_shipping === '0') { // доставка по адресу (не самовывоз)
-                if ($('#checkout-order input[name="own_shipping"]').prop('checked')) {
+            if (data.shipping === '0') { // доставка по адресу (не самовывоз)
+                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
                     // в Firefox это не работает
-                    // $('#checkout-order input[name="own_shipping"]').prop('checked', false).change();
+                    // $('#checkout-order input[name="shipping"]').prop('checked', false).change();
                     // поэтому так
-                    $('#checkout-order input[name="own_shipping"]').prop('checked', false);
-                    $('#checkout-order #buyer-physical-address').slideDown('normal', function() {
+                    $('#checkout-order input[name="shipping"]').prop('checked', false);
+                    $('#checkout-order #buyer-shipping-details').slideDown('normal', function() {
                         $('#checkout-order select[name="office"]').hide();
                     });
                 }
-                $('#checkout-order input[name="buyer_physical_address"]').val(data.physical_address);
-                $('#checkout-order input[name="buyer_city"]').val(data.city);
-                $('#checkout-order input[name="buyer_postal_index"]').val(data.postal_index);
+                $('#checkout-order input[name="buyer_shipping_address"]').val(data.shipping_address);
+                $('#checkout-order input[name="buyer_shipping_city"]').val(data.shipping_city);
+                $('#checkout-order input[name="buyer_shipping_index"]').val(data.shipping_index);
             } else {
                 // из какого офиса забирать заказ?
                 $('#checkout-order select[name="office"] option').each(function(){
-                    if (data.own_shipping == this.value) {
+                    if (data.shipping == this.value) {
                         this.selected = true;
                     } else {
                         this.selected = false;

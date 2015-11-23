@@ -87,16 +87,16 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             'email'            => $profile['email'],
             // телефон контактного лица
             'phone'            => $profile['phone'],
-            // самовывоз со склада?
-            'own_shipping'     => $profile['own_shipping'],
+            // самовывоз со склада или доставка по адресу?
+            'shipping'         => $profile['shipping'],
             // массив офисов для самовывоза
             'offices'          => $offices,
             // фактический адрес
-            'physical_address' => $profile['physical_address'],
+            'shipping_address' => $profile['shipping_address'],
             // город (фактический адрес)
-            'city'             => $profile['city'],
+            'shipping_city'    => $profile['shipping_city'],
             // почтовый индекс (фактический адрес)
-            'postal_index'     => $profile['postal_index'],
+            'shipping_index'   => $profile['shipping_index'],
             // юридическое лицо?
             'legal_person'     => $profile['legal_person'],
             // название компании
@@ -143,19 +143,19 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
         $data['email']            = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));   // e-mail контактного лица
         $data['phone']            = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));   // телефон контактного лица
 
-        if (isset($_POST['own_shipping'])) { // самовывоз со склада?
-            $data['own_shipping']     = 1;
+        if (isset($_POST['shipping'])) { // самовывоз со склада
+            $data['shipping']         = 1;
             if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
-                $data['own_shipping'] = $_POST['office'];
+                $data['shipping'] = $_POST['office'];
             }
-            $data['physical_address'] = '';
-            $data['city']             = '';
-            $data['postal_index']     = '';
-        } else {
-            $data['own_shipping']     = 0;
-            $data['physical_address'] = trim(utf8_substr(strip_tags($_POST['physical_address']), 0, 250)); // адрес доставки
-            $data['city']             = trim(utf8_substr(strip_tags($_POST['city']), 0, 32)); // город, адрес доставки
-            $data['postal_index']     = trim(utf8_substr(strip_tags($_POST['postal_index']), 0, 32)); // почтовый индекс, адрес доставки
+            $data['shipping_address'] = '';
+            $data['shipping_city']    = '';
+            $data['shipping_index']   = '';
+        } else { // доставка по адресу
+            $data['shipping']         = 0;
+            $data['shipping_address'] = trim(utf8_substr(strip_tags($_POST['shipping_address']), 0, 250)); // адрес доставки
+            $data['shipping_city']    = trim(utf8_substr(strip_tags($_POST['shipping_city']), 0, 32));     // город доставки
+            $data['shipping_index']   = trim(utf8_substr(strip_tags($_POST['shipping_index']), 0, 32));    // почтовый индекс
         }
 
         $data['company']       = '';
@@ -219,8 +219,8 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица»';
         }
-        if (!$data['own_shipping']) {
-            if (empty($data['physical_address'])) {
+        if ( ! $data['shipping']) {
+            if (empty($data['shipping_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Адрес доставки»';
             }
         }

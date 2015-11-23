@@ -33,33 +33,8 @@ class Index_Compared_Frontend_Controller extends Compared_Frontend_Controller {
             array('url' => $this->comparedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
         );
 
-        // постраничная навигация
-        $page = 1;
-        if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
-        }
-        // общее кол-во отложенных товаров
-        $totalProducts = $this->comparedFrontendModel->getCountComparedProducts();
-
-        $temp = new Pager(
-            $page,                                              // текущая страница
-            $totalProducts,                                     // общее кол-во товаров
-            $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
-            $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
-        );
-        $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
-            $this->notFoundRecord = true;
-            return;
-        }
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
-        }
-        // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
-
         // получаем от модели массив отложенных для сравнения товаров
-        $comparedProducts = $this->comparedFrontendModel->getComparedProducts($start);
+        $comparedProducts = $this->comparedFrontendModel->getComparedProducts();
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
@@ -76,10 +51,6 @@ class Index_Compared_Frontend_Controller extends Compared_Frontend_Controller {
             'comparedProducts' => $comparedProducts,
             // массив единиц измерения товара
             'units'            => $units,
-            // постраничная навигация
-            'pager'            => $pager,
-            // текущая страница
-            'page'             => $page,
         );
 
     }

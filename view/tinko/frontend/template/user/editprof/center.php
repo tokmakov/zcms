@@ -14,11 +14,11 @@
  * $surname - фамилия контактного лица
  * $email - e-mail контактного лица
  * $phone - телефон контактного лица
- * $own_shipping - самовывоз со склада?
+ * $shipping - самовывоз со склада?
  * $offices - массив офисов для самовывоза
- * $physical_address - адрес доставки
- * $city - город (адрес доставки)
- * $postal_index - почтовый индекс (адрес доставки)
+ * $shipping_address - адрес доставки
+ * $shipping_city - город  доставки
+ * $shipping_index - почтовый индекс
  * $legal_person - юридическое лицо?
  * $company - название компании
  * $ceo_name - генеральный директор
@@ -73,9 +73,9 @@ $name             = htmlspecialchars($name);             // имя контак�
 $surname          = htmlspecialchars($surname);          // фамилия контактного лица
 $email            = htmlspecialchars($email);            // e-mail контактного лица
 $phone            = htmlspecialchars($phone);            // телефон контактного лица
-$physical_address = htmlspecialchars($physical_address); // фактический адрес
-$city             = htmlspecialchars($city);             // город
-$postal_index     = htmlspecialchars($postal_index );    // почтовый индекс
+$shipping_address = htmlspecialchars($shipping_address); // адрес доставки
+$shipping_city    = htmlspecialchars($shipping_city);    // город доставки
+$shipping_index   = htmlspecialchars($shipping_index );  // почтовый индекс
 $company          = htmlspecialchars($company);          // название компании
 $ceo_name         = htmlspecialchars($ceo_name);         // генеральный директор
 $legal_address    = htmlspecialchars($legal_address);    // юридический адрес
@@ -91,10 +91,10 @@ if (isset($savedFormData)) {
     $surname          = htmlspecialchars($savedFormData['surname']);
     $email            = htmlspecialchars($savedFormData['email']);
     $phone            = htmlspecialchars($savedFormData['phone']);
-    $own_shipping     = $savedFormData['own_shipping'];
-    $physical_address = htmlspecialchars($savedFormData['physical_address']);
-    $city             = htmlspecialchars($savedFormData['city']);
-    $postal_index     = htmlspecialchars($savedFormData['postal_index']);
+    $shipping         = $savedFormData['shipping'];
+    $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
+    $shipping_city    = htmlspecialchars($savedFormData['shipping_city']);
+    $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
     $legal_person     = $savedFormData['legal_person'];
     $company          = htmlspecialchars($savedFormData['company']);
     $ceo_name         = htmlspecialchars($savedFormData['ceo_name']);
@@ -177,11 +177,11 @@ if (isset($savedFormData)) {
     </div>
 
     <div>
-        <label><input type="checkbox" name="own_shipping" value="1"<?php echo $own_shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
+        <label><input type="checkbox" name="shipping" value="1"<?php echo $shipping ? ' checked="checked"' : ''; ?> /> <span>Самовывоз со склада</span></label>
         <?php if (!empty($offices)): ?>
             <select name="office">
                 <?php foreach($offices as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
                         <?php echo $value; ?>
                     </option>
                 <?php endforeach; ?>
@@ -189,19 +189,19 @@ if (isset($savedFormData)) {
         <?php endif; ?>
     </div>
 
-    <div id="physical-address">
+    <div id="shipping-address-city-index">
         <h2>Адрес доставки</h2>
         <div>
             <div>Адрес <span class="form-field-required">*</span></div>
-            <div><input type="text" name="physical_address" maxlength="250" value="<?php echo $physical_address; ?>" /></div>
+            <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
         </div>
         <div>
             <div>Город</div>
-            <div><input type="text" name="city" maxlength="32" value="<?php echo $city; ?>" /></div>
+            <div><input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" /></div>
         </div>
         <div>
             <div>Почтовый индекс</div>
-            <div><input type="text" name="postal_index" maxlength="32" value="<?php echo $postal_index; ?>" /></div>
+            <div><input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" /></div>
         </div>
     </div>
 

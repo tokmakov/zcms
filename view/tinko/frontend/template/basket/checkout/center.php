@@ -61,10 +61,10 @@ defined('ZCMS') or die('Access denied');
     $buyer_email            = ''; // e-mail контактного лица получателя
     $buyer_phone            = ''; // телефон контактного лица получателя
 
-    $own_shipping               = 1;  // самовывоз?
-    $buyer_physical_address = ''; // адрес доставки получателя
-    $buyer_city             = ''; // город
-    $buyer_postal_index     = ''; // почтовый индекс
+    $shipping               = 1;  // самовывоз?
+    $buyer_shipping_address = ''; // адрес доставки получателя
+    $buyer_shipping_city    = ''; // город доставки получателя
+    $buyer_shipping_index   = ''; // почтовый индекс получателя
 
     $buyer_legal_person     = 0;  // получатель - юридическое лицо?
     $buyer_company          = ''; // название компании получателя
@@ -78,22 +78,22 @@ defined('ZCMS') or die('Access denied');
 
     $buyer_payer_different  = 0;  // плательщик и получатель различаются?
 
-    $payer_name                 = ''; // имя контактного лица плательщика
-    $payer_surname              = ''; // фамилия контактного лица плательщика
-    $payer_email                = ''; // e-mail контактного лица плательщика
-    $payer_phone                = ''; // телефон контактного лица плательщика
+    $payer_name             = ''; // имя контактного лица плательщика
+    $payer_surname          = ''; // фамилия контактного лица плательщика
+    $payer_email            = ''; // e-mail контактного лица плательщика
+    $payer_phone            = ''; // телефон контактного лица плательщика
 
-    $payer_legal_person         = 0;  // плательщик - юридическое лицо?
-    $payer_company              = ''; // название компании плательщика
-    $payer_ceo_name             = ''; // генеральный директор компании плательщика
-    $payer_legal_address        = ''; // юридический адрес компании плательщика
-    $payer_bank_name            = ''; // название банка компании плательщика
-    $payer_inn                  = ''; // ИНН компании плательщика
-    $payer_bik                  = ''; // БИК компании плательщика
-    $payer_settl_acc            = ''; // расчетный счет компании плательщика
-    $payer_corr_acc             = ''; // корреспондентский счет компании плательщика
+    $payer_legal_person     = 0;  // плательщик - юридическое лицо?
+    $payer_company          = ''; // название компании плательщика
+    $payer_ceo_name         = ''; // генеральный директор компании плательщика
+    $payer_legal_address    = ''; // юридический адрес компании плательщика
+    $payer_bank_name        = ''; // название банка компании плательщика
+    $payer_inn              = ''; // ИНН компании плательщика
+    $payer_bik              = ''; // БИК компании плательщика
+    $payer_settl_acc        = ''; // расчетный счет компании плательщика
+    $payer_corr_acc         = ''; // корреспондентский счет компании плательщика
 
-    $comment                    = ''; // комментарий к заказу
+    $comment                = ''; // комментарий к заказу
 
     if (isset($savedFormData)) {
         $buyer_name             = htmlspecialchars($savedFormData['buyer_name']);
@@ -101,10 +101,10 @@ defined('ZCMS') or die('Access denied');
         $buyer_email            = htmlspecialchars($savedFormData['buyer_email']);
         $buyer_phone            = htmlspecialchars($savedFormData['buyer_phone']);
 
-        $own_shipping               = $savedFormData['own_shipping'];
-        $buyer_physical_address = htmlspecialchars($savedFormData['buyer_physical_address']);
-        $buyer_city             = htmlspecialchars($savedFormData['buyer_city']);
-        $buyer_postal_index     = htmlspecialchars($savedFormData['buyer_postal_index']);
+        $shipping               = $savedFormData['shipping'];
+        $buyer_shipping_address = htmlspecialchars($savedFormData['buyer_shipping_address']);
+        $buyer_shipping_city    = htmlspecialchars($savedFormData['buyer_shipping_city']);
+        $buyer_shipping_index   = htmlspecialchars($savedFormData['buyer_shipping_index']);
 
         $buyer_legal_person     = $savedFormData['buyer_legal_person'];
         $buyer_company          = htmlspecialchars($savedFormData['buyer_company']);
@@ -218,12 +218,12 @@ defined('ZCMS') or die('Access denied');
             </div>
         </div>
 
-        <div id="buyer-own-shipping">
-            <label><input type="checkbox" name="own_shipping"<?php if ($own_shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
+        <div id="buyer-shipping">
+            <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
             <?php if (!empty($offices)): ?>
                 <select name="office">
                 <?php foreach ($offices as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"<?php if ($key == $own_shipping) echo ' selected="selected"'; ?>>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
                         <?php echo $value; ?>
                     </option>
                 <?php endforeach; ?>
@@ -231,19 +231,19 @@ defined('ZCMS') or die('Access denied');
             <?php endif; ?>
         </div>
 
-        <div id="buyer-physical-address">
+        <div id="buyer-shipping-details">
             <h3>Адрес доставки</h3>
             <div>
                 <div>Адрес <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_physical_address" maxlength="250" value="<?php echo $buyer_physical_address; ?>" /></div>
+                <div><input type="text" name="buyer_shipping_address" maxlength="250" value="<?php echo $buyer_shipping_address; ?>" /></div>
             </div>
             <div>
                 <div>Город</div>
-                <div><input type="text" name="buyer_city" maxlength="32" value="<?php echo $buyer_city; ?>" /></div>
+                <div><input type="text" name="buyer_shipping_city" maxlength="32" value="<?php echo $buyer_shipping_city; ?>" /></div>
             </div>
             <div>
                 <div>Почтовый индекс</div>
-                <div><input type="text" name="buyer_postal_index" maxlength="32" value="<?php echo $buyer_postal_index; ?>" /></div>
+                <div><input type="text" name="buyer_shipping_index" maxlength="32" value="<?php echo $buyer_shipping_index; ?>" /></div>
             </div>
         </div>
 

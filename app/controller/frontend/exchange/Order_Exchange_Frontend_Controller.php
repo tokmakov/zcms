@@ -102,7 +102,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
           * 4 - офис продаж «Нагорный»
           * а сам элемент <shipping> не содержит дочерних элементов. Если
           * доставка по адресу, у элемента <shipping> три дочерних элемента:
-          * <address>, <city> и <index/>, а атрибут office равен нулю.
+          * <address>, <city> и <index>, а атрибут office равен нулю.
           *
           * Если получатель - физическое лицо, элемент <company> не содержит
           * дочерних элементов. Если получатель - юридическое лицо, у элемента
@@ -168,17 +168,17 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         $shipping = $dom->createElement('shipping');
         $buyer->appendChild($shipping);
         // устанавливаем атрибут office для узла <shipping>
-        $shipping->setAttribute('office', $order['own_shipping']);
+        $shipping->setAttribute('office', $order['shipping']);
         $buyer->appendChild($shipping);
-        if ( ! $order['own_shipping']) { // доставка по адресу
+        if ( ! $order['shipping']) { // доставка по адресу
             // создаем узел <address>, адрес доставки
-            $address = $dom->createElement('address', $order['buyer_physical_address']);
+            $address = $dom->createElement('address', $order['buyer_shipping_address']);
             $shipping->appendChild($address);
             // создаем узел <city>, город доставки
-            $city = $dom->createElement('city', $order['buyer_city']);
+            $city = $dom->createElement('city', $order['buyer_shipping_city']);
             $shipping->appendChild($city);
             // создаем узел <index>, почтовый индекс
-            $index = $dom->createElement('index', $order['buyer_postal_index']);
+            $index = $dom->createElement('index', $order['buyer_shipping_index']);
             $shipping->appendChild($index);
         }
         // создаем узел <company>

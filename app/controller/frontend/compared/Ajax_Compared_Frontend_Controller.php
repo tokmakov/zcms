@@ -24,6 +24,8 @@ class Ajax_Compared_Frontend_Controller extends Compared_Frontend_Controller {
         if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
+        } else {
+            $product_id = (int)$_POST['product_id'];
         }
 
         // добавляем товар в список сравнения или удаляем?
@@ -34,10 +36,10 @@ class Ajax_Compared_Frontend_Controller extends Compared_Frontend_Controller {
 
         if ('addprd' == $this->params['action']) {
             // добавляем товар в список сравнения
-            $this->comparedFrontendModel->addToCompared($_POST['product_id']);
+            $this->comparedFrontendModel->addToCompared($product_id);
         } else {
             // удаляем товар из списка сравнения
-            $this->comparedFrontendModel->removeFromCompared($_POST['product_id']);
+            $this->comparedFrontendModel->removeFromCompared($product_id);
         }
 
         // получаем от модели массив товаров для сравнения (для правой колонки)
