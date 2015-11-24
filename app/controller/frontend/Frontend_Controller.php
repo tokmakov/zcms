@@ -241,6 +241,9 @@ abstract class Frontend_Controller extends Base_Controller {
         // получаем от модели массив последних товаров для сравнения (для правой колонки)
         $lastComparedProducts = $this->comparedFrontendModel->getSideComparedProducts();
 
+        // получаем от модели массив последних отложенных товаров (для правой колонки)
+        $lastWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
+
         /*
          * массив переменных, которые будут переданы в шаблон right.php
          */
@@ -277,6 +280,10 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->rightVars['comparedProducts'] = $lastComparedProducts;
         // URL ссылки на страницу товаров для сравнения
         $this->rightVars['comparedUrl']      = $this->comparedFrontendModel->getURL('frontend/compared/index');
+        // массив отложенных товаров
+        $this->rightVars['wishedProducts']   = $lastWishedProducts;
+        // URL ссылки на страницу отложенных товаров
+        $this->rightVars['wishedUrl']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
 
         /*
          * массив переменных, которые будут переданы в шаблон footer.php

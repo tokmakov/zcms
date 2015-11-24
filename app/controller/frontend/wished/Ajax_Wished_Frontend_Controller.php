@@ -42,7 +42,6 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
             $this->wishedFrontendModel->removeFromWished($product_id);
         }
 
-        /*
         // получаем от модели массив избанных товаров (для правой колонки)
         $sideWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
 
@@ -54,13 +53,7 @@ class Ajax_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                 'wishedUrl'           => $this->wishedFrontendModel->getURL('frontend/wished/index'),
             )
         );
-        */
 
-        if ($this->params['action'] == 'addprd') {
-            $this->pageContent = 'Товар добавлен в избранное';
-        } else {
-            $this->pageContent = 'Товар удален из избранного';
-        }
     }
 
 }

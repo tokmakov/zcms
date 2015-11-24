@@ -176,6 +176,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products as $key => $value) {
             $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            $products[$key]['action'] = $this->getURL('frontend/wished/rmvprd');
         }
         return $products;
     }

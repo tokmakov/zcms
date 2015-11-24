@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     // обработчик события добавления товара в корзину, к сравнению, в избранное
     addBasketHandler();
-    // обработчик события удаления товара из избранного в правой колонке
+    // обработчик события удаления товара из сравнения в правой колонке
     removeSideComparedHandler();
 
     /*
@@ -97,6 +97,58 @@ $(document).ready(function() {
     });
 
     /*
+     * Свернуть/развернуть блоки в правой колонке
+     */
+    if ($.cookie('show_side_login') !== undefined && $.cookie('show_side_login') == 0) {
+        $('#right > div:nth-child(1) > .side-content').hide();
+    }
+    $('#right > div:nth-child(1) > .side-heading > span').click(function() {
+        $(this).parent().next().slideToggle('normal', function() {
+            if ($(this).is(':visible')) {
+                $.cookie('show_side_login', 1, {expires: 365});
+            } else {
+                $.cookie('show_side_login', 0, {expires: 365});
+            }
+        });
+    });
+    if ($.cookie('show_side_basket') !== undefined && $.cookie('show_side_basket') == 0) {
+        $('#right > div:nth-child(2) > .side-content').hide();
+    }
+    $('#right >div:nth-child(2) > .side-heading > span').click(function() {
+        $(this).parent().next().slideToggle('normal', function() {
+            if ($(this).is(':visible')) {
+                $.cookie('show_side_basket', 1, {expires: 365});
+            } else {
+                $.cookie('show_side_basket', 0, {expires: 365});
+            }
+        });
+    });
+    if ($.cookie('show_side_wished') !== undefined && $.cookie('show_side_wished') == 0) {
+        $('#right > div:nth-child(3) > .side-content').hide();
+    }
+    $('#right >div:nth-child(3) > .side-heading > span').click(function() {
+        $(this).parent().next().slideToggle('normal', function() {
+            if ($(this).is(':visible')) {
+                $.cookie('show_side_wished', 1, {expires: 365});
+            } else {
+                $.cookie('show_side_wished', 0, {expires: 365});
+            }
+        });
+    });
+    if ($.cookie('show_side_compared') !== undefined && $.cookie('show_side_compared') == 0) {
+        $('#right > div:nth-child(4) > .side-content').hide();
+    }
+    $('#right >div:nth-child(4) > .side-heading > span').click(function() {
+        $(this).parent().next().slideToggle('normal', function() {
+            if ($(this).is(':visible')) {
+                $.cookie('show_side_compared', 1, {expires: 365});
+            } else {
+                $.cookie('show_side_compared', 0, {expires: 365});
+            }
+        });
+    });
+
+    /*
      * Показать/скрыть фильтры товаров в каталоге
      */
     if ($.cookie('show_ctg_filters') !== undefined && $.cookie('show_ctg_filters') == 0) {
@@ -114,6 +166,53 @@ $(document).ready(function() {
                 $.cookie('show_ctg_filters', 0, {expires: 365});
             }
         });
+    });
+
+    /*
+     * Удаление товара из сравнения, страница сравнения, ajax
+     */
+    $('.remove-compared-form').ajaxForm({
+        target: '#side-compared',
+        url: '/compared/ajax/rmvprd',
+        beforeSubmit: function(formData, jqForm, options) {
+            // добавляем overlay для правой колонки
+            $('<div></div>')
+                .prependTo('body')
+                .addClass('overlay')
+                .height($('#side-compared').height())
+                .width($('#side-compared').width())
+                .offset({
+                    top : $('#side-compared').offset().top,
+                    left : $('#side-compared').offset().left
+                });
+            // удаляем товар из сравнения
+            jqForm.parent().parent().hide(500, function() {
+                $(this).remove();
+                // удаляем overlay
+                $('body > .overlay').remove();
+                // модальное окно с сообщением
+                $('<div>Товар удален из сравнения</div>')
+                    .prependTo('body')
+                    .hide()
+                    .addClass('modal-window')
+                    .center()
+                    .fadeIn(300, function() {
+                        $(this).delay(1000).fadeOut(300, function() {
+                            $(this).remove();
+                            if ($('div.products-list-line > div').length == 0) {
+                                $('div.products-list-line').html('<p>Нет товаров для сравнения</p>');
+                            };
+                        });
+                    });
+            });
+        },
+        success: function() {
+            // обработчик события удаления товара из сравнения в правой колонке
+            removeSideComparedHandler();
+        },
+        error: function() {
+            alert('Ошибка при удалении товара из сравнения');
+        }
     });
 
     /*
@@ -154,7 +253,11 @@ $(document).ready(function() {
         beforeSubmit: function() {
             var sideBasketHeight = $('#side-basket').height();
             var sideBasketWidth = $('#side-basket').width();
-            $('<div></div>').prependTo('#side-basket').addClass('overlay').height(sideBasketHeight).width(sideBasketWidth);
+            $('<div></div>')
+                .prependTo('#side-basket')
+                .addClass('overlay')
+                .height(sideBasketHeight)
+                .width(sideBasketWidth);
         },
         success: function() {
             $('#side-basket > .overlay').remove();
@@ -244,20 +347,32 @@ function addBasketHandler() {
         target: '#side-basket',
         url: '/basket/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
-            // добавляем overlay
-            var sideBasketHeight = $('#side-basket').height();
-            var sideBasketWidth = $('#side-basket').width();
-            $('<div></div>').prependTo('#side-basket').addClass('overlay').height(sideBasketHeight).width(sideBasketWidth);
+            // добавляем overlay для корзины в правой колонке
+            $('<div></div>')
+                .prependTo('body')
+                .addClass('overlay')
+                .height($('#side-basket').height()+26/*высота строки таблицы*/)
+                .width($('#side-basket').width())
+                .offset({
+                    top : $('#side-basket').offset().top,
+                    left : $('#side-basket').offset().left
+                });
             // определаем координаты изображения товара, который добавляется в корзину
             var image = jqForm.parent().prevAll('div:has(img)');
             var imageTop = image.offset().top;
             var imageLeft = image.offset().left;
             // определяем координаты корзины: либо в правой колонке, либо в шапке сайта
-            var basket = $('#side-basket').is(":visible") ? $('#side-basket') : $('#top-menu > a:first-child > i') ;
+            var basket =
+                $('#side-basket').is(":visible") ? $('#side-basket') : $('#top-menu > a:first-child > i');
+            var basketleft = basket.offset().left + 6;
             var basketTop = basket.offset().top + 12;
-            var basketLeft = basket.offset().left + 6;
-            image.clone().find('span').remove().end().prependTo('body').css(
-                {
+            image
+                .clone()
+                .find('span')
+                .remove()
+                .end()
+                .prependTo('body')
+                .css({
                     'position' : 'absolute',
                     'left' : imageLeft,
                     'top' : imageTop,
@@ -267,31 +382,30 @@ function addBasketHandler() {
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
-                }
-            ).delay(100).animate(
-                {left: basketLeft, top: basketTop, width: 0, height: 0, padding: 0},
-                700,
-                function() {
-                    $(this).remove();
-                }
+                })
+                .delay(100)
+                .animate(
+                    {left: basketleft, top: basketTop, width: 0, height: 0, padding: 0},
+                    500,
+                    function() {
+                        $(this).remove();
+                        // удаляем overlay
+                        $('body > .overlay').remove();
+                        // модальное окно с сообщением
+                        $('<div>Товар добавлен в корзину</div>')
+                            .prependTo('body')
+                            .hide()
+                            .addClass('modal-window')
+                            .center()
+                            .fadeIn(300, function() {
+                                $(this).delay(1000).fadeOut(300, function() {
+                                    $(this).remove();
+                                });
+                            });
+                    }
             );
         },
-        success: function() {
-            // удаляем overlay
-            $('#side-basket > .overlay').remove();
-            // модальное окно с сообщением
-            $('<div>Товар добавлен в корзину</div>')
-                .prependTo('body')
-                .hide()
-                .addClass('modal-window')
-                .center()
-                .fadeIn(500, function() {
-                    $(this).delay(1000).fadeOut(500, function() {
-                        $(this).remove();
-                    });
-                });
-
-        },
+        success: function() {},
         error: function() {
             alert('Ошибка при добавлении товара в корзину');
         }
@@ -311,8 +425,13 @@ function addBasketHandler() {
             var wished = $('#top-menu > a:nth-child(3) > i') ;
             var wishedTop = wished.offset().top + 12;
             var wishedLeft = wished.offset().left + 6;
-            image.clone().find('span').remove().end().prependTo('body').css(
-                {
+            image
+                .clone()
+                .find('span')
+                .remove()
+                .end()
+                .prependTo('body')
+                .css({
                     'position' : 'absolute',
                     'left' : imageLeft,
                     'top' : imageTop,
@@ -322,29 +441,27 @@ function addBasketHandler() {
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
-                }
-            ).delay(100).animate(
-                {left: wishedLeft, top: wishedTop, width: 0, height: 0, padding: 0},
-                700,
-                function() {
-                    $(this).remove();
-                }
-            );
-        },
-        success: function(response) {
-            $('<div></div>')
-                .html(response)
-                .prependTo('body')
-                .hide()
-                .addClass('modal-window')
-                .center()
-                .fadeIn(500, function() {
-                    $(this).delay(1000).fadeOut(500, function() {
+                })
+                .delay(100)
+                .animate(
+                    {left: wishedLeft, top: wishedTop, width: 0, height: 0, padding: 0},
+                    500,
+                    function() {
                         $(this).remove();
-                    });
-                });
-
+                        $('<div>Товар добавлен в избранное</div>')
+                            .prependTo('body')
+                            .hide()
+                            .addClass('modal-window')
+                            .center()
+                            .fadeIn(300, function() {
+                                $(this).delay(1000).fadeOut(300, function() {
+                                    $(this).remove();
+                                });
+                            });
+                    }
+                );
         },
+        success: function() {},
         error: function() {
             alert('Ошибка при добавлении товара в избранное');
         }
@@ -357,20 +474,32 @@ function addBasketHandler() {
         target: '#side-compared',
         url: '/compared/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
-            // добавляем overlay
-            var sideComparedHeight = $('#side-compared').height();
-            var sideComparedWidth = $('#side-compared').width();
-            $('<div></div>').prependTo('#side-compared').addClass('overlay').height(sideComparedHeight).width(sideComparedWidth);
+            // добавляем overlay для правой колонки
+            $('<div></div>')
+                .prependTo('body')
+                .addClass('overlay')
+                .height($('#side-compared').height())
+                .width($('#side-compared').width())
+                .offset({
+                    top : $('#side-compared').offset().top,
+                    left : $('#side-compared').offset().left
+                });
             // определаем координаты изображения товара, который добавляется к сравнению
             var image = jqForm.parent().prevAll('div:has(img)');
             var imageTop = image.offset().top;
             var imageLeft = image.offset().left;
             // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
-            var compared = $('#side-compared').is(":visible") ? $('#side-compared') : $('#top-menu > a:nth-child(4) > i') ;
+            var compared
+                = $('#side-compared').is(":visible") ? $('#side-compared') : $('#top-menu > a:nth-child(4) > i') ;
             var comparedTop = compared.offset().top + 12;
             var comparedLeft = compared.offset().left + 6;
-            image.clone().find('span').remove().end().prependTo('body').css(
-                {
+            image
+                .clone()
+                .find('span')
+                .remove()
+                .end()
+                .prependTo('body')
+                .css({
                     'position' : 'absolute',
                     'left' : imageLeft,
                     'top' : imageTop,
@@ -380,74 +509,32 @@ function addBasketHandler() {
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
-                }
-            ).delay(100).animate(
-                {left: comparedLeft, top: comparedTop, width: 0, height: 0, padding: 0},
-                700,
-                function() {
-                    $(this).remove();
-                }
+                })
+                .delay(100)
+                .animate(
+                    {left: comparedLeft, top: comparedTop, width: 0, height: 0, padding: 0},
+                    500,
+                    function() {
+                        $(this).remove();
+                        // удаляем overlay
+                        $('body > .overlay').remove();
+                        // модальное окно с сообщением
+                        $('<div>Товар добавлен к сравнению</div>')
+                            .prependTo('body')
+                            .hide()
+                            .addClass('modal-window')
+                            .center()
+                            .fadeIn(300, function() {
+                                $(this).delay(1000).fadeOut(300, function() {
+                                    $(this).remove();
+                                });
+                            });
+                    }
             );
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
             removeSideComparedHandler();
-            // удаляем overlay
-            $('#side-compared > .overlay').remove();
-            // модальное окно с сообщением
-            $('<div>Товар добавлен к сравнению</div>')
-                .prependTo('body')
-                .hide()
-                .addClass('modal-window')
-                .center()
-                .fadeIn(500, function() {
-                    $(this).delay(1000).fadeOut(500, function() {
-                        $(this).remove();
-                    });
-                });
-
-        },
-        error: function() {
-            alert('Ошибка при добавлении товара к сравнению');
-        }
-    });
-
-    /*
-     * Удаление товара из сравнения, ajax
-     */
-    $('.remove-compared-form').ajaxForm({
-        target: '#side-compared',
-        url: '/compared/ajax/rmvprd',
-        beforeSubmit: function(formData, jqForm, options) {
-            // добавляем overlay
-            var sideComparedHeight = $('#side-compared').height();
-            var sideComparedWidth = $('#side-compared').width();
-            $('<div></div>').prependTo('#side-compared').addClass('overlay').height(sideComparedHeight).width(sideComparedWidth);
-            // удаляем товар из сравнения
-            jqForm.parent().parent().hide(500, function() {
-                $(this).remove();
-            });
-        },
-        success: function() {
-            // обработчик события удаления товара из сравнения в правой колонке
-            removeSideComparedHandler();
-            // удаляем overlay
-            $('#side-compared > .overlay').remove();
-            // модальное окно с сообщением
-            $('<div>Товар удален из сравнения</div>')
-                .prependTo('body')
-                .hide()
-                .addClass('modal-window')
-                .center()
-                .fadeIn(500, function() {
-                    $(this).delay(1000).fadeOut('normal', function() {
-                        $(this).remove();
-                        if ($('div.products-list-line > div').length == 0) {
-                            $('div.products-list-line').html('<p>Нет товаров для сравнения</p>');
-                        };
-                    });
-                });
-
         },
         error: function() {
             alert('Ошибка при добавлении товара к сравнению');
@@ -489,13 +576,10 @@ function filterSelectHandler() {
              */
             // первый блок: дочерние категории текущей категории
             $('#category-childs > div:last-child').html(dt.childs);
-            $('#category-childs > div:last-child > .overlay').remove();
             // второй блок: фильтр по функционалу, производителю и параметрам
             $('#category-filters form > div:first-child').html(dt.filters);
-            $('#category-filters form > div:first-child > .overlay').remove();
             // третий блок: товары выбранной категории
             $('#category-products').html(dt.products);
-            $('#category-products > .products-overlay').remove();
 
             $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
             // для третьего блока (товары после фильтрации) назначаем обработчики
@@ -581,7 +665,7 @@ function menuClickHandler(event) {
                     }
                 });
                 item.find('ul > li.parent > div > span > span').click(menuClickHandler);
-            },
+            }
         });
     } else {
         item.children('ul').slideToggle('normal', function () {
@@ -632,3 +716,4 @@ function removeSideComparedHandler() {
         }
     });
 }
+

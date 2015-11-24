@@ -76,9 +76,9 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/left.php -->
 
-<div class="side-block">
-    <div>Каталог оборудования</div>
-    <div class="no-padding">
+<div>
+    <div class="side-heading">Каталог оборудования</div>
+    <div class="side-content">
         <?php if (!empty($catalogMenu)): ?>
             <div id="catalog-menu">
                 <ul>
@@ -199,9 +199,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div class="side-block">
-    <div>Производители</div>
-    <div>
+<div>
+    <div class="side-heading">Производители</div>
+    <div class="side-content">
         <div id="makers-list-right">
             <ul>
             <?php foreach ($makers as $item): ?>

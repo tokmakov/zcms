@@ -147,9 +147,9 @@ body > .wrapper {
         background: url(../img/phone.png) 30px 5px no-repeat;
         background-size: 30px;
     }
-            #header #top-phone > span {
-                font-size: 14px;
-            }
+        #header #top-phone > span {
+            font-size: 14px;
+        }
     #top-search { /*  форма поиска в шапке */
         position: absolute;
         left: 260px;
@@ -330,16 +330,16 @@ body > .wrapper {
     #menu a:hover {
         background: #5390cc;
     }
-            #menu > ul > li > a {
-                border-right: 1px solid #4f5254;
-            }
-            #menu > ul > li:last-child > a {
-                border-right: none;
-            }
-            #menu > ul > li > ul > li > a, #menu > ul > li > ul > li > ul > li > a {
-                border-top: 1px solid #4f5254;
-                padding: 7px 10px;
-            }
+        #menu > ul > li > a {
+            border-right: 1px solid #4f5254;
+        }
+        #menu > ul > li:last-child > a {
+            border-right: none;
+        }
+        #menu > ul > li > ul > li > a, #menu > ul > li > ul > li > ul > li > a {
+            border-top: 1px solid #4f5254;
+            padding: 7px 10px;
+        }
 /* анимация меню */
 /*
 #menu > ul > li > ul,
@@ -376,32 +376,23 @@ body > .wrapper {
 #left *, #right * {
     font-size: 13px;
 }
-
     /* информационные блоки в левой и правой колонке */
-    #left .side-block, #right .side-block {
-        margin-top: 20px;
+    #left > div, #right > div {
+        margin: 20px 0;
         border: 1px solid #d1d1d1;
         border-top: 5px solid #395985;
         overflow: hidden;
     }
-        #left .side-block:last-child, #right .side-block:last-child {
-            margin-bottom: 20px;
-        }
-        #left .side-block > div:first-child, #right .side-block > div:first-child {
+        #left > div div.side-heading, #right > div div.side-heading {
             padding: 15px;
             font-size: 16px;
             line-height: 16px;
             background: #f0f0f0;
-            border-bottom: 1px solid #d1d1d1;
         }
-        #left .side-block > div:last-child, #right .side-block > div:last-child {
+        #left > div div.side-content, #right > div div.side-content {
             padding: 15px;
-        }
-        #left .side-block > div.no-padding, #right .side-block > div.no-padding {
-            padding: 0;
-        }
-        #right .side-block > div.no-padding {
-            padding: 15px 0;
+            border-top: 1px solid #d1d1d1;
+            /* background: #fafafa; */
         }
 
 /*
@@ -2774,6 +2765,9 @@ body > .wrapper {
  */
 
 /* меню каталога */
+#left > div:first-child div.side-content {
+    padding: 0;
+}
 #catalog-menu {
 
 }
@@ -3040,44 +3034,72 @@ body > .wrapper {
             padding: 5px 0;
         }
 
+/* товары в корзине, в списке сравнения, в избранном */
+#right > div:not(:first-child) div.side-content {
+    padding: 20px 0;
+}
+
 /* таблица товаров в корзине, в списке сравнения, отложенных товаров */
-.side-block > div:last-child table {
+#right table {
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
 }
-    .side-block > div:last-child table tr {
-
-    }
-        .side-block > div:last-child table tr td,
-        .side-block > div:last-child table tr th {
+        #right table tr td,
+        #right table tr th {
             border-bottom: 1px solid #d1d1d1;
             border-right: 1px solid #d1d1d1;
-            padding: 5px;
+            padding: 4px;
             overflow: hidden;
             white-space: nowrap;
+            font-weight: normal;
         }
-        .side-block > div:last-child table tr td:last-child {
-            text-align: right;
+        #right table tr th {
+            background: #f0f0f0;
         }
-        .side-block > div:last-child #side-basket table tr td:last-child {
+        #right table tr th:nth-child(2) {
+            text-align: left;
+        }
+        #right table tr:first-child th {
+            border-top: 1px solid #d1d1d1;
+        }
+        #right table tr td:last-child,
+        #right table tr th:last-child {
+            border-right: none;
+        }
+        #right table tr td:first-child {
             text-align: center;
         }
-        .side-block > div:last-child #side-basket table tr:last-child td span {
+        #right #side-basket table tr th:first-child {
+            width: 22%;
+        }
+        #right #side-basket table tr th:last-child {
+            width: 16%;
+        }
+        #right #side-basket table tr td:last-child {
+            text-align: center;
+        }
+        #right #side-basket table tr:last-child td span {
             font-weight: bold;
             color: #395985;
         }
-        .side-block > div:last-child table tr:first-child th {
-            border-top: 1px solid #d1d1d1;
+        #right #side-wished table tr th:first-child {
+            width: 22%;
         }
-        .side-block > div:last-child table tr td:last-child,
-        .side-block > div:last-child table tr th:last-child {
-            border-right: none;
+        #right #side-wished table tr th:last-child {
+            width: 27%;
         }
-        .side-block > div:last-child table tr td:first-child {
-            text-align: center;
+        #right #side-wished table tr td:last-child,
+        #right #side-compared table tr td:last-child {
+            text-align: right;
         }
-            .side-block > div:last-child table tr td form button {
+        #right #side-compared table tr th:first-child {
+            width: 22%;
+        }
+        #right #side-compared table tr th:last-child {
+            width: 10%;
+        }
+            #right #side-compared table tr td form button { /* кнопка: удалить из сравнения */
                 border: none;
                 background: transparent;
                 color: #395985;
@@ -3085,70 +3107,77 @@ body > .wrapper {
                 width: 13px;
                 height: 13px;
             }
-            .side-block > div:last-child table tr td form button:hover {
+            #right table tr td form button:hover {
                 color: #e9751f;
             }
 
 
 /* ссылки на страницу с корзиной и оформления заказа */
-.side-block > div:last-child #goto-basket-checkout {
+#right #goto-basket-checkout {
     list-style: none;
     margin: 15px 15px 0 15px;
 }
-    .side-block > div:last-child #goto-basket-checkout li a {
+    #right #goto-basket-checkout li a {
         display: block;
         text-align: center;
         background: #395985;
         color: #fff;
         padding: 6px 0;
     }
-    .side-block > div:last-child #goto-basket-checkout li:first-child {
+    #right #goto-basket-checkout li:first-child {
         margin-bottom: 7px;
     }
-    .side-block > div:last-child #goto-basket-checkout li:first-child a {
+    #right #goto-basket-checkout li:first-child a {
         background: #395985;
     }
-    .side-block > div:last-child #goto-basket-checkout li:last-child a {
+    #right #goto-basket-checkout li:last-child a {
         background: #e9751f;
     }
-    .side-block > div:last-child #goto-basket-checkout li a:hover {
+    #right #goto-basket-checkout li a:hover {
         text-decoration: none;
     }
 
 /* ссылка на страницу с полным списком отложенных товаров, товаров для сравнения */
-.side-block > div:last-child .all-products {
+#right .all-products {
     margin: 15px 15px 0 15px;
 }
-    .side-block > div:last-child .all-products a {
+    #right .all-products a {
         display: block;
         text-align: center;
         background: #395985;
         color: #fff;
         padding: 6px 0;
     }
-    .side-block > div:last-child .all-products a:hover {
+    #right .all-products a:hover {
         text-decoration: none;
     }
 
 /* заголовки для личного кабинета, корзины, списка сравнения, отложенных и просмотренных товаров */
-#right .side-block > div:first-child > i {
-    font-size: 18px;
+#right > div div.side-heading {
+    border-bottom: none;
 }
-    #right .side-block > div:first-child > i.fa-shopping-cart {
-        font-size: 20px;
-        position: relative;
-        top: 1px;
+    #right .side-heading > span {
+        cursor: pointer;
     }
-    #right .side-block > div:first-child > i.fa-balance-scale {
-        font-size: 16px;
-    }
-    #right .side-block > div:first-child > i.fa-star {
-        position: relative;
-        top: 2px;
-    }
+        #right .side-heading > span > span {
+            font-size: 16px;
+            line-height: 16px;
+            border-bottom: 1px dashed #323232;
+        }
+        #right .side-heading > span > i {
+            font-size: 18px;
+            position: relative;
+            top: 2px;
+        }
+            #right .side-heading > span > i.fa-shopping-cart {
+                font-size: 20px;
+            }
+            #right .side-heading > span > i.fa-balance-scale {
+                font-size: 16px;
+            }
 
 /* пустая корзина, пустой список сравнения, пустой список отложенных товаров */
-.empty-list-right {
+#right .side-content .empty-list-right {
     padding: 10px 15px;
 }
 

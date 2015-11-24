@@ -13,18 +13,17 @@ defined('ZCMS') or die('Access denied');
 <?php if (!empty($sideComparedProducts)): /* товары для сравнения*/ ?>
     <table>
         <tr>
-            <th width="21%">Код</th>
-            <th width="70%">Наименование</th>
-            <th width="9%"></th>
+            <th>Код</th>
+            <th>Наименование</th>
+            <th></th>
         </tr>
         <?php foreach ($sideComparedProducts as $item): ?>
             <tr>
                 <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
                 <td><?php echo $item['name']; ?></td>
                 <td>
-                    <form action="http://www.host2.ru/compared/rmvprd" method="post">
+                    <form action="<?php echo $item['action']; ?>" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
-                        <input type="hidden" name="return" value="compared">
                         <button type="submit" name="submit" title="Удалить из сравнения"><i class="fa fa-times"></i></button>
                     </form>
                 </td>

@@ -10,8 +10,10 @@
  * $checkoutUrl - URL страницы с формой для оформления заказа
  * $wishedProducts - массив последних 10 отложенных товаров
  * $wishedUrl - URL страницы со списком всех отложенных товаров
- * $comparedProducts - массив последних 10 товаров, отложенных для сравнения
- * $comparedUrl - URL страницы со списком всех товаров, отложенных для сравнения
+ * $comparedProducts - массив последних 10 товаров для сравнения
+ * $comparedUrl - URL страницы со списком всех товаров для сравнения
+ * $wishedProducts - массив последних 10 отложенных товаров
+ * $wishedUrl - URL страницы со списком всех отложенных товаров
  * $viewedProducts - массив последних 10 просмотренных товаров
  * $viewedUrl - URL страницы со списком всех просмотренных товаров
  *
@@ -33,44 +35,50 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/right.php -->
 
-<div class="side-block">
-    <div><i class="fa fa-user"></i>&nbsp;&nbsp;Личный кабинет</div>
+<div>
+    <div class="side-heading">
+        <span>
+            <i class="fa fa-user"></i>&nbsp;&nbsp;<span>Личный кабинет</span>
+        </span>
+    </div>
+    <div class="side-content">
     <?php if ($authUser): ?>
-        <div>
-            <ul id="logged-user-right">
-                <li><a href="<?php echo $userIndexUrl; ?>">Личный кабинет</a></li>
-                <li><a href="<?php echo $userEditUrl; ?>">Личные данные</a></li>
-                <li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
-                <li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
-                <li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
-            </ul>
-        </div>
+        <ul id="logged-user-right">
+            <li><a href="<?php echo $userIndexUrl; ?>">Личный кабинет</a></li>
+            <li><a href="<?php echo $userEditUrl; ?>">Личные данные</a></li>
+            <li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
+            <li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
+            <li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
+        </ul>
     <?php else: ?>
-        <div>
-            <form action="<?php echo $action; ?>" method="post" id="login-user-right">
-                <input type="text" name="email" maxlength="32" value="" placeholder="Введите e-mail" />
-                <input type="text" name="password" maxlength="32" value="" placeholder="Введите пароль" />
-                <label><input type="checkbox" name="remember" value="1" /> <span>запомнить меня</span></label>
-                <input type="submit" name="submit" value="Войти" />
-            </form>
-            <ul id="reg-forgot-right">
-                <li><a href="<?php echo $regFormUrl; ?>">Регистрация</a></li>
-                <li><a href="<?php echo $forgotFormUrl; ?>">Забыли пароль?</a></li>
-            </ul>
-        </div>
+        <form action="<?php echo $action; ?>" method="post" id="login-user-right">
+            <input type="text" name="email" maxlength="32" value="" placeholder="Введите e-mail" />
+            <input type="text" name="password" maxlength="32" value="" placeholder="Введите пароль" />
+            <label><input type="checkbox" name="remember" value="1" /> <span>запомнить меня</span></label>
+            <input type="submit" name="submit" value="Войти" />
+        </form>
+        <ul id="reg-forgot-right">
+            <li><a href="<?php echo $regFormUrl; ?>">Регистрация</a></li>
+            <li><a href="<?php echo $forgotFormUrl; ?>">Забыли пароль?</a></li>
+        </ul>
     <?php endif; ?>
+    </div>
 </div>
 
-<div class="side-block">
-    <div><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Ваша корзина</div>
-    <div class="no-padding">
+<div>
+    <div class="side-heading">
+        <span>
+            <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;<span>Ваша корзина</span>
+        </span>
+    </div>
+    <div class="side-content">
         <div id="side-basket">
         <?php if (!empty($basketProducts)): /* покупательская корзина */ ?>
             <table>
                 <tr>
-                    <th width="20%">Код</th>
-                    <th width="65%">Наименование</th>
-                    <th width="15%">Кол.</th>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th>Кол.</th>
                 </tr>
                 <?php foreach ($basketProducts as $item): ?>
                     <tr>
@@ -94,25 +102,59 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div class="side-block">
-    <div><i class="fa fa-balance-scale"></i>&nbsp;&nbsp;Сравнение товаров</div>
-    <div class="no-padding">
+<div>
+    <div class="side-heading">
+        <span>
+            <i class="fa fa-star"></i>&nbsp;&nbsp;<span>Избранное</span>
+        </span>
+    </div>
+    <div class="side-content">
+        <div id="side-wished">
+            <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
+                <table>
+                    <tr>
+                        <th>Код</th>
+                        <th>Наименование</th>
+                        <th>Цена</th>
+                    </tr>
+                    <?php foreach ($wishedProducts as $item): ?>
+                        <tr>
+                            <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
+                            <td><?php echo $item['name']; ?></td>
+                            <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все отложенные товары</a></p>
+            <?php else: ?>
+                <p class="empty-list-right">Нет отложенных товаров</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="side-heading">
+        <span>
+            <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;<span>Сравнение товаров</span>
+        </span>
+    </div>
+    <div class="side-content">
         <div id="side-compared">
         <?php if (!empty($comparedProducts)): /* товары для сравнения */ ?>
             <table>
                 <tr>
-                    <th width="21%">Код</th>
-                    <th width="70%">Наименование</th>
-                    <th width="9%"></th>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th></th>
                 </tr>
                 <?php foreach ($comparedProducts as $item): ?>
                     <tr>
                         <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
                         <td><?php echo $item['name']; ?></td>
                         <td>
-                            <form action="http://www.host2.ru/compared/rmvprd" method="post">
+                            <form action="<?php echo $item['action']; ?>" method="post">
                                 <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
-                                <input type="hidden" name="return" value="compared">
                                 <button type="submit" name="submit" title="Удалить из сравнения"><i class="fa fa-times"></i></button>
                             </form>
                         </td>
@@ -125,10 +167,6 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
         </div>
     </div>
-</div>
-
-<div style="margin-top: 20px;">
-    <img src="/files/banner/side-banner.jpg" alt="" />
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/right.php -->

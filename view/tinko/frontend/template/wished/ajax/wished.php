@@ -13,9 +13,9 @@ defined('ZCMS') or die('Access denied');
 <?php if (!empty($sideWishedProducts)): /* отложенные товары */ ?>
     <table>
         <tr>
-            <th width="20%">Код</th>
-            <th width="55%">Наименование</th>
-            <th width="25%">Цена</th>
+            <th>Код</th>
+            <th>Наименование</th>
+            <th>Цена</th>
         </tr>
         <?php foreach ($sideWishedProducts as $item): ?>
             <tr>
