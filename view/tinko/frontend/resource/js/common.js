@@ -87,65 +87,13 @@ $(document).ready(function() {
         $('#category-childs > div:last-child').slideToggle('normal', function() {
             if (_this.text() == 'показать') {
                 _this.text('скрыть');
-                $.cookie('show_ctg_childs', 1, {expires: 365});
+                $.cookie('show_ctg_childs', 1, {expires: 365, path: '/'});
             } else {
                 _this.text('показать');
-                $.cookie('show_ctg_childs', 0, {expires: 365});
+                $.cookie('show_ctg_childs', 0, {expires: 365, path: '/'});
             }
         });
 
-    });
-
-    /*
-     * Свернуть/развернуть блоки в правой колонке
-     */
-    if ($.cookie('show_side_login') !== undefined && $.cookie('show_side_login') == 0) {
-        $('#right > div:nth-child(1) > .side-content').hide();
-    }
-    $('#right > div:nth-child(1) > .side-heading > span').click(function() {
-        $(this).parent().next().slideToggle('normal', function() {
-            if ($(this).is(':visible')) {
-                $.cookie('show_side_login', 1, {expires: 365});
-            } else {
-                $.cookie('show_side_login', 0, {expires: 365});
-            }
-        });
-    });
-    if ($.cookie('show_side_basket') !== undefined && $.cookie('show_side_basket') == 0) {
-        $('#right > div:nth-child(2) > .side-content').hide();
-    }
-    $('#right >div:nth-child(2) > .side-heading > span').click(function() {
-        $(this).parent().next().slideToggle('normal', function() {
-            if ($(this).is(':visible')) {
-                $.cookie('show_side_basket', 1, {expires: 365});
-            } else {
-                $.cookie('show_side_basket', 0, {expires: 365});
-            }
-        });
-    });
-    if ($.cookie('show_side_wished') !== undefined && $.cookie('show_side_wished') == 0) {
-        $('#right > div:nth-child(3) > .side-content').hide();
-    }
-    $('#right >div:nth-child(3) > .side-heading > span').click(function() {
-        $(this).parent().next().slideToggle('normal', function() {
-            if ($(this).is(':visible')) {
-                $.cookie('show_side_wished', 1, {expires: 365});
-            } else {
-                $.cookie('show_side_wished', 0, {expires: 365});
-            }
-        });
-    });
-    if ($.cookie('show_side_compared') !== undefined && $.cookie('show_side_compared') == 0) {
-        $('#right > div:nth-child(4) > .side-content').hide();
-    }
-    $('#right >div:nth-child(4) > .side-heading > span').click(function() {
-        $(this).parent().next().slideToggle('normal', function() {
-            if ($(this).is(':visible')) {
-                $.cookie('show_side_compared', 1, {expires: 365});
-            } else {
-                $.cookie('show_side_compared', 0, {expires: 365});
-            }
-        });
     });
 
     /*
@@ -160,37 +108,100 @@ $(document).ready(function() {
         $('#category-filters > div:last-child').slideToggle('normal', function() {
             if (_this.text() == 'показать') {
                 _this.text('скрыть');
-                $.cookie('show_ctg_filters', 1, {expires: 365});
+                $.cookie('show_ctg_filters', 1, {expires: 365, path: '/'});
             } else {
                 _this.text('показать');
-                $.cookie('show_ctg_filters', 0, {expires: 365});
+                $.cookie('show_ctg_filters', 0, {expires: 365, path: '/'});
             }
         });
+    });
+
+    /*
+     * Свернуть/развернуть блоки в правой колонке
+     */
+    if ($.cookie('show_side_login') !== undefined && $.cookie('show_side_login') == 0) {
+        $('#right > div#side-login > .side-content').hide();
+    }
+    $('#right > div#side-login > .side-heading > span').click(function() {
+        var content = $(this).parent().next();
+        if (content.is(':visible')) {
+            $.cookie('show_side_login', 0, {expires: 365, path: '/'});
+        } else {
+            $.cookie('show_side_login', 1, {expires: 365, path: '/'});
+        }
+        content.slideToggle();
+    });
+    if ($.cookie('show_side_basket') !== undefined && $.cookie('show_side_basket') == 0) {
+        $('#right > div#side-basket > .side-content').hide();
+    }
+    $('#right > div#side-basket > .side-heading > span').click(function() {
+        var content = $(this).parent().next();
+        if (content.is(':visible')) {
+            $.cookie('show_side_basket', 0, {expires: 365, path: '/'});
+        } else {
+            $.cookie('show_side_basket', 1, {expires: 365, path: '/'});
+        }
+        content.slideToggle();
+    });
+    if ($.cookie('show_side_wished') !== undefined && $.cookie('show_side_wished') == 0) {
+        $('#right > div#side-wished > .side-content').hide();
+    }
+    $('#right > div#side-wished > .side-heading > span').click(function() {
+        var content = $(this).parent().next();
+        if (content.is(':visible')) {
+            $.cookie('show_side_wished', 0, {expires: 365, path: '/'});
+        } else {
+            $.cookie('show_side_wished', 1, {expires: 365, path: '/'});
+        }
+        content.slideToggle();
+    });
+    if ($.cookie('show_side_compared') !== undefined && $.cookie('show_side_compared') == 0) {
+        $('#right > div#side-compared > .side-content').hide();
+    }
+    $('#right > div#side-compared > .side-heading > span').click(function() {
+        var content = $(this).parent().next();
+        if (content.is(':visible')) {
+            $.cookie('show_side_compared', 0, {expires: 365, path: '/'});
+        } else {
+            $.cookie('show_side_compared', 1, {expires: 365, path: '/'});
+        }
+        content.slideToggle();
+    });
+    if ($.cookie('show_side_viewed') !== undefined && $.cookie('show_side_viewed') == 0) {
+        $('#right > div#side-viewed > .side-content').hide();
+    }
+    $('#right > div#side-viewed > .side-heading > span').click(function() {
+        var content = $(this).parent().next();
+        if (content.is(':visible')) {
+            $.cookie('show_side_viewed', 0, {expires: 365, path: '/'});
+        } else {
+            $.cookie('show_side_viewed', 1, {expires: 365, path: '/'});
+        }
+        content.slideToggle();
     });
 
     /*
      * Удаление товара из сравнения, страница сравнения, ajax
      */
     $('.remove-compared-form').ajaxForm({
-        target: '#side-compared',
+        target: '#side-compared > .side-content',
         url: '/compared/ajax/rmvprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
-                .prependTo('body')
+                .prependTo('#side-compared > .side-content')
                 .addClass('overlay')
-                .height($('#side-compared').height())
-                .width($('#side-compared').width())
+                .height($('#side-compared > .side-content').height())
+                .width($('#side-compared > .side-content').width())
                 .offset({
-                    top : $('#side-compared').offset().top,
-                    left : $('#side-compared').offset().left
+                    top : $('#side-compared > .side-content').offset().top,
+                    left : $('#side-compared > .side-content').offset().left
                 });
             // удаляем товар из сравнения
             jqForm.parent().parent().hide(500, function() {
+                // удаляем товар со страницы
                 $(this).remove();
-                // удаляем overlay
-                $('body > .overlay').remove();
-                // модальное окно с сообщением
+                // показываем окно с сообщением
                 $('<div>Товар удален из сравнения</div>')
                     .prependTo('body')
                     .hide()
@@ -248,19 +259,19 @@ $(document).ready(function() {
      */
     var solution_id = $('#add-solution-basket').data('id');
     $('#add-solution-basket').ajaxForm({
-        target: '#side-basket',
+        target: '#side-basket > .side-content',
         url: '/solutions/ajax-basket/' + solution_id,
         beforeSubmit: function() {
-            var sideBasketHeight = $('#side-basket').height();
-            var sideBasketWidth = $('#side-basket').width();
+            var sideBasketHeight = $('#side-basket > .side-content').height()+30/*padding*/;
+            var sideBasketWidth = $('#side-basket > .side-content').width();
             $('<div></div>')
-                .prependTo('#side-basket')
+                .prependTo('#side-basket > .side-content')
                 .addClass('overlay')
                 .height(sideBasketHeight)
                 .width(sideBasketWidth);
         },
         success: function() {
-            $('#side-basket > .overlay').remove();
+            // показываем окно с сообщением
             $('<div>Товары добавлены в корзину</div>')
                 .prependTo('body')
                 .hide()
@@ -344,28 +355,35 @@ function addBasketHandler() {
      * Добавление товара в корзину, ajax
      */
     $('.add-basket-form').ajaxForm({
-        target: '#side-basket',
+        target: '#side-basket > .side-content',
         url: '/basket/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для корзины в правой колонке
             $('<div></div>')
-                .prependTo('body')
+                .prependTo('#side-basket > .side-content')
                 .addClass('overlay')
-                .height($('#side-basket').height()+26/*высота строки таблицы*/)
-                .width($('#side-basket').width())
+                .height($('#side-basket > .side-content').height()+30/*padding*/)
+                .width($('#side-basket > .side-content').width())
                 .offset({
-                    top : $('#side-basket').offset().top,
-                    left : $('#side-basket').offset().left
+                    top : $('#side-basket > .side-content').offset().top,
+                    left : $('#side-basket > .side-content').offset().left
                 });
             // определаем координаты изображения товара, который добавляется в корзину
             var image = jqForm.parent().prevAll('div:has(img)');
-            var imageTop = image.offset().top;
-            var imageLeft = image.offset().left;
+            var imageTop = Math.round(image.offset().top);
+            var imageLeft = Math.round(image.offset().left);
+            // определаем размеры изображения товара, который добавляется в корзину
+            var imageWidth = Math.round(image.width());
+            var imageHeight = Math.round(image.height());
             // определяем координаты корзины: либо в правой колонке, либо в шапке сайта
-            var basket =
-                $('#side-basket').is(":visible") ? $('#side-basket') : $('#top-menu > a:first-child > i');
-            var basketleft = basket.offset().left + 6;
-            var basketTop = basket.offset().top + 12;
+            var basket;
+            if ($('#side-basket > .side-heading').is(':visible')) {
+                basket = $('#side-basket > .side-heading > span > i');
+            } else {
+                basket = $('#top-menu > a:nth-child(1) > i') ;
+            }
+            var basketTop = basket.offset().top + 11;
+            var basketLeft = basket.offset().left + 9;
             image
                 .clone()
                 .find('span')
@@ -374,24 +392,23 @@ function addBasketHandler() {
                 .prependTo('body')
                 .css({
                     'position' : 'absolute',
+                    'width' : imageWidth,
+                    'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
                     'background' : '#fff',
-                    'width' : '100px',
-                    'height' : '100px',
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
                 })
                 .delay(100)
                 .animate(
-                    {left: basketleft, top: basketTop, width: 0, height: 0, padding: 0},
+                    {left: basketLeft, top: basketTop, width: 0, height: 0, padding: 0},
                     500,
                     function() {
+                        // удаляем клона
                         $(this).remove();
-                        // удаляем overlay
-                        $('body > .overlay').remove();
-                        // модальное окно с сообщением
+                        // показываем окно с сообщением
                         $('<div>Товар добавлен в корзину</div>')
                             .prependTo('body')
                             .hide()
@@ -415,16 +432,35 @@ function addBasketHandler() {
      * Добавление товара в избранное, ajax
      */
     $('.add-wished-form').ajaxForm({
+        target: '#side-wished > .side-content',
         url: '/wished/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
+            // добавляем overlay для правой колонки
+            $('<div></div>')
+                .prependTo('#side-wished > .side-content')
+                .addClass('overlay')
+                .height($('#side-wished > .side-content').height()+30/*padding*/)
+                .width($('#side-wished > .side-content').width())
+                .offset({
+                    top : $('#side-wished > .side-content').offset().top,
+                    left : $('#side-wished > .side-content').offset().left
+                });
             // определаем координаты изображения товара, который добавляется в «Избранное»
             var image = jqForm.parent().prevAll('div:has(img)');
-            var imageTop = image.offset().top;
-            var imageLeft = image.offset().left;
-            // определяем координаты ссылки «Избранное» в шапке сайта
-            var wished = $('#top-menu > a:nth-child(3) > i') ;
-            var wishedTop = wished.offset().top + 12;
-            var wishedLeft = wished.offset().left + 6;
+            var imageTop = Math.round(image.offset().top);
+            var imageLeft = Math.round(image.offset().left);
+            // определаем размеры изображения товара, который добавляется в «Избранное»
+            var imageWidth = Math.round(image.width());
+            var imageHeight = Math.round(image.height());
+            // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
+            var wished;
+            if ($('#side-wished > .side-heading').is(':visible')) {
+                wished = $('#side-wished > .side-heading > span > i');
+            } else {
+                wished = $('#top-menu > a:nth-child(3) > i') ;
+            }
+            var wishedTop = wished.offset().top + 11;
+            var wishedLeft = wished.offset().left + 9;
             image
                 .clone()
                 .find('span')
@@ -433,11 +469,11 @@ function addBasketHandler() {
                 .prependTo('body')
                 .css({
                     'position' : 'absolute',
+                    'width' : imageWidth,
+                    'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
                     'background' : '#fff',
-                    'width' : '100px',
-                    'height' : '100px',
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
@@ -447,7 +483,9 @@ function addBasketHandler() {
                     {left: wishedLeft, top: wishedTop, width: 0, height: 0, padding: 0},
                     500,
                     function() {
+                        // удаляем клона
                         $(this).remove();
+                        // показываем окно с сообщением
                         $('<div>Товар добавлен в избранное</div>')
                             .prependTo('body')
                             .hide()
@@ -471,28 +509,35 @@ function addBasketHandler() {
      * Добавление товара к сравнению, ajax
      */
     $('.add-compared-form').ajaxForm({
-        target: '#side-compared',
+        target: '#side-compared > .side-content',
         url: '/compared/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
-                .prependTo('body')
+                .prependTo('#side-compared > .side-content')
                 .addClass('overlay')
-                .height($('#side-compared').height())
-                .width($('#side-compared').width())
+                .height($('#side-compared > .side-content').height()+30/*padding*/)
+                .width($('#side-compared > .side-content').width())
                 .offset({
-                    top : $('#side-compared').offset().top,
-                    left : $('#side-compared').offset().left
+                    top : $('#side-compared > .side-content').offset().top,
+                    left : $('#side-compared > .side-content').offset().left
                 });
             // определаем координаты изображения товара, который добавляется к сравнению
             var image = jqForm.parent().prevAll('div:has(img)');
-            var imageTop = image.offset().top;
-            var imageLeft = image.offset().left;
+            var imageTop = Math.round(image.offset().top);
+            var imageLeft = Math.round(image.offset().left);
+            // определаем размеры изображения товара, который добавляется к сравнению
+            var imageWidth = Math.round(image.width());
+            var imageHeight = Math.round(image.height());
             // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
-            var compared
-                = $('#side-compared').is(":visible") ? $('#side-compared') : $('#top-menu > a:nth-child(4) > i') ;
-            var comparedTop = compared.offset().top + 12;
-            var comparedLeft = compared.offset().left + 6;
+            var compared;
+            if ($('#side-compared > .side-heading').is(':visible')) {
+                compared = $('#side-compared > .side-heading > span > i');
+            } else {
+                compared = $('#top-menu > a:nth-child(4) > i') ;
+            }
+            var comparedTop = compared.offset().top + 11;
+            var comparedLeft = compared.offset().left + 9;
             image
                 .clone()
                 .find('span')
@@ -501,11 +546,11 @@ function addBasketHandler() {
                 .prependTo('body')
                 .css({
                     'position' : 'absolute',
+                    'width' : imageWidth,
+                    'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
                     'background' : '#fff',
-                    'width' : '100px',
-                    'height' : '100px',
                     'z-index' : 5,
                     'padding' : '9px',
                     'border' : '1px solid #e9751f'
@@ -515,10 +560,9 @@ function addBasketHandler() {
                     {left: comparedLeft, top: comparedTop, width: 0, height: 0, padding: 0},
                     500,
                     function() {
+                        // удаляем клона
                         $(this).remove();
-                        // удаляем overlay
-                        $('body > .overlay').remove();
-                        // модальное окно с сообщением
+                        // показываем окно с сообщением
                         $('<div>Товар добавлен к сравнению</div>')
                             .prependTo('body')
                             .hide()
@@ -689,16 +733,22 @@ function removeSideComparedHandler() {
      * Удаление товара из сравнения в правой колонке
      */
     $('#side-compared form').ajaxForm({
-        target: '#side-compared',
+        target: '#side-compared > .side-content',
         url: '/compared/ajax/rmvprd',
         beforeSubmit: function() {
-            var sideComparedHeight = $('#side-compared').height();
-            var sideComparedWidth = $('#side-compared').width();
-            $('<div></div>').prependTo('#side-compared').addClass('overlay').height(sideComparedHeight).width(sideComparedWidth);
+            // добавляем overlay
+            var sideComparedHeight = $('#side-compared > .side-content').height()+30/*padding*/;
+            var sideComparedWidth = $('#side-compared > .side-content').width();
+            $('<div></div>')
+                .prependTo('#side-compared > .side-content')
+                .addClass('overlay')
+                .height(sideComparedHeight)
+                .width(sideComparedWidth);
         },
         success: function() {
+            // обработчик события удаления товара из сравнения в правой колонке
             removeSideComparedHandler();
-            $('#side-compared > .overlay').remove();
+            // показываем окно с сообщением
             $('<div>Товар удален из сравнения</div>')
                 .prependTo('body')
                 .hide()

@@ -198,7 +198,7 @@ $settings = array(
             ),
             'products'  => array(
                 'perpage'   => 10, // товаров на страницу
-                'leftright' => 1, // кол-во ссылок слева и справа
+                'leftright' => 2, // кол-во ссылок слева и справа
             ),
             'orders'    => array(
                 'perpage'   => 5, // заказов на страницу

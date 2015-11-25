@@ -30,15 +30,19 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
             array('url' => $this->newsFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
         );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
         // общее кол-во новостей всех категорий
         $totalNews = $this->newsFrontendModel->getCountAllNews();
-
+        // URL этой страницы
+        $thisPageURL = $this->newsFrontendModel->getURL('frontend/news/index');
         $temp = new Pager(
+            $thisPageURL,                                   // URL этой страницы
             $page,                                          // текущая страница
             $totalNews,                                     // общее кол-во новостей
             $this->config->pager->frontend->news->perpage,  // новостей на страницу
@@ -67,9 +71,7 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
             // массив новостей всех категорий
             'news' => $news,
             // постраничная навигация
-            'pager' => $pager,
-            // URL этой страницы
-            'thisPageUrl' => $this->newsFrontendModel->getURL('frontend/news/index'),
+            'pager' => $pager
         );
 
     }

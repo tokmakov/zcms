@@ -84,7 +84,14 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во товаров производителя
         $totalProducts = $this->catalogFrontendModel->getCountMakerProducts($this->params['id']);
+        // URL этой страницы
+        $url = 'frontend/catalog/maker/id/' . $this->params['id'];
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        $thisPageURL = $this->catalogFrontendModel->getURL($url);
         $temp = new Pager(
+            $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров производителя
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -137,12 +144,6 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
 
-        // URL этой страницы
-        $url = 'frontend/catalog/maker/id/' . $this->params['id'];
-        if ($sort) {
-            $url = $url . '/sort/' . $sort;
-        }
-
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -153,8 +154,6 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'id'          => $this->params['id'],
             // название производителя
             'name'        => $maker['name'],
-            // URL этой страницы
-            'thisPageUrl' => $this->catalogFrontendModel->getURL($url),
             // массив товаров производителя
             'products'    => $products,
             // выбранная сортировка

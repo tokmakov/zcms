@@ -6,37 +6,43 @@
 class Pager {
 
     /**
+     * базовый URL, на основе которого создаются ссылки
+     */
+    private $baseURL;
+
+    /**
      * номер текущей страницы
      */
-    protected $currentPage;
+    private $currentPage;
 
     /**
      * количество записей на одной странице
      */
-    protected $recordsPerPage;
+    private $recordsPerPage;
 
     /**
      * количество ссылок слева и справа
      */
-    protected $leftRightLinks;
+    private $leftRightLinks;
 
     /**
      * общее количество записей
      */
-    protected $totalRecords;
+    private $totalRecords;
 
     /**
      * общее количество страниц
      */
-    protected $totalPages;
+    private $totalPages;
 
 
     /**
      * Конструктор класса
      */
-    public function __construct($currentPage, $totalRecords, $recordsPerPage = 10, $leftRightLinks = 2) {
-        $this->currentPage = $currentPage; // номер текущей страницы
-        $this->totalRecords = $totalRecords; // общее количество записей
+    public function __construct($baseURL, $currentPage, $totalRecords, $recordsPerPage = 10, $leftRightLinks = 2) {
+        $this->baseURL        = $baseURL;        // базовый URL
+        $this->currentPage    = $currentPage;    // номер текущей страницы
+        $this->totalRecords   = $totalRecords;   // общее количество записей
         $this->recordsPerPage = $recordsPerPage; // количество записей на одной странице
         $this->leftRightLinks = $leftRightLinks; // количество ссылок слева и справа
 
@@ -54,7 +60,7 @@ class Pager {
         if ($this->totalRecords <= $this->recordsPerPage) { // постраничная навигация не нужна
             return false;
         }
-        if ($this->currentPage > $this->totalPages) { // недопустимое значение $this->currentPage
+        if ($this->currentPage > $this->totalPages) { // недопустимое значение $currentPage
             return null;
         }
 
@@ -62,40 +68,75 @@ class Pager {
 
         // ссылки на первую и предыдущую страницу
         if ($this->currentPage != 1) {
-            $result['first'] = 1;
-            $result['prev'] = $this->currentPage - 1;
+            $result['first'] = array(
+                'num' => 1,
+                'url' => $this->baseURL
+            );
+            $url = ($this->currentPage-1 == 1) ? $this->baseURL : $this->baseURL . '/page/' . ($this->currentPage - 1);
+            $result['prev'] = array(
+                'num' => $this->currentPage - 1,
+                'url' => $url
+            );
         }
 
         // ссылка на текущую страницу
-        $result['current'] = $this->currentPage;
+        $url = ($this->currentPage == 1) ? $this->baseURL : $this->baseURL . '/page/' . $this->currentPage;
+        $result['current'] = array(
+            'num' => $this->currentPage,
+            'url' => $url
+        );
 
         // ссылки на последнюю и следующую страницу
         if ($this->currentPage < $this->totalPages) {
-            $result['next'] = $this->currentPage + 1;
-            $result['last'] = $this->totalPages;
+            $result['last'] = array(
+                'num' => $this->totalPages,
+                'url' => $this->baseURL . '/page/' . $this->totalPages
+            );
+            $result['next'] = array(
+                'num' => $this->currentPage + 1,
+                'url' => $this->baseURL . '/page/' . ($this->currentPage + 1)
+            );
         }
 
         // ссылки на несколько предыдущих страниц
+        $temp = array();
         if ($this->currentPage > $this->leftRightLinks + 1) {
             for ($i = $this->currentPage - $this->leftRightLinks; $i < $this->currentPage; $i++) {
-                $result['left'][] = $i;
+                $url = ($i == 1) ? $this->baseURL : $this->baseURL . '/page/' . $i;
+                $temp[] = array(
+                    'num' => $i,
+                    'url' => $url
+                );
             }
         } else {
             for ($i = 1; $i < $this->currentPage; $i++) {
-                $result['left'][] = $i;
+                $url = ($i == 1) ? $this->baseURL : $this->baseURL . '/page/' . $i;
+                $temp[] = array(
+                    'num' => $i,
+                    'url' => $url
+                );
             }
         }
+        $result['left'] = $temp;
 
         // ссылки на несколько следующих страниц
+        $temp = array();
         if ($this->currentPage + $this->leftRightLinks < $this->totalPages) {
             for ($i = $this->currentPage + 1; $i <= $this->currentPage + $this->leftRightLinks; $i++) {
-                $result['right'][] = $i;
+                $temp[] = array(
+                    'num' => $i,
+                    'url' => $this->baseURL . '/page/' . $i
+                );
             }
         } else {
             for ($i = $this->currentPage + 1; $i <= $this->totalPages; $i++) {
-                $result['right'][] = $i;
+                $temp[] = array(
+                    'num' => $i,
+                    'url' => $this->baseURL . '/page/' . $i
+                );
             }
         }
+        $result['right'] = $temp;
 
         return $result;
     }

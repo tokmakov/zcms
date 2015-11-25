@@ -12,8 +12,6 @@
  * $wishedUrl - URL страницы со списком всех отложенных товаров
  * $comparedProducts - массив последних 10 товаров для сравнения
  * $comparedUrl - URL страницы со списком всех товаров для сравнения
- * $wishedProducts - массив последних 10 отложенных товаров
- * $wishedUrl - URL страницы со списком всех отложенных товаров
  * $viewedProducts - массив последних 10 просмотренных товаров
  * $viewedUrl - URL страницы со списком всех просмотренных товаров
  *
@@ -35,7 +33,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/right.php -->
 
-<div>
+<div id="side-login">
     <div class="side-heading">
         <span>
             <i class="fa fa-user"></i>&nbsp;&nbsp;<span>Личный кабинет</span>
@@ -65,14 +63,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div>
+<div id="side-basket">
     <div class="side-heading">
         <span>
             <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;<span>Ваша корзина</span>
         </span>
     </div>
     <div class="side-content">
-        <div id="side-basket">
+        <div>
         <?php if (!empty($basketProducts)): /* покупательская корзина */ ?>
             <table>
                 <tr>
@@ -102,14 +100,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div>
+<div id="side-wished">
     <div class="side-heading">
         <span>
             <i class="fa fa-star"></i>&nbsp;&nbsp;<span>Избранное</span>
         </span>
     </div>
     <div class="side-content">
-        <div id="side-wished">
+        <div>
             <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
                 <table>
                     <tr>
@@ -133,14 +131,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div>
+<div id="side-compared">
     <div class="side-heading">
         <span>
             <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;<span>Сравнение товаров</span>
         </span>
     </div>
     <div class="side-content">
-        <div id="side-compared">
+        <div>
         <?php if (!empty($comparedProducts)): /* товары для сравнения */ ?>
             <table>
                 <tr>
@@ -169,5 +167,35 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<!-- Конец шаблона view/example/frontend/template/right.php -->
+<div id="side-viewed">
+    <div class="side-heading">
+        <span>
+            <i class="fa fa-eye"></i>&nbsp;&nbsp;<span>Вы уже смотрели</span>
+        </span>
+    </div>
+    <div class="side-content">
+        <div>
+            <?php if (!empty($viewedProducts)): /* просмотренные товары */ ?>
+                <table>
+                    <tr>
+                        <th>Код</th>
+                        <th>Наименование</th>
+                        <th>Цена</th>
+                    </tr>
+                    <?php foreach ($viewedProducts as $item): ?>
+                        <tr>
+                            <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
+                            <td><?php echo $item['name']; ?></td>
+                            <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <p class="all-products"><a href="<?php echo $viewedUrl; ?>">Все просмотренные товары</a></p>
+            <?php else: ?>
+                <p class="empty-list-right">Нет просмотренных товаров</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
+<!-- Конец шаблона view/example/frontend/template/right.php -->

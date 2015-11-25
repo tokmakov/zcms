@@ -108,7 +108,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                 $this->database->execute(
                     $query,
                     array(
-                        'quantity' => $value,
+                        'quantity'   => $value,
                         'product_id' => $key,
                         'visitor_id' => $this->visitorId
                     )
@@ -166,7 +166,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getBasketProducts() {
         // тип пользователя
-        $type = $this->register->userFrontendModel->getUserType();
+        $type = 0;
+        if ($this->register->userFrontendModel->isAuthUser()) {
+            $type = $this->register->userFrontendModel->getUserType();
+        }
         $price = 'price';
         if ($type > 1) {
             $price = 'price' . $type;
@@ -276,7 +279,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getTotalCost() {
         // тип пользователя
-        $type = $this->register->userFrontendModel->getUserType();
+        $type = 0;
+        if ($this->register->userFrontendModel->isAuthUser()) {
+            $type = $this->register->userFrontendModel->getUserType();
+        }
         $price = 'price';
         if ($type > 1) {
             $price = 'price' . $type;
@@ -526,7 +532,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $html = $html . '</tr>' . PHP_EOL;
         }
         $html = $html . '<tr>' . PHP_EOL;
-        $html = $html . '<td colspan="4" align="right">Итого</th><td>'.number_format($data['user_amount'], 2, '.', '').'</td>' . PHP_EOL;
+        $html = $html . '<td colspan="4" align="right">Итого</td><td>'.number_format($data['user_amount'], 2, '.', '').'</td>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
         $html = $html . '</table>' . PHP_EOL;
 

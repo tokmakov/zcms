@@ -20,7 +20,7 @@ class Rmvprd_Compared_Frontend_Controller extends Compared_Frontend_Controller {
     protected function input() {
 
         // данные должны быть отправлены методом POST
-        if (!$this->isPostMethod()) {
+        if ( ! $this->isPostMethod()) {
             $this->notFoundRecord = true;
             return;
         }

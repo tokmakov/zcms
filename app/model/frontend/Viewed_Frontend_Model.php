@@ -125,6 +125,12 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
             // атрибут action тега form для добавления товара в список отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
         }
+
+        // удаляем старые товары
+        if (rand(1, 100) == 50) {
+            $this->removeOldViewed();
+        }
+
         return $products;
     }
 
@@ -192,14 +198,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-
-        // удаляем старые товары
-        if (rand(1, 100) == 50) {
-            $this->removeOldViewed();
-        }
-
-        return $res;
+        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
 
     /**

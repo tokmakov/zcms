@@ -25,7 +25,7 @@ defined('ZCMS') or die('Access denied');
             </tr>
         <?php endforeach; ?>
     </table>
-    <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все товары</a></p>
+    <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все отложенные товары</a></p>
 <?php else: ?>
     <p class="empty-list-right">Нет отложенных товаров</p>
 <?php endif; ?>

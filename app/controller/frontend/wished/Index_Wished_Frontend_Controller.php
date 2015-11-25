@@ -33,15 +33,19 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
             array('url' => $this->wishedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
         );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
         // общее кол-во отложенных товаров
         $totalProducts = $this->wishedFrontendModel->getCountWishedProducts();
-
+        // URL этой страницы
+        $thisPageURL = $this->wishedFrontendModel->getURL('frontend/wished/index');
         $temp = new Pager(
+            $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -70,8 +74,6 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs'    => $breadcrumbs,
-            // URL ссылки на эту страницу
-            'thisPageUrl'    => $this->wishedFrontendModel->getURL('frontend/wished/index'),
             // массив отложенных товаров
             'wishedProducts' => $wishedProducts,
             // массив единиц измерения товара

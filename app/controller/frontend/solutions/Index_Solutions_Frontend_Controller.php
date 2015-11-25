@@ -33,15 +33,19 @@ class Index_Solutions_Frontend_Controller extends Solutions_Frontend_Controller 
         // получаем от модели массив категорий
         $categories = $this->solutionsFrontendModel->getCategories();
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = (int)$this->params['page'];
         }
         // общее кол-во типовых решений
         $totalSolutions = $this->solutionsFrontendModel->getCountAllSolutions();
-
+        // URL этой страницы
+        $thisPageURL = $this->solutionsFrontendModel->getURL('frontend/solutions/index');
         $temp = new Pager(
+            $thisPageURL,                                        // URL этой страницы
             $page,                                               // текущая страница
             $totalSolutions,                                     // общее кол-во типовых решений
             $this->config->pager->frontend->solutions->perpage,  // типовых решений на страницу
@@ -72,9 +76,7 @@ class Index_Solutions_Frontend_Controller extends Solutions_Frontend_Controller 
             // массив всех типовых решений
             'solutions'   => $solutions,
             // постраничная навигация
-            'pager' => $pager,
-            // URL этой страницы
-            'thisPageUrl' => $this->solutionsFrontendModel->getURL('frontend/solutions/index'),
+            'pager' => $pager
         );
 
     }

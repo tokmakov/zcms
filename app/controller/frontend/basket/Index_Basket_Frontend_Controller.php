@@ -42,7 +42,7 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         );
 
         // тип пользователя
-        $type = $this->userFrontendModel->getUserType();
+        $type = ($this->authUser) ? $this->userFrontendModel->getUserType() : 0;
 
         // получаем от модели массив товаров в корзине
         $basketProducts = $this->basketFrontendModel->getBasketProducts();

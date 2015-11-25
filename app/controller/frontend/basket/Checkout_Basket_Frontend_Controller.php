@@ -231,7 +231,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['payer_settl_acc']       = $form['buyer_settl_acc'];
             $form['payer_corr_acc']        = $form['buyer_corr_acc'];
         }
-
+        // комментарий к заказу
         $form['comment'] = trim(utf8_substr(strip_tags($_POST['comment']), 0, 250));
 
         /*

@@ -35,15 +35,19 @@ class Viewed_Frontend_Controller extends Frontend_Controller {
             array('url' => $this->viewedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
         );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
         // общее кол-во просмотренных товаров
         $totalProducts = $this->viewedFrontendModel->getCountViewedProducts();
-
+        // URL этой страницы
+        $thisPageUrl = $this->viewedFrontendModel->getURL('frontend/viewed/index');
         $temp = new Pager(
+            $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -72,8 +76,6 @@ class Viewed_Frontend_Controller extends Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs'    => $breadcrumbs,
-            // URL ссылки на эту страницу
-            'thisPageUrl'    => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
             // массив просмотренных товаров
             'viewedProducts' => $viewedProducts,
             // массив единиц измерения товара

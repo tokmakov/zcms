@@ -214,7 +214,18 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
+        // URL этой страницы
+        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort
+        );
         $temp = new Pager(
+            $thisPageUrl,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров категории
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -256,17 +267,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param
         );
 
-        // URL этой страницы
-        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort
-        );
-
         // атрибут action тега form
         $action = $this->catalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
 
@@ -277,7 +277,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'breadcrumbs'     => $breadcrumbs,        // хлебные крошки
             'id'              => $this->params['id'], // уникальный идентификатор категории
             'name'            => $category['name'],   // наименование категории
-            'thisPageUrl'     => $thisPageUrl,        // URL этой страницы
             'childCategories' => $childCategories,    // массив дочерних категорий
             'action'          => $action,             // атрибут action тега форм
             'group'           => $group,              // id выбранной функциональной группы или ноль

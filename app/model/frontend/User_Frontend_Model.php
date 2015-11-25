@@ -83,10 +83,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      * не авторизован
      */
     public function getUserType() {
-        if ($this->authUser) {
-            return $this->user['type'];
+        if ( ! $this->authUser) {
+            throw new Exception('Попытка получить тип не авторизованного пользователя');
         }
-        return 0;
+        return $this->user['type'];
     }
 
     /**

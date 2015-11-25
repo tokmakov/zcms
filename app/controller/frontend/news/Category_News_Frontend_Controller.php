@@ -42,10 +42,10 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
         }
 
         $this->title = $category['name'];
-        if (!empty($category['keywords'])) {
+        if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
         }
-        if (!empty($category['description'])) {
+        if ( ! empty($category['description'])) {
             $this->description = $category['description'];
         }
 
@@ -55,15 +55,19 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
             array('url' => $this->newsFrontendModel->getURL('frontend/news/index'), 'name' => 'Новости'),
         );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
         // общее кол-во новостей категории
         $totalNews = $this->newsFrontendModel->getCountCategoryNews($this->params['id']);
-
+        // URL ссылки на эту страницу
+        $thisPageURL = $this->newsFrontendModel->getURL('frontend/news/category/id/' . $this->params['id']);
         $temp = new Pager(
+            $thisPageURL,                                   // URL этой страницы
             $page,                                          // текущая страница
             $totalNews,                                     // общее кол-во новостей категории
             $this->config->pager->frontend->news->perpage,  // новостей на страницу
@@ -95,8 +99,6 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
             'name'        => $category['name'],
             // массив новостей выбранной категории
             'news'        => $news,
-            // URL ссылки на эту страницу
-            'thisPageUrl' => $this->newsFrontendModel->getURL('frontend/news/category/id/' . $this->params['id']),
             // постраничная навигация
             'pager'       => $pager,
         );

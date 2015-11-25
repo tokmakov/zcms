@@ -262,3 +262,16 @@
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+25.11.2015 14:38:53
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`added`
+                      )
+                      VALUES
+                ' at line 6
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\model\frontend\Compared_Frontend_Model.php(67): Database->execute('INSERT INTO `co...', Array)
+#2 D:\work\localhost2\www\app\controller\frontend\compared\Ajax_Compared_Frontend_Controller.php(39): Compared_Frontend_Model->addToCompared(231914)
+#3 D:\work\localhost2\www\index.php(52): Ajax_Compared_Frontend_Controller->request()
+#4 {main}
+

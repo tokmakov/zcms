@@ -128,7 +128,9 @@ defined('ZCMS') or die('Access denied');
 
     <div class="product-item-main">
         <div class="product-item-image">
-            <a href="<?php echo $image['big']; ?>" class="zoom" title="<?php echo str_replace('"', '', $name); ?>"><img src="<?php echo $image['medium']; ?>" alt="" /></a>
+            <a href="<?php echo $image['big']; ?>" class="zoom" title="<?php echo htmlspecialchars($name); ?>">
+                <img src="<?php echo $image['medium']; ?>" alt="<?php echo htmlspecialchars($name); ?>" />
+            </a>
         </div>
         <div class="product-item-info">
             <div>

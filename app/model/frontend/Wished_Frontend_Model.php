@@ -126,6 +126,12 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
             // атрибут action тега form для удаления товара из списка отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/rmvprd');
         }
+
+        // удаляем старые товары
+        if (rand(1, 100) == 50) {
+            $this->removeOldWished();
+        }
+
         return $products;
     }
 
@@ -194,14 +200,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
                       `visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-
-        // удаляем старые товары
-        if (rand(1, 100) == 50) {
-            $this->removeOldWished();
-        }
-
-        return $res;
+        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
 
     /**

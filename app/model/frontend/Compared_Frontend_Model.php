@@ -45,19 +45,22 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                       (
                           `visitor_id`,
                           `product_id`,
+                          `active`,
                           `added`
                       )
                       VALUES
                       (
                           :visitor_id,
                           :product_id,
+                          1,
                           NOW()
                       )";
         } else { // если товар уже в списке сравнения, обновляем дату
             $query = "UPDATE
                           `compared`
                       SET
-                          `added` = NOW()
+                          `added` = NOW(),
+                          `active` = 1
                       WHERE
                           `visitor_id` = :visitor_id AND `product_id` = :product_id";
         }
@@ -67,11 +70,6 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
             $this->register->cache->removeValue($key);
-        }
-
-        // удаляем старые товары
-        if (rand(1, 100) == 50) {
-            $this->removeOldCompared();
         }
 
     }
@@ -107,7 +105,7 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
+                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
                   LIMIT
@@ -138,6 +136,12 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
             // атрибут action тега form для удаления товара из списка сравнения
             $products[$key]['action']['compared'] = $this->getURL('frontend/compared/rmvprd');
         }
+
+        // удаляем старые товары
+        if (rand(1, 100) == 50) {
+            $this->removeOldCompared();
+        }
+
         return $products;
     }
 
@@ -180,7 +184,7 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
+                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
                   LIMIT
@@ -198,8 +202,10 @@ class Compared_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция удаляет товар из списка отложенных для сравнения товаров
      */
     public function removeFromCompared($productId) {
-        $query = "DELETE FROM
+        $query = "UPDATE
                       `compared`
+                  SET
+                      `active` = 0
                   WHERE
                       `product_id` = :product_id AND `visitor_id` = :visitor_id";
         $this->database->execute(
