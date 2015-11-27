@@ -60,13 +60,16 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
 
         // получаем информацию о файлах
         $files = array();
-        if (is_dir('./files/page/' . $this->params['id'])) {
-            $temp = scandir('./files/page/' . $this->params['id']);
+        if (is_dir('files/page/' . $this->params['id'])) {
+            $temp = scandir('files/page/' . $this->params['id']);
             foreach ($temp as $file) {
                 if ($file == '.' || $file == '..') {
                     continue;
                 }
-                $files[] = $file;
+                $files[] = array(
+                    'name' => $file,
+                    'url'  => $this->config->site->url . 'files/page/' . $this->params['id'] . '/' . $file
+                );
             }
         }
 

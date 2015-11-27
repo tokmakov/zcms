@@ -15,18 +15,23 @@ class Index_Page_Backend_Controller extends Page_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу Page_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Index_Page_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу Page_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Index_Page_Backend_Controller
+         */
         parent::input();
 
         $this->title = 'Страницы. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->pageBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // получаем от модели массив всех страниц сайта

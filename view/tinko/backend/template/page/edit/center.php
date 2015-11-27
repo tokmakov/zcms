@@ -118,9 +118,9 @@ defined('ZCMS') or die('Access denied');
             <div>
                 <?php foreach ($files as $file): ?>
                     <div>
-                        <a href="./files/page/<?php echo $id . '/' . $file; ?>" target="_blank"><?php echo $file; ?></a>
+                        <a href="<?php echo $file['url']; ?>" target="_blank"><?php echo $file['name']; ?></a>
                         <span>вставить</span>
-                        <input type="checkbox" name="remove[]" value="<?php echo $file; ?>" /> удалить
+                        <input type="checkbox" name="remove[]" value="<?php echo $file['name']; ?>" /> удалить
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -420,24 +420,24 @@ body > .wrapper {
 }
 
 /* статичные страницы */
-#page > h2, #page > h3, #page > h4 {
+#page h2, #page h3, #page h4 {
     margin: 15px 0;
     color: #395985;
     font-weight: normal;
 }
-#page > h2 {
+#page h2 {
     font-size: 19px;
 }
-#page > h3 {
+#page h3 {
     font-size: 16px;
 }
-#page > h4 {
+#page h4 {
     font-size: 14px;
 }
-#page > p {
+#page p {
     margin: 15px 0;
 }
-#page > ul, #page > ol {
+#page ul, #page ol {
     margin: 15px 0 15px 30px;
 }
 #page img {
@@ -456,9 +456,9 @@ body > .wrapper {
         text-decoration: none;
     }
 
-#iskMap, #iskMap1, #iskMap2 {
+#tinkoMap {
     width: 100%;
-    height: 500px;
+    height: 600px;
 }
 
 /* карта сайта */
@@ -500,6 +500,48 @@ body > .wrapper {
         font-weight: normal;
         text-align: left;
     }
+
+div.notice {
+    margin: 1em 0;
+    padding: 1px 0 1px 15px;
+    border-left: 4px solid #f90
+}
+    div.notice :first-child {
+        margin-top: 0
+    }
+    div.notice :last-child {
+        margin-bottom: 0
+    }
+div.attention {
+    position:relative;
+    margin:1em 0
+}
+    div.attention div:first-child {
+        font-weight: bold;
+        color: red;
+        text-transform:uppercase
+    }
+    div.attention div:last-child {
+        border:1px solid red;
+        border-radius:8px;
+        padding:10px;
+        margin:1em 0;
+        font-style:italic
+    }
+        div.attention div:last-child :first-child {
+            margin-top:0
+        }
+        div.attention div:last-child :last-child {
+            margin-bottom:0
+        }
+        div.attention div:last-child:before {
+            height: 11px;
+            width: 10px;
+            content: url('http://www.tinko.ru/skin/frontend/tinko/tb3/blocks/content/attention.png');
+            position: absolute;
+            left: 27px;
+            margin-top: -23px
+        }
 
 .selected {
     color: #ff6d00 !important;
@@ -810,7 +852,7 @@ body > .wrapper {
                 }
                 .products-list-line > div > .product-line-image > a > span.hit-product {
                     background: #e9751f;
-                    width: 68px;
+                    width: 72px;
                     left: -8px;
                     top: -8px;
                 }
@@ -1192,6 +1234,20 @@ body > .wrapper {
             width: 70%;
             white-space: nowrap;
         }
+            #category-filters > div:first-child > span:first-child > a {
+                color: #ff6d00;
+                font-size: 13px;
+                text-decoration: none;
+                border-bottom: 1px dashed #ff6d00;
+                margin-left: 10px;
+                display: none;
+            }
+            #category-filters > div:first-child > span:first-child > a.show-clear-filter {
+                display: inline;
+            }
+            #category-filters > div:first-child > span:first-child > a:hover {
+                text-decoration: none;
+            }
         #category-filters > div:first-child > span:last-child {
             float: right;
             text-align: right;
@@ -1559,20 +1615,15 @@ body > .wrapper {
             border-collapse: collapse;
             width: 100%;
         }
-            #product .product-item-others .center-block > div:last-child > table tr td {
-                border-bottom: 1px solid #d1d1d1;
-                border-right: 1px solid #d1d1d1;
-                padding: 3px 10px;
+            #product .product-item-others .center-block > div:last-child > table tr:nth-child(even) {
+                background: #fafafa;
             }
-            #product .product-item-others .center-block > div:last-child > table tr:first-child td:first-child {
-                width: 60%;
-            }
-            #product .product-item-others .center-block > div:last-child > table tr td:last-child {
-                border-right: none;
-            }
-            #product .product-item-others .center-block > div:last-child > table tr:last-child td {
-                border-bottom: none;
-            }
+                #product .product-item-others .center-block > div:last-child > table tr td {
+                    padding: 5px 10px;
+                }
+                #product .product-item-others .center-block > div:last-child > table tr:first-child td:first-child {
+                    width: 60%;
+                }
         #product .product-item-others .center-block > div:last-child > ul {
             list-style: none;
         }
@@ -3313,7 +3364,7 @@ body > .wrapper {
         padding-left: 0;
     }
     /* уменьшаем карту проезда */
-    #iskMap, #iskMap1, #iskMap2 {
+    #tinkoMap {
         width: 95%;
     }
 }
@@ -3572,7 +3623,7 @@ body > .wrapper {
         display: none;
     }
     /* уменьшаем карту проезда */
-    #iskMap, #iskMap1, #iskMap2 {
+    #tinkoMap {
         height: 400px;
     }
     /* покупательская корзина */
@@ -3664,7 +3715,7 @@ body > .wrapper {
         max-width: 290px;
     }
     /* уменьшаем карту проезда */
-    #iskMap, #iskMap1, #iskMap2 {
+    #tinkoMap {
         height: 300px;
     }
 }

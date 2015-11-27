@@ -59,15 +59,17 @@ class Category_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         }
         // общее кол-во товаров категории
         $totalProducts = $this->catalogBackendModel->getCountCategoryProducts($this->params['id']);
-
+        // URL этой страницы
+        $thisPageUrl = $this->catalogBackendModel->getURL('backend/catalog/category/id/' . $this->params['id']);
         $temp = new Pager(
-            $page,
-            $totalProducts,
-            $this->config->pager->backend->products->perpage,
-            $this->config->pager->backend->products->leftright
+            $thisPageUrl,                                      // URL этой страницы
+            $page,                                             // текущая страница
+            $totalProducts,                                    // общее кол-во товаров категории
+            $this->config->pager->backend->products->perpage,  // товаров на страницу
+            $this->config->pager->backend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -98,8 +100,6 @@ class Category_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'childCategories' => $childCategories,
             // массив товаров категории
             'products'        => $products,
-            // URL ссылки на эту страницу
-            'thisPageUrl'     => $this->catalogBackendModel->getURL('backend/catalog/category/id/' . $this->params['id']),
             // постраничная навигация
             'pager'           => $pager,
         );

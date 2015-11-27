@@ -15,36 +15,43 @@ class Index_News_Backend_Controller extends News_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу News_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Index_News_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу News_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Index_News_Backend_Controller
+         */
         parent::input();
 
         $this->title = 'Новости. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->newsBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // постраничная навигация
-        $currentPage = 1;
+        $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+            $page = $this->params['page'];
         }
         // общее кол-во новостей
         $totalNews = $this->newsBackendModel->getCountAllNews();
-
+        // URL этой страницы
+        $thisPageUrl = $this->newsBackendModel->getURL('backend/news/index');
         $temp = new Pager(
-            $currentPage, // текущая страница
-            $totalNews, // общее кол-во новостей
-            $this->config->pager->backend->news->perpage, // новостей на страницу
+            $thisPageUrl,                                  // URL этой страницы
+            $page,                                         // текущая страница
+            $totalNews,                                    // общее кол-во новостей
+            $this->config->pager->backend->news->perpage,  // новостей на страницу
             $this->config->pager->backend->news->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -52,10 +59,10 @@ class Index_News_Backend_Controller extends News_Backend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * $this->config->pager->backend->news->perpage;
+        $start = ($page - 1) * $this->config->pager->backend->news->perpage;
 
         // получаем от модели массив всех новостей
-        $allNews = $this->newsBackendModel->getAllNews($start);
+        $news = $this->newsBackendModel->getAllNews($start);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -64,17 +71,15 @@ class Index_News_Backend_Controller extends News_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // массив всех новостей
-            'news' => $allNews,
+            'news'        => $news,
             // постраничная навигация
-            'pager' => $pager,
+            'pager'       => $pager,
             // URL ссылки на страницу с формой для добавления новости
-            'addNewsUrl' => $this->newsBackendModel->getURL('backend/news/addnews'),
+            'addNewsUrl'  => $this->newsBackendModel->getURL('backend/news/addnews'),
             // URL ссылки на страницу с формой для добавления категории
-            'addCtgUrl' => $this->newsBackendModel->getURL('backend/news/addctg'),
+            'addCtgUrl'   => $this->newsBackendModel->getURL('backend/news/addctg'),
             // URL ссылки на страницу со списком всех категорий
-            'allCtgsUrl' => $this->newsBackendModel->getURL('backend/news/allctgs'),
-            // URL ссылки на эту страницу
-            'thisPageUrl' => $this->newsBackendModel->getURL('backend/news/index'),
+            'allCtgsUrl'  => $this->newsBackendModel->getURL('backend/news/allctgs')
         );
 
     }

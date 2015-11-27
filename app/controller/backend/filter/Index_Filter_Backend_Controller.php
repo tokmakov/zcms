@@ -29,7 +29,10 @@ class Index_Filter_Backend_Controller extends Filter_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->filterBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // получаем от модели массив функциональных групп

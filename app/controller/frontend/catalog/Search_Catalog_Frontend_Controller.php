@@ -26,7 +26,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!empty($_POST['query'])) {
+            if ( ! empty($_POST['query'])) {
                 $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
                 $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($_POST['query'])));
             } else {

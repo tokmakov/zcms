@@ -29,24 +29,29 @@ class Index_Order_Backend_Controller extends Order_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->orderBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         /*
          * постраничная навигация
          */
-        $currentPage = 1;
+        $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+            $page = $this->params['page'];
         }
         // общее кол-во заказов
         $totalOrders = $this->orderBackendModel->getCountOrders();
-
+        // URL этой страницы
+        $thisPageUrl = $this->orderBackendModel->getURL('backend/order/index');
         $temp = new Pager(
-            $currentPage,
-            $totalOrders,
-            Config::getInstance()->pager->backend->orders->perpage,
-            Config::getInstance()->pager->backend->orders->leftright
+            $thisPageUrl,                                            // URL этой страницы
+            $page,                                                   // текущая страница
+            $totalOrders,                                            // общее кол-во заказов
+            Config::getInstance()->pager->backend->orders->perpage,  // кол-во заказов на страницу
+            Config::getInstance()->pager->backend->orders->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
         if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
@@ -57,7 +62,7 @@ class Index_Order_Backend_Controller extends Order_Backend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * Config::getInstance()->pager->backend->orders->perpage;
+        $start = ($page - 1) * Config::getInstance()->pager->backend->orders->perpage;
 
         // получаем от модели массив заказов в магазине
         $orders = $this->orderBackendModel->getAllOrders($start);
@@ -69,11 +74,9 @@ class Index_Order_Backend_Controller extends Order_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // массив заказов в магазине
-            'orders' => $orders,
+            'orders'      => $orders,
             // постраничная навигация
-            'pager' => $pager,
-            // URL ссылки на эту страницу
-            'thisPageUrl' => $this->orderBackendModel->getURL('backend/order/index'),
+            'pager'       => $pager,
         );
 
     }

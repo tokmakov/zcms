@@ -27,7 +27,10 @@ class Index_Solutions_Backend_Controller extends Solutions_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->solutionsBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // получаем от модели массив категорий и типовых решений

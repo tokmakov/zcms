@@ -270,6 +270,13 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // атрибут action тега form
         $action = $this->catalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
 
+        // URL ссылки для сборса фильтра
+        $url = 'frontend/catalog/category/id/' . $this->params['id'];
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        $clearFilterURL = $this->catalogFrontendModel->getURL($url);
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -293,6 +300,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'sortorders'      => $sortorders,         // массив вариантов сортировки
             'units'           => $units,              // массив единиц измерения товара
             'products'        => $products,           // массив товаров категории
+            'clearFilterURL'  => $clearFilterURL,     // URL ссылки для сборса фильтра
             'pager'           => $pager,              // постраничная навигация
             'page'            => $page,               // текущая страница
         );

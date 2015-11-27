@@ -29,8 +29,14 @@ class Index_Compared_Frontend_Controller extends Compared_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->comparedFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->comparedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url' => $this->comparedFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url' => $this->comparedFrontendModel->getURL('frontend/catalog/index')
+            ),
         );
 
         // получаем от модели массив отложенных для сравнения товаров

@@ -45,7 +45,7 @@ class Viewed_Frontend_Controller extends Frontend_Controller {
         // общее кол-во просмотренных товаров
         $totalProducts = $this->viewedFrontendModel->getCountViewedProducts();
         // URL этой страницы
-        $thisPageUrl = $this->viewedFrontendModel->getURL('frontend/viewed/index');
+        $thisPageURL = $this->viewedFrontendModel->getURL('frontend/viewed/index');
         $temp = new Pager(
             $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница

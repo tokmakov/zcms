@@ -51,8 +51,14 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->newsFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->newsFrontendModel->getURL('frontend/news/index'), 'name' => 'Новости'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->newsFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Новости',
+                'url'  => $this->newsFrontendModel->getURL('frontend/news/index')
+            ),
         );
 
         /*

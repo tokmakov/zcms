@@ -29,8 +29,14 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->wishedFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->wishedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->wishedFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->wishedFrontendModel->getURL('frontend/catalog/index')
+            ),
         );
 
         /*

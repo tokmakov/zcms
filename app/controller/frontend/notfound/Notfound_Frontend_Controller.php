@@ -34,7 +34,10 @@ class Notfound_Frontend_Controller extends Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->notfoundFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->notfoundFrontendModel->getURL('frontend/index/index')
+            ),
         );
 
         /*

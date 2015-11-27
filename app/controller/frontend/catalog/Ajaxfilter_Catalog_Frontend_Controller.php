@@ -107,7 +107,18 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
             $new,
             $param
         );
+        // URL этой страницы
+        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
+            $this->params['category'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort
+        );
         $temp = new Pager(
+            $thisPageUrl,                                       // URL этой страницы
             1,                                                  // текущая страница
             $totalProducts,                                     // общее кол-во товаров
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -142,23 +153,11 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
             $param
         );
 
-        // URL этой страницы
-        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
-            $this->params['category'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort
-        );
-
         // формируем HTML результатов фильтрации товаров
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/ajax/filter.php',
             array(
                 'id'          => $this->params['category'], // id категории
-                'thisPageUrl' => $thisPageUrl,              // URL этой страницы
                 'childs'      => $childs,                   // массив дочерних категорий
                 'group'       => $group,                    // id выбранной функциональной группы или ноль
                 'maker'       => $maker,                    // id выбранного производителя или ноль

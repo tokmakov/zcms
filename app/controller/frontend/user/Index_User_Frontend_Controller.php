@@ -34,7 +34,10 @@ class Index_User_Frontend_Controller extends User_Frontend_Controller {
 
 		// формируем хлебные крошки
 		$breadcrumbs = array(
-			array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
+			array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index')
+            ),
 		);
 
 		// новый пользователь?

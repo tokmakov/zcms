@@ -28,7 +28,10 @@ class Index_Banner_Backend_Controller extends Banner_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->bannerBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->bannerBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // получаем массив всех баннеров

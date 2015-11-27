@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
-    /* Форма для добавления/редактирования страницы */
+    /*
+     * Форма для добавления/редактирования страницы
+     */
 
     // последняя пустая строка загрузки файла, которую будем клонировать для добавления полей загрузки файлов
     var lastFilesRow = $('#add-edit-page #new-files > div:last-child > div:last-child');
@@ -25,7 +27,7 @@ $(document).ready(function() {
 
     // вставить ссылку на файл в текст страницы
     $('#add-edit-page #old-files > div:last-child > div > span').click(function() {
-        var fileUrl = $(this).prev().attr('href').substr(1);
+        var fileUrl = $(this).prev().attr('href');
         var fileName = $(this).prev().text();
         $('#add-edit-page textarea[name="body"]').insertAtCaret('<a href="' + fileUrl + '">' + fileName + '</a>');
     });

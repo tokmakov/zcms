@@ -424,9 +424,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         $query = "SELECT
-                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
-                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
+                      `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
                   FROM

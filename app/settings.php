@@ -94,7 +94,17 @@ $settings = array(
             'solutions-item'  => 'fancybox/jquery.fancybox.css',
             'catalog-product' => 'fancybox/jquery.fancybox.css',
             'compared'        => 'compared.css', // для страницы сравнения товаров
-
+            'page-40'         => array( // для страницы «Контакты»
+                'page/40.css',
+                'fancybox/jquery.fancybox.css',
+            ),
+            'page-9'          => array( // для страницы «О компании»
+                'page/9.css',
+                'fancybox/jquery.fancybox.css',
+            ),
+            'page-41'         => array( // для страницы «Доставка»
+                'tabs.css',
+            ),
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
              * 'base' => array(                // css-файлы, подключаемые ко всем страницам сайта
@@ -153,6 +163,24 @@ $settings = array(
             'index'           => array(
                 'jquery.bxslider.min.js',
                 'slider.js'
+            ),
+            'page-40'         => array(
+                'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
+                'offices-map.js',
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js'
+            ),
+            'page-9'          => array(
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js'
+            ),
+            'page-41'          => array(
+                'tabs.js',
+                'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
+                'offices-map-route.js',
+                'delivery-map.js',
             ),
 
             /*

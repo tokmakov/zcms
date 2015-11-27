@@ -664,6 +664,11 @@ function addFilterHash() {
     if (param.length > 0) {
         hash = hash + '/param/' + param.join('-');
     }
+    if (hash !== '') { // ссылка для сброса фильтра
+        $('#category-filters > div:first-child > span:first-child > a').show();
+    } else {
+        $('#category-filters > div:first-child > span:first-child > a').hide();
+    }
     var sortInput = $('#category-filters form input[name="sort"]');
     if (sortInput.length > 0 && sortInput.val() !== '0') {
         hash = hash + '/sort/' + sortInput.val();

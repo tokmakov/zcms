@@ -46,22 +46,26 @@ class Category_News_Backend_Controller extends News_Backend_Controller {
             array('url' => $this->newsBackendModel->getURL('backend/news/allctgs'), 'name' => 'Категории'),
         );
 
-        // постраничная навигация
-        $currentPage = 1;
+        /*
+         * постраничная навигация
+         */
+        $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+            $page = $this->params['page'];
         }
         // общее кол-во новостей категории
         $totalNews = $this->newsBackendModel->getCountCategoryNews($this->params['id']);
-
+        // URL этой страницы
+        $thisPageUrl = $this->newsBackendModel->getURL('backend/news/category/id/' . $this->params['id']),
         $temp = new Pager(
-            $currentPage,                                  // текущая страница
+            $thisPageUrl,                                  // URL этой страницы
+            $page,                                         // текущая страница
             $totalNews,                                    // общее кол-во новостей категории
             $this->config->pager->backend->news->perpage,  // кол-во новостей на страницу
             $this->config->pager->backend->news->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -69,7 +73,7 @@ class Category_News_Backend_Controller extends News_Backend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * $this->config->pager->backend->news->perpage;
+        $start = ($page - 1) * $this->config->pager->backend->news->perpage;
 
         // получаем от модели массив новостей текущей категории
         $news = $this->newsBackendModel->getCategoryNews($this->params['id'], $start);
@@ -82,9 +86,7 @@ class Category_News_Backend_Controller extends News_Backend_Controller {
             'id'          => $this->params['id'], // уникальный идентификатор категории
             'name'        => $category['name'],   // наименование категории
             'news'        => $news,               // массив новостей категории
-            // URL ссылки на эту страницу
-            'thisPageUrl' => $this->newsBackendModel->getURL('backend/news/category/id/' . $this->params['id']),
-            'pager' => $pager,                    // постраничная навигация
+            'pager'       => $pager,              // постраничная навигация
         );
 
     }

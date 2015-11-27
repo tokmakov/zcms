@@ -29,7 +29,10 @@ class Index_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         // получаем от модели массив категорий верхнего уровня

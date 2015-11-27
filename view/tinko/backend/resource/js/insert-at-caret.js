@@ -2,14 +2,14 @@ jQuery.fn.extend({
     insertAtCaret: function(myValue){
         return this.each(function(i) {
             if (document.selection) {
-                // Для браузеров типа Internet Explorer
+                // РґР»СЏ Р±СЂР°СѓР·РµСЂРѕРІ С‚РёРїР° Internet Explorer
                 this.focus();
                 var sel = document.selection.createRange();
                 sel.text = myValue;
                 this.focus();
             }
             else if (this.selectionStart || this.selectionStart == '0') {
-                // Для браузеров типа Firefox и других Webkit-ов
+                // РґР»СЏ Р±СЂР°СѓР·РµСЂРѕРІ С‚РёРїР° Firefox Рё РґСЂСѓРіРёС… Webkit-РѕРІ
                 var startPos = this.selectionStart;
                 var endPos = this.selectionEnd;
                 var scrollTop = this.scrollTop;

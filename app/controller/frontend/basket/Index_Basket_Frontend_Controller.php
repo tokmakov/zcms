@@ -37,8 +37,14 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->basketFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->basketFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->basketFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->basketFrontendModel->getURL('frontend/catalog/index')
+            ),
         );
 
         // тип пользователя

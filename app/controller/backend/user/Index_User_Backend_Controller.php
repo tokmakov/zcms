@@ -18,9 +18,9 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Backend_Controller,
-         *  чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Index_User_Backend_Controller
          */
         parent::input();
@@ -29,7 +29,10 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
         );
 
         /*
@@ -41,15 +44,17 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
         }
         // общее кол-во пользователей
         $totalUsers = $this->userBackendModel->getCountAllUsers();
-
+        // URL этой страницы
+        $thisPageUrl = $this->userBackendModel->getURL('backend/user/index');
         $temp = new Pager(
-            $page,
-            $totalUsers,
-            Config::getInstance()->pager->backend->users->perpage,
-            Config::getInstance()->pager->backend->users->leftright
+            $thisPageUrl,                                           // URL этой страницы
+            $page,                                                  // текущая старница
+            $totalUsers,                                            // общее кол-во пользователей
+            Config::getInstance()->pager->backend->users->perpage,  // кол-во пользователей на страницу
+            Config::getInstance()->pager->backend->users->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -69,13 +74,11 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // массив всех пользователей
-            'users' => $users,
+            'users'       => $users,
             // постраничная навигация
-            'pager' => $pager,
-            // URL этой страницы
-            'thisPageUrl' => $this->userBackendModel->getURL('backend/user/index'),
+            'pager'       => $pager,
             // URL страницы с формой для добавления пользователя
-            'addUserUrl' => $this->userBackendModel->getURL('backend/user/add'),
+            'addUserUrl'  => $this->userBackendModel->getURL('backend/user/add'),
         );
 
     }

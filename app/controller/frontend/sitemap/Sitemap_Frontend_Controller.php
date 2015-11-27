@@ -29,7 +29,10 @@ class Sitemap_Frontend_Controller extends Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->sitemapFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->sitemapFrontendModel->getURL('frontend/index/index')
+            ),
         );
 
         // получаем от модели массив всех страниц верхнего уровня и их детей

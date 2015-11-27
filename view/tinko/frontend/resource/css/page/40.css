@@ -1,0 +1,24 @@
+.office-block {
+    overflow:hidden
+}
+.office-block .office-photo {
+    float:left;
+    width:320px;
+    height:245px;
+}
+.office-block .office-photo img {
+    width: 300px;
+    height: 225px;
+    padding: 9px;
+    border: 1px solid #d1d1d1;
+}
+.office-block .office-info {
+    margin-left:330px
+}
+.office-block .office-info p:nth-child(even) {
+    margin-bottom: 17px;
+}
+.office-block .office-info p:nth-child(odd) {
+    margin-bottom: 3px;
+    font-style:italic;
+}

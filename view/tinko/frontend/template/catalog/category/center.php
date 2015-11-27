@@ -24,6 +24,7 @@
  * $sortorders - массив всех вариантов сортировки
  * $units - массив единиц измерения товара
  * $products - массив товаров категории
+ * $clearFilterURL - URL ссылки для сборса фильтра
  * $pager - постраничная навигация
  * $page - текущая страница
  *
@@ -277,12 +278,14 @@ for ($i = 0; $i <= 6; $i++) {
 <div id="category-filters">
     <div>
         <span>
-        Фильтр
-            <?php if ($group || $maker || $hit || $new): ?>
-                <span class="selected">включен</span>
-            <?php endif; ?>
+            Фильтр
+            <a href="<?php echo $clearFilterURL; ?>"<?php if ($group || $maker || $hit || $new) echo ' class="show-clear-filter"'; ?>>
+                сбросить
+            </a>
         </span>
-        <span><span>скрыть</span></span>
+        <span>
+            <span>скрыть</span>
+        </span>
     </div>
     <div>
         <form action="<?php echo $action; ?>" method="post">
@@ -340,10 +343,16 @@ for ($i = 0; $i <= 6; $i++) {
                 <?php endif; ?>
                 <div>
                     <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
-                        <label><input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" /> <span>Лидер продаж</span></label>
+                        <label>
+                            <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" />
+                            <span>Лидер продаж</span>
+                        </label>
                     </div>
                     <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
-                        <label><input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" /> <span>Новинка</span></label>
+                        <label>
+                            <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" />
+                            <span>Новинка</span>
+                        </label>
                     </div>
                 </div>
             </div>

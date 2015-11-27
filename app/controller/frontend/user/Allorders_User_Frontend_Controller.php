@@ -41,21 +41,23 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * постраничная навигация
          */
-        $currentPage = 1;
+        $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+            $page = $this->params['page'];
         }
         // общее кол-во заказов пользователя
-        $totalUsers = $this->userFrontendModel->getCountAllOrders();
-
+        $totalOrders = $this->userFrontendModel->getCountAllOrders();
+        // URL этой страницы
+        $thisPageUrl = $this->userFrontendModel->getURL('frontend/user/allorders');
         $temp = new Pager(
-            $currentPage,
-            $totalUsers,
-            Config::getInstance()->pager->frontend->orders->perpage,
-            Config::getInstance()->pager->frontend->orders->leftright
+            $thisPageUrl,                                             // URL этой страницы
+            $page,                                                    // текущая страница
+            $totalOrders,                                             // общее кол-во заказов
+            Config::getInstance()->pager->frontend->orders->perpage,  // кол-во заказов на странице
+            Config::getInstance()->pager->frontend->orders->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -63,7 +65,7 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * Config::getInstance()->pager->frontend->orders->perpage;
+        $start = ($page - 1) * Config::getInstance()->pager->frontend->orders->perpage;
 
         // получаем от модели массив всех заказов пользователя
         $orders = $this->userFrontendModel->getAllOrders($start);
@@ -76,12 +78,10 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // массив заказов пользователя
             'orders'      => $orders,
-            // URL этой страницы
-            'thisPageUrl' => $this->userFrontendModel->getURL('frontend/user/allorders'),
             // постраничная навигация
             'pager'       => $pager,
             // текущая страница
-            'page'        => $currentPage,
+            'page'        => $page,
         );
 
     }

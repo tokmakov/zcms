@@ -275,3 +275,27 @@
 #3 D:\work\localhost2\www\index.php(52): Ajax_Compared_Frontend_Controller->request()
 #4 {main}
 
+27.11.2015 15:04:05
+Код: 0, текст: Файл view/tinko/frontend/resource/css/9.css не найден
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 322
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(255): Base_Controller->setCssJsFiles('page-9')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(88): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(183): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\frontend\page\Page_Frontend_Controller.php(24): Frontend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Page_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+27.11.2015 15:06:56
+Код: 0, текст: Файл view/tinko/frontend/resource/js/tabs.js не найден
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 349
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(255): Base_Controller->setCssJsFiles('page-41')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(88): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(183): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\frontend\page\Page_Frontend_Controller.php(24): Frontend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(122): Page_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

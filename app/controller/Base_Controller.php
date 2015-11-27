@@ -206,9 +206,9 @@ abstract class Base_Controller extends Base {
         $action = $this->register->router->getAction();
 
         /*
-         * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те
-         * файлы, которые будут на всех страницах сайта. Дальше, в зависимости от имени
-         * контроллера. Тут возможны два варианта:
+         * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е.
+         * те файлы, которые есть на всех страницах сайта. Дальше, в зависимости от
+         * имени контроллера. Тут возможны два варианта:
          * 1. Существует абстрактный класс Catalog_Frontend_Controller, у которого есть
          *    несколько дочерних классов: Product_Catalog_Frontend_Controller,
          *    Category_Catalog_Frontend_Controller, Maker_Catalog_Frontend_Controller и
@@ -245,12 +245,20 @@ abstract class Base_Controller extends Base {
          * )
          */
 
-        // задать базовые css и js файлы, которые подключаются всегда
+        // задать базовые css и js файлы, которые подключаются всегда (ко всем страницам сайта)
         $this->setCssJsFiles('base');
-        // задать css и js файлы, которые подключаются для этой страницы
-        $this->setCssJsFiles($controller); // случай Catalog_Frontend_Controller или Page_Frontend_Controller
-        if (isset($action)) {
-            $this->setCssJsFiles($controller . '-' . $action); // случай Category_Catalog_Frontend_Controller
+        // задать css и js файлы, которые подключаются для (абстактного) родительского класса,
+        // а точнее, для всех потомков суперкласса; это случай Catalog_Frontend_Controller или
+        // Page_Frontend_Controller
+        $this->setCssJsFiles($controller);
+        if (isset($this->params['id'])) {
+            $this->setCssJsFiles($controller . '-' . $this->params['id']);
+        }
+        // задать css и js файлы, которые подключаются только для этого класса; это случай
+        // Category_Catalog_Frontend_Controller или Index_Page_Frontend_Controller
+        $this->setCssJsFiles($controller . '-' . $action);
+        if (isset($this->params['id'])) {
+            $this->setCssJsFiles($controller . '-' . $action . '-' . $this->params['id']);
         }
 
         /*
@@ -262,8 +270,8 @@ abstract class Base_Controller extends Base {
          * Т.е. шаблоны по умолчанию, расположенные в папке view/example/frontend/template,
          * переопределяются шаблонами, расположенными глубже в иерархии директорий.
          * Шаблон по умолчанию view/example/frontend/template/wrapper.php будет
-         * переопределен шаблоном view/example/frontend/template/catalog/wrapper.php.
-         * А шаблон view/example/frontend/template/catalog/wrapper.php, в свою очередь, будет
+         * переопределен шаблоном view/example/frontend/template/catalog/wrapper.php. А
+         * шаблон view/example/frontend/template/catalog/wrapper.php, в свою очередь, будет
          * переопределен шаблоном view/example/frontend/template/catalog/product/wrapper.php.
          */
 
@@ -331,6 +339,11 @@ abstract class Base_Controller extends Base {
             $temp = $this->config->js->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
                 foreach ($temp as $file) {
+                    // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
+                    if ('http' == substr($file, 0, 4)) {
+                        $this->jsFiles[] = $file;
+                        continue;
+                    }
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/js/' . $file;
                     if (!is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
@@ -338,6 +351,11 @@ abstract class Base_Controller extends Base {
                     $this->jsFiles[] = $this->config->site->url . $fileName;
                 }
             } else { // один файл
+                // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
+                if ('http' == substr($temp, 0, 4)) {
+                    $this->jsFiles[] = $temp;
+                    return;
+                }
                 $fileName = $this->config->site->theme . '/' . $backfront . '/resource/js/' . $temp;
                 if (!is_file($fileName)) {
                     throw new Exception('Файл ' . $fileName . ' не найден');

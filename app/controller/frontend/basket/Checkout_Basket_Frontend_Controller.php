@@ -47,9 +47,18 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->basketFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->basketFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
-            array('url' => $this->basketFrontendModel->getURL('frontend/basket/index'), 'name' => 'Корзина'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->basketFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->basketFrontendModel->getURL('frontend/catalog/index')
+            ),
+            array(
+                'name' => 'Корзина',
+                'url'  => $this->basketFrontendModel->getURL('frontend/basket/index')
+            ),
         );
 
         // получаем от модели массив профилей пользователя
