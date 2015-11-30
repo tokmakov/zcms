@@ -341,6 +341,7 @@ class News_Backend_Model extends Backend_Model {
      * Функция добавляет новую категорию (новую запись в таблицу news_ctgs базы данных)
      */
     public function addCategory($data) {
+        // TODO: установить порядок сортировки
         $query = "INSERT INTO `news_ctgs`
                   (
                       `name`,
@@ -396,6 +397,7 @@ class News_Backend_Model extends Backend_Model {
                   WHERE
                       `id` = :id";
         $this->database->execute($query, array('id' => $id));
+        // TODO: установить порядок сортировки
         return true;
     }
 }

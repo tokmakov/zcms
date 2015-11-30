@@ -33,9 +33,9 @@ class MCache {
      * Функция возвращает ссылку на экземпляр данного класса,
      * реализация шаблона проектирования «Одиночка»
      */
-    public static function getInstance($maxLockTime = 0){
+    public static function getInstance(){
         if (is_null(self::$instance)) {
-            self::$instance = new self($maxLockTime);
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -44,7 +44,7 @@ class MCache {
      * Закрытый конструктор, необходим для реализации шаблона
      * проектирования «Одиночка»
      */
-    private function __construct($maxLockTime = 0) {
+    private function __construct() {
         // время жизни кэша в секундах
         $this->cacheTime = Config::getInstance()->cache->mem->time;
         // максимальное время блокировки на чтение в секундах

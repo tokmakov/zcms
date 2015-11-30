@@ -1,8 +1,13 @@
 var routeAlreadyAdded = false;
-jQuery('#remove-route-button').hide();
 var tinkoMap, tinkoRoute, markerNum = 1;
 var routeMarkers = [];
 var routePoints = [];
+$(document).ready(function() {
+    $('#remove-route-button')
+        .css({'cursor' : 'pointer', 'color' : '#e9751f', 'border-bottom' : '1px dashed #e9751f'})
+        .hide()
+        .click(removeRoute);
+});
 
 // Как только будет загружен API и готов DOM, выполняем инициализацию
 ymaps.ready(initOfficesMap);
@@ -19,8 +24,8 @@ function initOfficesMap() {
         name: 'Центральный офис',
         address: '3-й проезд Перова поля, дом 8',
         phone: 'тел: (495) 708-42-13, факc: (495) 708-42-14',
-        photo: '<img src="/media/wysiwyg/tinko/contact/office-small-temp.jpg" alt="Центральный офис" />',
-        print: '<a href="/media/wysiwyg/tinko/contact/print.jpg" alt="Центральный офис" target="_blank" />Версия для печати</a>'
+        photo: '<img src="/files/page/41/office.jpg" alt="Центральный офис" />',
+        print: '<a href="/files/page/41/print.jpg" alt="Центральный офис" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -38,8 +43,8 @@ function initOfficesMap() {
         name: 'Офис продаж Сокол',
         address: 'ул. Часовая, д. 24, стр. 2',
         phone: 'тел: (495) 708-42-13 доб. 401',
-        photo: '<img src="/media/wysiwyg/tinko/contact/office1-small.jpg" alt="Офис продаж Сокол" />',
-        print: '<a href="/media/wysiwyg/tinko/contact/print1.jpg" alt="Офис продаж Сокол" target="_blank" />Версия для печати</a>'
+        photo: '<img src="/files/page/41/office1.jpg" alt="Офис продаж Сокол" />',
+        print: '<a href="/files/page/41/print1.jpg" alt="Офис продаж Сокол" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -57,8 +62,8 @@ function initOfficesMap() {
         name: 'Офис продаж Мещанский',
         address: 'ул. Щепкина, д. 47',
         phone: 'тел: (495) 708-42-13 доб. 402',
-        photo: '<img src="/media/wysiwyg/tinko/contact/office2-small-temp.jpg" alt="Офис продаж Мещанский" />',
-        print: '<a href="/media/wysiwyg/tinko/contact/print2.jpg" alt="Офис продаж Мещанский" target="_blank" />Версия для печати</a>'
+        photo: '<img src="/files/page/41/office2.jpg" alt="Офис продаж Мещанский" />',
+        print: '<a href="/files/page/41/print2.jpg" alt="Офис продаж Мещанский" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -76,8 +81,8 @@ function initOfficesMap() {
         name: 'Офис продаж Нагорный',
         address: 'ул. Нагорная, д. 20, корп. 1',
         phone: 'тел: (495) 708-42-13 доб. 403',
-        photo: '<img src="/media/wysiwyg/tinko/contact/office3.gif" alt="Офис продаж Нагорный" />',
-        print: '<a href="/media/wysiwyg/tinko/contact/print3.jpg" alt="Офис продаж Нагорный" target="_blank" />Версия для печати</a>'
+        photo: '<img src="/files/page/41/office3.gif" alt="Офис продаж Нагорный" />',
+        print: '<a href="/files/page/41/print3.jpg" alt="Офис продаж Нагорный" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -101,11 +106,11 @@ function initOfficesMap() {
 
     // Создаем шаблон для отображения контента балуна
     var tinkoBalloonLayout = ymaps.templateLayoutFactory.createClass(
-        '<p><strong>$[properties.name]</strong></p>' +
-        '<p>$[properties.address]</p>' +
-        '<p>$[properties.phone]</p>' +
-        '<p>$[properties.photo]</p>' +
-        '<p>$[properties.print]</p>'
+        '<div><strong>$[properties.name]</strong></div>' +
+        '<div>$[properties.address]</div>' +
+        '<div>$[properties.phone]</div>' +
+        '<div>$[properties.photo]</div>' +
+        '<div>$[properties.print]</div>'
     );
 
     // Помещаем созданный шаблон в хранилище шаблонов. Теперь наш шаблон доступен по ключу 'tinko#officeslayout'.
@@ -120,7 +125,7 @@ function initOfficesMap() {
 
     // Добавляем коллекцию геообъектов на карту.
     tinkoMap.geoObjects.add(tinkoCollection);
-    
+
     //Отслеживаем событие клика по карте
     tinkoMap.events.add('click', function (e) {
         var coords = e.get('coordPosition');
@@ -159,12 +164,12 @@ function calcRoute(office) {
     ymaps.route(routePoints, {
         // Опции маршрутизатора
         mapStateAutoApply: true // автоматически позиционировать карту
-    }).then(function (router) {   
+    }).then(function (router) {
         tinkoRoute = router;
         tinkoMap.geoObjects.add(tinkoRoute);
         var distance = tinkoRoute.getLength()*0.001;
-        jQuery('#routeLength').html('Длина маршрута ' + distance.toFixed(2) + ' км.');
-        jQuery('#remove-route-button').show();
+        $('#routeLength').html('Длина маршрута ' + distance.toFixed(2) + ' км.');
+        $('#remove-route-button').show();
         routeAlreadyAdded = true;
     }, function (error) {
         alert('Возникла ошибка: ' + error.message);
@@ -177,10 +182,10 @@ function removeRoute() {
     for (var i = 0, l = routeMarkers.length; i < l; i++) {
         tinkoMap.geoObjects.remove(routeMarkers[i]);
     }
-    routeMarkers = []; 
+    routeMarkers = [];
     routePoints = [];
     markerNum = 1;
     routeAlreadyAdded = false;
-    jQuery('#routeLength').html('');
-    jQuery('#remove-route-button').hide();
+    $('#routeLength').empty();
+    $('#remove-route-button').hide();
 }

@@ -629,9 +629,10 @@ function filterSelectHandler() {
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();
+            // добавляем хэш
+            addFilterHash();
         }
     });
-    addFilterHash();
 }
 
 function addFilterHash() {
@@ -656,7 +657,9 @@ function addFilterHash() {
         paramSelect.each(function(index, element){
             if ($(element).val() !== '0') {
                 var paramSelectId = $(element).attr('name').replace(/[^0-9]/g, '');
+                alert(paramSelectId);
                 var paramSelectVal = $(element).val();
+                alert(paramSelectVal);
                 param.push(paramSelectId + '.' + paramSelectVal);
             }
         });

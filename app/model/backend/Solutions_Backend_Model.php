@@ -242,10 +242,16 @@ class Solutions_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `solutions_categories`
                       SET
-                          `sortorder`=:sortorder
+                          `sortorder` = :sortorder
                       WHERE
                           `id` = :id";
-            $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
+            $this->database->execute(
+                $query,
+                array(
+                    'sortorder' => $sortorder,
+                    'id'        => $item['id']
+                )
+            );
             $sortorder++;
         }
     }
@@ -850,7 +856,9 @@ class Solutions_Backend_Model extends Backend_Model {
      * Функция удаляет товар из типового решения
      */
     public function removeSolutionProduct($id) {
+        // идентификатор типового решения
         $parent = $this->getProductParent($id);
+        // удаляем товар
         $query = "DELETE FROM
                       `solutions_products`
                   WHERE
@@ -871,10 +879,16 @@ class Solutions_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `solutions_products`
                       SET
-                          `sortorder`=:sortorder
+                          `sortorder` = :sortorder
                       WHERE
                           `id` = :id";
-            $this->database->execute($query, array('sortorder' => $sortorder,'id' => $item['id']));
+            $this->database->execute(
+                $query,
+                array(
+                    'sortorder' => $sortorder,
+                    'id' => $item['id']
+                )
+            );
             $sortorder++;
         }
     }
@@ -906,7 +920,13 @@ class Solutions_Backend_Model extends Backend_Model {
                       `sortorder`
                   LIMIT
                       1";
-        $res = $this->database->fetch($query, array('parent' => $parent, 'order_down' => $order_down));
+        $res = $this->database->fetch(
+            $query,
+            array(
+                'parent' => $parent,
+                'order_down' => $order_down
+            )
+        );
         if (is_array($res)) {
             $id_item_up = $res['id'];
             $order_up = $res['sortorder'];
@@ -917,14 +937,26 @@ class Solutions_Backend_Model extends Backend_Model {
                           `sortorder` = :order_down
                       WHERE
                           `id` = :id_item_up";
-            $this->database->execute($query, array('order_down' => $order_down, 'id_item_up' => $id_item_up));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
             $query = "UPDATE
                           `solutions_products`
                       SET
                           `sortorder` = :order_up
                       WHERE
                           `id` = :id_item_down";
-            $this->database->execute($query, array('order_up' => $order_up, 'id_item_down' => $id_item_down));
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up'     => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
         }
     }
 

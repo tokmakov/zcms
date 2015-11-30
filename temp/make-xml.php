@@ -20,8 +20,7 @@ require 'app/settings.php';
 Config::init($settings);
 // реестр, для хранения всех объектов приложения
 $register = Register::getInstance();
-// сохраняем в реестре настройки, чтобы везде иметь к ним доступ; доступ к
-// настройкам возможен через реестр или напрямую через Config::getInstance()
+// настройки приложения
 $register->config = Config::getInstance();
 // кэширование данных
 $register->cache = Cache::getInstance();
@@ -38,7 +37,7 @@ $categories = $register->database->fetchAll($query);
 foreach ($categories as $item) {
     echo 'category id='.$item['id'].PHP_EOL;
     $text = '<category id="' . $item['id'] . '" parent="' . $item['parent'] . '" sortorder="' . $item['sortorder'] . '">';
-    $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
+    $text = $text . '<![CDATA[' . $item['name'] . ']]>';
     $text = $text . '</category>';
     fwrite($handle, $text);
 }
@@ -51,7 +50,7 @@ $makers = $register->database->fetchAll($query);
 foreach ($makers as $item) {
     echo 'maker id='.$item['id'].PHP_EOL;
     $text = '<maker id="' . $item['id'] . '">';
-    $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
+    $text = $text . '<![CDATA[' . $item['name'] . ']]>';
     $text = $text . '</maker>';
     fwrite($handle, $text);
 }
@@ -64,7 +63,15 @@ $groups = $register->database->fetchAll($query);
 foreach ($groups as $item) {
     echo 'group id='.$item['id'].PHP_EOL;
     $text = '<group id="' . $item['id'] . '">';
-    $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
+    $text = $text . '<name><![CDATA[' . $item['name'] . ']]></name>';
+    // параметры подбора
+    $text = $text . '<params>';
+    $query = "SELECT `param_id`, `value_id` FROM `group_param_value` WHERE `group_id` = :id ORDER BY `param_id`, `value_id`";
+    $params = $register->database->fetchAll($query, array('id' => $item['id']));
+    foreach ($params as $param) {
+        $text = $text . '<param name="'.$param['param_id'].'" value="'.$param['value_id'].'" />';
+    }
+    $text = $text . '</params>';
     $text = $text . '</group>';
     fwrite($handle, $text);
 }
@@ -79,7 +86,7 @@ $names = $register->database->fetchAll($query);
 foreach ($names as $item) {
     echo 'param name id='.$item['id'].PHP_EOL;
     $text = '<name id="' . $item['id'] . '">';
-    $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
+    $text = $text . '<![CDATA[' . $item['name'] . ']]>';
     $text = $text . '</name>';
     fwrite($handle, $text);
 }
@@ -91,7 +98,7 @@ $values = $register->database->fetchAll($query);
 foreach ($values as $item) {
     echo 'param value id='.$item['id'].PHP_EOL;
     $text = '<value id="' . $item['id'] . '">';
-    $text = $text . '<![CDATA[' . trim($item['name']) . ']]>';
+    $text = $text . '<![CDATA[' . $item['name'] . ']]>';
     $text = $text . '</value>';
     fwrite($handle, $text);
 }
@@ -109,9 +116,9 @@ foreach ($products as $item) {
     $category = $item['category'];
     if (!empty($item['category2'])) $category = $category.','.$item['category2'];
     $text = '<product code="' . $item['code'] . '" category="' . $category . '" group="' . $item['group'] . '" maker="' . $item['maker'] . '"  hit="' . $item['hit'] . '" new="' . $item['new'] . '" sortorder="' . $item['sortorder'] . '">';
-    $text = $text . '<name><![CDATA[' . trim($item['name']) . ']]></name>';
+    $text = $text . '<name><![CDATA[' . $item['name'] . ']]></name>';
     if (!empty($item['title'])) {
-        $text = $text . '<title><![CDATA[' . trim($item['title']) . ']]></title>';
+        $text = $text . '<title><![CDATA[' . $item['title'] . ']]></title>';
     } else {
         $text = $text . '<title/>';
     }
@@ -124,12 +131,12 @@ foreach ($products as $item) {
     $text = $text . '<price7>' . $item['price7'] .  '</price7>';
     $text = $text . '<unit>' . $item['unit'] .  '</unit>';
     if (!empty($item['shortdescr'])) {
-        $text = $text . '<shortdescr><![CDATA[' . trim($item['shortdescr']) . ']]></shortdescr>';
+        $text = $text . '<shortdescr><![CDATA[' . $item['shortdescr'] . ']]></shortdescr>';
     } else {
         $text = $text . '<shortdescr/>';
     }
     if (!empty($item['purpose'])) {
-        $text = $text . '<purpose><![CDATA[' . trim($item['purpose']) . ']]></purpose>';
+        $text = $text . '<purpose><![CDATA[' . $item['purpose'] . ']]></purpose>';
     } else {
         $text = $text . '<purpose/>';
     }
@@ -140,32 +147,40 @@ foreach ($products as $item) {
     $text = $text . '<techdata>';
     foreach ($techdata as $data) {
         $text = $text . '<item>';
-        $text = $text . '<name><![CDATA[' . trim($data[0]) . ']]></name>';
-        $text = $text . '<value><![CDATA[' . trim($data[1]) . ']]></value>';
+        $text = $text . '<name><![CDATA[' . $data[0] . ']]></name>';
+        $text = $text . '<value><![CDATA[' . $data[1] . ']]></value>';
         $text = $text . '</item>';
     }
     $text = $text . '</techdata>';
     if (!empty($item['features'])) {
-        $text = $text . '<features><![CDATA[' . trim($item['features']) . ']]></features>';
+        $text = $text . '<features><![CDATA[' . $item['features'] . ']]></features>';
     } else {
         $text = $text . '<features/>';
     }
     if (!empty($item['complect'])) {
-        $text = $text . '<complect><![CDATA[' . trim($item['complect']) . ']]></complect>';
+        $text = $text . '<complect><![CDATA[' . $item['complect'] . ']]></complect>';
     } else {
         $text = $text . '<complect/>';
     }
     if (!empty($item['equipment'])) {
-        $text = $text . '<equipment><![CDATA[' . trim($item['equipment']) . ']]></equipment>';
+        $text = $text . '<equipment><![CDATA[' . $item['equipment'] . ']]></equipment>';
     } else {
         $text = $text . '<equipment/>';
     }
     if (!empty($item['padding'])) {
-        $text = $text . '<padding><![CDATA[' . trim($item['equipment']) . ']]></padding>';
+        $text = $text . '<padding><![CDATA[' . $item['padding'] . ']]></padding>';
     } else {
         $text = $text . '<padding/>';
     }
-    $text = $text . '<image>' . trim($item['image']) . '</image>';
+    $text = $text . '<image>' . $item['image'] . '</image>';
+    // параметры подбора
+    $text = $text . '<params>';
+    $query = "SELECT `param_id`, `value_id` FROM `product_param_value` WHERE `product_id` = :id ORDER BY `param_id`, `value_id`";
+    $params = $register->database->fetchAll($query, array('id' => $item['id']));
+    foreach ($params as $param) {
+        $text = $text . '<param name="'.$param['param_id'].'" value="'.$param['value_id'].'" />';
+    }
+    $text = $text . '</params>';
     // файлы документации
     $text = $text . '<docs>';
     $query = "SELECT `doc_id` FROM `doc_prd` WHERE `prd_id` = :id";
@@ -194,7 +209,6 @@ foreach ($products as $item) {
         $text = $text . '<prd code="' . $code . '" count="' . $count . '" />';
     }
     $text = $text . '</linked>';
-
     $text = $text . '</product>';
     fwrite($handle, $text);
 }
@@ -209,9 +223,9 @@ foreach ($docs as $item) {
     $i++;
     echo $i.' doc id='.$item['id'].PHP_EOL;
     $text = '<doc id="' . $item['id'] . '">';
-    $text = $text . '<title><![CDATA[' . trim($item['title']) . ']]></title>';
-    $text = $text . '<file>' . trim($item['filename']) . '</file>';
-    $text = $text . '<md5>' . trim($item['md5']) . '</md5>';
+    $text = $text . '<title><![CDATA[' . $item['title'] . ']]></title>';
+    $text = $text . '<file>' . $item['filename'] . '</file>';
+    $text = $text . '<md5>' . $item['md5'] . '</md5>';
     $text = $text . '</doc>';
     fwrite($handle, $text);
 }

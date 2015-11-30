@@ -95,6 +95,7 @@ $settings = array(
             'catalog-product' => 'fancybox/jquery.fancybox.css',
             'compared'        => 'compared.css', // для страницы сравнения товаров
             'page-40'         => array( // для страницы «Контакты»
+                'tabs.css',
                 'page/40.css',
                 'fancybox/jquery.fancybox.css',
             ),
@@ -165,6 +166,7 @@ $settings = array(
                 'slider.js'
             ),
             'page-40'         => array(
+                'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
                 'offices-map.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',

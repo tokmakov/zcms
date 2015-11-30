@@ -50,3 +50,15 @@
         #tabs > div > div {
             padding-top: 5px;
         }
+
+@media screen and (max-width: 500px) {
+    #tabs > ul > li {
+        margin-left: 5px;
+    }
+    #tabs > ul > li:first-child {
+        margin-left: 5px;
+    }
+        #tabs > ul > li > a {
+            padding: 0 5px;
+        }
+}

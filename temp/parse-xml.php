@@ -31,6 +31,7 @@ $register->database = Database::getInstance();
 $register->database->execute('TRUNCATE TABLE `temp_categories`');
 $register->database->execute('TRUNCATE TABLE `temp_makers`');
 $register->database->execute('TRUNCATE TABLE `temp_groups`');
+$register->database->execute('TRUNCATE TABLE `temp_group_param_value`');
 $register->database->execute('TRUNCATE TABLE `temp_params`');
 $register->database->execute('TRUNCATE TABLE `temp_values`');
 $register->database->execute('TRUNCATE TABLE `temp_products`');
@@ -108,23 +109,23 @@ while ($reader->read()) {
                 $data['description'] = '';
                 $data['body'] = '';
                 $query = "INSERT INTO `temp_makers`
-                  (
-                      `id`,
-                      `name`,
-                      `altname`,
-                      `keywords`,
-                      `description`,
-                      `body`
-                  )
-                  VALUES
-                  (
-                      :id,
-                      :name,
-                      :altname,
-                      :keywords,
-                      :description,
-                      :body
-                  )";
+                          (
+                              `id`,
+                              `name`,
+                              `altname`,
+                              `keywords`,
+                              `description`,
+                              `body`
+                          )
+                          VALUES
+                          (
+                              :id,
+                              :name,
+                              :altname,
+                              :keywords,
+                              :description,
+                              :body
+                          )";
                 $register->database->execute($query, $data);
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'makers') {
@@ -139,23 +140,65 @@ while ($reader->read()) {
         while ($reader->read()) {
             // отдельный элемент <group>
             if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'group') {
-                $data = array();
-                $data['id'] = $reader->getAttribute('id');
-                echo 'group id=' . $data['id'] . PHP_EOL;
-                // читаем дальше для получения текстового элемента
-                $reader->read();
-                $data['name'] = $reader->value;
-                $query = "INSERT INTO `temp_groups`
-                          (
-                              `id`,
-                              `name`
-                          )
-                          VALUES
-                          (
-                              :id,
-                              :name
-                          )";
-                $register->database->execute($query, $data);
+                // атрибут элемента <group>
+                $group_id = $reader->getAttribute('id');
+                echo 'group id=' . $group_id . PHP_EOL;
+                // дочерние элементы элемента <group>
+                while ($reader->read()) {
+                    // наименование группы
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
+                        $data = array();
+                        $data['id'] = $group_id;
+                        // читаем дальше для получения текстового элемента
+                        $reader->read();
+                        $data['name'] = $reader->value;
+                        $query = "INSERT INTO `temp_groups`
+                                  (
+                                      `id`,
+                                      `name`
+                                  )
+                                  VALUES
+                                  (
+                                      :id,
+                                      :name
+                                  )";
+                        $register->database->execute($query, $data);
+                    }
+                    // информация о параметрах подбора для группы
+                    if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') {
+                        // дочерние элементы элемента <params>
+                        while ($reader->read()) {
+                            // отдельный элемент <param>
+                            if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'param') {
+                                // атрибуты элемента <param>
+                                $data = array();
+                                $data['group_id'] = $group_id;
+                                $data['param_id'] = $reader->getAttribute('name');
+                                $data['value_id'] = $reader->getAttribute('value');
+                                echo '* group: param=' . $data['param_id'] . ' value=' . $data['value_id'] . PHP_EOL;
+                                $query = "INSERT INTO `temp_group_param_value`
+                                          (
+                                              `group_id`,
+                                              `param_id`,
+                                              `value_id`
+                                          )
+                                          VALUES
+                                          (
+                                              :group_id,
+                                              :param_id,
+                                              :value_id
+                                          )";
+                                  $register->database->execute($query, $data);
+                            }
+                            if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'params') {
+                                break;
+                            }
+                        }
+                    }
+                    if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'group') {
+                        break;
+                    }
+                }
             }
             if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'groups') {
                 break;
@@ -405,7 +448,7 @@ while ($reader->read()) {
                                           :param_id,
                                           :value_id
                                       )";
-                            $this->database->execute(
+                            $register->database->execute(
                                 $query,
                                 array(
                                     'product_id' => $data['id'],
@@ -724,6 +767,7 @@ while ($reader->read()) {
 
 }
 
+// устанавливаем порядок сортировки категорий
 $query ="SELECT `id` FROM `temp_categories` WHERE `parent` = 0 ORDER BY `sortorder`";
 $roots = $register->database->fetchAll($query);
 $i = 1;
@@ -731,11 +775,148 @@ foreach($roots as $root) {
     $sort = $i;
     if (strlen($sort) == 1) $sort = '0' . $sort;
     $query = "UPDATE `temp_categories` SET `globalsort` = '" . $sort . "000000000000000000' WHERE `id` = " . $root['id'];
-    echo $query . PHP_EOL;
+    // echo $query . PHP_EOL;
     $register->database->execute($query);
     updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
     $i++;
 }
+
+// сравниваем таблицы
+echo 'COMPARE TABLES' . PHP_EOL;
+
+$query = "SELECT * FROM `products` WHERE 1 ORDER BY `id`";
+$products = $register->database->fetchAll($query);
+foreach ($products as $row1) {
+    unset($row1['updated']);
+    unset($row1['visible']);
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_products` WHERE `id` = :id";
+    $row2 = $register->database->fetch($query, array('id' => $row1['id']));
+    unset($row2['updated']);
+    unset($row2['visible']);
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error products id='.$row1['id']);
+    }
+}
+echo 'products OK' . PHP_EOL;
+
+$query = "SELECT * FROM `categories` WHERE 1 ORDER BY `id`";
+$categories = $register->database->fetchAll($query);
+foreach ($categories as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_categories` WHERE `id` = :id";
+    $row2 = $register->database->fetch($query, array('id' => $row1['id']));
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        file_put_contents('temp/'.$row1['id'].'-1.txt', $str1);
+        file_put_contents('temp/'.$row1['id'].'-2.txt', $str2);
+        die('Error categories id='.$row1['id']);
+        // echo 'Error categories id='.$row1['id'] . PHP_EOL;
+    }
+}
+echo 'categories OK' . PHP_EOL;
+
+$query = "SELECT * FROM `makers` WHERE 1 ORDER BY `id`";
+$makers = $register->database->fetchAll($query);
+foreach ($makers as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_makers` WHERE `id` = :id";
+    $row2 = $register->database->fetch($query, array('id' => $row1['id']));
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error makers id='.$row1['id']);
+    }
+}
+echo 'makers OK' . PHP_EOL;
+
+$query = "SELECT * FROM `groups` WHERE 1 ORDER BY `id`";
+$groups = $register->database->fetchAll($query);
+foreach ($groups as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_groups` WHERE `id` = :id";
+    $row2 = $register->database->fetch($query, array('id' => $row1['id']));
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error groups id='.$row1['id']);
+    }
+}
+echo 'groups OK' . PHP_EOL;
+
+$query = "SELECT * FROM `group_param_value` WHERE 1 ORDER BY `group_id`, `param_id`, `value_id`";
+$items = $register->database->fetchAll($query);
+foreach ($items as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_group_param_value` WHERE `group_id` = :group_id AND `param_id` = :param_id AND `value_id` = :value_id";
+    $row2 = $register->database->fetch(
+        $query,
+        array(
+            'group_id' => $row1['group_id'],
+            'param_id' => $row1['param_id'],
+            'value_id' => $row1['value_id']
+        )
+    );
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error group_param_value: group_id='.$row1['group_id'].' param_id='.$row1['param_id'].' value_id='.$row1['value_id']);
+    }
+}
+echo 'group_param_value OK' . PHP_EOL;
+
+$query = "SELECT * FROM `product_param_value` WHERE 1 ORDER BY `product_id`, `param_id`, `value_id`";
+$items = $register->database->fetchAll($query);
+foreach ($items as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_product_param_value` WHERE `product_id` = :product_id AND `param_id` = :param_id AND `value_id` = :value_id";
+    $row2 = $register->database->fetch(
+        $query,
+        array(
+            'product_id' => $row1['product_id'],
+            'param_id' => $row1['param_id'],
+            'value_id' => $row1['value_id']
+        )
+    );
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error product_param_value');
+    }
+}
+echo 'product_param_value OK' . PHP_EOL;
+
+$query = "SELECT * FROM `docs` WHERE 1 ORDER BY `id`";
+$docs = $register->database->fetchAll($query);
+foreach ($docs as $row1) {
+    unset($row1['uploaded']);
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_docs` WHERE `id` = :id";
+    $row2 = $register->database->fetch($query, array('id' => $row1['id']));
+    unset($row2['uploaded']);
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error docs id='.$row1['id']);
+    }
+}
+echo 'docs OK' . PHP_EOL;
+
+$query = "SELECT * FROM `doc_prd` WHERE 1 ORDER BY `prd_id`, `doc_id`";
+$items = $register->database->fetchAll($query);
+foreach ($items as $row1) {
+    $str1 = serialize($row1);
+    $query = "SELECT * FROM `temp_doc_prd` WHERE `prd_id` = :prd_id AND `doc_id` = :doc_id";
+    $row2 = $register->database->fetch(
+        $query,
+        array(
+            'prd_id' => $row1['prd_id'],
+            'doc_id' => $row1['doc_id']
+        )
+    );
+    $str2 = serialize($row2);
+    if ($str1 !== $str2) {
+        die('Error doc_prd');
+    }
+}
+echo 'doc_prd OK' . PHP_EOL;
+
 
 function updateSortOrderAllCategories($id, $sortorder, $level) {
     $register = Register::getInstance();
@@ -753,7 +934,7 @@ function updateSortOrderAllCategories($id, $sortorder, $level) {
         }
         $globalsort = $before . $globalsort . $after;
         $query = "UPDATE `temp_categories` SET `globalsort` = '".$globalsort."' WHERE `id` = ".$child['id'];
-        echo $query . PHP_EOL;
+        // echo $query . PHP_EOL;
         $register->database->execute($query);
         // рекурсивно вызываем updateSortOrderAllCategories()
         updateSortOrderAllCategories($child['id'], $globalsort, $level + 1);

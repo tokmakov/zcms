@@ -1,24 +1,56 @@
-.office-block {
-    overflow:hidden
+#page .office-block {
+    overflow: hidden;
 }
-.office-block .office-photo {
-    float:left;
-    width:320px;
-    height:245px;
+    #page .office-block .office-photo {
+        float: left;
+        width: 320px;
+        height: 245px;
+    }
+        #page .office-block .office-photo img {
+            width: 300px;
+            height: 225px;
+            padding: 9px;
+            border: 1px solid #d1d1d1;
+        }
+    #page .office-block .office-info {
+        margin-left:335px
+    }
+        #page .office-block .office-info > p:nth-child(even) {
+            margin: 0 0 2px 0;
+            color: #969696;
+        }
+        #page .office-block .office-info > p:nth-child(odd) {
+            margin: 0 0 14px 0;
+        }
+            #page .office-block .office-info > p:first-child > a {
+                color: #395985;
+            }
+            #page .office-block .office-info > p:first-child > a:hover {
+                text-decoration: none;
+            }
+                #page .office-block .office-info > p:first-child > a > i {
+                    font-size: 15px;
+                    position: relative;
+                    top: 2px;
+                }
+                #page .office-block .office-info > p:first-child > a > span {
+                    border-bottom: 1px dashed #395985;
+                }
+#page #tabs #contact-yamap {
+    padding-top: 20px;
 }
-.office-block .office-photo img {
-    width: 300px;
-    height: 225px;
-    padding: 9px;
-    border: 1px solid #d1d1d1;
-}
-.office-block .office-info {
-    margin-left:330px
-}
-.office-block .office-info p:nth-child(even) {
-    margin-bottom: 17px;
-}
-.office-block .office-info p:nth-child(odd) {
-    margin-bottom: 3px;
-    font-style:italic;
+
+@media screen and (max-width: 720px) {
+    #page .office-block .office-photo {
+        float: none;
+    }
+    #page .office-block .office-info {
+        margin-left: 0;
+    }
+        #page .office-block .office-info > p:nth-child(odd) {
+            margin: 0 0 8px 0;
+        }
+        #page .office-block .office-info > p:first-child {
+            margin: 10px 0;
+        }
 }

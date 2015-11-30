@@ -33,9 +33,9 @@ class FCache {
      * Функция возвращает ссылку на экземпляр данного класса,
      * реализация шаблона проектирования «Одиночка»
      */
-    public static function getInstance($maxLockTime = 0){
+    public static function getInstance(){
         if (is_null(self::$instance)) {
-            self::$instance = new self($maxLockTime);
+            self::$instance = new self();
         }
         return self::$instance;
     }

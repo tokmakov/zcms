@@ -12,9 +12,22 @@
         <maker id="3">Риэлта</maker>
     </makers>
     <groups>
-        <group id="1">Извещатель охранный</group>
-        <group id="2">Извещатель пожарный</group>
-        <group id="3">Прибор приемно-контрольный</group>
+        <group id="1">
+            <name>Извещатель охранный</name>
+            <params>
+                <param name="1" value="1" />
+                <param name="1" value="2" />
+                <param name="2" value="3" />
+                <param name="2" value="4" />
+            </params>
+        </group>
+        <group id="2">
+            <name>Извещатель пожарный</name>
+            <params>
+                <param name="3" value="7" />
+                <param name="3" value="8" />
+            </params>
+        </group>
     </groups>
     <params>
         <names>

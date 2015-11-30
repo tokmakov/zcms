@@ -438,8 +438,11 @@ body > .wrapper {
     margin: 15px 0;
 }
 #page ul, #page ol {
-    margin: 15px 0 15px 30px;
+    margin: 15px 0 15px 20px;
 }
+    #page ul > li > ul, #page ol > li > ol, #page ol > li > ul, #page ul > li > ol {
+        margin: 5px 0 5px 20px;
+    }
 #page img {
     max-width: 100%;
 }
@@ -456,7 +459,7 @@ body > .wrapper {
         text-decoration: none;
     }
 
-#tinkoMap {
+#tinkoMap, #deliveryMap {
     width: 100%;
     height: 600px;
 }
@@ -469,18 +472,18 @@ body > .wrapper {
     font-size: 19px;
 }
 #sitemap > ul {
-    margin: 15px 0 15px 30px;
+    margin: 15px 0 15px 20px;
     list-style-type: square;
 }
     #sitemap ul li {
         padding: 2px 0;
     }
     #sitemap > ul > li > ul {
-        margin-left: 30px;
+        margin-left: 20px;
         list-style-type: circle;
     }
     #sitemap > ul > li > ul > li > ul {
-        margin-left: 30px;
+        margin-left: 20px;
         list-style-type: disc;
     }
 
@@ -502,45 +505,53 @@ body > .wrapper {
     }
 
 div.notice {
-    margin: 1em 0;
+    margin: 15px 0;
     padding: 1px 0 1px 15px;
-    border-left: 4px solid #f90
+    border-left: 4px solid #e9751f;
 }
     div.notice :first-child {
-        margin-top: 0
+        margin-top: 0 !important;
     }
     div.notice :last-child {
-        margin-bottom: 0
+        margin-bottom: 0 !important;
     }
 div.attention {
-    position:relative;
-    margin:1em 0
+    margin: 15px 0;
 }
-    div.attention div:first-child {
+    div.attention > div:first-child {
         font-weight: bold;
-        color: red;
-        text-transform:uppercase
+        color: #e9751f;
+        text-transform: uppercase
     }
-    div.attention div:last-child {
-        border:1px solid red;
-        border-radius:8px;
-        padding:10px;
-        margin:1em 0;
-        font-style:italic
+    div.attention > div:last-child {
+        position:relative;
+        border: 1px solid #e9751f;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 12px 0 15px 0;
+        font-style: italic;
     }
-        div.attention div:last-child :first-child {
-            margin-top:0
+    div.attention > div:last-child::before {
+        position: absolute;
+        top: -20px;
+        left: 30px;
+        content: '';
+        border: 10px solid transparent;
+        border-bottom: 10px solid #e9751f;
+    }
+    div.attention > div:last-child::after {
+        position: absolute;
+        top: -19px;
+        left: 30px;
+        content: '';
+        border: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+    }
+        div.attention > div:last-child :first-child {
+            margin-top: 0 !important;
         }
-        div.attention div:last-child :last-child {
-            margin-bottom:0
-        }
-        div.attention div:last-child:before {
-            height: 11px;
-            width: 10px;
-            content: url('http://www.tinko.ru/skin/frontend/tinko/tb3/blocks/content/attention.png');
-            position: absolute;
-            left: 27px;
-            margin-top: -23px
+        div.attention > div:last-child :last-child {
+            margin-bottom: 0 !important;
         }
 
 .selected {
@@ -1021,12 +1032,10 @@ div.attention {
                     width: 100%;
                     border-collapse: collapse;
                 }
-                    .products-list-line > div > .product-line-techdata > div:last-child > table tr:nth-child(odd) td {
+                    .products-list-line > div > .product-line-techdata > div:last-child > table tr:nth-child(odd) {
                         background: #fff;
                     }
                         .products-list-line > div > .product-line-techdata > div:last-child > table tr td {
-                            border-bottom: 1px solid #d1d1d1;
-                            border-right: 1px solid #d1d1d1;
                             padding: 3px 5px;
                         }
                         .products-list-line > div > .product-line-techdata > div:last-child > table tr:first-child td:first-child {
@@ -3364,7 +3373,7 @@ div.attention {
         padding-left: 0;
     }
     /* уменьшаем карту проезда */
-    #tinkoMap {
+    #tinkoMap, #deliveryMap {
         width: 95%;
     }
 }
@@ -3623,7 +3632,7 @@ div.attention {
         display: none;
     }
     /* уменьшаем карту проезда */
-    #tinkoMap {
+    #tinkoMap, #deliveryMap {
         height: 400px;
     }
     /* покупательская корзина */
@@ -3715,7 +3724,7 @@ div.attention {
         max-width: 290px;
     }
     /* уменьшаем карту проезда */
-    #tinkoMap {
+    #tinkoMap, #deliveryMap {
         height: 300px;
     }
 }
