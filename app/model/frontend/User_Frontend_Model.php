@@ -409,11 +409,11 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             throw new Exception('Попытка авторизации уже авторизованного пользователя');
         }
 
-        if (!isset($_COOKIE['remember'])) {
+        if ( ! isset($_COOKIE['remember'])) {
             return false;
         }
 
-        if (!isset($_COOKIE['visitor'])) {
+        if ( ! isset($_COOKIE['visitor'])) {
             return false;
         }
 
@@ -497,7 +497,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getAllProfiles() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить профили не авторизованного пользователя');
         }
 
@@ -527,7 +527,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getUserProfiles() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить профили не авторизованного пользователя');
         }
 
@@ -548,7 +548,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getProfile($id) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить профиль не авторизованного пользователя');
         }
 
@@ -569,7 +569,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function addProfile($data) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка добавить профиль для не авторизованного пользователя');
         }
 
@@ -627,7 +627,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function updateProfile($data) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка обновить профиль не авторизованного пользователя');
         }
 
@@ -664,7 +664,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function removeProfile($id) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка удалить профиль не авторизованного пользователя');
         }
 
@@ -769,7 +769,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getCountAllOrders() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить кол-во заказов не авторизованного пользователя');
         }
 
@@ -789,7 +789,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getOrder($id) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить заказ не авторизованного пользователя');
         }
 
@@ -838,7 +838,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function repeatOrder($id) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка повторить заказ от не авторизованного пользователя');
         }
 

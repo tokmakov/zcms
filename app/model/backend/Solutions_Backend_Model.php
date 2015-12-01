@@ -261,7 +261,7 @@ class Solutions_Backend_Model extends Backend_Model {
      */
     public function moveCategoryDown($id) {
         $id_item_down = $id;
-        // порядок следования типового решения, которое опускается вниз
+        // порядок следования категории, которое опускается вниз
         $query = "SELECT
                       `sortorder`
                   FROM
@@ -286,7 +286,7 @@ class Solutions_Backend_Model extends Backend_Model {
         if (is_array($res)) {
             $id_item_up = $res['id'];
             $order_up = $res['sortorder'];
-            // меняем местами типовые решения
+            // меняем местами категории
             $query = "UPDATE
                           `solutions_categories`
                       SET

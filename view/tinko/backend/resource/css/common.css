@@ -36,7 +36,7 @@ body {
                 color: #fff;
                 text-decoration: none;
                 display: block;
-                padding: 5px 9px;
+                padding: 5px;
             }
             #menu > ul > li > a:hover {
                 text-decoration: underline;

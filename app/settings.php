@@ -139,6 +139,7 @@ $settings = array(
             'user'      => 'user.css',
             'admin'     => 'admin.css',
             'banner'    => 'banner.css',
+            'sale'      => 'sale.css',
         ),
     ),
     'js' => array( // js-файлы, подключаемые к странице

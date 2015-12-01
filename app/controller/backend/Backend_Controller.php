@@ -59,6 +59,11 @@ abstract class Backend_Controller extends Base_Controller {
     protected $pageBackendModel;
 
     /**
+     * экземпляр класса модели для работы с товарами со скидкой
+     */
+    protected $saleBackendModel;
+
+    /**
      * экземпляр класса модели для работы с типовыми решениями
      */
     protected $solutionsBackendModel;
@@ -123,6 +128,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы со страницами
         $this->pageBackendModel =
             isset($this->register->pageBackendModel) ? $this->register->pageBackendModel : new Page_Backend_Model();
+
+        // экземпляр класса модели для работы с товарами со скидкой
+        $this->saleBackendModel =
+            isset($this->register->saleBackendModel) ? $this->register->saleBackendModel : new Sale_Backend_Model();
 
         // экземпляр класса модели для работы с типовыми решениями
         $this->solutionsBackendModel =
@@ -192,6 +201,10 @@ abstract class Backend_Controller extends Base_Controller {
             array(
                 'name' => 'Фильтр',
                 'url' => $this->catalogBackendModel->getURL('backend/filter/index')
+            ),
+            array(
+                'name' => 'Распродажа',
+                'url' => $this->saleBackendModel->getURL('backend/sale/index')
             ),
             array(
                 'name' => 'Решения',

@@ -356,7 +356,7 @@ defined('ZCMS') or die('Access denied');
             <input type="file" name="image" />
             <?php if (!empty($image)): ?>
                 <input type="checkbox" name="remove_image" value="1" /> удалить
-                <a href="/files/catalog/products/big/<?php echo $image; ?>" class="zoom">фото</a>
+                <a href="<?php echo $image; ?>" class="zoom">фото</a>
             <?php endif; ?>
         </div>
     </div>

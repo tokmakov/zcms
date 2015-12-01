@@ -261,6 +261,10 @@ class Catalog_Backend_Model extends Backend_Model {
                   ORDER BY
                       `a`.`title`";
         $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
+        // файл изображения
+        if ( ! empty($product['image'])) {
+            $product['image'] = $this->config->site->url . 'files/catalog/imgs/big/' . $product['image'];
+        }
 
         return $product;
 
@@ -428,23 +432,21 @@ class Catalog_Backend_Model extends Backend_Model {
                           `sortorder`";
             $result = $this->database->fetchAll($query, array('old_category' => $oldCategory));
             $sortorder = 1;
-            if (count($result) > 0) {
-                foreach ($result as $prd) {
-                    $query = "UPDATE
-                                  `products`
-                              SET
-                                  `sortorder` = :sortorder
-                              WHERE
-                                  `id` = :id";
-                    $this->database->execute(
-                        $query,
-                        array(
-                            'sortorder' => $sortorder,
-                            'id'        => $prd['id']
-                        )
-                    );
-                    $sortorder++;
-                }
+            foreach ($result as $prd) {
+                $query = "UPDATE
+                              `products`
+                          SET
+                              `sortorder` = :sortorder
+                          WHERE
+                              `id` = :id";
+                $this->database->execute(
+                    $query,
+                    array(
+                        'sortorder' => $sortorder,
+                        'id'        => $prd['id']
+                    )
+                );
+                $sortorder++;
             }
         }
         unset($data['category']);

@@ -35,7 +35,7 @@ class Index_Sale_Backend_Controller extends Sale_Backend_Controller {
         );
 
         // получаем от модели массив всех товаров по сниженным ценам
-        $products = $this->saleBackendModel->getAllProducts();
+        $sale = $this->saleBackendModel->getAllProducts();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -43,10 +43,10 @@ class Index_Sale_Backend_Controller extends Sale_Backend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
-            // массив всех товаров
-            'products'    => $products,
+            // массив всех товаров и категорий
+            'sale'        => $sale,
             // URL ссылки на страницу с формой для добавления товара
-            'addNewsUrl'  => $this->saleBackendModel->getURL('backend/sale/addprd'),
+            'addPrdUrl'   => $this->saleBackendModel->getURL('backend/sale/addprd'),
             // URL ссылки на страницу с формой для добавления категории
             'addCtgUrl'   => $this->saleBackendModel->getURL('backend/sale/addctg'),
         );

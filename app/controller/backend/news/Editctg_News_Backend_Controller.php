@@ -1,8 +1,8 @@
 <?php
 /**
  * Класс Editctg_News_Backend_Controller для редактирования категории, формирует
- * страницу с формой для редактирования категории, обновляет запись в таблице БД news_ctgs,
- * работает с моделью News_Backend_Model, административная часть сайта
+ * страницу с формой для редактирования категории, обновляет запись в таблице БД
+ * news_ctgs, работает с моделью News_Backend_Model, административная часть сайта
  */
 class Editctg_News_Backend_Controller extends News_Backend_Controller {
 
