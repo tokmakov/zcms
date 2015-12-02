@@ -74,7 +74,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
-    <div class="center-block">
+    <div class="center-block" id="basket-related">
         <div><h2>С этими товарами покупают</h2></div>
         <div class="no-padding">
             <div class="products-list-grid">

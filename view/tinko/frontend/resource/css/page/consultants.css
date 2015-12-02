@@ -1,0 +1,68 @@
+#consultants {
+
+}
+    #consultants > div {
+        overflow: hidden;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #5390cc;
+    }
+    
+    #consultants > div:last-child {
+        border-bottom: none;
+    }
+        #consultants > div > h2 {
+            margin-bottom: 10px;
+        }
+        #consultants > div > div {
+            float: left;
+            width: 50%;
+            overflow: hidden;
+        }
+        #consultants > div > div:only-child {
+            float: none;
+            width: 100;
+        }
+            #consultants > div > div > img {
+                float: left;
+                border: 1px solid #d1d1d1;
+                padding: 9px;
+            }
+            #consultants > div > div > div {
+                margin-left: 130px;
+            }
+            #consultants > div > div > div > p {
+                margin: 0 0 13px 0;
+            }
+                #consultants > div > div > div > p:first-child > span {
+                    display: block;
+                }
+                #consultants > div > div > div > p:first-child > span:first-child {
+                    font-size: 17px;
+                }
+            #consultants > div > div > div > p:nth-child(2) {
+                font-size: 17px;
+                margin-bottom: 18px;
+            }
+                #consultants > div > div > div > p:nth-child(2) > span {
+                    font-size: 13px;
+                }
+            #consultants > div > div > div > p:last-child {
+                background: #395985;
+                width: 150px;
+                height: 50px;
+                text-align: center;
+                color: #fff;
+                line-height: 50px;
+                border-radius: 5px;
+                margin-bottom: 0;
+                cursor: pointer;
+            }
+
+
+@media screen and (max-width: 720px) {
+    #consultants > div > div {
+        float: none;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}

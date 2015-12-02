@@ -1,0 +1,23 @@
+#about-company-photos {
+    overflow: hidden;
+}
+    #about-company-photos > a {
+        display: block;
+        float: left;
+        width: 49%;
+        margin-bottom: 2%;
+        box-sizing: border-box;
+        border: 1px solid #d1d1d1;
+        padding: 9px;
+        /* background: #fafafa; */
+    }
+    #about-company-photos > a:first-child {
+        float: none;
+        width: 100%;
+    }
+    #about-company-photos > a:nth-child(even) {
+        margin-right: 1%;
+    }
+    #about-company-photos > a:nth-child(odd):not(:first-child) {
+        margin-left: 1%;
+    }

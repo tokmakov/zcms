@@ -106,7 +106,8 @@ fwrite($handle, '</values>');
 fwrite($handle, '</params>');
 
 // все единицы измерения
-fwrite($handle, '<units><unit id="1">руб/шт</unit><unit id="2">руб/компл</unit><unit id="3">руб/упак</unit><unit id="4">руб/метр</unit><unit id="5">руб/пара</unit></units>');
+fwrite($handle, '<units><unit id="1">руб/шт</unit><unit id="2">руб/компл</unit><unit id="3">руб/упак</unit>');
+fwrite($handle, '<unit id="4">руб/метр</unit><unit id="5">руб/пара</unit></units>');
 
 // получаем все товары
 fwrite($handle, '<products>');

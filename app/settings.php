@@ -96,15 +96,18 @@ $settings = array(
             'compared'        => 'compared.css', // для страницы сравнения товаров
             'page-40'         => array( // для страницы «Контакты»
                 'tabs.css',
-                'page/40.css',
+                'page/contacts.css',
                 'fancybox/jquery.fancybox.css',
             ),
-            'page-9'          => array( // для страницы «О компании»
-                'page/9.css',
+            'page-39'          => array( // для страницы «О компании»
+                'page/about.css',
                 'fancybox/jquery.fancybox.css',
             ),
             'page-41'         => array( // для страницы «Доставка»
                 'tabs.css',
+            ),
+            'page-49'         => array( // для страницы «Консультанты»
+                'page/consultants.css',
             ),
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
@@ -166,24 +169,24 @@ $settings = array(
                 'jquery.bxslider.min.js',
                 'slider.js'
             ),
-            'page-40'         => array(
+            'page-40'         => array( // для страницы «Контакты»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
-                'offices-map.js',
+                'page/offices-map.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js'
             ),
-            'page-9'          => array(
+            'page-39'          => array( // для страницы «О компании»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js'
             ),
-            'page-41'          => array(
+            'page-41'          => array( // для страницы «Доставка»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
-                'offices-map-route.js',
-                'delivery-map.js',
+                'page/offices-map-route.js',
+                'page/delivery-map.js',
             ),
 
             /*

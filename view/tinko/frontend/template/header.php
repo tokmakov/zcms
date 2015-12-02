@@ -20,7 +20,10 @@ defined('ZCMS') or die('Access denied');
 
 <div id="top-logo">
     <a href="<?php echo $indexUrl; ?>"></a>
-    <div><span>Торговый Дом</span><span><span>Т</span>ИНКО</span></div>
+    <div>
+        <span>Торговый Дом</span>
+        <strong><span>Т</span>ИНКО</strong>
+    </div>
 </div>
 
 <div id="top-phone">
