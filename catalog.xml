@@ -45,6 +45,13 @@
             <value id="7">-50…+50</value>
         </values>
     </params>
+    <units>
+        <unit id="1">руб/шт</unit>
+        <unit id="2">руб/компл</unit>
+        <unit id="3">руб/упак</unit>
+        <unit id="4">руб/метр</unit>
+        <unit id="5">руб/пара</unit>
+    </units>
     <products>
         <product code="001001" category="2,14" group="1" maker="1" hit="1" new="0" sortorder="1">
             <name>ИО 102-2 (СМК-1)</name>
