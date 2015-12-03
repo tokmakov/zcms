@@ -57,7 +57,7 @@ $(document).ready(function() {
                     if($('#top-search > div > div').is(':empty')) {
                         $('#top-search > div').empty();
                     }
-                },
+                }
             });
         } else {
             $('#top-search > div').empty();
@@ -93,7 +93,6 @@ $(document).ready(function() {
                 $.cookie('show_ctg_childs', 0, {expires: 365, path: '/'});
             }
         });
-
     });
 
     /*
@@ -251,6 +250,14 @@ $(document).ready(function() {
      */
     $('#item-solutions table tr td:nth-child(3) > div').hide();
     $('#item-solutions table tr td:nth-child(3) > span').click(function () {
+        $(this).next().slideToggle();
+    });
+
+    /*
+     * Свернуть/развернуть краткое описание товара с распродажи
+     */
+    $('#sale-products table tr td:nth-child(2) > div').hide();
+    $('#sale-products table tr td:nth-child(2) > span').click(function () {
         $(this).next().slideToggle();
     });
 

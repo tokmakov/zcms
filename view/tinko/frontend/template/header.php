@@ -27,7 +27,9 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <div id="top-phone">
-    <span>+7 (495)</span> 708-42-13<br/><span>+7 (800)</span> 200-84-65
+    <div>Заказ по телефонам</div>
+    <div>+7 (495) <span>708-42-13</span></div>
+    <div>+7 (800) <span>200-84-65</span></div>
 </div>
 
 <div id="top-search">

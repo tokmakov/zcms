@@ -268,7 +268,7 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
         // единица измерения
         $data['unit'] = 0;
-        if (ctype_digit($_POST['unit']) && in_array($_POST['unit'], array(1,2,3,4,5))) {
+        if (ctype_digit($_POST['unit'])) {
             $data['unit'] = (int)$_POST['unit'];
         }
 

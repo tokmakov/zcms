@@ -510,6 +510,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'solutions/ajax-basket/$1',
 
         /*
+         * распродажа
+         */
+        '~^frontend/sale/index$~i' =>
+        'sale',
+
+        /*
          * страницы сайта
          */
         '~^frontend/page/index/id/(\d+)$~i' =>
@@ -1136,6 +1142,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину, XmlHttpRequest
         '~^solutions/ajax-basket/(\d+)$~i' =>
         'frontend/solutions/ajaxbasket/id/$1',
+
+        /*
+         * распродажа
+         */
+        '~^sale$~i' =>
+        'frontend/sale/index$1',
 
         /*
          * страницы сайта

@@ -73,6 +73,11 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $pageFrontendModel;
 
     /**
+     * экземпляр класса модели для работы с товарами по сниженным ценам
+     */
+    protected $salemapFrontendModel;
+
+    /**
      * экземпляр класса модели для работы с картой сайта
      */
     protected $sitemapFrontendModel;
@@ -136,6 +141,10 @@ abstract class Frontend_Controller extends Base_Controller {
         // экземпляр класса модели для работы со страницами сайта
         $this->pageFrontendModel =
             isset($this->register->pageFrontendModel) ? $this->register->pageFrontendModel : new Page_Frontend_Model();
+
+        // экземпляр класса модели для работы со страницами сайта
+        $this->saleFrontendModel =
+            isset($this->register->saleFrontendModel) ? $this->register->saleFrontendModel : new Sale_Frontend_Model();
 
         // экземпляр класса модели для работы с картой сайта
         $this->sitemapFrontendModel =

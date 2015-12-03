@@ -112,6 +112,11 @@ if (isset($savedFormData)) {
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
+
+                <optgroup label="Разное">
+                    <option value="frontend/sitemap/index">Карта сайта</option>
+                    <option value="frontend/sale/index">Распродажа</option>
+                </optgroup>
             </select>
         </div>
     </div>

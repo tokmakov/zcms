@@ -5,6 +5,28 @@
     margin: 0;
     padding: 20px 0;
 }
+#header #top-phone { /*  телефоны в шапке */
+    position: absolute;
+    width: 160px;
+    height: 53px;
+    right: 5px;
+    top: 29px;
+    background: transparent;
+    background-size: 40px;
+}
+    #header #top-phone > div:first-child {
+        display: none;
+    }
+        #header #top-phone > div > span {
+            font-size: 20px;
+        }
+#header #top-menu {
+    display: block;
+}
+#top-search {
+    top: 36px;
+    right: 206px;
+}
 .products-list-line {
     word-spacing: -4px;
 }

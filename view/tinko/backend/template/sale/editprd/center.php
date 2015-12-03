@@ -15,6 +15,8 @@
  * $title - функциональное наименование изделия
  * $description - краткое описание товара
  * $price1, $price2 - цена товара
+ * $unit - единица измерения
+ * $units - все единицы измерения для возможности выбора
  * $count - количество товара
  *
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
@@ -66,6 +68,7 @@ defined('ZCMS') or die('Access denied');
         if (empty($price2)) {
             $price2  = '';
         }
+        $unit        = $savedFormData['unit'];
         $count       = $savedFormData['count'];
     }
 ?>
@@ -88,6 +91,13 @@ defined('ZCMS') or die('Access denied');
         <div>
             <input type="text" name="price1" value="<?php echo $price1; ?>" />
             <input type="text" name="price2" value="<?php echo $price2; ?>" />
+            <?php if (!empty($units)): ?>
+                <select name="unit">
+                    <?php foreach ($units as $key => $value): ?>
+                        <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
             <input type="text" name="count" value="<?php echo $count; ?>" />
         </div>
     </div>

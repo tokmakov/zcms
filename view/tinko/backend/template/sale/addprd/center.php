@@ -8,6 +8,8 @@
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
  * $categories - массив всех категорий
+ * $units - все единицы измерения для возможности выбора
+ *
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках.
@@ -45,6 +47,7 @@ defined('ZCMS') or die('Access denied');
     $description = '';
     $price1      = '';
     $price2      = '';
+    $unit        = 0;
     $count       = 1;
 
     if (isset($savedFormData)) {
@@ -61,6 +64,7 @@ defined('ZCMS') or die('Access denied');
         if (empty($price2)) {
             $price2  = '';
         }
+        $unit        = $savedFormData['unit'];
         $count       = $savedFormData['count'];
     }
 ?>
@@ -83,6 +87,13 @@ defined('ZCMS') or die('Access denied');
         <div>
             <input type="text" name="price1" value="<?php echo $price1; ?>" />
             <input type="text" name="price2" value="<?php echo $price2; ?>" />
+            <?php if (!empty($units)): ?>
+                <select name="unit">
+                    <?php foreach ($units as $key => $value): ?>
+                        <option value="<?php echo $key; ?>"<?php if ($key == $unit) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
             <input type="text" name="count" value="<?php echo $count; ?>" />
         </div>
     </div>

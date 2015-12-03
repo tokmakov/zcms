@@ -53,6 +53,9 @@ class Addprd_Sale_Backend_Controller extends Sale_Backend_Controller {
         // получаем от модели массив всех категорий, для возможности выбора родителя
         $categories = $this->saleBackendModel->getCategories();
 
+        // единицы измерения для возможности выбора
+        $units = $this->catalogBackendModel->getUnits();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -60,9 +63,11 @@ class Addprd_Sale_Backend_Controller extends Sale_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->saleBackendModel->getURL('backend/sale/addprd'),
+            'action'      => $this->saleBackendModel->getURL('backend/sale/addprd'),
             // массив всех категорий, для возможности выбора родителя
             'categories'  => $categories,
+            // все единицы измерения для возможности выбора
+            'units'       => $units,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addSaleProductForm')) {
@@ -103,6 +108,12 @@ class Addprd_Sale_Backend_Controller extends Sale_Backend_Controller {
         $temp = trim($_POST['price2']);
         if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
             $data['price2'] = (float)$temp;
+        }
+
+        // единица измерения
+        $data['unit'] = 0;
+        if (ctype_digit($_POST['unit'])) {
+            $data['unit'] = (int)$_POST['unit'];
         }
 
         // количество

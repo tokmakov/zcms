@@ -94,6 +94,7 @@ $settings = array(
             'solutions-item'  => 'fancybox/jquery.fancybox.css',
             'catalog-product' => 'fancybox/jquery.fancybox.css',
             'compared'        => 'compared.css', // для страницы сравнения товаров
+            'sale'            => 'sale.css', // для страницы «Распродажа»
             'page-40'         => array( // для страницы «Контакты»
                 'tabs.css',
                 'page/contacts.css',

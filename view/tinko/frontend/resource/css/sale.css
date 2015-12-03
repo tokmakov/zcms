@@ -1,0 +1,65 @@
+#sale-products {
+
+}
+    #sale-products > h2 {
+        font-size: 19px;
+        margin: 20px 0 10px 0;
+        color: #395985;
+        font-weight: normal;
+    }
+    #sale-products > table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+        #sale-products > table tr th, #sale-products > table tr td {
+            border: 1px solid #d1d1d1;
+            font-weight: normal;
+            padding: 5px;
+        }
+        #sale-products > table tr th {
+            background: #f0f0f0;
+        }
+        #sale-products > table tr td {
+            vertical-align: top;
+        }
+        #sale-products > table tr th:nth-child(1) {
+            width: 3%;
+        }
+        #sale-products > table tr th:nth-child(2) {
+            width: 62%;
+            text-align: left;
+        }
+        #sale-products > table tr th:nth-child(3) {
+            width: 5%;
+        }
+        #sale-products > table tr th:nth-child(4) {
+            width: 10%;
+        }
+        #sale-products > table tr th:nth-child(5) {
+            width: 10%;
+        }
+        #sale-products > table tr th:nth-child(6) {
+            width: 10%;
+        }
+        #sale-products > table tr td:nth-child(2) > span {
+            color: #395985;
+            border-bottom: 1px dashed #395985;
+            cursor: pointer;
+        }
+        #sale-products > table tr td:nth-child(2) > div {
+            margin-top: 6px;
+        }
+            #sale-products table tr td:nth-child(2) > div > img {
+                float: left;
+            }
+            #sale-products table tr td:nth-child(2) > div > div {
+                margin-left: 65px;
+            }
+                #sale-products table tr td:nth-child(2) > div > div > span {
+                    display: block;
+                }
+                #sale-products table tr td:nth-child(2) > div > div > span:last-child {
+                    margin-top: 5px;
+                    color: #969696;
+                }
+

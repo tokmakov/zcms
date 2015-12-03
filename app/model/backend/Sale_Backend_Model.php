@@ -16,9 +16,10 @@ class Sale_Backend_Model extends Backend_Model {
 
         // получаем все товары и категории
         $query = "SELECT
-                      `b`.`id` AS `id`, `b`.`code` AS `code`, `b`.`name` AS `name`,
-                      `b`.`title` AS `title`, `b`.`count` AS `count`,
-                      `b`.`price1` AS `price1`, `b`.`price2` AS `price2`,
+                      `b`.`id` AS `id`, `b`.`code` AS `code`,
+                      `b`.`name` AS `name`, `b`.`title` AS `title`,
+                      `b`.`count` AS `count`, `b`.`price1` AS `price1`,
+                      `b`.`price2` AS `price2`, `b`.`unit` AS `unit`,
                       `a`.`id` AS `ctg_id`, `a`.`name` AS `ctg_name`,
                       `a`.`sortorder` AS `ctg_sort`, `b`.`sortorder` AS `prd_sort`
                   FROM
@@ -57,6 +58,7 @@ class Sale_Backend_Model extends Backend_Model {
                     'count'   => $value['count'],
                     'price1'  => $value['price1'],
                     'price2'  => $value['price2'],
+                    'unit'    => $value['unit'],
                     'prdup'   => $this->getURL('backend/sale/prdup/id/' . $value['id']),
                     'prddown' => $this->getURL('backend/sale/prddown/id/' . $value['id']),
                     'edit'    => $this->getURL('backend/sale/editprd/id/' . $value['id']),
@@ -78,7 +80,7 @@ class Sale_Backend_Model extends Backend_Model {
     public function getProduct($id) {
         $query = "SELECT
                       `code`, `name`, `title`, `count`, `description`,
-                      `price1`, `price2`, `category`
+                      `price1`, `price2`, `unit`, `category`
                   FROM
                       `sale_products`
                   WHERE
@@ -111,6 +113,7 @@ class Sale_Backend_Model extends Backend_Model {
                       `description`,
                       `price1`,
                       `price2`,
+                      `unit`,
                       `sortorder`
                   )
                   VALUES
@@ -123,6 +126,7 @@ class Sale_Backend_Model extends Backend_Model {
                       :description,
                       :price1,
                       :price2,
+                      :init,
                       :sortorder
                   )";
         $this->database->execute($query, $data);
@@ -205,7 +209,8 @@ class Sale_Backend_Model extends Backend_Model {
                       `count`       = :count,
                       `description` = :description,
                       `price1`      = :price1,
-                      `price2`      = :price2
+                      `price2`      = :price2,
+                      `unit`        = :unit
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
@@ -239,8 +244,8 @@ class Sale_Backend_Model extends Backend_Model {
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
                         'files/sale/' . $id . '.jpg',
-                        50,
-                        50,
+                        60,
+                        0,
                         'jpg'
                     );
                 }

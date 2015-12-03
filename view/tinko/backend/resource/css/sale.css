@@ -28,13 +28,15 @@
             #add-edit-product > div > div:last-child > textarea {
                 height: 200px;
             }
-            #add-edit-product > div:nth-child(3) > div:last-child > input[type="text"] {
+            #add-edit-product > div:nth-child(3) > div:last-child > input[type="text"],
+            #add-edit-product > div:nth-child(3) > div:last-child > select {
                 width: 25%;
                 float: left;
                 margin-right: 10px;
             }
             #add-edit-product > div:nth-child(3) > div:last-child > input[name="count"] {
                 width: 10%;
+                float: right;
                 margin-right: 0;
             }
             #add-edit-product > div:first-child > div:last-child > input:first-child {

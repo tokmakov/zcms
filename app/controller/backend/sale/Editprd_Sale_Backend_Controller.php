@@ -69,6 +69,9 @@ class Editprd_Sale_Backend_Controller extends Sale_Backend_Controller {
         // получаем от модели массив всех категорий, для возможности выбора родителя
         $categories = $this->saleBackendModel->getCategories();
 
+        // единицы измерения для возможности выбора
+        $units = $this->catalogBackendModel->getUnits();
+
         // фото товара
         $image = null;
         if (is_file('files/sale/' . $this->params['id'] . '.jpg')) {
@@ -100,6 +103,10 @@ class Editprd_Sale_Backend_Controller extends Sale_Backend_Controller {
             // цена
             'price1'      => $product['price1'],
             'price2'      => $product['price2'],
+            // единица измерения
+            'unit'        => $product['unit'],
+            // все единицы измерения для возможности выбора
+            'units'       => $units,
             // количество товара
             'count'       => $product['count'],
             // фото товара
@@ -144,6 +151,12 @@ class Editprd_Sale_Backend_Controller extends Sale_Backend_Controller {
         $temp = trim($_POST['price2']);
         if (preg_match('~^\d+(\.\d{1,5})?$~', $temp)) {
             $data['price2'] = (float)$temp;
+        }
+
+        // единица измерения
+        $data['unit'] = 0;
+        if (ctype_digit($_POST['unit'])) {
+            $data['unit'] = (int)$_POST['unit'];
         }
 
         // количество
