@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 define('ZCMS', true);
 
-// обновление каталога
+// идет обновление каталога
 if (is_file('cron/update.txt')) {
     header('HTTP/1.1 503 Service Temporarily Unavailable');
     header('Status: 503 Service Temporarily Unavailable');

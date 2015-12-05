@@ -1,0 +1,88 @@
+/* список всех категорий */
+#all-categories {
+    overflow: hidden;
+}
+    #all-categories ul, #all-categories li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-categories > ul > li > div {
+            padding-left: 0;
+        }
+            #all-categories > ul > li > ul > li > div {
+                padding-left: 25px;
+            }
+        #all-categories li > div {
+            overflow: hidden;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #eee;
+        }
+            #all-categories li > div > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-categories li > div > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+            
+/* форма для добавления/редактирования категории */
+#add-edit-category {
+    overflow: hidden;
+}
+    #add-edit-category > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-category > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-category > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-category > div > div:last-child > input[type="text"],
+            #add-edit-category > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            
+/* форма для добавления/редактирования товара */
+#add-edit-product {
+    overflow: hidden;
+}
+    #add-edit-product > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #eee;
+        border-radius: 10px;
+        padding: 7px 10px;
+    }
+        #add-edit-product > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-product > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-product > div > div:last-child > input[type="text"],
+            #add-edit-product > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            #add-edit-product > div:first-child > div:last-child > input[type="text"] {
+                width: 20%;
+            }
+            #add-edit-product > div:first-child > div:last-child > span {
+                text-decoration: underline;
+                cursor: pointer;
+            }

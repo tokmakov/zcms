@@ -143,7 +143,7 @@ body > .wrapper {
         top: 7px;
         color: #fff;
         text-align: right;
-        background: url(../img/phone.png) 25px 10px no-repeat;
+        background: url(../img/phone.png) 30px 10px no-repeat;
         background-size: 50px;
     }
         #header #top-phone > div > span {
@@ -2583,7 +2583,7 @@ div.attention {
                     }
 
 /* отдельное типовое решение */
-#item-solutions > h2, #item-solutions > h3, #item-solutions > h4 {
+#item-solutions h2, #item-solutions h3 {
     margin: 15px 0;
     color: #395985;
     font-weight: normal;
@@ -2604,14 +2604,11 @@ div.attention {
         #item-solutions > div#image-solution img {
             max-width: 100%;
         }
-    #item-solutions > h2 {
+    #item-solutions h2 {
         font-size: 19px;
     }
-    #item-solutions > h3 {
+    #item-solutions h3 {
         font-size: 16px;
-    }
-    #item-solutions > h4 {
-        font-size: 14px;
     }
     #item-solutions > p {
         margin: 15px 0;
@@ -2625,6 +2622,23 @@ div.attention {
     #item-solutions img {
         max-width: 100%;
     }
+    #item-solutions form { /* добавить в корзину */
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+        #item-solutions form h2 {
+            float: left;
+            margin: 0;
+        }
+        #item-solutions form input[type="submit"] {
+            float: right;
+            background: #395985;
+            border: 1px solid #395985;
+            padding: 4px 15px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
 
     #item-solutions table { /* таблица товаров */
         border-collapse: collapse;
@@ -2677,14 +2691,6 @@ div.attention {
         #item-solutions table tr:last-child td:last-child {
             text-align: right;
         }
-            #item-solutions table tr td form input[type="submit"] {
-                background: #395985;
-                border: 1px solid #395985;
-                padding: 4px 15px;
-                font-size: 14px;
-                color: #fff;
-                cursor: pointer;
-            }
             #item-solutions table tr td strong {
                 color: #395985;
                 font-size: 18px;

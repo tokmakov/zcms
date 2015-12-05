@@ -169,17 +169,12 @@ class FCache {
                             if ($file == '.' || $file == '..') {
                                 continue;
                             }
-                            $size = $size + filesize($dir . '/' . $file);
                             unlink($dir . '/' . $file);
-                            $count++;
                         }
                     }
                 }
             }
         }
-        file_put_contents('count-cache.txt', $count);
-        $size = $size / (1024*1024);
-        file_put_contents('size-cache.txt', $size);
     }
 
     private function __clone() {}

@@ -26,14 +26,14 @@
             width: 3%;
         }
         #sale-products > table tr th:nth-child(2) {
-            width: 62%;
-            text-align: left;
-        }
-        #sale-products > table tr th:nth-child(3) {
             width: 5%;
         }
+        #sale-products > table tr th:nth-child(3) {
+            width: 57%;
+            text-align: left;
+        }
         #sale-products > table tr th:nth-child(4) {
-            width: 10%;
+            width: 5%;
         }
         #sale-products > table tr th:nth-child(5) {
             width: 10%;
@@ -41,24 +41,27 @@
         #sale-products > table tr th:nth-child(6) {
             width: 10%;
         }
-        #sale-products > table tr td:nth-child(2) > span {
+        #sale-products > table tr th:nth-child(7) {
+            width: 10%;
+        }
+        #sale-products > table tr td:nth-child(3) > span {
             color: #395985;
             border-bottom: 1px dashed #395985;
             cursor: pointer;
         }
-        #sale-products > table tr td:nth-child(2) > div {
+        #sale-products > table tr td:nth-child(3) > div {
             margin-top: 6px;
         }
-            #sale-products table tr td:nth-child(2) > div > img {
+            #sale-products table tr td:nth-child(3) > div > img {
                 float: left;
             }
-            #sale-products table tr td:nth-child(2) > div > div {
+            #sale-products table tr td:nth-child(3) > div > div {
                 margin-left: 65px;
             }
-                #sale-products table tr td:nth-child(2) > div > div > span {
+                #sale-products table tr td:nth-child(3) > div > div > span {
                     display: block;
                 }
-                #sale-products table tr td:nth-child(2) > div > div > span:last-child {
+                #sale-products table tr td:nth-child(3) > div > div > span:last-child {
                     margin-top: 5px;
                     color: #969696;
                 }

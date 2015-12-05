@@ -49,7 +49,7 @@ defined('ZCMS') or die('Access denied');
                     <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" size="3" /></td>
                     <td><?php echo number_format($item['user_price'], 2, '.', ''); ?></td>
                     <td><?php echo number_format($item['user_cost'], 2, '.', ''); ?></td>
-                    <td><a href="<?php echo $item['url']['remove']; ?>">Удл.</a></td>
+                    <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a></td>
                 </tr>
             <?php endforeach; ?>
             <?php if ($type > 1): ?>

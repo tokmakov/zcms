@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Prddown_Catalog_Backend_Controller опускает товар вниз в списке,
- * взаимодействует с моделью Catalog_Backend_Model, административная часть
+ * Класс Prddown_Rating_Backend_Controller опускает товар вниз в списке,
+ * взаимодействует с моделью Rating_Backend_Model, административная часть
  * сайта
  */
-class Prddown_Catalog_Backend_Controller extends Catalog_Backend_Controller {
+class Prddown_Rating_Backend_Controller extends Rating_Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -16,20 +16,20 @@ class Prddown_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * получать не надо. Только опустить товар вниз в списке и сделать редирект.
      */
     protected function input() {
-        // идентификатор категории, в которую вернется администратор после
-        // успешного выполнения операции смещения товара вниз и редиректа
+        // идентификатор категории верхнего уровня, в которую вернется администратор
+        // после успешного выполнения операции смещения товара вниз и редиректа
         $return = 0;
         // если передан id товара и id товара целое положительное число
         if (isset($this->params['id']) && ctype_digit($this->params['id'])) {
             $this->params['id'] = (int)$this->params['id'];
-            $this->catalogBackendModel->moveproductDown($this->params['id']);
+            $this->ratingBackendModel->moveproductDown($this->params['id']);
             // идентификатор категории, в которую вернется администратор после редиректа
-            $return = $this->catalogBackendModel->getProductParent($this->params['id']);
+            $return = $this->ratingBackendModel->getProductRootCategory($this->params['id']);
         }
         if ($return) {
-            $this->redirect($this->catalogBackendModel->getURL('backend/catalog/category/id/' . $return));
+            $this->redirect($this->ratingBackendModel->getURL('backend/rating/root/id/' . $return));
         } else {
-            $this->redirect($this->catalogBackendModel->getURL('backend/catalog/index'));
+            $this->redirect($this->ratingBackendModel->getURL('backend/rating/index'));
         }
     }
 }

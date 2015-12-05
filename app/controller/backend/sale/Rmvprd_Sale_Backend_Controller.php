@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Rmvзкв_Ыфду_Backend_Controller отвечает за удаление товара распродажи,
+ * Класс Rmvprd_Sale_Backend_Controller отвечает за удаление товара распродажи,
  * взаимодействует с моделью Sale_Backend_Model, административная часть сайта
  */
 class Rmvprd_Sale_Backend_Controller extends Sale_Backend_Controller {

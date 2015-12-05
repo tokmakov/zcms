@@ -52,7 +52,6 @@ class Sale_Backend_Model extends Backend_Model {
             if ( ! empty($value['id'])) {
                 $products[$counter]['products'][] = array(
                     'number'  => $value['prd_sort'],
-                    'id'      => $value['id'],
                     'name'    => $value['name'],
                     'title'   => $value['title'],
                     'count'   => $value['count'],
@@ -143,7 +142,7 @@ class Sale_Backend_Model extends Backend_Model {
     public function updateProduct($data) {
 
         // порядок сортировки
-        $oldCategory = $category = $this->getProductCategory($data['id']);
+        $oldCategory = $this->getProductCategory($data['id']);
         if ($data['category'] != $oldCategory) { // если товар перемещается в другую категорию
             // в новой категории он будет в конце списка
             $query = "SELECT
@@ -350,7 +349,13 @@ class Sale_Backend_Model extends Backend_Model {
                       `sortorder` DESC
                   LIMIT
                       1";
-        $res = $this->database->fetch($query, array('category' => $category, 'order_up' => $order_up));
+        $res = $this->database->fetch(
+            $query,
+            array(
+                'category' => $category,
+                'order_up' => $order_up
+            )
+        );
         // если запрос вернул false, значит товар и так самый первый
         // в списке, ничего делать не надо
         if (is_array($res)) {

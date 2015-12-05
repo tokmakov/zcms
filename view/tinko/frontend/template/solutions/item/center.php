@@ -55,6 +55,11 @@ defined('ZCMS') or die('Access denied');
             <a href="<?php echo $imgURL; ?>" class="zoom"><img src="<?php echo $imgURL; ?>" alt="" /></a>
         </div>
     <?php endif; ?>
+    
+    <form action="<?php echo $action; ?>" method="post" id="add-solution-basket" data-id="<?php echo $id; ?>">
+        <h2>Комплект оборудования</h2>
+        <input type="submit" name="submit" value="Добавить в корзину" />
+    </form>
 
     <?php if (!empty($products)): ?>
         <table>
@@ -104,12 +109,7 @@ defined('ZCMS') or die('Access denied');
                 <?php $totalCost = $totalCost + $cost; ?>
             <?php endforeach; ?>
             <tr>
-                <td colspan="3">
-                    <form action="<?php echo $action; ?>" method="post" id="add-solution-basket" data-id="<?php echo $id; ?>">
-                        <input type="submit" name="submit" value="Добавить в корзину" />
-                    </form>
-                </td>
-                <td colspan="4">
+                <td colspan="7">
                     <strong><?php echo number_format($totalCost, 2, '.', ''); ?></strong> руб.
                 </td>
             </tr>

@@ -4,7 +4,7 @@ defined('ZCMS') or die('Access denied');
 $settings = array(
     'site' => array(
         'url'   => 'http://www.host2.ru/',
-        'name'   => 'Торговый Дом ТИНКО',
+        'name'  => 'Торговый Дом ТИНКО',
         'phone' => '+7 (495) 708-42-13',
         'email' => 'tinko@tinko.ru',
         'theme' => 'view/tinko', // путь к папке с темой
@@ -144,6 +144,7 @@ $settings = array(
             'admin'     => 'admin.css',
             'banner'    => 'banner.css',
             'sale'      => 'sale.css',
+            'rating'    => 'rating.css',
         ),
     ),
     'js' => array( // js-файлы, подключаемые к странице
@@ -223,6 +224,7 @@ $settings = array(
                 'page.js',
             ),
             'solutions' => 'solutions.js',
+            'rating'    => 'rating.js',
         ),
     ),
     'pager' => array( // постраничная навигация

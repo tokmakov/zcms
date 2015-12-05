@@ -103,6 +103,7 @@ defined('ZCMS') or die('Access denied');
             <table>
             <tr>
                 <th>№</th>
+                <th>Код</th>
                 <th>Наименование</th>
                 <th>Кол.</th>
                 <th>Цена</th>
@@ -112,6 +113,7 @@ defined('ZCMS') or die('Access denied');
             <?php foreach($item['products'] as $product): ?>
                 <tr>
                     <td><?php echo $product['number']; ?></td>
+                    <td><?php echo $product['code']; ?></td>
                     <td>
                         <span><?php echo $product['name']; ?></span>
                         <div>

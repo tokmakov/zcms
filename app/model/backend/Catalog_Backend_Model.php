@@ -103,8 +103,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       `categories`
                   WHERE
                       `id` = :id";
-        $res = $this->database->fetchOne($query, array('id' => $id));
-        return $res;
+        return $this->database->fetchOne($query, array('id' => $id));
     }
 
     /**
@@ -1047,25 +1046,23 @@ class Catalog_Backend_Model extends Backend_Model {
                           `parent` = :oldparent
                       ORDER BY
                           `sortorder`";
-            $result = $this->database->fethAll($query, array('oldparent' => $oldParent));
+            $result = $this->database->fetchAll($query, array('oldparent' => $oldParent));
             $sortorder = 1;
-            if (count($result) > 0) {
-                foreach ($result as $ctg) {
-                    $query = "UPDATE
-                                  `categories`
-                              SET
-                                  `sortorder` = :sortorder
-                              WHERE
-                                  `id` = :id";
-                    $this->database->execute(
-                        $query,
-                        array(
-                            'sortorder' => $sortorder,
-                            'id'        => $ctg['id']
-                        )
-                    );
-                    $sortorder++;
-                }
+            foreach ($result as $ctg) {
+                $query = "UPDATE
+                              `categories`
+                          SET
+                              `sortorder` = :sortorder
+                          WHERE
+                              `id` = :id";
+                $this->database->execute(
+                    $query,
+                    array(
+                        'sortorder' => $sortorder,
+                        'id'        => $ctg['id']
+                    )
+                );
+                $sortorder++;
             }
             // изменяем порядок сортировки категорий
             $this->updateSortOrderAllCategories($oldParent);

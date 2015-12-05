@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Index_Sale_Backend_Controller формирует страницу со списком всех
- * товаров по сниженным ценам, получает данные от модели Sale_Backend_Model
+ * Класс Index_Rating_Backend_Controller формирует страницу со списком категорий
+ * ретинга, получает данные от модели Rating_Backend_Model
  */
-class Index_Sale_Backend_Controller extends Sale_Backend_Controller {
+class Index_Rating_Backend_Controller extends Rating_Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -16,26 +16,26 @@ class Index_Sale_Backend_Controller extends Sale_Backend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Sale_Backend_Controller,
+         * сначала обращаемся к родительскому классу Rating_Backend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех
          * его потомков, потом переопределяем эти переменные (если необходимо)
          * и устанавливаем значения перменных, которые нужны для работы только
-         * Index_Sale_Backend_Controller
+         * Index_Rating_Backend_Controller
          */
         parent::input();
 
-        $this->title = 'Распродажа. ' . $this->title;
+        $this->title = 'Рейтинг. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->saleBackendModel->getURL('backend/index/index')
+                'url'  => $this->ratingBackendModel->getURL('backend/index/index')
             ),
         );
 
-        // получаем от модели массив всех товаров по сниженным ценам
-        $sale = $this->saleBackendModel->getAllProducts();
+        // получаем от модели массив всех категрий
+        $categories = $this->ratingBackendModel->getAllCategories();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -43,12 +43,10 @@ class Index_Sale_Backend_Controller extends Sale_Backend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
-            // массив всех товаров и категорий
-            'sale'        => $sale,
-            // URL ссылки на страницу с формой для добавления товара
-            'addPrdUrl'   => $this->saleBackendModel->getURL('backend/sale/addprd'),
+            // массив всех категорий
+            'categories'   => $categories,
             // URL ссылки на страницу с формой для добавления категории
-            'addCtgUrl'   => $this->saleBackendModel->getURL('backend/sale/addctg'),
+            'addCtgUrl'   => $this->ratingBackendModel->getURL('backend/rating/addctg'),
         );
 
     }

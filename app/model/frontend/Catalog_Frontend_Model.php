@@ -1158,17 +1158,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив всех производителей (если $limit=0); результат
-     * работы кэшируется
+     * Функция возвращает массив всех производителей; результат работы кэшируется
      */
-    public function getAllMakers($limit = 0) {
+    public function getAllMakers() {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->allMakers($limit);
+            return $this->allMakers();
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-limit-' . $limit;
+        $key = __METHOD__;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1178,7 +1177,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив всех производителей (если $limit=0)
+     * Функция возвращает массив всех производителей
      */
     protected function allMakers($limit = 0) {
 
@@ -1197,6 +1196,55 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if ($limit) {
             $query = $query . ' LIMIT ' . $limit;
         }
+        $makers = $this->database->fetchAll($query);
+
+        // добавляем в массив URL ссылок на страницы отдельных производителей
+        foreach($makers as $key => $value) {
+            $makers[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
+        }
+
+        return $makers;
+
+    }
+    
+    /**
+     * Функция возвращает массив 15 производителей; результат работы кэшируется
+     */
+    public function getMakers() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->makers();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Функция возвращает массив 15 производителей
+     */
+    protected function makers() {
+
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
+                  FROM
+                      `makers` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                  WHERE
+                      `b`.`visible` = 1
+                  GROUP BY
+                      `a`.`id`, `a`.`name`
+                  ORDER BY
+                      COUNT(*) DESC, `a`.`name`
+                  LIMIT
+                      15";
         $makers = $this->database->fetchAll($query);
 
         // добавляем в массив URL ссылок на страницы отдельных производителей

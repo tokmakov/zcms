@@ -254,10 +254,10 @@ $(document).ready(function() {
     });
 
     /*
-     * Свернуть/развернуть краткое описание товара с распродажи
+     * Свернуть/развернуть краткое описание товара распродажи
      */
-    $('#sale-products table tr td:nth-child(2) > div').hide();
-    $('#sale-products table tr td:nth-child(2) > span').click(function () {
+    $('#sale-products table tr td:nth-child(3) > div').hide();
+    $('#sale-products table tr td:nth-child(3) > span').click(function () {
         $(this).next().slideToggle();
     });
 

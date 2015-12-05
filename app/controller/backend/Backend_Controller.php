@@ -57,6 +57,11 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы со страницами
      */
     protected $pageBackendModel;
+    
+    /**
+     * экземпляр класса модели для работы со рейтингом продаж
+     */
+    protected $ratingBackendModel;
 
     /**
      * экземпляр класса модели для работы с товарами со скидкой
@@ -128,6 +133,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы со страницами
         $this->pageBackendModel =
             isset($this->register->pageBackendModel) ? $this->register->pageBackendModel : new Page_Backend_Model();
+            
+        // экземпляр класса модели для работы с товарами рейтинга продаж
+        $this->ratingBackendModel =
+            isset($this->register->ratingBackendModel) ? $this->register->ratingBackendModel : new Rating_Backend_Model();
 
         // экземпляр класса модели для работы с товарами со скидкой
         $this->saleBackendModel =

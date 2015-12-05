@@ -68,7 +68,10 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во результатов поиска
         $totalProducts = $this->catalogFrontendModel->getCountSearchResults($this->params['query']);
+        // URL этой страницы
+        $thisPageUrl = $this->catalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
         $temp = new Pager(
+            $thisPageUrl,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во результатов поиска
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -99,8 +102,6 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/search'),
-            // URL этой страницы
-            'thisPageUrl' => $this->catalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query'])),
             // поисковый запрос
             'query'       => $this->params['query'],
             // массив результатов поиска

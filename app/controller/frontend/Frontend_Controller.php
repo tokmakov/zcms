@@ -228,7 +228,7 @@ abstract class Frontend_Controller extends Base_Controller {
         $catalogMenu = $this->catalogFrontendModel->getCatalogMenu();
 
         // список производителей (для левой колонки)
-        $makers = $this->catalogFrontendModel->getAllMakers(15);
+        $makers = $this->catalogFrontendModel->getMakers();
 
         /*
          * массив переменных, которые будут переданы в шаблон left.php
