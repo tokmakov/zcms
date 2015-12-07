@@ -108,7 +108,7 @@ abstract class Frontend_Model extends Base_Model {
             return parent::getURL($url);
         }
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->URL($url);
         }
 
@@ -132,6 +132,15 @@ abstract class Frontend_Model extends Base_Model {
             if (preg_match($key, $url)) {
                 return $this->config->site->url . preg_replace($key, $value, $url);
             }
+        }
+        if (!isset($this->register->pageFrontendModel)) {
+            new Page_Frontend_Model();
+        }
+        $pages = $this->register->pageFrontendModel->getAllPagesSEF();
+        foreach ($pages as $page) {
+            if ($url == 'frontend/page/index/id/' . $page['id']) {
+                return $this->config->site->url . $page['sefurl'];
+            }  
         }
         throw new Exception('Не найдено правило преобразования CAP->SEF для ' . $url);
     }

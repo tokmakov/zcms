@@ -86,7 +86,7 @@ class Editparam_Filter_Backend_Controller extends Filter_Backend_Controller {
 
     /**
      * Функция проверяет корректность введенных администратором данных; если были
-     * допущены ошибки, функция возвращает false; если ошибок нет, функция добавляет
+     * допущены ошибки, функция возвращает false; если ошибок нет, функция обновляет
      * параметр подбора и возвращает true
      */
     protected function validateForm() {
@@ -94,6 +94,7 @@ class Editparam_Filter_Backend_Controller extends Filter_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
+
         // наименование параметра
         $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
 

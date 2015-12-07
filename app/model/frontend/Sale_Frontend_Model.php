@@ -3,16 +3,36 @@
  * Класс Sale_Frontend_Model для работы с товарами по сниженным ценам,
  * взаимодействует с базой данных, общедоступная часть сайта
  */
-class Sale_Frontend_Model extends Backend_Model {
+class Sale_Frontend_Model extends Frontend_Model {
 
     public function __construct() {
         parent::__construct();
+    }
+    
+    /**
+     * Возвращает массив всех товаров по сниженным ценам,
+     * результат работы кэшируется
+     */
+    public function getAllProducts() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->allProducts();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
     }
 
     /**
      * Возвращает массив всех товаров по сниженным ценам
      */
-    public function getAllProducts() {
+    protected function allProducts() {
 
         // получаем все товары и категории
         $query = "SELECT

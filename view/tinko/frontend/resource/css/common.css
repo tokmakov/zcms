@@ -138,16 +138,16 @@ body > .wrapper {
     #header #top-phone { /*  телефоны в шапке */
         position: absolute;
         width: 255px;
-        height: 73px;
+        height: 70px;
         right: 5px;
-        top: 7px;
+        top: 10px;
         color: #fff;
         text-align: right;
-        background: url(../img/phone.png) 30px 10px no-repeat;
-        background-size: 50px;
+        background: url(../img/phone.png) 40px 10px no-repeat;
+        background-size: 47px;
     }
         #header #top-phone > div > span {
-            font-size: 22px;
+            font-size: 20px;
         }
     #top-search { /*  форма поиска в шапке */
         position: absolute;

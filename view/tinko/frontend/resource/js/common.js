@@ -260,6 +260,14 @@ $(document).ready(function() {
     $('#sale-products table tr td:nth-child(3) > span').click(function () {
         $(this).next().slideToggle();
     });
+    
+    /*
+     * Свернуть/развернуть таблицу рейтинга продаж
+     */
+    $('#rating > div > div').hide();
+    $('#rating > div > p > span').click(function () {
+        $(this).parent().next().slideToggle();
+    });
 
     /*
      * Добавление товаров типового решения в корзину, ajax

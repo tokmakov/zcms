@@ -29,6 +29,8 @@ class Root_Rating_Backend_Controller extends Rating_Backend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
             return;
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // получаем от модели информацию о категории верхнего уровня

@@ -69,7 +69,7 @@ class FCache {
         $temp = unserialize(file_get_contents($file));
         $value = $temp[1];
 
-//file_put_contents('get-cache.txt', $key . ' ' . $file . PHP_EOL, FILE_APPEND);
+// file_put_contents('get-cache.txt', $key . ' ' . $file . PHP_EOL, FILE_APPEND);
 
         return $value;
     }

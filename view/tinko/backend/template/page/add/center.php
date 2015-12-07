@@ -39,6 +39,7 @@ defined('ZCMS') or die('Access denied');
 <?php
     $name        = '';
     $title       = '';
+    $sefurl      = '';
     $parent      = 0;
     $keywords    = '';
     $description = '';
@@ -47,6 +48,7 @@ defined('ZCMS') or die('Access denied');
     if (isset($savedFormData)) {
         $name        = htmlspecialchars($savedFormData['name']);
         $title       = htmlspecialchars($savedFormData['title']);
+        $sefurl      = htmlspecialchars($savedFormData['sefurl']);
         $parent      = $savedFormData['parent'];
         $keywords    = htmlspecialchars($savedFormData['keywords']);
         $description = htmlspecialchars($savedFormData['description']);
@@ -63,6 +65,10 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Название страницы (title):</div>
         <div><input type="text" name="title" maxlength="250" value="<?php echo $title; ?>" /></div>
+    </div>
+    <div>
+        <div>ЧПУ (SEF) страницы:</div>
+        <div><input type="text" name="sefurl" maxlength="100" value="<?php echo $sefurl; ?>" /></div>
     </div>
     <div>
         <div>Родитель</div>

@@ -157,7 +157,7 @@ abstract class Base_Controller extends Base {
      * шаблона с подставленными значениями переменных
      */
     protected function render($template, $params = array()) {
-        if (!is_file($template)) {
+        if ( ! is_file($template)) {
             throw new Exception('Не найден файл шаблона ' . $template);
         }
         extract($params);
@@ -318,14 +318,14 @@ abstract class Base_Controller extends Base {
             if (is_object($temp)) { // несколько файлов
                 foreach ($temp as $file) {
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $file;
-                    if (!is_file($fileName)) {
+                    if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
                     }
                     $this->cssFiles[] = $this->config->site->url . $fileName;
                 }
             } else { // один файл
                 $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $temp;
-                if (!is_file($fileName)) {
+                if ( ! is_file($fileName)) {
                     throw new Exception('Файл ' . $fileName . ' не найден');
                 }
                 $this->cssFiles[] = $this->config->site->url . $fileName;
@@ -345,7 +345,7 @@ abstract class Base_Controller extends Base {
                         continue;
                     }
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/js/' . $file;
-                    if (!is_file($fileName)) {
+                    if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
                     }
                     $this->jsFiles[] = $this->config->site->url . $fileName;
@@ -357,7 +357,7 @@ abstract class Base_Controller extends Base {
                     return;
                 }
                 $fileName = $this->config->site->theme . '/' . $backfront . '/resource/js/' . $temp;
-                if (!is_file($fileName)) {
+                if ( ! is_file($fileName)) {
                     throw new Exception('Файл ' . $fileName . ' не найден');
                 }
                 $this->jsFiles[] = $this->config->site->url . $fileName;

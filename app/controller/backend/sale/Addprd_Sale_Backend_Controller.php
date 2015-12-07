@@ -81,7 +81,7 @@ class Addprd_Sale_Backend_Controller extends Sale_Backend_Controller {
 
     /**
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
-     * функция возвращает false; если ошибок нет, функция добавляет категорию и возвращает true
+     * функция возвращает false; если ошибок нет, функция добавляет товар и возвращает true
      */
     protected function validateForm() {
 

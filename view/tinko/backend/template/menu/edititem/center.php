@@ -115,6 +115,12 @@ defined('ZCMS') or die('Access denied');
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
+                
+                <optgroup label="Разное">
+                    <option value="frontend/sale/index">Распродажа</option>
+                    <option value="frontend/rating/index">Рейтинг</option>
+                    <option value="frontend/sitemap/index">Карта сайта</option>
+                </optgroup>
             </select>
         </div>
     </div>

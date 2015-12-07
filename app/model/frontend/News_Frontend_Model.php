@@ -31,7 +31,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает массив всех новостей
      */
-    private function allNews($start = 0) {
+    protected function allNews($start = 0) {
         $query = "SELECT `a`.`id` AS `id`, `a`.`name` AS `name`, `a`.`excerpt` AS `excerpt`,
                          DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
                          DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
@@ -77,7 +77,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает общее количество новостей (во всех категориях)
      */
-    private function countAllNews() {
+    protected function countAllNews() {
         $query = "SELECT COUNT(*) FROM `news` WHERE 1";
         return $this->database->fetchOne($query, array(), $this->enableDataCache);
     }
@@ -105,7 +105,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает массив новостей категории с уникальным идентификатором $id
      */
-    private function categoryNews($id, $start) {
+    protected function categoryNews($id, $start) {
         $query = "SELECT `a`.`id` AS `id`, `a`.`name` AS `name`, `a`.`excerpt` AS `excerpt`,
                          DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
                          DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
@@ -153,7 +153,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает количество новостей в категории с уникальным идентификатором $id
      */
-    private function countCategoryNews($id) {
+    protected function countCategoryNews($id) {
         $query = "SELECT
                       COUNT(*)
                   FROM
@@ -186,7 +186,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает информацию о новости с уникальным идентификатором $id
      */
-    private function newsItem($id) {
+    protected function newsItem($id) {
         $query = "SELECT
                       `a`.`name` AS `name`, `a`.`keywords` AS `keywords`, `a`.`description` AS `description`,
                       `a`.`excerpt` AS `excerpt`, `a`.`body` AS `body`,
@@ -222,7 +222,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает массив всех категорий новостей
      */
-    private function categories() {
+    protected function categories() {
         $query = "SELECT
                       `id`, `name`
                   FROM
@@ -262,7 +262,7 @@ class News_Frontend_Model extends Frontend_Model {
     /**
      * Возвращает информацию о категории с уникальным идентификатором $id
      */
-    public function category($id) {
+    protected function category($id) {
         $query = "SELECT
                       `name`, `description`, `keywords`
                   FROM

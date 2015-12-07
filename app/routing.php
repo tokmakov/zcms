@@ -514,12 +514,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/sale/index$~i' =>
         'sale',
-
+        
         /*
-         * страницы сайта
+         * рейтинг продаж
          */
-        '~^frontend/page/index/id/(\d+)$~i' =>
-        'page/$1',
+        '~^frontend/rating/index$~i' =>
+        'rating',
 
         /*
          * карта сайта
@@ -1148,12 +1148,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^sale$~i' =>
         'frontend/sale/index$1',
-
+        
         /*
-         * страницы сайта
+         * рейтинг продаж
          */
-        '~^page/(\d+)$~i' =>
-        'frontend/page/index/id/$1',
+        '~^rating$~i' =>
+        'frontend/rating/index$1',
 
         /*
          * карта сайта

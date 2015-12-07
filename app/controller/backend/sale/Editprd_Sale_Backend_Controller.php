@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Addprd_Sale_Backend_Controller для редактирования товара со скидкой,
+ * Класс Editprd_Sale_Backend_Controller для редактирования товара со скидкой,
  * формирует страницу с формой для редактирования товара, обновляет запись в
  * таблице БД sale_products, работает с моделью Sale_Backend_Model
  */
@@ -21,7 +21,7 @@ class Editprd_Sale_Backend_Controller extends Sale_Backend_Controller {
          * чтобы установить значения переменных, которые нужны для работы всех
          * его потомков, потом переопределяем эти переменные (если необходимо)
          * и устанавливаем значения перменных, которые нужны для работы только
-         * Addprd_Sale_Backend_Controller
+         * Editprd_Sale_Backend_Controller
          */
         parent::input();
 

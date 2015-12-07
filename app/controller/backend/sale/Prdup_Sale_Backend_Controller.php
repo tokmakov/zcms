@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Prdup_Sale_Backend_Controller поднимает товар вверх в списке,
- * взаимодействует с моделью Ыфду_Backend_Model, административная
+ * взаимодействует с моделью Sale_Backend_Model, административная
  * часть сайта
  */
 class Prdup_Sale_Backend_Controller extends Sale_Backend_Controller {

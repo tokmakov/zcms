@@ -141,4 +141,39 @@ class Page_Frontend_Model extends Frontend_Model {
         $tree = $this->makeTree($pages);
         return $tree;
     }
+    
+    /**
+     * Функция возвращает массив SEF URL всех страниц сайта;
+     * результат работы кэшируется
+     */
+    public function getAllPagesSEF() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->allPagesSEF();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Функция возвращает массив SEF URL всех страниц сайта
+     */
+    protected function allPagesSEF() {
+        // получаем все страницы
+        $query = "SELECT
+                      `id`, `sefurl`
+                  FROM
+                      `pages`
+                  WHERE
+                      1";
+        return $this->database->fetchAll($query);
+    }
+
 }

@@ -6,11 +6,6 @@
 abstract class Base {
 
     /**
-     * для хранения экземпляра класса базы данных Database
-     */
-    protected $database;
-
-    /**
      * для хранения всех объектов приложения, экземпляр класса Register
      */
     protected $register;
@@ -19,6 +14,11 @@ abstract class Base {
      * настройки приложения, экземпляр класса Config
      */
     protected $config;
+    
+    /**
+     * для хранения экземпляра класса базы данных Database
+     */
+    protected $database;
 
     /**
      * административная часть сайта?
@@ -57,6 +57,16 @@ abstract class Base {
      * Функция возвращает true, если данные пришли методом POST
      */
     protected function isPostMethod() {
+        /*
+         * Условие if не имеет отношения к обычной работе приложения, когда формируется
+         * страница сайта по запросу от браузера. Настройка $this->config->cache->make
+         * установлена в конфигурации, когда приложение запущено из командной строки для
+         * формирования кэша. См. комментарии в начале конструктора класса Router в файле
+         * app/include/Router.php и исходный код файла cache/make-cache.php.
+         */
+        if (isset($this->config->cache->make)) {
+            return false;
+        }
         return $_SERVER['REQUEST_METHOD'] == 'POST';
     }
 

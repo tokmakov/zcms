@@ -14,7 +14,7 @@ class Page_Backend_Model extends Backend_Model {
      */
     public function getPage($id) {
         $query = "SELECT
-                      `name`, `title`, `description`, `keywords`, `parent`, `body`
+                      `sefurl`, `name`, `title`, `description`, `keywords`, `parent`, `body`
                   FROM
                       `pages`
                   WHERE
@@ -88,6 +88,7 @@ class Page_Backend_Model extends Backend_Model {
 
         $query = "INSERT INTO `pages`
                     (
+                        `sefurl`,
                         `name`,
                         `title`,
                         `description`,
@@ -98,6 +99,7 @@ class Page_Backend_Model extends Backend_Model {
                     )
                     VALUES
                     (
+                        :sefurl,
                         :name,
                         :title,
                         :description,
@@ -129,13 +131,8 @@ class Page_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `pages`
                       SET
-                          `name` = :name,
-                          `title` = :title,
-                          `description` = :description,
-                          `keywords` = :keywords,
-                          `parent` = :parent,
-                          `body` = :body,
-                          `sortorder` = :sortorder
+                          `parent`      = :parent,
+                          `sortorder`   = :sortorder
                       WHERE
                           `id` = :id";
             $this->database->execute($query, $data);
@@ -150,29 +147,28 @@ class Page_Backend_Model extends Backend_Model {
                       ORDER BY
                           `sortorder`";
             $childs = $this->database->fetchAll($query, array('parent' => $oldParent));
-            if (count($childs) > 0) {
-                $sortorder = 1;
-                foreach ($childs as $child) {
-                    $query = "UPDATE
-                                  `pages`
-                              SET
-                                  `sortorder` = :sortorder
-                              WHERE
-                                  `id` = :id";
-                    $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
-                    $sortorder++;
-                }
+            $sortorder = 1;
+            foreach ($childs as $child) {
+                $query = "UPDATE
+                              `pages`
+                          SET
+                              `sortorder` = :sortorder
+                          WHERE
+                              `id` = :id";
+                $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
+                $sortorder++;
             }
         } else {
             unset($data['parent']);
             $query = "UPDATE
                           `pages`
                       SET
-                          `name` = :name,
-                          `title` = :title,
+                          `sefurl`      = :sefurl,
+                          `name`        = :name,
+                          `title`       = :title,
                           `description` = :description,
-                          `keywords` = :keywords,
-                          `body` = :body
+                          `keywords`    = :keywords,
+                          `body`        = :body
                       WHERE
                           `id` = :id";
             $this->database->execute($query, $data);

@@ -72,6 +72,7 @@ class MCache {
         if ('{%b:f%}' === $value) {
             return false;
         }
+// file_put_contents('get-cache.txt', $key . ' ' . $md5key . '.txt' . PHP_EOL, FILE_APPEND);
         return $value;
     }
 

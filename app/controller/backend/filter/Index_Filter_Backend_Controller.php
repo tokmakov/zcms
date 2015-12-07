@@ -51,7 +51,7 @@ class Index_Filter_Backend_Controller extends Filter_Backend_Controller {
             // хлебные крошки
             'breadcrumbs'   => $breadcrumbs,
             // URL сводной страницы фильтра товаров
-            'filterPageUrl'   => $this->filterBackendModel->getURL('backend/filter/index'),
+            'filterPageUrl' => $this->filterBackendModel->getURL('backend/filter/index'),
             // URL страницы со списком всех функциональных групп
             'groupsPageUrl' => $this->filterBackendModel->getURL('backend/filter/allgroups'),
             // URL страницы со списком всех параметров подбора

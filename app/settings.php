@@ -49,8 +49,8 @@ $settings = array(
     ),
     'cache' => array(
         'enable' => array(
-            'data' => false, // кэширование данных разрешено?
-            'html' => false, // кэширование шаблонов разрешено?
+            'data' => true, // кэширование данных разрешено?
+            'html' => true, // кэширование шаблонов разрешено?
         ),
         'file'   => array( // кэширование с использованием файлов
             'time' => 7200, // время храниения кэша в секундах
@@ -94,6 +94,7 @@ $settings = array(
             'solutions-item'  => 'fancybox/jquery.fancybox.css',
             'catalog-product' => 'fancybox/jquery.fancybox.css',
             'compared'        => 'compared.css', // для страницы сравнения товаров
+            'rating'          => 'rating.css', // для страницы «Рейтинг»
             'sale'            => 'sale.css', // для страницы «Распродажа»
             'page-40'         => array( // для страницы «Контакты»
                 'tabs.css',

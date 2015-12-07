@@ -81,7 +81,6 @@ class Cache {
      * настройках приложения (см. файл app/settings.php)
      */
     public function setValue($key, $value, $time = 0) {
-        file_put_contents('set-cache.txt', $key . PHP_EOL, FILE_APPEND);
         if ($this->enableMemCache) { // если доступен кэш в оперативной памяти
             // записываем данные в оперативную память
             $this->instanceMemCache->setValue($key, $value, $time);

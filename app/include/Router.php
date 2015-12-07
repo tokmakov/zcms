@@ -30,11 +30,27 @@ class Router {
      * массив параметров, которые будут переданы контроллеру
      */
     private $params = array();
-
+    
     /**
      * идет работа с админкой?
      */
     private $backend = false;
+    
+    /**
+     * для хранения всех объектов приложения, экземпляр класса Register
+     */
+    protected $register;
+
+    /**
+     * настройки приложения, экземпляр класса Config
+     */
+    protected $config;
+    
+    /**
+     * для хранения экземпляра класса базы данных Database
+     */
+    protected $database;
+
 
     /**
      * Функция возвращает ссылку на экземпляр данного класса,
@@ -52,6 +68,13 @@ class Router {
      * проектирования «Одиночка».
      */
     private function __construct($class, $params) {
+        
+        // все объекты приложения, экземпляр класса Register
+        $this->register = Register::getInstance();
+        // настройки приложения, экземпляр класса Config
+        $this->config = Config::getInstance();
+        // экземпляр класса базы данных
+        $this->database = Database::getInstance();
 
         /*
          * Этот код не имеет отношения к обычной работе приложения, когда роутер
@@ -123,9 +146,9 @@ class Router {
             $this->backend = true;
         }
         // включена поддержка SEF (ЧПУ)?
-        if ( (!$this->backend) && Config::getInstance()->sef->enable) {
-            $path = $this->getCapUrl($path);
-            if (is_null($path)) {
+        if ( (!$this->backend) && $this->config->sef->enable) {
+            $path = $this->getURL($path);
+            if (false === $path) {
                 $this->controller = 'notfound';
                 $frontback = ($this->backend) ? 'Backend' : 'Frontend';
                 $this->controllerClassName = 'Notfound_' . $frontback . '_Controller';
@@ -247,25 +270,86 @@ class Router {
         $this->controllerClassName = 'Notfound_'.$frontback.'_Controller';
         $this->params = array();
     }
+    
+    private function getURL($path) {
+        // если не включено кэширование данных
+        if ( ! $this->config->cache->enable->data) {
+            return $this->URL($path);
+        }
 
-    private function getCapUrl($path) {
-        $sef2cap = Config::getInstance()->sef->sef2cap;
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-' . $path;
+
+        /*
+         * данные сохранены в кэше?
+         */
+        if ($this->register->cache->isExists($key)) {
+            // получаем данные из кэша
+            return $this->register->cache->getValue($key);
+        }
+
+        /*
+         * данных в кэше нет, но другой процесс поставил блокировку и в этот
+         * момент получает данные отRender::URL(), чтобы записать их в кэш,
+         * нам надо их только получить из кэша после снятия блокировки
+         */
+        if ($this->register->cache->isLocked($key)) {
+            try {
+                // получаем данные из кэша
+                return $this->register->cache->getValue($key);
+            } catch (Exception $e) {
+                /*
+                 * другой процесс поставил блокировку, попытался получить данные от
+                 * Render::URL() и записать их в кэш; если по каким-то причинам это
+                 * не получилось сделать, мы здесь будем пытаться читать из кэша
+                 * значение, которого не существует или оно устарело
+                 */
+                throw $e;
+            }
+        }
+
+        /*
+         * данных в кэше нет, блокировка не стоит, значит:
+         * 1. ставим блокировку
+         * 2. получаем данные
+         * 3. записываем данные в кэш
+         * 4. снимаем блокировку
+         */
+        $this->register->cache->lockValue($key);
+        try {
+            $result = $this->URL($path);
+            $this->register->cache->setValue($key, $result);
+        } finally {
+            $this->register->cache->unlockValue($key);
+        }
+        // возвращаем результат
+        return $result;
+    }
+
+    private function URL($path) {
+        $sef2cap = $this->config->sef->sef2cap;
         foreach($sef2cap as $key => $value) {
             if (preg_match($key, $path)) {
                 return preg_replace($key, $value, $path);
             }
         }
-        /*
-        // если это страница, у нее свой SEF URL (ЧПУ), которого нет в массиве $config->sef->sef2cap
-        $model = new Page_Frontend_Model();
-        $pages = $model->getAllPages();
-        foreach($pages as $page) {
-            if (preg_match()) {
-                return preg_replace();
-            }
+        // получаем все страницы
+        if ( ! preg_match('#^[a-z][-_0-9a-z]#i', $path)) {
+            return false;
         }
-        */
-        return null;
+        $query = "SELECT
+                      `id`, `sefurl`
+                  FROM
+                      `pages`
+                  WHERE
+                      1";
+        $pages = $this->database->fetchAll($query);
+        foreach ($pages as $page) {
+            if ($path === $page['sefurl']) {
+                return 'frontend/page/index/id/' . $page['id'];
+            }  
+        }
+        return false;
     }
 
     public function destroy() {

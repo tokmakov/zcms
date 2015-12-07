@@ -1,7 +1,8 @@
 <?php
 /**
  * Главная страница каталога, список категорий верхнего уровня,
- * файл view/example/frontend/template/catalog/index/center.php
+ * файл view/example/frontend/template/catalog/index/center.php,
+ * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки

@@ -42,7 +42,7 @@ class Editvalue_Filter_Backend_Controller extends Filter_Backend_Controller {
             }
         }
 
-        $this->title = 'Редактирование параметра. ' . $this->title;
+        $this->title = 'Редактирование значения параметра. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
@@ -86,14 +86,15 @@ class Editvalue_Filter_Backend_Controller extends Filter_Backend_Controller {
 
     /**
      * Функция проверяет корректность введенных администратором данных; если были
-     * допущены ошибки, функция возвращает false; если ошибок нет, функция добавляет
-     * функциональную группу и возвращает true
+     * допущены ошибки, функция возвращает false; если ошибок нет, функция обновляет
+     * значение параметра и возвращает true
      */
     protected function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
          */
+
         // наименование параметра
         $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
 

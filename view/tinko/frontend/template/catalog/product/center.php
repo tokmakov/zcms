@@ -173,7 +173,7 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div class="product-item-social">
             <a href="http://vkontakte.ru/share.php?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="ВКонтакте" class="fa fa-vk"></a>
-            <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&amp;st._surl=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Одноклассники" class="fa fa-odnoklassniki"></a>
+            <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Одноклассники" class="fa fa-odnoklassniki"></a>
             <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Facebook" class="fa fa-facebook"></a>
             <a href="http://twitter.com/share?text=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Twitter" class="fa fa-twitter"></a>
             <a href="https://plus.google.com/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Google+" class="fa fa-google-plus"></a>

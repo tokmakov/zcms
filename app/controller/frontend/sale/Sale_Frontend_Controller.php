@@ -23,6 +23,8 @@ class Sale_Frontend_Controller extends Frontend_Controller {
          * Sale_Frontend_Controller
          */
         parent::input();
+        
+        $this->title = 'Распродажа. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(

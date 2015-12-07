@@ -93,6 +93,8 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
             'name'        => $page['name'],
             // содержание тега title
             'title'       => $page['title'],
+            // ЧПУ (SEF) страницы
+            'sefurl'      => $page['sefurl'],
             // мета-тег keywords
             'keywords'    => $page['keywords'],
             // мета-тег description
@@ -123,9 +125,10 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250)); // заголовок h1
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250)); // meta-тег title
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // meta-тег keywords
+        $data['sefurl']      = trim(utf8_substr($_POST['sefurl'], 0, 100));      // ЧПУ (SEF) страницы
+        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));        // заголовок h1
+        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));       // meta-тег title
+        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));    // meta-тег keywords
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // meta-тег description
         $data['description'] = str_replace('"', '', $data['description']);
@@ -143,6 +146,11 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
         }
         if (empty($data['title'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Название страницы»';
+        }
+        if (empty($data['sefurl'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «ЧПУ (SEF) страницы»';
+        } elseif ( ! preg_match('#^[a-z][-_0-9a-z]#i', $data['sefurl'])) {
+            $errorMessage[] = 'Поле «ЧПУ (SEF) страницы» содержит недопустимые символы';
         }
         if (empty($data['body'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Содержание страницы»';

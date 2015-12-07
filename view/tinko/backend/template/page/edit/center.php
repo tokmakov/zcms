@@ -10,6 +10,7 @@
  * $id - уникальный идентификатор страницы
  * $name - заголовок страницы
  * $title - название страницы
+ * $sefurl - ЧПУ (SEF) страницы
  * $pages - список всех страниц (для возможности выбора родителя)
  * $parent - id родительской страницы
  * $keywords - содержимое мета-тега keywords
@@ -46,6 +47,7 @@ defined('ZCMS') or die('Access denied');
 <?php
     $name        = htmlspecialchars($name);
     $title       = htmlspecialchars($title);
+    $sefurl      = htmlspecialchars($sefurl);
     $parent      = $parent;
     $keywords    = htmlspecialchars($keywords);
     $description = htmlspecialchars($description);
@@ -54,6 +56,7 @@ defined('ZCMS') or die('Access denied');
     if (isset($savedFormData)) {
         $name        = htmlspecialchars($savedFormData['name']);
         $title       = htmlspecialchars($savedFormData['title']);
+        $sefurl      = htmlspecialchars($savedFormData['sefurl']);
         $parent      = $savedFormData['parent'];
         $keywords    = htmlspecialchars($savedFormData['keywords']);
         $description = htmlspecialchars($savedFormData['description']);
@@ -70,6 +73,10 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Название страницы (title):</div>
         <div><input type="text" name="title" maxlength="250" value="<?php echo $title; ?>" /></div>
+    </div>
+    <div>
+        <div>ЧПУ (SEF) страницы:</div>
+        <div><input type="text" name="sefurl" maxlength="100" value="<?php echo $sefurl; ?>" /></div>
     </div>
     <div>
         <div>Родитель</div>

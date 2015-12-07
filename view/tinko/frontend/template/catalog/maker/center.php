@@ -85,17 +85,46 @@
  * )
  *
  * $pager = Array (
- *     [first] => 1
- *     [prev] => 2
- *     [current] => 3
- *     [next] => 4
- *     [last] => 5
- *     [left] => Array (
- *         [0] => 2
+ *   [first] => Array (
+ *     [num] => 1
+ *     [url] => http://www.host.ru/catalog/maker/384
+ *   )
+ *   [prev] => Array (
+ *     [num] => 2
+ *     [url] => http://www.host.ru/catalog/maker/384/page/2
+ *   )
+ *   [current] => Array (
+ *     [num] => 3
+ *     [url] => http://www.host.ru/catalog/maker/384/page/3
+ *   )
+ *   [last] => Array (
+ *     [num] => 37
+ *     [url] => http://www.host.ru/catalog/maker/384/page/37
+ *   )
+ *   [next] => Array (
+ *     [num] => 4
+ *     [url] => http://www.host.ru/catalog/maker/384/page/4
+ *   )
+ *   [left] => Array (
+ *     [0] => Array (
+ *       [num] => 1
+ *       [url] => http://www.host.ru/catalog/maker/384
  *     )
- *     [right] => Array (
- *         [0] => 4
+ *     [1] => Array (
+ *       [num] => 2
+ *       [url] => http://www.host.ru/catalog/maker/384/page/2
  *     )
+ *   )
+ *   [right] => Array (
+ *     [0] => Array (
+ *       [num] => 4
+ *       [url] => http://www.host.ru/catalog/maker/384/page/4
+ *     )
+ *     [1] => Array (
+ *       [num] => 5
+ *       [url] => http://www.host.ru/catalog/maker/384/page/5
+ *     )
+ *   )
  * )
  *
  */

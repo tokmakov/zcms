@@ -1,0 +1,54 @@
+#rating {
+
+}
+    #rating > h2 {
+        font-size: 19px;
+        margin-top: 20px;
+        color: #395985;
+        font-weight: normal;
+    }
+    #rating > div {
+        margin-left: 20px;
+    }
+        #rating > div > p {
+            margin: 7px 0 6px 0;
+        }
+            #rating > div > p > span {
+                color: #395985;
+                border-bottom: 1px dashed #395985;
+                cursor: pointer;
+            }
+        #rating table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+            #rating table tr th, #rating table tr td {
+                border: 1px solid #d1d1d1;
+                font-weight: normal;
+                padding: 5px;
+            }
+            #rating table tr th {
+                background: #f0f0f0;
+            }
+            #rating table tr td {
+                vertical-align: top;
+            }
+            #rating table th:nth-child(1) {
+                width: 5%;
+            }
+            #rating table th:nth-child(2) {
+                width: 7%;
+            }
+            #rating table th:nth-child(3) {
+                width: 88%;
+                text-align: left;
+            }
+            #rating table td:nth-child(1) {
+                text-align: center;
+            }
+            #rating table td:nth-child(2) {
+                text-align: center;
+            }
+                #rating table td:nth-child(3) span {
+                    color: #395985;
+                }

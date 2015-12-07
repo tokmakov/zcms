@@ -31,7 +31,12 @@ $register->config->cache->make = true;
 $register->cache = Cache::getInstance();
 // база данных
 $register->database = Database::getInstance();
-/*
+
+// очищаем кэш
+$register->cache->clearCache();
+die();
+
+// все страницы сайта
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";
 $pages = $register->database->fetchAll($query);
 foreach($pages as $page) {
@@ -54,9 +59,9 @@ foreach($pages as $page) {
     unset($register->router);
     unset($register->pageFrontendController);
 }
-*/
 
-$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 10";
+// все товары каталога
+$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 300";
 $products = $register->database->fetchAll($query, array());
 foreach($products as $product) {
     // экземпляр класса роутера
@@ -78,8 +83,9 @@ foreach($products as $product) {
     unset($register->router);
     unset($register->productCatalogFrontendController);
 }
-/*
-$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id`";
+
+// все категории каталога
+$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id` LIMIT 300";
 $categories = $register->database->fetchAll($query, array());
 foreach($categories as $category) {
     // экземпляр класса роутера
@@ -102,7 +108,8 @@ foreach($categories as $category) {
     unset($register->categoryCatalogFrontendController);
 }
 
-$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id`";
+// все производители каталога
+$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id` LIMIT 300";
 $makers = $register->database->fetchAll($query, array());
 foreach($makers as $maker) {
     // экземпляр класса роутера
@@ -125,6 +132,7 @@ foreach($makers as $maker) {
     unset($register->makerCatalogFrontendController);
 }
 
+// поиск по каталогу
 $router = Router::getInstance('Index_Frontend_Controller');
 $register->router = $router;
 $catalogFrontendModel = isset($register->catalogFrontendModel) ? $register->catalogFrontendModel : new Catalog_Frontend_Model();
@@ -153,8 +161,8 @@ foreach($queries as $query) {
 $query = "SELECT LEFT(`name`, 5) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
 $queries = $register->database->fetchAll($query, array());
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
+    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`name`, 6) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
@@ -201,4 +209,3 @@ foreach($queries as $query) {
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
-*/
