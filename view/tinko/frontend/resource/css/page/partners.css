@@ -1,0 +1,19 @@
+#partners {
+    overflow: hidden;
+}
+    #partners > a {
+        display: block;
+        width: 23%;
+        float: left;
+        box-sizing: border-box;
+        margin-right: 2.5%;
+        margin-bottom: 2.5%;
+    }
+    #partners > a:nth-child(4n) {
+        margin-right: 0;
+    }
+        #partners > a > img {
+            border: 1px solid #d1d1d1;
+            padding: 9px;
+            box-sizing: border-box;
+        }

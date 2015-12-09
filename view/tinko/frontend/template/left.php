@@ -202,7 +202,7 @@ defined('ZCMS') or die('Access denied');
 <div>
     <div class="side-heading">Производители</div>
     <div class="side-content">
-        <div id="makers-list-right">
+        <div id="side-makers">
             <ul>
             <?php foreach ($makers as $item): ?>
                 <li>

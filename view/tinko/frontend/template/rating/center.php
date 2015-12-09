@@ -145,7 +145,7 @@ defined('ZCMS') or die('Access denied');
                                         <?php echo $product['code']; ?>
                                     <?php endif; ?>
                                 </td>
-                                <td><span><?php echo $product['name']; ?></span> <?php echo $product['title']; ?></td>
+                                <td><?php echo $product['name']; ?> <span><?php echo $product['title']; ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                         </table>

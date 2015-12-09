@@ -125,7 +125,7 @@ class Sale_Backend_Model extends Backend_Model {
                       :description,
                       :price1,
                       :price2,
-                      :init,
+                      :unit,
                       :sortorder
                   )";
         $this->database->execute($query, $data);

@@ -26,7 +26,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция добавляет товар в список отложенных
      */
-    public function addToWished($productId) {
+    public function addToWished($product_id) {
 
         // такой товар уже есть в списке отложенных?
         $query = "SELECT
@@ -37,7 +37,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
                       `visitor_id` = :visitor_id AND `product_id` = :product_id";
         $data = array(
             'visitor_id' => $this->visitorId,
-            'product_id' => $productId,
+            'product_id' => $product_id,
         );
         $res = $this->database->fetchOne($query, $data);
         if (false === $res) { // если товар еще нет в списке отложенных, добавляем его
@@ -72,6 +72,24 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
+     * Функция комментарий к товару в списке отложенных
+     */
+    public function addComment($product_id, $comment) {
+        $query = "UPDATE
+                      `wished`
+                  SET
+                      `comment` = :comment
+                  WHERE
+                      `visitor_id` = :visitor_id AND `product_id` = :product_id";
+        $data = array(
+            'comment'    => $comment,
+            'visitor_id' => $this->visitorId,
+            'product_id' => $product_id,
+        );
+        $this->database->execute($query, $data);
+    }
+
+    /**
      * Функция возвращает массив товаров, отложенных пользователем;
      * для центральной колонки, полный вариант
      */
@@ -89,6 +107,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
                       `a`.`image` AS `image`,
                       `a`.`hit` AS `hit`,
                       `a`.`new` AS `new`,
+                      `b`.`comment` AS `comment`,
                       `c`.`id` AS `ctg_id`,
                       `c`.`name` AS `ctg_name`,
                       `d`.`id` AS `mkr_id`,

@@ -11,7 +11,7 @@
         margin-left: 20px;
     }
         #rating > div > p {
-            margin: 7px 0 6px 0;
+            margin: 10px 0 6px 0;
         }
             #rating > div > p > span {
                 color: #395985;
@@ -50,5 +50,5 @@
                 text-align: center;
             }
                 #rating table td:nth-child(3) span {
-                    color: #395985;
+                    color: #969696;
                 }

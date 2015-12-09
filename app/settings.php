@@ -49,8 +49,8 @@ $settings = array(
     ),
     'cache' => array(
         'enable' => array(
-            'data' => true, // кэширование данных разрешено?
-            'html' => true, // кэширование шаблонов разрешено?
+            'data' => false, // кэширование данных разрешено?
+            'html' => false, // кэширование шаблонов разрешено?
         ),
         'file'   => array( // кэширование с использованием файлов
             'time' => 7200, // время храниения кэша в секундах
@@ -110,6 +110,10 @@ $settings = array(
             ),
             'page-49'         => array( // для страницы «Консультанты»
                 'page/consultants.css',
+            ),
+            'page-51'         => array( // для страницы «Партнеры»
+                'page/partners.css',
+                'fancybox/jquery.fancybox.css',
             ),
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
@@ -172,6 +176,7 @@ $settings = array(
                 'jquery.bxslider.min.js',
                 'slider.js'
             ),
+            'wished'          => 'wished.js',
             'page-40'         => array( // для страницы «Контакты»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
@@ -190,6 +195,11 @@ $settings = array(
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
                 'page/offices-map-route.js',
                 'page/delivery-map.js',
+            ),
+            'page-51'          => array( // для страницы «Партнеры»
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js'
             ),
 
             /*

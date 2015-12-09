@@ -9,7 +9,6 @@
         box-sizing: border-box;
         border: 1px solid #d1d1d1;
         padding: 9px;
-        /* background: #fafafa; */
     }
     #about-company-photos > a:first-child {
         float: none;

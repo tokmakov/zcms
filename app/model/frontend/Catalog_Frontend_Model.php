@@ -259,7 +259,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `a`.`new` = 1";
             }
             if ( ! empty($param)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($param);
+                $ids = $this->getProductsByParam($group, $param);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
                     $childCategories[$key]['count'] = $this->database->fetchOne($query);
@@ -408,7 +408,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $tmp = $tmp . " AND `a`.`new` = 1";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($param);
+            $ids = $this->getProductsByParam($group, $param);
             if (empty($ids)) {
                 return array();
             }
@@ -521,7 +521,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`new` = 1";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($param);
+            $ids = $this->getProductsByParam($group, $param);
             if (empty($ids)) {
                 return 0;
             }
@@ -609,7 +609,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `b`.`new` = 1";
             }
             if ( ! empty($param)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($param);
+                $ids = $this->getProductsByParam($group, $param);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
                     $makers[$key]['count'] = $this->database->fetchOne($query);
@@ -804,7 +804,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 unset($temp[$value['param_id']]);
             }
             if ( ! empty($temp)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($temp);
+                $ids = $this->getProductsByParam($group, $temp);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne($query);
@@ -894,7 +894,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`new` = 1";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($param);
+            $ids = $this->getProductsByParam($group, $param);
             if (empty($ids)) {
                 return 0;
             }
@@ -959,7 +959,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`new` = 1";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($param);
+            $ids = $this->getProductsByParam($group, $param);
             if (empty($ids)) {
                 return 0;
             }
@@ -971,9 +971,14 @@ class Catalog_Frontend_Model extends Frontend_Model {
 
     /**
      * Вспомогательная функция, возвращает массив идентификаторов товаров,
-     * которые подходят под параметры подбора
+     * которые входят в функциональную группу $group и  подходят под параметры
+     * подбора $param
      */
-    private function getProductsByParam($param = array()) {
+    private function getProductsByParam($group = 0, $param = array()) {
+
+        if (empty($group)) {
+            return array();
+        }
 
         if (empty($param)) {
             return array();
@@ -982,37 +987,40 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $ids = array();
         foreach ($param as $key => $value) {
             $query = "SELECT
-                          `product_id`
+                          `a`.`id` AS `id`
                       FROM
-                          `product_param_value`
+                          `products` `a` INNER JOIN `product_param_value` `b`
+                          ON `a`.`id` = `b`.`product_id`
                       WHERE
-                          `param_id` = :param_id AND `value_id` = :value_id";
-            $res = $this->database->fetchAll(
+                          `a`.`group` = :group
+                          AND `b`.`param_id` = :param_id AND `b`.`value_id` = :value_id";
+            $result = $this->database->fetchAll(
                 $query,
                 array(
+                    'group'    => $group,
                     'param_id' => $key,
                     'value_id' => $value
                 ), $this->enableDataCache
             );
-            $r = array();
-            foreach($res as $item) {
-                $r[] = $item['product_id'];
+            $res = array();
+            foreach($result as $item) {
+                $res[] = $item['id'];
             }
-            $ids[] = $r;
+            $ids[] = $res;
         }
         $count = count($ids);
-        if ($count == 0) {
+        if (0 == $count) {
             return array();
         }
-        $result = $ids[0];
+        $products = $ids[0];
         for ($i = 1; $i < $count; $i++) {
-            $result = array_intersect($result, $ids[$i]);
+            $products = array_intersect($products, $ids[$i]);
         }
-        if (count($result) == 0) {
+        if (count($products) == 0) {
             return array();
         }
 
-        return $result;
+        return $products;
 
     }
 
@@ -1196,11 +1204,11 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех производителей; результат работы кэшируется
      */
-    public function getAllMakers() {
+    public function getAllMakers($limit = 0) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->allMakers();
+            return $this->allMakers($limit);
         }
 
         // уникальный ключ доступа к кэшу
@@ -1217,7 +1225,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех производителей
      */
-    protected function allMakers() {
+    protected function allMakers($limit) {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
@@ -1231,6 +1239,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`id`, `a`.`name`
                   ORDER BY
                       `a`.`name`";
+        if ($limit) {
+            $query = $query . " LIMIT " . $limit;
+        }
         $makers = $this->database->fetchAll($query);
 
         // добавляем в массив URL ссылок на страницы отдельных производителей

@@ -396,9 +396,11 @@ body > .wrapper {
             background: #f0f0f0;
         }
         #left > div div.side-content, #right > div div.side-content {
-            padding: 15px;
             border-top: 1px solid #d1d1d1;
             /* background: #fafafa; */
+        }
+        #right > div div.side-content {
+            padding: 15px;
         }
 
 /*
@@ -629,6 +631,9 @@ div.attention {
     .center-block > div {
         padding: 15px;
         overflow: hidden;
+    }
+    .center-block > div.no-padding {
+        padding: 0;
     }
     .center-block > div:first-child {
         background: #f0f0f0;
@@ -993,6 +998,37 @@ div.attention {
             font-size: 14px;
             color: #969696;
         }
+
+        /* комментарий для отложенных товаров */
+        .products-list-line > div > .product-line-comment {
+            clear: left;
+            padding-top: 10px;
+        }
+            .products-list-line > div > .product-line-comment > div:first-child {
+                overflow: hidden;
+                margin-bottom: 3px;
+            }
+                .products-list-line > div > .product-line-comment > div:first-child > span:first-child {
+                    float: left;
+                }
+                .products-list-line > div > .product-line-comment > div:first-child > span:last-child {
+                    float: right;
+                    color: #395985;
+                    font-size: 13px;
+                    border-bottom: 1px dashed #395985;
+                    cursor: pointer;
+                }
+                .products-list-line > div > .product-line-comment > div:last-child > textarea {
+                    width: 100%;
+                    box-sizing: border-box;
+                    border: 1px solid #d1d1d1;
+                    height: 50px;
+                    padding: 4px;
+                    outline: none;
+                    font-size: 13px;
+                    line-height: 13px;
+                    background: #fafafa;
+                }
 
         /* технические характеристики для страницы сравнения товаров */
         .products-list-line > div > .product-line-techdata {
@@ -1659,6 +1695,7 @@ div.attention {
 /* список всех производителей */
 #all-makers {
     overflow: hidden;
+    margin: 15px 0
 }
     #all-makers > ul {
         margin: 0;
@@ -1707,7 +1744,7 @@ div.attention {
 
     #all-makers > p {
         clear: both;
-        padding-top: 15px 0;
+        padding: 15px 0 0 15px;
     }
         #all-makers > p > a {
             display: block;
@@ -2990,35 +3027,36 @@ div.attention {
                 }
 
 
-/* список производителей */
-#makers-list-right {
+/* список производителей в правой колонке */
+#side-makers {
     overflow: hidden;
 }
-    #makers-list-right  > ul {
-        margin: 0;
+    #side-makers > ul {
+        margin: 15px 0 0 0;
         padding: 0;
         list-style: none;
     }
-    #makers-list-right > ul > li {
+    #side-makers > ul > li {
         padding-right: 25px;
         border-bottom: 1px dashed #d1d1d1;
         position: relative;
         overflow: hidden;
     }
-    #makers-list-right > ul > li:first-child {
+    #side-makers > ul > li:first-child {
         border-top: 1px dashed #d1d1d1;
     }
-    #makers-list-right > ul > li > span {
+    #side-makers > ul > li > span {
         display: block;
     }
-    #makers-list-right > ul > li > span > a {
+    #side-makers > ul > li > span > a {
         display: block;
         font-size: 13px;
         line-height: 25px;
         height: 25px;
         white-space: nowrap;
+        padding-left: 5px;
     }
-    #makers-list-right > ul > li > span > span {
+    #side-makers > ul > li > span > span {
         display: block;
         position: absolute;
         font-size: 13px;
@@ -3032,34 +3070,19 @@ div.attention {
         color: #5390cc;
     }
 
-    #makers-list-right > p {
-        margin-top: 15px;
+    #side-makers > p {
+        margin: 15px;
     }
-        #makers-list-right > p > a {
+        #side-makers > p > a {
             display: block;
             text-align: center;
             background: #395985;
             color: #fff;
             padding: 6px 0;
         }
-        #makers-list-right  > p > a:hover {
+        #side-makers > p > a:hover {
             text-decoration: none;
         }
-
-/* ссылка на страницу со списком всех производителей */
-#goto-all-makers {
-    margin-top: 15px;
-}
-    #goto-all-makers a {
-        display: block;
-        text-align: center;
-        background: #395985;
-        color: #fff;
-        padding: 6px 0;
-    }
-    #goto-all-makers a:hover {
-        text-decoration: none;
-    }
 
 /*
  * ПРАВАЯ КОЛОНКА
@@ -3264,6 +3287,8 @@ div.attention {
 }
     #right .side-heading > span {
         cursor: pointer;
+        font-size: 16px;
+        line-height: 16px;
     }
         #right .side-heading > span > span {
             font-size: 16px;
@@ -3493,6 +3518,9 @@ div.attention {
     #category-childs > div:last-child > ul:first-child > li:last-child {
         border-bottom: 1px dashed #d1d1d1;
     }
+    #category-childs > div:last-child > ul:last-child > li.category-last-child-border {
+        border-bottom: none;
+    }
     #category-childs > div:last-child > ul:only-child > li:last-child {
         border-bottom: none;
     }
@@ -3583,7 +3611,7 @@ div.attention {
         border-right: none;
     }
     #all-makers > ul:first-child > li:last-child {
-        border-bottom: 1px dashed #d1d1d1;
+        border-bottom: none;
     }
     /* список товаров категории */
     .products-list-line > div > .product-line-basket > form:first-child {

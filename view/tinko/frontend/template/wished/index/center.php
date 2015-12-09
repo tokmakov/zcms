@@ -153,6 +153,15 @@ defined('ZCMS') or die('Access denied');
                 </form>
             </div>
             <div class="product-line-descr"><?php echo $product['shortdescr']; ?></div>
+            <div class="product-line-comment">
+                <div>
+                    <span>Комментарий</span>
+                    <span>Сохранить</span>
+                </div>
+                <div>
+                    <textarea name="comment" data-id="<?php echo $product['id']; ?>" placeholder="Ваш комментарий, чтобы не забыть..."><?php echo htmlspecialchars($product['comment']); ?></textarea>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
     </div>

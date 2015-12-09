@@ -435,7 +435,7 @@ function addBasketHandler() {
                                 });
                             });
                     }
-            );
+                );
         },
         success: function() {},
         error: function() {
