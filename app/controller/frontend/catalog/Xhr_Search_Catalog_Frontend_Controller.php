@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Ajaxsearch_Catalog_Frontend_Controller формирует ответ на запрос
+ * Класс Xhr_Search_Catalog_Frontend_Controller формирует ответ на запрос
  * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
  * общедоступная часть сайта. Ответ содержит результаты поиска по каталогу товаров
  */
-class Ajaxsearch_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
+class Xhr_Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * результаты поиска по каталогу товаров в формате HTML
@@ -13,10 +13,6 @@ class Ajaxsearch_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
 
     public function __construct($params = null) {
-        if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         if ( ! $this->isPostMethod()) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
@@ -31,7 +27,7 @@ class Ajaxsearch_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // формируем HTML результатов поиска
         $this->output = $this->render(
-            $this->config->site->theme . '/frontend/template/catalog/ajax/search.php',
+            $this->config->site->theme . '/frontend/template/catalog/xhr/search.php',
             array(
                 'results' => $results,
             )

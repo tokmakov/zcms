@@ -5,26 +5,31 @@
 abstract class Base_Controller extends Base {
 
     /**
-     * Переменная равна true, если работает контроллер Notfound_Frontend_Controller
-     * или Notfound_Backend_Controller. Это происходит:
+     * Переменная равна true, если работает контроллер Index_Notfound_Frontend_Controller
+     * или Index_Notfound_Backend_Controller. Это происходит:
      * 1. Если роутер, анализируя строку $_SERVER['REQUEST_URI'], не смог найти класс
      *    контроллера, который должен формировать страницу.
      * 2. Роутер нашел класс контроллера, но контроллеру были переданы некорректные
      *    параметры. В этом случае контроллер устанавливает значение переменной
      *    $this->notFoundRecord = true и завершает работу (см. метод request()).
-     *    Вместо него начинает работать контроллер Notfound_Frontend_Controller или
-     *    Notfound_Backend_Controller (см. файл index.php).
+     *    Вместо него начинает работать контроллер Index_Notfound_Frontend_Controller или
+     *    Index_Notfound_Backend_Controller (см. файл index.php).
      */
     protected $notFound = false;
 
     /**
      * Переменная равна true, если какому-либо контроллеру, например
-     * Page_Frontend_Controller, были переданы некорректные параметры. Пример:
-     * frontend/page/id/12345, но страницы с уникальным id=12345 нет в таблице
-     * pages базы данных. Это возможно, если страница (новость, товар) была
-     * удалена или пользователь ошибся при вводе URL страницы.
+     * Index_Page_Frontend_Controller, были переданы некорректные параметры. Пример:
+     * frontend/page/index/id/12345, но страницы с уникальным id=12345 нет в таблице
+     * pages базы данных. Это возможно, если страница (новость, товар) была удалена
+     * или пользователь ошибся при вводе URL страницы.
      */
     protected $notFoundRecord = false;
+    
+    /**
+     * запрос с использованием XmlHttpRequest?
+     */
+    protected $xhr = false;
 
     /**
      *  параметры, передаваемые контроллеру
@@ -77,6 +82,10 @@ abstract class Base_Controller extends Base {
         parent::__construct();
         // параметры, передававаемые контроллеру
         $this->params = $params;
+        // запрос с использованием XmlHttpRequest?
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            $this->xhr = true;
+        }
     }
 
     /**
@@ -84,8 +93,15 @@ abstract class Base_Controller extends Base {
      * необходимые для формирования страницы
      */
     protected function input() {
-        // задать пути к файлам шаблонов и пути к подключаемым css и js файлам
-        $this->setCssJsTemplateFiles();
+        /*
+         * задать пути к файлам шаблонов и пути к подключаемым css и js файлам;
+         * если запрос с использованием XmlHttpRequest, пути к файлам шаблонов
+         * задавать не нужно и css, js файлы подключать не надо, потому как
+         * страница не будет формироваться
+         */
+        if ( ! $this->xhr) {
+            $this->setCssJsTemplateFiles();
+        }
     }
 
     /**
@@ -207,22 +223,10 @@ abstract class Base_Controller extends Base {
 
         /*
          * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е.
-         * те файлы, которые есть на всех страницах сайта. Дальше, в зависимости от
-         * имени контроллера. Тут возможны два варианта:
-         * 1. Существует абстрактный класс Catalog_Frontend_Controller, у которого есть
-         *    несколько дочерних классов: Product_Catalog_Frontend_Controller,
-         *    Category_Catalog_Frontend_Controller, Maker_Catalog_Frontend_Controller и
-         *    т.п.
-         * 2. Существует не абстрактный класс Page_Frontend_Controller. Это частный
-         *    случай первого варианта. Потому как правильно было бы так: абстрактный
-         *    класс Page_Frontend_Controller и его единственный дочерний класс
-         *    Index_Page_Frontend_Controller. Но допускается создание не абстрактного
-         *    класса Page_Frontend_Controller, у которого не будет дочернего класса
-         *    Index_Page_Frontend_Controller.
-         * Сначала подключаются файлы, заданные для абстрактного класса
-         * Catalog_Frontend_Controller или не абстрактного класса Page_Frontend_Controller.
-         * Потом, если у абстрактного класса есть дочерний класс, подключаются файлы,
-         * заданные для этого дочернего класса.
+         * те файлы, которые есть на всех страницах сайта. Дальше подключаются файлы,
+         * заданные для родительского класса, например для абстрактного класса
+         * Catalog_Frontend_Controller. Наконец, подключаются файлы, заданные для
+         * этого класса, например, Product_Catalog_Frontend_Controller
          *
          * Пример подключения CSS-файлов (см. файл app/settings.php):
          * 'css' => array(                         // CSS файлы, подключаемые к странице
@@ -247,7 +251,7 @@ abstract class Base_Controller extends Base {
 
         // задать базовые css и js файлы, которые подключаются всегда (ко всем страницам сайта)
         $this->setCssJsFiles('base');
-        // задать css и js файлы, которые подключаются для (абстактного) родительского класса,
+        // задать css и js файлы, которые подключаются для абстактного родительского класса,
         // а точнее, для всех потомков суперкласса; это случай Catalog_Frontend_Controller или
         // Page_Frontend_Controller
         $this->setCssJsFiles($controller);

@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Viewed_Frontend_Controller формирует страницу со списком всех
- * просмотренных посетителем товаров, получает данные от модели
- * Viewed_Frontend_Model, общедоступная часть сайта
+ * Класс Index_Viewed_Frontend_Controller формирует страницу со списком всех просмотренных
+ * посетителем товаров, получает данные от модели Viewed_Frontend_Model, общедоступная часть
+ * сайта
  */
-class Viewed_Frontend_Controller extends Frontend_Controller {
+class Index_Viewed_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

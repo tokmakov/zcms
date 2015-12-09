@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Ajaxmenu_Catalog_Frontend_Controller формирует ответ на запрос
+ * Класс Xhr_Menu_Catalog_Frontend_Controller формирует ответ на запрос
  * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
  * общедоступная часть сайта. Ответ содержит дочерние категории для элемента меню.
  */
-class Ajaxmenu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
+class Xhr_Menu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * дочерние категории для элемента меню в формате HTML
@@ -13,10 +13,6 @@ class Ajaxmenu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
 
     public function __construct($params = null) {
-        if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         if ( ! $this->isPostMethod()) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
@@ -39,7 +35,7 @@ class Ajaxmenu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // формируем HTML
         $this->output = $this->render(
-            $this->config->site->theme . '/frontend/template/catalog/ajax/menu.php',
+            $this->config->site->theme . '/frontend/template/catalog/xhr/menu.php',
             array(
                 'childs' => $childs,
             )

@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('#add-edit-product #load-by-code').click(function() {
         var code = $('#add-edit-product input[name="code"]').val();
         if (code.match(/^\d{6}$/)) {
-            $.get('/backend/rating/ajax/code/' + code, function(data) { // получаем данные о товаре по коду
+            $.get('/backend/rating/getprd/code/' + code, function(data) { // получаем данные о товаре по коду
                 if (data.name === undefined) {
                     return;
                 }

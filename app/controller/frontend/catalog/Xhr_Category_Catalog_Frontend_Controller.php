@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Ajaxfilter_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
+ * Класс Xhr_Category_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
  * в формате JSON, получает данные от модели Catalog_Frontend_Model, общедоступная
  * часть сайта. Ответ содержит результат фильтрации товаров выбранной категории
  */
-class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
+class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * результат фильтрации товаров в формате JSON
@@ -13,10 +13,6 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
 
     public function __construct($params = null) {
-        if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         if ( ! $this->isPostMethod()) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
@@ -27,11 +23,11 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
     public function request() {
 
         // если не передан id категории или id категории не число
-        if ( ! (isset($this->params['category']) && ctype_digit($this->params['category'])) ) {
+        if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
         } else {
-            $this->params['category'] = (int)$this->params['category'];
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         // обрабатываем данные формы: фильтр по функционалу, производителю, лидерам продаж,
@@ -40,7 +36,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели массив дочерних категорий
         $childs = $this->catalogFrontendModel->getChildCategories(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -51,7 +47,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели массив функциональных групп
         $groups = $this->catalogFrontendModel->getCategoryGroups(
-            $this->params['category'],
+            $this->params['id'],
             $maker,
             $hit,
             $new
@@ -59,7 +55,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели массив производителей
         $makers = $this->catalogFrontendModel->getCategoryMakers(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $hit,
             $new,
@@ -68,7 +64,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели массив параметров подбора
         $params = $this->catalogFrontendModel->getGroupParams(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -78,7 +74,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели количество лидеров продаж
         $countHit = $this->catalogFrontendModel->getCountHit(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -88,7 +84,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели количество новинок
         $countNew = $this->catalogFrontendModel->getCountNew(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -100,7 +96,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
          * постраничная навигация
          */
         $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts( // общее кол-во товаров
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -109,7 +105,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
         );
         // URL этой страницы
         $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -131,7 +127,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // получаем от модели массив товаров категории
         $products = $this->catalogFrontendModel->getCategoryProducts(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -145,7 +141,7 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // ссылки для сортировки товаров по цене, наменованию, коду
         $sortorders = $this->catalogFrontendModel->getCategorySortOrders(
-            $this->params['category'],
+            $this->params['id'],
             $group,
             $maker,
             $hit,
@@ -155,9 +151,9 @@ class Ajaxfilter_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
         // формируем HTML результатов фильтрации товаров
         $output = $this->render(
-            $this->config->site->theme . '/frontend/template/catalog/ajax/filter.php',
+            $this->config->site->theme . '/frontend/template/catalog/xhr/filter.php',
             array(
-                'id'          => $this->params['category'], // id категории
+                'id'          => $this->params['id'],       // id категории
                 'childs'      => $childs,                   // массив дочерних категорий
                 'group'       => $group,                    // id выбранной функциональной группы или ноль
                 'maker'       => $maker,                    // id выбранного производителя или ноль

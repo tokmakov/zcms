@@ -316,32 +316,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^frontend/catalog/search/query/([a-z0-9%_.-]+)/page/(\d+)$~i' =>
         'catalog/search/query/$1/page/$2',
 
-        // поиск по каталогу, XmlHttpRequest
-        '~^frontend/catalog/ajaxsearch$~i' =>
-        'catalog/ajax-search',
-
         // подгрузка меню каталога, XmlHttpRequest
-        '~^frontend/catalog/ajaxmenu$~i' =>
-        'catalog/ajax-menu',
-
-        // фильтр для выбранной категории, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)$~i' =>
-        'catalog/ajax-filter/category/$1',
-        // фильтр для выбранной категории, сортировка, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)/sort/(\d)$~i' =>
-        'catalog/ajax-filter/category/$1/sort/$2',
-        // фильтр для выбранной категории, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)/group/(\d+)$~i' =>
-        'catalog/ajax-filter/category/$1/group/$2',
-        // фильтр для выбранной категории, сортировка, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)/group/(\d+)/sort/(\d)$~i' =>
-        'catalog/ajax-filter/category/$1/group/$2/sort/$3',
-        // фильтр для выбранной категории, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)/maker/(\d+)$~i' =>
-        'catalog/ajax-filter/category/$1/maker/$2',
-        // фильтр для выбранной категории, сортировка, XmlHttpRequest
-        '~^frontend/catalog/ajaxfilter/category/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
-        'catalog/ajax-filter/category/$1/maker/$2/sort/$3',
+        '~^frontend/catalog/menu$~i' =>
+        'catalog/menu',
 
         /*
          * просмотренные товары
@@ -368,13 +345,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка отложенных
         '~^frontend/wished/rmvprd$~i' =>
         'wished/rmvprd',
-        // добавить товар в список отложенных, XmlHttpRequest
-        '~^frontend/wished/ajax/action/addprd$~i' =>
-        'wished/ajax/addprd/',
-        // удалить товар из списка отложенных, XmlHttpRequest
-        '~^frontend/wished/ajax/action/rmvprd$~i' =>
-        'wished/ajax/rmvprd',
-        // добавить комментарий к товару из списка отложенных, XmlHttpRequest
+        // добавить комментарий к товару из списка отложенных
         '~^frontend/wished/comment$~i' =>
         'wished/ajax/comment',
 
@@ -393,12 +364,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка сравнения
         '~^frontend/compared/rmvprd$~i' =>
         'compared/rmvprd',
-        // добавить товар в список сравнения, XmlHttpRequest
-        '~^frontend/compared/ajax/action/addprd$~i' =>
-        'compared/ajax/addprd',
-        // удалить товар из списка сравнения, XmlHttpRequest
-        '~^frontend/compared/ajax/action/rmvprd$~i' =>
-        'compared/ajax/rmvprd',
 
         /*
          * корзина
@@ -412,12 +377,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из корзины
         '~^frontend/basket/rmvprd/id/(\d+)$~i' =>
         'basket/rmvprd/$1',
-        // оформление заказ
+        // оформление заказа
         '~^frontend/basket/checkout$~i' =>
         'basket/checkout',
-        // добавить товар в корзину, XmlHttpRequest
-        '~^frontend/basket/ajax/action/addprd$~i' =>
-        'basket/ajax/addprd',
 
         /*
          * пользователи
@@ -464,9 +426,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // повторить заказ
         '~^frontend/user/repeat/id/(\d+)$~i' =>
         'user/repeat/$1',
-        // получение профиля, XmlHttpRequest
-        '~^frontend/user/ajax/id/(\d+)$~i' =>
-        'user/ajax/profile/$1',
+        // получение профиля для страницы оформления заказа
+        '~^frontend/user/profile/id/(\d+)$~i' =>
+        'user/profile/$1',
 
         /*
          * новости
@@ -508,9 +470,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^frontend/solutions/basket/id/(\d+)$~i' =>
         'solutions/basket/$1',
-        // добавление товаров типового решения в корзину, XmlHttpRequest
-        '~^frontend/solutions/ajaxbasket/id/(\d+)$~i' =>
-        'solutions/ajax-basket/$1',
 
         /*
          * распродажа
@@ -953,32 +912,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^catalog/search/query/([a-z0-9%_.-]+)/page/(\d+)$~i' =>
         'frontend/catalog/search/query/$1/page/$2',
 
-        // поиск по каталогу, XmlHttpRequest
-        '~^catalog/ajax-search$~i' =>
-        'frontend/catalog/ajaxsearch',
-
         // подгрузка меню каталога, XmlHttpRequest
-        '~^catalog/ajax-menu$~i' =>
-        'frontend/catalog/ajaxmenu',
-
-        // категория каталога, фильтр для выбранной категории, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1',
-        // категория каталога, фильтр для выбранной категории, сортировка, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)/sort/(\d)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1/sort/$2',
-        // категория каталога, фильтр по функционалу, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)/group/(\d+)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1/group/$2',
-        // категория каталога, фильтр по функционалу, сортировка, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)/group/(\d+)/sort/(\d)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1/group/$2/sort/$3',
-        // категория каталога, фильтр по производителю, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)/maker/(\d+)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1/maker/$2',
-        // категория каталога, фильтр по производителю, сортировка, XmlHttpRequest
-        '~^catalog/ajax-filter/category/(\d+)/maker/(\d+)/sort/(\d)$~i' =>
-        'frontend/catalog/ajaxfilter/category/$1/maker/$2/sort/$3',
+        '~^catalog/menu$~i' =>
+        'frontend/catalog/menu',
 
         /*
          * просмотренные товары
@@ -1005,12 +941,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка отложенных
         '~^wished/rmvprd$~i' =>
         'frontend/wished/rmvprd',
-        // добавить товар в список отложенных, XmlHttpRequest
-        '~^wished/ajax/addprd$~i' =>
-        'frontend/wished/ajax/action/addprd',
-        // удалить товар из списка отложенных, XmlHttpRequest
-        '~^wished/ajax/rmvprd$~i' =>
-        'frontend/wished/ajax/action/rmvprd',
         // добавить комментарий к товару из списка отложенных, XmlHttpRequest
         '~^wished/ajax/comment$~i' =>
         'frontend/wished/comment',
@@ -1030,12 +960,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка сравнения
         '~^compared/rmvprd$~i' =>
         'frontend/compared/rmvprd',
-        // добавить товар в список сравнения, XmlHttpRequest
-        '~^compared/ajax/addprd$~i' =>
-        'frontend/compared/ajax/action/addprd',
-        // удалить товар из списка сравнения, XmlHttpRequest
-        '~^compared/ajax/rmvprd$~i' =>
-        'frontend/compared/ajax/action/rmvprd',
 
         /*
          * корзина
@@ -1052,9 +976,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // оформление заказа
         '~^basket/checkout$~i' =>
         'frontend/basket/checkout',
-        // добавить товар в корзину, XmlHttpRequest
-        '~^basket/ajax/addprd$~i' =>
-        'frontend/basket/ajax/action/addprd',
 
         /*
          * пользователи
@@ -1101,9 +1022,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // повторить заказ
         '~^user/repeat/(\d+)$~i' =>
         'frontend/user/repeat/id/$1',
-        // получение профиля, XmlHttpRequest
-        '~^user/ajax/profile/(\d+)$~i' =>
-        'frontend/user/ajax/id/$1',
+        // получение профиля для страницы оформления заказа
+        '~^user/profile/(\d+)$~i' =>
+        'frontend/user/profile/id/$1',
 
         /*
          * новости
@@ -1145,9 +1066,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^solutions/basket/(\d+)$~i' =>
         'frontend/solutions/basket/id/$1',
-        // добавление товаров типового решения в корзину, XmlHttpRequest
-        '~^solutions/ajax-basket/(\d+)$~i' =>
-        'frontend/solutions/ajaxbasket/id/$1',
 
         /*
          * распродажа

@@ -1,0 +1,23 @@
+/* карта сайта */
+#sitemap > h2 {
+    margin: 15px 0;
+    color: #395985;
+    font-weight: normal;
+    font-size: 19px;
+}
+#sitemap > ul {
+    margin: 15px 0 15px 20px;
+    list-style-type: square;
+}
+    #sitemap ul li {
+        padding: 2px 0;
+    }
+    #sitemap > ul > li > ul {
+        margin-left: 20px;
+        list-style-type: circle;
+    }
+    #sitemap > ul > li > ul > li > ul {
+        margin-left: 20px;
+        list-style-type: disc;
+    }
+

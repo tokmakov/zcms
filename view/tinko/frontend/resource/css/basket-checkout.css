@@ -1,0 +1,162 @@
+/* форма для оформления заказа */
+#checkout-order {
+
+}
+    #checkout-order .legal_person_help, #checkout-order .make_profile_help {
+        background: #395985;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: bold;
+        padding: 0 4px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 14px;
+    }
+    #checkout-order > div {
+        margin: 20px 0;
+    }
+    #checkout-order input[type="checkbox"] {
+        position: relative;
+        top: 3px;
+        border: 1px solid #d1d1d1;
+    }
+    #checkout-order select[name="office"] {
+        font-size: 14px;
+        line-height: 14px;
+        box-sizing: border-box;
+        padding: 2px;
+        border: 1px solid #d1d1d1;
+        margin-left: 29px;
+    }
+    #checkout-order label {
+        white-space: nowrap;
+    }
+        #checkout-order label span {
+            display: inline-block;
+            cursor: pointer;
+            border-bottom: 1px dashed #323232;
+            margin: 0 7px 0 5px;
+        }
+    #checkout-order > #payer-order, #checkout-order > #buyer-order { /* рамка для блоков Получатель и Плательщик */
+        position: relative;
+        background: #fafafa;
+        border: 1px solid #d1d1d1;
+        padding: 15px;
+        margin-top: 45px;
+    }
+        #checkout-order > #payer-order > h2, #checkout-order > #buyer-order > h2 { /* заголовки для блоков Получатель и Плательщик */
+            position: absolute;
+            margin: 0;
+            left: 20px;
+            top: -27px;
+            color: #333;
+            background: #fafafa;
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: bold;
+            padding: 5px 20px;
+            border: 1px solid #d1d1d1;
+            border-bottom: 1px solid #fafafa;
+        }
+        #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile { /* выбор профиля для Получателя и Плательщика */
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f0f0f0;
+        }
+        #checkout-order .make-profile, #checkout-order .make-profile { /* создать профиль */
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #d1d1d1;
+        }
+        #checkout-order > #payer-order > #payer-legal-person,
+        #checkout-order > #buyer-order > #buyer-legal-person,
+        #checkout-order > #payer-order > #payer-physical-person,
+        #checkout-order > #buyer-order > #buyer-physical-person,
+        #checkout-order > #buyer-order > #buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
+            position: relative;
+            background: #fff;
+            border: 1px solid #d1d1d1;
+            padding: 20px 10px 10px 10px;
+            margin-top: 20px;
+        }
+        #checkout-order > #buyer-order > #buyer-shipping {
+            height: 25px;
+            margin-top: 14px;
+            line-height: 25px;
+        }
+            #checkout-order > #buyer-order > #buyer-shipping > label {
+                vertical-align: top;
+                height: 25px;
+            }
+            #checkout-order > #buyer-order > #buyer-shipping > label > span {
+                line-height: normal;
+            }
+
+            #checkout-order > #payer-order > #payer-legal-person > h3,
+            #checkout-order > #buyer-order > #buyer-legal-person > h3,
+            #checkout-order > #payer-order > #payer-physical-person > h3,
+            #checkout-order > #buyer-order > #buyer-physical-person > h3,
+            #checkout-order > #buyer-order > #buyer-shipping-details > h3 { /* заголовок для блоков юридические лицо и контактное лицо */
+                position: absolute;
+                margin: 0;
+                left: 20px;
+                top: -8px;
+                background: #fff;
+                background: linear-gradient(to bottom, #fafafa, #fff);
+                font-size: 14px;
+                line-height: 14px;
+                font-weight: normal;
+                font-style: italic;
+                padding: 0 10px;
+            }
+                #checkout-order > div > div > div {
+                    overflow: hidden;
+                }
+                    #checkout-order > div > div > div > div:first-child {
+                        float: left;
+                        width: 30%;
+                        margin-top: 7px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+                    #checkout-order > div > div > div > div:last-child {
+                        float: left;
+                        width: 70%;
+                    }
+                    #checkout-order > #comment-order > div > div > div {
+                        float: none;
+                        width: 100%;
+                    }
+                        #checkout-order > div > div > div > div:last-child > input[type="text"],
+                        #checkout-order > div > div > div > div:last-child > textarea {
+                            width: 100%;
+                            font-size: 14px;
+                            line-height: 14px;
+                            box-sizing: border-box;
+                            padding: 5px;
+                            border: 1px solid #d1d1d1;
+                            margin: 2px 0;
+                        }
+                        #checkout-order > div > div > div > div:last-child > select {
+                            width: 100%;
+                            box-sizing: border-box;
+                            font-size: 14px;
+                            line-height: 14px;
+                            padding: 2px;
+                            border: 1px solid #d1d1d1;
+                            margin: 2px 0;
+                        }
+                        #checkout-order > div > div > div > div:last-child > textarea {
+                            height: 100px;
+                        }
+
+    #checkout-order input[type="submit"] {
+        box-sizing: border-box;
+        padding: 5px;
+        border: 1px solid #e9751f;
+        width: 50%;
+        background: #e9751f;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }

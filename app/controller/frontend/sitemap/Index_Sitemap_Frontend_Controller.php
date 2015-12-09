@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Sitemap_Frontend_Controller фомирует карту сайта, получает данные от
- * моделей Page_Frontend_Model, News_Frontend_Model и Catalog_Frontend_Model,
+ * Класс Index_Sitemap_Frontend_Controller фомирует карту сайта, получает данные
+ * от моделей Page_Frontend_Model, News_Frontend_Model и Catalog_Frontend_Model,
  * общедоступная часть сайта
  */
-class Sitemap_Frontend_Controller extends Frontend_Controller {
+class Index_Sitemap_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

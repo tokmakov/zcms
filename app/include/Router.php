@@ -10,6 +10,11 @@ class Router {
      * для хранения единственного экземпляра данного класса
      */
     private static $instance;
+    
+    /**
+     * запрос с использованием XmlHttpRequest?
+     */
+    protected $xhr = false;
 
     /**
      * имя контроллера, по умолчанию index
@@ -24,7 +29,7 @@ class Router {
     /**
      * полное имя класса контроллера
      */
-    private $controllerClassName = 'Index_Frontend_Controller';
+    private $controllerClassName = 'Index_Index_Frontend_Controller';
 
     /**
      * массив параметров, которые будут переданы контроллеру
@@ -86,47 +91,28 @@ class Router {
          * формирования кэша, см. исходный код файла cache/make-cache.php.
          */
         if ( ! empty($class)) {
-            $temp = explode('_', strtolower($class));
             /*
-             * Имя класса будет:
-             * 1. Page_Frontend_Controller: три части, разделенные символом подчеркивания
-             * 2. Category_Catalog_Frontend_Controller: четыре части, разделенные символом
-             *    подчеркивания
+             * Имя класса контроллера: четыре части, разделенные символом подчеркивания,
+             * например Category_Catalog_Frontend_Controller
              */
-            if (count($temp) == 3) { // первый случай, Page_Frontend_Controller
-                if (class_exists($class)) { // такой класс существует?
-                    // класс существует, абстрактный или нет?
-                    $reflection = new ReflectionClass($this->controllerClassName);
-                    if ($reflection->isAbstract()) { // класс абстрактный
-                        $class = 'Index_' . $class;
-                        if (!class_exists($class)) { // такой класс существует?
-                            throw new Exception( 'Класс контроллера ' . $class . ' не найден');
-                        }
-                    }
-                    $this->controllerClassName = $class;
-                    $this->controller = $temp[0];
-                    if ('backend' == $temp[1]) {
-                        $this->backend = true;
-                    }
-                } else {
-                    throw new Exception( 'Класс контроллера ' . $class . ' не найден');
-                }
-            } elseif (count($temp) == 4) { // второй случай, Category_Catalog_Frontend_Controller
-                if (class_exists($class)) { // такой класс существует?
-                    $this->controllerClassName = $class;
-                    $this->controller = $temp[1];
-                    $this->action = $temp[0];
-                    if ('backend' == $temp[1]) {
-                        $this->backend = true;
-                    }
-                } else {
-                    throw new Exception( 'Класс контроллера ' . $class . ' не найден');
+            $temp = explode('_', strtolower($class));
+            if (class_exists($class)) { // такой класс существует?
+                $this->controllerClassName = $class;
+                $this->controller = $temp[1];
+                $this->action = $temp[0];
+                if ('backend' == $temp[1]) {
+                    $this->backend = true;
                 }
             } else {
                 throw new Exception( 'Класс контроллера ' . $class . ' не найден');
             }
             $this->params = $params;
             return;
+        }
+        
+        // запрос с использованием XmlHttpRequest?
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            $this->xhr = true;
         }
 
         /*
@@ -151,7 +137,7 @@ class Router {
             if (false === $path) {
                 $this->controller = 'notfound';
                 $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-                $this->controllerClassName = 'Notfound_' . $frontback . '_Controller';
+                $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
                 return;
             }
         }
@@ -160,54 +146,30 @@ class Router {
         if ( ! preg_match($pattern, $path, $matches)) {
             $this->controller = 'notfound';
             $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-            $this->controllerClassName = 'Notfound_' . $frontback . '_Controller';
+            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
             return;
         }
         $this->controller = strtolower($matches[2]);
         $this->action = strtolower($matches[3]);
 
         /*
-         * Каким будет имя класса контроллера? Тут возможны два варианта:
-         * 1. Существует абстрактный класс Catalog_Frontend_Controller, у которого
-         *    есть несколько дочерних классов: Product_Catalog_Frontend_Controller,
-         *    Category_Catalog_Frontend_Controller, Maker_Catalog_Frontend_Controller
-         *    и т.п. Имя класса состоит из четырех частей, разделенных символом
-         *    подчеркивания.
-         * 2. Существует не абстрактный класс Page_Frontend_Controller. Это частный
-         *    случай первого варианта. Потому как правильно было бы так: абстрактный
-         *    класс Page_Frontend_Controller и его единственный дочерний класс
-         *    Index_Page_Frontend_Controller. Но допускается создание не абстрактного
-         *    класса Page_Frontend_Controller, у которого не будет дочернего класса
-         *    Index_Page_Frontend_Controller. Имя класса состоит из трех частей,
-         *    разделенных символом подчеркивания.
+         * Имя класса состоит из четырех частей, разделенных символом подчеркивания,
+         * например, Index_Page_Frontend_Controller или Index_Page_Frontend_Controller
          */
 
         // получаем имя класса контроллера
         $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-        // составляем имя класса из трех частей, разделенных символом
-        // подчеркивания; класс будет либо абстрактным (первый вариант),
-        // либо не абстрактным (второй вариант)
-        $this->controllerClassName = ucfirst($this->controller).'_'.$frontback.'_Controller';
-        if (class_exists($this->controllerClassName)) { // такой класс существует?
-            // класс существует, абстрактный или нет?
-            $reflection = new ReflectionClass($this->controllerClassName);
-            if ($reflection->isAbstract()) { // класс абстрактный, первый вариант
-                // составляем имя класса из четырех частей, разделенных символом подчеркивания
-                $this->controllerClassName = ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
-                if ( ! class_exists($this->controllerClassName)) {  // такого дочернего класса нет
-                    $this->controller = 'notfound';
-                    $this->action = 'index';
-                    $this->controllerClassName = 'Notfound_'.$frontback.'_Controller';
-                    return;
-                }
-            } else { // класс не абстрактный, второй вариант
-                if ('index' !== $this->action) {
-                    $this->controller = 'notfound';
-                    $this->action = 'index';
-                    $this->controllerClassName = 'Notfound_'.$frontback.'_Controller';
-                    return;
-                }
-            }
+        // составляем имя класса из четырех частей, разделенных символом подчеркивания
+        $this->controllerClassName = ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
+        if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+            $this->controller = 'notfound';
+            $this->action = 'index';
+            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+            return;
+        }
+        
+        if ($this->xhr) {
+            $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }
 
         // получаем параметры

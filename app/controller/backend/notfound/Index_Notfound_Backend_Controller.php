@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Notfound_Backend_Controller формирует страницу 404 Not Found,
+ * Класс Index_Notfound_Backend_Controller формирует страницу 404 Not Found,
  * административная часть сайта
  */
-class Notfound_Backend_Controller extends Backend_Controller {
+class Index_Notfound_Backend_Controller extends Backend_Controller {
 
     /**
      * экземпляр класса модели; класс-пустышка, предоставляющий доступ

@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Rating_Frontend_Controller формирует список товаров и категорий
+ * Класс Index_Rating_Frontend_Controller формирует список товаров и категорий
  * рейтинга продаж, получает данные от модели Rating_Frontend_Model,
  * общедоступная часть сайта
  */
-class Rating_Frontend_Controller extends Frontend_Controller {
+class Index_Rating_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

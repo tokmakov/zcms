@@ -273,3 +273,41 @@
 #5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+09.12.2015 14:08:05
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(417): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(342): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+09.12.2015 15:14:27
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+
+09.12.2015 15:15:09
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+
+09.12.2015 16:05:00
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(417): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(342): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+

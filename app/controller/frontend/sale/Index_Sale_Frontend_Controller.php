@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Sale_Frontend_Controller формирует список товаров по сниженным ценам,
+ * Класс Index_Sale_Frontend_Controller формирует список товаров по сниженным ценам,
  * получает данные от модели Sale_Frontend_Model, общедоступная часть сайта
  */
-class Sale_Frontend_Controller extends Frontend_Controller {
+class Index_Sale_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

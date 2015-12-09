@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Index_Backend_Controller формирует главную страницу административной
+ * Класс Index_Index_Backend_Controller формирует главную страницу административной
  * части сайта
  */
-class Index_Backend_Controller extends Backend_Controller {
+class Index_Index_Backend_Controller extends Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

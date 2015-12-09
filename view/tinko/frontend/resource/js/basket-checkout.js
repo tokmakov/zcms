@@ -85,27 +85,17 @@ $(document).ready(function() {
         $('#checkout-order #buyer-order input[type="text"]').val('');
         $('#checkout-order select[name="office"] option:selected').prop('selected', false);
         if ($('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
-            // в Firefox это не работает
-            // $('#checkout-order input[name="buyer_legal_person"]').prop('checked', false).change();
-            // поэтому так
-            $('#checkout-order input[name="buyer_legal_person"]').prop('checked', false);
-            $('#checkout-order #buyer-order #buyer-legal-person').slideUp();
+            $('#checkout-order input[name="buyer_legal_person"]').prop('checked', false).change();
         }
         if (!$('#checkout-order input[name="shipping"]').prop('checked')) {
-            // в Firefox это не работает
-            // $('#checkout-order input[name="shipping"]').prop('checked', true).change();
-            // поэтому так
-            $('#checkout-order input[name="shipping"]').prop('checked', true);
-            $('#checkout-order #buyer-shipping-details').slideUp('normal', function() {
-                $('#checkout-order select[name="office"]').show();
-            });
+            $('#checkout-order input[name="shipping"]').prop('checked', true).change();
         }
 
         var buyerProfileId = $(this).val();
         if (buyerProfileId === '0') {
             return;
         }
-        $.get('/user/ajax/profile/' + buyerProfileId, function(data) { // получаем профиль с сервера
+        $.get('/user/profile/' + buyerProfileId, function(data) { // получаем профиль с сервера
             if (data.title === undefined) {
                 return;
             }
@@ -119,11 +109,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_phone"]').val(data.phone);
             if (data.legal_person === '1') { // получатель - юридическое лицо?
                 if (!$('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
-                    // в Firefox это не работает
-                    // $('#checkout-order input[name="buyer_legal_person"]').prop('checked', true).change();
-                    // поэтому так
-                    $('#checkout-order input[name="buyer_legal_person"]').prop('checked', true);
-                    $('#checkout-order #buyer-legal-person').slideDown();
+                    $('#checkout-order input[name="buyer_legal_person"]').prop('checked', true).change();
                 }
                 $('#checkout-order input[name="buyer_company"]').val(data.company);
                 $('#checkout-order input[name="buyer_ceo_name"]').val(data.ceo_name);
@@ -136,13 +122,7 @@ $(document).ready(function() {
             }
             if (data.shipping === '0') { // доставка по адресу (не самовывоз)
                 if ($('#checkout-order input[name="shipping"]').prop('checked')) {
-                    // в Firefox это не работает
-                    // $('#checkout-order input[name="shipping"]').prop('checked', false).change();
-                    // поэтому так
-                    $('#checkout-order input[name="shipping"]').prop('checked', false);
-                    $('#checkout-order #buyer-shipping-details').slideDown('normal', function() {
-                        $('#checkout-order select[name="office"]').hide();
-                    });
+                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
                 }
                 $('#checkout-order input[name="buyer_shipping_address"]').val(data.shipping_address);
                 $('#checkout-order input[name="buyer_shipping_city"]').val(data.shipping_city);
@@ -165,18 +145,14 @@ $(document).ready(function() {
         // возвращаем все поля формы, связанные с плательщиком, в исходное состояние
         $('#checkout-order #payer-order input[type="text"]').val('');
         if ($('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
-            // в Firefox это не работает
-            // $('#checkout-order input[name="payer_legal_person"]').prop('checked', false).change();
-            // поэтому так
-            $('#checkout-order input[name="payer_legal_person"]').prop('checked', false);
-            $('#checkout-order #payer-legal-person').slideUp();
+            $('#checkout-order input[name="payer_legal_person"]').prop('checked', false).change();
         }
 
         var payerProfileId = $(this).val();
         if (payerProfileId === '0') {
             return;
         }
-        $.get('/user/ajax/profile/' + payerProfileId, function(data) { // получаем профиль с сервера
+        $.get('/user/profile/' + payerProfileId, function(data) { // получаем профиль с сервера
             if (data.title === undefined) {
                 return;
             }
@@ -190,11 +166,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="payer_phone"]').val(data.phone);
             if (data.legal_person === '1') { // плательщик - юридическое лицо?
                 if (!$('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
-                    // в Firefox это не работает
-                    // $('#checkout-order input[name="payer_legal_person"]').prop('checked', true).change();
-                    // поэтому так
-                    $('#checkout-order input[name="payer_legal_person"]').prop('checked', true);
-                    $('#checkout-order #payer-legal-person').slideDown();
+                    $('#checkout-order input[name="payer_legal_person"]').prop('checked', true).change();
                 }
                 $('#checkout-order input[name="payer_company"]').val(data.company);
                 $('#checkout-order input[name="payer_ceo_name"]').val(data.ceo_name);

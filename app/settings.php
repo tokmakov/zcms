@@ -115,19 +115,44 @@ $settings = array(
                 'page/partners.css',
                 'fancybox/jquery.fancybox.css',
             ),
+            'sitemap'         => 'sitemap.css', // для страницы «Карта сайта»
+            'user'            => 'user.css', // для страницы «Личный кабинет»
+            'solutions'       => 'solutions.css', // для страницы «Типовые решения»
+            'basket-index'    => 'basket-index.css', // для страницы «Корзина»
+            'basket-checkout' => 'basket-checkout.css', // для страницы «Оформление заказа»
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
              * 'base' => array(                // css-файлы, подключаемые ко всем страницам сайта
              *     'reset.css',
              *     'common.css',
              * ),
-             * 'index' => 'jquery.slider.css', // только для главной страницы сайта, формируемой Index_Frontend_Controller
-             * 'page' => 'page.css',           // для страниц сайта, формируемых Page_Frontend_Controller
-             * 'catalog' => 'catalog.css',     // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
+             * 'index' => 'jquery.slider.css', // только для главной страницы, формируемой Index_Index_Frontend_Controller
+             * 'page' => 'page.css',           // для страниц, которые формирует Index_Page_Frontend_Controller
+             * 'catalog' => 'catalog.css',     // для страниц, которые все формируют дочерние классы Catalog_Frontend_Controller
              * 'catalog-product' => array(     // только для страниц, которые формирует Product_Catalog_Frontend_Controller
              *     'product.css',
              *     'jquery.lightbox.css',
              * ),
+             *
+             * Здесь важно понимать, что у некоторых абстактных классов есть только один дочерний класс,
+             * например: Page_Frontend_Controller и Index_Page_Frontend_Controller. А у других абстрактных
+             * классов есть несколько дочерних классов, например: Catalog_Frontend_Controller и
+             * 1. Index_Catalog_Frontend_Controller
+             * 2. Product_Catalog_Frontend_Controller
+             * 3. Category_Catalog_Frontend_Controller
+             * 4. Maker_Catalog_Frontend_Controller
+             *
+             * Запись вида
+             * 'catalog' => 'catalog.css', // для всех страниц каталога
+             * 'catalog-index' => 'catalog-index.css' // только для главной страницы каталога
+             * имеет смысл, а запись вида
+             * 'page' => 'page.css'
+             * 'page-index' => 'lightbox.css'
+             * не будет ошибочной, но сбивает с толку, поэтому лучше так:
+             * 'page' => array(
+             *     'page.css',
+             *     'lightbox.css'
+             * )
              */
 
         ),
@@ -162,16 +187,17 @@ $settings = array(
                 'common.js',
             ),
             'solutions-item'  => array(
+                'solutions-item.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
-                'lightbox.js'
+                'lightbox.js',
             ),
             'catalog-product' => array(
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js'
             ),
-            'basket-checkout' => 'checkout.js',
+            'basket-checkout' => 'basket-checkout.js',
             'index'           => array(
                 'jquery.bxslider.min.js',
                 'slider.js'
@@ -208,9 +234,9 @@ $settings = array(
              *     'jquery.min.js',
              *     'common.js',
              * ),
-             * 'index' => 'jquery.slider.js',  // только для главной страницы сайта, формируемой Index_Frontend_Controller
-             * 'page' => 'page.js',            // для страниц сайта, формируемых Page_Frontend_Controller
-             * 'catalog' => 'catalog.js',      // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
+             * 'index' => 'jquery.slider.js',  // только для главной страницы сайта, формируемой Index_Index_Frontend_Controller
+             * 'page' => 'page.js',            // для страниц, которые формирует Index_Page_Frontend_Controller
+             * 'catalog' => 'catalog.js',      // для страниц, которые формируют все дочерние классы Catalog_Frontend_Controller
              * 'catalog-product' => array(     // только для страниц, которые формирует Product_Catalog_Frontend_Controller
              *     'product.js',
              *     'jquery.lightbox.js',

@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Page_Frontend_Controller формирует отдельную страницу сайта, получает
+ * Класс Index_Page_Frontend_Controller формирует отдельную страницу сайта, получает
  * данные от модели Page_Frontend_Model, общедоступная часть сайта
  */
-class Page_Frontend_Controller extends Frontend_Controller {
+class Index_Page_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

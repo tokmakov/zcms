@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Index_Frontend_Controller фомирует главную страницу общедоступной части сайта
+ * Класс Index_Index_Frontend_Controller фомирует главную страницу общедоступной части сайта
  */
-class Index_Frontend_Controller extends Frontend_Controller {
+class Index_Index_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);

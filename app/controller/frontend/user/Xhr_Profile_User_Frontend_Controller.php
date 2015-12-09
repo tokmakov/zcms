@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Ajax_User_Frontend_Controller формирует ответ на запрос XmlHttpRequest в формате
- * JSON, получает данные от модели User_Frontend_Model, общедоступная часть сайта. Ответ
- * содержит профиль зарегистрированного и авторизованного пользователя
+ * Класс Xhr_Profile_User_Frontend_Controller формирует ответ на запрос XmlHttpRequest в
+ * формате JSON, получает данные от модели User_Frontend_Model, общедоступная часть сайта.
+ * Ответ содержит профиль зарегистрированного и авторизованного пользователя
  */
-class Ajax_User_Frontend_Controller extends User_Frontend_Controller {
+class Xhr_Profile_User_Frontend_Controller extends User_Frontend_Controller {
 
     /**
      * один из профилей пользователя
@@ -12,10 +12,6 @@ class Ajax_User_Frontend_Controller extends User_Frontend_Controller {
     private $profile = array();
 
     public function __construct($params = null) {
-        if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         parent::__construct($params);
     }
 

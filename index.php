@@ -39,9 +39,9 @@ try {
     $router = Router::getInstance();
     $register->router = $router;
     /*
-     * Получаем имя класса контроллера, например Page_Frontend_Controller. Если
-     * класс контроллера не найден, работает контроллер Notfound_Frontend_Controller
-     * или Notfound_Backend_Controller
+     * Получаем имя класса контроллера, например Index_Page_Frontend_Controller. Если
+     * класс контроллера не найден, работает контроллер Index_Notfound_Frontend_Controller
+     * или Index_Notfound_Backend_Controller
      */
     $controller = $router->getControllerClassName();
     // параметры, передаваемые контроллеру
@@ -53,13 +53,14 @@ try {
     if ($page->isNotFoundRecord()) {
         /*
          * Функция Base_Controller::isNotFoundRecord() возвращает true, если какому-либо
-         * контроллеру, например Page_Frontend_Controller, были переданы некорректные
-         * параметры. Пример: frontend/page/id/12345, но страницы с уникальным id=12345
+         * контроллеру, например Index_Page_Frontend_Controller, были переданы некорректные
+         * параметры. Пример: frontend/page/index/id/12345, но страницы с уникальным id=12345
          * нет в таблице pages базы данных. Это возможно, если страница (новость, товар)
          * была удалена или пользователь ошибся при вводе URL страницы.
          */
         $router->setNotFound();
-        // работет контроллер Notfound_Frontend_Controller или Notfound_Backend_Controller
+        // работет контроллер Index_Notfound_Frontend_Controller
+        // или Index_Notfound_Backend_Controller
         $controller = $router->getControllerClassName();
         $page = new $controller();
         $page->request();

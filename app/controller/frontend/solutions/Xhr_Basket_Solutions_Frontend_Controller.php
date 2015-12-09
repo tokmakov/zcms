@@ -1,16 +1,12 @@
 <?php
 /**
- * Класс Ajaxbasket_Solutions_Frontend_Controller принимает запрос XmlHttpRequest,
+ * Класс Xhr_Basket_Solutions_Frontend_Controller принимает запрос XmlHttpRequest,
  * добавляет все товары типового решения в корзину, работает с моделью
  * Solutions_Frontend_Model, общедоступная часть сайта
  */
-class Ajaxbasket_Solutions_Frontend_Controller extends Solutions_Frontend_Controller {
+class Xhr_Basket_Solutions_Frontend_Controller extends Solutions_Frontend_Controller {
 
     public function __construct($params = null) {
-        if ( ! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         if ( ! $this->isPostMethod()) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
@@ -39,7 +35,7 @@ class Ajaxbasket_Solutions_Frontend_Controller extends Solutions_Frontend_Contro
 
         // получаем html-код товаров в корзине (для правой колонки)
         $this->pageContent = $this->render(
-            $this->config->site->theme . '/frontend/template/basket/ajax/basket.php',
+            $this->config->site->theme . '/frontend/template/basket/xhr/basket.php',
             array(
                 'sideBasketProducts'  => $sideBasketProducts,
                 'sideBasketTotalCost' => $sideBasketTotalCost,

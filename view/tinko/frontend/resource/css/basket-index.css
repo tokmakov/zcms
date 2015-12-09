@@ -1,0 +1,120 @@
+/* покупательская корзина, центральная колонка */
+#basket {
+    margin-bottom: 30px;
+}
+    #basket form table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+        #basket form table tr th, #basket form table tr td {
+            border: 1px solid #d1d1d1;
+            padding: 5px;
+        }
+        #basket form table tr th {
+            background: #f0f0f0;
+            font-weight: normal;
+            padding: 7px;
+        }
+        #basket form table tr:first-child th:nth-child(1),
+        #basket form table tr:first-child th:nth-child(3),
+        #basket form table tr:first-child th:nth-child(4),
+        #basket form table tr:first-child th:nth-child(5) {
+            width: 10%;
+        }
+        #basket form table tr:first-child th:nth-child(2) {
+            width: 55%;
+        }
+        #basket form table tr:first-child th:nth-child(6) {
+            width: 5%;
+        }
+        #basket form table tr th:nth-child(2) {
+            text-align: left;
+        }
+        #basket form table tr td:nth-child(4), #basket form table tr td:nth-child(5) {
+            text-align: right;
+        }
+        #basket form table tr td:first-child, #basket form table tr td:nth-child(6) {
+            text-align: center;
+        }
+        #basket form table tr:last-child td.note-user-price {
+            text-align: left;
+            color: #e9751f;
+        }
+        #basket form table input[type="text"] {
+            box-sizing: border-box;
+            border: 1px solid #d1d1d1;
+            padding: 3px;
+            text-align: center;
+            width: 100%;
+        }
+    #basket form div {
+        margin: 15px 0;
+        overflow: hidden;
+    }
+    #basket form div > span {
+        display: block;
+    }
+    #basket form div > span:first-child {
+        float: left;
+        width: 30%;
+    }
+    #basket form div > span:last-child {
+        float: right;
+        color: #969696;
+        text-align: right;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-top: 3px;
+        width: 35%;
+    }
+        #basket form div > span:last-child > strong {
+            font-size: 18px;
+        }
+        #basket form div > span:last-child > strong:first-child {
+            color: #969696;
+            text-decoration: line-through;
+        }
+        #basket form div > span:last-child strong:last-child {
+            color: #395985;
+            text-decoration: none;
+        }
+        #basket form div > span:last-child > strong:only-child {
+            color: #395985;
+            text-decoration: none;
+        }
+    #basket form div > span:first-child input[type="submit"] {
+        background: #395985;
+        border: 1px solid #395985;
+        padding: 5px 0;
+        color: #FFF;
+        font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    #basket form p:last-child {
+
+    }
+    #basket form p:last-child:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+        #basket form p:last-child a {
+            display: block;
+            float: right;
+            width: 30%;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            background: #e9751f;
+            color: #fff;
+            padding: 6px 0;
+        }
+        #basket form p:last-child a:hover {
+            text-decoration: none;
+        }
+        
+#basket-related > div:last-child {
+    padding: 0;
+}

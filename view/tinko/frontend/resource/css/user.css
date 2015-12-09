@@ -1,0 +1,545 @@
+/* главная страница личного кабинета */
+#index-user-center {
+
+}
+    #index-user-center > ul {
+        list-style: none;
+    }
+    #index-user-center > ul > li {
+        border-bottom: 1px dashed #d1d1d1;
+        padding: 1px 0;
+    }
+    #index-user-center > ul > li:last-child {
+        border-bottom: none;
+    }
+        #index-user-center > ul > li > a {
+            display: block;
+            padding: 5px 0;
+        }
+
+    #index-user-center > h2 {
+        font-size: 19px;
+        margin: 30px 0 5px 0;
+        color: #395985;
+        font-weight: normal;
+    }
+
+/* форма для авторизации пользователя, центральная колонка */
+#login-user-center {
+
+}
+    #login-user-center > form > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #login-user-center > form > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #login-user-center > form > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #login-user-center > form > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
+                line-height: 14px;
+            }
+                #login-user-center > form > div > div:last-child > label > input[type="checkbox"] {
+                    position: relative;
+                    top: 3px;
+                    margin: 8px 0 12px 0;
+                }
+                #login-user-center > form > div > div:last-child > label > span {
+                    margin-left: 5px;
+                    cursor: pointer;
+                    border-bottom: 1px dashed #323232;
+                }
+            #login-user-center > form > div > div:last-child > input[type="submit"] {
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #395985;
+                width: 50%;
+                background: #395985;
+                color: #fff;
+                font-size: 14px;
+                line-height: 14px;
+                cursor: pointer;
+            }
+    #login-user-center > ul {
+        list-style: none;
+        margin-top: 25px;
+        margin-left: 30%;
+    }
+        #login-user-center > ul > li {
+            width: 45%;
+        }
+        #login-user-center > ul > li:first-child {
+            float: left;
+        }
+        #login-user-center > ul > li:last-child {
+            float: right;
+            text-align: right;
+        }
+
+/* форма для редактирования личных данных */
+#edit-user {
+    overflow: hidden;
+}
+    #edit-user > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #edit-user > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 6px;
+            white-space: nowrap;
+        }
+        #edit-user > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #edit-user > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
+                line-height: 14px;
+                height: 26px;
+            }
+            #edit-user > div > div:last-child > label {
+                display: block;
+                margin: 5px 0;
+            }
+                #edit-user > div > div:last-child > label > input[type="checkbox"] {
+                    position: relative;
+                    top: 3px;
+                }
+                #edit-user > div > div:last-child > label > span {
+                    cursor: pointer;
+                    border-bottom: 1px dashed #323232;
+                    display: inline-block;
+                }
+            #edit-user > div > div:last-child > input[type="submit"] {
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #395985;
+                width: 50%;
+                background: #395985;
+                color: #fff;
+                font-size: 14px;
+                line-height: 14px;
+                cursor: pointer;
+                height: 26px;
+            }
+
+/* форма для регистрации пользователя */
+#reg-user {
+    overflow: hidden;
+}
+    #reg-user > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #reg-user > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 6px;
+            white-space: nowrap;
+        }
+        #reg-user > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #reg-user > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
+                line-height: 14px;
+                height: 26px;
+            }
+            #reg-user > div > div:last-child > input[type="submit"] {
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #395985;
+                width: 50%;
+                background: #395985;
+                color: #fff;
+                font-size: 14px;
+                line-height: 14px;
+                cursor: pointer;
+                height: 26px;
+            }
+
+/* форма восстановления пароля */
+#new-password {
+    overflow: hidden;
+}
+    #new-password > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #new-password > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #new-password > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #new-password > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
+                line-height: 14px;
+            }
+            #new-password > div > div:last-child > input[type="submit"] {
+                box-sizing: border-box;
+                padding: 5px;
+                border: 1px solid #395985;
+                width: 50%;
+                background: #395985;
+                color: #fff;
+                font-size: 14px;
+                line-height: 14px;
+                cursor: pointer;
+            }
+
+/* форма для добавления/редактирования профиля */
+#add-edit-profile {
+    overflow: hidden;
+}
+    #add-edit-profile #legal-person-help, #add-edit-profile #profile-title-help {
+        background: #395985;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: bold;
+        padding: 0 4px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 14px;
+    }
+    #add-edit-profile > div {
+        position: relative;
+        margin-top: 20px;
+    }
+    #add-edit-profile > div:nth-child(5) {
+        margin-top: 25px;
+        height: 24px;
+        line-height: 24px;
+    }
+    #add-edit-profile > div:nth-child(3),
+    #add-edit-profile > div:nth-child(4),
+    #add-edit-profile > div:nth-child(6) {
+        margin-top: 45px;
+        padding: 10px;
+        border-top: 1px solid #d1d1d1;
+        background: #fafafa;
+    }
+    #add-edit-profile > div:first-child {
+        margin-top: 0;
+    }
+    #add-edit-profile select[name="office"] {
+        font-size: 14px;
+        line-height: 14px;
+        box-sizing: border-box;
+        padding: 2px;
+        border: 1px solid #d1d1d1;
+        margin-left: 39px;
+    }
+    #add-edit-profile input[type="checkbox"] {
+        position: relative;
+        top: 3px;
+        border: 1px solid #d1d1d1;
+    }
+    #add-edit-profile label span {
+        display: inline-block;
+        cursor: pointer;
+        border-bottom: 1px dashed #323232;
+        margin: 0 7px 0 5px;
+        line-height: normal;
+    }
+        #add-edit-profile > div > div {
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        #add-edit-profile > div > div:last-child {
+            margin-bottom: 0;
+        }
+        #add-edit-profile > div > h2 {
+            position: absolute;
+            left: 20px;
+            top: -27px;
+            min-width: 154px;
+            margin: 0;
+            color: #333;
+            background: #fafafa;
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: bold;
+            padding: 5px 15px;
+            border: 1px solid #d1d1d1;
+            border-bottom: 1px solid #fafafa;
+        }
+            #add-edit-profile > div > div > div:first-child {
+                float: left;
+                width: 30%;
+                margin-top: 5px;
+            }
+            #add-edit-profile > div > div > div:last-child {
+                float: right;
+                width: 70%;
+            }
+                #add-edit-profile > div > div > div:last-child > input[type="text"] {
+                    width: 100%;
+                    box-sizing: border-box;
+                    padding: 5px;
+                    border: 1px solid #d1d1d1;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
+                    width: 95%;
+                }
+                #add-edit-profile > div > div > div:last-child > input[type="submit"] {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 5px;
+                    border: 1px solid #395985;
+                    width: 50%;
+                    background: #395985;
+                    color: #fff;
+                    font-size: 14px;
+                    line-height: 14px;
+                    cursor: pointer;
+                }
+
+/* список всех профилей */
+#all-profiles {
+    overflow: hidden;
+}
+    #all-profiles > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-profiles > ul > li {
+            overflow: hidden;
+            padding: 10px 0;
+            border-bottom: 1px dashed #d1d1d1;
+        }
+        #all-profiles > ul > li:last-child {
+            border-bottom: none;
+        }
+        #all-profiles > ul > li:only-child {
+            border-top: 1px dashed #d1d1d1;
+            border-bottom: 1px dashed #d1d1d1;
+        }
+            #all-profiles > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-profiles > ul > li > div:last-child {
+                float: right;
+                width: 25%;
+                text-align: right;
+            }
+                #all-profiles > ul > li > div:last-child > a:first-child {
+                    margin-right: 10px;
+                }
+
+/* кнопка «Добавить профиль» */
+#add-new-prof {
+    margin: 30px 0;
+}
+    #add-new-prof a {
+        text-align: center;
+        background: #395985;
+        color: #fff;
+        padding: 6px 20px;
+    }
+    #add-new-prof a:hover {
+        text-decoration: none;
+    }
+
+/* список заказов пользователя */
+#user-orders-list {
+
+}
+    #user-orders-list > div {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #5390cc;
+    }
+    #user-orders-list > div:last-child {
+        border-bottom: none;
+    }
+        #user-orders-list > div > p {
+            margin-bottom: 4px;
+            color: #969696;
+            font-size: 14px;
+            overflow: hidden;
+            line-height: 18px;
+        }
+            #user-orders-list > div > p > span {
+                display: block;
+            }
+            #user-orders-list > div > p > span:first-child {
+                float: left;
+            }
+            #user-orders-list > div > p > span:last-child {
+                float: right;
+                text-align: right;
+            }
+                #user-orders-list > div > p > span:last-child > strong {
+                    color: #395985;
+                    font-size: 18px;
+                }
+
+        #user-orders-list > div > table { /* таблица заказа */
+            border-collapse: collapse;
+            width: 100%;
+        }
+            #user-orders-list > div > table tr th, #user-orders-list > div > table tr td {
+                border: 1px solid #d1d1d1;
+                font-weight: normal;
+                padding: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #user-orders-list > div > table tr th {
+                background: #f0f0f0;
+            }
+            #user-orders-list > div > table tr th:nth-child(2) {
+                text-align: left;
+                width: 60%;
+            }
+            #user-orders-list > div > table tr td:nth-child(3) {
+                text-align: center;
+            }
+            #user-orders-list > div > table tr td:nth-child(4), #user-orders-list > div > table tr td:nth-child(5) {
+                text-align: right;
+            }
+            #user-orders-list > div > table tr td:first-child {
+                text-align: center;
+            }
+            #user-orders-list > div > table tr:last-child td.note-user-price {
+                color: #e9751f;
+                text-align: left;
+            }
+            #user-orders-list > div > div { /* повторить заказ, подробнее */
+                margin-top: 10px;
+                overflow: hidden;
+            }
+            #user-orders-list > div > div > div {
+                width: 25%;
+            }
+            #user-orders-list > div > div > div:first-child {
+                float: left;
+            }
+            #user-orders-list > div > div > div:last-child {
+                float: right;
+            }
+            #user-orders-list > div > div > div:last-child span {
+                font-weight: bold;
+                font-size: 14px;
+                color: #395985;
+            }
+            #user-orders-list > div > div > div:last-child > a {
+                display: block;
+                text-align: center;
+                background: #395985;
+                color: #fff;
+                padding: 6px;
+            }
+            #user-orders-list > div > div > div:last-child > a:hover {
+                text-decoration: none;
+            }
+            #user-orders-list > div > div > div:first-child input[type="submit"] {
+                background: #395985;
+                border: 1px solid #395985;
+                padding: 5px 0;
+                font-size: 14px;
+                color: #fff;
+                cursor: pointer;
+                width: 100%;
+            }
+
+
+/* отдельный заказ пользователя в личном кабинете */
+#user-order {
+
+}
+    #user-order > p {
+        margin-bottom: 4px;
+        color: #969696;
+        font-size: 14px;
+        overflow: hidden;
+        line-height: 18px;
+    }
+    #user-order > p > span {
+        display: block;
+    }
+    #user-order > p > span:first-child {
+        float: left;
+    }
+    #user-order > p > span:last-child {
+        float: right;
+        text-align: right;
+    }
+    #user-order > p > span:last-child > strong {
+        color: #395985;
+        font-size: 18px;
+    }
+    #user-order > table { /* таблица заказа */
+        border-collapse: collapse;
+        width: 100%;
+    }
+        #user-order > table tr th, #user-order > table tr td {
+            border: 1px solid #d1d1d1;
+            font-weight: normal;
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        #user-order > table tr th {
+            background: #f0f0f0;
+        }
+        #user-order > table tr th:nth-child(2) {
+            text-align: left;
+            width: 60%;
+        }
+        #user-order > table tr td:nth-child(3) {
+            text-align: center;
+        }
+        #user-order > table tr td:nth-child(4), #user-order > table tr td:nth-child(5) {
+            text-align: right;
+        }
+        #user-order > table tr td:first-child {
+            text-align: center;
+        }
+        #user-order > table tr:last-child td.note-user-price {
+            color: #e9751f;
+            text-align: left;
+        }
+    #user-order > h2 {
+        font-size: 19px;
+        margin: 25px 0 15px 0;
+        color: #395985;
+        font-weight: normal;
+    }
+    #user-order > ul {
+        margin: 15px 0;
+        padding-left: 20px;
+    }

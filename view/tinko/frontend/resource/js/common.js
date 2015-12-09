@@ -49,7 +49,7 @@ $(document).ready(function() {
             $('#top-search > div > div').show();
             $.ajax({
                 type: 'POST',
-                url: '/catalog/ajax-search',
+                url: '/catalog/search',
                 dataType: 'html',
                 data: 'query=' + query,
                 success: function(html) {
@@ -184,7 +184,6 @@ $(document).ready(function() {
      */
     $('.remove-compared-form').ajaxForm({
         target: '#side-compared > .side-content',
-        url: '/compared/ajax/rmvprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
@@ -246,14 +245,6 @@ $(document).ready(function() {
     $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
 
     /*
-     * Свернуть/развернуть краткое описание товара типового решения
-     */
-    $('#item-solutions table tr td:nth-child(3) > div').hide();
-    $('#item-solutions table tr td:nth-child(3) > span').click(function () {
-        $(this).next().slideToggle();
-    });
-
-    /*
      * Свернуть/развернуть краткое описание товара распродажи
      */
     $('#sale-products table tr td:nth-child(3) > div').hide();
@@ -267,41 +258,6 @@ $(document).ready(function() {
     $('#rating > div > div').hide();
     $('#rating > div > p > span').click(function () {
         $(this).parent().next().slideToggle();
-    });
-
-    /*
-     * Добавление товаров типового решения в корзину, ajax
-     */
-    var solution_id = $('#add-solution-basket').data('id');
-    $('#add-solution-basket').ajaxForm({
-        target: '#side-basket > .side-content',
-        url: '/solutions/ajax-basket/' + solution_id,
-        beforeSubmit: function() {
-            var sideBasketHeight = $('#side-basket > .side-content').height()+30/*padding*/;
-            var sideBasketWidth = $('#side-basket > .side-content').width();
-            $('<div></div>')
-                .prependTo('#side-basket > .side-content')
-                .addClass('overlay')
-                .height(sideBasketHeight)
-                .width(sideBasketWidth);
-        },
-        success: function() {
-            // показываем окно с сообщением
-            $('<div>Товары добавлены в корзину</div>')
-                .prependTo('body')
-                .hide()
-                .addClass('modal-window')
-                .center()
-                .fadeIn(500, function() {
-                    $(this).delay(1000).fadeOut(500, function() {
-                        $(this).remove();
-                    });
-                });
-
-        },
-        error: function() {
-            alert('Ошибка при добавлении товаров в корзину');
-        }
     });
 
     /*
@@ -371,7 +327,6 @@ function addBasketHandler() {
      */
     $('.add-basket-form').ajaxForm({
         target: '#side-basket > .side-content',
-        url: '/basket/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для корзины в правой колонке
             $('<div></div>')
@@ -448,7 +403,6 @@ function addBasketHandler() {
      */
     $('.add-wished-form').ajaxForm({
         target: '#side-wished > .side-content',
-        url: '/wished/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
@@ -525,7 +479,6 @@ function addBasketHandler() {
      */
     $('.add-compared-form').ajaxForm({
         target: '#side-compared > .side-content',
-        url: '/compared/ajax/addprd',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
@@ -608,10 +561,8 @@ function filterSelectHandler() {
     } else {
         $('#category-filters form input[name="change"]').val('0');
     }
-    var url = $('#category-filters form').attr('action').replace('/catalog/', '/catalog/ajax-filter/');
     $('#category-filters form').ajaxSubmit({
         dataType:  'json',
-        url: url,
         beforeSubmit: function() {
             /*
              * перед отправкой формы добавляем оверлей для трех блоков
@@ -711,7 +662,7 @@ function menuClickHandler(event) {
         var id = $(this).data('id');
         $.ajax({
             type: 'POST',
-            url: '/catalog/ajax-menu',
+            url: '/catalog/menu',
             dataType: 'html',
             data: 'id=' + id,
             success: function(html) {
@@ -755,7 +706,7 @@ function removeSideComparedHandler() {
      */
     $('#side-compared form').ajaxForm({
         target: '#side-compared > .side-content',
-        url: '/compared/ajax/rmvprd',
+        url: '/compared/rmvprd',
         beforeSubmit: function() {
             // добавляем overlay
             var sideComparedHeight = $('#side-compared > .side-content').height()+30/*padding*/;
