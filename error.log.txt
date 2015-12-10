@@ -311,3 +311,39 @@
 #3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #4 {main}
 
+10.12.2015 14:47:07
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/compare/index
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/compar...')
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(223): Frontend_Model->getURL('frontend/compar...')
+#2 C:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(23): Frontend_Controller->input()
+#3 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Index_Frontend_Controller->input()
+#4 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#5 {main}
+
+10.12.2015 14:47:40
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.compare' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(192): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(155): Compare_Frontend_Model->sideCompareProducts()
+#4 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(263): Compare_Frontend_Model->getSideCompareProducts()
+#5 C:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(23): Frontend_Controller->input()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Index_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#8 {main}
+
+10.12.2015 15:06:40
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(59): Database->fetchOne('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\frontend\compare\Xhr_Addprd_Compare_Frontend_Controller.php(28): Compare_Frontend_Model->addToCompare(224796)
+#4 C:\work\localhost2\www\index.php(52): Xhr_Addprd_Compare_Frontend_Controller->request()
+#5 {main}
+

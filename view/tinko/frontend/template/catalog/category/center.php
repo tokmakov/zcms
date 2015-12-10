@@ -50,7 +50,7 @@
  *     [action] => Array (
  *       [basket] => http://www.host.ru/basket/addprd/37
  *       [wished] => http://www.host.ru/wished/addprd/37
- *       [compared] => http://www.host.ru/compared/addprd/37
+ *       [compare] => http://www.host.ru/compare/addprd/37
  *     )
  *   )
  *   [1] => Array (
@@ -521,7 +521,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                     </form>
-                    <form action="<?php echo $product['action']['compared']; ?>" method="post" class="add-compared-form">
+                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
                         <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />

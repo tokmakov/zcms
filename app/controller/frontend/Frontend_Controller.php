@@ -50,7 +50,7 @@ abstract class Frontend_Controller extends Base_Controller {
     /**
      * экземпляр класса модели для работы с товарами для сравнения
      */
-    protected $comparedFrontendModel;
+    protected $compareFrontendModel;
 
     /**
      * экземпляр класса модели для работы с главной страницей сайта
@@ -128,8 +128,8 @@ abstract class Frontend_Controller extends Base_Controller {
             isset($this->register->catalogFrontendModel) ? $this->register->catalogFrontendModel : new Catalog_Frontend_Model();
 
         // экземпляр класса модели для работы с товарами для сравнения
-        $this->comparedFrontendModel =
-            isset($this->register->comparedFrontendModel) ? $this->register->comparedFrontendModel : new Compared_Frontend_Model();
+        $this->compareFrontendModel =
+            isset($this->register->compareFrontendModel) ? $this->register->compareFrontendModel : new Compare_Frontend_Model();
 
         // экземпляр класса модели для работы с главной страницей сайта
         $this->indexFrontendModel =
@@ -220,7 +220,7 @@ abstract class Frontend_Controller extends Base_Controller {
             // URL ссылки на страницу отложенных товаров
             'wishedUrl'   => $this->wishedFrontendModel->getURL('frontend/wished/index'),
             // URL ссылки на страницу сравнения товаров
-            'comparedUrl' => $this->comparedFrontendModel->getURL('frontend/compared/index'),
+            'compareUrl'  => $this->compareFrontendModel->getURL('frontend/compare/index'),
             // URL ссылки на страницу просмотренных товаров
             'viewedUrl'   => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
         );
@@ -260,7 +260,7 @@ abstract class Frontend_Controller extends Base_Controller {
         $lastWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
 
         // получаем от модели массив последних товаров для сравнения (для правой колонки)
-        $lastComparedProducts = $this->comparedFrontendModel->getSideComparedProducts();
+        $lastCompareProducts = $this->compareFrontendModel->getSideCompareProducts();
 
         // получаем от модели массив последних просмотренных товаров (для правой колонки)
         $lastViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
@@ -302,9 +302,9 @@ abstract class Frontend_Controller extends Base_Controller {
         // URL ссылки на страницу отложенных товаров
         $this->rightVars['wishedUrl']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
         // массив товаров для сравнения
-        $this->rightVars['comparedProducts'] = $lastComparedProducts;
+        $this->rightVars['compareProducts']  = $lastCompareProducts;
         // URL ссылки на страницу товаров для сравнения
-        $this->rightVars['comparedUrl']      = $this->comparedFrontendModel->getURL('frontend/compared/index');
+        $this->rightVars['compareUrl']       = $this->compareFrontendModel->getURL('frontend/compare/index');
         // массив просмотренных товаров
         $this->rightVars['viewedProducts']   = $lastViewedProducts;
         // URL ссылки на страницу просмотренных товаров

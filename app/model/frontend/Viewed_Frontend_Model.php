@@ -121,7 +121,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action']['basket'] = $this->getURL('frontend/basket/addprd');
             // атрибут action тега form для добавления товара в список сравнения
-            $products[$key]['action']['compared'] = $this->getURL('frontend/compared/addprd');
+            $products[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
             // атрибут action тега form для добавления товара в список отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
         }

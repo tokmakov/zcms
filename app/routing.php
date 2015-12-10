@@ -353,17 +353,17 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          * товары для сравнения
          */
         // страница со списком товаров для сравнения
-        '~^frontend/compared/index$~i' =>
-        'compared',
+        '~^frontend/compare/index$~i' =>
+        'compare',
         // товары для сравнения, постраничная навигация
-        '~^frontend/compared/index/page/(\d+)$~i' =>
-        'compared/page/$1',
+        '~^frontend/compare/index/page/(\d+)$~i' =>
+        'compare/page/$1',
         // добавить товар в список сравнения
-        '~^frontend/compared/addprd$~i' =>
-        'compared/addprd',
+        '~^frontend/compare/addprd$~i' =>
+        'compare/addprd',
         // удалить товар из списка сравнения
-        '~^frontend/compared/rmvprd$~i' =>
-        'compared/rmvprd',
+        '~^frontend/compare/rmvprd$~i' =>
+        'compare/rmvprd',
 
         /*
          * корзина
@@ -949,17 +949,17 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          * товары для сравнения
          */
         // страница со списком товаров для сравнения
-        '~^compared$~i' =>
-        'frontend/compared/index',
+        '~^compare$~i' =>
+        'frontend/compare/index',
         // товары для сравнения, постраничная навигация
-        '~^compared/page/(\d+)$~i' =>
-        'frontend/compared/index/page/$1',
+        '~^compare/page/(\d+)$~i' =>
+        'frontend/compare/index/page/$1',
         // добавить товар в список сравнения
-        '~^compared/addprd$~i' =>
-        'frontend/compared/addprd',
+        '~^compare/addprd$~i' =>
+        'frontend/compare/addprd',
         // удалить товар из списка сравнения
-        '~^compared/rmvprd$~i' =>
-        'frontend/compared/rmvprd',
+        '~^compare/rmvprd$~i' =>
+        'frontend/compare/rmvprd',
 
         /*
          * корзина

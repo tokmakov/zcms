@@ -5,10 +5,13 @@
     #basket form table {
         border-collapse: collapse;
         width: 100%;
+        table-layout: fixed;
     }
         #basket form table tr th, #basket form table tr td {
             border: 1px solid #d1d1d1;
             padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
         }
         #basket form table tr th {
             background: #f0f0f0;
@@ -19,13 +22,13 @@
         #basket form table tr:first-child th:nth-child(3),
         #basket form table tr:first-child th:nth-child(4),
         #basket form table tr:first-child th:nth-child(5) {
-            width: 10%;
+            width: 12%;
         }
         #basket form table tr:first-child th:nth-child(2) {
-            width: 55%;
+            width: 45%;
         }
         #basket form table tr:first-child th:nth-child(6) {
-            width: 5%;
+            width: 7%;
         }
         #basket form table tr th:nth-child(2) {
             text-align: left;
@@ -117,4 +120,69 @@
         
 #basket-related > div:last-child {
     padding: 0;
+}
+
+@media screen and (max-width: 612px) {
+    #basket form table tr:first-child th:nth-child(3),
+    #basket form table tr:first-child th:nth-child(4),
+    #basket form table tr:first-child th:nth-child(5) {
+        width: 14%;
+    }
+    #basket form table tr:first-child th:nth-child(2) {
+        width: 36%;
+    }
+    #basket form table tr:first-child th:nth-child(6) {
+        width: 10%;
+    }
+
+    #basket form div > span:last-child {
+        width: 50%;
+    }
+    #basket form p:last-child a {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #basket form table tr th:nth-child(5), #basket form table tr td:nth-child(5) {
+        display: none;
+    }
+    #basket form table tr:first-child th:nth-child(1) {
+        width: 14%;
+    }
+    #basket form table tr:first-child th:nth-child(2) {
+        width: 46%;
+    }
+    #basket form table tr:first-child th:nth-child(3),
+    #basket form table tr:first-child th:nth-child(4) {
+        width: 15%;
+    }
+    #basket form table tr:first-child th:nth-child(6) {
+        width: 10%;
+    }
+    #basket form div > span:first-child {
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 423px) {
+    #basket form table tr th:nth-child(1), #basket form table tr td:nth-child(1) {
+        display: none;
+    }
+    #basket form table tr:first-child th:nth-child(2) {
+        width: 50%;
+    }
+    #basket form table tr:first-child th:nth-child(3),
+    #basket form table tr:first-child th:nth-child(4) {
+        width: 20%;
+    }
+    #basket form table tr:first-child th:nth-child(6) {
+        width: 10%;
+    }
+    #basket form div > span:last-child {
+        width: 65%;
+    }
+    #basket form p:last-child a {
+        width: 100%;
+    }
 }

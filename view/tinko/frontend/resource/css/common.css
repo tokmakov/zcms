@@ -565,6 +565,18 @@ div.attention {
     z-index: 4;
 }
 
+.compare-overlay {
+    z-index: 6; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
+    position: fixed; /* всегдa перекрывaет весь сaйт */
+    background-color: #000; /* чернaя */
+    opacity: 0.8; /* нo немнoгo прoзрaчнa */
+    width: 100%;
+    height: 100%; /* рaзмерoм вo весь экрaн */
+    top: 0; /* сверху и слевa 0, oбязaтельные свoйствa! */
+    left: 0;
+    display: none; /* в oбычнoм сoстoянии её нет) */
+}
+
 /* хлебные крошки */
 #breadcrumbs {
     border: 1px solid #d1d1d1;
@@ -1576,7 +1588,7 @@ div.attention {
                     cursor: pointer;
                 }
             #product .product-item-main .product-item-basket .add-wished-form,
-            #product .product-item-main .product-item-basket .add-compared-form {
+            #product .product-item-main .product-item-basket .add-compare-form {
                 float: right;
                 width: 50%;
                 box-sizing: border-box;
@@ -1584,11 +1596,11 @@ div.attention {
             #product .product-item-main .product-item-basket .add-wished-form {
                 padding-left: 2%;
             }
-            #product .product-item-main .product-item-basket .add-compared-form {
+            #product .product-item-main .product-item-basket .add-compare-form {
                 padding-right: 2%;
             }
                 #product .product-item-main .product-item-basket .add-wished-form input,
-                #product .product-item-main .product-item-basket .add-compared-form input {
+                #product .product-item-main .product-item-basket .add-compare-form input {
                     box-sizing: border-box;
                     width: 100%;
                     background: #f0f0f0;
@@ -1732,110 +1744,6 @@ div.attention {
         #all-makers > p > a:hover {
             text-decoration: none;
         }
-
-/* список новостей (всех новостей или выбранной категории) */
-#news-list {
-
-}
-    #news-list > div {
-        overflow: hidden;
-        margin-bottom: 20px;
-    }
-    #news-list > div:last-child {
-        margin-bottom: 0;
-    }
-        #news-list > div > div:first-child {
-            float: left
-        }
-            #news-list > div > div:first-child a {
-                display: block;
-                width: 100px;
-                height: 100px;
-                padding: 5px;
-                border: 1px solid #d1d1d1;
-            }
-            #news-list > div > div:first-child img {
-                width: 100px;
-                height: 100px;
-            }
-        #news-list > div > div:last-child {
-            margin-left: 130px;
-        }
-            #news-list > div > div:last-child .news-date {
-                margin-bottom: 2px;
-                font-size: 12px;
-                color: #969696;
-            }
-            #news-list > div > div:last-child .news-heading {
-
-            }
-                #news-list > div > div:last-child .news-heading h2,
-                #news-list > div > div:last-child .news-heading h3 {
-                    margin: 0 0 5px 0;
-                    font-size: 16px;
-                    line-height: 19px;
-                }
-                #news-list > div > div:last-child .news-heading h2 a,
-                #news-list > div > div:last-child .news-heading h3 a {
-                    font-size: 16px;
-                    line-height: 19px;
-                    font-weight: bold;
-                    color: #395985;
-                }
-
-            #news-list > div > div:last-child .news-excerpt {
-                margin-bottom: 5px;
-            }
-            #news-list > div > div:last-child .news-category a {
-                font-size: 12px;
-            }
-
-/* отдельная новость */
-#news-item {
-
-}
-    #news-item > div:first-child {
-        overflow: hidden;
-        margin: 15px 0;
-    }
-        #news-item > div:first-child > p {
-            font-size: 12px;
-            color: #969696;
-            width: 50%;
-        }
-        #news-item > div:first-child > p:nth-child(1) {
-            float: left;
-        }
-        #news-item > div:first-child > p:nth-child(2) {
-            float: right;
-            text-align: right;
-        }
-            #news-item > div:first-child > p:nth-child(2) > a {
-                font-size: 12px;
-            }
-    #news-item > h2, #news-item > h3, #news-item > h4 {
-        margin: 15px 0;
-        color: #395985;
-        font-weight: normal;
-    }
-    #news-item > h2 {
-        font-size: 19px;
-    }
-    #news-item > h3 {
-        font-size: 16px;
-    }
-    #news-item > h4 {
-        font-size: 14px;
-    }
-    #news-item > p {
-        margin: 15px 0;
-    }
-    #news-item > ul, #news-item > ol {
-        margin: 15px 0 15px 30px;
-    }
-    #news-item img {
-        max-width: 100%;
-    }
 
 /*
  * ЛЕВАЯ КОЛОНКА
@@ -2153,17 +2061,17 @@ div.attention {
         width: 27%;
     }
     #right #side-wished table tr td:last-child,
-    #right #side-compared table tr td:last-child,
+    #right #side-compare table tr td:last-child,
     #right #side-viewed table tr td:last-child {
         text-align: right;
     }
-    #right #side-compared table tr th:first-child {
+    #right #side-compare table tr th:first-child {
         width: 22%;
     }
-    #right #side-compared table tr th:last-child {
+    #right #side-compare table tr th:last-child {
         width: 10%;
     }
-        #right #side-compared table tr td form button { /* кнопка: удалить из сравнения */
+        #right #side-compare table tr td form button { /* кнопка: удалить из сравнения */
             border: none;
             background: transparent;
             color: #395985;
@@ -2172,11 +2080,11 @@ div.attention {
             height: 13px;
             overflow: hidden;
         }
-            #right #side-compared table tr td form button i {
+            #right #side-compare table tr td form button i {
                 font-size: 14px;
                 line-height: 14px;
             }
-        #right #side-compared table tr td form button:hover {
+        #right #side-compare table tr td form button:hover {
             color: #e9751f;
         }
     #right #side-viewed table tr th:first-child {
@@ -2300,9 +2208,13 @@ div.attention {
                     }
 
 @media screen and (max-width: 1285px) {
-    /* главное меню: убираем дочерние пункты */
-    #menu > ul > li > ul {
+    /* основной контент: убираем правую колонку */
+    #right {
         display: none;
+    }
+    #content {
+        margin-right: 0;
+        padding-right: 0;
     }
     /* шапка: убираем телефоны */
     #header #top-phone {
@@ -2316,17 +2228,64 @@ div.attention {
     #header #top-menu {
         display: block;
     }
-    /* основной контент: убираем правую колонку */
-    #right {
-        display: none;
-    }
-    #content {
-        margin-right: 0;
-        padding-right: 0;
+}
+
+@media screen and (max-width: 1255px) {
+    /* уменьшаем главное меню */
+    #menu > ul > li > a {
+        padding: 10px 20px;
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1145px) {
+    /* уменьшаем главное меню */
+    #menu > ul > li > a {
+        padding: 10px 15px;
+    }
+}
+
+@media screen and (max-width: 1110px) {
+    /* верхнее меню */
+    #header #top-menu > a > span:first-of-type{
+        display: none;
+    }
+    #header #top-menu > a > span:last-child {
+        display: inline;
+    }
+}
+
+@media screen and (max-width: 1035px) {
+    /* уменьшаем главное меню */
+    #menu > ul > li > a {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    /* главная страница каталога */
+    #root-categories > ul {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media screen and (max-width: 925px) {
+    /* главное меню: убираем НОВОСТИ */
+    #menu > ul > li:nth-child(10) {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 904px) {
+    /* основной контент: убираем левую колонку */
+    #left {
+        display: none;
+    }
+    #content {
+        margin-left: 0;
+        padding-left: 0;
+    }
     /* шапка: убираем название компании */
     #header #top-logo {
         width: 60px;
@@ -2341,38 +2300,23 @@ div.attention {
     #header #top-menu {
         left: 70px;
     }
-}
-
-@media screen and (max-width: 1050px) {
-    /* верхнее меню */
-    #header #top-menu > a > span:first-of-type{
-        display: none;
-    }
-    #header #top-menu > a > span:last-child {
-        display: inline;
-    }
-}
-
-@media screen and (max-width: 960px) {
-    #root-categories > ul {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
-}
-
-@media screen and (max-width: 904px) {
-    /* основной контент: убираем левую колонку */
-    #left {
-        display: none;
-    }
-    #content {
-        margin-left: 0;
-        padding-left: 0;
-    }
     /* уменьшаем карту проезда */
     #tinkoMap, #deliveryMap {
         width: 95%;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    /* главное меню: убираем РЕМОНТ */
+    #menu > ul > li:nth-child(9) {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    /* главное меню: убираем О КОМПАНИИ */
+    #menu > ul > li:nth-child(1) {
+        display: none;
     }
 }
 
@@ -2396,38 +2340,20 @@ div.attention {
 }
 
 @media screen and (max-width: 700px) {
-    /* уменьшаем главное меню */
-    #menu > ul > li > a {
-        padding: 10px;
-    }
     /* вместе с этим часто покупают */
     .products-list-grid > div {
         width: 33.33333%;
     }
-    /* форма оформления заказа */
-    #checkout-order > div > div > div > div:last-child,
-    #checkout-order > div > div > div > div:first-child {
-        float: none;
-        width: 100%;
-    }
-    #checkout-order > div:last-child > div > div > div:last-child {
-        text-align: center;
+}
+
+@media screen and (max-width: 680px) {
+    /* главное меню: убираем РАСПРОДАЖА */
+    #menu > ul > li:nth-child(6) {
+        display: none;
     }
 }
 
 @media screen and (max-width: 650px) {
-    /* форма добавления/редактирования профиля в личном кабинете */
-    #add-edit-profile > div > div > div:first-child,
-    #add-edit-profile > div > div > div:last-child {
-        float: none;
-        width: 100%;
-    }
-    #add-edit-profile > div > div > div:first-child {
-        margin-bottom: 3px;
-    }
-    #add-edit-profile > div > div > div:last-child > input[type="submit"] {
-        margin: 10px auto 0 auto;
-    }
     /* страница товара */
     #product .product-item-main .product-item-image {
         float: none;
@@ -2441,13 +2367,6 @@ div.attention {
 }
 
 @media screen and (max-width: 612px) {
-    /* корзина */
-    #basket form div > span:last-child {
-        width: 50%;
-    }
-    #basket form p:last-child a {
-        width: 40%;
-    }
     /* список всех производителей */
     #all-makers > p > a {
         width: 50%;
@@ -2497,38 +2416,21 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 560px) {
-    /* список новостей */
-    #news-list > div > div:first-child {
-        display: none;
-    }
-    #news-list > div > div:last-child {
-        margin-left: 0;
-    }
-    /* список заказов зарегистрированного пользователя */
-    #user-orders-list > div > div > div {
-        width: 30%;
-    }
-}
-
-@media screen and (max-width: 520px) {
-    /* главное меню: убираем НОВОСТИ*/
+@media screen and (max-width: 580px) {
+    /* главное меню: убираем РЕЙТИНГ */
     #menu > ul > li:nth-child(5) {
         display: none;
     }
 }
 
-@media screen and (max-width: 500px) {
-    /* покупательская корзина */
-    #basket form table tr th:nth-child(1), #basket form table tr:not(:last-child) td:nth-child(1) {
+@media screen and (max-width: 505px) {
+    /* главное меню: убираем ПОДДЕРЖКА */
+    #menu > ul > li:nth-child(8) {
         display: none;
     }
-    #basket form table tr:first-child th:nth-child(3) {
-        width: 15%;
-    }
-    #basket form table tr:first-child th:nth-child(2) {
-        width: 50%;
-    }
+}
+
+@media screen and (max-width: 500px) {
     /* корневые категории, главная страница каталога */
     #root-categories > ul {
         -webkit-column-count: 1;
@@ -2575,56 +2477,6 @@ div.attention {
     .products-list-grid > div {
         width: 50%;
     }
-    /* форма регистрации */
-    #reg-user > div > div:first-child,  #reg-user > div > div:last-child {
-        float: none;
-        width: 100%;
-    }
-    #reg-user > div > div:first-child {
-        margin-bottom: 3px;
-    }
-    #reg-user > div > div:last-child > input[type="submit"] {
-        width: 100%;
-    }
-    /* форма редактирования личных данных */
-    #edit-user > div > div:first-child,  #edit-user > div > div:last-child {
-        float: none;
-        width: 100%;
-    }
-    #edit-user > div > div:first-child {
-        margin-bottom: 3px;
-    }
-    #edit-user > div > div:last-child > label {
-        margin-bottom: 0;
-    }
-    #edit-user > div > div:last-child > input[type="submit"] {
-        width: 100%;
-    }
-    /* форма восстановления пароля */
-    #new-password > div > div:first-child, #new-password > div > div:last-child {
-        float: none;
-        width: 100%;
-    }
-    #new-password > div > div:first-child {
-        margin-bottom: 3px;
-    }
-    #new-password > div > div:last-child > input[type="submit"] {
-        width: 100%;
-    }
-    /* форма оформления заказа */
-    #checkout-order select[name="office"] {
-        display: block;
-        margin-top: 12px;
-        margin-left: 0;
-        width: 100%;
-    }
-    /* форма добавления/редактирования профиля */
-    #add-edit-profile select[name="office"] {
-        display: block;
-        margin-top: 12px;
-        margin-left: 0;
-        width: 100%;
-    }
 }
 
 @media screen and (max-width: 480px) {
@@ -2636,52 +2488,16 @@ div.attention {
     #tinkoMap, #deliveryMap {
         height: 400px;
     }
-    /* покупательская корзина */
-    #basket form table tr th:nth-child(5), #basket form table tr td:nth-child(5) {
-        display: none;
-    }
-    #basket form div > span:first-child {
-        width: 35%;
-    }
 }
 
-@media screen and (max-width: 423px) {
-    /* покупательская корзина */
-    #basket form div > span:last-child {
-        width: 65%;
-    }
-    #basket form p:last-child a {
-        width: 100%;
-    }
-    /* история заказов зарегистрированного пользователя */
-    #user-orders-list > div > table tr th:nth-child(1), #user-orders-list > div > table tr td:nth-child(1) {
+@media screen and (max-width: 412px) {
+    /* главное меню: убираем РЕШЕНИЯ */
+    #menu > ul > li:nth-child(7) {
         display: none;
-    }
-    #user-orders-list > div > div > div {
-        width: 40%;
-    }
-    /* отдельный заказ зарегистрированного пользователя */
-    #user-order > table tr th:nth-child(1), #user-order > table tr td:nth-child(1) {
-        display: none;
-    }
-    /* форма оформления заказа */
-    #checkout-order input[type="submit"] {
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 404px) {
-    /* список всех производителей */
-    #all-makers > p > a {
-        width: 100%;
     }
 }
 
 @media screen and (max-width: 400px) {
-    /* форма авторизации пользователя */
-    #login-user-center > ul {
-        margin-left: 0;
-    }
     /* список товаров категории, скрываем оптовую цену */
     .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(3) {
         display: none;
@@ -2693,11 +2509,6 @@ div.attention {
 }
 
 @media screen and (max-width: 374px) {
-    /* уменьшаем главное меню */
-    .wrapper #menu > ul > li > a {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
     /* уменьшаем подвал */
     #footer > div > div > span {
         font-size: 10px;
@@ -2706,6 +2517,10 @@ div.attention {
 }
 
 @media screen and (max-width: 332px) {
+    /* список всех производителей */
+    #all-makers > p > a {
+        width: 90%;
+    }
     /* форма по авторизации */
     #login-user-center > form > div > div:last-child > input[type="submit"] {
         width: 100%;
@@ -2716,11 +2531,14 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 320px) {
-    /* покупательская корзина */
-    #basket form table tr th:nth-child(4), #basket form table tr td:nth-child(4) {
+@media screen and (max-width: 325px) {
+    /* главное меню: убираем КРЕДИТ */
+    #menu > ul > li:nth-child(4) {
         display: none;
     }
+}
+
+@media screen and (max-width: 320px) {
     .modal-window {
         max-width: 290px;
     }

@@ -56,7 +56,7 @@ defined('ZCMS') or die('Access denied');
         </div>
     <?php endif; ?>
     
-    <form action="<?php echo $action; ?>" method="post" id="add-solution-basket" data-id="<?php echo $id; ?>">
+    <form action="<?php echo $action; ?>" method="post">
         <h2>Комплект оборудования</h2>
         <input type="submit" name="submit" value="Добавить в корзину" />
     </form>

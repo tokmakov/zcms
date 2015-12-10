@@ -8,7 +8,7 @@ $(document).ready(function() {
     // обработчик события добавления товара в корзину, к сравнению, в избранное
     addBasketHandler();
     // обработчик события удаления товара из сравнения в правой колонке
-    removeSideComparedHandler();
+    removeSideСompareHandler();
 
     /*
      * Поиск по каталогу в шапке сайта
@@ -154,15 +154,15 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
-    if ($.cookie('show_side_compared') !== undefined && $.cookie('show_side_compared') == 0) {
-        $('#right > #side-compared > .side-content').hide();
+    if ($.cookie('show_side_compare') !== undefined && $.cookie('show_side_compare') == 0) {
+        $('#right > #side-compare > .side-content').hide();
     }
-    $('#right > #side-compared > .side-heading > span').click(function() {
+    $('#right > #side-compare > .side-heading > span').click(function() {
         var content = $(this).parent().next();
         if (content.is(':visible')) {
-            $.cookie('show_side_compared', 0, {expires: 365, path: '/'});
+            $.cookie('show_side_compare', 0, {expires: 365, path: '/'});
         } else {
-            $.cookie('show_side_compared', 1, {expires: 365, path: '/'});
+            $.cookie('show_side_compare', 1, {expires: 365, path: '/'});
         }
         content.slideToggle();
     });
@@ -178,22 +178,30 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
-
+/*
+    $('#compare-products').click( function(event){
+        event.preventDefault();
+        $('<div></div>')
+            .prependTo('body')
+            .addClass('compare-overlay')
+            .fadeIn();
+    });
+*/
     /*
      * Удаление товара из сравнения, страница сравнения, ajax
      */
-    $('.remove-compared-form').ajaxForm({
-        target: '#side-compared > .side-content',
+    $('.remove-compare-form').ajaxForm({
+        target: '#side-compare > .side-content',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
-                .prependTo('#side-compared > .side-content')
+                .prependTo('#side-compare > .side-content')
                 .addClass('overlay')
-                .height($('#side-compared > .side-content').height())
-                .width($('#side-compared > .side-content').width())
+                .height($('#side-compare > .side-content').height())
+                .width($('#side-compare > .side-content').width())
                 .offset({
-                    top : $('#side-compared > .side-content').offset().top,
-                    left : $('#side-compared > .side-content').offset().left
+                    top : $('#side-compare > .side-content').offset().top,
+                    left : $('#side-compare > .side-content').offset().left
                 });
             // удаляем товар из сравнения
             jqForm.parent().parent().hide(500, function() {
@@ -217,7 +225,7 @@ $(document).ready(function() {
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSideComparedHandler();
+            removeSidecompareHandler();
         },
         error: function() {
             alert('Ошибка при удалении товара из сравнения');
@@ -477,18 +485,18 @@ function addBasketHandler() {
     /*
      * Добавление товара к сравнению, ajax
      */
-    $('.add-compared-form').ajaxForm({
-        target: '#side-compared > .side-content',
+    $('.add-compare-form').ajaxForm({
+        target: '#side-compare > .side-content',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
             $('<div></div>')
-                .prependTo('#side-compared > .side-content')
+                .prependTo('#side-compare > .side-content')
                 .addClass('overlay')
-                .height($('#side-compared > .side-content').height()+30/*padding*/)
-                .width($('#side-compared > .side-content').width())
+                .height($('#side-compare > .side-content').height()+30/*padding*/)
+                .width($('#side-compare > .side-content').width())
                 .offset({
-                    top : $('#side-compared > .side-content').offset().top,
-                    left : $('#side-compared > .side-content').offset().left
+                    top : $('#side-compare > .side-content').offset().top,
+                    left : $('#side-compare > .side-content').offset().left
                 });
             // определаем координаты изображения товара, который добавляется к сравнению
             var image = jqForm.parent().prevAll('div:has(img)');
@@ -498,14 +506,14 @@ function addBasketHandler() {
             var imageWidth = Math.round(image.width());
             var imageHeight = Math.round(image.height());
             // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
-            var compared;
-            if ($('#side-compared > .side-heading').is(':visible')) {
-                compared = $('#side-compared > .side-heading > span > i');
+            var compare;
+            if ($('#side-compare > .side-heading').is(':visible')) {
+                compare = $('#side-compare > .side-heading > span > i');
             } else {
-                compared = $('#top-menu > a:nth-child(4) > i') ;
+                compare = $('#top-menu > a:nth-child(4) > i') ;
             }
-            var comparedTop = compared.offset().top + 11;
-            var comparedLeft = compared.offset().left + 9;
+            var compareTop = compare.offset().top + 11;
+            var compareLeft = compare.offset().left + 9;
             image
                 .clone()
                 .find('span')
@@ -525,7 +533,7 @@ function addBasketHandler() {
                 })
                 .delay(100)
                 .animate(
-                    {left: comparedLeft, top: comparedTop, width: 0, height: 0, padding: 0},
+                    {left: compareLeft, top: compareTop, width: 0, height: 0, padding: 0},
                     500,
                     function() {
                         // удаляем клона
@@ -546,7 +554,7 @@ function addBasketHandler() {
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSideComparedHandler();
+            removeSidecompareHandler();
         },
         error: function() {
             alert('Ошибка при добавлении товара к сравнению');
@@ -700,26 +708,26 @@ function menuClickHandler(event) {
     }
 }
 
-function removeSideComparedHandler() {
+function removeSideСompareHandler() {
     /*
      * Удаление товара из сравнения в правой колонке
      */
-    $('#side-compared form').ajaxForm({
-        target: '#side-compared > .side-content',
-        url: '/compared/rmvprd',
+    $('#side-compare form').ajaxForm({
+        target: '#side-compare > .side-content',
+        url: '/compare/rmvprd',
         beforeSubmit: function() {
             // добавляем overlay
-            var sideComparedHeight = $('#side-compared > .side-content').height()+30/*padding*/;
-            var sideComparedWidth = $('#side-compared > .side-content').width();
+            var sidecompareHeight = $('#side-compare > .side-content').height()+30/*padding*/;
+            var sidecompareWidth = $('#side-compare > .side-content').width();
             $('<div></div>')
-                .prependTo('#side-compared > .side-content')
+                .prependTo('#side-compare > .side-content')
                 .addClass('overlay')
-                .height(sideComparedHeight)
-                .width(sideComparedWidth);
+                .height(sidecompareHeight)
+                .width(sidecompareWidth);
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSideComparedHandler();
+            removeSideСompareHandler();
             // показываем окно с сообщением
             $('<div>Товар удален из сравнения</div>')
                 .prependTo('body')
@@ -738,4 +746,3 @@ function removeSideComparedHandler() {
         }
     });
 }
-

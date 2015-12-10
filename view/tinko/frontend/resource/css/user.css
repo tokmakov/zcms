@@ -235,8 +235,8 @@
         margin-top: 20px;
     }
     #add-edit-profile > div:nth-child(5) {
-        margin-top: 25px;
-        height: 24px;
+        margin-top: 24px;
+        min-height: 24px;
         line-height: 24px;
     }
     #add-edit-profile > div:nth-child(3),
@@ -348,11 +348,13 @@
         }
             #all-profiles > ul > li > div:first-child {
                 float: left;
-                width: 70%;
+                width: 60%;
+                white-space: nowrap;
+                overflow: hidden;
             }
             #all-profiles > ul > li > div:last-child {
                 float: right;
-                width: 25%;
+                width: 35%;
                 text-align: right;
             }
                 #all-profiles > ul > li > div:last-child > a:first-child {
@@ -543,3 +545,104 @@
         margin: 15px 0;
         padding-left: 20px;
     }
+
+@media screen and (max-width: 650px) {
+    /* форма добавления/редактирования профиля в личном кабинете */
+    #add-edit-profile > div > div > div:first-child,
+    #add-edit-profile > div > div > div:last-child {
+        float: none;
+        width: 100%;
+    }
+    #add-edit-profile > div > div > div:first-child {
+        margin-bottom: 3px;
+    }
+    #add-edit-profile > div > div > div:last-child > input[type="submit"] {
+        margin: 10px auto 0 auto;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    #user-orders-list > div > div > div {
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /* форма регистрации */
+    #reg-user > div > div:first-child,  #reg-user > div > div:last-child {
+        float: none;
+        width: 100%;
+    }
+    #reg-user > div > div:first-child {
+        margin-bottom: 3px;
+    }
+    #reg-user > div > div:last-child > input[type="submit"] {
+        width: 100%;
+    }
+    /* форма редактирования личных данных */
+    #edit-user > div > div:first-child,  #edit-user > div > div:last-child {
+        float: none;
+        width: 100%;
+    }
+    #edit-user > div > div:first-child {
+        margin-bottom: 3px;
+    }
+    #edit-user > div > div:last-child > label {
+        margin-bottom: 0;
+    }
+    #edit-user > div > div:last-child > input[type="submit"] {
+        width: 100%;
+    }
+    /* форма восстановления пароля */
+    #new-password > div > div:first-child, #new-password > div > div:last-child {
+        float: none;
+        width: 100%;
+    }
+    #new-password > div > div:first-child {
+        margin-bottom: 3px;
+    }
+    #new-password > div > div:last-child > input[type="submit"] {
+        width: 100%;
+    }
+    /* форма добавления/редактирования профиля */
+    #add-edit-profile select[name="office"] {
+        display: block;
+        margin-top: 12px;
+        margin-left: 0;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 423px) {
+    /* история заказов зарегистрированного пользователя */
+    #user-orders-list > div > table tr th:nth-child(1), #user-orders-list > div > table tr td:nth-child(1) {
+        display: none;
+    }
+    #user-orders-list > div > div > div {
+        width: 40%;
+    }
+    /* отдельный заказ зарегистрированного пользователя */
+    #user-order > table tr th:nth-child(1), #user-order > table tr td:nth-child(1) {
+        display: none;
+    }
+    /* форма добавления/редактирования профиля */
+    #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
+        width: 94%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    /* форма авторизации пользователя */
+    #login-user-center > ul {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    /* форма добавления/редактирования профиля */
+    #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
+        width: 92%;
+    }
+}
+

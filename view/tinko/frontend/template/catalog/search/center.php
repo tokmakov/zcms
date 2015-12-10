@@ -124,7 +124,7 @@ defined('ZCMS') or die('Access denied');
                             <?php endif; ?>
                             <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                         </form>
-                        <form action="<?php echo $product['action']['compared']; ?>" method="post" class="add-compared-form">
+                        <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                             <input type="hidden" name="return" value="search" />
                             <input type="hidden" name="query" value="<?php echo htmlspecialchars($query); ?>" />

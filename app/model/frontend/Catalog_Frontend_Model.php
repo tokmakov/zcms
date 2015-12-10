@@ -460,7 +460,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             // атрибут action тега form для добавления товара в список отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
             // атрибут action тега form для добавления товара в список сравнения
-            $products[$key]['action']['compared'] = $this->getURL('frontend/compared/addprd');
+            $products[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
         }
 
         return $products;
@@ -1381,7 +1381,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
             // атрибут action тега form для добавления товара в список отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
             // атрибут action тега form для добавления товара в список сравнения
-            $products[$key]['action']['compared'] = $this->getURL('frontend/compared/addprd');
+            $products[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
         }
 
         return $products;
@@ -1608,7 +1608,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 // атрибут action тега form для добавления товара в список отложенных
                 $result[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
                 // атрибут action тега form для добавления товара в список сравнения
-                $result[$key]['action']['compared'] = $this->getURL('frontend/compared/addprd');
+                $result[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
             }
         }
         return $result;

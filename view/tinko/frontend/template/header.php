@@ -9,7 +9,7 @@
  * $basketUrl - URL ссылки на страницу с корзиной
  * $userUrl - URL ссылки на страницу личного кабинета
  * $wishedUrl - URL ссылки на страницу отложенных товаров
- * $comparedUrl - URL ссылки на страницу сравнения товаров
+ * $compareUrl - URL ссылки на страницу сравнения товаров
  * $viewedUrl - URL ссылки на страницу просмотренных товаров
  */
 
@@ -53,7 +53,7 @@ defined('ZCMS') or die('Access denied');
         <i class="fa fa-star"></i>&nbsp;
         <span>Избранное</span><span>Избранное</span>
     </a>
-    <a href="<?php echo $comparedUrl; ?>" title="Сравнение товаров">
+    <a href="<?php echo $compareUrl; ?>" title="Сравнение товаров">
         <i class="fa fa-balance-scale"></i>&nbsp;
         <span>Сравнение товаров</span><span>Сравнение</span>
     </a>

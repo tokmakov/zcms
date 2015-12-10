@@ -10,8 +10,8 @@
  * $checkoutUrl - URL страницы с формой для оформления заказа
  * $wishedProducts - массив последних 10 отложенных товаров
  * $wishedUrl - URL страницы со списком всех отложенных товаров
- * $comparedProducts - массив последних 10 товаров для сравнения
- * $comparedUrl - URL страницы со списком всех товаров для сравнения
+ * $compareProducts - массив последних 10 товаров для сравнения
+ * $compareUrl - URL страницы со списком всех товаров для сравнения
  * $viewedProducts - массив последних 10 просмотренных товаров
  * $viewedUrl - URL страницы со списком всех просмотренных товаров
  *
@@ -131,7 +131,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div id="side-compared">
+<div id="side-compare">
     <div class="side-heading">
         <span>
             <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;<span>Сравнение товаров</span>
@@ -139,14 +139,14 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div class="side-content">
         <div>
-        <?php if (!empty($comparedProducts)): /* товары для сравнения */ ?>
+        <?php if (!empty($compareProducts)): /* товары для сравнения */ ?>
             <table>
                 <tr>
                     <th>Код</th>
                     <th>Наименование</th>
                     <th></th>
                 </tr>
-                <?php foreach ($comparedProducts as $item): ?>
+                <?php foreach ($compareProducts as $item): ?>
                     <tr>
                         <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
                         <td><?php echo $item['name']; ?></td>
@@ -159,7 +159,7 @@ defined('ZCMS') or die('Access denied');
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <p class="all-products"><a href="<?php echo $comparedUrl; ?>">Перейти к сравнению</a></p>
+            <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
         <?php else: ?>
             <p class="empty-list-right">Нет товаров для сравнения</p>
         <?php endif; ?>

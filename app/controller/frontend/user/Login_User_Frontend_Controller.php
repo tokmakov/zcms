@@ -26,6 +26,11 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         $this->userFrontendModel->attach($this->comparedFrontendModel);
 
         // добавляем наблюдателя за событием авторизации пользователя, чтобы
+        // сразу после авторизации объеденить списки товаров для сравнения
+        // (еще) не авторизованного пользователя и (уже) авторизованного
+        $this->userFrontendModel->attach($this->compareFrontendModel);
+
+        // добавляем наблюдателя за событием авторизации пользователя, чтобы
         // сразу после авторизации объеденить списки просмотренных товаров
         // (еще) не авторизованного пользователя и (уже) авторизованного
         $this->userFrontendModel->attach($this->viewedFrontendModel);

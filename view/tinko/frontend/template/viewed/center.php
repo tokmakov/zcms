@@ -35,7 +35,7 @@
  *     )
  *     [action] => Array (
  *       [basket] => /basket/addprd/37
- *       [compared] => /compared/addprd/37
+ *       [compare] => /compare/addprd/37
  *       [wished] => /wished/addprd/37
  *     )
  *   )
@@ -144,7 +144,7 @@ defined('ZCMS') or die('Access denied');
                     <?php endif; ?>
                     <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                 </form>
-                <form action="<?php echo $product['action']['compared']; /* добавить к сравнению */ ?>" method="post" class="add-compared-form">
+                <form action="<?php echo $product['action']['compare']; /* добавить к сравнению */ ?>" method="post" class="add-compare-form">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                     <input type="hidden" name="return" value="viewed" />
                     <?php if ($page > 1): ?>
