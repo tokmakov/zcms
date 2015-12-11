@@ -99,7 +99,7 @@ class FCache {
     public function isExists($key) {
         $name = md5($key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
-        if (!is_file($file)) {
+        if ( ! is_file($file)) {
             return false;
         }
         $temp = unserialize(file_get_contents($file));

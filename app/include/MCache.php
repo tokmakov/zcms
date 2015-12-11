@@ -140,4 +140,6 @@ class MCache {
     public function clearCache() {
         $this->memcache->flush();
     }
+    
+    private function __clone() {}
 }

@@ -18,7 +18,7 @@ class Xhr_Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller
 
         // если не передан id товара или id товара не число
         if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             die();
         } else {
             $product_id = (int)$_POST['product_id'];

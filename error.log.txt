@@ -347,3 +347,70 @@
 #4 C:\work\localhost2\www\index.php(52): Xhr_Addprd_Compare_Frontend_Controller->request()
 #5 {main}
 
+10.12.2015 21:16:10
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/compared/addprd
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/compar...')
+#1 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(181): Frontend_Model->getURL('frontend/compar...')
+#2 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(40): Product_Catalog_Frontend_Controller->getProduct()
+#3 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Product_Catalog_Frontend_Controller->input()
+#4 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#5 {main}
+
+10.12.2015 21:19:37
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(417): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(342): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+10.12.2015 21:23:00
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(417): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(342): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+11.12.2015 16:20:16
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+
+11.12.2015 16:21:03
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+
+11.12.2015 16:21:10
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+
+11.12.2015 16:25:29
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(268): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Backend_Controller->output()
+#2 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#3 {main}
+

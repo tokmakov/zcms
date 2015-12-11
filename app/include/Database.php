@@ -147,7 +147,7 @@ class Database {
      */
     public function fetchAll($query, $params = array(), $cache = false) {
         // если кэширование запрещено
-        if (!$cache) {
+        if ( ! $cache) {
             return $this->pdoFetchAll($query, $params);
         }
 

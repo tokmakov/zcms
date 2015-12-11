@@ -8,7 +8,7 @@ $(document).ready(function() {
     // обработчик события добавления товара в корзину, к сравнению, в избранное
     addBasketHandler();
     // обработчик события удаления товара из сравнения в правой колонке
-    removeSideСompareHandler();
+    removeSideCompareHandler();
 
     /*
      * Поиск по каталогу в шапке сайта
@@ -225,7 +225,7 @@ $(document).ready(function() {
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSidecompareHandler();
+            removeSideCompareHandler();
         },
         error: function() {
             alert('Ошибка при удалении товара из сравнения');
@@ -554,7 +554,7 @@ function addBasketHandler() {
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSidecompareHandler();
+            removeSideCompareHandler();
         },
         error: function() {
             alert('Ошибка при добавлении товара к сравнению');
@@ -708,7 +708,7 @@ function menuClickHandler(event) {
     }
 }
 
-function removeSideСompareHandler() {
+function removeSideCompareHandler() {
     /*
      * Удаление товара из сравнения в правой колонке
      */
@@ -727,7 +727,7 @@ function removeSideСompareHandler() {
         },
         success: function() {
             // обработчик события удаления товара из сравнения в правой колонке
-            removeSideСompareHandler();
+            removeSideCompareHandler();
             // показываем окно с сообщением
             $('<div>Товар удален из сравнения</div>')
                 .prependTo('body')

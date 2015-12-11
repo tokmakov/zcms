@@ -413,6 +413,7 @@ body > .wrapper {
     padding-left: 30px;
 }
     #about-company > li {
+        font-size: 16px;
         line-height: 18px;
     }
 
@@ -918,6 +919,8 @@ div.attention {
                             font-size: 18px;
                             line-height: 16px;
                             text-align: center;
+                            word-spacing: -2px;
+                            letter-spacing: -1px;
                         }
                         .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
                             color: #969696;
@@ -1536,6 +1539,8 @@ div.attention {
                         font-weight: bold;
                         font-size: 18px;
                         line-height: 16px;
+                        word-spacing: -2px;
+                        letter-spacing: -1px;
                     }
                     #product .product-item-main .product-item-info > div:first-child > span:last-child > span:first-child > span:first-child {
                         color: #395985;
@@ -2053,6 +2058,9 @@ div.attention {
     #right #side-basket table tr:last-child td span {
         font-weight: bold;
         color: #395985;
+        font-size: 16px;
+        letter-spacing: -1px;
+        word-spacing: -2px;
     }
     #right #side-wished table tr th:first-child {
         width: 22%;
@@ -2230,14 +2238,14 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 1255px) {
+@media screen and (max-width: 1265px) {
     /* уменьшаем главное меню */
     #menu > ul > li > a {
         padding: 10px 20px;
     }
 }
 
-@media screen and (max-width: 1145px) {
+@media screen and (max-width: 1155px) {
     /* уменьшаем главное меню */
     #menu > ul > li > a {
         padding: 10px 15px;
@@ -2254,7 +2262,7 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 1035px) {
+@media screen and (max-width: 1045px) {
     /* уменьшаем главное меню */
     #menu > ul > li > a {
         padding: 10px;
@@ -2270,7 +2278,7 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 925px) {
+@media screen and (max-width: 935px) {
     /* главное меню: убираем НОВОСТИ */
     #menu > ul > li:nth-child(10) {
         display: none;
@@ -2306,14 +2314,14 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 855px) {
     /* главное меню: убираем РЕМОНТ */
     #menu > ul > li:nth-child(9) {
         display: none;
     }
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 785px) {
     /* главное меню: убираем О КОМПАНИИ */
     #menu > ul > li:nth-child(1) {
         display: none;
@@ -2346,7 +2354,7 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 685px) {
     /* главное меню: убираем РАСПРОДАЖА */
     #menu > ul > li:nth-child(6) {
         display: none;
@@ -2416,14 +2424,14 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 585px) {
     /* главное меню: убираем РЕЙТИНГ */
     #menu > ul > li:nth-child(5) {
         display: none;
     }
 }
 
-@media screen and (max-width: 505px) {
+@media screen and (max-width: 510px) {
     /* главное меню: убираем ПОДДЕРЖКА */
     #menu > ul > li:nth-child(8) {
         display: none;
@@ -2490,7 +2498,7 @@ div.attention {
     }
 }
 
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 415px) {
     /* главное меню: убираем РЕШЕНИЯ */
     #menu > ul > li:nth-child(7) {
         display: none;

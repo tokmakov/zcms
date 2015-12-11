@@ -62,3 +62,29 @@
             padding: 0 5px;
         }
 }
+@media screen and (max-width: 430px) {
+    #tabs > ul {
+        float: none;
+        list-style: disc outside;
+        border-bottom: none;
+    }
+    #tabs > ul > li {
+        float: none;
+        border: none;
+        background: transparent;
+        margin-left: 0;   
+    }
+        #tabs > ul > li:first-child {
+            margin-left: 0;
+        }
+        #tabs > ul > li > a {
+            height: 24px;
+            line-height: 24px;   
+        }
+        #tabs > ul > li.current > a {
+            color: #395985;
+        }
+            #tabs > ul > li.current > a > span {
+                border-bottom: 1px dashed #395985;
+            }
+}

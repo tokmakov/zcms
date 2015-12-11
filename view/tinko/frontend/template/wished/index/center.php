@@ -111,9 +111,9 @@ defined('ZCMS') or die('Access denied');
                 <div>
                     <span>Цена, <?php echo $units[$product['unit']]; ?></span>
                         <span>
-                            <span><strong><?php echo number_format($product['price'], 2, '.', ''); ?></strong><span>розничная</span></span>
-                            <span><strong><?php echo number_format($product['price2'], 2, '.', ''); ?></strong><span>мелкий опт</span></span>
-                            <span><strong><?php echo number_format($product['price3'], 2, '.', ''); ?></strong><span>оптовая</span></span>
+                            <span><strong><?php echo number_format($product['price'], 2, '.', ' '); ?></strong><span>розничная</span></span>
+                            <span><strong><?php echo number_format($product['price2'], 2, '.', ' '); ?></strong><span>мелкий опт</span></span>
+                            <span><strong><?php echo number_format($product['price3'], 2, '.', ' '); ?></strong><span>оптовая</span></span>
                         </span>
                 </div>
                 <div>
@@ -159,7 +159,7 @@ defined('ZCMS') or die('Access denied');
                     <span>Сохранить</span>
                 </div>
                 <div>
-                    <textarea name="comment" data-id="<?php echo $product['id']; ?>" placeholder="Ваш комментарий, чтобы не забыть..."><?php echo htmlspecialchars($product['comment']); ?></textarea>
+                    <textarea name="comment" maxlength="250" data-id="<?php echo $product['id']; ?>" placeholder="Ваш комментарий, чтобы не забыть..."><?php echo htmlspecialchars($product['comment']); ?></textarea>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@ defined('ZCMS') or die('Access denied');
             </tr>
         <?php endforeach; ?>
         <tr>
-            <td colspan="3" style="text-align: right;">Итого: <span><?php echo number_format($sideBasketTotalCost, 2, '.', ''); ?></span> руб.</td>
+            <td colspan="3" style="text-align: right;"><span><?php echo number_format($sideBasketTotalCost, 2, '.', ' '); ?></span> руб.</td>
         </tr>
     </table>
     <ul id="goto-basket-checkout">

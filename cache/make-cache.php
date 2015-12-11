@@ -34,7 +34,6 @@ $register->database = Database::getInstance();
 
 // очищаем кэш
 $register->cache->clearCache();
-die();
 
 // все страницы сайта
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";

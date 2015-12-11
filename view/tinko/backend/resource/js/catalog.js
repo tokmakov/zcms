@@ -50,7 +50,7 @@ $(document).ready(function() {
         var product = $('#add-edit-product input[name="id"]').val();
         $.ajax({
             type: 'POST',
-            url: '/backend/filter/ajaxparams',
+            url: '/backend/filter/params',
             dataType: 'html',
             data: 'group=' + group + '&product=' + product,
             success: function(html) {

@@ -103,12 +103,12 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // фото товара
-        if ((!empty($product['image'])) && is_file('./files/catalog/imgs/medium/' . $product['image'])) {
+        if ((!empty($product['image'])) && is_file('files/catalog/imgs/medium/' . $product['image'])) {
             $image['medium'] = $this->config->site->url . 'files/catalog/imgs/medium/' . $product['image'];
         } else {
             $image['medium'] = $this->config->site->url . 'files/catalog/imgs/medium/nophoto.jpg';
         }
-        if ((!empty($product['image'])) && is_file('./files/catalog/imgs/big/' . $product['image'])) {
+        if ((!empty($product['image'])) && is_file('files/catalog/imgs/big/' . $product['image'])) {
             $image['big'] = $this->config->site->url . 'files/catalog/imgs/big/' . $product['image'];
         } else {
             $image['big'] = $this->config->site->url . 'files/catalog/imgs/big/nophoto.jpg';
@@ -178,7 +178,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'action'       => array(
                 'basket'   => $this->catalogFrontendModel->getURL('frontend/basket/addprd'),
                 'wished'   => $this->catalogFrontendModel->getURL('frontend/wished/addprd'),
-                'compared' => $this->catalogFrontendModel->getURL('frontend/compared/addprd'),
+                'compare'  => $this->catalogFrontendModel->getURL('frontend/compare/addprd'),
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,

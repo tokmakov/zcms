@@ -60,9 +60,9 @@ defined('ZCMS') or die('Access denied');
             <span><input type="submit" name="submit" value="Пересчитать" /></span>
             <span>
                 <?php if ($type > 1): ?>
-                    <strong>&nbsp;<?php echo number_format($amount, 2, '.', ''); ?>&nbsp;</strong>
+                    <strong>&nbsp;<?php echo number_format($amount, 2, '.', ' '); ?>&nbsp;</strong>
                 <?php endif; ?>
-                <strong><?php echo number_format($userAmount, 2, '.', ''); ?></strong>
+                <strong><?php echo number_format($userAmount, 2, '.', ' '); ?></strong>
                 руб.
             </span>
         </div>
