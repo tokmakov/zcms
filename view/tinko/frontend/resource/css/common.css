@@ -989,6 +989,7 @@ div.attention {
         .products-list-line > div > .product-line-descr { /* краткое описание */
             clear: left;
             font-size: 14px;
+            line-height: 14px;
             color: #969696;
         }
 
