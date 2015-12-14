@@ -105,7 +105,8 @@ $settings = array(
                 'jquery.bxslider.css',
             ),
             'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
-            'compare'         => 'compare.css', // сравнение товаров
+            'compare-index'   => 'compare-index.css', // сравнение товаров
+            'compare-table'   => 'compare-table.css', // сравнение товаров
             'rating'          => 'rating.css',   // рейтинг продаж
             'sale'            => 'sale.css',     // распродажа
             'news'            => 'news.css',     // новости

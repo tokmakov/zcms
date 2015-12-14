@@ -28,6 +28,7 @@
  *     [shortdescr] => Дверной блок, накладной, ЛС 4-х пров.; 420 Твл, ИК-подветка; -50…+50°С; 140х70х20 мм
  *     [ctg_id] => 844
  *     [ctg_name] => Видеопенели вызывные
+ *     [grp_id] => 7
  *     [url] => Array (
  *       [product] => http://www.host.ru/catalog/product/230524
  *       [image] => http://www.host.ru/files/catalog/imgs/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
@@ -249,7 +250,7 @@ for ($i = 0; $i <= 6; $i++) {
                     <?php endif; ?>
                     <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                 </form>
-                <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form">
+                <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                     <input type="hidden" name="return" value="maker" />
                     <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />

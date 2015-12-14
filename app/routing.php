@@ -355,6 +355,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком товаров для сравнения
         '~^frontend/compare/index$~i' =>
         'compare',
+        // страница со списком товаров для сравнения, таблица
+        '~^frontend/compare/table$~i' =>
+        'compare/table',
         // товары для сравнения, постраничная навигация
         '~^frontend/compare/index/page/(\d+)$~i' =>
         'compare/page/$1',
@@ -951,6 +954,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком товаров для сравнения
         '~^compare$~i' =>
         'frontend/compare/index',
+        // страница со списком товаров для сравнения, таблица
+        '~^compare/table$~i' =>
+        'frontend/compare/table',
         // товары для сравнения, постраничная навигация
         '~^compare/page/(\d+)$~i' =>
         'frontend/compare/index/page/$1',

@@ -42,7 +42,7 @@ defined('ZCMS') or die('Access denied');
 
 <div id="top-menu">
     <a href="<?php echo $basketUrl; ?>" title="Ваша корзина">
-        <i class="fa fa-shopping-cart"></i>&nbsp;
+        <i class="fa fa-shopping-basket"></i>&nbsp;
         <span>Ваша корзина</span><span>Корзина</span>
     </a>
     <a href="<?php echo $userUrl; ?>" title="Личный кабинет">

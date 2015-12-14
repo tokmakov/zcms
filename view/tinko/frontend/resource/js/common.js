@@ -488,6 +488,20 @@ function addBasketHandler() {
     $('.add-compare-form').ajaxForm({
         target: '#side-compare > .side-content',
         beforeSubmit: function(formData, jqForm, options) {
+            var compare_count = 0;
+            var compare_table = $('#side-compare > .side-content > table');
+            if (compare_table.length > 0) {
+                compare_count = compare_table.data('count');
+            }
+            if (compare_count > 4) {
+                alert('Можно добавить к сравнению только пять товаров');
+                return false;
+            }
+            var compare_group = jqForm.data('group');
+            if ($.cookie('compare_group') !== undefined && $.cookie('compare_group') != compare_group) {
+                alert('Можно сранивать только товары с одинаковым функционалом');
+                return false;
+            }
             // добавляем overlay для правой колонки
             $('<div></div>')
                 .prependTo('#side-compare > .side-content')

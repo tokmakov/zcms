@@ -66,11 +66,10 @@ defined('ZCMS') or die('Access denied');
 <div id="side-basket">
     <div class="side-heading">
         <span>
-            <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;<span>Ваша корзина</span>
+            <i class="fa fa-shopping-basket"></i>&nbsp;&nbsp;<span>Ваша корзина</span>
         </span>
     </div>
     <div class="side-content">
-        <div>
         <?php if (!empty($basketProducts)): /* покупательская корзина */ ?>
             <table>
                 <tr>
@@ -96,7 +95,6 @@ defined('ZCMS') or die('Access denied');
         <?php else: ?>
             <p class="empty-list-right">Ваша корзина пуста</p>
         <?php endif; ?>
-        </div>
     </div>
 </div>
 
@@ -107,27 +105,25 @@ defined('ZCMS') or die('Access denied');
         </span>
     </div>
     <div class="side-content">
-        <div>
-            <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
-                <table>
+        <?php if (!empty($wishedProducts)): /* отложенные товары */ ?>
+            <table>
+                <tr>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                </tr>
+                <?php foreach ($wishedProducts as $item): ?>
                     <tr>
-                        <th>Код</th>
-                        <th>Наименование</th>
-                        <th>Цена</th>
+                        <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
                     </tr>
-                    <?php foreach ($wishedProducts as $item): ?>
-                        <tr>
-                            <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
-                            <td><?php echo $item['name']; ?></td>
-                            <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все отложенные товары</a></p>
-            <?php else: ?>
-                <p class="empty-list-right">Нет отложенных товаров</p>
-            <?php endif; ?>
-        </div>
+                <?php endforeach; ?>
+            </table>
+            <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все отложенные товары</a></p>
+        <?php else: ?>
+            <p class="empty-list-right">Нет отложенных товаров</p>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -138,9 +134,9 @@ defined('ZCMS') or die('Access denied');
         </span>
     </div>
     <div class="side-content">
-        <div>
         <?php if (!empty($compareProducts)): /* товары для сравнения */ ?>
-            <table>
+            <?php $count = count($compareProducts); ?>
+            <table data-count="<?php echo $count; ?>">
                 <tr>
                     <th>Код</th>
                     <th>Наименование</th>
@@ -159,11 +155,12 @@ defined('ZCMS') or die('Access denied');
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
+            <?php if ($count > 1): ?>
+                <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
+            <?php endif; ?>
         <?php else: ?>
             <p class="empty-list-right">Нет товаров для сравнения</p>
         <?php endif; ?>
-        </div>
     </div>
 </div>
 
@@ -174,27 +171,25 @@ defined('ZCMS') or die('Access denied');
         </span>
     </div>
     <div class="side-content">
-        <div>
-            <?php if (!empty($viewedProducts)): /* просмотренные товары */ ?>
-                <table>
+        <?php if (!empty($viewedProducts)): /* просмотренные товары */ ?>
+            <table>
+                <tr>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                </tr>
+                <?php foreach ($viewedProducts as $item): ?>
                     <tr>
-                        <th>Код</th>
-                        <th>Наименование</th>
-                        <th>Цена</th>
+                        <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
                     </tr>
-                    <?php foreach ($viewedProducts as $item): ?>
-                        <tr>
-                            <td><a href="<?php echo $item['url']; ?>"><?php echo $item['code']; ?></a></td>
-                            <td><?php echo $item['name']; ?></td>
-                            <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <p class="all-products"><a href="<?php echo $viewedUrl; ?>">Все просмотренные товары</a></p>
-            <?php else: ?>
-                <p class="empty-list-right">Нет просмотренных товаров</p>
-            <?php endif; ?>
-        </div>
+                <?php endforeach; ?>
+            </table>
+            <p class="all-products"><a href="<?php echo $viewedUrl; ?>">Все просмотренные товары</a></p>
+        <?php else: ?>
+            <p class="empty-list-right">Нет просмотренных товаров</p>
+        <?php endif; ?>
     </div>
 </div>
 

@@ -257,13 +257,13 @@ abstract class Frontend_Controller extends Base_Controller {
         $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
 
         // получаем от модели массив последних отложенных товаров (для правой колонки)
-        $lastWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
+        $sideWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
 
         // получаем от модели массив последних товаров для сравнения (для правой колонки)
-        $lastCompareProducts = $this->compareFrontendModel->getSideCompareProducts();
+        $sideCompareProducts = $this->compareFrontendModel->getSideCompareProducts();
 
         // получаем от модели массив последних просмотренных товаров (для правой колонки)
-        $lastViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
+        $sideViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
 
         /*
          * массив переменных, которые будут переданы в шаблон right.php
@@ -298,15 +298,15 @@ abstract class Frontend_Controller extends Base_Controller {
         // URL ссылки на страницу оформления заказа
         $this->rightVars['checkoutUrl']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
         // массив отложенных товаров (избранное)
-        $this->rightVars['wishedProducts']   = $lastWishedProducts;
+        $this->rightVars['wishedProducts']   = $sideWishedProducts;
         // URL ссылки на страницу отложенных товаров
         $this->rightVars['wishedUrl']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
         // массив товаров для сравнения
-        $this->rightVars['compareProducts']  = $lastCompareProducts;
+        $this->rightVars['compareProducts']  = $sideCompareProducts;
         // URL ссылки на страницу товаров для сравнения
         $this->rightVars['compareUrl']       = $this->compareFrontendModel->getURL('frontend/compare/index');
         // массив просмотренных товаров
-        $this->rightVars['viewedProducts']   = $lastViewedProducts;
+        $this->rightVars['viewedProducts']   = $sideViewedProducts;
         // URL ссылки на страницу просмотренных товаров
         $this->rightVars['viewedUrl']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
 

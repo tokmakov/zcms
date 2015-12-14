@@ -42,6 +42,7 @@
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
  *     [mkr_name] => Болид
+ *     [grp_id] => 5
  *     [url] => Array (
  *       [product] => http://www.host.ru/catalog/product/37
  *       [maker] => http://www.host.ru/catalog/maker/5
@@ -521,7 +522,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                     </form>
-                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form">
+                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
                         <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />

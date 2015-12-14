@@ -126,6 +126,8 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $this->centerVars = array(
             // уникальный идентификатор товара
             'id'           => $this->params['id'],
+            // идентификатор функциональной группы
+            'group'        => $product['grp_id'],
             // хлебные крошки
             'breadcrumbs'  => $breadcrumbs,
             // хлебные крошки

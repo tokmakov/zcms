@@ -16,7 +16,7 @@
         #basket form table tr th {
             background: #f0f0f0;
             font-weight: normal;
-            padding: 7px;
+            padding: 8px 5px;
         }
         #basket form table tr:first-child th:nth-child(1),
         #basket form table tr:first-child th:nth-child(3),

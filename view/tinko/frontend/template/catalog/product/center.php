@@ -4,6 +4,8 @@
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
+ * $id - уникальный идентификатор товара
+ * $group - идентификатор функциональной группы
  * $breadcrumbs - хлебные крошки
  * $breadcrumbs2 - хлебные крошки
  * $thisPageUrl - URL этой страницы
@@ -164,7 +166,7 @@ defined('ZCMS') or die('Access denied');
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
                 <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
             </form>
-            <form action="<?php echo $action['compare']; ?>" method="post" class="add-compare-form">
+            <form action="<?php echo $action['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $group; ?>">
                 <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
                 <input type="hidden" name="return" value="product" />
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />

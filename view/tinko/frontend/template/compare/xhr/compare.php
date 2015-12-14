@@ -11,7 +11,8 @@ defined('ZCMS') or die('Access denied');
 ?>
 
 <?php if (!empty($sideCompareProducts)): /* товары для сравнения*/ ?>
-    <table>
+    <?php $count = count($sideCompareProducts); ?>
+    <table data-count="<?php echo $count; ?>">
         <tr>
             <th>Код</th>
             <th>Наименование</th>
@@ -30,7 +31,9 @@ defined('ZCMS') or die('Access denied');
             </tr>
         <?php endforeach; ?>
     </table>
-    <p class="all-products"><a href="<?php echo $compareUrl; ?>" id="compare-products">Перейти к сравнению</a></p>
+    <?php if ($count > 1): ?>
+        <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
+    <?php endif; ?>
 <?php else: ?>
     <p class="empty-list-right">Нет товаров для сравнения</p>
 <?php endif; ?>
