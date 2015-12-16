@@ -4,11 +4,8 @@
  */
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 define('ZCMS', true);
-
 chdir('..');
-
 // поддержка кодировки UTF-8
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
@@ -26,10 +23,8 @@ $register->config = Config::getInstance();
 $register->cache = Cache::getInstance();
 // база данных
 $register->database = Database::getInstance();
-
 $handle = fopen('catalog-temp.xml', 'w');
 fwrite($handle, '<?xml version="1.0" encoding="utf-8" ?><catalog>');
-
 // получаем все категории
 fwrite($handle, '<categories>');
 $query = "SELECT `id`, `parent`, `name`, `sortorder` FROM `categories` WHERE 1 ORDER BY `id`";
@@ -42,7 +37,6 @@ foreach ($categories as $item) {
     fwrite($handle, $text);
 }
 fwrite($handle, '</categories>');
-
 // получаем всех производителей
 fwrite($handle, '<makers>');
 $query = "SELECT `id`, `name` FROM `makers` WHERE 1 ORDER BY `id`";
@@ -55,7 +49,6 @@ foreach ($makers as $item) {
     fwrite($handle, $text);
 }
 fwrite($handle, '</makers>');
-
 // получаем функциональные группы
 fwrite($handle, '<groups>');
 $query = "SELECT `id`, `name` FROM `groups` WHERE 1 ORDER BY `id`";
@@ -76,7 +69,6 @@ foreach ($groups as $item) {
     fwrite($handle, $text);
 }
 fwrite($handle, '</groups>');
-
 // получаем все параметры и все значения
 fwrite($handle, '<params>');
 // получаем параметры
@@ -104,11 +96,9 @@ foreach ($values as $item) {
 }
 fwrite($handle, '</values>');
 fwrite($handle, '</params>');
-
 // все единицы измерения
 fwrite($handle, '<units><unit id="1">руб/шт</unit><unit id="2">руб/компл</unit><unit id="3">руб/упак</unit>');
 fwrite($handle, '<unit id="4">руб/метр</unit><unit id="5">руб/пара</unit></units>');
-
 // получаем все товары
 fwrite($handle, '<products>');
 $query = "SELECT * FROM `products` WHERE 1 ORDER BY `id`";
@@ -217,7 +207,6 @@ foreach ($products as $item) {
     fwrite($handle, $text);
 }
 fwrite($handle, '</products>');
-
 // получаем все файлы документации
 fwrite($handle, '<docs>');
 $query = "SELECT `id`, `title`, `filename`, `md5` FROM `docs` WHERE 1 ORDER BY `id`";
@@ -234,9 +223,6 @@ foreach ($docs as $item) {
     fwrite($handle, $text);
 }
 fwrite($handle, '</docs>');
-
 fwrite($handle, '<certs></certs>');
-
 fwrite($handle, '</catalog>');
-
 fclose($handle);

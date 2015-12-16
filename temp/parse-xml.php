@@ -4,11 +4,8 @@
  */
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 define('ZCMS', true);
-
 chdir('..');
-
 // поддержка кодировки UTF-8
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
@@ -27,7 +24,6 @@ $register->config = Config::getInstance();
 $register->cache = Cache::getInstance();
 // база данных
 $register->database = Database::getInstance();
-
 $register->database->execute('TRUNCATE TABLE `temp_categories`');
 $register->database->execute('TRUNCATE TABLE `temp_makers`');
 $register->database->execute('TRUNCATE TABLE `temp_groups`');
@@ -41,8 +37,6 @@ $register->database->execute('TRUNCATE TABLE `temp_cert_prod`');
 $register->database->execute('TRUNCATE TABLE `temp_related`');
 $register->database->execute('TRUNCATE TABLE `temp_docs`');
 $register->database->execute('TRUNCATE TABLE `temp_certs`');
-
-
 $reader = new XMLReader();
 $reader->open('catalog-temp.xml');
 $item = array();
@@ -91,7 +85,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // ПРОИЗВОДИТЕЛИ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'makers') { // элемент <makers>
         // проходим в цикле все дочерние элементы элемента <makers>
@@ -133,7 +126,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // ФУНКЦИОНАЛЬНЫЕ ГРУППЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'groups') { // элемент <groups>
         // проходим в цикле все дочерние элементы элемента <groups>
@@ -205,7 +197,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // ПАРАМЕТРЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') { // элемент <params>
         // читаем дальше для получения элемента <names>
@@ -265,7 +256,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // ТОВАРЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'products') { // элемент <products>
         // проходим в цикле все дочерние элементы элемента <products>
@@ -625,7 +615,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // ФАЙЛЫ ДОКУМЕНТАЦИИ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') { // элемент <docs>
         // проходим в цикле все дочерние элементы элемента <docs>
@@ -692,7 +681,6 @@ while ($reader->read()) {
             }
         }
     }
-
     // СЕРТИФИКАТЫ
     if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs') { // элемент <certs>
         // проходим в цикле все дочерние элементы элемента <certs>
@@ -764,9 +752,7 @@ while ($reader->read()) {
             }
         }
     }
-
 }
-
 // устанавливаем порядок сортировки категорий
 $query ="SELECT `id` FROM `temp_categories` WHERE `parent` = 0 ORDER BY `sortorder`";
 $roots = $register->database->fetchAll($query);
@@ -780,10 +766,8 @@ foreach($roots as $root) {
     updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
     $i++;
 }
-
 // сравниваем таблицы
 echo 'COMPARE TABLES' . PHP_EOL;
-
 $query = "SELECT * FROM `products` WHERE 1 ORDER BY `id`";
 $products = $register->database->fetchAll($query);
 foreach ($products as $row1) {
@@ -800,7 +784,6 @@ foreach ($products as $row1) {
     }
 }
 echo 'products OK' . PHP_EOL;
-
 $query = "SELECT * FROM `categories` WHERE 1 ORDER BY `id`";
 $categories = $register->database->fetchAll($query);
 foreach ($categories as $row1) {
@@ -816,7 +799,6 @@ foreach ($categories as $row1) {
     }
 }
 echo 'categories OK' . PHP_EOL;
-
 $query = "SELECT * FROM `makers` WHERE 1 ORDER BY `id`";
 $makers = $register->database->fetchAll($query);
 foreach ($makers as $row1) {
@@ -829,7 +811,6 @@ foreach ($makers as $row1) {
     }
 }
 echo 'makers OK' . PHP_EOL;
-
 $query = "SELECT * FROM `groups` WHERE 1 ORDER BY `id`";
 $groups = $register->database->fetchAll($query);
 foreach ($groups as $row1) {
@@ -842,7 +823,6 @@ foreach ($groups as $row1) {
     }
 }
 echo 'groups OK' . PHP_EOL;
-
 $query = "SELECT * FROM `group_param_value` WHERE 1 ORDER BY `group_id`, `param_id`, `value_id`";
 $items = $register->database->fetchAll($query);
 foreach ($items as $row1) {
@@ -862,7 +842,6 @@ foreach ($items as $row1) {
     }
 }
 echo 'group_param_value OK' . PHP_EOL;
-
 $query = "SELECT * FROM `product_param_value` WHERE 1 ORDER BY `product_id`, `param_id`, `value_id`";
 $items = $register->database->fetchAll($query);
 foreach ($items as $row1) {
@@ -882,7 +861,6 @@ foreach ($items as $row1) {
     }
 }
 echo 'product_param_value OK' . PHP_EOL;
-
 $query = "SELECT * FROM `docs` WHERE 1 ORDER BY `id`";
 $docs = $register->database->fetchAll($query);
 foreach ($docs as $row1) {
@@ -897,7 +875,6 @@ foreach ($docs as $row1) {
     }
 }
 echo 'docs OK' . PHP_EOL;
-
 $query = "SELECT * FROM `doc_prd` WHERE 1 ORDER BY `prd_id`, `doc_id`";
 $items = $register->database->fetchAll($query);
 foreach ($items as $row1) {
@@ -916,8 +893,6 @@ foreach ($items as $row1) {
     }
 }
 echo 'doc_prd OK' . PHP_EOL;
-
-
 function updateSortOrderAllCategories($id, $sortorder, $level) {
     $register = Register::getInstance();
     // начало и конец строки, задающей сортировку

@@ -11,6 +11,22 @@
         <maker id="2">Болид</maker>
         <maker id="3">Риэлта</maker>
     </makers>
+    <params>
+        <names>
+            <name id="1">Напряжение питания, В</name>
+            <name id="2">Ток потребления, мкА</name>
+            <name id="3">Диапазон рабочих температур, °С</name>
+        </names>
+        <values>
+            <value id="1">12</value>
+            <value id="2">24</value>
+            <value id="3">30</value>
+            <value id="4">50</value>
+            <value id="5">да</value>
+            <value id="6">нет</value>
+            <value id="7">-50…+50</value>
+        </values>
+    </params>
     <groups>
         <group id="1">
             <name>Извещатель охранный</name>
@@ -29,22 +45,6 @@
             </params>
         </group>
     </groups>
-    <params>
-        <names>
-            <name id="1">Напряжение питания, В</name>
-            <name id="2">Ток потребления, мкА</name>
-            <name id="3">Диапазон рабочих температур, °С</name>
-        </names>
-        <values>
-            <value id="1">12</value>
-            <value id="2">24</value>
-            <value id="3">30</value>
-            <value id="4">50</value>
-            <value id="5">да</value>
-            <value id="6">нет</value>
-            <value id="7">-50…+50</value>
-        </values>
-    </params>
     <docs>
         <doc id="1">
             <title>Руководство по эксплуатации</title>
