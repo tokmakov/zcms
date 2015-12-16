@@ -144,13 +144,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
      */
     protected function product($id) {
         $query = "SELECT
-                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
-                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`, `a`.`purpose` AS `purpose`,
-                      `a`.`techdata` AS `techdata`, `a`.`features` AS `features`, `a`.`complect` AS `complect`,
-                      `a`.`equipment` AS `equipment`, `a`.`padding` AS `padding`, `a`.`category2` AS `second`,
-                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`, `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`,
-                      `a`.`group` AS `grp_id`
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
+                      `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `a`.`new` AS `new`, `a`.`hit` AS `hit`, `a`.`image` AS `image`,
+                      `a`.`purpose` AS `purpose`, `a`.`techdata` AS `techdata`,
+                      `a`.`features` AS `features`, `a`.`complect` AS `complect`,
+                      `a`.`equipment` AS `equipment`, `a`.`padding` AS `padding`,
+                      `a`.`category2` AS `second`, `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
+                      `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`, `a`.`group` AS `grp_id`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`

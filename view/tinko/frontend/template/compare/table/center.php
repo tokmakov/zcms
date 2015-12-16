@@ -107,7 +107,11 @@ defined('ZCMS') or die('Access denied');
                         <h3><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h3>
                     </div>
                     <div class="product-table-image">
-                        <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
+                        <a href="<?php echo $product['url']['product']; ?>">
+                            <?php if ($product['hit']): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
+                            <?php if ($product['new']): ?><span class="new-product">Новинка</span><?php endif; ?>
+                            <img src="<?php echo $product['url']['image']; ?>" alt="" />
+                        </a>
                     </div>
                     <div class="product-table-price">
                         <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
@@ -126,7 +130,15 @@ defined('ZCMS') or die('Access denied');
         <?php foreach($params as $row): ?>
             <tr>
             <?php foreach($row as $cell): ?>
-                    <td><?php echo $cell; ?></td>
+                    <td>
+                        <?php
+                            if (is_array($cell)) {
+                                echo implode('<br/>', $cell);
+                            } else {
+                                echo $cell;
+                            }
+                        ?>
+                    </td>
             <?php endforeach; ?>
             </tr>
         <?php endforeach; ?>

@@ -63,9 +63,8 @@ $(document).ready(function() {
     // при изменении состояния checkbox «Самовывоз со склада» для получателя,
     // скрываем/показываем часть формы, связанную с адресом доставки получателя
     $('#checkout-order input[name="shipping"]').change(function() {
-        $('#checkout-order #buyer-shipping-details').slideToggle('normal', function() {
-            $('#checkout-order select[name="office"]').toggle();
-        });
+        $('#checkout-order #buyer-shipping-details').slideToggle();
+        $('#checkout-order select[name="office"]').toggle();
     });
 
     // если не отмечен checkbox «Юридическое лицо» для плательщика,

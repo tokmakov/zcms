@@ -216,7 +216,8 @@ $(document).ready(function() {
                     .fadeIn(300, function() {
                         $(this).delay(1000).fadeOut(300, function() {
                             $(this).remove();
-                            if ($('div.products-list-line > div').length == 0) {
+                            if ($('#compare-products > .products-list-line > div').length == 0) {
+                                $('#compare-products > div:first-child > h2').remove();
                                 $('div.products-list-line').html('<p>Нет товаров для сравнения</p>');
                             };
                         });

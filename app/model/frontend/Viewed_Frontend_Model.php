@@ -93,6 +93,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       `c`.`name` AS `ctg_name`,
                       `d`.`id` AS `mkr_id`,
                       `d`.`name` AS `mkr_name`,
+                      `a`.`group` AS `grp_id`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
                   FROM

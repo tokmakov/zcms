@@ -26,6 +26,7 @@
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
  *     [mkr_name] => Болид
+ *     [grp_id] => 5
  *     [date] => 28.11.2014
  *     [time] => 11:50:36
  *     [url] => Array (
@@ -144,7 +145,7 @@ defined('ZCMS') or die('Access denied');
                     <?php endif; ?>
                     <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                 </form>
-                <form action="<?php echo $product['action']['compare']; /* добавить к сравнению */ ?>" method="post" class="add-compare-form">
+                <form action="<?php echo $product['action']['compare']; /* добавить к сравнению */ ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                     <input type="hidden" name="return" value="viewed" />
                     <?php if ($page > 1): ?>

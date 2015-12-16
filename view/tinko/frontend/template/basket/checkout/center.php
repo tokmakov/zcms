@@ -162,8 +162,8 @@ defined('ZCMS') or die('Access denied');
             <label><input type="checkbox" name="buyer_legal_person"<?php if ($buyer_legal_person) echo ' checked="checked"'; ?> value="1" /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
         </div>
 
-        <div id="buyer-legal-person">
-            <h3>Юридическое лицо</h3>
+        <fieldset id="buyer-legal-person">
+            <legend>Юридическое лицо</legend>
             <div>
                 <div>Название компании <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_company" maxlength="64" value="<?php echo $buyer_company; ?>" /></div>
@@ -196,10 +196,10 @@ defined('ZCMS') or die('Access denied');
                 <div>Корреспондентский счет <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_corr_acc" maxlength="32" value="<?php echo $buyer_corr_acc; ?>" /></div>
             </div>
-        </div>
+        </fieldset>
 
-        <div id="buyer-physical-person">
-            <h3>Контактное лицо</h3>
+        <fieldset id="buyer-physical-person">
+            <legend>Контактное лицо</legend>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_surname" maxlength="32" value="<?php echo $buyer_surname; ?>" /></div>
@@ -216,7 +216,7 @@ defined('ZCMS') or die('Access denied');
                 <div>Телефон</div>
                 <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" /></div>
             </div>
-        </div>
+        </fieldset>
 
         <div id="buyer-shipping">
             <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
@@ -231,8 +231,8 @@ defined('ZCMS') or die('Access denied');
             <?php endif; ?>
         </div>
 
-        <div id="buyer-shipping-details">
-            <h3>Адрес доставки</h3>
+        <fieldset id="buyer-shipping-details">
+            <legend>Адрес доставки</legend>
             <div>
                 <div>Адрес <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_shipping_address" maxlength="250" value="<?php echo $buyer_shipping_address; ?>" /></div>
@@ -245,7 +245,7 @@ defined('ZCMS') or die('Access denied');
                 <div>Почтовый индекс</div>
                 <div><input type="text" name="buyer_shipping_index" maxlength="32" value="<?php echo $buyer_shipping_index; ?>" /></div>
             </div>
-        </div>
+        </fieldset>
 
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
@@ -294,8 +294,8 @@ defined('ZCMS') or die('Access denied');
             <span class="legal_person_help">?</span>
         </div>
 
-        <div id="payer-legal-person">
-            <h3>Юридическое лицо</h3>
+        <fieldset id="payer-legal-person">
+            <legend>Юридическое лицо</legend>
             <div>
                 <div>Название компании <span class="form-field-required">*</span></div>
                 <div><input type="text" name="payer_company" maxlength="64" value="<?php echo $payer_company; ?>" /></div>
@@ -328,10 +328,10 @@ defined('ZCMS') or die('Access denied');
                 <div>Корреспондентский счет <span class="form-field-required">*</span></div>
                 <div><input type="text" name="payer_corr_acc" maxlength="32" value="<?php echo $payer_corr_acc; ?>" /></div>
             </div>
-        </div>
+        </fieldset>
 
-        <div id="payer-physical-person">
-            <h3>Контактное лицо</h3>
+        <fieldset id="payer-physical-person">
+            <legend>Контактное лицо</legend>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
                 <div><input type="text" name="payer_surname" maxlength="32" value="<?php echo $payer_surname; ?>" /></div>
@@ -348,7 +348,7 @@ defined('ZCMS') or die('Access denied');
                 <div>Телефон</div>
                 <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" /></div>
             </div>
-        </div>
+        </fieldset>
 
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
@@ -362,22 +362,13 @@ defined('ZCMS') or die('Access denied');
 
     </div>
 
-    <div id="comment-order">
-        <div>
-            <div>
-                <div>Комментарий</div>
-                <div><textarea name="comment" maxlength="250"><?php echo $comment; ?></textarea></div>
-            </div>
-        </div>
+    <div>
+        <div>Комментарий</div>
+        <div><textarea name="comment" maxlength="250"><?php echo $comment; ?></textarea></div>
     </div>
 
     <div>
-        <div>
-            <div>
-                <div></div>
-                <div><input type="submit" name="submit" value="Отправить" /></div>
-            </div>
-        </div>
+        <input type="submit" name="submit" value="Отправить" />
     </div>
 
 </form>

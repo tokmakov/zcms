@@ -45,6 +45,34 @@
             <value id="7">-50…+50</value>
         </values>
     </params>
+    <docs>
+        <doc id="1">
+            <title>Руководство по эксплуатации</title>
+            <file>6369D206EB7F4D70C9C0C3332D46192D.pdf</file>
+            <md5></md5>
+        </doc>
+        <doc id="2">
+            <title>Паспорт</title>
+            <file>189420340E94EB70136C357E867CC62E.pdf</file>
+            <md5></md5>
+        </doc>
+    </docs>
+    <certs>
+        <cert id="1">
+            <title>Сертификат соответствия</title>
+            <files>
+                <name>014789C37F615515E810457C2DC3D00B.jpg</name>
+                <count>3</count>
+            </files>
+        </cert>
+        <cert id="2">
+            <title>Сертификат соответствия</title>
+            <files>
+                <name>F0054DA16A163660EC28DD48FAD9FA98.jpg</name>
+                <count>1</count>
+            </files>
+        </cert>
+    </certs>
     <units>
         <unit id="1">руб/шт</unit>
         <unit id="2">руб/компл</unit>
@@ -106,32 +134,4 @@
             </linked>
         </product>
     </products>
-    <docs>
-        <doc id="1">
-            <title>Руководство по эксплуатации</title>
-            <file>6369D206EB7F4D70C9C0C3332D46192D.pdf</file>
-            <md5></md5>
-        </doc>
-        <doc id="2">
-            <title>Паспорт</title>
-            <file>189420340E94EB70136C357E867CC62E.pdf</file>
-            <md5></md5>
-        </doc>
-    </docs>
-    <certs>
-        <cert id="1">
-            <title>Сертификат соответствия</title>
-            <files>
-                <name>014789C37F615515E810457C2DC3D00B.jpg</name>
-                <count>3</count>
-            </files>
-        </cert>
-        <cert id="2">
-            <title>Сертификат соответствия</title>
-            <files>
-                <name>F0054DA16A163660EC28DD48FAD9FA98.jpg</name>
-                <count>1</count>
-            </files>
-        </cert>
-    </certs>
 </catalog>

@@ -17,6 +17,8 @@
  * $unit - единица измерения
  * $units - массив единиц измерения товара
  * $maker - производитель
+ * $new - новый товар?
+ * $hit - лидер продаж?
  * $shortdescr - краткое описание
  * $image - фото товара
  * $purpose - назначение изделия
@@ -131,6 +133,8 @@ defined('ZCMS') or die('Access denied');
     <div class="product-item-main">
         <div class="product-item-image">
             <a href="<?php echo $image['big']; ?>" class="zoom" title="<?php echo htmlspecialchars($name); ?>">
+                <?php if ($hit): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
+                <?php if ($new): ?><span class="new-product">Новинка</span><?php endif; ?>
                 <img src="<?php echo $image['medium']; ?>" alt="<?php echo htmlspecialchars($name); ?>" />
             </a>
         </div>

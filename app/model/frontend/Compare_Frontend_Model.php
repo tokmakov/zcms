@@ -331,20 +331,23 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC";
-        $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $products = $this->database->fetchAll(
+            $query,
+            array('visitor_id' => $this->visitorId),
+            $this->enableDataCache
+        );
+        $title[] = 'Функциональное наименование';
         $code[] = 'Код';
         $maker[] = 'Производитель';
-        $title[] = 'Функциональное наименование';
         $shortdescr[] = 'Краткое описание';
         foreach ($products as $product) {
+            $title[]      = $product['title'];
             $code[]       = $product['code'];
             $maker[]      = $product['maker'];
-            $title[]      = $product['title'];
             $shortdescr[] = $product['shortdescr'];
         }
-        $common = array($code, $maker, $title, $shortdescr);
         if (0 == $this->groupId) {
-            return $common;
+            return array($title, $code, $maker, $shortdescr);
         }
         $query = "SELECT
                       DISTINCT `a`.`id` AS `id`, `a`.`name` AS `name`
@@ -356,32 +359,42 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `b`.`group_id` = :group_id
                   ORDER BY
                       `a`.`name`, `a`.`id`";
-        $result = $this->database->fetchAll($query, array('group_id' => $this->groupId));
+        $result = $this->database->fetchAll(
+            $query,
+            array('group_id' => $this->groupId),
+            $this->enableDataCache
+        );
         
         $params = array();
         foreach ($result as $i => $value) {
             $params[$i][] = $value['name'];
             foreach ($products as $j => $product) {
                 $query = "SELECT
-                              `b`.`id` AS `id`, `b`.`name` AS `value`
+                              `b`.`name` AS `value`
                           FROM
                               `product_param_value` `a` INNER JOIN `values` `b`
                               ON `a`.`value_id` = `b`.`id`
                           WHERE
                               `a`.`product_id` = :product_id AND `a`.`param_id` = :param_id";
-                $res = $this->database->fetch(
+                $res = $this->database->fetchAll(
                     $query,
                     array(
                         'product_id' => $product['id'],
                         'param_id'   => $value['id']
-                    )
+                    ),
+                    $this->enableDataCache
                 );
-                // TODO: если у товара два значения параметра
-                $params[$i][$j+1] = $res['value'];
+                if (count($res) > 1) {
+                    foreach($res as $item) {
+                        $params[$i][$j+1][] = $item['value'];
+                    }
+                } else {
+                    $params[$i][$j+1] = $res[0]['value'];
+                }
             }
         }
         
-        return array_merge($common, $params);
+        return array_merge(array($title, $code, $maker), $params, array($shortdescr));
 
     }
 
@@ -415,9 +428,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `a`.`code` AS `code`,
                       `a`.`name` AS `name`,
                       `a`.`price` AS `price`,
-                      `a`.`unit` AS `unit`,
-                      DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
-                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
+                      `a`.`unit` AS `unit`
                   FROM
                       `products` `a`
                       INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
@@ -463,7 +474,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // на случай, если это последний товар из списка
         // сравнения; заодно сформируем кэш
         $this->groupId = $this->getCompareGroup();
-        // TODO: проверить при XmlHttpRequest
         if (is_null($this->groupId)) {
             // удаляем cookie
             setcookie('compare_group', '', time() - 86400, '/');

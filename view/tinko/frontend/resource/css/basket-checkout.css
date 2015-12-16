@@ -37,14 +37,16 @@
             border-bottom: 1px dashed #323232;
             margin: 0 7px 0 5px;
         }
-    #checkout-order > #payer-order, #checkout-order > #buyer-order { /* рамка для блоков Получатель и Плательщик */
+    /* рамка для блоков Получатель и Плательщик */
+    #checkout-order > #payer-order, #checkout-order > #buyer-order {
         position: relative;
         background: #fafafa;
         border: 1px solid #d1d1d1;
         padding: 15px;
         margin-top: 45px;
     }
-        #checkout-order > #payer-order > h2, #checkout-order > #buyer-order > h2 { /* заголовки для блоков Получатель и Плательщик */
+        /* заголовки для блоков Получатель и Плательщик */
+        #checkout-order > #payer-order > h2, #checkout-order > #buyer-order > h2 {
             position: absolute;
             margin: 0;
             left: 20px;
@@ -57,8 +59,10 @@
             padding: 5px 20px;
             border: 1px solid #d1d1d1;
             border-bottom: 1px solid #fafafa;
+            color: #395985;
         }
-        #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile { /* выбор профиля для Получателя и Плательщика */
+        /* выбор профиля для Получателя и Плательщика */
+        #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile {
             margin-bottom: 15px;
             padding: 10px;
             background: #f0f0f0;
@@ -68,16 +72,15 @@
             padding-top: 10px;
             border-top: 1px dashed #d1d1d1;
         }
-        #checkout-order > #payer-order > #payer-legal-person,
-        #checkout-order > #buyer-order > #buyer-legal-person,
-        #checkout-order > #payer-order > #payer-physical-person,
-        #checkout-order > #buyer-order > #buyer-physical-person,
-        #checkout-order > #buyer-order > #buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
-            position: relative;
+        #checkout-order > #payer-order > fieldset#payer-legal-person,
+        #checkout-order > #buyer-order > fieldset#buyer-legal-person,
+        #checkout-order > #payer-order > fieldset#payer-physical-person,
+        #checkout-order > #buyer-order > fieldset#buyer-physical-person,
+        #checkout-order > #buyer-order > fieldset#buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
             background: #fff;
             border: 1px solid #d1d1d1;
-            padding: 15px 10px 10px 10px;
-            margin-top: 20px;
+            padding: 5px 10px 10px 10px;
+            margin-top: 15px;
         }
         #checkout-order > #buyer-order > #buyer-shipping {
             min-height: 25px;
@@ -91,27 +94,20 @@
             #checkout-order > #buyer-order > #buyer-shipping > label > span {
                 line-height: normal;
             }
-
-            #checkout-order > #payer-order > #payer-legal-person > h3,
-            #checkout-order > #buyer-order > #buyer-legal-person > h3,
-            #checkout-order > #payer-order > #payer-physical-person > h3,
-            #checkout-order > #buyer-order > #buyer-physical-person > h3,
-            #checkout-order > #buyer-order > #buyer-shipping-details > h3 { /* заголовок для блоков юридические лицо и контактное лицо */
-                position: absolute;
-                margin: 0;
-                left: 20px;
-                top: -8px;
-                background: #fff;
-                background: linear-gradient(to bottom, #fafafa, #fff);
-                font-size: 14px;
-                line-height: 14px;
-                font-weight: normal;
+            /* заголовок для блоков юридические лицо и контактное лицо */
+            #checkout-order > #payer-order > fieldset#payer-legal-person > legend,
+            #checkout-order > #buyer-order > fieldset#buyer-legal-person > legend,
+            #checkout-order > #payer-order > fieldset#payer-physical-person > legend,
+            #checkout-order > #buyer-order > fieldset#buyer-physical-person > legend,
+            #checkout-order > #buyer-order > fieldset#buyer-shipping-details > legend {
                 font-style: italic;
-                padding: 0 10px;
+                padding: 0 7px;
             }
+                #checkout-order > div > fieldset > div,
                 #checkout-order > div > div > div {
                     overflow: hidden;
                 }
+                    #checkout-order > div > fieldset > div > div:first-child,
                     #checkout-order > div > div > div > div:first-child {
                         float: left;
                         width: 30%;
@@ -119,16 +115,12 @@
                         white-space: nowrap;
                         overflow: hidden;
                     }
-                    #checkout-order > div > div > div > div:last-child {
+                    #checkout-order > div > fieldset > div > div:last-child,
+                    #checkout-order > div > div > div > div:last-child{
                         float: left;
                         width: 70%;
                     }
-                    #checkout-order > #comment-order > div > div > div {
-                        float: none;
-                        width: 100%;
-                    }
-                        #checkout-order > div > div > div > div:last-child > input[type="text"],
-                        #checkout-order > div > div > div > div:last-child > textarea {
+                        #checkout-order > div > fieldset > div > div:last-child > input[type="text"] {
                             width: 100%;
                             font-size: 14px;
                             line-height: 14px;
@@ -137,6 +129,7 @@
                             border: 1px solid #d1d1d1;
                             margin: 2px 0;
                         }
+                        /* выбор профиля Получателя и Плательщика */
                         #checkout-order > div > div > div > div:last-child > select {
                             width: 100%;
                             box-sizing: border-box;
@@ -146,29 +139,39 @@
                             border: 1px solid #d1d1d1;
                             margin: 2px 0;
                         }
-                        #checkout-order > div > div > div > div:last-child > textarea {
+                        #checkout-order textarea { /* комментарий */
+                            box-sizing: border-box;
                             height: 100px;
+                            width: 100%;
+                            border: 1px solid #d1d1d1;
+                            padding: 5px;
+                            margin-top: 2px;
                         }
-
-    #checkout-order input[type="submit"] {
-        box-sizing: border-box;
-        padding: 5px;
-        border: 1px solid #e9751f;
-        width: 50%;
-        background: #e9751f;
-        color: #fff;
-        font-size: 14px;
-        cursor: pointer;
+    /* кнопка отправки формы */
+    #checkout-order > div:last-child {
+        text-align: center;
     }
+        #checkout-order > div:last-child > input[type="submit"] {
+            box-sizing: border-box;
+            padding: 5px;
+            border: 1px solid #e9751f;
+            width: 30%;
+            background: #e9751f;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
 @media screen and (max-width: 700px) {
+    #checkout-order > div > fieldset > div > div:last-child,
+    #checkout-order > div > fieldset > div > div:first-child,
     #checkout-order > div > div > div > div:last-child,
-    #checkout-order > div > div > div > div:first-child {
+    #checkout-order > div > div > div > div:first-child{
         float: none;
         width: 100%;
     }
-    #checkout-order > div:last-child > div > div > div:last-child {
-        text-align: center;
+    #checkout-order > div:last-child > input[type="submit"] {
+        width: 50%;
     }
 }
 
@@ -182,7 +185,7 @@
 }
 
 @media screen and (max-width: 423px) {
-    #checkout-order input[type="submit"] {
+    #checkout-order > div:last-child > input[type="submit"] {
         width: 100%;
     }
 }
