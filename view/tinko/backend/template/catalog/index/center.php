@@ -27,12 +27,8 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Каталог</h1>
 
-<ul>
+<ul id="add-ctg-prd">
     <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
-    <li><a href="<?php echo $addPrdUrl; ?>">Добавить товар</a></li>
-</ul>
-
-<ul>
     <li><a href="<?php echo $allMkrUrl; ?>">Все производители</a></li>
 </ul>
 
@@ -43,10 +39,10 @@ defined('ZCMS') or die('Access denied');
             <li>
                 <div><?php echo $category['sortorder']; ?> <a href="<?php echo $category['url']['link']; ?>"><?php echo $category['name']; ?></a></div>
                 <div>
-                    <a href="<?php echo $category['url']['up']; ?>" title="Вверх">Вверх</a>
-                    <a href="<?php echo $category['url']['down']; ?>" title="Вниз">Вниз</a>
-                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    <a href="<?php echo $category['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                    <a href="<?php echo $category['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                 </div>
             </li>
         <?php endforeach; ?>

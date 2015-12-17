@@ -35,10 +35,10 @@ defined('ZCMS') or die('Access denied');
                     <div>
                         <div><?php echo $value1['name']; ?></div>
                         <div>
-                            <a href="<?php echo $value1['url']['moveup']; ?>" title="Вверх">Вверх</a>
-                            <a href="<?php echo $value1['url']['movedown']; ?>" title="Вниз">Вниз</a>
-                            <a href="<?php echo $value1['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                            <a href="<?php echo $value1['url']['remove']; ?>" title="Удалить">Удл.</a>
+                            <a href="<?php echo $value1['url']['moveup']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                            <a href="<?php echo $value1['url']['movedown']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                            <a href="<?php echo $value1['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                            <a href="<?php echo $value1['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                         </div>
                     </div>
                     <?php if (isset($value1['childs'])): ?>
@@ -48,10 +48,10 @@ defined('ZCMS') or die('Access denied');
                                     <div>
                                         <div><?php echo $value2['name']; ?></div>
                                         <div>
-                                            <a href="<?php echo $value2['url']['moveup']; ?>" title="Вверх">Вверх</a>
-                                            <a href="<?php echo $value2['url']['movedown']; ?>" title="Вниз">Вниз</a>
-                                            <a href="<?php echo $value2['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                                            <a href="<?php echo $value2['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                            <a href="<?php echo $value2['url']['moveup']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                                            <a href="<?php echo $value2['url']['movedown']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                                            <a href="<?php echo $value2['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="<?php echo $value2['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                                         </div>
                                     </div>
                                     <?php if (isset($value2['childs'])): ?>
@@ -61,10 +61,10 @@ defined('ZCMS') or die('Access denied');
                                                     <div>
                                                         <div><?php echo $value3['name']; ?></div>
                                                         <div>
-                                                            <a href="<?php echo $value3['url']['moveup']; ?>" title="Вверх">Вверх</a>
-                                                            <a href="<?php echo $value3['url']['movedown']; ?>" title="Вниз">Вниз</a>
-                                                            <a href="<?php echo $value3['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                                                            <a href="<?php echo $value3['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                                            <a href="<?php echo $value3['url']['moveup']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                                                            <a href="<?php echo $value3['url']['movedown']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                                                            <a href="<?php echo $value3['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                                                            <a href="<?php echo $value3['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                                                         </div>
                                                     </div>
                                                 </li>

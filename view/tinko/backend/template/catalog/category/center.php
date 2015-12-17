@@ -30,9 +30,9 @@ defined('ZCMS') or die('Access denied');
 
 <h1><?php echo $name; ?></h1>
 
-<ul>
-    <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
+<ul id="add-ctg-prd">
     <li><a href="<?php echo $addPrdUrl; ?>">Добавить товар</a></li>
+    <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
 </ul>
 
 <?php if (!empty($childCategories)): // дочерние категории ?>
@@ -42,10 +42,10 @@ defined('ZCMS') or die('Access denied');
             <li>
                 <div><?php echo $category['sortorder']; ?> : <?php echo $category['globalsort']; ?> <a href="<?php echo $category['url']['link']; ?>"><?php echo $category['name']; ?></a></div>
                 <div>
-                    <a href="<?php echo $category['url']['up']; ?>" title="Вверх">Вверх</a>
-                    <a href="<?php echo $category['url']['down']; ?>" title="Вниз">Вниз</a>
-                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    <a href="<?php echo $category['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                    <a href="<?php echo $category['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                 </div>
             </li>
         <?php endforeach; ?>
@@ -60,10 +60,10 @@ defined('ZCMS') or die('Access denied');
             <li>
                 <div><?php echo $product['sortorder']; ?>. <?php echo $product['name']; ?></div>
                 <div>
-                    <a href="<?php echo $product['url']['up']; ?>" title="Вверх">Вверх</a>
-                    <a href="<?php echo $product['url']['down']; ?>" title="Вниз">Вниз</a>
-                    <a href="<?php echo $product['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                    <a href="<?php echo $product['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    <a href="<?php echo $product['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                    <a href="<?php echo $product['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                    <a href="<?php echo $product['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo $product['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                 </div>
             </li>
         <?php endforeach; ?>

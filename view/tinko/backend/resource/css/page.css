@@ -94,3 +94,6 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-pages li > div > div:last-child > a {
+                    margin-left: 10px;
+                }

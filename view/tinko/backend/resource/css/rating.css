@@ -28,6 +28,9 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-categories li > div > div:last-child > a {
+                    margin-left: 10px;
+                }
             
 /* форма для добавления/редактирования категории */
 #add-edit-category {

@@ -70,3 +70,18 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
+
+/* ссылки для добавления катагории и товара */
+#add-ctg-prd {
+    overflow: hidden;
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+    #add-ctg-prd li {
+        float: left;
+        width: 50%;
+    }
+    #add-ctg-prd li:last-child {
+        text-align: right;
+    }

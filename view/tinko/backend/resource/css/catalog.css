@@ -234,6 +234,9 @@
                 width: 30%;
                 text-align: right;
             }
+                #child-categories > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }
 
 /* список всех товаров категории */
 #category-products {
@@ -258,6 +261,9 @@
                 width: 30%;
                 text-align: right;
             }
+                #category-products > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }
 
 /* список всех производителей */
 #all-makers {
@@ -282,3 +288,18 @@
                 width: 30%;
                 text-align: right;
             }
+
+/* ссылки для добавления катагории и товара */
+#add-ctg-prd {
+    overflow: hidden;
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+    #add-ctg-prd li {
+        float: left;
+        width: 50%;
+    }
+    #add-ctg-prd li:last-child {
+        text-align: right;
+    }

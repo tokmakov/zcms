@@ -30,7 +30,7 @@ class Index_News_Backend_Controller extends News_Backend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+                'url'  => $this->newsBackendModel->getURL('backend/index/index')
             ),
         );
 

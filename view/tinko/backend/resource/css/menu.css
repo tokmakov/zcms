@@ -59,3 +59,6 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-menu-items li > div > div:last-child > a {
+                    margin-left: 10px;
+                }

@@ -97,9 +97,9 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Распродажа</h1>
 
-<ul>
-    <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
+<ul id="add-ctg-prd">
     <li><a href="<?php echo $addPrdUrl; ?>">Добавить товар</a></li>
+    <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
 </ul>
 
 <?php if ( ! empty($sale)): ?>

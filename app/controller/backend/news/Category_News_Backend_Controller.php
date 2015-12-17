@@ -56,7 +56,7 @@ class Category_News_Backend_Controller extends News_Backend_Controller {
         // общее кол-во новостей категории
         $totalNews = $this->newsBackendModel->getCountCategoryNews($this->params['id']);
         // URL этой страницы
-        $thisPageUrl = $this->newsBackendModel->getURL('backend/news/category/id/' . $this->params['id']),
+        $thisPageUrl = $this->newsBackendModel->getURL('backend/news/category/id/' . $this->params['id']);
         $temp = new Pager(
             $thisPageUrl,                                  // URL этой страницы
             $page,                                         // текущая страница

@@ -1,0 +1,142 @@
+/* список всех категорий */
+#all-blog-ctgs {
+    overflow: hidden;
+}
+    #all-blog-ctgs > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-blog-ctgs > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-blog-ctgs > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-blog-ctgs > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+                #all-blog-ctgs > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                    font-size: 16px;
+                }
+
+/* список всех постов (или всех постов категории) */
+#all-blog-posts {
+    overflow: hidden;
+}
+    #all-blog-posts > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-blog-posts > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-blog-posts > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+            #all-blog-posts > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+                #all-blog-posts > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }
+
+/* форма для добавления/редактирования поста */
+#add-edit-post {
+    overflow: hidden;
+}
+    #add-edit-post > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #eee;
+        border-radius: 10px;
+        padding: 7px 10px;
+    }
+        #add-edit-post > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-post > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-post > div > div:last-child > input[type="text"],
+            #add-edit-post > div > div:last-child > textarea,
+            #add-edit-post > div > div:last-child > select {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+                #add-edit-post > div > div:last-child > input[name="date"],
+                #add-edit-post > div > div:last-child > input[name="time"] {
+                    width: 80px;
+                }
+                #add-edit-post > div > div:last-child > textarea {
+                    height: 200px;
+                }
+                #add-edit-post > div > div:last-child > textarea[name="excerpt"] {
+                    height: 100px;
+                }
+        #add-edit-post > div#files > div {
+            float: none;
+            width: 100%;
+        }
+            #add-edit-post > div#files > div > ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                -webkit-column-count: 3;
+                -moz-column-count: 3;
+                column-count: 3;
+                font-size: 14px;
+            }
+
+/* форма для добавления/редактирования категории */
+#add-edit-category {
+    overflow: hidden;
+}
+    #add-edit-category > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+        #add-edit-category > div > div:first-child {
+            float: left;
+            width: 30%;
+            margin-top: 5px;
+        }
+        #add-edit-category > div > div:last-child {
+            float: left;
+            width: 70%;
+        }
+            #add-edit-category > div > div:last-child > input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+
+#add-post {
+    overflow: hidden;
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+    #add-post li {
+        float: left;
+        width: 50%;
+    }
+        #add-post li:last-child {
+            text-align: right;
+        }

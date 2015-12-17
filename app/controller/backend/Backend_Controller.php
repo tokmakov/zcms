@@ -16,6 +16,11 @@ abstract class Backend_Controller extends Base_Controller {
     protected $bannerBackendModel;
 
     /**
+     * экземпляр класса модели для работы с блогом
+     */
+    protected $blogBackendModel;
+
+    /**
      * экземпляр класса модели для работы с кэшем, класс-пустышка,
      * только для доступа к родительским свойствам и методам
      */
@@ -101,6 +106,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с баннерами
         $this->bannerBackendModel =
             isset($this->register->bannerBackendModel) ? $this->register->bannerBackendModel : new Banner_Backend_Model();
+
+        // экземпляр класса модели для работы с блогом
+        $this->blogBackendModel =
+            isset($this->register->blogBackendModel) ? $this->register->blogBackendModel : new Blog_Backend_Model();
 
         // экземпляр класса модели для работы с кэшем, класс-пустышка
         $this->cacheBackendModel =
@@ -209,19 +218,27 @@ abstract class Backend_Controller extends Base_Controller {
             ),
             array(
                 'name' => 'Фильтр',
-                'url' => $this->catalogBackendModel->getURL('backend/filter/index')
+                'url' => $this->filterBackendModel->getURL('backend/filter/index')
             ),
             array(
                 'name' => 'Распродажа',
                 'url' => $this->saleBackendModel->getURL('backend/sale/index')
             ),
             array(
+                'name' => 'Рейтинг',
+                'url' => $this->ratingBackendModel->getURL('backend/rating/index')
+            ),
+            array(
                 'name' => 'Решения',
-                'url' => $this->catalogBackendModel->getURL('backend/solutions/index')
+                'url' => $this->solutionsBackendModel->getURL('backend/solutions/index')
             ),
             array(
                 'name' => 'Новости',
                 'url' => $this->newsBackendModel->getURL('backend/news/index')
+            ),
+            array(
+                'name' => 'Блог',
+                'url' => $this->blogBackendModel->getURL('backend/blog/index')
             ),
             array(
                 'name' => 'Заказы',

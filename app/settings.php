@@ -176,24 +176,29 @@ $settings = array(
 
         ),
         'backend' => array( // административная часть сайта
-            'base'      => 'common.css',
+            'base'      => array(
+                'reset.css',
+                'common.css',
+                'awesome/font-awesome.min.css',
+            ),
+            'admin'     => 'admin.css',
+            'banner'    => 'banner.css',
+            'blog'      => 'blog.css',
+            'catalog'   => 'catalog.css',
+            'filter'    => 'filter.css',
             'index'     => array(
                 'news.css',
                 'order.css',
             ),
-            'catalog'   => 'catalog.css',
-            'filter'    => 'filter.css',
-            'solutions' => 'solutions.css',
             'menu'      => 'menu.css',
-            'page'      => 'page.css',
             'news'      => 'news.css',
-            'start'     => 'start.css',
             'order'     => 'order.css',
-            'user'      => 'user.css',
-            'admin'     => 'admin.css',
-            'banner'    => 'banner.css',
-            'sale'      => 'sale.css',
+            'page'      => 'page.css',
             'rating'    => 'rating.css',
+            'sale'      => 'sale.css',
+            'solutions' => 'solutions.css',
+            'start'     => 'start.css',
+            'user'      => 'user.css',
         ),
     ),
     'js' => array(                               // js-файлы, подключаемые к странице
@@ -290,6 +295,10 @@ $settings = array(
                 'perpage'   => 5,                // новостей на страницу
                 'leftright' => 1,                // кол-во ссылок слева и справа
             ),
+            'blog'      => array(
+                'perpage'   => 5,                // Постов на страницу
+                'leftright' => 1,                // кол-во ссылок слева и справа
+            ),
             'products'  => array(
                 'perpage'   => 10,               // товаров на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
@@ -305,20 +314,24 @@ $settings = array(
         ),
         'backend' => array(                      // административная часть сайта
             'news'     => array(
-                'perpage'   => 2,                // новостей на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 20,               // новостей на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
+            ),
+            'blog'     => array(
+                'perpage'   => 20,               // постов на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'products' => array(
-                'perpage'   => 10,               // товаров на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 20,               // товаров на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'orders'   => array(
-                'perpage'   => 5,                // заказов на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 20,               // заказов на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'users'    => array(
-                'perpage'   => 5,                // пользователей на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 20,               // пользователей на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
         )
     ),

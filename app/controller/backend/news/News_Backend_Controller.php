@@ -1,6 +1,6 @@
 <?php
 /**
- * Абстрактный класс Menu_Backend_Controller, родительский для всех контроллеров,
+ * Абстрактный класс News_Backend_Controller, родительский для всех контроллеров,
  * работающих с новостями сайта, административная часть сайта
  */
 abstract class News_Backend_Controller extends Backend_Controller {
