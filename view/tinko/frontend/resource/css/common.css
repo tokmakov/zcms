@@ -809,6 +809,7 @@ div.attention {
         .products-list-line > div > .product-line-added { /* дата добавления */
             font-size: 10px;
             line-height: 10px;
+            margin-bottom: 3px;
             color: #969696;
             height: 10px;
             overflow: hidden;
@@ -819,14 +820,14 @@ div.attention {
             .products-list-line > div > .product-line-heading h2,
             .products-list-line > div > .product-line-heading h3 {
                 margin: 0;
+                line-height: 17px;
             }
-            .products-list-line > div > .product-line-heading h2 a {
-                font-size: 16px;
-                color: #395985;
-            }
+                .products-list-line > div > .product-line-heading h2 a {
+                    font-size: 16px;
+                }
             .products-list-line > div > .product-line-heading h3 {
                 font-weight: normal;
-                font-size: 14px;
+                font-size: 15px;
             }
 
         .products-list-line > div > .product-line-image { /* фото товара */
@@ -918,7 +919,7 @@ div.attention {
                             font-size: 18px;
                             line-height: 16px;
                             text-align: center;
-                            word-spacing: -2px;
+                            word-spacing: -1px;
                             letter-spacing: -1px;
                         }
                         .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
@@ -989,7 +990,7 @@ div.attention {
         .products-list-line > div > .product-line-descr { /* краткое описание */
             clear: left;
             font-size: 14px;
-            line-height: 14px;
+            line-height: 15px;
             color: #969696;
         }
 
@@ -1111,15 +1112,13 @@ div.attention {
                 .products-list-grid > div > div > .product-grid-heading h3,
                 .products-list-grid > div > div > .product-grid-heading h4 {
                     margin: 0;
-                    font-size: 14px;
+                    font-size: 15px;
                     line-height: 16px;
                 }
                     .products-list-grid > div > div > .product-grid-heading h2 a,
                     .products-list-grid > div > div > .product-grid-heading h3 a,
                     .products-list-grid > div > div > .product-grid-heading h4 a {
-                        color: #395985;
-                        font-weight: bold;
-                        font-size: 14px;
+                        font-size: 15px;
                         line-height: 16px;
                     }
             .products-list-grid > div > div > .product-grid-image { /* изображение */
@@ -1138,18 +1137,18 @@ div.attention {
             .products-list-grid > div > div > .product-grid-price { /* цена */
                 color: #969696;
                 font-weight: normal;
-                font-size: 12px;
-                line-height: 12px;
-                height: 14px;
+                height: 16px;
                 overflow: hidden;
-                margin-bottom: 15px;
+                margin-bottom: 12px;
                 white-space: nowrap;
             }
                 .products-list-grid > div > div > .product-grid-price span {
                     font-weight: bold;
-                    font-size: 14px;
-                    line-height: 14px;
+                    font-size: 16px;
+                    line-height: 16px;
                     color: #395985;
+                    word-spacing: -1px;
+                    letter-spacing: -1px;
                 }
             .products-list-grid > div > div > .product-grid-basket { /* добавить в корзину */
                 height: 26px;
@@ -1542,11 +1541,11 @@ div.attention {
                 overflow: hidden;
             }
             #product .product-item-main .product-item-info > div > span:first-child {
-                width: 35%;
+                width: 30%;
                 float: left;
             }
             #product .product-item-main .product-item-info > div > span:last-child {
-                width: 65%;
+                width: 70%;
                 float: right;
                 text-align: right;
             }
@@ -1569,7 +1568,7 @@ div.attention {
                         font-weight: bold;
                         font-size: 18px;
                         line-height: 16px;
-                        word-spacing: -2px;
+                        word-spacing: -1px;
                         letter-spacing: -1px;
                     }
                     #product .product-item-main .product-item-info > div:first-child > span:last-child > span:first-child > span:first-child {
@@ -1661,7 +1660,7 @@ div.attention {
                 background: #969696;
                 border-radius: 4px;
                 color: #fff;
-                font-size: 28px;
+                font-size: 25px;
                 line-height: 38px;
                 text-align: center;
             }
@@ -2090,7 +2089,7 @@ div.attention {
         color: #395985;
         font-size: 16px;
         letter-spacing: -1px;
-        word-spacing: -2px;
+        word-spacing: -1px;
     }
     #right #side-wished table tr th:first-child {
         width: 22%;
@@ -2290,6 +2289,10 @@ div.attention {
     #header #top-menu > a > span:last-child {
         display: inline;
     }
+    /* страница товара, скрываем мелкооптовую цену */
+    #product .product-item-main .product-item-info > div:first-child > span:last-child > span:nth-child(2) {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 1045px) {
@@ -2369,10 +2372,6 @@ div.attention {
     }
     /* список товаров категории, скрываем мелкооптовую цену */
     .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
-        display: none;
-    }
-    /* страница товара, скрываем мелкооптовую цену */
-    #product .product-item-main .product-item-info > div:first-child > span:last-child > span:nth-child(2) {
         display: none;
     }
 }

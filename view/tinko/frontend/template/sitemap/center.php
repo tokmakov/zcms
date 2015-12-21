@@ -71,13 +71,13 @@ defined('ZCMS') or die('Access denied');
 
     <?php if (!empty($root)): ?>
         <h2>Каталог оборудования</h2>
-        <ul>
-            <?php foreach($root as $item1): ?>
-                <li><a href="<?php echo $item1['url']; ?>"><?php echo $item1['name']; ?></a>
-                <?php if (isset($item1['childs'])): ?>
+        <ul id="catalog-tree">
+            <?php foreach($root as $item): ?>
+                <li><span><?php echo $item['name']; ?></span>
+                <?php if (isset($item['childs'])): ?>
                     <ul>
-                    <?php foreach($item1['childs'] as $item2): ?>
-                        <li><a href="<?php echo $item2['url']; ?>"><?php echo $item2['name']; ?></a></li>
+                    <?php foreach($item['childs'] as $value): ?>
+                        <li><a href="<?php echo $value['url']; ?>"><?php echo $value['name']; ?></a></li>
                     <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>

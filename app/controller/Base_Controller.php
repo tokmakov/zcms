@@ -121,6 +121,7 @@ abstract class Base_Controller extends Base {
                 'leftContent'   => $this->leftContent,
                 'rightContent'  => $this->rightContent,
                 'footerContent' => $this->footerContent,
+                'jsFiles'       => $this->jsFiles,
             )
         );
     }

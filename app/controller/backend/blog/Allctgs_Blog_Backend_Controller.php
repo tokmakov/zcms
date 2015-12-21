@@ -41,10 +41,14 @@ class Allctgs_Blog_Backend_Controller extends Blog_Backend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
-            // массив всех категорий новостей
+            // массив всех категорий
             'categories'  => $categories,
             // URL ссылки на страницу с формой для добавления категории
             'addCtgUrl'   => $this->blogBackendModel->getURL('backend/blog/addctg'),
+            // URL ссылки на страницу со списком всех файлов
+            'allFilesUrl' => $this->blogBackendModel->getURL('backend/blog/files'),
+            // URL ссылки на страницу со списком всех постов
+            'allPostsUrl' => $this->blogBackendModel->getURL('backend/blog/index')
         );
 
     }

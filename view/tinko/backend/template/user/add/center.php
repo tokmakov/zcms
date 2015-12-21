@@ -28,11 +28,13 @@ defined('ZCMS') or die('Access denied');
 <h1>Новый пользователь</h1>
 
 <?php if (!empty($errorMessage)): ?>
-    <ul>
-    <?php foreach($errorMessage as $message): ?>
-        <li><?php echo $message; ?></li>
-    <?php endforeach; ?>
-    </ul>
+    <div class="error-message">
+        <ul>
+        <?php foreach($errorMessage as $message): ?>
+            <li><?php echo $message; ?></li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <?php

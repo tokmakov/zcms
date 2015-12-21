@@ -14,7 +14,8 @@ class Banner_Backend_Model extends Backend_Model {
      */
     public function getAllBanners() {
         $query = "SELECT
-                      `id`, `name`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`, `visible`, `sortorder`
+                      `id`, `name`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      `visible`, `sortorder`
                   FROM
                       `banners`
                   WHERE
@@ -96,8 +97,8 @@ class Banner_Backend_Model extends Backend_Model {
         $query = "UPDATE
                       `banners`
                   SET
-                      `name` = :name,
-                      `url`  = :url,
+                      `name`    = :name,
+                      `url`     = :url,
                       `alttext` = :alttext,
                       `visible` = :visible
                   WHERE
@@ -117,8 +118,8 @@ class Banner_Backend_Model extends Backend_Model {
 
         // удаляем изображение, загруженное ранее
         if (isset($_POST['remove_image'])) {
-            if (is_file('./files/banner/' . $id . '.jpg')) {
-                unlink('./files/banner/' . $id . '.jpg');
+            if (is_file('files/banner/' . $id . '.jpg')) {
+                unlink('files/banner/' . $id . '.jpg');
             }
         }
 
@@ -132,7 +133,7 @@ class Banner_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        './files/banner/'. $id . '.jpg',
+                        'files/banner/'. $id . '.jpg',
                         250,
                         250,
                         'jpg'
@@ -268,8 +269,8 @@ class Banner_Backend_Model extends Backend_Model {
         $query = "DELETE FROM `banners` WHERE `id` = :id";
         $this->database->execute($query, array('id' => $id));
         // удаляем файл изображения
-        if (is_file('./files/banner/' . $id . '.jpg')) {
-            unlink('./files/banner/' . $id . '.jpg');
+        if (is_file('files/banner/' . $id . '.jpg')) {
+            unlink('files/banner/' . $id . '.jpg');
         }
         // обновляем порядок следования баннеров
         $query = "SELECT
@@ -281,18 +282,16 @@ class Banner_Backend_Model extends Backend_Model {
                   ORDER BY
                       `sortorder`";
         $banners = $this->database->fetchAll($query, array());
-        if (count($banners) > 0) {
-            $sortorder = 1;
-            foreach ($banners as $banner) {
-                $query = "UPDATE
-                              `banners`
-                          SET
-                              `sortorder` = :sortorder
-                          WHERE
-                              `id` = :id";
-                $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $banner['id']));
-                $sortorder++;
-            }
+        $sortorder = 1;
+        foreach ($banners as $banner) {
+            $query = "UPDATE
+                          `banners`
+                      SET
+                          `sortorder` = :sortorder
+                      WHERE
+                          `id` = :id";
+            $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $banner['id']));
+            $sortorder++;
         }
     }
 

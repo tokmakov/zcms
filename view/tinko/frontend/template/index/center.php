@@ -8,6 +8,8 @@
  * $text - текст страницы
  * $banners - массив всех баннеров
  * $news - массив последних новостей
+ * $generalNews - массив последних новостей отрасли
+ * $companyNews - массив последних новостей компании
  *
  * $banners = Array (
  *   [0] => Array (
@@ -79,40 +81,62 @@ defined('ZCMS') or die('Access denied');
     </ul>
 <?php endif; ?>
 
-<?php if (!empty($news)): // список новостей ?>
-    <div class="center-block">
-        <div><h2>Последние новости</h2></div>
-        <div>
-            <div id="news-list">
-            <?php foreach($news as $item): ?>
+<div id="tabs">
+    <ul>
+        <li><a href="#company-news"><span>Новости компании</span></a></li>
+        <li><a href="#general-news"><span>События отрасли</span></a></li>
+    </ul>
+    <div>
+        <div class="news-list" id="company-news">
+        <?php foreach($companyNews as $item): ?>
+            <div>
                 <div>
-                    <div>
-                        <a href="<?php echo $item['url']['item']; ?>">
-                            <img src="<?php echo $item['url']['image']; ?>" alt="" />
-                        </a>
+                    <a href="<?php echo $item['url']['item']; ?>">
+                        <img src="<?php echo $item['url']['image']; ?>" alt="" />
+                    </a>
+                </div>
+                <div>
+                    <div class="news-date">
+                        <?php echo $item['date']; ?>
                     </div>
-                    <div>
-                        <div class="news-date">
-                            <?php echo $item['date']; ?>
-                        </div>
-                        <div class="news-heading">
-                            <h3>
-                                <a href="<?php echo $item['url']['item']; ?>"><?php echo $item['name']; ?></a>
-                            </h3>
-                        </div>
-                        <div class="news-excerpt">
-                            <?php echo $item['excerpt']; ?>
-                        </div>
-                        <div class="news-category">
-                            <a href="<?php echo $item['url']['category']; ?>"><?php echo $item['ctg_name']; ?></a>
-                        </div>
+                    <div class="news-heading">
+                        <h3>
+                            <a href="<?php echo $item['url']['item']; ?>"><?php echo $item['name']; ?></a>
+                        </h3>
+                    </div>
+                    <div class="news-excerpt">
+                        <?php echo $item['excerpt']; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
             </div>
+        <?php endforeach; ?>
+        </div>
+        <div class="news-list" id="general-news">
+        <?php foreach($generalNews as $item): ?>
+            <div>
+                <div>
+                    <a href="<?php echo $item['url']['item']; ?>">
+                        <img src="<?php echo $item['url']['image']; ?>" alt="" />
+                    </a>
+                </div>
+                <div>
+                    <div class="news-date">
+                        <?php echo $item['date']; ?>
+                    </div>
+                    <div class="news-heading">
+                        <h3>
+                            <a href="<?php echo $item['url']['item']; ?>"><?php echo $item['name']; ?></a>
+                        </h3>
+                    </div>
+                    <div class="news-excerpt">
+                        <?php echo $item['excerpt']; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
         </div>
     </div>
-<?php endif; ?>
+</div>
 
 <!-- Конец шаблона view/example/frontend/template/index/center.php -->
 

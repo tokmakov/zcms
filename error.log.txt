@@ -1,0 +1,25 @@
+18.12.2015 09:09:47
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.blog_posts' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\backend\Blog_Backend_Model.php(77): Database->fetchOne('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\controller\backend\blog\Index_Blog_Backend_Controller.php(43): Blog_Backend_Model->getCountAllPosts()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Blog_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+19.12.2015 11:34:36
+Код: 0, текст: Файл view/tinko/backend/resource/css/tabs.js не найден
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 326
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(257): Base_Controller->setCssJsFiles('blog')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(189): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\backend\blog\Blog_Backend_Controller.php(25): Backend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\backend\blog\Index_Blog_Backend_Controller.php(25): Blog_Backend_Controller->input()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Blog_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#7 {main}
+

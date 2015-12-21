@@ -268,7 +268,7 @@ defined('ZCMS') or die('Access denied');
                                     <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                                 </div>
                                 <div class="product-grid-price">
-                                    <span><?php echo number_format($product['price'], 2, '.', ''); ?></span> <?php echo $units[$product['unit']]; ?>
+                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
                                 </div>
                                 <div class="product-grid-basket">
                                     <form action="<?php echo $product['action']; ?>" method="post" class="add-basket-form">

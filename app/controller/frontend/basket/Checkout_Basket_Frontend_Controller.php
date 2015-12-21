@@ -332,7 +332,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $form['errorMessage'] = $errorMessage;
             $this->setSessionData('checkoutOrderForm', $form);
             return false;

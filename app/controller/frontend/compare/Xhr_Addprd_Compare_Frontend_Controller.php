@@ -7,6 +7,10 @@
 class Xhr_Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller {
 
     public function __construct($params = null) {
+        if ( ! $this->isPostMethod()) {
+            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            die();
+        }
         parent::__construct($params);
         // не использовать кэширование шаблона списка товаров для сравнения
         // в правой колонке, потому как вероятность, что у двух пользователей

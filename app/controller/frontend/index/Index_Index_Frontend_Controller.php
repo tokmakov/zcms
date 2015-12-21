@@ -37,20 +37,26 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         $banners = $this->indexFrontendModel->getAllBanners();
 
         // получаем от модели массив последних новостей
-        $news = array_slice($this->newsFrontendModel->getAllNews(), 0, 8);
+        $news = $this->newsFrontendModel->getAllNews();
+        $generalNews = array_slice($news, 0, 3);
+        $companyNews = array_slice($news, 3, 3);
 
         /*
          * переменные, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             // заголовок h1 главной страницы
-            'name'    => $index['name'],
+            'name'        => $index['name'],
             // текст главной страницы в формате html
-            'text'    => $index['body'],
+            'text'        => $index['body'],
             // массив баннеров
-            'banners' => $banners,
+            'banners'     => $banners,
             // массив новостей
-            'news'    => $news,
+            'news'        => $news,
+            // массив новостей
+            'generalNews' => $generalNews,
+            // массив новостей
+            'companyNews' => $companyNews,
         );
 
     }

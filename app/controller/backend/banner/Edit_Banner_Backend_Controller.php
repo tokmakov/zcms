@@ -65,7 +65,7 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->startBackendModel->getURL('backend/start/editbnr/id/' . $this->params['id']),
+            'action'      => $this->bannerBackendModel->getURL('backend/banner/edit/id/' . $this->params['id']),
             // уникальный идентификатор баннера
             'id'          => $this->params['id'],
             // наименование баннера
@@ -119,7 +119,7 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
         if (!empty($errorMessage)) {
-            $data['errorMessage'] = $this->errorMessage;
+            $data['errorMessage'] = $errorMessage;
             $this->setSessionData('editBannerForm', $data);
             return false;
         }
@@ -131,6 +131,7 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
         $this->bannerBackendModel->updateBanner($data);
 
         return true;
+
     }
 
 }

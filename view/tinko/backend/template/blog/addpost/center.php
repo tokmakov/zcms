@@ -6,7 +6,7 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $action - содержимое атрибута action тега form
+ * $action - атрибут action тега form
  * $categories - массив всех категорий
  * $date - текущая дата
  * $time - текущее время
@@ -32,11 +32,13 @@ defined('ZCMS') or die('Access denied');
 <h1>Новая запись</h1>
 
 <?php if (!empty($errorMessage)): ?>
-    <ul>
-    <?php foreach ($errorMessage as $message): ?>
-        <li><?php echo $message; ?></li>
-    <?php endforeach; ?>
-    </ul>
+    <div class="error-message">
+        <ul>
+        <?php foreach($errorMessage as $message): ?>
+            <li><?php echo $message; ?></li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <?php
@@ -97,15 +99,42 @@ defined('ZCMS') or die('Access denied');
         <div>Текст (содержание)</div>
         <div><textarea name="body"><?php echo $body; ?></textarea></div>
     </div>
-    <div id="files">
+    <div id="blog-files">
         <div>
-        <?php if (!empty($files)): ?>
-            <ul>
-            <?php foreach ($files as $file): ?>
-                <li><a href="<?php echo $file['path'] ?>"><i class="fa fa-file-o"></i>&nbsp;<?php echo $file['name'] ?></a></li>
-            <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
+            <div>
+                <span>Файлы</span>
+            </div>
+            <div>
+                <input type="file" name="files[]" id="files" multiple="multiple" />
+                <input type="submit" name="upload" value="Загрузить" />
+            </div>
+        </div>
+        <div>
+        <?php foreach ($folders as $folder => $files): ?>
+            <div>
+                <span><i class="fa fa-folder-open-o"></i>&nbsp;<?php echo $folder; ?></span>
+                <div>
+                    <?php if (!empty($files)): ?>
+                    <ul>
+                    <?php foreach ($files as $file): ?>
+                        <?php
+                            $icon = '<i class="fa fa-file-o"></i>';
+                            switch($file['type']) {
+                                case 'img': $icon = '<i class="fa fa-file-image-o"></i>'; break;
+                                case 'pdf': $icon = '<i class="fa fa-file-pdf-o"></i>'; break;
+                                case 'zip': $icon = '<i class="fa fa-file-archive-o"></i>'; break;
+                                case 'doc': $icon = '<i class="fa fa-file-word-o"></i>'; break;
+                                case 'xls': $icon = '<i class="fa fa-file-excel-o"></i>'; break;
+                                case 'ppt': $icon = '<i class="fa fa-file-powerpoint-o"></i>'; break;
+                            }
+                        ?>
+                        <li><span data-url="<?php echo $file['path'] ?>" data-type="<?php echo $file['type'] ?>" title="Вставить"><?php echo $icon; ?>&nbsp;<span><?php echo $file['name'] ?></span></span></li>
+                    <?php endforeach; ?>
+                    </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
         </div>
     </div>
     <div>

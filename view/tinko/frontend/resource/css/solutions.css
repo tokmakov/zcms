@@ -201,4 +201,6 @@
             #item-solutions table tr td strong {
                 color: #395985;
                 font-size: 18px;
+                word-spacing: -1px;
+                letter-spacing: -1px;
             }

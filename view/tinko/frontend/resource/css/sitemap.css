@@ -10,7 +10,7 @@
     list-style-type: square;
 }
     #sitemap ul li {
-        padding: 2px 0;
+        margin: 3px 0;
     }
     #sitemap > ul > li > ul {
         margin-left: 20px;
@@ -19,5 +19,14 @@
     #sitemap > ul > li > ul > li > ul {
         margin-left: 20px;
         list-style-type: disc;
+    }
+   
+#sitemap > ul#catalog-tree > li {
+    margin: 5px 0;
+} 
+    #sitemap > ul#catalog-tree > li > span {
+        cursor: pointer;
+        color: #395985;
+        border-bottom: 1px dashed #395985;
     }
 

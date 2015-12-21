@@ -2,7 +2,7 @@
 /**
  * Класс Editpost_Blog_Backend_Controller формирует страницу с формой для
  * редактирования поста, обновляет запись в таблице БД blog_posts, получает
- * данные от модели Blog_Backend_Model
+ * данные от модели Blog_Backend_Model, административная часть сайта
  */
 class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
@@ -64,8 +64,11 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
             return;
         }
 
-        // получаем от модели массив категорий, для возможности выбора родителя
+        // получаем от модели массив категорий, для возможности выбора
         $categories = $this->blogBackendModel->getCategories();
+        
+        // получаем от модели массив массив директорий и файлов
+        $folders = $this->blogBackendModel->getFoldersAndFiles();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -77,6 +80,8 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
             'action'      => $this->blogBackendModel->getURL('backend/blog/editpost/id/' . $this->params['id']),
             // массив категорий новостей
             'categories'  => $categories,
+            // массив директорий и файлов
+            'folders'     => $folders,
             // уникальный идентификатор новости
             'id'          => $this->params['id'],
             // категория новости
@@ -107,11 +112,11 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
     }
 
     /**
-     * Функция проверяет корректность введенных пользователем данных; если
-     * были допущены ошибки, функция возвращает false; если ошибок нет,
-     * функция обновляет пост и возвращает true
+     * Функция проверяет корректность введенных пользователем данных; если были
+     * допущены ошибки, функция возвращает false; если ошибок нет, функция обновляет
+     * запись (пост) блога и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

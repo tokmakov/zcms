@@ -10,7 +10,8 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает массив постов категории с уникальным идентификатором $id
+     * Возвращает массив записей (постов) блога в категории с
+     * уникальным идентификатором $id
      */
     public function getCategoryPosts($id, $start) {
         $query = "SELECT
@@ -28,7 +29,8 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает количество постов в категории с уникальным идентификатором $id
+     * Возвращает количество записей (постов) блога в категории с
+     * уникальным идентификатором $id
      */
     public function getCountCategoryPosts($id) {
         $query = "SELECT
@@ -41,7 +43,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает массив всех постов блога
+     * Возвращает массив всех записей (постов) блога
      */
     public function getAllPosts($start = 0) {
         $query = "SELECT
@@ -65,7 +67,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает общее количество постов блога
+     * Возвращает общее количество записей (постов) блога
      */
     public function getCountAllPosts() {
         $query = "SELECT
@@ -78,7 +80,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает пост с уникальным идентификатором $id
+     * Возвращает запись (пост) блога с уникальным идентификатором $id
      */
     public function getPost($id) {
         $query = "SELECT
@@ -97,16 +99,34 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает массив медиа-файлов, которые можно вставить в пост
+     * Возвращает массив файлов за последние $count месяцев
      */
-    public function getFiles() {
-        $folder = 'files/blog/' . date('Y');
-        if ( ! is_dir($folder)) {
-            mkdir($folder);
+    public function getFoldersAndFiles($count = 3) {
+        $year = date('Y');
+        $month = date('n');
+        while ($count) {
+            $temp = $month;
+            if (strlen($temp) == 1) {
+                $temp = '0' . $temp;
+            }
+            $folder = 'files/blog/' . $year . '/' . $temp;
+            $files[$folder] = $this->getFiles($folder);
+            $count--;
+            $month--;
+            if ( ! $month) {
+                $month = 12;
+                $year--;
+            }
         }
-        $folder = $folder . '/' . date('m');
-        if ( ! is_dir($folder)) {
-            mkdir($folder);
+        return $files;
+    }
+    
+    /**
+     * Функция возвращает массив файлов в папке $folder
+     */
+    private function getFiles($folder) {
+        if (!is_dir($folder)) {
+            return array();
         }
         $items = scandir($folder);
         $files = array();
@@ -116,67 +136,28 @@ class Blog_Backend_Model extends Backend_Model {
             $ext = pathinfo($item, PATHINFO_EXTENSION);
             if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png', 'bmp'))) {
                 $type = 'img';
+            } elseif ($ext == 'pdf') {
+                $type = 'pdf';
+            } elseif ($ext == 'zip') {
+                $type = 'zip';
             } elseif (in_array($ext, array('doc', 'docx'))) {
                 $type = 'doc';
             } elseif (in_array($ext, array('xls', 'xlsx'))) {
                 $type = 'xls';
             } elseif (in_array($ext, array('ppt', 'pptx'))) {
                 $type = 'ppt';
-            } elseif ($ext == 'zip') {
-                $type = 'zip';
-            } elseif ($ext == 'pdf') {
-                $type = 'pdf';
             }
             $files[] = array(
                 'name' => $item,
                 'path' => $this->config->site->url . $folder . '/' . $item,
-                'type' => $type,
-                'new'  => true,
-            );
-        }
-        if (count($files) > 30) {
-            return $files;
-        }
-        if (date('m') == '01') {
-            $folder = 'files/blog/' . (date('Y')-1) . '/12';
-        } else {
-            $month = (int)date('m') - 1;
-            if (strlen($month) == 1) $month = '0' . $month;
-            $folder = 'files/blog/' . date('Y') . '/' . $month;
-        }
-        if (!is_dir($folder)) {
-            return $files;
-        }
-        $items = scandir($folder);
-        foreach ($items as $item) {
-            if ($item == '.' || $item == '..') continue;
-            $type = null;
-            $ext = pathinfo($item, PATHINFO_EXTENSION);
-            if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png', 'bmp'))) {
-                $type = 'img';
-            } elseif (in_array($ext, array('doc', 'docx'))) {
-                $type = 'doc';
-            } elseif (in_array($ext, array('xls', 'xlsx'))) {
-                $type = 'xls';
-            } elseif (in_array($ext, array('ppt', 'pptx'))) {
-                $type = 'ppt';
-            } elseif ($ext == 'zip') {
-                $type = 'zip';
-            } elseif ($ext == 'pdf') {
-                $type = 'pdf';
-            }
-            $files[] = array(
-                'name' => $item,
-                'path' => $this->config->site->url . $folder . '/' . $item,
-                'type' => $type,
-                'new'  => false,
+                'type' => $type
             );
         }
         return $files;
     }
 
     /**
-     * Функция добавляет пост (новую запись в таблицу blog_posts базы данных)
+     * Функция добавляет новую запись (пост) блога
      */
     public function addPost($data) {
 
@@ -213,7 +194,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет пост (запись в таблице blog_posts базы данных)
+     * Функция обновляет запись (пост) блога
      */
     public function updatePost($data) {
 
@@ -241,7 +222,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция загружает файл изображения для поста с
+     * Функция загружает файл изображения для записи (поста) блога с
      * уникальным идентификатором $id
      */
     private function uploadImage($id) {
@@ -273,9 +254,67 @@ class Blog_Backend_Model extends Backend_Model {
         }
 
     }
+    
+    /**
+     * Функция загружает файл для дальнейшей вставки его в запись (пост) блога
+     */
+    public function uploadFiles() {
+
+        if (empty($_FILES['files'])) {
+            return;
+        }
+        
+        // создаем папку, если она еще не существует
+        $year = date('Y');
+        $folder = 'files/blog/' . $year;
+        if ( ! is_dir($folder)) {
+            mkdir($folder);
+        }
+        $month = date('m');
+        $folder = $folder . '/' . $month;
+        if ( ! is_dir($folder)) {
+            mkdir($folder);
+        }
+
+        // допустимые mime-типы файлов
+        $mimeTypes = array(
+            'image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png', 'image/bmp',
+            'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/zip', 'application/x-zip-compressed', 'application/pdf');
+        // донустимые расширения файлов
+        $exts = array(
+            'jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx',
+            'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'pdf'
+        );
+        $count = count($_FILES['files']['name']);
+        // цикл по всем загруженным файлам
+        for ($i = 0; $i < $count; $i++) {
+            // произошла ошибка при загрузке файла
+            if ($_FILES['files']['error'][$i]) {
+                continue;
+            }
+            $ext = pathinfo($_FILES['files']['name'][$i], PATHINFO_EXTENSION);
+            // недопустимое расширение файла
+            if ( ! in_array($ext, $exts)) {
+                continue;
+            }
+            // недопустимый mime-тип файла
+            if ( ! in_array($_FILES['files']['type'][$i], $mimeTypes) ) {
+                continue;
+            }
+            // загружаем файл
+            move_uploaded_file(
+                $_FILES['files']['tmp_name'][$i],
+                $folder . '/' . $_FILES['files']['name'][$i]
+            );
+        }
+
+    }
 
     /**
-     * Функция для удаления новости с уникальным идентификатором $id
+     * Функция для удаления записи (поста) блога с уникальным идентификатором $id
      */
     public function removePost($id) {
         // удаляем запись в таблице `blog_posts` БД
@@ -291,8 +330,8 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает массив категорий новостей для контроллера, отвечающего
-     * за вывод всех категорий
+     * Возвращает массив категорий записей (постов) блога для контроллера,
+     * отвечающего за вывод всех категорий
      */
     public function getAllCategories() {
         $query = "SELECT
@@ -318,7 +357,7 @@ class Blog_Backend_Model extends Backend_Model {
 
     /**
      * Возвращает массив категорий для контроллеров, отвечающих за добавление
-     * и редактирование постов, для возможности выбора родителя
+     * и редактирование записи (поста) блога, для возможности выбора родителя
      */
     public function getCategories() {
         $query = "SELECT
@@ -346,8 +385,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция добавляет новую категорию (новую запись в таблицу blog_categories
-     * базы данных)
+     * Функция добавляет новую категорию блога
      */
     public function addCategory($data) {
         // TODO: установить порядок сортировки
@@ -369,7 +407,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет категорию (запись в таблице blog_categories базы данных)
+     * Функция обновляет категорию блога
      */
     public function updateCategory($data) {
         $query = "UPDATE
@@ -384,7 +422,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция опускает категорию вниз в списке
+     * Функция опускает категорию блога вниз в списке
      */
     public function moveCategoryDown($id) {
         $id_item_down = $id;
@@ -446,7 +484,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция поднимает категорию вверх в списке
+     * Функция поднимает категорию блога вверх в списке
      */
     public function moveCategoryUp($id) {
         $id_item_up = $id;
@@ -508,7 +546,7 @@ class Blog_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция удаляет категорию (запись в таблице blog_categories базы данных)
+     * Функция удаляет категорию блога
      */
     public function removeCategory($id) {
         // проверяем, что не существует постов в этой категории

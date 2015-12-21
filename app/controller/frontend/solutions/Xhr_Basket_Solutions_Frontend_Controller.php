@@ -18,8 +18,8 @@ class Xhr_Basket_Solutions_Frontend_Controller extends Solutions_Frontend_Contro
 
         // если не передан id типового решения или id типового решения не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
-            $this->notFoundRecord = true;
-            return;
+            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            die();
         } else {
             $this->params['id'] = (int)$this->params['id'];
         }

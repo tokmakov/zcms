@@ -103,6 +103,7 @@ $settings = array(
             'index'           => array(          // главная страница сайта
                 'index.css',
                 'jquery.bxslider.css',
+                'tabs.css',
             ),
             'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
             'compare-index'   => 'compare-index.css', // сравнение товаров
@@ -183,7 +184,10 @@ $settings = array(
             ),
             'admin'     => 'admin.css',
             'banner'    => 'banner.css',
-            'blog'      => 'blog.css',
+            'blog'      => array (
+                'blog.css',
+                'tabs.css',
+            ),
             'catalog'   => 'catalog.css',
             'filter'    => 'filter.css',
             'index'     => array(
@@ -213,7 +217,9 @@ $settings = array(
             'index'           => array(          // главная страница сайта
                 'jquery.bxslider.min.js',
                 'slider.js',
+                'tabs.js',
             ),
+            'sitemap'    => 'sitemap.js',        // карта сайта
             'solutions'  => array(               // типовые решения
                 'solutions.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
@@ -226,6 +232,7 @@ $settings = array(
                 'lightbox.js',
             ),
             'basket-checkout' => 'basket-checkout.js', // корзина и оформление заказа
+            'user'            => 'user.js',      // личный кабинет
             'wished'          => 'wished.js',    // избранное (отложенные товары)
 
             'page-40'         => array(          // для страницы «Контакты»
@@ -274,9 +281,13 @@ $settings = array(
                 'jquery-2.1.1.min.js',
                 'common.js',
             ),
-            'user'      => 'user.js',
-            'menu'      => 'add-edit-menu-item.js',
+            
+            'blog'      => array(
+                'insert-at-caret.js',
+                'blog.js',
+            ),
             'catalog'   => 'catalog.js',
+            'menu'      => 'add-edit-menu-item.js',
             'news'      => array(
                 'insert-at-caret.js',
                 'news.js',
@@ -285,19 +296,20 @@ $settings = array(
                 'insert-at-caret.js',
                 'page.js',
             ),
-            'solutions' => 'solutions.js',
             'rating'    => 'rating.js',
+            'solutions' => 'solutions.js',
+            'user'      => 'user.js',
         ),
     ),
     'pager' => array(                            // постраничная навигация
         'frontend' => array(                     // общедоступная часть сайта
             'news'      => array(
-                'perpage'   => 5,                // новостей на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 6,                // новостей на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'blog'      => array(
-                'perpage'   => 5,                // Постов на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 6,                // постов на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'products'  => array(
                 'perpage'   => 10,               // товаров на страницу

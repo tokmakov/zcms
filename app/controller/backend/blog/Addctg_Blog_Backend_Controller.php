@@ -2,7 +2,8 @@
 /**
  * Класс Addctg_Blog_Backend_Controller для добавления новой категории постов блога,
  * формирует страницу с формой для добавления категории, добавляет запись в таблицу
- * БД blog_categories, работает с моделью Blog_Backend_Model
+ * БД blog_categories, работает с моделью Blog_Backend_Model, административная часть
+ * сайта
  */
 class Addctg_Blog_Backend_Controller extends Blog_Backend_Controller {
 
@@ -76,7 +77,7 @@ class Addctg_Blog_Backend_Controller extends Blog_Backend_Controller {
      * были допущены ошибки, функция возвращает false; если ошибок нет,
      * функция добавляет категорию и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

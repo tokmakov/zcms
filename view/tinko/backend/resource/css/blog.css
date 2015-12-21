@@ -60,8 +60,7 @@
     #add-edit-post > div {
         overflow: hidden;
         margin-bottom: 10px;
-        background: #eee;
-        border-radius: 10px;
+        background: #fafafa;
         padding: 7px 10px;
     }
         #add-edit-post > div > div:first-child {
@@ -90,19 +89,67 @@
                 #add-edit-post > div > div:last-child > textarea[name="excerpt"] {
                     height: 100px;
                 }
-        #add-edit-post > div#files > div {
+        #add-edit-post > div#blog-files > div {
             float: none;
             width: 100%;
         }
-            #add-edit-post > div#files > div > ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                -webkit-column-count: 3;
-                -moz-column-count: 3;
-                column-count: 3;
-                font-size: 14px;
+            #add-edit-post > div#blog-files > div:first-child {
+                overflow: hidden;
+                margin-bottom: 5px;
             }
+                #add-edit-post > div#blog-files > div:first-child > div {
+                    width: 50%;
+                }
+                #add-edit-post > div#blog-files > div:first-child > div:first-child {
+                    float: left;
+                }
+                    #add-edit-post > div#blog-files > div:first-child > div:first-child > span {
+                        border-bottom: 1px dashed #323232;
+                        cursor: pointer;
+                    }
+                #add-edit-post > div#blog-files > div:first-child > div:last-child {
+                    float: right;
+                    text-align: right;
+                }
+                    #add-edit-post > div#blog-files > div:first-child > div:last-child > input[type="submit"] {
+                        padding: 1px 15px;
+                    }
+            #add-edit-post > div#blog-files > div:last-child {
+
+            }
+                #add-edit-post > div#blog-files > div:last-child > div {
+                    border: 1px solid #d1d1d1;
+                    padding: 5px;
+                    margin-bottom: 5px;
+                    background: #fff;
+                }
+                    #add-edit-post > div#blog-files > div:last-child > div > span {
+                        display: block;
+                        font-size: 15px;
+                        margin-bottom: 3px;
+                    }
+                        #add-edit-post > div#blog-files > div:last-child > div > div > ul {
+                            list-style: none;
+                            margin: 0;
+                            padding: 0;
+                            -webkit-column-count: 4;
+                            -moz-column-count: 4;
+                            column-count: 4;
+                            font-size: 14px;
+                        }
+                            #add-edit-post > div#blog-files > div:last-child > div > div > ul > li {
+                                color: #395985;
+                            }
+                                #add-edit-post > div#blog-files > div:last-child > div > div > ul > li > span {
+                                    cursor: pointer;
+                                }
+                                    #add-edit-post > div#blog-files > div:last-child > div > div > ul > li > span > i {
+                                        vertical-align: bottom;
+                                    }
+                                    #add-edit-post > div#blog-files > div:last-child > div > div > ul > li > span > span {
+                                        border-bottom: 1px dashed #395985;
+                                    }
+                        
 
 /* форма для добавления/редактирования категории */
 #add-edit-category {
@@ -126,17 +173,42 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
+            
+/* список всех файлов */
+#all-blog-files {
 
-#add-post {
-    overflow: hidden;
-    list-style: none;
-    margin: 0 0 20px 0;
-    padding: 0;
 }
-    #add-post li {
-        float: left;
-        width: 50%;
+    #all-blog-files > div:first-child {
+        margin-bottom: 10px;
     }
-        #add-post li:last-child {
-            text-align: right;
+        #all-blog-files > div:first-child input[type="submit"] {
+            padding: 1px 15px;
         }
+    #all-blog-files > div:last-child {
+
+    }
+        #all-blog-files > div:last-child > div {
+            border: 1px solid #d1d1d1;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+            #all-blog-files > div:last-child > div > span {
+                display: block;
+                font-size: 15px;
+                margin-bottom: 3px;
+            }
+                #all-blog-files > div:last-child > div > div > ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    -webkit-column-count: 4;
+                    -moz-column-count: 4;
+                    column-count: 4;
+                }
+                    #all-blog-files > div:last-child > div > div > ul > li > a:hover {
+                        text-decoration: none;
+                    }
+                        #all-blog-files > div:last-child > div > div > ul > li > a:hover > span {
+                            text-decoration: underline;
+                        }
+

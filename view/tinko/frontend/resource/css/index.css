@@ -1,63 +1,63 @@
 /* список новостей */
-#news-list {
+.news-list {
 
 }
-    #news-list > div {
+    .news-list > div {
         overflow: hidden;
         margin-bottom: 20px;
     }
-    #news-list > div:last-child {
+    .news-list > div:last-child {
         margin-bottom: 0;
     }
-        #news-list > div > div:first-child {
+        .news-list > div > div:first-child {
             float: left
         }
-        #news-list > div > div:first-child a {
+        .news-list > div > div:first-child a {
             display: block;
             width: 100px;
             height: 100px;
             padding: 5px;
             border: 1px solid #d1d1d1;
         }
-        #news-list > div > div:first-child img {
+        .news-list > div > div:first-child img {
             width: 100px;
             height: 100px;
         }
-        #news-list > div > div:last-child {
+        .news-list > div > div:last-child {
             margin-left: 130px;
         }
-            #news-list > div > div:last-child .news-date {
+            .news-list > div > div:last-child .news-date {
                 margin-bottom: 2px;
                 font-size: 12px;
                 color: #969696;
             }
-            #news-list > div > div:last-child .news-heading {
+            .news-list > div > div:last-child .news-heading {
 
             }
-                #news-list > div > div:last-child .news-heading h3 {
+                .news-list > div > div:last-child .news-heading h3 {
                     margin: 0 0 5px 0;
                     font-size: 16px;
                     line-height: 19px;
                 }
-                #news-list > div > div:last-child .news-heading h3 a {
+                .news-list > div > div:last-child .news-heading h3 a {
                     font-size: 16px;
                     line-height: 19px;
                     font-weight: bold;
                     color: #395985;
                 }
-            #news-list > div > div:last-child .news-excerpt {
+            .news-list > div > div:last-child .news-excerpt {
                 margin-bottom: 5px;
             }
-                #news-list > div > div:last-child .news-category a {
+                .news-list > div > div:last-child .news-category a {
                     font-size: 12px;
                 }
 
 @media screen and (max-width: 560px) {
     /* список новостей */
-    #news-list > div > div:first-child {
+    .news-list > div > div:first-child {
         display: none;
     }
-    #news-list > div > div:last-child {
+    .news-list > div > div:last-child {
         margin-left: 0;
     }
 }

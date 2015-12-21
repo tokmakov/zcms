@@ -8,8 +8,8 @@
  * $breadcrumbs - хлебные крошки
  * $posts - массив всех постов
  * $addPostUrl - URL ссылки на страницу с формой для добавления поста
- * $addCtgUrl - URL ссылки на страницу с формой для добавления категории
  * $allCtgsUrl - URL ссылки на страницу со списком всех категорий
+ * $allFilesUrl - URL ссылки на страницу со списком всех файлов
  * $pager - постраничная навигация
  */
 
@@ -28,10 +28,13 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Блог</h1>
 
-<ul id="add-post">
-    <li><a href="<?php echo $addPostUrl; ?>">Добавить пост</a></li>
-    <li><a href="<?php echo $allCtgsUrl; ?>">Все категории</a></li>
+<ul id="tabs">
+    <li class="current"><span>Посты</span></li>
+    <li><a href="<?php echo $allCtgsUrl; ?>">Категории</a></li>
+    <li><a href="<?php echo $allFilesUrl; ?>">Файлы</a></li>
 </ul>
+    
+<p><a href="<?php echo $addPostUrl; ?>">Добавить пост</a></p>
 
 <?php if (!empty($posts)): ?>
     <div id="all-blog-posts">

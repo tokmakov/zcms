@@ -1,7 +1,8 @@
 <?php
 /**
  * Класс Addpost_Blog_Backend_Controller формирует страницу с формой для
- * добавления поста блога, получает данные от модели Blog_Backend_Model
+ * добавления поста блога, получает данные от модели Blog_Backend_Model,
+ * административная часть сайта
  */
 class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
@@ -26,10 +27,33 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
-                $this->redirect($this->blogBackendModel->getURL('backend/blog/addpost'));
-            } else {
-                $this->redirect($this->blogBackendModel->getURL('backend/blog/index'));
+            /*
+             * Форма имеет две кнопки отправки данных:
+             * 1. Кнопка <input type="submit" name="submit" value="Сохранить" />
+             * 2. Кнопка <input type="submit" name="upload" value="Загрузить" />
+             *
+             * При нажатии первой кнопки, вызывается метод validateForm(), который
+             * проверяет введенные данные, и, если все в порядке, вызывает метод
+             * модели addPost() для добавления новой записи (поста) блога. Если
+             * были допущены ошибки при заполнении формы, введенные данные сохраняются
+             * в сессии, чтобы после редиректа опять показать форму, заполненную
+             * введенными ранее данными и сообщения об ошибках.
+             *
+             * При нажатии второй кнопки, вызывается метод uploadFiles(), который
+             * загружает на сервер выбранные администратором файлы. Введенные данные
+             * сохраняются в сессии, чтобы администратору не пришлось заполнять поля
+             * формы повторно.
+             */
+            if (isset($_POST['submit'])) { // нажата первая кнопка
+                if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
+                    $this->redirect($this->blogBackendModel->getURL('backend/blog/addpost'));
+                } else {
+                    $this->redirect($this->blogBackendModel->getURL('backend/blog/index'));
+                }
+            }
+            if (isset($_POST['upload'])) { // нажата вторая кнопка
+                $this->uploadFiles();
+                $this->redirect($this->blogBackendModel->getURL('backend/blog/addpost'));  
             }
         }
 
@@ -44,8 +68,8 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
         // получаем от модели массив категорий постов, для возможности выбора
         $categories = $this->blogBackendModel->getCategories();
 
-        // получаем от модели массив файлов, которые можно вставить в пост
-        $files = $this->blogBackendModel->getFiles();
+        // получаем от модели массив массив директорий и файлов
+        $folders = $this->blogBackendModel->getFoldersAndFiles();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -57,14 +81,21 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
             'action'      => $this->blogBackendModel->getURL('backend/blog/addpost'),
             // массив категорий для возможности выбора
             'categories'  => $categories,
-            // массив файлов
-            'files'       => $files,
+            // массив директорий и файлов
+            'folders'     => $folders,
             // дата добавления поста
             'date'        => date('d.m.Y'),
             // время добавления поста
             'time'        => date('H:i:s'),
         );
-        // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
+        // если на предыдущем этапе администратор загружал файлы, передаем в шаблон
+        // сохраненные в сессии данные формы
+        if ($this->issetSessionData('uploadBlogPostForm')) {
+            $this->centerVars['savedFormData'] = $this->getSessionData('uploadBlogPostForm');
+            $this->unsetSessionData('uploadBlogPostForm');
+        }
+        // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
+        // об ошибках и сохраненные в сессии данные формы
         if ($this->issetSessionData('addBlogPostForm')) {
             $this->centerVars['savedFormData'] = $this->getSessionData('addBlogPostForm');
             $this->centerVars['errorMessage'] = $this->centerVars['savedFormData']['errorMessage'];
@@ -75,10 +106,11 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
     }
 
     /**
-     * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
-     * функция возвращает false; если ошибок нет, функция добавляет свежую новость и возвращает true
+     * Функция проверяет корректность введенных пользователем данных; если были
+     * допущены ошибки, функция возвращает false; если ошибок нет, функция добавляет
+     * новую запись (пост) блога и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
@@ -103,7 +135,6 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
         // категория поста
         $data['category'] = 0;
-        // TODO: категорий может быть несколько
         if (ctype_digit($_POST['category'])) {
             $data['category'] = (int)$_POST['category'];
         }
@@ -137,6 +168,49 @@ class Addpost_Blog_Backend_Controller extends Blog_Backend_Controller {
         $this->blogBackendModel->addPost($data);
 
         return true;
+
+    }
+    
+    /**
+     * Функция загружает на сервер выбранные администратором файлы и сохраняет в
+     * сессии введенные данные, чтобы администратору не пришлось заполнять поля
+     * формы повторно
+     */
+    private function uploadFiles() {
+
+        /*
+         *сохраняем введенные данные в сессии
+         */
+        
+        // заголовок поста
+        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        // анонс поста
+        $data['excerpt']     = trim(utf8_substr($_POST['excerpt'], 0, 1000));
+        // мета-тег keywords
+        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = str_replace('"', '', $data['keywords']);
+        // мета-тег description
+        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = str_replace('"', '', $data['description']);
+        // содержание поста
+        $data['body']        = trim($_POST['body']);
+        // дата добавления
+        $data['date']        = $_POST['date'];
+        // время добавления
+        $data['time']        = $_POST['time'];
+
+        // категория поста
+        $data['category'] = 0;
+        if (ctype_digit($_POST['category'])) {
+            $data['category'] = (int)$_POST['category'];
+        }
+        
+        $this->setSessionData('uploadBlogPostForm', $data);
+        
+        /*
+         *обращаемся к модели для загрузки файлов
+         */
+        $this->blogBackendModel->uploadFiles();
 
     }
 

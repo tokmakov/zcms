@@ -19,9 +19,9 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Reg_User_Frontend_Controller
          */
         parent::input();
@@ -79,6 +79,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
          * обрабатываем данные, полученные из формы
          */
         $data['name']     = trim(utf8_substr($_POST['name'], 0, 32));     // имя пользователя
+        $data['name']     = preg_replace('#\s+#u', ' ', $data['name']);
         $data['surname']  = trim(utf8_substr($_POST['surname'], 0, 32));  // фамилия пользователя
         $data['email']    = trim(utf8_substr($_POST['email'], 0, 32));    // электронная почта
         $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
@@ -87,9 +88,13 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
         // были допущены ошибки при заполнении формы?
         if (empty($data['surname'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Фамилия»';
+        } elseif ( ! preg_match('#^[-a-zA-Zа-яА-ЯёЁ]+$#u', $data['surname'])) {
+            $errorMessage[] = 'Поле «Фамилия» содержит недопустимые символы';
         }
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Имя»';
+        } elseif ( ! preg_match('#^[ a-zA-Zа-яА-ЯёЁ]+$#u', $data['name'])) {
+            $errorMessage[] = 'Поле «Имя» содержит недопустимые символы';
         }
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail»';

@@ -49,7 +49,7 @@ class Table_Compare_Frontend_Controller extends Compare_Frontend_Controller {
         // получаем от модели массив параметров, привязанных к группе
         $params = $this->compareFrontendModel->getGroupParams();
 
-        // получаем от модели массив отложенных для сравнения товаров
+        // получаем от модели массив товаров для сравнения
         $products = $this->compareFrontendModel->getCompareProducts();
 
         // единицы измерения товара
@@ -69,7 +69,7 @@ class Table_Compare_Frontend_Controller extends Compare_Frontend_Controller {
             'name'        => $name,
             // массив параметров, привязанных к группе
             'params'      => $params,
-            // массив отложенных для сравнения товаров
+            // массив товаров для сравнения
             'products'    => $products,
             // массив единиц измерения товара
             'units'       => $units,

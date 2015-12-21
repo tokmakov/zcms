@@ -32,12 +32,14 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Редактирование витрины</h1>
 
-<?php if (isset($errorMessage) && count($errorMessage) > 0): ?>
-    <ul>
-    <?php foreach($errorMessage as $message): ?>
-        <li><?php echo $message; ?></li>
-    <?php endforeach; ?>
-    </ul>
+<?php if (!empty($errorMessage)): ?>
+    <div class="error-message">
+        <ul>
+        <?php foreach($errorMessage as $message): ?>
+            <li><?php echo $message; ?></li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <?php

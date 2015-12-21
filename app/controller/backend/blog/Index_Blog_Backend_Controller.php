@@ -1,7 +1,8 @@
 <?php
 /**
  * Класс Index_Blog_Backend_Controller формирует страницу со списком всех
- * постов блога, получает данные от модели Blog_Backend_Model
+ * постов блога, получает данные от модели Blog_Backend_Model, административная
+ * часть сайта
  */
 class Index_Blog_Backend_Controller extends Blog_Backend_Controller {
 
@@ -76,8 +77,8 @@ class Index_Blog_Backend_Controller extends Blog_Backend_Controller {
             'pager'       => $pager,
             // URL ссылки на страницу с формой для добавления поста
             'addPostUrl'  => $this->blogBackendModel->getURL('backend/blog/addpost'),
-            // URL ссылки на страницу с формой для добавления категории
-            'addCtgUrl'   => $this->blogBackendModel->getURL('backend/blog/addctg'),
+            // URL ссылки на страницу со списком всех файлов
+            'allFilesUrl' => $this->blogBackendModel->getURL('backend/blog/files'),
             // URL ссылки на страницу со списком всех категорий
             'allCtgsUrl'  => $this->blogBackendModel->getURL('backend/blog/allctgs')
         );

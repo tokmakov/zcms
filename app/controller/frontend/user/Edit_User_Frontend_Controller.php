@@ -79,9 +79,10 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
     protected function validateForm() {
 
         /*
-         *обрабатываем данные, полученные из формы
+         * обрабатываем данные, полученные из формы
          */
         $data['name']     = trim(utf8_substr($_POST['name'], 0, 32));    // имя пользователя
+        $data['name']     = preg_replace('#\s+#u', ' ', $data['name']);
         $data['surname']  = trim(utf8_substr($_POST['surname'], 0, 32)); // фамилия пользователя
         $data['change']   = false;
         if (isset($_POST['change'])) { // изменить пароль?
@@ -93,9 +94,13 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
         // были допущены ошибки при заполнении формы?
         if (empty($data['surname'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Фамилия»';
+        } elseif ( ! preg_match('#^[-a-zA-Zа-яА-ЯёЁ]+$#u', $data['surname'])) {
+            $errorMessage[] = 'Поле «Фамилия» содержит недопустимые символы';
         }
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Имя»';
+        } elseif ( ! preg_match('#^[ a-zA-Zа-яА-ЯёЁ]+$#u', $data['name'])) {
+            $errorMessage[] = 'Поле «Имя» содержит недопустимые символы';
         }
         if ($data['change']) { // изменить пароль?
             if (empty($data['password'])) {

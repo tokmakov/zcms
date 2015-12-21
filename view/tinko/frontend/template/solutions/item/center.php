@@ -78,7 +78,7 @@ defined('ZCMS') or die('Access denied');
                     <?php if ($item['sortorder'] != 1): ?>
                         <tr>
                             <td colspan="7" style="text-align: right;">
-                                <strong><?php echo number_format($totalCost, 2, '.', ''); ?></strong> руб.
+                                <strong><?php echo number_format($totalCost, 2, '.', ' '); ?></strong> руб.
                             </td>
                         </tr>
                         <?php $totalCost = 0.0; ?>
@@ -110,7 +110,7 @@ defined('ZCMS') or die('Access denied');
             <?php endforeach; ?>
             <tr>
                 <td colspan="7">
-                    <strong><?php echo number_format($totalCost, 2, '.', ''); ?></strong> руб.
+                    <strong><?php echo number_format($totalCost, 2, '.', ' '); ?></strong> руб.
                 </td>
             </tr>
         </table>

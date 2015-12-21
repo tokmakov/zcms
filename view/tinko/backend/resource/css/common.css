@@ -122,6 +122,28 @@ body > .wrapper {
     margin-bottom: 20px;
 }
 
+form input[type="submit"] {
+    padding: 5px 25px;
+    border: 1px solid #395985;
+    background: #395985;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* сообщение об ошибке */
+.error-message {
+    border: 1px solid #e9751f;
+    border-top: 5px solid #e9751f;
+    overflow: hidden;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+    .error-message > ul {
+        margin-left: 20px;
+        color: #e9751f;
+    }
+
 /* постраничная навигация */
 .pager {
     overflow: hidden;

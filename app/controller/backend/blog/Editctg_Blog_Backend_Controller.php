@@ -100,7 +100,7 @@ class Editctg_Blog_Backend_Controller extends Blog_Backend_Controller {
      * были допущены ошибки, функция возвращает false; если ошибок нет,
      * функция обновляет категорию и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

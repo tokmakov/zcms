@@ -94,7 +94,7 @@ class Add_Banner_Backend_Controller extends Banner_Backend_Controller {
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
         if (!empty($errorMessage)) {
-            $data['errorMessage'] = $this->errorMessage;
+            $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addBannerForm', $data);
             return false;
         }
