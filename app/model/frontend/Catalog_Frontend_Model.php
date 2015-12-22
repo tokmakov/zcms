@@ -255,10 +255,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `a`.`maker` = " . $maker;
             }
             if ($hit) { // фильтр по лидерам продаж
-                $query = $query . " AND `a`.`hit` = 1";
+                $query = $query . " AND `a`.`hit` > 0";
             }
             if ($new) { // фильтр по новинкам
-                $query = $query . " AND `a`.`new` = 1";
+                $query = $query . " AND `a`.`new` > 0";
             }
             if ( ! empty($param)) { // фильтр по параметрам подбора
                 $ids = $this->getProductsByParam($group, $param);
@@ -404,10 +404,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $tmp = $tmp . " AND `a`.`maker` = " . $maker;
         }
         if ($hit) { // фильтр по лидерам продаж
-            $tmp = $tmp . " AND `a`.`hit` = 1";
+            $tmp = $tmp . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
-            $tmp = $tmp . " AND `a`.`new` = 1";
+            $tmp = $tmp . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
             $ids = $this->getProductsByParam($group, $param);
@@ -518,10 +518,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`maker` = " . $maker;
         }
         if ($hit) { // фильтр по лидерам продаж
-            $query = $query . " AND `a`.`hit` = 1";
+            $query = $query . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
-            $query = $query . " AND `a`.`new` = 1";
+            $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
             $ids = $this->getProductsByParam($group, $param);
@@ -606,10 +606,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `b`.`group` = " . $group;
             }
             if ($hit) { // фильтров по лидерам продаж
-                $query = $query . " AND `b`.`hit` = 1";
+                $query = $query . " AND `b`.`hit` > 0";
             }
             if ($new) { // фильтр по новинкам
-                $query = $query . " AND `b`.`new` = 1";
+                $query = $query . " AND `b`.`new` > 0";
             }
             if ( ! empty($param)) { // фильтр по параметрам подбора
                 $ids = $this->getProductsByParam($group, $param);
@@ -701,10 +701,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `b`.`maker` = " . $maker;
             }
             if ($hit) {
-                $query = $query . " AND `b`.`hit` = 1";
+                $query = $query . " AND `b`.`hit` > 0";
             }
             if ($new) {
-                $query = $query . " AND `b`.`new` = 1";
+                $query = $query . " AND `b`.`new` > 0";
             }
             $groups[$key]['count'] = $this->database->fetchOne($query);
         }
@@ -796,10 +796,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `b`.`maker` = " . $maker;
             }
             if ($hit) { // фильтр по лидерам продаж
-                $query = $query . " AND `b`.`hit` = 1";
+                $query = $query . " AND `b`.`hit` > 0";
             }
             if ($new) { // фильтр по новинкам
-                $query = $query . " AND `b`.`new` = 1";
+                $query = $query . " AND `b`.`new` > 0";
             }
 
             $temp = $param;
@@ -891,10 +891,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`maker` = " . $maker;
         }
         if ( ! $hit) {
-            $query = $query . " AND `a`.`hit` = 1";
+            $query = $query . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
-            $query = $query . " AND `a`.`new` = 1";
+            $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
             $ids = $this->getProductsByParam($group, $param);
@@ -956,10 +956,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $query = $query . " AND `a`.`maker` = " . $maker;
         }
         if ($hit) { // фильтр по лидерам продаж
-            $query = $query . " AND `a`.`hit` = 1";
+            $query = $query . " AND `a`.`hit` > 0";
         }
         if ( ! $new) {
-            $query = $query . " AND `a`.`new` = 1";
+            $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
             $ids = $this->getProductsByParam($group, $param);

@@ -1,15 +1,20 @@
-#tabs {
+.tabs {
 
 }
-    #tabs > ul {
+    .tabs > ul {
         list-style: none;
         margin: 0;
         padding: 0;
         border-bottom: 1px solid #d1d1d1;
-        float: left;
         width: 100%;
+        margin-bottom: 20px;
     }
-        #tabs > ul > li {
+    .tabs > ul:after {
+        content: ' ';
+        display: table;
+        clear: both;
+    }
+        .tabs > ul > li {
             float: left;
             position: relative;
             border: 1px solid #d1d1d1;
@@ -17,13 +22,13 @@
             margin-left: 10px;
             background: #f0f0f0;
         }
-        #tabs > ul > li:first-child {
+        .tabs > ul > li:first-child {
             margin-left: 20px;
         }
-        #tabs > ul > li.current {
+        .tabs > ul > li.current {
             background: #fff;
         }
-        #tabs > ul > li.current:after {
+        .tabs > ul > li.current:after {
             display: block;
             box-sizing: border-box;
             position: absolute;
@@ -33,7 +38,7 @@
             top: 32px;
             content: '';
         }
-            #tabs > ul > li > a {
+            .tabs > ul > li > a {
                 display: block;
                 padding: 0 15px;
                 height: 32px;
@@ -41,50 +46,44 @@
                 color: #323232;
                 text-decoration: none;
             }
-                #tabs > ul > li > a > span {
+                .tabs > ul > li > a > span {
                     border-bottom: 1px dashed #323232;
                 }
-    #tabs > div {
-        clear: left;
-    }
-        #tabs > div > div {
-            padding-top: 5px;
-        }
 
 @media screen and (max-width: 500px) {
-    #tabs > ul > li {
+    .tabs > ul > li {
         margin-left: 5px;
     }
-    #tabs > ul > li:first-child {
+    .tabs > ul > li:first-child {
         margin-left: 5px;
     }
-        #tabs > ul > li > a {
+        .tabs > ul > li > a {
             padding: 0 5px;
         }
 }
 @media screen and (max-width: 430px) {
-    #tabs > ul {
+    .tabs > ul {
         float: none;
         list-style: disc outside;
         border-bottom: none;
     }
-    #tabs > ul > li {
+    .tabs > ul > li {
         float: none;
         border: none;
         background: transparent;
         margin-left: 0;   
     }
-        #tabs > ul > li:first-child {
+        .tabs > ul > li:first-child {
             margin-left: 0;
         }
-        #tabs > ul > li > a {
+        .tabs > ul > li > a {
             height: 24px;
             line-height: 24px;   
         }
-        #tabs > ul > li.current > a {
+        .tabs > ul > li.current > a {
             color: #395985;
         }
-            #tabs > ul > li.current > a > span {
+            .tabs > ul > li.current > a > span {
                 border-bottom: 1px dashed #395985;
             }
 }

@@ -42,7 +42,7 @@ class Index_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех баннеров для главной (стартовой) страницы сата
+     * Возвращает массив всех баннеров для главной (стартовой) страницы сайта
      */
     public function getAllBanners() {
         // если не включено кэширование данных
@@ -61,7 +61,7 @@ class Index_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех баннеров для главной (стартовой) страницы сата
+     * Возвращает массив всех баннеров для главной (стартовой) страницы сайта
      */
     protected function allBanners() {
         $query = "SELECT
@@ -73,6 +73,122 @@ class Index_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `sortorder`";
         return $this->database->fetchAll($query);
+    }
+
+    /**
+     * Возвращает массив лидеров продаж для главной (стартовой) страницы сайта;
+     * результат работы кэшируется
+     */
+    public function getHitProducts() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->hitProducts();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив лидеров продаж для главной (стартовой) страницы сайта
+     */
+    protected function hitProducts() {
+
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`hit` = 2
+                      AND `a`.`visible` = 1
+                  ORDER BY
+                      `b`.`globalsort`, `a`.`sortorder`
+                  LIMIT
+                      15";
+        $products = $this->database->fetchAll($query);
+
+        // добавляем в массив товаров информацию об URL товаров, фото
+        foreach ($products as $key => $value) {
+            // URL ссылки на страницу товара
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            // URL ссылки на фото товара
+            if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+        }
+
+        return $products;
+
+    }
+
+    /**
+     * Возвращает массив новых товаров для главной (стартовой) страницы сайта;
+     * результат работы кэшируется
+     */
+    public function getNewProducts() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->newProducts();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив новых товаров для главной (стартовой) страницы сайта
+     */
+    protected function newProducts() {
+
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`new` = 2
+                      AND `a`.`visible` = 1
+                  ORDER BY
+                      `b`.`globalsort`, `a`.`sortorder`
+                  LIMIT
+                      15";
+        $products = $this->database->fetchAll($query);
+
+        // добавляем в массив товаров информацию об URL товаров, фото
+        foreach ($products as $key => $value) {
+            // URL ссылки на страницу товара
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            // URL ссылки на фото товара
+            if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+        }
+
+        return $products;
+
     }
 
 }

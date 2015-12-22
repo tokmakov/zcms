@@ -74,14 +74,49 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <?php if (!empty($banners)): // баннеры ?>
-    <ul class="slider">
+    <ul id="banner-slider">
     <?php foreach($banners as $item): ?>
         <li><a href="<?php echo $item['url']; ?>"><img src="/files/index/slider/<?php echo $item['id']; ?>.jpg" alt="<?php echo $item['alttext']; ?>"></a></li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>
 
-<div id="tabs">
+<div id="new-hit-tabs">
+    <ul>
+        <li><a href="#hit-products"><span>Лидеры продаж</span></a></li>
+        <li><a href="#new-products"><span>Новинки</span></a></li>
+    </ul>
+    <div>
+        <div id="hit-products">
+            <ul>
+            <?php foreach($hitProducts as $product): ?>
+                <li>
+                    <div class="new-hit-item">
+                        <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
+                        <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
+                        <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> руб/шт</div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+        <div id="new-products">
+            <ul>
+                <?php foreach($newProducts as $product): ?>
+                    <li>
+                        <div class="new-hit-item">
+                            <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
+                            <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
+                            <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> руб/шт</div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
     <ul>
         <li><a href="#company-news"><span>Новости компании</span></a></li>
         <li><a href="#general-news"><span>События отрасли</span></a></li>

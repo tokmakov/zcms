@@ -423,44 +423,32 @@ body > .wrapper {
 }
 
 /* статичные страницы */
-#page h2, #page h3, #page h4 {
+.page h2, .page h3, .page h4 {
     margin: 15px 0;
     color: #395985;
     font-weight: normal;
 }
-#page h2 {
+.page h2 {
     font-size: 19px;
 }
-#page h3 {
+.page h3 {
     font-size: 16px;
 }
-#page h4 {
+.page h4 {
     font-size: 14px;
 }
-#page p {
+.page p {
     margin: 15px 0;
 }
-#page ul, #page ol {
+.page ul, .page ol {
     margin: 15px 0 15px 20px;
 }
-    #page ul > li > ul, #page ol > li > ol, #page ol > li > ul, #page ul > li > ol {
+    .page ul > li > ul, .page ol > li > ol, .page ol > li > ul, .page ul > li > ol {
         margin: 5px 0 5px 20px;
     }
-#page img {
+.page img {
     max-width: 100%;
 }
-#page .read-more {
-    display: block;
-    margin: 10px 0 25px 0;
-}
-    #page .read-more > a {
-        background: #395985;
-        color: #fff;
-        padding: 4px 16px;
-    }
-    #page .read-more > a:hover {
-        text-decoration: none;
-    }
 
 #tinkoMap, #deliveryMap {
     width: 100%;

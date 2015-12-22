@@ -22,7 +22,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1><?php echo $name; ?></h1>
 
-<div id="page">
+<div class="page">
     <?php echo $body; ?>
 </div>
 

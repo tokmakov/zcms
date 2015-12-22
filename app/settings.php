@@ -216,7 +216,7 @@ $settings = array(
             ),
             'index'           => array(          // главная страница сайта
                 'jquery.bxslider.min.js',
-                'slider.js',
+                'index.js',
                 'tabs.js',
             ),
             'sitemap'    => 'sitemap.js',        // карта сайта

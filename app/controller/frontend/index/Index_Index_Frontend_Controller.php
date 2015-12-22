@@ -41,6 +41,12 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         $generalNews = array_slice($news, 0, 3);
         $companyNews = array_slice($news, 3, 3);
 
+        // получаем от модели массив лидеров продаж
+        $hitProducts = $this->indexFrontendModel->getHitProducts();
+
+        // получаем от модели массив новых товаров
+        $newProducts = $this->indexFrontendModel->getNewProducts();
+
         /*
          * переменные, которые будут переданы в шаблон center.php
          */
@@ -51,6 +57,10 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
             'text'        => $index['body'],
             // массив баннеров
             'banners'     => $banners,
+            // массив лидеров продаж
+            'hitProducts' => $hitProducts,
+            // массив новых товаров
+            'newProducts' => $newProducts,
             // массив новостей
             'news'        => $news,
             // массив новостей
