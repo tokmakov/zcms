@@ -76,10 +76,10 @@ defined('ZCMS') or die('Access denied');
                     <a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a>
                 </div>
                 <div>
-                    <a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a>
-                    <a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a>
-                    <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                    <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    <a href="<?php echo $item['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                    <a href="<?php echo $item['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                    <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                 </div>
             </li>
         <?php endforeach; ?>

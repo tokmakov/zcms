@@ -7,7 +7,9 @@
  * $name - заголовок h1
  * $text - текст страницы
  * $banners - массив всех баннеров
- * $news - массив последних новостей
+ * $hitProducts - массив товаров, лидеры продаж
+ * $hitProducts - массив товаров, новинки
+ * $units - массив единиц измерения товара
  * $generalNews - массив последних новостей отрасли
  * $companyNews - массив последних новостей компании
  *
@@ -29,40 +31,56 @@
  *   )
  * )
  *
- * $news = Array (
+ * 
+ * $hitProducts = Array (
  *   [0] => Array (
- *     [id] => 7
- *     [name] => Снижение цен на IP и HDcctv оборудование EverFocus
- *     [excerpt] => Уважаемые покупатели! C 26 ноября вы сможете приобрести IP и HDcctv оборудование EverFocus...
- *     [date] => 29.11.2014
- *     [time] => 15:22:35
- *     [ctg_id] => 1
- *     [ctg_name] => Новости компании
+ *     [id] => 1001
+ *     [code] => 001001
+ *     [name] => ИО 102-2 (СМК-1)
+ *     [title] => Извещатель охранный точечный магнитоконтактный
+ *     [price] => 36.80000
+ *     [unit] => 1
+ *     [shortdescr] => Накладной, 58х11х11 мм
  *     [url] => Array (
- *       [item] => /news/item/7
- *       [image] => /files/news/7/7.jpg
- *       [category] => /news/ctg/1
+ *       [product] => http://www.host.ru/catalog/product/1001
+ *       [image] => http://www.host.ru/files/catalog/imgs/small/1/f/1fccb567a44880e8665b7cb9d0f97271.jpg
  *     )
  *   )
  *   [1] => Array (
- *     [id] => 6
- *     [name] => Моноблок речевого оповещения Соната-К-120М с внешним микрофоном
- *     [excerpt] => Представляем усовершенствованную модель моноблока речевого оповещения Соната-К-120М...
- *     [date] => 29.11.2014
- *     [time] => 15:10:28
- *     [ctg_id] => 1
- *     [ctg_name] => Новости компании
- *     [url] => Array (
- *       [item] => /news/item/6
- *       [image] => /files/news/6/6.jpg
- *       [category] => /news/ctg/1
- *     )
- *   )
- *   [2] => Array (
  *     .....
  *   )
+ * )
+ * 
+ * $newProducts = Array (
+ *   [0] => Array (
+ *     [id] => 1015
+ *     [code] => 001015
+ *     [name] => Окно-5 (ИО 303-4)
+ *     [title] => Извещатель охранный поверхностный ударноконтактный
+ *     [price] => 1337.09000
+ *     [unit] => 1
+ *     [shortdescr] => Блокируемая площадь стекла 20 кв.м, в комплекте 5 датчиков, питание по ШС
+ *     [url] => Array (
+ *       [product] => http://www.host.ru/catalog/product/1015
+ *       [image] => http://www.host.ru/files/catalog/imgs/small/b/a/ba28cd5b0e7a77fddecacdd6b8e61b3b.jpg
+ *     )
+ *   )
+ *   [1] => Array (
+ *     .....
+ *   )
+ * )
+ * 
+ * $units = Array (
+ *     0 => 'руб',
+ *     1 => 'руб/шт',
+ *     2 => 'руб/компл',
+ *     3 => 'руб/упак',
+ *     4 => 'руб/метр',
+ *     5 => 'руб/пара',
+ * )
  *
  */
+ 
 defined('ZCMS') or die('Access denied');
 ?>
 
@@ -94,7 +112,7 @@ defined('ZCMS') or die('Access denied');
                     <div class="new-hit-item">
                         <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
                         <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
-                        <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> руб/шт</div>
+                        <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?></div>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -107,7 +125,7 @@ defined('ZCMS') or die('Access denied');
                         <div class="new-hit-item">
                             <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
                             <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
-                            <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> руб/шт</div>
+                            <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?></div>
                         </div>
                     </li>
                 <?php endforeach; ?>

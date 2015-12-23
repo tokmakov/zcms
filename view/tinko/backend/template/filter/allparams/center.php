@@ -29,13 +29,12 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Фильтр товаров</h1>
 
-<ul id="filter">
+<ul id="tabs">
     <li><a href="<?php echo $filterPageUrl; ?>">Сводка</a></li>
     <li><a href="<?php echo $groupsPageUrl; ?>">Группы</a></li>
-    <li><a href="<?php echo $paramsPageUrl; ?>" class="active">Параметры</a></li>
+    <li class="current"><a href="<?php echo $paramsPageUrl; ?>">Параметры</a></li>
     <li><a href="<?php echo $valuesPageUrl; ?>">Значения</a></li>
 </ul>
-<div style="border-top: 1px solid #000; margin-top: -1px;"></div>
 
 <h2>Параметры</h2>
 <p><a href="<?php echo $addParamUrl; ?>">Добавить параметр</a></p>

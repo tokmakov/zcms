@@ -150,7 +150,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'price3'       => $product['price3'],
             // единица измерения
             'unit'         => $product['unit'],
-            // массив всех вариантов измерения
+            // массив единиц измерения товара
             'units'        => $units,
             // производитель
             'maker'        => array(

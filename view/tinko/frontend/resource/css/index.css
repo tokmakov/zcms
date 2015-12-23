@@ -63,6 +63,7 @@
     .new-hit-item > div:first-child {
         height: 30px;
         margin-bottom: 5px;
+        overflow: hidden;
     }
         .new-hit-item > div:first-child > a {
             font-size: 14px;
@@ -83,6 +84,7 @@
     .new-hit-item > div:last-child {
         height: 18px;
         color: #969696;
+        overflow: hidden;
     }
         .new-hit-item > div:last-child > span {
             font-weight: bold;

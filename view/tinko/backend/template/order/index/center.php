@@ -39,6 +39,7 @@ defined('ZCMS') or die('Access denied');
                     <?php endif; ?>
                 </div>
                 <div>
+                    <span><?php echo number_format($order['amount'], 2, '.', ''); ?></span>
                     <a href="<?php echo $order['url']; ?>">Подробнее</a>
                 </div>
             </li>

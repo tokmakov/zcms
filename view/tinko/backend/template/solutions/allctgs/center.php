@@ -64,13 +64,12 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Типовые решения</h1>
 
-<ul id="solutions">
+<ul id="tabs">
     <li><a href="<?php echo $indexPageUrl; ?>">Сводка</a></li>
-    <li><a href="<?php echo $ctgsPageUrl; ?>" class="active">Категории</a></li>
+    <li class="current"><a href="<?php echo $ctgsPageUrl; ?>">Категории</a></li>
     <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
     <li><a href="<?php echo $addSltnUrl; ?>">Добавить решение</a></li>
 </ul>
-<div style="border-top: 1px solid #000; margin-top: -1px;"></div>
 
 <h2>Категории</h2>
 

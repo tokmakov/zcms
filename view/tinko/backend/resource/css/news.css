@@ -138,3 +138,18 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
+            
+/* ссылка на страницу с формой для добавления новости */
+#add-news-all-ctgs {
+    overflow: hidden;
+    list-style: none;
+    margin: 0 0 15px 0;
+    padding: 0;
+}
+    #add-news-all-ctgs > li:first-child {
+        float: left;
+        width: 50%;
+    }
+    #add-news-all-ctgs > li:last-child {
+        text-align: right;
+    }

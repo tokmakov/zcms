@@ -15,11 +15,13 @@ class Show_User_Backend_Controller extends User_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу User_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Show_User_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу User_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Show_User_Backend_Controller
+         */
         parent::input();
 
         // если не передан id пользователя или id пользователя не число
@@ -49,21 +51,24 @@ class Show_User_Backend_Controller extends User_Backend_Controller {
         /*
          * постраничная навигация для списка товаров пользователя
          */
-        $currentPage = 1;
+        $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $currentPage = $this->params['page'];
+            $page = $this->params['page'];
         }
         // общее кол-во заказов пользователя
-        $totalUsers = $this->userBackendModel->getCountUserOrders($this->params['id']);
+        $totalOrders = $this->userBackendModel->getCountUserOrders($this->params['id']);
+        // URL этой страницы
+        $thisPageUrl = $this->userBackendModel->getURL('backend/user/show');
 
         $temp = new Pager(
-            $currentPage,
-            $totalUsers,
-            Config::getInstance()->pager->backend->orders->perpage,
-            Config::getInstance()->pager->backend->orders->leftright
+            $thisPageUrl,                                    // URL этой страницы
+            $page,                                           // текущая старница
+            $totalOrders,                                    // общее кол-во заказов
+            $this->config->pager->backend->orders->perpage,  // кол-во заказов на страницу
+            $this->config->pager->backend->orders->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $currentPage (за границей диапазона)
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
         }
@@ -71,7 +76,7 @@ class Show_User_Backend_Controller extends User_Backend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($currentPage - 1) * Config::getInstance()->pager->backend->orders->perpage;
+        $start = ($page - 1) * $this->config->pager->backend->orders->perpage;
 
         // получаем от модели массив заказов пользователя
         $orders = $this->userBackendModel->getUserOrders($this->params['id'], $start);

@@ -44,7 +44,7 @@ defined('ZCMS') or die('Access denied');
 
 <div class="wrapper">
     <div id="wrap">
-        <div id="content">
+        <div id="content" class="content">
             <?php echo $centerContent; ?>
         </div>
     </div>

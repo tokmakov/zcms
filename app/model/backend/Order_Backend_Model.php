@@ -58,7 +58,8 @@ class Order_Backend_Model extends Backend_Model {
                       IFNULL(`b`.`email`, '') AS `user_email`
                   FROM
                       `orders` `a` LEFT JOIN `users` `b` ON `a`.`user_id` = `b`.`id`
-                  WHERE `a`.`id` = :id";
+                  WHERE
+                      `a`.`id` = :id";
         $result = $this->database->fetch($query, array('id' => $id));
         if (false === $result) {
             return null;
@@ -76,10 +77,13 @@ class Order_Backend_Model extends Backend_Model {
             ),
             unserialize($result['details'])
         );
-        $query = "SELECT `product_id`, `code` AS `code`, `name`,
-                         `title`, `price`, `quantity`, `cost`
-                  FROM `orders_prds`
-                  WHERE `order_id` = :order_id";
+        $query = "SELECT
+                      `product_id`, `code` AS `code`, `name`,
+                      `title`, `price`, `quantity`, `cost`
+                  FROM
+                      `orders_prds`
+                  WHERE
+                      `order_id` = :order_id";
         $order['products'] = $this->database->fetchAll($query, array('order_id' => $id));
 
         return $order;

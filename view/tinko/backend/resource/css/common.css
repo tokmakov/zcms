@@ -101,18 +101,28 @@ body > .wrapper {
             background: #5390cc;
         }
 
-#content h1 {
+.content h1 {
     margin-bottom: 20px;
+    font-size: 22px;
 }
-#content h2 {
-    margin: 20px 0 10px 0;
+.content h2 {
+    margin: 20px 0 15px 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #395985;
 }
-#content p {
+.content p {
     margin: 15px 0;
 }
+.content ul, .content ol {
+    margin: 15px 0 15px 20px;
+}
+    .content ul > li > ul, .content ol > li > ol, .content ol > li > ul, .content ul > li > ol {
+        margin: 5px 0 5px 20px;
+    }
 
 /* хлебные крошки */
-#content #breadcrumbs {
+.content #breadcrumbs {
     border: 1px solid #d1d1d1;
     border-top: 5px solid #395985;
     overflow: hidden;
@@ -208,13 +218,13 @@ form input[type="submit"] {
     width: 100%;
 }
     .data-table td, .data-table th {
-        padding: 4px;
+        padding: 5px;
         vertical-align:top;
-        border: 1px solid #333;
-        color: #333;
+        border: 1px solid #d1d1d1;
+        color: #323232;
     }
     .data-table th {
-        background-color: #eee;
+        background-color: #f0f0f0;
         font-weight: normal;
         text-align: left;
     }

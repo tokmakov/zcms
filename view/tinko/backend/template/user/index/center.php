@@ -40,8 +40,8 @@ defined('ZCMS') or die('Access denied');
                         </a>
                     </div>
                     <div>
-                        <a href="<?php echo $user['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                        <a href="<?php echo $user['url']['remove']; ?>" title="Удалить">Удл.</a>
+                        <a href="<?php echo $user['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="<?php echo $user['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
             <?php endforeach; ?>

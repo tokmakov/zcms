@@ -83,13 +83,12 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Типовые решения</h1>
 
-<ul id="solutions">
-    <li><a href="<?php echo $indexPageUrl; ?>" class="active">Сводка</a></li>
+<ul id="tabs">
+    <li class="current"><a href="<?php echo $indexPageUrl; ?>">Сводка</a></li>
     <li><a href="<?php echo $ctgsPageUrl; ?>">Категории</a></li>
     <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
     <li><a href="<?php echo $addSltnUrl; ?>">Добавить решение</a></li>
 </ul>
-<div style="border-top: 1px solid #000; margin-top: -1px;"></div>
 
 <div id="index-solutions">
     <h2>Все типовые решения</h2>
@@ -110,7 +109,7 @@ defined('ZCMS') or die('Access denied');
                                 <a href="<?php echo $item['url']['show']; ?>"><?php echo $item['name']; ?></a>
                             </span>
                             <span>
-                                <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
+                                <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
                             </span>
                         </li>
                     <?php endforeach; ?>

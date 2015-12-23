@@ -25,9 +25,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Категории новостей</h1>
 
-<ul>
-    <li><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></li>
-</ul>
+<p><a href="<?php echo $addCtgUrl; ?>">Добавить категорию</a></p>
 
 <?php if (!empty($categories)): ?>
     <div id="all-news-ctgs">

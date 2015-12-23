@@ -47,11 +47,11 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
         // URL этой страницы
         $thisPageUrl = $this->userBackendModel->getURL('backend/user/index');
         $temp = new Pager(
-            $thisPageUrl,                                           // URL этой страницы
-            $page,                                                  // текущая старница
-            $totalUsers,                                            // общее кол-во пользователей
-            Config::getInstance()->pager->backend->users->perpage,  // кол-во пользователей на страницу
-            Config::getInstance()->pager->backend->users->leftright // кол-во ссылок слева и справа
+            $thisPageUrl,                                   // URL этой страницы
+            $page,                                          // текущая старница
+            $totalUsers,                                    // общее кол-во пользователей
+            $this->config->pager->backend->users->perpage,  // кол-во пользователей на страницу
+            $this->config->pager->backend->users->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
         if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
@@ -62,7 +62,7 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * Config::getInstance()->pager->backend->users->perpage;
+        $start = ($page - 1) * $this->config->pager->backend->users->perpage;
 
         // получаем от модели массив всех пользователей
         $users = $this->userBackendModel->getAllUsers($start);
@@ -77,7 +77,7 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
             'users'       => $users,
             // постраничная навигация
             'pager'       => $pager,
-            // URL страницы с формой для добавления пользователя
+            // URL ссылки на страницу с формой для добавления пользователя
             'addUserUrl'  => $this->userBackendModel->getURL('backend/user/add'),
         );
 

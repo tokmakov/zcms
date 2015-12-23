@@ -106,10 +106,11 @@ class News_Frontend_Model extends Frontend_Model {
      * Возвращает массив новостей категории с уникальным идентификатором $id
      */
     protected function categoryNews($id, $start) {
-        $query = "SELECT `a`.`id` AS `id`, `a`.`name` AS `name`, `a`.`excerpt` AS `excerpt`,
-                         DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
-                         DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
-                         `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`name` AS `name`, `a`.`excerpt` AS `excerpt`,
+                      DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`
                   FROM
                       `news` `a` INNER JOIN `news_ctgs` `b` ON `a`.`category` = `b`.`id`
                   WHERE
@@ -117,8 +118,8 @@ class News_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `a`.`added` DESC
                   LIMIT " . $start . ", " . $this->config->pager->frontend->news->perpage;
-        $news = $this->database->fetchAll($query, array('id' => $id), $this->enableDataCache);
-        // добавляем в массив новостей информацию об URL новости, картинки, категории
+        $news = $this->database->fetchAll($query, array('id' => $id));
+        // добавляем в массив новостей информацию об URL новости, картинки
         foreach($news as $key => $value) {
             $news[$key]['url']['item'] = $this->getURL('frontend/news/item/id/' . $value['id']);
             if (is_file('./files/news/' . $value['id'] . '/' . $value['id'] . '.jpg')) {

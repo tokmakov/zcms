@@ -74,6 +74,102 @@ class Index_Frontend_Model extends Frontend_Model {
                       `sortorder`";
         return $this->database->fetchAll($query);
     }
+    
+    /**
+     * Возвращает массив трех последних событий отрасли; результат работы кэшируется
+     */
+    public function getGeneralNews() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->generalNews();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+    
+    /**
+     * Возвращает массив трех последних событий отрасли
+     */
+    protected function generalNews() {
+        $query = "SELECT
+                      `id`, `name`, `excerpt`,
+                      DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
+                  FROM
+                      `news`
+                  WHERE
+                      `category` = 2
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      3";
+        $news = $this->database->fetchAll($query);
+        // добавляем в массив новостей информацию об URL новости, картинки
+        foreach($news as $key => $value) {
+            $news[$key]['url']['item'] = $this->getURL('frontend/news/item/id/' . $value['id']);
+            if (is_file('./files/news/' . $value['id'] . '/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/' . $value['id'] . '/' . $value['id'] . '.jpg';
+            } else {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/default.jpg';
+            }
+        }
+        return $news;
+    }
+
+    /**
+     * Возвращает массив трех последних новостей компании; результат работы кэшируется
+     */
+    public function getCompanyNews() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->companyNews();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()';
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+    
+    /**
+     * Возвращает массив трех последних новостей компании
+     */
+    protected function companyNews() {
+        $query = "SELECT
+                      `id`, `name`, `excerpt`,
+                      DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
+                  FROM
+                      `news`
+                  WHERE
+                      `category` = 1
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      3";
+        $news = $this->database->fetchAll($query);
+        // добавляем в массив новостей информацию об URL новости, картинки
+        foreach($news as $key => $value) {
+            $news[$key]['url']['item'] = $this->getURL('frontend/news/item/id/' . $value['id']);
+            if (is_file('./files/news/' . $value['id'] . '/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/' . $value['id'] . '/' . $value['id'] . '.jpg';
+            } else {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/default.jpg';
+            }
+        }
+        return $news;
+    }
 
     /**
      * Возвращает массив лидеров продаж для главной (стартовой) страницы сайта;

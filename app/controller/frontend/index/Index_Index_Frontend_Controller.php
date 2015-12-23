@@ -37,15 +37,17 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         $banners = $this->indexFrontendModel->getAllBanners();
 
         // получаем от модели массив последних новостей
-        $news = $this->newsFrontendModel->getAllNews();
-        $generalNews = array_slice($news, 0, 3);
-        $companyNews = array_slice($news, 3, 3);
+        $companyNews = $this->indexFrontendModel->getCompanyNews();
+        $generalNews = $this->indexFrontendModel->getGeneralNews();
 
         // получаем от модели массив лидеров продаж
         $hitProducts = $this->indexFrontendModel->getHitProducts();
 
         // получаем от модели массив новых товаров
         $newProducts = $this->indexFrontendModel->getNewProducts();
+        
+        // единицы измерения товара
+        $units = $this->catalogFrontendModel->getUnits();
 
         /*
          * переменные, которые будут переданы в шаблон center.php
@@ -61,12 +63,12 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
             'hitProducts' => $hitProducts,
             // массив новых товаров
             'newProducts' => $newProducts,
-            // массив новостей
-            'news'        => $news,
-            // массив новостей
-            'generalNews' => $generalNews,
-            // массив новостей
+            // массив единиц измерения товара
+            'units'       => $units,
+            // массив новостей компании
             'companyNews' => $companyNews,
+            // массив событий отрасли
+            'generalNews' => $generalNews,
         );
 
     }

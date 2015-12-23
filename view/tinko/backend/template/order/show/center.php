@@ -67,10 +67,10 @@ defined('ZCMS') or die('Access denied');
     <li>Телефон: <?php echo $order['buyer_phone']; ?></li>
 </ul>
 <ul>
-<?php if (!$order['own_shipping']): ?>
-    <li>Адрес доставки: <?php echo $order['buyer_physical_address']; ?></li>
-    <li>Город: <?php echo $order['buyer_city']; ?></li>
-    <li>Почтовый индекс: <?php echo $order['buyer_postal_index']; ?></li>
+<?php if (!$order['shipping']): ?>
+    <li>Адрес доставки: <?php echo $order['buyer_shipping_address']; ?></li>
+    <li>Город: <?php echo $order['buyer_shipping_city']; ?></li>
+    <li>Почтовый индекс: <?php echo $order['buyer_shipping_index']; ?></li>
 <?php else: ?>
     <li>Самовывоз со склада</li>
 <?php endif; ?>

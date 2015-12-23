@@ -37,16 +37,16 @@ defined('ZCMS') or die('Access denied');
     <h2>Заказы</h2>
     <div id="user-orders-list">
     <?php foreach($orders as $order): ?>
-        <div class="orders-list-item">
+        <div>
             <p><?php echo $order['date']; ?> <?php echo $order['time']; ?></p>
             <table class="data-table">
                 <tr>
-                    <th width="10%">Код</th>
-                    <th width="20%">Наименование</th>
-                    <th width="40%">Функциональное наименование</th>
-                    <th width="10%">Кол.</th>
-                    <th width="10%">Цена</th>
-                    <th width="10%">Стоим.</th>
+                    <th>Код</th>
+                    <th>Наименование</th>
+                    <th>Функциональное наименование</th>
+                    <th>Кол.</th>
+                    <th>Цена</th>
+                    <th>Стоим.</th>
                 </tr>
                 <?php foreach ($order['products'] as $product): ?>
                     <tr>
@@ -67,49 +67,51 @@ defined('ZCMS') or die('Access denied');
         </div>
     <?php endforeach; ?>
     </div>
+<?php else: ?>
+    <p>Нет заказов</p>
 <?php endif; ?>
 
 <?php if (!empty($pager)): // постраничная навигация ?>
     <ul class="pager">
-        <?php if (isset($pager['first'])): ?>
+    <?php if (isset($pager['first'])): ?>
+        <li>
+            <a href="<?php echo $pager['first']['url']; ?>" class="first-page"></a>
+        </li>
+    <?php endif; ?>
+    <?php if (isset($pager['prev'])): ?>
+        <li>
+            <a href="<?php echo $pager['prev']['url']; ?>" class="prev-page"></a>
+        </li>
+    <?php endif; ?>
+    <?php if (isset($pager['left'])): ?>
+        <?php foreach ($pager['left'] as $left) : ?>
             <li>
-                <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['first'] != 1) ? '/page/'.$pager['first'] : ''; ?>">&lt;&lt;</a>
+                <a href="<?php echo $left['url']; ?>"><?php echo $left['num']; ?></a>
             </li>
-        <?php endif; ?>
-        <?php if (isset($pager['prev'])): ?>
-            <li>
-                <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['first'] != 1) ? '/page/'.$pager['prev'] : ''; ?>">&lt;</a>
-            </li>
-        <?php endif; ?>
-        <?php if (isset($pager['left'])): ?>
-            <?php foreach ($pager['left'] as $left) : ?>
-                <li>
-                    <a href="<?php echo $thisPageUrl; ?><?php echo ($pager['first'] != 1) ? '/page/'.$left : ''; ?>"><?php echo $left; ?></a>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
         <li>
-            <span><?php echo $pager['current']; // текущая страница ?></span>
+            <span><?php echo $pager['current']['num']; // текущая страница ?></span>
         </li>
 
-        <?php if (isset($pager['right'])): ?>
-            <?php foreach ($pager['right'] as $right) : ?>
-                <li>
-                    <a href="<?php echo $thisPageUrl; ?>/page/<?php echo $right; ?>"><?php echo $right; ?></a>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        <?php if (isset($pager['next'])): ?>
+    <?php if (isset($pager['right'])): ?>
+        <?php foreach ($pager['right'] as $right) : ?>
             <li>
-                <a href="<?php echo $thisPageUrl; ?>/page/<?php echo $pager['next']; ?>">&gt;</a>
+                <a href="<?php echo $right['url']; ?>"><?php echo $right['num']; ?></a>
             </li>
-        <?php endif; ?>
-        <?php if (isset($pager['last'])): ?>
-            <li>
-                <a href="<?php echo $thisPageUrl; ?>/page/<?php echo $pager['last']; ?>">&gt;&gt;</a>
-            </li>
-        <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    <?php if (isset($pager['next'])): ?>
+        <li>
+            <a href="<?php echo $pager['next']['url']; ?>" class="next-page"></a>
+        </li>
+    <?php endif; ?>
+    <?php if (isset($pager['last'])): ?>
+        <li>
+            <a href="<?php echo $pager['last']['url']; ?>" class="last-page"></a>
+        </li>
+    <?php endif; ?>
     </ul>
 <?php endif; ?>
 

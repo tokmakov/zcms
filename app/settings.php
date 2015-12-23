@@ -189,7 +189,10 @@ $settings = array(
                 'tabs.css',
             ),
             'catalog'   => 'catalog.css',
-            'filter'    => 'filter.css',
+            'filter'    => array(
+                'filter.css',
+                'tabs.css',
+            ),
             'index'     => array(
                 'news.css',
                 'order.css',
@@ -200,7 +203,10 @@ $settings = array(
             'page'      => 'page.css',
             'rating'    => 'rating.css',
             'sale'      => 'sale.css',
-            'solutions' => 'solutions.css',
+            'solutions' => array (
+                'solutions.css',
+                'tabs.css',
+            ),
             'start'     => 'start.css',
             'user'      => 'user.css',
         ),

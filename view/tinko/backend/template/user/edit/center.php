@@ -79,8 +79,10 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div></div>
         <div>
-            <input type="checkbox" name="change" value="1"<?php echo ($change) ? ' checked="checked"' : ''; ?> />
-            изменить пароль
+            <label>
+                <input type="checkbox" name="change" value="1"<?php echo ($change) ? ' checked="checked"' : ''; ?> />
+                <span>изменить пароль</span>
+            </label>
         </div>
     </div>
     <div class="password">
