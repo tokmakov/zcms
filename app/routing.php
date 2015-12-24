@@ -453,6 +453,25 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'news/category/$1/page/$2',
 
         /*
+         * блог
+         */
+        // главная страница блога
+        '~^frontend/blog/index$~i' =>
+        'blog',
+        // главная страница блога, постраничная навигация
+        '~^frontend/blog/index/page/(\d+)$~i' =>
+        'blog/page/$1',
+        // отдельный пост блога
+        '~^frontend/blog/post/id/(\d+)$~i' =>
+        'blog/item/$1',
+        // список постов блога выбранной категории
+        '~^frontend/blog/category/id/(\d+)$~i' =>
+        'blog/category/$1',
+        // список постов блога выбранной категории, постраничная навигация
+        '~^frontend/blog/category/id/(\d+)/page/(\d+)$~i' =>
+        'blog/category/$1/page/$2',
+
+        /*
          * типовые решения
          */
         // главная страница типовых решений
@@ -1050,6 +1069,25 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // список новостей выбранной категории, постраничная навигация
         '~^news/category/(\d+)/page/(\d+)$~i' =>
         'frontend/news/category/id/$1/page/$2',
+
+        /*
+         * блога
+         */
+        // главная страница блога
+        '~^blog$~i' =>
+        'frontend/blog/index',
+        // главная страница блога, постраничная навигация
+        '~^blog/page/(\d+)$~i' =>
+        'frontend/blog/index/page/$1',
+        // отдельный пост блога
+        '~^blog/item/(\d+)$~i' =>
+        'frontend/blog/post/id/$1',
+        // список постов блога выбранной категории
+        '~^blog/category/(\d+)$~i' =>
+        'frontend/blog/category/id/$1',
+        // список постов блога выбранной категории, постраничная навигация
+        '~^blog/category/(\d+)/page/(\d+)$~i' =>
+        'frontend/blog/category/id/$1/page/$2',
 
         /*
          * типовые решения

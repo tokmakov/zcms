@@ -49,3 +49,37 @@
 #6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #7 {main}
 
+24.12.2015 14:26:38
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/blog/item/id/7292
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/blog/i...')
+#1 C:\work\localhost2\www\app\model\frontend\Index_Frontend_Model.php(164): Frontend_Model->getURL('frontend/blog/i...')
+#2 C:\work\localhost2\www\app\model\frontend\Index_Frontend_Model.php(132): Index_Frontend_Model->companyNews()
+#3 C:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(40): Index_Frontend_Model->getCompanyNews()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Index_Frontend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+24.12.2015 15:56:27
+Код: 0, текст: Объект с ключом Config::data[blog] не существует
+Файл: C:\work\localhost2\www\app\include\Config.php, строка: 55
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\blog\Blog_Frontend_Controller.php(27): Config->__get('blog')
+#1 C:\work\localhost2\www\app\controller\frontend\blog\Post_Blog_Frontend_Controller.php(25): Blog_Frontend_Controller->input()
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Post_Blog_Frontend_Controller->input()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+24.12.2015 16:02:12
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/blog/item/id/7292
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/blog/i...')
+#1 C:\work\localhost2\www\app\model\frontend\Index_Frontend_Model.php(164): Frontend_Model->getURL('frontend/blog/i...')
+#2 C:\work\localhost2\www\app\model\frontend\Index_Frontend_Model.php(132): Index_Frontend_Model->companyNews()
+#3 C:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(40): Index_Frontend_Model->getCompanyNews()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Index_Frontend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

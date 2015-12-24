@@ -1,4 +1,8 @@
 <?php
+/**
+ * Абстрактный класс News_Frontend_Controller, родительский для всех
+ * контроллеров, работающих с новостями, общедоступная часть сайта
+ */
 abstract class News_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {

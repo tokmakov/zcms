@@ -103,7 +103,7 @@ class Index_Frontend_Model extends Frontend_Model {
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
                   FROM
-                      `news`
+                      `blog_posts`
                   WHERE
                       `category` = 2
                   ORDER BY
@@ -113,11 +113,11 @@ class Index_Frontend_Model extends Frontend_Model {
         $news = $this->database->fetchAll($query);
         // добавляем в массив новостей информацию об URL новости, картинки
         foreach($news as $key => $value) {
-            $news[$key]['url']['item'] = $this->getURL('frontend/news/item/id/' . $value['id']);
-            if (is_file('./files/news/' . $value['id'] . '/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/' . $value['id'] . '/' . $value['id'] . '.jpg';
+            $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
+            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/default.jpg';
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;
@@ -151,7 +151,7 @@ class Index_Frontend_Model extends Frontend_Model {
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
                   FROM
-                      `news`
+                      `blog_posts`
                   WHERE
                       `category` = 1
                   ORDER BY
@@ -161,11 +161,11 @@ class Index_Frontend_Model extends Frontend_Model {
         $news = $this->database->fetchAll($query);
         // добавляем в массив новостей информацию об URL новости, картинки
         foreach($news as $key => $value) {
-            $news[$key]['url']['item'] = $this->getURL('frontend/news/item/id/' . $value['id']);
-            if (is_file('./files/news/' . $value['id'] . '/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/' . $value['id'] . '/' . $value['id'] . '.jpg';
+            $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
+            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/news/default.jpg';
+                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;

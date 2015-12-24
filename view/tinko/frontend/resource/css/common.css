@@ -389,6 +389,15 @@ body > .wrapper {
         border-top: 5px solid #395985;
         overflow: hidden;
     }
+    #left > #side-banner, #right > #side-banner {
+        border: none;
+    }
+    #left > #side-banner > a, #right > #side-banner > a {
+        display: block;
+        width: 250px;
+        height: 150px;
+        margin-bottom: 10px;
+    }
         #left > div div.side-heading, #right > div div.side-heading {
             padding: 15px;
             font-size: 16px;
@@ -1904,58 +1913,58 @@ div.attention {
 
 /* список производителей в правой колонке */
 #side-makers {
-    overflow: hidden;
+
 }
-    #side-makers > ul {
+    #side-makers > .side-content > ul {
         margin: 15px 0 0 0;
         padding: 0;
         list-style: none;
     }
-    #side-makers > ul > li {
-        padding-right: 25px;
-        border-bottom: 1px dashed #d1d1d1;
-        position: relative;
-        overflow: hidden;
-    }
-    #side-makers > ul > li:first-child {
-        border-top: 1px dashed #d1d1d1;
-    }
-    #side-makers > ul > li > span {
-        display: block;
-    }
-    #side-makers > ul > li > span > a {
-        display: block;
-        font-size: 13px;
-        line-height: 25px;
-        height: 25px;
-        white-space: nowrap;
-        padding-left: 5px;
-    }
-    #side-makers > ul > li > span > span {
-        display: block;
-        position: absolute;
-        font-size: 13px;
-        line-height: 25px;
-        height: 25px;
-        width: 25px;
-        text-align: center;
-        background: #f0f0f0;
-        top: 0;
-        right: 0;
-        color: #5390cc;
-    }
+        #side-makers > .side-content > ul > li {
+            padding-right: 25px;
+            border-bottom: 1px dashed #d1d1d1;
+            position: relative;
+            overflow: hidden;
+        }
+        #side-makers > .side-content > ul > li:first-child {
+            border-top: 1px dashed #d1d1d1;
+        }
+            #side-makers > .side-content > ul > li > span {
+                display: block;
+            }
+                #side-makers > .side-content > ul > li > span > a {
+                    display: block;
+                    font-size: 13px;
+                    line-height: 25px;
+                    height: 25px;
+                    white-space: nowrap;
+                    padding-left: 5px;
+                }
+                #side-makers > .side-content > ul > li > span > span {
+                    display: block;
+                    position: absolute;
+                    font-size: 13px;
+                    line-height: 25px;
+                    height: 25px;
+                    width: 25px;
+                    text-align: center;
+                    background: #f0f0f0;
+                    top: 0;
+                    right: 0;
+                    color: #5390cc;
+                }
 
-    #side-makers > p {
+    #side-makers > .side-content > p {
         margin: 15px;
     }
-        #side-makers > p > a {
+        #side-makers > .side-content > p > a {
             display: block;
             text-align: center;
             background: #395985;
             color: #fff;
             padding: 6px 0;
         }
-        #side-makers > p > a:hover {
+        #side-makers > .side-content > p > a:hover {
             text-decoration: none;
         }
 

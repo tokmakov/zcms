@@ -43,6 +43,11 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $basketFrontendModel;
 
     /**
+     * экземпляр класса модели для работы с блогом
+     */
+    protected $blogFrontendModel;
+
+    /**
      * экземпляр класса модели для работы с каталогом товаров
      */
     protected $catalogFrontendModel;
@@ -122,6 +127,10 @@ abstract class Frontend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с корзиной
         $this->basketFrontendModel =
             isset($this->register->basketFrontendModel) ? $this->register->basketFrontendModel : new Basket_Frontend_Model();
+
+        // экземпляр класса модели для работы с блогом
+        $this->blogFrontendModel =
+            isset($this->register->blogFrontendModel) ? $this->register->blogFrontendModel : new Blog_Frontend_Model();
 
         // экземпляр класса модели для работы с каталогом товаров
         $this->catalogFrontendModel =

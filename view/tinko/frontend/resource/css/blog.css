@@ -1,0 +1,115 @@
+/* список постов блога (всех постов или выбранной категории) */
+#posts-list {
+
+}
+    #posts-list > div {
+        overflow: hidden;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #5390cc;
+    }
+    #posts-list > div:last-child {
+        border-bottom: none;
+    }
+        #posts-list > div > div:first-child {
+            float: left
+        }
+        #posts-list > div > div:first-child a {
+            display: block;
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            border: 1px solid #d1d1d1;
+        }
+        #posts-list > div > div:first-child img {
+            width: 100px;
+            height: 100px;
+        }
+        #posts-list > div > div:last-child {
+            margin-left: 130px;
+        }
+            #posts-list > div > div:last-child .post-date {
+                margin-bottom: 2px;
+                font-size: 12px;
+                color: #969696;
+            }
+            #posts-list > div > div:last-child .post-heading {
+
+            }
+                #posts-list > div > div:last-child .post-heading h2,
+                #posts-list > div > div:last-child .post-heading h3 {
+                    margin: 0 0 5px 0;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+                    #posts-list > div > div:last-child .post-heading h2 a,
+                    #posts-list > div > div:last-child .post-heading h3 a {
+                        font-size: 16px;
+                        line-height: 19px;
+                        font-weight: bold;
+                        color: #395985;
+                    }
+            #posts-list > div > div:last-child .post-excerpt {
+                margin-bottom: 5px;
+            }
+                #posts-list > div > div:last-child .post-category a {
+                    font-size: 12px;
+                }
+
+/* отдельный пост блога*/
+#post-item {
+
+}
+    #post-item > div:first-child {
+        overflow: hidden;
+        margin: 15px 0;
+    }
+        #post-item > div:first-child > p {
+            font-size: 12px;
+            color: #969696;
+            width: 50%;
+            margin: 0;
+        }
+        #post-item > div:first-child > p:nth-child(1) {
+            float: left;
+        }
+        #post-item > div:first-child > p:nth-child(2) {
+            float: right;
+            text-align: right;
+        }
+            #post-item > div:first-child > p:nth-child(2) > a {
+                font-size: 12px;
+            }
+    #post-item h2, #post-item h3, #post-item h4 {
+        margin: 15px 0;
+        color: #395985;
+        font-weight: normal;
+    }
+    #post-item h2 {
+        font-size: 19px;
+    }
+    #post-item h3 {
+        font-size: 16px;
+    }
+    #post-item h4 {
+        font-size: 14px;
+    }
+    #post-item p {
+        margin: 15px 0;
+    }
+    #post-item ul, #post-item ol {
+        margin: 15px 0 15px 30px;
+    }
+    #post-item img {
+        max-width: 100%;
+    }
+
+@media screen and (max-width: 560px) {
+    /* список постов блога */
+    #post-list > div > div:first-child {
+        display: none;
+    }
+    #post-list > div > div:last-child {
+        margin-left: 0;
+    }
+}

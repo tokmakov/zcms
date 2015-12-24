@@ -36,4 +36,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/news/item/center.php -->
-

@@ -95,7 +95,7 @@
         }
             #add-edit-post > div#blog-files > div:first-child {
                 overflow: hidden;
-                margin-bottom: 5px;
+                padding-bottom: 5px;
             }
                 #add-edit-post > div#blog-files > div:first-child > div {
                     width: 50%;

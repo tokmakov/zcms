@@ -34,13 +34,13 @@ $lastBuildDate = $dom->createElement('lastBuildDate', date('r'));
 $channel->appendChild($lastBuildDate);
 
 $query = "
-SELECT `a`.`ID` AS `id`, `a`.`post_title` AS `title`, `a`.`post_excerpt` AS `description`, UNIX_TIMESTAMP(`a`.`post_date`) AS `timestamp`, `e`.`meta_value` AS `thumbnail`
+SELECT `a`.`ID` AS `id`, `e`.`meta_value` AS `thumbnail`
 FROM `wp_posts` `a`
 INNER JOIN `wp_term_relationships` `b` ON `a`.`ID`=`b`.`object_id`
 LEFT JOIN `wp_postmeta` `c` ON `a`.`ID`=`c`.`post_id` AND `c`.`meta_key`='_thumbnail_id'
 LEFT JOIN `wp_postmeta` `d` ON `d`.`post_id`=`c`.`meta_value` AND `d`.`meta_key`='_wp_attached_file'
 LEFT JOIN `wp_postmeta` `e` ON `e`.`post_id`=`c`.`meta_value` AND `e`.`meta_key`='_wp_attachment_metadata'
-WHERE `a`.`post_type`='post' AND `a`.`post_status`='publish' AND `b`.`term_taxonomy_id`=5
+WHERE `a`.`post_type`='post' AND `a`.`post_status`='publish' AND `b`.`term_taxonomy_id` IN (5, 6)
 ORDER BY `a`.`post_date` DESC LIMIT 10
 ";
 

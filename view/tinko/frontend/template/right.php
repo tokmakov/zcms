@@ -193,4 +193,10 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
+<div id="side-banner">
+    <a href=""><img src="/files/banner/banner-1.jpg" alt="" /></a>
+    <a href=""><img src="/files/banner/banner-2.jpg" alt="" /></a>
+    <a href=""><img src="/files/banner/banner-3.jpg" alt="" /></a>
+</div>
+
 <!-- Конец шаблона view/example/frontend/template/right.php -->

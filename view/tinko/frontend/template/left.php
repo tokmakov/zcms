@@ -199,20 +199,18 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div>
+<div id="side-makers">
     <div class="side-heading">Производители</div>
     <div class="side-content">
-        <div id="side-makers">
-            <ul>
-            <?php foreach ($makers as $item): ?>
-                <li>
-                    <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
-                </li>
-            <?php endforeach; ?>
-            </ul>
-            <p><a href="<?php echo $allMakersUrl; ?>">Все производители</a></p>
-        </div>
-        </div>
+        <ul>
+        <?php foreach ($makers as $item): ?>
+            <li>
+                <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <p><a href="<?php echo $allMakersUrl; ?>">Все производители</a></p>
+    </div>
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/left.php -->

@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Item_News_Frontend_Controller формирует страницу отдельной новости,
- * получает данные от модели News_Frontend_Model
+ * получает данные от модели News_Frontend_Model, общедоступная часть сайта
  */
 class Item_News_Frontend_Controller extends News_Frontend_Controller {
 
