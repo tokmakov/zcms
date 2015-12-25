@@ -93,7 +93,7 @@ $query = "SELECT * FROM `blog_posts` WHERE 1 ORDER BY `added` DESC";
 $posts = $register->database->fetchAll($query);
 foreach ($posts as $post) {
     $content = $post['body'];
-    if (false !== preg_match_all('~/blog/wp-content/uploads/((\d+)/(\d+)/[^"]+)~', $content, $matches)) {
+    if (false !== preg_match_all('~/blog/wp-content/uploads/((\d+)/(\d+)/[^"?]+)~', $content, $matches)) {
         foreach ($matches[1] as $key => $value) {
             if (is_file('files/blog/source/'.$value)) {
                 if (!is_dir('files/blog/' . $matches[2][$key])) {
@@ -103,13 +103,23 @@ foreach ($posts as $post) {
                     mkdir('files/blog/' . $matches[2][$key] . '/' . $matches[3][$key]);
                 }
                 copy('files/blog/source/'.$value, 'files/blog/'.$value);
+            } else {
+                echo $post['id'].' '.preg_replace('~[а-яА-Я]~u', '<b>$0</b>', $value).'<br/>';
             }
         }
     }
+    $content = str_replace('http://www.tinko.ru/blog/wp-content/uploads/', '/blog/wp-content/uploads/', $content);
+    $content = str_replace('/blog/wp-content/uploads/', '/files/blog/', $content);
+    $content = str_replace('class="instab"', 'class="data-table"', $content);
+    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/p-(\d{6})\.html">.+?</a>\s*</p>~u', '', $content);
+    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/catalogsearch/result/[^"]+">.+?</a>\s*</p>~u', '', $content);
+    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/catalogsearch/result/[^"]+">.+?</a>\s*</p>~u', '', $content);
+    
+    $query = "UPDATE `blog_posts` SET `body` = :content WHERE `id` = :id";
+    $register->database->execute($query, array('content' => $content, 'id' => $post['id']));
 }
 
 require 'files/blog/wp_posts.php';
-echo count($wp_posts);
 foreach ($wp_posts as $post) {
     if (empty($post['thumbnail'])) {
         echo 'No thumbnail for ' . $post['id'] . '<br/>';

@@ -48,10 +48,10 @@ defined('ZCMS') or die('Access denied');
                             <div>
                                 <div><?php echo $child['sortorder']; ?>. <?php echo $child['name']; ?></div>
                                 <div>
-                                    <a href="<?php echo $child['url']['up']; ?>" title="Вверх">Вверх</a>
-                                    <a href="<?php echo $child['url']['down']; ?>" title="Вниз">Вниз</a>
-                                    <a href="<?php echo $child['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                                    <a href="<?php echo $child['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                    <a href="<?php echo $child['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="<?php echo $child['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="<?php echo $child['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                                    <a href="<?php echo $child['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                                 </div>
                             </div>
                             <?php if (isset($child['childs'])): ?>
@@ -61,10 +61,10 @@ defined('ZCMS') or die('Access denied');
                                         <div>
                                             <div><?php echo $value['sortorder']; ?>. <?php echo $value['name']; ?></div>
                                             <div>
-                                                <a href="<?php echo $value['url']['up']; ?>" title="Вверх">Вверх</a>
-                                                <a href="<?php echo $value['url']['down']; ?>" title="Вниз">Вниз</a>
-                                                <a href="<?php echo $value['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                                                <a href="<?php echo $value['url']['remove']; ?>" title="Удалить">Удл.</a>
+                                                <a href="<?php echo $value['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                                                <a href="<?php echo $value['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                                                <a href="<?php echo $value['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                                                <a href="<?php echo $value['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                                             </div>
                                         </div>
                                     </li>

@@ -37,6 +37,10 @@
         #add-edit-page > #old-files > div:first-child {
             margin-bottom: 5px;
         }
+        #add-edit-page > #old-files > div:last-child {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
             #add-edit-page > #new-files > div:last-child > div,
             #add-edit-page > #old-files > div:last-child > div {
                 overflow: hidden;

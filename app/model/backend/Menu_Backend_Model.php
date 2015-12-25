@@ -110,14 +110,14 @@ class Menu_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает массив категорий новостей, для контроллеров,
+     * Возвращает массив категорий блога, для контроллеров,
      * отвечающих за добавление/редактирование пункта меню
      */
-    public function getNewsCategories() {
+    public function getBlogCategories() {
         $query = "SELECT
                       `id`, `name`
                   FROM
-                      `news_ctgs`
+                      `blog_categories`
                   WHERE
                       1
                   ORDER BY

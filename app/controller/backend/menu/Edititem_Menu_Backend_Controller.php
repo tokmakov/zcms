@@ -67,8 +67,8 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
         // получаем от модели массив категорий каталога верхнего уровня
         $catalogCategories = $this->menuBackendModel->getRootCategories();
 
-        // получаем массив всех категорий новостей
-        $newsCategories = $this->menuBackendModel->getNewsCategories();
+        // получаем массив всех категорий блога
+        $blogCategories = $this->menuBackendModel->getBlogCategories();
 
         // получаем массив всех категорий типовых решений
         $solutionsCategories = $this->menuBackendModel->getSolutionsCategories();
@@ -95,8 +95,8 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
             'pages'             => $pages,
             // массив категорий каталога верхнего уровня
             'catalogCategories' => $catalogCategories,
-            // массив категорий новостей
-            'newsCategories'    => $newsCategories,
+            // массив категорий блога
+            'blogCategories'    => $blogCategories,
             // массив категорий типовых решений
             'solutionsCategories' => $solutionsCategories,
         );

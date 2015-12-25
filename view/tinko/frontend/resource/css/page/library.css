@@ -1,0 +1,21 @@
+/* библиотека технического специалиста */
+#library {
+
+}
+    #library h2, #library h3 {
+        margin: 0;
+        padding: 5px 0;
+    }
+    #library > div:first-of-type > h3:first-child {
+         margin-top: 0;
+    }
+    #library > h2 > span, #library > div > h3 > span {
+        border-bottom: 1px dashed #395985;
+        cursor: pointer;
+    }
+    #library > div,  #library > div:first-of-type > div {
+        margin-left: 20px;
+    }
+    #library > div:not(:first-of-type) > div,  #library > div:first-of-type > div > div {
+        padding: 4px 0;
+    }

@@ -145,6 +145,9 @@ $settings = array(
                 'page/partners.css',
                 'fancybox/jquery.fancybox.css',
             ),
+            'page-52'         => array(          // для страницы «Библиотека»
+                'page/library.css',
+            ),
 
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
@@ -270,6 +273,9 @@ $settings = array(
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
+            ),
+            'page-52'          => array(         // для страницы «Библиотека»
+                'page/library.js',
             ),
 
             /*

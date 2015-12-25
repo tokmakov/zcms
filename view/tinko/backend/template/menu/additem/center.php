@@ -10,7 +10,7 @@
  * $menuItems - массив всех пунктов меню для возможности выбора родителя
  * $pages - массив всех страниц сайта
  * $catalogCategories - массив категорий каталога верхнего уровня
- * $newsCategories - массив категорий новостей
+ * $blogCategories - массив категорий блога
  * $solutionsCategories - массив категорий типовых решений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
@@ -97,11 +97,11 @@ if (isset($savedFormData)) {
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($newsCategories)): ?>
-                    <optgroup label="Новости">
-                        <option value="frontend/news/index">Новости</option>
-                        <?php foreach($newsCategories as $category) : ?>
-                            <option value="frontend/news/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
+                <?php if (!empty($blogCategories)): ?>
+                    <optgroup label="Блог">
+                        <option value="frontend/blog/index">Блог</option>
+                        <?php foreach($blogCategories as $category) : ?>
+                            <option value="frontend/blog/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
