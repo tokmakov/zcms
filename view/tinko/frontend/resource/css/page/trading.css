@@ -1,0 +1,49 @@
+#trading {
+    overflow: hidden;
+}
+    #trading > p {
+        margin: 0;
+        padding: 10px;
+        float: left;
+        width: 49%;
+        box-sizing: border-box;
+        border: 1px solid #d1d1d1;
+    }
+    #trading > p:first-child {
+        margin-right: 2%;
+    }
+        #trading > p > span {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #trading > p > span:last-child {
+            margin-bottom: 0;
+        }
+            #trading > p > span > span {
+                font-size: 17px;
+            }
+            #trading > p > span > i {
+                color: #395985;
+            }
+            #trading > p > span:last-child > i {
+                font-size: 15px;
+            }
+            #trading > p > span:nth-child(2) > i {
+                font-size: 19px;
+                position: relative;
+                top: 3px;
+            }
+            #trading > p > span:first-child > span {
+                display: block;
+            }
+
+@media screen and (max-width: 500px) {
+    #trading > p {
+        float: none;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    #trading > p:first-child {
+        margin-right: 0;
+    }
+}
