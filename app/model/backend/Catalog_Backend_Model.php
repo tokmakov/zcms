@@ -1024,7 +1024,8 @@ class Catalog_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `categories`
                       SET
-                          `sortorder` = :sortorder, `parent` = :parent
+                          `parent` = :parent,
+                          `sortorder` = :sortorder
                       WHERE
                           `id` = :id";
             $this->database->execute(

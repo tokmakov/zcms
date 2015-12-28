@@ -127,15 +127,22 @@ class Page_Backend_Model extends Backend_Model {
                           `pages`
                       WHERE
                           `parent` = :parent";
-            $data['sortorder'] = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
+            $sortorder = $this->database->fetchOne($query, array('parent' => $data['parent'])) + 1;
             $query = "UPDATE
                           `pages`
                       SET
-                          `parent`      = :parent,
-                          `sortorder`   = :sortorder
+                          `parent`    = :parent,
+                          `sortorder` = :sortorder
                       WHERE
                           `id` = :id";
-            $this->database->execute($query, $data);
+            $this->database->execute(
+                $query,
+                array(
+                    'parent'    => $data['parent'],
+                    'sortorder' => $sortorder,
+                    'id'        => $data['id']
+                )
+            );
             // изменяем порядок сортировки страниц, которые были с обновленной страницей
             // на одном уровне до того, как она поменяла родителя
             $query = "SELECT
@@ -158,21 +165,20 @@ class Page_Backend_Model extends Backend_Model {
                 $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
                 $sortorder++;
             }
-        } else {
-            unset($data['parent']);
-            $query = "UPDATE
-                          `pages`
-                      SET
-                          `sefurl`      = :sefurl,
-                          `name`        = :name,
-                          `title`       = :title,
-                          `description` = :description,
-                          `keywords`    = :keywords,
-                          `body`        = :body
-                      WHERE
-                          `id` = :id";
-            $this->database->execute($query, $data);
         }
+        unset($data['parent']);
+        $query = "UPDATE
+                      `pages`
+                  SET
+                      `sefurl`      = :sefurl,
+                      `name`        = :name,
+                      `title`       = :title,
+                      `description` = :description,
+                      `keywords`    = :keywords,
+                      `body`        = :body
+                  WHERE
+                      `id` = :id";
+        $this->database->execute($query, $data);
     }
 
     /**

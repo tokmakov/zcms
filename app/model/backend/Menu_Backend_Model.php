@@ -208,18 +208,16 @@ class Menu_Backend_Model extends Backend_Model {
                       ORDER BY
                           `sortorder`";
             $childs = $this->database->fetchAll($query, array('parent' => $oldParent));
-            if (count($childs) > 0) {
-                $sortorder = 1;
-                foreach ($childs as $child) {
-                    $query = "UPDATE
-                                  `menu`
-                              SET
-                                  `sortorder` = :sortorder
-                              WHERE
-                                  `id` = :id";
-                    $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
-                    $sortorder++;
-                }
+            $sortorder = 1;
+            foreach ($childs as $child) {
+                $query = "UPDATE
+                              `menu`
+                          SET
+                              `sortorder` = :sortorder
+                          WHERE
+                              `id` = :id";
+                $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
+                $sortorder++;
             }
         } else {
             unset($data['parent']);
