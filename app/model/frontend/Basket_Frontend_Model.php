@@ -504,7 +504,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             } else {
                 $email = $form['buyer_email'];
             }
-            //$this->sendOrderMail($email, $orderId, $form, $products);
+            $this->sendOrderMail($email, $orderId, $form, $products);
         }
 
         // удаляем старые корзины
@@ -546,10 +546,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         }
         $html = $html . '</ul>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
-        if (!$details['own_shipping']) {
-            $html = $html . '<li>Адрес доставки: '.$details['buyer_physical_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Город: '.$details['buyer_city'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Почтовый индекс: '.$details['buyer_postal_index'].'</li>' . PHP_EOL;
+        if ( ! $details['shipping']) {
+            $html = $html . '<li>Адрес доставки: '.$details['buyer_shipping_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Город: '.$details['buyer_shipping_city'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Почтовый индекс: '.$details['buyer_shipping_index'].'</li>' . PHP_EOL;
         } else {
             $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;
         }

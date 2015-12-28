@@ -31,6 +31,7 @@ require 'files/catalog/categories.php';
 foreach ($categories as $category) {
     $data = array();
     $data['id'] = (int)$category['id'];
+    echo $data['id'] . PHP_EOL;
     $data['parent'] = (int)$category['parent'];
     if ($data['parent'] == 2) {
         $data['parent'] = 0;
@@ -38,7 +39,7 @@ foreach ($categories as $category) {
     $data['name'] = trim($category['name']);
     $data['sortorder'] = (int)$category['sortorder'];
     $data['code'] = trim($category['code']);
-    $query = "INSERT INTO `temp_categories`
+    $query = "INSERT IGNORE INTO `temp_categories`
               (
                   `id`,
                   `parent`,
@@ -70,12 +71,53 @@ $i = 1;
 foreach($roots as $root) {
     $sort = $i;
     if (strlen($sort) == 1) $sort = '0' . $sort;
-    $query = "UPDATE `temp_categories` SET `globalsort` = '" . $sort . "000000000000000000' WHERE `id` = " . $root['id'];
+    $query = "UPDATE
+                  `temp_categories`
+              SET
+                  `sortorder` = ".$i.",
+                  `globalsort` = '" . $sort . "000000000000000000'
+              WHERE
+                  `id` = " . $root['id'];
     // echo $query . PHP_EOL;
     $register->database->execute($query);
     updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
     $i++;
 }
+
+$register->database->execute('TRUNCATE TABLE `categories`');
+
+$query ="SELECT * FROM `temp_categories` WHERE 1";
+$categories = $register->database->fetchAll($query);
+foreach ($categories as $category) {
+    $data = array();
+    $data['id'] = (int)$category['id'];
+    $data['parent'] = (int)$category['parent'];
+    $data['name'] = trim($category['name']);
+    $data['sortorder'] = (int)$category['sortorder'];
+    $data['globalsort'] = trim($category['globalsort']);
+    $query = "INSERT INTO `categories`
+              (
+                  `id`,
+                  `parent`,
+                  `name`,
+                  `keywords`,
+                  `description`,
+                  `sortorder`,
+                  `globalsort`
+              )
+              VALUES
+              (
+                  :id,
+                  :parent,
+                  :name,
+                  '',
+                  '',
+                  :sortorder,
+                  :globalsort
+              )";
+    $register->database->execute($query, $data);   
+}
+
 
 
 function updateSortOrderAllCategories($id, $sortorder, $level) {
@@ -93,7 +135,13 @@ function updateSortOrderAllCategories($id, $sortorder, $level) {
             $globalsort = '0' . $globalsort;
         }
         $globalsort = $before . $globalsort . $after;
-        $query = "UPDATE `temp_categories` SET `globalsort` = '".$globalsort."' WHERE `id` = ".$child['id'];
+        $query = "UPDATE
+                      `temp_categories`
+                  SET
+                      `sortorder` = ".$i.",
+                      `globalsort` = '".$globalsort."'
+                  WHERE
+                      `id` = ".$child['id'];
         // echo $query . PHP_EOL;
         $register->database->execute($query);
         // рекурсивно вызываем updateSortOrderAllCategories()

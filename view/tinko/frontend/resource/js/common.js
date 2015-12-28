@@ -672,6 +672,7 @@ function addFilterHash() {
 
 function menuClickHandler(event) {
     event.stopPropagation();
+    var id = $(this).data('id');
     var item = $(this).parent().parent().parent();
     if (item.hasClass('opened')) {
         var opened = true;
@@ -681,46 +682,67 @@ function menuClickHandler(event) {
         item.removeClass('closed');
     }
     item.addClass('menu-loader');
+    /*
+     * просто скрываем дочерние элементы
+     */
+    if (opened) {
+        item.children('ul').slideUp('normal', function () {
+            item.removeClass('menu-loader').addClass('closed');
+            item.find('li.opened').removeClass('opened').addClass('closed').children('ul').hide();
+        });
+        return;
+    }
+    /*
+     * дочерних элементов еще нет, их надо подгрузить, а потом показать
+     */
     if (item.children('ul').length == 0) {
-        var id = $(this).data('id');
         $.ajax({
             type: 'POST',
             url: '/catalog/menu',
             dataType: 'html',
             data: 'id=' + id,
             success: function(html) {
-                item.append(html);
-                item.children('ul').hide().slideToggle('normal', function () {
-                    item.removeClass('menu-loader');
-                    if (opened) {
-                        item.addClass('closed');
-                    } else {
-                        item.addClass('opened');
-                    }
-                    if (item.hasClass('root')) {
-                        item.siblings('li.opened').children('ul').slideToggle('normal', function () {
-                            $(this).parent().removeClass('opened').addClass('closed');
-                        });
-                    }
-                });
+                $(html).appendTo(item).hide();
                 item.find('ul > li.parent > div > span > span').click(menuClickHandler);
+                // если есть другие открытые ветки, сначала скрываем их, потом показываем подгруженные элементы
+                if (item.siblings('li.opened').length > 0) {
+                    // скрываем другие открытые ветки
+                    item.siblings('li.opened').removeClass('opened').addClass('menu-loader').children('ul').slideUp('normal', function () {
+                        $(this).parent().removeClass('menu-loader').addClass('closed');
+                        $(this).find('li.opened').removeClass('opened').addClass('closed').children('ul').hide();
+                        // показываем подгруженные элементы
+                        item.children('ul').slideDown('normal', function () {
+                            item.removeClass('menu-loader').addClass('opened');
+                        })
+                    });
+                } else {
+                    // других открытых веток нет, просто показываем подгруженные элементы
+                    item.children('ul').slideDown('normal', function () {
+                        item.removeClass('menu-loader').addClass('opened');
+                    }); 
+                }
             }
         });
-    } else {
-        item.children('ul').slideToggle('normal', function () {
-            item.removeClass('menu-loader');
-            if (opened) {
-                item.addClass('closed');
-            } else {
-                item.addClass('opened');
-            }
-            if (item.hasClass('root')) {
-                item.siblings('li.opened').children('ul').slideToggle('normal', function () {
-                    $(this).parent().removeClass('opened').addClass('closed');
-                });
-            }
-        });
+        return;
     }
+    /*
+     * дочерние элементы уже есть, их надо показать
+     */
+    // если есть другие открытые ветки, сначала скрываем их, потом показываем дочерние элементы
+    if (item.siblings('li.opened').length > 0) {
+        item.siblings('li.opened').removeClass('opened').addClass('menu-loader').children('ul').slideUp('normal', function () {
+            $(this).parent().removeClass('menu-loader').addClass('closed');
+            $(this).find('li.opened').removeClass('opened').addClass('closed').children('ul').hide();
+            item.children('ul').slideDown('normal', function () {
+                item.removeClass('menu-loader').addClass('opened');
+            })
+        });
+        return;
+    }
+    // других открытых веток нет, просто показываем дочерние элементы
+    item.children('ul').slideDown('normal', function () {
+        item.removeClass('menu-loader').addClass('opened');
+    });
 }
 
 function removeSideCompareHandler() {

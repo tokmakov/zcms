@@ -909,6 +909,8 @@ $categories = array(
   array('id' => '1267','parent' => '736','name' => 'Защелки электромеханические "ALARMICO"','sortorder' => '3','code' => '37ff48c0-50f5-11e3-93fe-001dd8b71c11'),
   array('id' => '1268','parent' => '343','name' => 'Pinetron','sortorder' => '18','code' => 'ae1c3392-51d4-11e3-93fe-001dd8b71c11'),
   array('id' => '1269','parent' => '458','name' => 'Pinetron','sortorder' => '14','code' => 'ae1c3385-51d4-11e3-93fe-001dd8b71c11'),
+
+
   array('id' => '1270','parent' => '519','name' => 'Beward','sortorder' => '13','code' => '35c2eb5c-4dd3-11e3-93fe-001dd8b71c11'),
   array('id' => '1271','parent' => '704','name' => 'Аксессуары для электромагнитных замков','sortorder' => '8','code' => '555ee8cf-55ad-11e3-93fe-001dd8b71c11'),
   array('id' => '1273','parent' => '837','name' => 'Slinex','sortorder' => '14','code' => '6eeffb75-5689-11e3-93fe-001dd8b71c11'),

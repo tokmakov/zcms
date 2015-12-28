@@ -1804,35 +1804,37 @@ div.attention {
         #catalog-menu > ul > li:first-child {
             border-top: none;
         }
-            #catalog-menu > ul > li > ul > li > div {
-                margin-left: 14px;
-            }
-                #catalog-menu > ul > li > ul > li > ul > li > div {
-                    margin-left: 26px;
-                }
-                    #catalog-menu > ul > li > ul > li > ul > li > ul > li > div {
-                        margin-left: 39px;
-                    }
-                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div {
-                            margin-left: 52px;
-                        }
         #catalog-menu li > div {
             min-height: 36px;
             overflow: hidden;
         }
             #catalog-menu li > div > span {
                 float: left;
-                width: 24px;
                 min-height: 36px;
                 position: relative;
             }
+            #catalog-menu > ul > li > div > span {
+                width: 24px;
+            }
+                #catalog-menu > ul > li > ul > li > div > span {
+                    width: 38px;
+                }
+                    #catalog-menu > ul > li > ul > li > ul > li > div > span {
+                        width: 52px;
+                    }
+                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > div > span {
+                            width: 66px;
+                        }
+                            #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > span {
+                                width: 80px;
+                            }
                 #catalog-menu li > div > span > span {
                     position: absolute;
                     box-sizing: border-box;
-                    width: 13px;
-                    height: 13px;
+                    width: 14px;
+                    height: 14px;
                     top: 11px;
-                    left: 5px;
+                    right: 5px;
                 }
                 #catalog-menu li > div > span > span {
                     background: url(../img/bullet-white-arrow.png) center center no-repeat;
@@ -1885,25 +1887,27 @@ div.attention {
                         }
             #catalog-menu li > div > a {
                 float: right;
-                width: 223px;
                 min-height: 36px;
                 color: #fff;
             }
-                #catalog-menu > ul > li > ul > li > div > a {
-                    width: 210px;
+                #catalog-menu > ul > li > div > a {
+                    width: 223px;
                 }
-                    #catalog-menu > ul > li > ul > li > ul > li > div > a {
-                        width: 198px;
-                        color: #8dc5fd;
+                    #catalog-menu > ul > li > ul > li > div > a {
+                        width: 209px;
                     }
-                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > div > a {
-                            width: 185px;
-                            color: #d1d1d1;
+                        #catalog-menu > ul > li > ul > li > ul > li > div > a {
+                            width: 195px;
+                            color: #8dc5fd;
                         }
-                            #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
-                                width: 172px;
+                            #catalog-menu > ul > li > ul > li > ul > li > ul > li > div > a {
+                                width: 181px;
                                 color: #d1d1d1;
                             }
+                                #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
+                                    width: 167px;
+                                    color: #d1d1d1;
+                                }
                 #catalog-menu li > div > a > span {
                     display: table-cell;
                     height: 36px;
