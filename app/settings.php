@@ -110,7 +110,10 @@ $settings = array(
                 'jquery.bxslider.css',
                 'tabs.css',
             ),
-            'blog'            => 'blog.css',     // блог
+            'blog'            => array(          // блог
+                'blog.css',
+                'fancybox/jquery.fancybox.css',
+            ),
             'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
             'compare-index'   => 'compare-index.css', // сравнение товаров
             'compare-table'   => 'compare-table.css', // сравнение товаров
@@ -150,6 +153,9 @@ $settings = array(
             ),
             'page-53'         => array(          // для страницы «Госзакупки»
                 'page/trading.css',
+            ),
+            'page-54'         => array(          // для страницы «Грани безопасности»
+                'page/journal.css',
             ),
 
             /*
@@ -236,6 +242,11 @@ $settings = array(
                 'jquery.bxslider.min.js',
                 'index.js',
                 'tabs.js',
+            ),
+            'blog' => array(                     // блог
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js',
             ),
             'sitemap'    => 'sitemap.js',        // карта сайта
             'solutions'  => array(               // типовые решения
@@ -338,11 +349,11 @@ $settings = array(
             ),
             'orders'    => array(
                 'perpage'   => 5,                // заказов на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'solutions' => array(
-                'perpage'   => 3,                // типовых решений на страницу
-                'leftright' => 1,                // кол-во ссылок слева и справа
+                'perpage'   => 5,                // типовых решений на страницу
+                'leftright' => 2,                // кол-во ссылок слева и справа
             ),
         ),
         'backend' => array(                      // административная часть сайта

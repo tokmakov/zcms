@@ -1,0 +1,27 @@
+/* журнал Грани безопасности */
+#journal {
+    overflow: hidden;
+}
+    #journal > a {
+        display: block;
+        width: 140px;
+        height: 230px;
+        float: left;
+        padding: 9px 9px 6px 9px;
+        border: 1px solid #d1d1d1;
+        margin: 0 15px 15px 0;
+        color: #395985;
+    }
+        #journal > a > img {
+            width: 140px;
+            height: 198px;
+        }
+            #journal > a > span {
+                display: table-cell;
+                width: 140px;
+                height: 32px;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 14px;
+                line-height: 16px;
+            }

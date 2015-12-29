@@ -132,14 +132,13 @@
             }
                 .news-list > div > div:last-child .news-heading h3 {
                     margin: 0 0 5px 0;
-                    font-size: 16px;
-                    line-height: 19px;
+                    font-size: 15px;
+                    line-height: 17px;
                 }
                 .news-list > div > div:last-child .news-heading h3 a {
-                    font-size: 16px;
-                    line-height: 19px;
-                    font-weight: bold;
-                    color: #395985;
+                    font-size: 15px;
+                    line-height: 17px;
+                    font-weight: normal;
                 }
             .news-list > div > div:last-child .news-excerpt {
                 margin-bottom: 5px;

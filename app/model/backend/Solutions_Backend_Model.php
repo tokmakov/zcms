@@ -525,6 +525,36 @@ class Solutions_Backend_Model extends Backend_Model {
             );
             $sortorder++;
         }
+        $query = "SELECT COUNT(*) FROM `solutions_products` WHERE `parent` = :parent";
+        $count = $this->database->fetchOne($query, array('parent' => $id));
+        if ($count != count($codes)) {
+            $query = "SELECT
+                          `id`
+                      FROM
+                          `solutions_products`
+                      WHERE
+                          `parent` = :parent
+                      ORDER BY
+                          `sortorder`";
+            $items = $this->database->fetchAll($query, array('parent' => $id));
+            $sortorder = 1;
+            foreach ($items as $item) {
+                $query = "UPDATE
+                              `solutions_products`
+                          SET
+                              `sortorder` = :sortorder
+                          WHERE
+                              `id` = :id";
+                $this->database->execute(
+                    $query,
+                    array(
+                        'sortorder' => $sortorder,
+                        'id'        => $item['id']
+                    )
+                );
+                $sortorder++;
+            }
+        }
     }
 
     /**

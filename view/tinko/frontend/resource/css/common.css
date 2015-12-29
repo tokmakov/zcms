@@ -156,19 +156,21 @@ body > .wrapper {
         top: 26px;
     }
         #top-search form {
-            overflow: hidden;
+
         }
             #top-search form input {
-                float: left;
+                position: absolute;
                 outline: none;
                 box-sizing: border-box;
+                height: 31px;
             }
             #top-search form input[name="query"] {
                 font-size: 14px;
                 line-height: 14px;
                 padding: 7px;
+                top: 0;
+                left: 0;
                 width: 100%;
-                height: 31px;
                 border: 1px solid #477aae;
                 background-color: transparent;
                 color: #fff;
@@ -181,8 +183,8 @@ body > .wrapper {
                 background: #323232 url(../img/search.png) center center no-repeat;
                 border: none;
                 width: 31px;
-                height: 31px;
-                margin-left: -31px;
+                top: 0;
+                right: 0;
                 cursor: pointer;
             }
 
