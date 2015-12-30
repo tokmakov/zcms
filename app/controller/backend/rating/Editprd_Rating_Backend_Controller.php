@@ -111,7 +111,7 @@ class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция добавляет категорию и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

@@ -40,9 +40,9 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Login_User_Frontend_Controller
          */
         parent::input();
@@ -59,7 +59,8 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
                 // перенаправляем пользователя на главную страницу личного кабинета
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/index'));
             } else { // при заполнении формы были допущены ошибки или неверный логин/пароль
-                // перенаправляем пользователя опять на страницу с формой авторизации
+                // перенаправляем пользователя опять на страницу с формой авторизации,
+                // для исправления ошибок
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
             }
         }
@@ -103,7 +104,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
      * найден, функция возвращает false, иначе функция авторизует пользователя и
      * возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
@@ -118,7 +119,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         // были допущены ошибки при заполнении формы?
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail»';
-        } elseif (!preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
+        } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
             $errorMessage[] = 'Поле «E-mail» должно соответствовать формату somebody@mail.ru';
         }
         if (empty($data['password'])) {
@@ -130,7 +131,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('loginUserForm', $data);
             return false;
@@ -140,7 +141,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         $data['password'] = md5($this->config->user->prefix . $data['password']);
 
         // обращаемся к модели для авторизации пользователя
-        if (!$this->userFrontendModel->loginUser($data)) {
+        if ( ! $this->userFrontendModel->loginUser($data)) {
             // пользователь с таким e-mail и паролем не найден
             $data['errorMessage'] = array('Указан неверный логин или пароль');
             $this->setSessionData('loginUserForm', $data);

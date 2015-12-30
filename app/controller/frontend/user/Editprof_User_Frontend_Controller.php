@@ -141,7 +141,7 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
      * допущены ошибки, функция возвращает false; если ошибок нет, функция
      * обновляет профиль и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

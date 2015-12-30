@@ -203,7 +203,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во товаров категории
         $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts(

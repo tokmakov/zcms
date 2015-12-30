@@ -105,7 +105,7 @@ class Editctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * допущены ошибки, функция возвращает false; если ошибок нет, функция
      * обновляет категорию и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         $data['name']        = trim(utf8_substr($_POST['name'], 0, 250)); // наименование категории
         $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // мета-тег keywords

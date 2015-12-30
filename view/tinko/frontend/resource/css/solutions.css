@@ -159,6 +159,10 @@
         #item-solutions table tr td {
             vertical-align: top;
         }
+        #item-solutions table tr td.total-cost {
+            text-align: right !important;
+            vertical-align: baseline !important;
+        }
         #item-solutions table tr th {
             background: #f0f0f0;
         }

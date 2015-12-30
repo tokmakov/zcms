@@ -176,6 +176,7 @@ defined('ZCMS') or die('Access denied');
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
                 <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
             </form>
+            <div></div>
         </div>
         <div class="product-item-social">
             <a href="http://vkontakte.ru/share.php?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="ВКонтакте" class="fa fa-vk"></a>

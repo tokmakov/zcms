@@ -3,7 +3,7 @@
  * Класс User_Frontend_Model для для работы с пользователями сайта (регистрация,
  * авторизация, добавление/редактирование профилей, история заказов), взаимодействует
  * с базой данных, общедоступная часть сайта. Реализует шаблон проектирования
- * «Наблюдатель», чтобы извещать классы Basket_Frontend_Model, Wished_Frontend_MOdel,
+ * «Наблюдатель», чтобы извещать классы Basket_Frontend_Model, Wished_Frontend_Model,
  * Compared_Frontend_Model и Viewed_Frontend_Model о моменте авторизации посетителя.
  * Это нужно, чтобы синхронизировать эти четыре списка для (еще) не авторизованного
  * посетителя и (уже) авторизованного пользователя.
@@ -194,25 +194,25 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     public function addNewUser($data) {
 
         $query = "INSERT INTO `users`
-                    (
-                        `name`,
-                        `surname`,
-                        `email`,
-                        `type`,
-                        `password`,
-                        `visitor_id`,
-                        `newuser`
-                    )
-                    VALUES
-                    (
-                        :name,
-                        :surname,
-                        :email,
-                        0,
-                        :password,
-                        :visitor_id,
-                        5
-                    )";
+                  (
+                      `name`,
+                      `surname`,
+                      `email`,
+                      `type`,
+                      `password`,
+                      `visitor_id`,
+                      `newuser`
+                  )
+                  VALUES
+                  (
+                      :name,
+                      :surname,
+                      :email,
+                      0,
+                      :password,
+                      :visitor_id,
+                      5
+                  )";
         $data['visitor_id'] = md5(uniqid(rand(), true));
         $this->database->execute($query, $data);
 
@@ -574,49 +574,49 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         $query = "INSERT INTO `profiles`
-                    (
-                        `user_id`,
-                        `title`,
-                        `name`,
-                        `surname`,
-                        `email`,
-                        `phone`,
-                        `shipping`,
-                        `shipping_address`,
-                        `shipping_city`,
-                        `shipping_index`,
-                        `legal_person`,
-                        `company`,
-                        `ceo_name`,
-                        `legal_address`,
-                        `bank_name`,
-                        `inn`,
-                        `bik`,
-                        `settl_acc`,
-                        `corr_acc`
-                    )
-                    VALUES
-                    (
-                        :user_id,
-                        :title,
-                        :name,
-                        :surname,
-                        :email,
-                        :phone,
-                        :shipping,
-                        :shipping_address,
-                        :shipping_city,
-                        :shipping_index,
-                        :legal_person,
-                        :company,
-                        :ceo_name,
-                        :legal_address,
-                        :bank_name,
-                        :inn,
-                        :bik,
-                        :settl_acc,
-                        :corr_acc
-                    )";
+                  (
+                      `user_id`,
+                      `title`,
+                      `name`,
+                      `surname`,
+                      `email`,
+                      `phone`,
+                      `shipping`,
+                      `shipping_address`,
+                      `shipping_city`,
+                      `shipping_index`,
+                      `legal_person`,
+                      `company`,
+                      `ceo_name`,
+                      `legal_address`,
+                      `bank_name`,
+                      `inn`,
+                      `bik`,
+                      `settl_acc`,
+                      `corr_acc`
+                  )
+                  VALUES
+                  (
+                      :user_id,
+                      :title,
+                      :name,
+                      :surname,
+                      :email,
+                      :phone,
+                      :shipping,
+                      :shipping_address,
+                      :shipping_city,
+                      :shipping_index,
+                      :legal_person,
+                      :company,
+                      :ceo_name,
+                      :legal_address,
+                      :bank_name,
+                      :inn,
+                      :bik,
+                      :settl_acc,
+                      :corr_acc
+                  )";
         $data['user_id'] = $this->userId;
         $this->database->execute($query, $data);
 
@@ -779,8 +779,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `orders`
                   WHERE
                       `user_id` = :user_id";
-        $res = $this->database->fetchOne($query, array('user_id' => $this->userId));
-        return $res;
+        return $this->database->fetchOne($query, array('user_id' => $this->userId));
 
     }
 

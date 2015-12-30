@@ -18,8 +18,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
          * Maker_Catalog_Frontend_Controller
          */
@@ -43,10 +43,10 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         $this->title = $maker['name'] . '. Все товары производителя.';
 
-        if (!empty($maker['keywords'])) {
+        if ( ! empty($maker['keywords'])) {
             $this->keywords = $maker['keywords'];
         }
-        if (!empty($maker['description'])) {
+        if ( ! empty($maker['description'])) {
             $this->description = $maker['description'];
         }
 
@@ -72,7 +72,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             && ctype_digit($this->params['sort'])
             && in_array($this->params['sort'], array(1,2,3,4,5,6))
         ) {
-            $sort = $this->params['sort'];
+            $sort = (int)$this->params['sort'];
         }
 
         /*
@@ -80,7 +80,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во товаров производителя
         $totalProducts = $this->catalogFrontendModel->getCountMakerProducts($this->params['id']);

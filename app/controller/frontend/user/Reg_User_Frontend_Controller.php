@@ -2,7 +2,7 @@
 /**
  * Класс Reg_User_Frontend_Controller для регистрации на сайте нового пользователя,
  * формирует страницу с формой для регистрации, добавляет запись в таблицу БД
- * users, работает с моделью User_Frontend_Model
+ * users, работает с моделью User_Frontend_Model, общедоступная часть сайта
  */
 class Reg_User_Frontend_Controller extends User_Frontend_Controller {
 
@@ -13,7 +13,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
      * с формой для регистрации нового пользователя (в данном конкретном случае
-     * от модели получать нечего)
+     * от модели получать ничего не нужно)
      */
     protected function input() {
 
@@ -44,8 +44,14 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/index'), 'name' => 'Личный кабинет')
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index'),
+            ),
+            array(
+                'name' => 'Личный кабинет',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/index'),
+            )
         );
 
         /*
@@ -71,9 +77,9 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
     /**
      * Функция проверяет корректность введенных пользователем данных; если были
      * допущены ошибки, функция возвращает false; если ошибок нет, функция
-     * добавляет пользователя и возвращает true
+     * добавляет нового пользователя и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
@@ -118,7 +124,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addNewUserForm', $data);
             return false;

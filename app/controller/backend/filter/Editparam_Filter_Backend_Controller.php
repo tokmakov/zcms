@@ -89,7 +89,7 @@ class Editparam_Filter_Backend_Controller extends Filter_Backend_Controller {
      * допущены ошибки, функция возвращает false; если ошибок нет, функция обновляет
      * параметр подбора и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

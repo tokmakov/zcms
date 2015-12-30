@@ -19,11 +19,10 @@ class Index_Viewed_Frontend_Controller extends Frontend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Viewed_Frontend_Controller
+         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
+         * установить значения по умолчанию для всех переменных, необходимых для
+         * формирования списка просмотренных товаров, потом переопределяем их
+         * значения, если необходимо
          */
         parent::input();
 
@@ -31,8 +30,14 @@ class Index_Viewed_Frontend_Controller extends Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->viewedFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->viewedFrontendModel->getURL('frontend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->viewedFrontendModel->getURL('frontend/index/index'),
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->viewedFrontendModel->getURL('frontend/catalog/index'),
+            ),
         );
 
         /*
@@ -40,7 +45,7 @@ class Index_Viewed_Frontend_Controller extends Frontend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во просмотренных товаров
         $totalProducts = $this->viewedFrontendModel->getCountViewedProducts();

@@ -103,6 +103,13 @@
     padding-bottom: 10px;
 }
 
+@media screen and (max-width: 1285px) {
+    #top-search {
+        right: 5px;
+        top: 36px;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     /* список товаров категории, скрываем мелкооптовую цену */
     .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {

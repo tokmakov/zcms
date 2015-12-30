@@ -2,7 +2,7 @@
 /**
  * Класс Addctg_Catalog_Backend_Controller для добавления новой категории каталога,
  * формирует страницу с формой для добавления категории, добавляет запись в таблицу БД
- * categories, работает с моделью Catalog_Backend_Model
+ * categories, работает с моделью Catalog_Backend_Model, административная часть сайта
  */
 class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
@@ -89,7 +89,7 @@ class Addctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция добавляет категорию и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

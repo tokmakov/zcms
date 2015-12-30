@@ -91,7 +91,7 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция добавляет пункт меню и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

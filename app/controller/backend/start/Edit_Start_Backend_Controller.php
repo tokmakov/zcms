@@ -78,7 +78,7 @@ class Edit_Start_Backend_Controller extends Start_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция обновляет витрину и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

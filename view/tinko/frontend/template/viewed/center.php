@@ -205,4 +205,3 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/viewed/center.php -->
-

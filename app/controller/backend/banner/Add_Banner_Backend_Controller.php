@@ -2,7 +2,7 @@
 /**
  * Класс Add_Banner_Backend_Controller для добавления нового баннера, формирует
  * страницу с формой для добавления баннера, добавляет запись в таблицу БД banners,
- * работает с моделью Banner_Backend_Model
+ * работает с моделью Banner_Backend_Model, административная часть сайта
  */
 class Add_Banner_Backend_Controller extends Banner_Backend_Controller {
 
@@ -66,7 +66,7 @@ class Add_Banner_Backend_Controller extends Banner_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция добавляет баннер и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

@@ -123,7 +123,7 @@ class Editsltn_Solutions_Backend_Controller extends Solutions_Backend_Controller
      * были допущены ошибки, функция возвращает false; если ошибок нет,
      * функция обновляет типовое решение и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

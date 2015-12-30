@@ -85,7 +85,7 @@ class Forgot_User_Frontend_Controller extends User_Frontend_Controller {
      * функция возвращает false; если ошибок нет, функция изменяет пароль пользователя, отправляет
      * письмо с новым паролем на e-mail пользователя и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

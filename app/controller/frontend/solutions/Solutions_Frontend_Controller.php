@@ -11,7 +11,7 @@ abstract class Solutions_Frontend_Controller extends Frontend_Controller {
 
     /**
      * Функция получает от моделей и из настроек данные, необходимые для
-     * работы всех потомков класса Catalog_Frontend_Controller
+     * работы всех потомков класса Solutions_Frontend_Controller
      */
     protected function input() {
 

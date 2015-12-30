@@ -2,7 +2,7 @@
 /**
  * Класс Edit_Banner_Backend_Controller для редактирования баннера на главной, формирует
  * страницу с формой для редактирования баннера, обновляет запись в таблице БД banners,
- * работает с моделью Banner_Backend_Model
+ * работает с моделью Banner_Backend_Model, административная часть сайта
  */
 class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
 
@@ -91,7 +91,7 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
      * функция возвращает false; если ошибок нет, функция обновляет баннер и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

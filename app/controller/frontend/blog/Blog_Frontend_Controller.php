@@ -10,7 +10,7 @@ abstract class Blog_Frontend_Controller extends Frontend_Controller {
     }
 
     /**
-     * Функция получает от моделей и из настроект данные, необходимые для
+     * Функция получает от моделей и из настроек данные, необходимые для
      * работы всех потомков класса Blog_Frontend_Controller
      */
     protected function input() {

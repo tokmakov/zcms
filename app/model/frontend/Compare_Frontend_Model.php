@@ -579,28 +579,38 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         
         // в объединенном списке сравнения есть товары, но в нем
         // могут быть товары из разных функциональных групп
-        $query = "DELETE FROM `compare` WHERE `id` IN
-                  (
-                      SELECT
-                          `a`.`id`
-                      FROM
-                          `compare` `a`
-                          INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
-                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                          INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
-                      WHERE
-                         `a`.`visitor_id` = :visitor_id AND
-                         `a`.`active` = 1 AND
-                         `b`.`visible` = 1 AND
-                         `b`.`group` <> :group_id
-                  )";
-        $this->database->execute(
+        $query = "SELECT
+                      `a`.`id` AS `id`
+                  FROM
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                  WHERE
+                      `a`.`visitor_id` = :visitor_id AND
+                      `a`.`active` = 1 AND
+                      `b`.`visible` = 1 AND
+                      `b`.`group` <> :group_id";
+        $temp = $this->database->fetchAll(
             $query,
             array(
                 'visitor_id' => $this->visitorId,
                 'group_id'   => $this->groupId
             )
         );
+        if (!empty($temp)) {
+            foreach ($temp as $item) {
+                $ids[] = $item['id'];
+            }
+            $query = "DELETE FROM `compare` WHERE `id` IN (" . implode(',', $ids) . ")";
+            $this->database->execute(
+                $query,
+                array(
+                    'visitor_id' => $this->visitorId,
+                    'group_id'   => $this->groupId
+                )
+            );
+        }
         // обновляем cookie
         setcookie('compare_group', $this->groupId, time() + 31536000, '/');
 

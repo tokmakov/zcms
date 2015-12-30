@@ -38,7 +38,7 @@ abstract class User_Frontend_Controller extends Frontend_Controller {
         }
 
         $this->title = 'Личный кабинет';
-        $this->keywords = 'личный кабинет ' . $this->keywords;
+        $this->keywords = 'личный кабинет, ' . $this->keywords;
         $this->description = 'Личный кабинет. ' . $this->description;
 
     }

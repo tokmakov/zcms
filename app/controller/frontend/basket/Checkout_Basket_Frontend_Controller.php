@@ -118,7 +118,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
      * допущены ошибки, функция возвращает false; если ошибок нет, функция создает
      * заказ и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

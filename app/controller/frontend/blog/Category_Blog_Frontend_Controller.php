@@ -66,7 +66,7 @@ class Category_Blog_Frontend_Controller extends Blog_Frontend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во постов в категории
         $totalPosts = $this->blogFrontendModel->getCountCategoryPosts($this->params['id']);

@@ -44,7 +44,7 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во отложенных товаров
         $totalProducts = $this->wishedFrontendModel->getCountWishedProducts();

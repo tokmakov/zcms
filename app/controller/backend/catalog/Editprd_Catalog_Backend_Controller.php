@@ -173,7 +173,7 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * допущены ошибки, функция возвращает false; если ошибок нет, функция
      * обновляет товар и возвращает true
      */
-    protected function validateForm() {
+    private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы

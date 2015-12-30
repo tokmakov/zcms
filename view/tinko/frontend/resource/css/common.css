@@ -873,7 +873,6 @@ div.attention {
         .products-list-line > div > .product-line-info { /* цена, код, производитель */
             margin-bottom: 11px;
             margin-left: 140px;
-            overflow: hidden;
         }
             .products-list-line > div > .product-line-info > div {
                 color: #969696;
@@ -902,12 +901,14 @@ div.attention {
                     line-height: 26px;
                 }
                 .products-list-line > div > .product-line-info > div:first-child > span:last-child {
-                    word-spacing: 7px;
+
                 }
                     .products-list-line > div > .product-line-info > div:first-child > span:last-child > span {
                         display: inline-block;
-                        word-spacing: normal;
                         text-align: left;
+                    }
+                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) {
+                        margin-left: 4px;
                     }
                         .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong,
                         .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span {
@@ -936,8 +937,12 @@ div.attention {
 
         .products-list-line > div > .product-line-basket { /* добавить в корзину */
             margin-left: 140px;
-            overflow: hidden;
             margin-bottom: 12px;
+        }
+        .products-list-line > div > .product-line-basket:after {
+            content: "";
+            display: table;
+            clear: both;
         }
             .products-list-line > div > .product-line-basket > form {
                 float: right;
@@ -1124,10 +1129,12 @@ div.attention {
                 height: 100px;
                 overflow: hidden;
                 margin-bottom: 10px;
+                display: inline-block;
             }
                 .products-list-grid > div > div > .product-grid-image > a { /* изображение */
                     display: block;
-                    margin: 0 auto;
+                    width: 100%;
+                    max-width: 100px;
                 }
                     .products-list-grid > div > div > .product-grid-image > a > img { /* изображение */
                         width: 100%;
@@ -1553,12 +1560,14 @@ div.attention {
                 line-height: 26px;
             }
             #product .product-item-main .product-item-info > div:first-child > span:last-child {
-                word-spacing: 7px;
+                
             }
                 #product .product-item-main .product-item-info > div:first-child > span:last-child > span {
                     display: inline-block;
                     text-align: left;
-                    word-spacing: normal;
+                }
+                #product .product-item-main .product-item-info > div:first-child > span:last-child > span:not(:first-child) {
+                    margin-left: 4px;
                 }
                     #product .product-item-main .product-item-info > div:first-child > span:last-child > span > span {
                         display: block;
@@ -1589,9 +1598,11 @@ div.attention {
             margin-bottom: 12px;
             padding-bottom: 12px;
             margin-left: 240px;
-            overflow: hidden;
             border-bottom: 1px dashed #d1d1d1;
         }
+            #product .product-item-main .product-item-basket > div {
+                clear: right;
+            }
             #product .product-item-main .product-item-basket .add-basket-form {
                 margin-bottom: 10px;
                 overflow: hidden;
@@ -1647,7 +1658,11 @@ div.attention {
                 }
         #product .product-item-main .product-item-social {
             margin-left: 240px;
-            overflow: hidden;
+        }
+        #product .product-item-main .product-item-social:after {
+            content: "";
+            display: table;
+            clear: left;
         }
             #product .product-item-main .product-item-social a {
                 display: block;
@@ -2195,7 +2210,7 @@ div.attention {
         }
             #right .side-heading > span > i.fa-balance-scale {
                 font-size: 17px;
-                font-weight: bolder;
+                color: #000;
             }
             #right .side-heading > span > i.fa-shopping-basket {
                 font-size: 16px;
