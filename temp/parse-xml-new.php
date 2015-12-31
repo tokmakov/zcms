@@ -39,6 +39,8 @@ function parseXML($register) {
     $register->database->execute('TRUNCATE TABLE `tmp_values`');
     $register->database->execute('TRUNCATE TABLE `tmp_group_param_value`');
     $register->database->execute('TRUNCATE TABLE `tmp_product_param_value`');
+    $register->database->execute('TRUNCATE TABLE `tmp_doc_prd`');
+    $register->database->execute('TRUNCATE TABLE `tmp_docs`');
     
     $register->database->execute('TRUNCATE TABLE `temp_doc_prd`');
     $register->database->execute('TRUNCATE TABLE `temp_cert_prod`');
@@ -47,7 +49,7 @@ function parseXML($register) {
     $register->database->execute('TRUNCATE TABLE `temp_certs`');
 
     $reader = new XMLReader();
-    $reader->open('catalog-temp.xml');
+    $reader->open('catalog-temp-2.xml');
     $item = array();
     while ($reader->read()) {
         // КАТЕГОРИИ
@@ -60,6 +62,9 @@ function parseXML($register) {
                     $data['code'] = $reader->getAttribute('id');
                     echo 'category code=' . $data['code'] . PHP_EOL;
                     $data['parent'] = $reader->getAttribute('parent');
+                    if ($data['parent'] == '00000000-0000-0000-0000-000000000000') {
+                        $data['parent'] = '';
+                    }
                     $data['sortorder'] = (int)$reader->getAttribute('sortorder');
                     // читаем дальше для получения текстового элемента
                     $reader->read();
@@ -258,8 +263,8 @@ function parseXML($register) {
                 // отдельный элемент <doc>
                 if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc') {
                     // атрибуты элемента <doc>
-                    $id = $reader->getAttribute('id');
-                    echo 'doc id=' . $id . PHP_EOL;
+                    $code = $reader->getAttribute('id');
+                    echo 'doc code=' . $code . PHP_EOL;
                     // дочерние элементы элемента <doc>
                     while ($reader->read()) {
                         // наименование документа
@@ -285,9 +290,9 @@ function parseXML($register) {
                             break;
                         }
                     }
-                    $query = "INSERT INTO `temp_docs`
+                    $query = "INSERT INTO `tmp_docs`
                               (
-                                  `id`,
+                                  `code`,
                                   `title`,
                                   `filename`,
                                   `filetype`,
@@ -296,7 +301,7 @@ function parseXML($register) {
                               )
                               VALUES
                               (
-                                  :id,
+                                  :code,
                                   :title,
                                   :filename,
                                   :filetype,
@@ -304,7 +309,7 @@ function parseXML($register) {
                                   NOW()
                               )";
                     $data = array(
-                        'id' => $id,
+                        'code' => $id,
                         'title' => $title,
                         'filename' => $file,
                         'filetype' => $ext,
@@ -382,7 +387,7 @@ function parseXML($register) {
                         'filename' => $file,
                         'count' => $count
                     );
-                    $register->database->execute($query, $data);
+                    // $register->database->execute($query, $data);
                 }
                 if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'certs') {
                     break;
@@ -589,28 +594,28 @@ function parseXML($register) {
                         // файлы документации
                         if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') {
                             // проходим в цикле все дочерние элементы элемента <docs>
-                            $doc_ids = array();
+                            $doc_codes = array();
                             while ($reader->read()) {
                                 if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc') {
                                     // атрибуты элемента <doc>
-                                    $doc_ids[] = $reader->getAttribute('id');
+                                    $doc_codes[] = $reader->getAttribute('id');
                                 }
                                 if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'docs') {
                                     break;
                                 }
                             }
-                            foreach ($doc_ids as $doc_id) {
-                                $query = "INSERT INTO `temp_doc_prd`
+                            foreach ($doc_codes as $doc_code) {
+                                $query = "INSERT INTO `tmp_doc_prd`
                                           (
                                               `prd_id`,
-                                              `doc_id`
+                                              `doc_code`
                                           )
                                           VALUES
                                           (
                                               :prd_id,
-                                              :doc_id
+                                              :doc_code
                                           )";
-                                $register->database->execute($query, array('prd_id' => $data['id'], 'doc_id' => $doc_id));
+                                $register->database->execute($query, array('prd_id' => $data['id'], 'doc_code' => $doc_code));
                             }
                         }
                         // сертификаты
@@ -637,7 +642,7 @@ function parseXML($register) {
                                               :prod_id,
                                               :cert_id
                                           )";
-                                $register->database->execute($query, array('prod_id' => $data['id'], 'cert_id' => $cert_id));
+                                // $register->database->execute($query, array('prod_id' => $data['id'], 'cert_id' => $cert_id));
                             }
                         }
                         // связанные товары
@@ -1077,6 +1082,10 @@ foreach($products as $product) {
     // уникальный идентификатор родительской категории (целое положительное число)
     $query = "SELECT `id` FROM `temp_categories` WHERE `code` = :code";
     $data['category'] = $register->database->fetchOne($query, array('code' => $product['category']));
+    // TODO: такого быть не должно
+    if (false === $data['category']) {
+        continue;
+    }
     // уникальный идентификатор дополнительной категории (целое положительное число)
     $data['category2'] = 0;
     $query = "SELECT `id` FROM `temp_categories` WHERE `code` = :code";
@@ -1149,6 +1158,7 @@ foreach($products as $product) {
                   `sortorder` = :sortorder
               WHERE
                   `id` = :id";
+    print_r($data).PHP_EOL;
     $register->database->execute($query, $data); 
 }
 
@@ -1231,12 +1241,24 @@ foreach ($rows as $row) {
     // уникальный идентификатор группы (целое положительное число)
     $query = "SELECT `id` FROM `temp_groups` WHERE `code` = :group_code";
     $group_id = $register->database->fetchOne($query, array('group_code' => $row['group_code']));
+    // TODO
+    if (false === $group_id) {
+        continue;
+    }
     // уникальный идентификатор параметра (целое положительное число)
     $query = "SELECT `id` FROM `temp_params` WHERE `code` = :param_code";
     $param_id = $register->database->fetchOne($query, array('param_code' => $row['param_code']));
+    // TODO
+    if (false === $param_id) {
+        continue;
+    }
     // уникальный идентификатор значения параметра (целое положительное число)
     $query = "SELECT `id` FROM `temp_values` WHERE `code` = :value_code";
     $value_id = $register->database->fetchOne($query, array('value_code' => $row['value_code']));
+    // TODO
+    if (false === $value_id) {
+        continue;
+    }
     $query = "INSERT INTO `temp_group_param_value`
               (
                   `group_id`,
@@ -1300,6 +1322,8 @@ foreach ($rows as $row) {
         )
     ); 
 }
+
+die();
 
 /*
  * сравниваем таблицы

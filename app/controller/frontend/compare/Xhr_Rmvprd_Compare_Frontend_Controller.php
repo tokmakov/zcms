@@ -38,8 +38,9 @@ class Xhr_Rmvprd_Compare_Frontend_Controller extends Compare_Frontend_Controller
         $this->pageContent = $this->render(
             $this->config->site->theme . '/frontend/template/compare/xhr/compare.php',
             array(
-                'sideCompareProducts'  => $sideCompareProducts,
-                'compareUrl'           => $this->compareFrontendModel->getURL('frontend/compare/index'),
+                'sideCompareProducts' => $sideCompareProducts,
+                'indexCompareURL'     => $this->compareFrontendModel->getURL('frontend/compare/index'),
+                'clearCompareURL'     => $this->compareFrontendModel->getURL('frontend/compare/clear'),
             )
         );
     }

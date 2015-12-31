@@ -776,10 +776,47 @@ function removeSideCompareHandler() {
                         $(this).remove();
                     });
                 });
-
         },
         error: function() {
             alert('Ошибка при удалении товара из сравнения');
         }
     });
+    /*
+     * Удаление всех товаров из сравнения
+     */
+    $('#side-compare .side-content table tr th a').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: '/compare/clear',
+            dataType: 'html',
+            beforeSend: function() {
+                // добавляем overlay
+                var sidecompareHeight = $('#side-compare > .side-content').height()+30/*padding*/;
+                var sidecompareWidth = $('#side-compare > .side-content').width();
+                $('<div></div>')
+                    .prependTo('#side-compare > .side-content')
+                    .addClass('overlay')
+                    .height(sidecompareHeight)
+                    .width(sidecompareWidth);
+            },
+            success: function(html) {
+                $('#side-compare .side-content').html(html);
+                // показываем окно с сообщением
+                $('<div>Товары удалены из сравнения</div>')
+                    .prependTo('body')
+                    .hide()
+                    .addClass('modal-window')
+                    .center()
+                    .fadeIn(500, function() {
+                        $(this).delay(1000).fadeOut(500, function() {
+                            $(this).remove();
+                        });
+                    });
+            },
+            error: function() {
+                alert('Ошибка при удалении товаров из сравнения');
+            }
+        });
+    })
 }

@@ -4,7 +4,8 @@
  *
  * Переменные, которые приходят в шаблон:
  * $sideCompareProducts - массив товаров для сравнения
- * $compareUrl - URL ссылки на страницу со списком товаров для сравнения
+ * $indexCompareURL - URL ссылки на страницу со списком товаров для сравнения
+ * $clearCompareURL - URL ссылки для удаления всех товаров из сравнения
  */
 
 defined('ZCMS') or die('Access denied');
@@ -16,7 +17,7 @@ defined('ZCMS') or die('Access denied');
         <tr>
             <th>Код</th>
             <th>Наименование</th>
-            <th></th>
+            <th><a href="<?php echo $clearCompareURL; ?>" title="Очистить список сравнения"><i class="fa fa-times"></i></a></th>
         </tr>
         <?php foreach ($sideCompareProducts as $item): ?>
             <tr>
@@ -32,7 +33,7 @@ defined('ZCMS') or die('Access denied');
         <?php endforeach; ?>
     </table>
     <?php if ($count > 1): ?>
-        <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
+        <p class="all-products"><a href="<?php echo $indexCompareURL; ?>">Перейти к сравнению</a></p>
     <?php endif; ?>
 <?php else: ?>
     <p class="empty-list-right">Нет товаров для сравнения</p>

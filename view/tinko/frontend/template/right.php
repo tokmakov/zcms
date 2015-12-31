@@ -6,14 +6,15 @@
  * Переменные, доступные в шаблоне:
  * $basketProducts - массив товаров в корзине
  * $basketTotalCost - общая стоимость товаров в корзине
- * $basketUrl - URL страницы с корзиной
- * $checkoutUrl - URL страницы с формой для оформления заказа
+ * $basketURL - URL страницы с корзиной
+ * $checkoutURL - URL страницы с формой для оформления заказа
  * $wishedProducts - массив последних 10 отложенных товаров
- * $wishedUrl - URL страницы со списком всех отложенных товаров
+ * $wishedURL - URL страницы со списком всех отложенных товаров
  * $compareProducts - массив последних 10 товаров для сравнения
- * $compareUrl - URL страницы со списком всех товаров для сравнения
+ * $compareURL - URL страницы со списком всех товаров для сравнения
+ * $clearCompareURL - URL ссылки для удаления всех товаров из сравнения
  * $viewedProducts - массив последних 10 просмотренных товаров
- * $viewedUrl - URL страницы со списком всех просмотренных товаров
+ * $viewedURL - URL страницы со списком всех просмотренных товаров
  *
  * $authUser - пользователь авторизован?
  *  - если авторизован, доступны переменные
@@ -89,8 +90,8 @@ defined('ZCMS') or die('Access denied');
                 </tr>
             </table>
             <ul id="goto-basket-checkout">
-                <li><a href="<?php echo $basketUrl; ?>">Перейти в корзину</a></li>
-                <li><a href="<?php echo $checkoutUrl; ?>">Оформить заказ</a></li>
+                <li><a href="<?php echo $basketURL; ?>">Перейти в корзину</a></li>
+                <li><a href="<?php echo $checkoutURL; ?>">Оформить заказ</a></li>
             </ul>
         <?php else: ?>
             <p class="empty-list-right">Ваша корзина пуста</p>
@@ -120,7 +121,7 @@ defined('ZCMS') or die('Access denied');
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <p class="all-products"><a href="<?php echo $wishedUrl; ?>">Все отложенные товары</a></p>
+            <p class="all-products"><a href="<?php echo $wishedURL; ?>">Все отложенные товары</a></p>
         <?php else: ?>
             <p class="empty-list-right">Нет отложенных товаров</p>
         <?php endif; ?>
@@ -140,7 +141,7 @@ defined('ZCMS') or die('Access denied');
                 <tr>
                     <th>Код</th>
                     <th>Наименование</th>
-                    <th></th>
+                    <th><a href="<?php echo $clearCompareURL; ?>" title="Очистить список сравнения"><i class="fa fa-times"></i></a></th>
                 </tr>
                 <?php foreach ($compareProducts as $item): ?>
                     <tr>
@@ -156,7 +157,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endforeach; ?>
             </table>
             <?php if ($count > 1): ?>
-                <p class="all-products"><a href="<?php echo $compareUrl; ?>">Перейти к сравнению</a></p>
+                <p class="all-products"><a href="<?php echo $compareURL; ?>">Перейти к сравнению</a></p>
             <?php endif; ?>
         <?php else: ?>
             <p class="empty-list-right">Нет товаров для сравнения</p>
@@ -186,7 +187,7 @@ defined('ZCMS') or die('Access denied');
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <p class="all-products"><a href="<?php echo $viewedUrl; ?>">Все просмотренные товары</a></p>
+            <p class="all-products"><a href="<?php echo $viewedURL; ?>">Все просмотренные товары</a></p>
         <?php else: ?>
             <p class="empty-list-right">Нет просмотренных товаров</p>
         <?php endif; ?>

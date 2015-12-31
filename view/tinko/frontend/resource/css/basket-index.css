@@ -2,6 +2,22 @@
 #basket {
     margin-bottom: 30px;
 }
+    #basket > a { /* очистить корзину */
+        display: block;
+        float: right;
+        margin-top: -20px;
+        margin-bottom: 7px;
+        text-decoration: none;
+        color: #395985;
+    }
+        #basket > a > span {
+            border-bottom: 1px dashed #395985;
+        }
+        #basket > a > i {
+            font-size: 17px;
+            position: relative;
+            top: 2px;
+        }
     #basket form table {
         border-collapse: collapse;
         width: 100%;

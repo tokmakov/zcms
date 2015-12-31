@@ -367,6 +367,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка сравнения
         '~^frontend/compare/rmvprd$~i' =>
         'compare/rmvprd',
+        // удалить все товары из сравнения
+        '~^frontend/compare/clear$~i' =>
+        'compare/clear',
 
         /*
          * корзина
@@ -380,6 +383,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из корзины
         '~^frontend/basket/rmvprd/id/(\d+)$~i' =>
         'basket/rmvprd/$1',
+        // удалить все товары из корзины
+        '~^frontend/basket/clear$~i' =>
+        'basket/clear',
         // оформление заказа
         '~^frontend/basket/checkout$~i' =>
         'basket/checkout',
@@ -985,6 +991,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка сравнения
         '~^compare/rmvprd$~i' =>
         'frontend/compare/rmvprd',
+        // удалить все товары из сравнения
+        '~^compare/clear$~i' =>
+        'frontend/compare/clear',
 
         /*
          * корзина
@@ -998,6 +1007,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из корзины
         '~^basket/rmvprd/(\d+)$~i' =>
         'frontend/basket/rmvprd/id/$1',
+        // удалить все товары из корзины
+        '~^basket/clear$~i' =>
+        'frontend/basket/clear',
         // оформление заказа
         '~^basket/checkout$~i' =>
         'frontend/basket/checkout',

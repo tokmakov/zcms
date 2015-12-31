@@ -229,7 +229,7 @@ class Router {
         $this->controller = 'notfound';
         $this->action = 'index';
         $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-        $this->controllerClassName = 'Notfound_'.$frontback.'_Controller';
+        $this->controllerClassName = 'Index_Notfound_'.$frontback.'_Controller';
         $this->params = array();
     }
     

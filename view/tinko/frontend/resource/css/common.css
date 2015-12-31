@@ -2126,7 +2126,22 @@ div.attention {
     #right #side-compare table tr th:last-child {
         width: 10%;
     }
-        #right #side-compare table tr td form button { /* кнопка: удалить из сравнения */
+        #right #side-compare table tr th a { /* ссылка: удалить все товары из сравнения */
+            display: block;
+            color: #395985;
+            width: 13px;
+            height: 13px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+            #right #side-compare table tr th a i {
+                font-size: 14px;
+                line-height: 14px;
+            }
+        #right #side-compare table tr th a:hover {
+            color: #e9751f;
+        }
+        #right #side-compare table tr td form button { /* кнопка: удалить товар из сравнения */
             border: none;
             background: transparent;
             color: #395985;

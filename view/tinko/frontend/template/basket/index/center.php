@@ -5,6 +5,8 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $action - атрибут action тега form
+ * $clearBasketURL - ссылка для удаления всех товаров из корзины
  * $basketProducts - массив товаров в корзине
  * $amount - полная стоимость товаров в корзине без учета скидки
  * $userAmount - полная стоимость товаров в корзине с учетом скидки
@@ -32,6 +34,9 @@ defined('ZCMS') or die('Access denied');
 
 <div id="basket">
 <?php if (!empty($basketProducts)): ?>
+    <a href="<?php echo $clearBasketURL; ?>">
+        <i class="fa fa-trash-o"></i>&nbsp; <span>Очистить корзину</span>
+    </a>
     <form action="<?php echo $action; ?>" method="post">
         <table>
             <tr>

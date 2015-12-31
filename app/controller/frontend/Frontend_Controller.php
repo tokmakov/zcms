@@ -303,21 +303,23 @@ abstract class Frontend_Controller extends Base_Controller {
         // общая стоимость товаров в корзине
         $this->rightVars['basketTotalCost']  = $sideBasketTotalCost;
         // URL ссылки на страницу корзины
-        $this->rightVars['basketUrl']        = $this->basketFrontendModel->getURL('frontend/basket/index');
+        $this->rightVars['basketURL']        = $this->basketFrontendModel->getURL('frontend/basket/index');
         // URL ссылки на страницу оформления заказа
-        $this->rightVars['checkoutUrl']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
+        $this->rightVars['checkoutURL']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
         // массив отложенных товаров (избранное)
         $this->rightVars['wishedProducts']   = $sideWishedProducts;
         // URL ссылки на страницу отложенных товаров
-        $this->rightVars['wishedUrl']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
+        $this->rightVars['wishedURL']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
         // массив товаров для сравнения
         $this->rightVars['compareProducts']  = $sideCompareProducts;
         // URL ссылки на страницу товаров для сравнения
-        $this->rightVars['compareUrl']       = $this->compareFrontendModel->getURL('frontend/compare/index');
+        $this->rightVars['compareURL']       = $this->compareFrontendModel->getURL('frontend/compare/index');
+        // URL ссылки для удаления всех товаров из сравнения
+        $this->rightVars['clearCompareURL']  = $this->compareFrontendModel->getURL('frontend/compare/clear');
         // массив просмотренных товаров
         $this->rightVars['viewedProducts']   = $sideViewedProducts;
         // URL ссылки на страницу просмотренных товаров
-        $this->rightVars['viewedUrl']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
+        $this->rightVars['viewedURL']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
 
         /*
          * массив переменных, которые будут переданы в шаблон footer.php

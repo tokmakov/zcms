@@ -75,6 +75,8 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             'breadcrumbs'         => $breadcrumbs,
             // атрибут action тега form
             'action'              => $this->basketFrontendModel->getURL('frontend/basket/index'),
+            // ссылка для удаления всех товаров из корзины
+            'clearBasketURL'      => $this->basketFrontendModel->getURL('frontend/basket/clear'),
             // массив товаров в корзине
             'basketProducts'      => $basketProducts,
             // стоимость товаров в корзине без учета скидки
