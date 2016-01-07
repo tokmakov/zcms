@@ -1,6 +1,6 @@
 <?php
 /**
- * Для запуска из командной строки для формирования xml каталога
+ * Для запуска из командной строки для чтения xml и обновления каталога
  */
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -39,21 +39,23 @@ function parseXML($register) {
     $register->database->execute('TRUNCATE TABLE `tmp_values`');
     $register->database->execute('TRUNCATE TABLE `tmp_group_param_value`');
     $register->database->execute('TRUNCATE TABLE `tmp_product_param_value`');
-    $register->database->execute('TRUNCATE TABLE `tmp_doc_prd`');
     $register->database->execute('TRUNCATE TABLE `tmp_docs`');
+    $register->database->execute('TRUNCATE TABLE `tmp_doc_prd`');
+    $register->database->execute('TRUNCATE TABLE `tmp_certs`');
+    $register->database->execute('TRUNCATE TABLE `tmp_cert_prod`');
     
+    $register->database->execute('TRUNCATE TABLE `temp_docs`');
     $register->database->execute('TRUNCATE TABLE `temp_doc_prd`');
+    $register->database->execute('TRUNCATE TABLE `temp_certs`');
     $register->database->execute('TRUNCATE TABLE `temp_cert_prod`');
     $register->database->execute('TRUNCATE TABLE `temp_related`');
-    $register->database->execute('TRUNCATE TABLE `temp_docs`');
-    $register->database->execute('TRUNCATE TABLE `temp_certs`');
 
     $reader = new XMLReader();
-    $reader->open('catalog-temp-2.xml');
+    $reader->open('temp/example.xml');
     $item = array();
     while ($reader->read()) {
         // КАТЕГОРИИ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'categories') {
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'categories' && !$reader->isEmptyElement) {
             // проходим в цикле все дочерние элементы элемента <categories>
             while ($reader->read()) {
                 // отдельный элемент <category>
@@ -92,7 +94,7 @@ function parseXML($register) {
         }
 
         // ПРОИЗВОДИТЕЛИ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'makers') { // элемент <makers>
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'makers' && !$reader->isEmptyElement) { // элемент <makers>
             // проходим в цикле все дочерние элементы элемента <makers>
             while ($reader->read()) {
                 // отдельный элемент <maker>
@@ -122,7 +124,7 @@ function parseXML($register) {
         }
         
         // ПАРАМЕТРЫ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') { // элемент <params>
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params' && !$reader->isEmptyElement) { // элемент <params>
             // читаем дальше для получения элемента <names>
             $reader->read();
             // проходим в цикле все дочерние элементы элемента <names>
@@ -182,11 +184,11 @@ function parseXML($register) {
         }
 
         // ФУНКЦИОНАЛЬНЫЕ ГРУППЫ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'groups') { // элемент <groups>
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'groups' && !$reader->isEmptyElement) { // элемент <groups>
             // проходим в цикле все дочерние элементы элемента <groups>
             while ($reader->read()) {
                 // отдельный элемент <group>
-                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'group') {
+                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'group' && !$reader->isEmptyElement) {
                     // атрибут элемента <group>
                     $group_code = $reader->getAttribute('id');
                     echo 'group code=' . $group_code . PHP_EOL;
@@ -212,7 +214,7 @@ function parseXML($register) {
                             $register->database->execute($query, $data);
                         }
                         // информация о параметрах подбора для группы
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') {
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params' && !$reader->isEmptyElement) {
                             // дочерние элементы элемента <params>
                             while ($reader->read()) {
                                 // отдельный элемент <param>
@@ -257,11 +259,11 @@ function parseXML($register) {
         }
         
         // ФАЙЛЫ ДОКУМЕНТАЦИИ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') { // элемент <docs>
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs' && !$reader->isEmptyElement) { // элемент <docs>
             // проходим в цикле все дочерние элементы элемента <docs>
             while ($reader->read()) {
                 // отдельный элемент <doc>
-                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc') {
+                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'doc' && !$reader->isEmptyElement) {
                     // атрибуты элемента <doc>
                     $code = $reader->getAttribute('id');
                     echo 'doc code=' . $code . PHP_EOL;
@@ -309,7 +311,7 @@ function parseXML($register) {
                                   NOW()
                               )";
                     $data = array(
-                        'code' => $id,
+                        'code' => $code,
                         'title' => $title,
                         'filename' => $file,
                         'filetype' => $ext,
@@ -324,14 +326,14 @@ function parseXML($register) {
         }
 
         // СЕРТИФИКАТЫ
-        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs') { // элемент <certs>
+        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs' && !$reader->isEmptyElement) { // элемент <certs>
             // проходим в цикле все дочерние элементы элемента <certs>
             while ($reader->read()) {
                 // отдельный элемент <cert>
-                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'cert') {
+                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'cert' && !$reader->isEmptyElement) {
                     // атрибуты элемента <cert>
-                    $id = $reader->getAttribute('id');
-                    echo 'cert id=' . $id . PHP_EOL;
+                    $code = $reader->getAttribute('id');
+                    echo 'cert code=' . $code . PHP_EOL;
                     // дочерние элементы элемента <cert>
                     while ($reader->read()) {
                         // наименование сертификата
@@ -355,8 +357,7 @@ function parseXML($register) {
                                 if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'count') {
                                     // читаем дальше для получения текстового элемента
                                     $reader->read();
-                                    $count = $reader->value;
-                                    echo '<div>Количество страниц: ' . $count . '</div>';
+                                    $count = (int)$reader->value;
                                 }
                                 if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'files') {
                                     break;
@@ -367,27 +368,28 @@ function parseXML($register) {
                             break;
                         }
                     }
-                    $query = "INSERT INTO `temp_certs`
+                    // TODO: вылезает некорректное значение $count
+                    $query = "INSERT INTO `tmp_certs`
                               (
-                                  `id`,
+                                  `code`,
                                   `title`,
                                   `filename`,
                                   `count`
                               )
                               VALUES
                               (
-                                  :id,
+                                  :code,
                                   :title,
                                   :filename,
                                   :count
                               )";
                     $data = array(
-                        'id' => $id,
+                        'code' => $code,
                         'title' => $title,
                         'filename' => $file,
                         'count' => $count
                     );
-                    // $register->database->execute($query, $data);
+                    $register->database->execute($query, $data);
                 }
                 if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'certs') {
                     break;
@@ -417,7 +419,7 @@ function parseXML($register) {
                     $data['hit'] = (int)$reader->getAttribute('hit');
                     $data['new'] = (int)$reader->getAttribute('new');
                     $data['sortorder'] = (int)$reader->getAttribute('sortorder');
-                    // проходим все дочерние элементы элемента <products>
+                    // проходим все дочерние элементы элемента <product>
                     while ($reader->read()) {
                         // торговое наименование
                         if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
@@ -472,27 +474,31 @@ function parseXML($register) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['unit'] = (int)trim($reader->value);
+                            $data['unit'] = 0;
                         }
                         // краткое описание
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'shortdescr') {
+                        $data['shortdescr'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'shortdescr' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['shortdescr'] = trim($reader->value);
                         }
                         // назначение
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'purpose') {
+                        $data['purpose'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'purpose' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['purpose'] = $reader->value;
                         }
                         // технические характеристики
                         $techdata = array();
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'techdata') {
+                        $data['techdata'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'techdata' && !$reader->isEmptyElement) {
                             // проходим в цикле все дочерние элементы элемента <techdata>
                             $name = array();
                             $value = array();
                             while ($reader->read()) {
-                                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'item') {
+                                if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'item' && !$reader->isEmptyElement) {
                                     // проходим в цикле все дочерние элементы элемента <item>
                                     while ($reader->read()) {
                                         if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'name') {
@@ -515,43 +521,48 @@ function parseXML($register) {
                             foreach ($name as $k => $v) {
                                 $techdata[] = array($v, $value[$k]);
                             }
-                            $data['techdata'] = '';
                             if (!empty($techdata)) {
                                 $data['techdata'] = serialize($techdata);
                             }
                         }
+
                         // особенности
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'features') {
+                        $data['features'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'features' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['features'] = trim($reader->value);
                         }
                         // комплектация
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'complect') {
+                        $data['complect'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'complect' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['complect'] = trim($reader->value);
                         }
                         // доп.оборудование
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'equipment') {
+                        $data['equipment'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'equipment' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['equipment'] = trim($reader->value);
                         }
                         // доп.информация
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'padding') {
+                        $data['padding'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'padding' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['padding'] = trim($reader->value);
                         }
                         // фото
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'image') {
+                        $data['image'] = '';
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'image' && !$reader->isEmptyElement) {
                             // читаем дальше для получения текстового элемента
                             $reader->read();
                             $data['image'] = trim($reader->value);
                         }
                         // параметры подбора
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params') {
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'params' && !$reader->isEmptyElement) {
                             // проходим в цикле все дочерние элементы элемента <params>
                             $params = array();
                             while ($reader->read()) {
@@ -566,7 +577,8 @@ function parseXML($register) {
                                 }
                             }
                             foreach ($params as $value) {
-                                $query = "INSERT INTO `tmp_product_param_value`
+                                // TODO: возникают дубли
+                                $query = "INSERT IGNORE INTO `tmp_product_param_value`
                                           (
                                               `product_id`,
                                               `param_code`,
@@ -591,8 +603,9 @@ function parseXML($register) {
                                 );
                             }
                         }
+                        
                         // файлы документации
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs') {
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'docs' && !$reader->isEmptyElement) {
                             // проходим в цикле все дочерние элементы элемента <docs>
                             $doc_codes = array();
                             while ($reader->read()) {
@@ -605,48 +618,67 @@ function parseXML($register) {
                                 }
                             }
                             foreach ($doc_codes as $doc_code) {
-                                $query = "INSERT INTO `tmp_doc_prd`
+                                // TODO: возникают дубли
+                                $query = "INSERT IGNORE INTO `tmp_doc_prd`
                                           (
                                               `prd_id`,
-                                              `doc_code`
+                                              `doc_code`,
+                                              `concat_code`
                                           )
                                           VALUES
                                           (
                                               :prd_id,
-                                              :doc_code
+                                              :doc_code,
+                                              :concat_code
                                           )";
-                                $register->database->execute($query, array('prd_id' => $data['id'], 'doc_code' => $doc_code));
+                                $register->database->execute(
+                                    $query,
+                                    array(
+                                        'prd_id' => $data['id'],
+                                        'doc_code' => $doc_code,
+                                        'concat_code' => md5($data['id'] . $doc_code)
+                                    )
+                                );
                             }
                         }
                         // сертификаты
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs') {
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'certs' && !$reader->isEmptyElement) {
                             // проходим в цикле все дочерние элементы элемента <certs>
-                            $cert_ids = array();
+                            $cert_codes = array();
                             while ($reader->read()) {
                                 if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'cert') {
                                     // атрибуты элемента <cert>
-                                    $cert_ids[] = $reader->getAttribute('id');
+                                    $cert_codes[] = $reader->getAttribute('id');
                                 }
                                 if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'certs') {
                                     break;
                                 }
                             }
-                            foreach ($cert_ids as $cert_id) {
-                                $query = "INSERT INTO `temp_cert_prod`
+                            foreach ($cert_codes as $cert_code) {
+                                $query = "INSERT IGNORE INTO `tmp_cert_prod`
                                           (
                                               `prod_id`,
-                                              `cert_id`
+                                              `cert_code`,
+                                              `concat_code`
                                           )
                                           VALUES
                                           (
                                               :prod_id,
-                                              :cert_id
+                                              :cert_code,
+                                              :concat_code
                                           )";
-                                // $register->database->execute($query, array('prod_id' => $data['id'], 'cert_id' => $cert_id));
+                                $register->database->execute(
+                                    $query,
+                                    array(
+                                        'prod_id' => $data['id'],
+                                        'cert_code' => $cert_code,
+                                        'concat_code' => md5($data['id'] . $cert_code)
+                                    )
+                                );
                             }
                         }
                         // связанные товары
-                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'linked') {
+                        if ($reader->nodeType == XMLReader::ELEMENT && $reader->localName == 'linked' && !$reader->isEmptyElement) {
                             // проходим в цикле все дочерние элементы элемента <docs>
                             $rel_ids_cnts = array();
                             while ($reader->read()) {
@@ -679,13 +711,15 @@ function parseXML($register) {
                                 );
                             }
                         }
+
                         if ($reader->nodeType == XMLReader::END_ELEMENT && $reader->localName == 'product') {
                             break;
                         }
                     }
                     $data['keywords'] = '';
                     $data['description'] = '';
-                    $query = "INSERT INTO `tmp_products`
+                    // TODO: возникают дубли
+                    $query = "INSERT IGNORE INTO `tmp_products`
                               (
                                   `id`,
                                   `category`,
@@ -762,6 +796,8 @@ function parseXML($register) {
     }
     $reader->close();
 }
+
+die();
 
 /*
  * Из первичных промежуточных таблиц во вторичные промежуточные таблицы
@@ -1158,7 +1194,6 @@ foreach($products as $product) {
                   `sortorder` = :sortorder
               WHERE
                   `id` = :id";
-    print_r($data).PHP_EOL;
     $register->database->execute($query, $data); 
 }
 
@@ -1322,6 +1357,189 @@ foreach ($rows as $row) {
         )
     ); 
 }
+
+// ФАЙЛЫ ДОКУМЕНТАЦИИ
+echo 'TABLE->TABLE->DOCS'. PHP_EOL;
+// удаляем те записи о файлах документации, которых уже нет в 1С
+$query = "DELETE FROM `temp_docs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_docs` WHERE 1)";
+$register->database->execute($query);
+// добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+$query = "SELECT * FROM `tmp_docs` WHERE `code` NOT IN (SELECT `code` FROM `temp_docs` WHERE 1)";
+$docs = $register->database->fetchAll($query);
+$exts = array(
+    'jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx',
+    'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'pdf'
+);
+foreach ($docs as $doc) {
+    $ext = pathinfo($doc['filename'], PATHINFO_EXTENSION);
+    if ( ! in_array($ext, $exts)) { // недопустимое расширение файла
+        continue;
+    }
+    $query = "INSERT INTO `temp_docs`
+              (
+                  `title`,
+                  `filename`,
+                  `filetype`,
+                  `md5`,
+                  `uploaded`,
+                  `code`
+              )
+              VALUES
+              (
+                  :title,
+                  :filename,
+                  :filetype,
+                  '',
+                  NOW(),
+                  :code
+              )";
+    // $doc['title'] = trim($doc['title']);
+    $register->database->execute(
+        $query,
+        array(
+            'title' => $doc['title'],
+            'filename' => $doc['filename'],
+            'filetype' => $filetype,
+            'code' => $doc['code']
+        )
+    ); 
+}
+// теперь таблицы tmp_docs и tmp_docs содержат одинаковое количество записей
+$query = "SELECT * FROM `tmp_docs` WHERE 1";
+$docs = $register->database->fetchAll($query);
+foreach($docs as $doc) {
+     $query = "UPDATE
+                   `temp_docs`
+               SET
+                   `title` = :title
+               WHERE
+                   `code` = :code";
+     // $doc['title'] = trim($doc['title']);
+     $register->database->execute($query, array('title' => $doc['title'], 'code' => $doc['code'])); 
+}
+
+// СЕРТИФИКАТЫ
+echo 'TABLE->TABLE->CERTS'. PHP_EOL;
+// удаляем те записи о сертификатах, которых уже нет в 1С
+$query = "DELETE FROM `temp_certs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_certs` WHERE 1)";
+$register->database->execute($query);
+// добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+$query = "SELECT * FROM `tmp_certs` WHERE `code` NOT IN (SELECT `code` FROM `temp_certs` WHERE 1)";
+$certs = $register->database->fetchAll($query);
+foreach ($certs as $cert) {
+    $query = "INSERT INTO `temp_certs`
+              (
+                  `title`,
+                  `filename`,
+                  `count`,
+                  `code`
+              )
+              VALUES
+              (
+                  :title,
+                  :filename,
+                  :count,
+                  :code
+              )";
+    // $cert['title'] = trim($cert['title']);
+    $register->database->execute(
+        $query,
+        array(
+            'title' => $cert['title'],
+            'filename' => $cert['filename'],
+            'count' => $cert['count'],
+            'code' => $cert['code']
+        )
+    ); 
+}
+// теперь таблицы tmp_certs и tmp_certs содержат одинаковое количество записей
+$query = "SELECT * FROM `tmp_certs` WHERE 1";
+$certs = $register->database->fetchAll($query);
+foreach($certs as $cert) {
+     $query = "UPDATE
+                   `temp_certs`
+               SET
+                   `title` = :title
+               WHERE
+                   `code` = :code";
+     // $cert['title'] = trim($cert['title']);
+     $register->database->execute($query, array('title' => $cert['title'], 'code' => $cert['code'])); 
+}
+
+// ПРИВЯЗКА ФАЙЛОВ ДОКУМЕНТАЦИИ К ТОВАРАМ
+// удаляем записи, которых уже нет в 1С
+$query = "DELETE FROM `temp_doc_prd` WHERE `concat_code` NOT IN (SELECT `concat_code` FROM `tmp_doc_prd` WHERE 1)";
+$register->database->execute($query);
+// добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+$query = "SELECT * FROM `tmp_doc_prd` WHERE `concat_code` NOT IN (SELECT `concat_code` FROM `temp_doc_prd` WHERE 1)";
+$rows = $register->database->fetchAll($query);
+foreach ($rows as $row) {
+    // уникальный идентификатор докмента
+    $query = "SELECT `id` FROM `temp_docs` WHERE `code` = :doc_code";
+    $doc_id = $register->database->fetchOne($query, array('doc_code' => $row['doc_code']));
+    // TODO
+    if (false === $doc_id) {
+        continue;
+    }
+    $query = "INSERT INTO `temp_doc_prd`
+              (
+                  `prd_id`,
+                  `doc_id`,
+                  `concat_code`
+              )
+              VALUES
+              (
+                  :prd_id,
+                  :doc_id,
+                  :concat_code
+              )";
+    $register->database->execute(
+        $query,
+        array(
+            'prd_id' => $row['prd_id'],
+            'doc_id' => $doc_id,
+            'concat_code' => $row['concat_code']
+        )
+    ); 
+}
+
+// ПРИВЯЗКА СЕРТИФИКАТОВ К ТОВАРАМ
+// удаляем записи, которых уже нет в 1С
+$query = "DELETE FROM `temp_cert_prod` WHERE `concat_code` NOT IN (SELECT `concat_code` FROM `tmp_cert_prod` WHERE 1)";
+$register->database->execute($query);
+// добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+$query = "SELECT * FROM `tmp_cert_prod` WHERE `concat_code` NOT IN (SELECT `concat_code` FROM `temp_cert_prod` WHERE 1)";
+$rows = $register->database->fetchAll($query);
+foreach ($rows as $row) {
+    // уникальный идентификатор сернтификата
+    $query = "SELECT `id` FROM `temp_certs` WHERE `code` = :cert_code";
+    $cert_id = $register->database->fetchOne($query, array('cert_code' => $row['cert_code']));
+    // TODO
+    if (false === $cert_id) {
+        continue;
+    }
+    $query = "INSERT INTO `temp_cert_prod`
+              (
+                  `prod_id`,
+                  `cert_id`,
+                  `concat_code`
+              )
+              VALUES
+              (
+                  :prod_id,
+                  :cert_id,
+                  :concat_code
+              )";
+    $register->database->execute(
+        $query,
+        array(
+            'prod_id' => $row['prod_id'],
+            'cert_id' => $cert_id,
+            'concat_code' => $row['concat_code']
+        )
+    ); 
+}
+
 
 die();
 

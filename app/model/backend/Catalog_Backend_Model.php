@@ -568,21 +568,21 @@ class Catalog_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage( // маленькое
                         $_FILES['image']['tmp_name'],
-                        './files/catalog/imgs/small/' . $image,
+                        'files/catalog/imgs/small/' . $image,
                         100,
                         100,
                         'jpg'
                     );
                     $this->resizeImage( // среднее
                         $_FILES['image']['tmp_name'],
-                        './files/catalog/imgs/medium/' . $image,
+                        'files/catalog/imgs/medium/' . $image,
                         200,
                         200,
                         'jpg'
                     );
                     $this->resizeImage( // большое
                         $_FILES['image']['tmp_name'],
-                        './files/catalog/imgs/big/' . $image,
+                        'files/catalog/imgs/big/' . $image,
                         500,
                         500,
                         'jpg'
