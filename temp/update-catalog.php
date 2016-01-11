@@ -126,6 +126,11 @@ function parseXML($register) {
         $data['code'] = $value['id'];
         echo 'param value ' . $data['code'] . PHP_EOL;
         $data['name'] = trim($value);
+        $query = "SELECT 1 FROM `tmp_values` WHERE `name` = :name";
+        $res = $register->database->fetchOne($query, array('name' => $data['name']));
+        if ($res) {
+            file_put_contents('temp/errors.txt', 'Дублирование значения параметра параметра «'.$data['name'].'»'.PHP_EOL, FILE_APPEND);
+        }
         $query = "INSERT INTO `tmp_values`
                   (
                       `code`,
@@ -187,7 +192,8 @@ function parseXML($register) {
         $data['code'] = $doc['id'];
         echo 'doc ' . $data['code'] . PHP_EOL;
         $data['title'] = trim($doc->title);
-        $data['filename'] = trim($doc->file);
+        $temp = trim($doc->file);
+        $data['filename'] = $temp[0] . '/' . $temp[1] . '/' . $temp;
         $data['filetype'] = pathinfo($data['filename'], PATHINFO_EXTENSION);
         $query = "INSERT INTO `tmp_docs`
                   (
@@ -336,7 +342,7 @@ function parseXML($register) {
             $query = "SELECT 1 FROM `tmp_product_param_value` WHERE `concat_code` = :concat_code";
             $res = $register->database->fetchOne($query, array('concat_code' => $concat_code));
             if ($res) {
-                // file_put_contents('temp/errors.txt', 'Дублирование привязки параметра '.$param['name'].' и значения '.$param['value'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
+                file_put_contents('temp/errors.txt', 'Дублирование привязки параметра '.$param['name'].' и значения '.$param['value'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
                 continue;
             }
             $query = "INSERT INTO `tmp_product_param_value`
@@ -371,7 +377,7 @@ function parseXML($register) {
             $query = "SELECT 1 FROM `tmp_doc_prd` WHERE `concat_code` = :concat_code";
             $res = $register->database->fetchOne($query, array('concat_code' => $concat_code));
             if ($res) {
-                // file_put_contents('temp/errors.txt', 'Дублирование привязки документа '.$doc['id'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
+                file_put_contents('temp/errors.txt', 'Дублирование привязки документа '.$doc['id'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
                 continue;
             }
             $query = "INSERT INTO `tmp_doc_prd`
@@ -403,7 +409,7 @@ function parseXML($register) {
             $query = "SELECT 1 FROM `tmp_cert_prod` WHERE `concat_code` = :concat_code";
             $res = $register->database->fetchOne($query, array('concat_code' => $concat_code));
             if ($res) {
-                // file_put_contents('temp/errors.txt', 'Дублирование привязки сертификата '.$cert['id'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
+                file_put_contents('temp/errors.txt', 'Дублирование привязки сертификата '.$cert['id'].' к товару '.$data['code'].PHP_EOL, FILE_APPEND);
                 continue;
             }
             $query = "INSERT INTO `tmp_cert_prod`
@@ -1185,12 +1191,27 @@ function updateTempTables($register) {
      */
     echo 'update temp table docs'. PHP_EOL;
     // удаляем те записи о файлах документации, которых уже нет в 1С
+    $query = "SELECT * FROM `temp_docs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_docs` WHERE 1)";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (!is_file('files/catalog/docs/'.$item['filename'])) {
+            continue;
+        }
+        unlink('files/catalog/docs/'.$item['filename']);
+    }
     $query = "DELETE FROM `temp_docs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_docs` WHERE 1)";
     $register->database->execute($query);
     // добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
     $query = "SELECT * FROM `tmp_docs` WHERE `code` NOT IN (SELECT `code` FROM `temp_docs` WHERE 1)";
     $docs = $register->database->fetchAll($query);
     foreach ($docs as $doc) {
+        $src = 'files/catalog/src/docs/'.$doc['filename'];
+        if (!is_file($src)) {
+            continue;
+        }
+        $dst = 'files/catalog/docs/' . strtolower($doc['filename']);
+        copy($src, $dst);
+        $md5 = md5_file($dst);
         $query = "INSERT INTO `temp_docs`
                   (
                       `title`,
@@ -1205,7 +1226,7 @@ function updateTempTables($register) {
                       :title,
                       :filename,
                       :filetype,
-                      '',
+                      :md5,
                       NOW(),
                       :code
                   )";
@@ -1215,6 +1236,7 @@ function updateTempTables($register) {
                 'title' => $doc['title'],
                 'filename' => $doc['filename'],
                 'filetype' => $doc['filetype'],
+                'md5' => $md5,
                 'code' => $doc['code']
             )
         ); 

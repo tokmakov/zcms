@@ -384,6 +384,10 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                     ),
                     $this->enableDataCache
                 );
+                if (empty($res)) {
+                    $params[$i][$j+1] = '';
+                    continue;
+                }
                 if (count($res) > 1) {
                     foreach($res as $item) {
                         $params[$i][$j+1][] = $item['value'];

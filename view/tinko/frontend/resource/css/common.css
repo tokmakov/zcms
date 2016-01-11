@@ -808,7 +808,7 @@ div.attention {
         .products-list-line > div > .product-line-added { /* дата добавления */
             font-size: 10px;
             line-height: 10px;
-            margin-bottom: 3px;
+            margin: 2px 0;
             color: #969696;
             height: 10px;
             overflow: hidden;
