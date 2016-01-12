@@ -20,7 +20,6 @@
  *     [title] => Извещатель пожарный дымовой
  *     [price] => 123.45
  *     [shortdescr] =>
- *     [image] => 8710c4a3ed9f660b5549092b5378c42c.jpg
  *     [ctg_id] => 2
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
@@ -31,12 +30,13 @@
  *     [url] => Array (
  *       [product] => /catalog/product/37
  *       [maker] => /catalog/maker/5
- *       [image] => /files/catalog/products/small/8710c4a3ed9f660b5549092b5378c42c.jpg
+ *       [image] => /files/catalog/imgs/small/8/7/8710c4a3ed9f660b5549092b5378c42c.jpg
  *     )
  *     [action] => Array (
  *       [basket] => /basket/addprd/37
  *       [compare] => /compare/addprd/37
  *       [wished] => /wished/rmvprd/37
+ *       [comment] => /wished/comment
  *     )
  *   )
  *   [1] => Array (
@@ -155,13 +155,19 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div class="product-line-descr"><?php echo $product['shortdescr']; ?></div>
             <div class="product-line-comment">
-                <div>
-                    <span>Комментарий</span>
-                    <span>Сохранить</span>
-                </div>
-                <div>
-                    <textarea name="comment" maxlength="250" data-id="<?php echo $product['id']; ?>" placeholder="Ваш комментарий, чтобы не забыть..."><?php echo htmlspecialchars($product['comment']); ?></textarea>
-                </div>
+                <form action="<?php echo $product['action']['comment']; ?>" method="post">
+                    <div>
+                        <span>Комментарий</span>
+                        <input type="submit" name="submit" value="Сохранить" title="Сохранить комментарий" />
+                    </div>
+                    <div>
+                        <textarea name="comment" maxlength="250" placeholder="Ваш комментарий, чтобы не забыть..."><?php echo htmlspecialchars($product['comment']); ?></textarea>
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
+                        <?php if ($page > 1): ?>
+                            <input type="hidden" name="page" value="<?php echo $page; ?>" />
+                        <?php endif; ?>
+                    </div>
+                </form>
             </div>
         </div>
     <?php endforeach; ?>

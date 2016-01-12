@@ -145,6 +145,8 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
             $products[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
             // атрибут action тега form для удаления товара из списка отложенных
             $products[$key]['action']['wished'] = $this->getURL('frontend/wished/rmvprd');
+            // атрибут action тега form для добавления комментария
+            $products[$key]['action']['comment'] = $this->getURL('frontend/wished/comment');
         }
 
         // удаляем старые товары

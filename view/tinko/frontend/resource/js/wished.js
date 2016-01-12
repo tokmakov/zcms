@@ -1,24 +1,20 @@
 $(document).ready(function() {
-    $('.products-list-line .product-line-comment > div > span:last-child').click(function() {
-        var textarea = $(this).parent().next().children('textarea');
-        var product_id = textarea.data('id');
-        var comment = textarea.val();
-        $.ajax({
-            type: 'POST',
-            url: '/wished/ajax/comment',
-            data: {product_id : product_id, comment : comment},
-            success: function() {
-                textarea.animate(
-                    {opacity: 0.2},
-                    500,
-                    function() {
-                        $(this).animate(
-                            {opacity: 1},
-                            500
-                        );
-                    }
-                );
-            }
-        });
-    })
+    $('.products-list-line .product-line-comment form').ajaxForm({
+        success: function() {
+            // показываем окно с сообщением
+            $('<div>Комментарий к товару сохранен</div>')
+                .prependTo('body')
+                .hide()
+                .addClass('modal-window')
+                .center()
+                .fadeIn(500, function() {
+                    $(this).delay(1000).fadeOut(500, function() {
+                        $(this).remove();
+                    });
+                });
+        },
+        error: function() {
+            alert('Ошибка при добавлении комментария');
+        }
+    });
 });

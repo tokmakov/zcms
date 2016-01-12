@@ -347,7 +347,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'wished/rmvprd',
         // добавить комментарий к товару из списка отложенных
         '~^frontend/wished/comment$~i' =>
-        'wished/ajax/comment',
+        'wished/comment',
 
         /*
          * товары для сравнения
@@ -969,8 +969,8 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // удалить товар из списка отложенных
         '~^wished/rmvprd$~i' =>
         'frontend/wished/rmvprd',
-        // добавить комментарий к товару из списка отложенных, XmlHttpRequest
-        '~^wished/ajax/comment$~i' =>
+        // добавить комментарий к товару из списка отложенных
+        '~^wished/comment$~i' =>
         'frontend/wished/comment',
 
         /*

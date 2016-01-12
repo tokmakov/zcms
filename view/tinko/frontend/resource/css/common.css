@@ -1003,21 +1003,24 @@ div.attention {
             clear: left;
             padding-top: 10px;
         }
-            .products-list-line > div > .product-line-comment > div:first-child {
+            .products-list-line > div > .product-line-comment > form > div:first-child {
                 overflow: hidden;
                 margin-bottom: 3px;
             }
-                .products-list-line > div > .product-line-comment > div:first-child > span:first-child {
+                .products-list-line > div > .product-line-comment > form > div:first-child > span {
                     float: left;
                 }
-                .products-list-line > div > .product-line-comment > div:first-child > span:last-child {
+                .products-list-line > div > .product-line-comment > form > div:first-child > input {
                     float: right;
                     color: #395985;
                     font-size: 13px;
+                    border: none;
                     border-bottom: 1px dashed #395985;
                     cursor: pointer;
+                    background: transparent;
+                    outline: none;
                 }
-                .products-list-line > div > .product-line-comment > div:last-child > textarea {
+                .products-list-line > div > .product-line-comment > form > div:last-child textarea {
                     width: 100%;
                     box-sizing: border-box;
                     border: 1px solid #d1d1d1;
