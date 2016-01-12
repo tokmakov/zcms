@@ -1,8 +1,9 @@
 <?php
 /**
- * Класс Allprof_User_Frontend_Controller формирует страницу со списком всех профилей
- * пользователя (если он авторизован) или перенаправляет на страницу авторизации, получает
- * данные от модели User_Frontend_Model, общедоступная часть сайта
+ * Класс Allprof_User_Frontend_Controller формирует страницу со списком всех
+ * профилей пользователя (если он авторизован) или перенаправляет на страницу
+ * авторизации, получает данные от модели User_Frontend_Model, общедоступная
+ * часть сайта
  */
 class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
 
@@ -18,9 +19,9 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Allprof_User_Frontend_Controller
          */
         parent::input();
@@ -34,8 +35,14 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/index'), 'name' => 'Личный кабинет')
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index'),
+            ),
+            array(
+                'name' => 'Личный кабинет',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/index'),
+            )
         );
 
         // получаем от модели массив профилей пользователя
@@ -45,8 +52,10 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs' => $breadcrumbs, // хлебные крошки
-            'profiles' => $profiles, // массив профилей пользователя
+            // хлебные крошки
+            'breadcrumbs'   => $breadcrumbs,
+            // массив профилей пользователя
+            'profiles'      => $profiles,
             // URL ссылки для добавления нового профиля
             'addProfileUrl' => $this->userFrontendModel->getURL('frontend/user/addprof'),
         );

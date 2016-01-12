@@ -97,7 +97,7 @@ defined('ZCMS') or die('Access denied');
 
     /*
      * $params_values = Array (
-     *   [3] => Array ( // 5 - уникальный id параметра подбора, например, «Объем HDD»
+     *   [5] => Array ( // 5 - уникальный id параметра подбора, например, «Объем HDD»
      *     [0] => 4 // 4 - уникальный id значения параметра подбора, например, «1 Тбайт»
      *     [1] => 5 // 5 - уникальный id значения параметра подбора, например, «2 Тбайт»
      *   )
@@ -123,11 +123,11 @@ defined('ZCMS') or die('Access denied');
             <?php foreach ($allParams as $param): ?>
                 <p><?php echo $param['name']; ?></p>
                 <?php if (!empty($allValues)): ?>
-                    <ul>
+                    <select name="params_values[<?php echo $param['id']; ?>][]" class="params-values" multiple="multiple">
                     <?php foreach ($allValues as $value): ?>
-                        <li><input type="checkbox" name="params_values[<?php echo $param['id']; ?>][<?php echo $value['id']; ?>]"<?php echo (isset($params_values[$param['id']]) && in_array($value['id'], $params_values[$param['id']])) ? ' checked="checked"' : ''; ?> value="1" /> <?php echo $value['name']; ?></li>
+                        <option value="<?php echo $value['id']; ?>"<?php echo (isset($params_values[$param['id']]) && in_array($value['id'], $params_values[$param['id']])) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
                     <?php endforeach; ?>
-                    </ul>
+                    </select>
                 <?php else: ?>
                     <p>Нет значений</p>
                 <?php endif; ?>

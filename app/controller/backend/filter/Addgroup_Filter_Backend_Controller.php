@@ -1,7 +1,7 @@
 <?php
 /**
- * Класс Addgroup_Filter_Backend_Controller формирует страницу с формой для
- * добавления функциональной группы. Получает данные от модели
+ * Класс Addgroup_Filter_Backend_Controller формирует страницу с формой
+ * для добавления функциональной группы. Получает данные от модели
  * Filter_Backend_Model, административная часть сайта
  */
 class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
@@ -19,8 +19,8 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
         /*
          * сначала обращаемся к родительскому классу Filter_Backend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех
-         * его потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Addgroup_Filter_Backend_Controller
          */
         parent::input();
@@ -38,9 +38,18 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->filterBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->filterBackendModel->getURL('backend/filter/index'), 'name' => 'Фильтр'),
-            array('url' => $this->filterBackendModel->getURL('backend/filter/allgroups'), 'name' => 'Группы'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->filterBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Фильтр',
+                'url'  => $this->filterBackendModel->getURL('backend/filter/index')
+            ),
+            array(
+                'name' => 'Группы',
+                'url'  => $this->filterBackendModel->getURL('backend/filter/allgroups')
+            ),
         );
 
         // получаем от модели массив параметров подбора для возможности привязки
@@ -93,8 +102,8 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
             foreach ($_POST['params_values'] as $key => $value) {
                 $data['params_values'][$key] = array();
                 if (is_array($value)) {
-                    foreach ($value as $k => $v) {
-                        $data['params_values'][$key][] = $k;
+                    foreach ($value as $v) {
+                        $data['params_values'][$key][] = $v;
                     }
                 }
             }

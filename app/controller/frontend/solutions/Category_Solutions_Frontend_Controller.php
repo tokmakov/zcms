@@ -53,11 +53,11 @@ class Category_Solutions_Frontend_Controller extends Solutions_Frontend_Controll
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->solutionsFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->solutionsFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Типовые решения',
-                'url' => $this->solutionsFrontendModel->getURL('frontend/solutions/index')
+                'url'  => $this->solutionsFrontendModel->getURL('frontend/solutions/index')
             ),
         );
 

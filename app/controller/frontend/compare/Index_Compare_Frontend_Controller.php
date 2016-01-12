@@ -31,11 +31,11 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->compareFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->compareFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->compareFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->compareFrontendModel->getURL('frontend/catalog/index')
             ),
         );
         

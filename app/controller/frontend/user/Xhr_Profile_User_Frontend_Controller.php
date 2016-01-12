@@ -18,7 +18,7 @@ class Xhr_Profile_User_Frontend_Controller extends User_Frontend_Controller {
     public function request() {
 
         // если пользователь не авторизован
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
         }
@@ -30,7 +30,7 @@ class Xhr_Profile_User_Frontend_Controller extends User_Frontend_Controller {
         }
 
         $profile = $this->userFrontendModel->getProfile($this->params['id']);
-        if (!empty($profile)) {
+        if ( ! empty($profile)) {
             $this->profile = $profile;
         }
 

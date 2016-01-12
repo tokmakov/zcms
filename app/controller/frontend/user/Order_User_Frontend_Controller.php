@@ -18,9 +18,9 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Order_User_Frontend_Controller
          */
         parent::input();
@@ -42,9 +42,18 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/index'), 'name' => 'Личный кабинет'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/allorders'), 'name' => 'История заказов'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Личный кабинет',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/index')
+            ),
+            array(
+                'name' => 'История заказов',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/allorders')
+            ),
         );
 
         // получаем от модели информацию о заказе
@@ -58,8 +67,10 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs' => $breadcrumbs, // хлебные крошки
-            'order' => $order,             // информация о заказе
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
+            // информация о заказе
+            'order'       => $order,
         );
 
     }

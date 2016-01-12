@@ -1,7 +1,8 @@
 <?php
 /**
- * Класс Index_Sale_Frontend_Controller формирует список товаров по сниженным ценам,
- * получает данные от модели Sale_Frontend_Model, общедоступная часть сайта
+ * Класс Index_Sale_Frontend_Controller формирует список товаров по сниженным
+ * ценам, получает данные от модели Sale_Frontend_Model, общедоступная часть
+ * сайта
  */
 class Index_Sale_Frontend_Controller extends Frontend_Controller {
 

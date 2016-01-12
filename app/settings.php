@@ -210,6 +210,7 @@ $settings = array(
             'filter'    => array(
                 'filter.css',
                 'tabs.css',
+                'multi-select.css',
             ),
             'index'     => array(
                 'news.css',
@@ -319,6 +320,10 @@ $settings = array(
                 'blog.js',
             ),
             'catalog'   => 'catalog.js',
+            'filter'    => array(
+                'jquery.multi-select.js',
+                'filter.js',
+            ),
             'menu'      => 'add-edit-menu-item.js',
             'news'      => array(
                 'insert-at-caret.js',

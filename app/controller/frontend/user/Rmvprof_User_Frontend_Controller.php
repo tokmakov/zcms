@@ -17,7 +17,7 @@ class Rmvprof_User_Frontend_Controller extends User_Frontend_Controller {
     protected function input() {
 
         // если пользователь не авторизован, перенаправляем его на страницу авторизации
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
         }
 
