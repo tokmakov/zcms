@@ -131,19 +131,21 @@
                     }
             #add-edit-product > #params > div:last-child > div {
                 float: left;
-                width: 49.8%;
+                width: 49.6%;
                 background: #fff;
                 margin-bottom: 2px;
                 min-height: 65px;
+                padding: 5px;
+                box-sizing: border-box;
             }
             #add-edit-product > #params > div:last-child > div:nth-child(odd) {
-                margin-right: 0.1%;
+                margin-right: 0.2%;
             }
             #add-edit-product > #params > div:last-child > div:nth-child(even) {
-                margin-left: 0.1%;
+                margin-left: 0.2%;
             }
             #add-edit-product > #params > div:last-child > div > p {
-                margin: 5px 0 1px 3px;
+                margin: 0 0 5px 0;
             }
             #add-edit-product > #params > div:last-child > div > ul {
                 list-style: none;

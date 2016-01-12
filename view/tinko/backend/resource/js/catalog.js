@@ -2,22 +2,23 @@ $(document).ready(function() {
 
     /* Форма для добавления/редактирования товара */
 
-    // последняя пустая строка параметров, которую будем клонировать для добавления параметров
+    // последняя пустая строка технических характеристик, которую будем клонировать
+    // для добавления новых технических характеристик
     var lastTechdataRow = $('#add-edit-product #techdata > div:last-child > div:last-child');
-    // скрываем последнюю строку параметров, она только для клонирования
+    // скрываем последнюю строку технических характеристик, она только для клонирования
     lastTechdataRow.hide();
-    // если есть только последняя скрытая строка параметров, добавляем еще одну
+    // если есть только последняя скрытая строка технических характеристик, добавляем еще одну
     if ($('#add-edit-product #techdata > div:last-child > div').size() == 1) {
         lastTechdataRow.clone(true).insertBefore(lastTechdataRow).show();
     }
-    // кнопка для добавления строки параметров
+    // кнопка для добавления строки технических характеристик
     $('#add-edit-product #techdata > div:last-child > div > span:first-of-type').click(function() {
         lastTechdataRow.clone(true).insertAfter($(this).parent()).show();
     });
-    // кнопка для удаления строки параметров
+    // кнопка для удаления строки технических характеристик
     $('#add-edit-product #techdata > div:last-child > div > span:last-of-type').click(function() {
         $(this).parent().remove();
-        // если это была единственная видимая строка параметров, добавляем новую строку
+        // если это была единственная видимая строка технических характеристик, добавляем новую строку
         if ($('#add-edit-product #techdata > div:last-child > div').size() == 1) {
             lastTechdataRow.clone(true).insertBefore(lastTechdataRow).show();
         }
