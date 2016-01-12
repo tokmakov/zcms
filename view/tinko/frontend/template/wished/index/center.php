@@ -28,15 +28,15 @@
  *     [date] => 28.11.2014
  *     [time] => 11:50:36
  *     [url] => Array (
- *       [product] => /catalog/product/37
- *       [maker] => /catalog/maker/5
- *       [image] => /files/catalog/imgs/small/8/7/8710c4a3ed9f660b5549092b5378c42c.jpg
+ *       [product] => http://www.host.ru/catalog/product/37
+ *       [maker] => http://www.host.ru/catalog/maker/5
+ *       [image] => http://www.host.ru/files/catalog/imgs/small/8/7/8710c4a3ed9f660b5549092b5378c42c.jpg
  *     )
  *     [action] => Array (
- *       [basket] => /basket/addprd/37
- *       [compare] => /compare/addprd/37
- *       [wished] => /wished/rmvprd/37
- *       [comment] => /wished/comment
+ *       [basket] => http://www.host.ru/basket/addprd/37
+ *       [compare] => http://www.host.ru/compare/addprd/37
+ *       [wished] => http://www.host.ru/wished/rmvprd/37
+ *       [comment] => http://www.host.ru/wished/comment
  *     )
  *   )
  *   [1] => Array (
@@ -57,17 +57,46 @@
  * )
  *
  * $pager = Array (
- *     [first] => 1
- *     [prev] => 2
- *     [current] => 3
- *     [next] => 4
- *     [last] => 5
- *     [left] => Array (
- *         [0] => 2
+ *   [first] => Array (
+ *     [num] => 1
+ *     [url] => http://www.host.ru/wished
+ *   )
+ *   [prev] => Array (
+ *     [num] => 2
+ *     [url] => http://www.host.ru/wished/page/2
+ *   )
+ *   [current] => Array (
+ *     [num] => 3
+ *     [url] => http://www.host.ru/wished/page/3
+ *   )
+ *   [last] => Array (
+ *     [num] => 32
+ *     [url] => http://www.host.ru/wished/page/12
+ *   )
+ *   [next] => Array (
+ *     [num] => 4
+ *     [url] => http://www.host.ru/wished/page/4
+ *   )
+ *   [left] => Array (
+ *     [0] => Array (
+ *       [num] => 1
+ *       [url] => http://www.host.ru/wished
  *     )
- *     [right] => Array (
- *         [0] => 4
+ *     [1] => Array (
+ *       [num] => 2
+ *       [url] => http://www.host.ru/wished/page/2
  *     )
+ *   )
+ *   [right] => Array (
+ *     [0] => Array (
+ *       [num] => 4
+ *       [url] => http://www.host.ru/wished/page/4
+ *     )
+ *     [1] => Array (
+ *       [num] => 5
+ *       [url] => http://www.host.ru/wished/page/5
+ *     )
+ *   )
  * )
  *
  */

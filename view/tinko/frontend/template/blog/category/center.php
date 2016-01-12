@@ -21,7 +21,7 @@
  *     [ctg_id] => 1
  *     [ctg_name] => Новости компании
  *     [url] => Array (
- *       [item] => http://www.host.ru/blog/post/7
+ *       [post] => http://www.host.ru/blog/post/7
  *       [image] => http://www.host.ru/files/blog/thumb/7.jpg
  *     )
  *   )
@@ -34,7 +34,7 @@
  *     [ctg_id] => 1
  *     [ctg_name] => Новости компании
  *     [url] => Array (
- *       [item] => http://www.host.ru/blog/item/6
+ *       [post] => http://www.host.ru/blog/item/6
  *       [image] => http://www.host.ru/files/blog/thumb/6.jpg
  *     )
  *   )
@@ -175,5 +175,3 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/blog/category/center.php -->
-
-

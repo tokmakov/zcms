@@ -19,7 +19,6 @@
  *     [title] => Извещатель пожарный дымовой
  *     [price] => 123.45
  *     [shortdescr] =>
- *     [image] => 8710c4a3ed9f660b5549092b5378c42c.jpg
  *     [hit] => 0
  *     [new] => 1
  *     [ctg_id] => 2
@@ -30,14 +29,14 @@
  *     [date] => 28.11.2014
  *     [time] => 11:50:36
  *     [url] => Array (
- *       [product] => /catalog/product/37
- *       [maker] => /catalog/maker/5
- *       [image] => /files/catalog/products/small/8710c4a3ed9f660b5549092b5378c42c.jpg
+ *       [product] => http://www.host.ru/catalog/product/37
+ *       [maker] => http://www.host.ru/catalog/maker/5
+ *       [image] => http://www.host.ru/files/catalog/products/small/8710c4a3ed9f660b5549092b5378c42c.jpg
  *     )
  *     [action] => Array (
- *       [basket] => /basket/addprd/37
- *       [compare] => /compare/addprd/37
- *       [wished] => /wished/addprd/37
+ *       [basket] => http://www.host.ru/basket/addprd/37
+ *       [compare] => http://www.host.ru/compare/addprd/37
+ *       [wished] => http://www.host.ru/wished/addprd/37
  *     )
  *   )
  *   [1] => Array (
@@ -58,17 +57,46 @@
  * )
  *
  * $pager = Array (
- *     [first] => 1
- *     [prev] => 2
- *     [current] => 3
- *     [next] => 4
- *     [last] => 5
- *     [left] => Array (
- *         [0] => 2
+ *   [first] => Array (
+ *     [num] => 1
+ *     [url] => http://www.host.ru/viewed
+ *   )
+ *   [prev] => Array (
+ *     [num] => 2
+ *     [url] => http://www.host.ru/viewed/page/2
+ *   )
+ *   [current] => Array (
+ *     [num] => 3
+ *     [url] => http://www.host.ru/viewed/page/3
+ *   )
+ *   [last] => Array (
+ *     [num] => 32
+ *     [url] => http://www.host.ru/viewed/page/12
+ *   )
+ *   [next] => Array (
+ *     [num] => 4
+ *     [url] => http://www.host.ru/viewed/page/4
+ *   )
+ *   [left] => Array (
+ *     [0] => Array (
+ *       [num] => 1
+ *       [url] => http://www.host.ru/viewed
  *     )
- *     [right] => Array (
- *         [0] => 4
+ *     [1] => Array (
+ *       [num] => 2
+ *       [url] => http://www.host.ru/viewed/page/2
  *     )
+ *   )
+ *   [right] => Array (
+ *     [0] => Array (
+ *       [num] => 4
+ *       [url] => http://www.host.ru/viewed/page/4
+ *     )
+ *     [1] => Array (
+ *       [num] => 5
+ *       [url] => http://www.host.ru/viewed/page/5
+ *     )
+ *   )
  * )
  *
  */

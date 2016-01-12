@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Comment_Wished_Frontend_Controller отвечает за добавление комментария к
- * отложенному товару, взаимодействует с моделью Wished_Frontend_Model, общедоступная
- * часть сайта
+ * Класс Comment_Wished_Frontend_Controller отвечает за добавление комментария
+ * к отложенному товару, взаимодействует с моделью Wished_Frontend_Model,
+ * общедоступная часть сайта
  */
 class Comment_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
@@ -39,12 +39,11 @@ class Comment_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         // добавляем комментарий
         $this->wishedFrontendModel->addComment($product_id, $comment);
 
+        // редирект обратно на страницу со списком отложенных товаров
         $url = 'frontend/wished/index';
-
         if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
             $url = $url . '/page/' . $_POST['page'];
         }
-
         $this->redirect($this->wishedFrontendModel->getURL($url));
 
     }

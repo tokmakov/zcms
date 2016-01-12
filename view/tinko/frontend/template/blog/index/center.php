@@ -6,7 +6,7 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $news - массив новостей
+ * $news - массив всех постов блога
  * $pager - постраничная навигация
  *
  * $news = Array (
@@ -19,7 +19,7 @@
  *     [ctg_id] => 1
  *     [ctg_name] => Новости компании
  *     [url] => Array (
- *       [item] => http://www.host.ru/blog/post/7
+ *       [post] => http://www.host.ru/blog/post/7
  *       [image] => http://www.host.ru/files/blog/thumb/7.jpg
  *       [category] => http://www.host.ru/blog/category/1
  *     )
@@ -30,12 +30,12 @@
  *     [excerpt] => Представляем усовершенствованную модель моноблока речевого оповещения Соната-К-120М...
  *     [date] => 29.11.2014
  *     [time] => 15:10:28
- *     [ctg_id] => 1
- *     [ctg_name] => Новости компании
+ *     [ctg_id] => 2
+ *     [ctg_name] => События отрасли
  *     [url] => Array (
- *       [item] => http://www.host.ru/blog/post/6
+ *       [post] => http://www.host.ru/blog/post/6
  *       [image] => http://www.host.ru/files/blog/thumb/6.jpg
- *       [category] => http://www.host.ru/blog/category/1
+ *       [category] => http://www.host.ru/blog/category/2
  *     )
  *   )
  *   [2] => Array (
