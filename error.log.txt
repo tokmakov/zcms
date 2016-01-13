@@ -12,3 +12,29 @@
 #7 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #8 {main}
 
+13.01.2016 09:16:58
+Код: 0, текст: Файл view/tinko/backend/resource/css/multi-select.css не найден
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 327
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(258): Base_Controller->setCssJsFiles('filter')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(189): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\backend\filter\Filter_Backend_Controller.php(25): Backend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\backend\filter\Index_Filter_Backend_Controller.php(26): Filter_Backend_Controller->input()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Filter_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#7 {main}
+
+13.01.2016 09:17:07
+Код: 0, текст: Файл view/tinko/backend/resource/css/multi-select.css не найден
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 327
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(258): Base_Controller->setCssJsFiles('filter')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(189): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\backend\filter\Filter_Backend_Controller.php(25): Backend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\backend\filter\Index_Filter_Backend_Controller.php(26): Filter_Backend_Controller->input()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Filter_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#7 {main}
+

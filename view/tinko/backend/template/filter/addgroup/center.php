@@ -27,6 +27,7 @@
  *     [id] => 9
  *     [name] => Цветная или черно-белая
  *   )
+ *   ..........
  * )
  *
  * $allValues = Array (
@@ -58,6 +59,7 @@
  *     [id] => 7
  *     [name] => черно-белая
  *   )
+ *   ..........
  * )
  */
 
@@ -87,12 +89,12 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name = '';
-    $params_values = array();
+    $name          = '';
+    $linked_params = array();
 
     if (isset($savedFormData)) {
-        $name          = htmlspecialchars($savedFormData['name']);
-        $params_values = $savedFormData['params_values'];
+        $name = htmlspecialchars($savedFormData['name']);
+        $linked_params = $savedFormData['linked_params'];
     }
 
     /*
@@ -119,24 +121,40 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Параметры</div>
         <div>
-        <?php if (!empty($allParams)): ?>
+        <?php if ( ! empty($allParams)): ?>
+            <select name="new_params[]" class="params-values" multiple="multiple">
             <?php foreach ($allParams as $param): ?>
-                <p><?php echo $param['name']; ?></p>
-                <?php if (!empty($allValues)): ?>
-                    <select name="params_values[<?php echo $param['id']; ?>][]" class="params-values" multiple="multiple">
-                    <?php foreach ($allValues as $value): ?>
-                        <option value="<?php echo $value['id']; ?>"<?php echo (isset($params_values[$param['id']]) && in_array($value['id'], $params_values[$param['id']])) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
-                    <?php endforeach; ?>
-                    </select>
-                <?php else: ?>
-                    <p>Нет значений</p>
-                <?php endif; ?>
+                <option value="<?php echo $param['id']; ?>"><?php echo $param['name']; ?></option>
             <?php endforeach; ?>
+            </select>
         <?php else: ?>
             <p>Нет параметров</p>
         <?php endif; ?>
         </div>
     </div>
+    <div>
+        <div></div>
+        <div><input type="submit" name="params" value="Добавить" /></div>
+    </div>
+    <?php if ( ! empty($linked_params)): ?>
+    <div>
+        <div>Значения параметров</div>
+        <div>
+        <?php foreach ($linked_params as $param): ?>
+            <p><?php echo $param['name']; ?></p>
+            <?php if ( ! empty($allValues)): ?>
+                <select name="params_values[<?php echo $param['id']; ?>][]" class="params-values" multiple="multiple">
+                <?php foreach ($allValues as $value): ?>
+                    <option value="<?php echo $value['id']; ?>"<?php echo in_array($value['id'], $param['ids']) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
+                <?php endforeach; ?>
+                </select>
+            <?php else: ?>
+                <p>Нет значений</p>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
     <div>
         <div></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>
