@@ -168,100 +168,42 @@ class Filter_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Возвращает информацию о функциональной группе с уникальным идентификатором
-     * $id: наименование и массив идентификаторов параметров, привязанных к группе
-     * и массивы привязанных к параметрам значений
+     * Возвращает наименование функциональной группеы с уникальным идентификатором $id
      */
-    public function getGroup($id) {
+    public function getGroupName($id) {
+
         $query = "SELECT
                       `name`
                   FROM
                       `groups`
                   WHERE
                       `id` = :group_id";
-        $result = $this->database->fetchOne($query, array('group_id' => $id));
-        if (false === $result) {
-            return null;
-        }
-        $group['name'] = $result;
-        $query = "SELECT
-                      `param_id`, GROUP_CONCAT(`value_id`) AS `ids`
-                  FROM
-                      `group_param_value`
-                  WHERE
-                      `group_id` = :group_id
-                  GROUP BY
-                      `param_id`";
-        $result = $this->database->fetchAll($query, array('group_id' => $id));
-        $group['params_values'] = array();
-        foreach ($result as $item) {
-            $group['params_values'][$item['param_id']] = explode(',', $item['ids']);
-        }
-        return $group;
+        return $this->database->fetchOne($query, array('group_id' => $id));
+
     }
 
     /**
-     * Функция возвращает массив параметров, привязанных к группе $id и массивы
-     * привязанных к этим параметрам значений
+     * Возвращает массив идентификаторов параметров, привязанных к функциональной
+     * группе с идентификатором $id и массивы привязанных к этим параметрам значений
      */
     public function getGroupParams($id) {
-        if (0 == $id) {
-            return array();
-        }
+
         $query = "SELECT
-                      `a`.`id` AS `param_id`, `a`.`name` AS `param_name`,
-                      `c`.`id` AS `value_id`, `c`.`name` AS `value_name`
+                      `a`.`param_id` AS `id`, `b`.`name` AS `name`,
+                      GROUP_CONCAT(`value_id`) AS `ids`
                   FROM
-                      `params` `a`
-                      INNER JOIN `group_param_value` `b` ON `a`.`id` = `b`.`param_id`
-                      INNER JOIN `values` `c` ON `b`.`value_id` = `c`.`id`
+                      `group_param_value` `a` INNER JOIN `params` `b`
+                      ON `a`.`param_id` = `b`.`id`
                   WHERE
-                      `b`.`group_id` = :group_id
-                  ORDER BY
-                      `param_name`, `value_name`";
-        $result = $this->database->fetchAll($query, array('group_id' => $id));
-
-        $params = array();
-        $param_id = 0;
-        $counter = -1;
-        foreach ($result as $value) {
-            if ($param_id != $value['param_id']) {
-                $counter++;
-                $param_id = $value['param_id'];
-                $params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
-            }
-            $params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name']);
-        }
-
-        return $params;
-    }
-
-    /**
-     * Функция возвращает массив параметров, привязанных к товару $id и массивы
-     * привязанных к этим параметрам значений
-     */
-    public function getProductParams($id) {
-        if (0 == $id) {
-            return array();
-        }
-        $query = "SELECT
-                      `a`.`id` AS `param_id`, GROUP_CONCAT(`b`.`id`) AS `ids`
-                  FROM
-                      `product_param_value` `c`
-                      INNER JOIN `params` `a` ON `c`.`param_id` = `a`.`id`
-                      INNER JOIN `values` `b` ON `c`.`value_id` = `b`.`id`
-                  WHERE
-                      `c`.`product_id` = :product_id
+                      `a`.`group_id` = :group_id
                   GROUP BY
-                      `a`.`id`
-                  ORDER BY
-                      `a`.`name`, `b`.`name`";
-        $result = $this->database->fetchAll($query, array('product_id' => $id));
-        $params = array();
-        foreach ($result as $item) {
-            $params[$item['param_id']] = explode(',', $item['ids']);
+                      1, 2";
+        $result = $this->database->fetchAll($query, array('group_id' => $id));
+        foreach ($result as $key => $value) {
+            $result[$key]['ids'] = explode(',', $value['ids']);
         }
-        return $params;
+        return $result;
+
     }
 
     /**

@@ -338,7 +338,7 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             // если была выбрана новая функциональная группа, мы должны получить от
             // модели массив параметров, привязанных к новой группе, массивы привязанных
             // к этим параметрам значений и передать эти данные в шаблон
-            $data['allParams'] = $this->filterBackendModel->getGroupParams($data['group']);
+            $data['allParams'] = $this->catalogBackendModel->getGroupParams($data['group']);
             // сохраняем введенные администратором данные в сессии
             $this->setSessionData('editCatalogProductForm', $data);
             return false;

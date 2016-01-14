@@ -10,7 +10,7 @@
  * $name - наименование группы
  * $allParams - массив всех параметров подбора
  * $allValues - массив всех значений параметров подбора
- * $params_values - массив привязанных к группе параметров подбора и привязанных к параметрам значений
+ * $linked_params - массив привязанных к группе параметров подбора и привязанных к параметрам значений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках
@@ -62,15 +62,23 @@
  *   )
  * )
  *
- * $params_values = Array (
- *   [5] => Array ( // 5 - уникальный id параметра подбора, например, «Объем HDD»
- *     [0] => 4 // 4 - уникальный id значения параметра подбора, например, «1 Тбайт»
- *     [1] => 5 // 5 - уникальный id значения параметра подбора, например, «2 Тбайт»
+ * $linked_params = Array (
+ *   [0] => Array (
+ *     [id] => 7
+ *     [name] => Напряжение питания
+ *     [ids] => Array (
+ *       [0] => 1 // идентификатор значения параметра «12 Вольт»
+ *       [1] => 3 // идентификатор значения параметра «220 Вольт»
+ *       [2] => 2 // идентификатор значения параметра «24 Вольт»
+ *     )
  *   )
- *   [7] => Array ( // 7 - уникальный id параметра подбора, например, «Напряжение питания»
- *     [0] => 1 // 1 - уникальный id значения параметра подбора,например,  «12 Вольт»
- *     [1] => 3 // 3 - уникальный id значения параметра подбора, например, «220 Вольт»
- *     [2] => 2 // 2 - уникальный id значения параметра подбора, например, «24 Вольт»
+ *   [1] => Array (
+ *     [id] => 9
+ *     [name] => Цветная или черно-белая
+ *     [ids] => Array (
+ *       [0] => 6 // идентификатор значения параметра «цветная»
+ *       [1] => 7 // идентификатор значения параметра «черно-белая»
+ *     )
  *   )
  * )
  */
@@ -90,7 +98,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Редактирование группы</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
@@ -105,7 +113,7 @@ defined('ZCMS') or die('Access denied');
 
     if (isset($savedFormData)) {
         $name          = htmlspecialchars($savedFormData['name']);
-        $params_values = $savedFormData['params_values'];
+        $linked_params = $savedFormData['linked_params'];
     }
 ?>
 
@@ -118,24 +126,40 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Параметры</div>
         <div>
-        <?php if (!empty($allParams)): ?>
-            <?php foreach ($allParams as $param): ?>
-                <p><?php echo $param['name']; ?></p>
-                <?php if (!empty($allValues)): ?>
-                    <select name="params_values[<?php echo $param['id']; ?>][]" class="params-values" multiple="multiple">
-                    <?php foreach ($allValues as $value): ?>
-                        <option value="<?php echo $value['id']; ?>"<?php echo (isset($params_values[$param['id']]) && in_array($value['id'], $params_values[$param['id']])) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
+            <?php if ( ! empty($allParams)): ?>
+                <select name="new_params[]" class="items-multi-select" multiple="multiple">
+                    <?php foreach ($allParams as $param): ?>
+                        <option value="<?php echo $param['id']; ?>"><?php echo $param['name']; ?></option>
                     <?php endforeach; ?>
-                    </select>
-                <?php else: ?>
-                    <p>Нет значений</p>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Нет параметров</p>
-        <?php endif; ?>
+                </select>
+            <?php else: ?>
+                <p>Нет параметров</p>
+            <?php endif; ?>
         </div>
     </div>
+    <div>
+        <div></div>
+        <div><input type="submit" name="params" value="Добавить" /></div>
+    </div>
+    <?php if ( ! empty($linked_params)): ?>
+        <div>
+            <div>Значения параметров</div>
+            <div>
+                <?php foreach ($linked_params as $param): ?>
+                    <p><?php echo $param['name']; ?></p>
+                    <?php if ( ! empty($allValues)): ?>
+                        <select name="params_values[<?php echo $param['id']; ?>][]" class="items-multi-select" multiple="multiple">
+                            <?php foreach ($allValues as $value): ?>
+                                <option value="<?php echo $value['id']; ?>"<?php echo in_array($value['id'], $param['ids']) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php else: ?>
+                        <p>Нет значений</p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <div>
         <div></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>

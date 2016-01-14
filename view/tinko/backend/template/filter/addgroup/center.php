@@ -78,7 +78,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Новая группа</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
@@ -98,15 +98,23 @@ defined('ZCMS') or die('Access denied');
     }
 
     /*
-     * $params_values = Array (
-     *   [5] => Array ( // 5 - уникальный id параметра подбора, например, «Объем HDD»
-     *     [0] => 4 // 4 - уникальный id значения параметра подбора, например, «1 Тбайт»
-     *     [1] => 5 // 5 - уникальный id значения параметра подбора, например, «2 Тбайт»
+     * $linked_params = Array (
+     *   [0] => Array (
+     *     [id] => 7
+     *     [name] => Напряжение питания
+     *     [ids] => Array (
+     *       [0] => 1 // идентификатор значения параметра «12 Вольт»
+     *       [1] => 3 // идентификатор значения параметра «220 Вольт»
+     *       [2] => 2 // идентификатор значения параметра «24 Вольт»
+     *     )
      *   )
-     *   [7] => Array ( // 7 - уникальный id параметра подбора, например, «Напряжение питания»
-     *     [0] => 1 // 1 - уникальный id значения параметра подбора,например,  «12 Вольт»
-     *     [1] => 3 // 3 - уникальный id значения параметра подбора, например, «220 Вольт»
-     *     [2] => 2 // 2 - уникальный id значения параметра подбора, например, «24 Вольт»
+     *   [1] => Array (
+     *     [id] => 9
+     *     [name] => Цветная или черно-белая
+     *     [ids] => Array (
+     *       [0] => 6 // идентификатор значения параметра «цветная»
+     *       [1] => 7 // идентификатор значения параметра «черно-белая»
+     *     )
      *   )
      * )
      */
@@ -122,7 +130,7 @@ defined('ZCMS') or die('Access denied');
         <div>Параметры</div>
         <div>
         <?php if ( ! empty($allParams)): ?>
-            <select name="new_params[]" class="params-values" multiple="multiple">
+            <select name="new_params[]" class="items-multi-select" multiple="multiple">
             <?php foreach ($allParams as $param): ?>
                 <option value="<?php echo $param['id']; ?>"><?php echo $param['name']; ?></option>
             <?php endforeach; ?>
@@ -143,7 +151,7 @@ defined('ZCMS') or die('Access denied');
         <?php foreach ($linked_params as $param): ?>
             <p><?php echo $param['name']; ?></p>
             <?php if ( ! empty($allValues)): ?>
-                <select name="params_values[<?php echo $param['id']; ?>][]" class="params-values" multiple="multiple">
+                <select name="params_values[<?php echo $param['id']; ?>][]" class="items-multi-select" multiple="multiple">
                 <?php foreach ($allValues as $value): ?>
                     <option value="<?php echo $value['id']; ?>"<?php echo in_array($value['id'], $param['ids']) ? ' selected="selected"' : ''; ?>><?php echo $value['name']; ?></option>
                 <?php endforeach; ?>
@@ -157,7 +165,7 @@ defined('ZCMS') or die('Access denied');
     <?php endif; ?>
     <div>
         <div></div>
-        <div><input type="submit" name="submit" value="Сохранить" /></div>
+        <div><input type="submit" name="submit" value="Сохранить"<?php echo empty($linked_params) ? ' disabled="disabled"' : ''; ?> /></div>
     </div>
 </div>
 </form>

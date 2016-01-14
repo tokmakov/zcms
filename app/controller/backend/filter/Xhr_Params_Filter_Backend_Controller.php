@@ -34,11 +34,11 @@ class Xhr_Params_Filter_Backend_Controller extends Filter_Backend_Controller {
 
         // получаем от модели массив параметров, привязанных к группе и массивы
         // привязанных к этим параметрам значений
-        $allParams = $this->filterBackendModel->getGroupParams($group);
+        $allParams = $this->catalogBackendModel->getGroupParams($group);
 
         // получаем от модели массив параметров, привязанных к товару и массивы
         // привязанных к этим параметрам значений
-        $params = $this->filterBackendModel->getProductParams($product);
+        $params = $this->catalogBackendModel->getProductParams($product);
 
         // формируем HTML
         $this->output = $this->render(

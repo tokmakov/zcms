@@ -523,6 +523,70 @@ class Catalog_Backend_Model extends Backend_Model {
     }
 
     /**
+     * Функция возвращает массив параметров, привязанных к группе $id и массивы
+     * привязанных к этим параметрам значений
+     */
+    public function getGroupParams($id) {
+        if (0 == $id) {
+            return array();
+        }
+        $query = "SELECT
+                      `a`.`id` AS `param_id`, `a`.`name` AS `param_name`,
+                      `c`.`id` AS `value_id`, `c`.`name` AS `value_name`
+                  FROM
+                      `params` `a`
+                      INNER JOIN `group_param_value` `b` ON `a`.`id` = `b`.`param_id`
+                      INNER JOIN `values` `c` ON `b`.`value_id` = `c`.`id`
+                  WHERE
+                      `b`.`group_id` = :group_id
+                  ORDER BY
+                      `param_name`, `value_name`";
+        $result = $this->database->fetchAll($query, array('group_id' => $id));
+
+        $params = array();
+        $param_id = 0;
+        $counter = -1;
+        foreach ($result as $value) {
+            if ($param_id != $value['param_id']) {
+                $counter++;
+                $param_id = $value['param_id'];
+                $params[$counter] = array('id' => $value['param_id'], 'name' => $value['param_name']);
+            }
+            $params[$counter]['values'][] = array('id' => $value['value_id'], 'name' => $value['value_name']);
+        }
+
+        return $params;
+    }
+
+    /**
+     * Функция возвращает массив параметров, привязанных к товару $id и массивы
+     * привязанных к этим параметрам значений
+     */
+    public function getProductParams($id) {
+        if (0 == $id) {
+            return array();
+        }
+        $query = "SELECT
+                      `a`.`id` AS `param_id`, GROUP_CONCAT(`b`.`id`) AS `ids`
+                  FROM
+                      `product_param_value` `c`
+                      INNER JOIN `params` `a` ON `c`.`param_id` = `a`.`id`
+                      INNER JOIN `values` `b` ON `c`.`value_id` = `b`.`id`
+                  WHERE
+                      `c`.`product_id` = :product_id
+                  GROUP BY
+                      `a`.`id`
+                  ORDER BY
+                      `a`.`name`, `b`.`name`";
+        $result = $this->database->fetchAll($query, array('product_id' => $id));
+        $params = array();
+        foreach ($result as $item) {
+            $params[$item['param_id']] = explode(',', $item['ids']);
+        }
+        return $params;
+    }
+
+    /**
      * Функция загружает файл изображения товара с уникальным идентификатором $id
      */
     private function uploadProductImage($id) {

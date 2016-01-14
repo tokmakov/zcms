@@ -102,6 +102,8 @@
     #add-edit-group > div {
         overflow: hidden;
         margin-bottom: 10px;
+        background: #fafafa;
+        padding: 7px 10px;
     }
         #add-edit-group > div > div:first-child {
             float: left;
@@ -117,13 +119,15 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
-            #add-edit-group > div > div:last-child > ul {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                column-count: 2;
+            #add-edit-group > div > div:last-child > p {
+                margin: 10px 0 3px 0;
+            }
+            #add-edit-group > div > div:last-child > p:first-of-type {
+                margin-top: 0;
+            }
+            #add-edit-group > div > div:last-child > input[disabled="disabled"] {
+                background: #969696;
+                border: 1px solid #969696;
             }
 
 /* форма для добавления/редактирования параметра подбора */
