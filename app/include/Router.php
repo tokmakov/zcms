@@ -290,7 +290,7 @@ class Router {
 
     private function URL($path) {
         $sef2cap = $this->config->sef->sef2cap;
-        foreach($sef2cap as $key => $value) {
+        foreach ($sef2cap as $key => $value) {
             if (preg_match($key, $path)) {
                 return preg_replace($key, $value, $path);
             }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Абстрактный класс Menu_Backend_Controller, родительский для всех контроллеров,
+ * Абстрактный класс Admin_Backend_Controller, родительский для всех контроллеров,
  * работающих с администратором сайта, административная часть сайта
  */
 abstract class Admin_Backend_Controller extends Base_Controller {
@@ -8,6 +8,7 @@ abstract class Admin_Backend_Controller extends Base_Controller {
     /**
      * экземпляр класса модели для работы с администратором сайта
      */
+    // TODO: разобраться с этим классом
     protected $adminBackendModel;
 
     /**
