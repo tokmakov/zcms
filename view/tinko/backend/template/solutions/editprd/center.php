@@ -49,6 +49,11 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
+    $heading    = htmlspecialchars($heading);
+    $code       = htmlspecialchars($code);
+    $name       = htmlspecialchars($name);
+    $title      = htmlspecialchars($title);
+    $shortdescr = htmlspecialchars($shortdescr);
     if (isset($savedFormData)) {
         $heading    = htmlspecialchars($savedFormData['heading']);
         $code       = htmlspecialchars($savedFormData['code']);
