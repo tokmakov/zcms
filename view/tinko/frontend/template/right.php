@@ -15,6 +15,7 @@
  * $clearCompareURL - URL ссылки для удаления всех товаров из сравнения
  * $viewedProducts - массив последних 10 просмотренных товаров
  * $viewedURL - URL страницы со списком всех просмотренных товаров
+ * $banners - массив баннеров
  *
  * $authUser - пользователь авторизован?
  *  - если авторизован, доступны переменные
@@ -194,10 +195,11 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<div id="side-banner">
-    <a href=""><img src="/files/banner/banner-1.jpg" alt="" /></a>
-    <a href=""><img src="/files/banner/banner-2.jpg" alt="" /></a>
-    <a href=""><img src="/files/banner/banner-3.jpg" alt="" /></a>
-</div>
-
+<?php if (!empty($banners)): ?>
+    <div id="side-banner">
+    <?php foreach ($banners as $banner): ?>
+        <a href="<?php echo $banner['url']; ?>"><img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['alttext']; ?>" /></a>
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 <!-- Конец шаблона view/example/frontend/template/right.php -->

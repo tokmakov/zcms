@@ -135,7 +135,7 @@ class Banner_Backend_Model extends Backend_Model {
                         $_FILES['image']['tmp_name'],
                         'files/banner/'. $id . '.jpg',
                         250,
-                        250,
+                        0,
                         'jpg'
                     );
                 }

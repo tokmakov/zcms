@@ -156,8 +156,6 @@ class FCache {
      * Функция очищает кэш, удаляя все сохраненные данные
      */
     public function clearCache() {
-        $count = 0;
-        $size = 0;
         $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
         foreach ($dirs as $dir1) {
             foreach($dirs as $dir2) {

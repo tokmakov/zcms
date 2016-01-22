@@ -38,6 +38,11 @@ abstract class Frontend_Controller extends Base_Controller {
      */
 
     /**
+     * экземпляр класса модели для работы с баннерами
+     */
+    protected $bannerFrontendModel;
+
+    /**
      * экземпляр класса модели для работы с корзиной
      */
     protected $basketFrontendModel;
@@ -123,6 +128,10 @@ abstract class Frontend_Controller extends Base_Controller {
         /*
          * Все модели, которые нужны для работы
          */
+
+        // экземпляр класса модели для работы с баннерами
+        $this->bannerFrontendModel =
+            isset($this->register->bannerFrontendModel) ? $this->register->bannerFrontendModel : new Banner_Frontend_Model();
 
         // экземпляр класса модели для работы с корзиной
         $this->basketFrontendModel =
@@ -320,6 +329,8 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->rightVars['viewedProducts']   = $sideViewedProducts;
         // URL ссылки на страницу просмотренных товаров
         $this->rightVars['viewedURL']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
+        // массив баннеров
+        $this->rightVars['banners']          = $this->bannerFrontendModel->getBanners();
 
         /*
          * массив переменных, которые будут переданы в шаблон footer.php

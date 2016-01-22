@@ -52,3 +52,6 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-banners > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }

@@ -329,7 +329,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <select name="group">
                             <option value="0">Выберите</option>
                             <?php foreach ($groups as $item): ?>
-                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
+                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                         </span>
@@ -344,7 +344,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <select name="maker">
                             <option value="0">Выберите</option>
                             <?php foreach ($makers as $item): ?>
-                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?> [<?php echo $item['count']; ?>]</option>
+                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo $item['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                         </span>
@@ -363,7 +363,7 @@ for ($i = 0; $i <= 6; $i++) {
                                     <option value="0">Выберите</option>
                                     <?php foreach ($item['values'] as $value): ?>
                                         <?php $selected = isset($param[$item['id']]) && $param[$item['id']] == $value['id']; ?>
-                                        <option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?> [<?php echo $value['count']; ?>]</option>
+                                        <option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']); ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 </span>

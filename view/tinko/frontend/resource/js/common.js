@@ -251,6 +251,8 @@ $(document).ready(function() {
      */
     $('#category-filters form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
+    $('#category-filters form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+    $('#category-filters form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
     $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
 
     /*
@@ -611,6 +613,8 @@ function filterSelectHandler() {
             $('#category-childs > div:last-child').html(dt.childs);
             // второй блок: фильтр по функционалу, производителю и параметрам
             $('#category-filters form > div:first-child').html(dt.filters);
+            $('#category-filters form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+            $('#category-filters form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
             // третий блок: товары выбранной категории
             $('#category-products').html(dt.products);
 

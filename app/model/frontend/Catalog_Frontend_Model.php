@@ -1215,7 +1215,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__;
+        $key = __METHOD__ . '()-limit-' . $limit;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции

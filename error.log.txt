@@ -12,3 +12,30 @@
 #7 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #8 {main}
 
+22.01.2016 17:34:27
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.product_param_value' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(773): Database->fetchAll('SELECT\r\n       ...')
+#3 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(723): Catalog_Frontend_Model->groupParams(3, 306, 0, 0, 0, Array)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(73): Catalog_Frontend_Model->getGroupParams(3, 306, 0, 0, 0, Array)
+#5 C:\work\localhost2\www\index.php(52): Xhr_Category_Catalog_Frontend_Controller->request()
+#6 {main}
+
+22.01.2016 17:34:37
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.wished' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(203): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(167): Wished_Frontend_Model->sideWishedProducts()
+#4 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(278): Wished_Frontend_Model->getSideWishedProducts()
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Catalog_Frontend_Controller.php(25): Frontend_Controller->input()
+#6 C:\work\localhost2\www\app\controller\frontend\catalog\Index_Catalog_Frontend_Controller.php(26): Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Catalog_Frontend_Controller->input()
+#8 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#9 {main}
+

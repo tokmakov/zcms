@@ -31,7 +31,7 @@ abstract class Backend_Model extends Base_Model {
         // getimagesize, и выбираем соответствующую формату imagecreatefrom-функцию
         $format = strtolower(substr($size['mime'], strpos($size['mime'], '/')+1));
         // если ширина и высота изображения уже имеют нужное значение
-        if ($size[0] == $width && $size[1] == $height) {
+        if (($size[0] == $width && $size[1] == $height) || ($size[0] == $width && 0 == $height)) {
             if (empty($res) || $res == $format) {
                 copy($src, $dst);
                 return true;

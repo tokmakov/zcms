@@ -34,7 +34,7 @@ if (is_file('temp/makers.txt')) {
     unlink('temp/makers.txt');
 }
 
-parseXML($register);
+// parseXML($register);
 updateTempTables($register);
 updateWorkTables($register);
 
@@ -129,7 +129,7 @@ function parseXML($register) {
         $query = "SELECT 1 FROM `tmp_values` WHERE `name` = :name";
         $res = $register->database->fetchOne($query, array('name' => $data['name']));
         if ($res) {
-            file_put_contents('temp/errors.txt', 'Дублирование значения параметра параметра «'.$data['name'].'»'.PHP_EOL, FILE_APPEND);
+            // file_put_contents('temp/errors.txt', 'Дублирование значения параметра параметра «'.$data['name'].'»'.PHP_EOL, FILE_APPEND);
         }
         $query = "INSERT INTO `tmp_values`
                   (
@@ -328,12 +328,38 @@ function parseXML($register) {
         $data['equipment'] = trim($product->equipment);
         // доп.информация
         $data['padding'] = trim($product->padding);
+
+        // ЭТОТ КОД ПОТОМ УДАЛИТЬ
+        $name = strtoupper(md5($data['code']));
+        $name = $name[0] . '/' . $name[1] . '/' . $name;
+        $image = false;
+        $data['image'] = '';
+        if (is_file('files/catalog/src/temp/'.$data['code'].'.jpeg')) {
+            $name = $name . '.jpg';
+            copy('files/catalog/src/temp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if (is_file('files/catalog/src/temp/'.$data['code'].'.png')) {
+            $name = $name . '.png';
+            copy('files/catalog/src/temp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if (is_file('files/catalog/src/temp/'.$data['code'].'.gif')) {
+            $name = $name . '.gif';
+            copy('files/catalog/src/temp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if ($image) {
+            $data['image'] = $name;
+        }
         // фото
+        /*
         $data['image'] = '';
         if (!empty($product->image)) {
             $temp = $product->image;
             $data['image'] = $temp[0] . '/' . $temp[1] . '/' . $temp;
         }
+        */
         
         // параметры подбора
         foreach ($product->params->param as $param) {
@@ -615,6 +641,14 @@ function updateTempTables($register) {
         updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
         $i++;
     }
+    $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
+    $register->database->execute($query, array('name' => 'Охранно-пожарная сигнализация', 'id' => 3));
+    $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
+    $register->database->execute($query, array('name' => 'Охранное телевидение', 'id' => 185));
+    $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
+    $register->database->execute($query, array('name' => 'Контроль и управление доступом', 'id' => 651));
+    $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
+    $register->database->execute($query, array('name' => 'Оповещение и музыкальная трансляция', 'id' => 883));
     
     /*
      * ПРОИЗВОДИТЕЛИ
@@ -978,6 +1012,9 @@ function updateTempTables($register) {
         // если в 1С у товара новое фото
         $image = strtolower(substr($item['new'], 0, 36)) . '.jpg';
         if (is_file('files/catalog/src/imgs/'.$item['new'])) {
+            if (substr($item['new'], 0, -3) == 'png') {
+                echo $image . PHP_EOL;
+            }
             // изменяем размер фото
             resizeImage( // маленькое
                 'files/catalog/src/imgs/'.$item['new'],
