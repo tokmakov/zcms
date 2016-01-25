@@ -1,6 +1,12 @@
-if (window.location.hash.substr(0, 2) === '#!' && /^\/catalog\/category\/[0-9]+/.test(window.location.pathname)) {
-    var pathname = window.location.pathname.match(/^\/catalog\/category\/[0-9]+/i)[0] + window.location.hash.slice(2);
-    window.location.replace(pathname);
+if (window.location.hash.substr(0, 2) === '#!') {
+    var pathname;
+    if (/^\/catalog\/category\/[0-9]+/.test(window.location.pathname)) {
+        pathname = window.location.pathname.match(/^\/catalog\/category\/[0-9]+/i)[0] + window.location.hash.slice(2);
+        window.location.replace(pathname);
+    } else if (/^\/catalog\/maker\/[0-9]+/.test(window.location.pathname)) {
+        pathname = window.location.pathname.match(/^\/catalog\/maker\/[0-9]+/i)[0] + window.location.hash.slice(2);
+        window.location.replace(pathname);
+    }
 }
 
 $(document).ready(function() {
@@ -13,23 +19,12 @@ $(document).ready(function() {
     /*
      * Поиск по каталогу в шапке сайта
      */
-    /*
     $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
         if ($(this).val().length > 1) {
-            var _this = $(this);
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
             $('#top-search > form').ajaxSubmit({
                 target: '#top-search > div > div',
-                url: '/catalog/ajax-search',
-                // временный костыль
-                beforeSubmit: function() {
-                    var length = _this.val().length;
-                    var delay = new Date().getTime() + length;
-                    if (length > 2) {
-                        while(new Date().getTime() < delay) {}
-                    }
-                },
                 success: function() {
                     $('#top-search > div > div').removeClass('top-search-loader');
                     if($('#top-search > div > div').is(':empty')) {
@@ -41,29 +36,6 @@ $(document).ready(function() {
             $('#top-search > div').empty();
         }
     });
-    */
-    $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function() {
-        var query = $(this).val();
-        if (query.length > 1) {
-            $('#top-search > div').html('<div class="top-search-loader"></div>');
-            $('#top-search > div > div').show();
-            $.ajax({
-                type: 'POST',
-                url: '/catalog/search',
-                dataType: 'html',
-                data: 'query=' + query,
-                success: function(html) {
-                    $('#top-search > div > div').removeClass('top-search-loader').html(html);
-                    if($('#top-search > div > div').is(':empty')) {
-                        $('#top-search > div').empty();
-                    }
-                }
-            });
-        } else {
-            $('#top-search > div').empty();
-        }
-    });
-
     $('#top-search > div').on('click', 'div > span', function() {
         $('#top-search > form > input[name="query"]').val('');
         $('#top-search > div').empty();
@@ -99,12 +71,12 @@ $(document).ready(function() {
      * Показать/скрыть фильтры товаров в каталоге
      */
     if ($.cookie('show_ctg_filters') !== undefined && $.cookie('show_ctg_filters') == 0) {
-        $('#category-filters > div:last-child').hide();
-        $('#category-filters > div:first-child > span:last-child > span').text('показать');
+        $('#catalog-filter > div:last-child').hide();
+        $('#catalog-filter > div:first-child > span:last-child > span').text('показать');
     }
-    $('#category-filters > div:first-child > span:last-child > span').click(function() {
+    $('#catalog-filter > div:first-child > span:last-child > span').click(function() {
         var _this = $(this);
-        $('#category-filters > div:last-child').slideToggle('normal', function() {
+        $('#catalog-filter > div:last-child').slideToggle('normal', function() {
             if (_this.text() == 'показать') {
                 _this.text('скрыть');
                 $.cookie('show_ctg_filters', 1, {expires: 365, path: '/'});
@@ -178,15 +150,7 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
-/*
-    $('#compare-products').click( function(event){
-        event.preventDefault();
-        $('<div></div>')
-            .prependTo('body')
-            .addClass('compare-overlay')
-            .fadeIn();
-    });
-*/
+
     /*
      * Удаление товара из сравнения, страница сравнения, ajax
      */
@@ -249,11 +213,11 @@ $(document).ready(function() {
     /*
      * Фильтр для товаров выбранной категории
      */
-    $('#category-filters form > div:last-child').hide();
+    $('#catalog-filter form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
-    $('#category-filters form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
-    $('#category-filters form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
-    $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
+    $('#catalog-filter form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+    $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
+    $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
 
     /*
      * Свернуть/развернуть краткое описание товара распродажи
@@ -582,11 +546,11 @@ function addBasketHandler() {
 
 function filterSelectHandler() {
     if ($(this).attr('name') == 'group') {
-        $('#category-filters form input[name="change"]').val('1');
+        $('#catalog-filter form input[name="change"]').val('1');
     } else {
-        $('#category-filters form input[name="change"]').val('0');
+        $('#catalog-filter form input[name="change"]').val('0');
     }
-    $('#category-filters form').ajaxSubmit({
+    $('#catalog-filter form').ajaxSubmit({
         dataType:  'json',
         beforeSubmit: function() {
             /*
@@ -597,13 +561,13 @@ function filterSelectHandler() {
             var childsWidth = $('#category-childs > div:last-child').width();
             $('<div></div>').prependTo('#category-childs > div:last-child').addClass('overlay').height(childsHeight).width(childsWidth);
             // второй блок: фильтр по функционалу, производителю и параметрам
-            var filtersHeight = $('#category-filters form > div:first-child').height();
-            var filtersWidth = $('#category-filters form > div:first-child').width();
-            $('<div></div>').prependTo('#category-filters form > div:first-child').addClass('overlay').height(filtersHeight).width(filtersWidth);
+            var filtersHeight = $('#catalog-filter form > div:first-child').height();
+            var filtersWidth = $('#catalog-filter form > div:first-child').width();
+            $('<div></div>').prependTo('#catalog-filter form > div:first-child').addClass('overlay').height(filtersHeight).width(filtersWidth);
             // третий блок: товары выбранной категории
-            var productsHeight = $('#category-products').height();
-            var productsWidth = $('#category-products').width();
-            $('<div></div>').prependTo('#category-products').addClass('products-overlay').height(productsHeight).width(productsWidth);
+            var productsHeight = $('#catalog-products').height();
+            var productsWidth = $('#catalog-products').width();
+            $('<div></div>').prependTo('#catalog-products').addClass('products-overlay').height(productsHeight).width(productsWidth);
         },
         success: function(dt) {
             /*
@@ -612,13 +576,13 @@ function filterSelectHandler() {
             // первый блок: дочерние категории текущей категории
             $('#category-childs > div:last-child').html(dt.childs);
             // второй блок: фильтр по функционалу, производителю и параметрам
-            $('#category-filters form > div:first-child').html(dt.filters);
-            $('#category-filters form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
-            $('#category-filters form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
+            $('#catalog-filter form > div:first-child').html(dt.filters);
+            $('#catalog-filter form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+            $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
             // третий блок: товары выбранной категории
-            $('#category-products').html(dt.products);
+            $('#catalog-products').html(dt.products);
 
-            $('#category-filters form select, #category-filters form input[type="checkbox"]').change(filterSelectHandler);
+            $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();
@@ -630,21 +594,21 @@ function filterSelectHandler() {
 
 function addFilterHash() {
     var hash = '';
-    var group = $('#category-filters form select[name="group"]').val();
+    var group = $('#catalog-filter form select[name="group"]').val();
     if (group !== '0') {
         hash = '/group/' + group;
     }
-    var maker = $('#category-filters form select[name="maker"]').val();
-    if (maker !== '0') {
+    var maker = $('#catalog-filter form select[name="maker"]').val();
+    if (maker !== '0' && maker !== undefined) {
         hash = hash + '/maker/' + maker;
     }
-    if ($('#category-filters form input[name="hit"]').prop('checked')) {
+    if ($('#catalog-filter form input[name="hit"]').prop('checked')) {
         hash = hash + '/hit/1';
     }
-    if ($('#category-filters form input[name="new"]').prop('checked')) {
+    if ($('#catalog-filter form input[name="new"]').prop('checked')) {
         hash = hash + '/new/1';
     }
-    var paramSelect = $('#category-filters form select').slice(2);
+    var paramSelect = $('#catalog-filter form select[name^="param"]');
     var param = [];
     if (paramSelect.length > 0) {
         paramSelect.each(function(index, element){
@@ -659,11 +623,11 @@ function addFilterHash() {
         hash = hash + '/param/' + param.join('-');
     }
     if (hash !== '') { // ссылка для сброса фильтра
-        $('#category-filters > div:first-child > span:first-child > a').show();
+        $('#catalog-filter > div:first-child > span:first-child > a').show();
     } else {
-        $('#category-filters > div:first-child > span:first-child > a').hide();
+        $('#catalog-filter > div:first-child > span:first-child > a').hide();
     }
-    var sortInput = $('#category-filters form input[name="sort"]');
+    var sortInput = $('#catalog-filter form input[name="sort"]');
     if (sortInput.length > 0 && sortInput.val() !== '0') {
         hash = hash + '/sort/' + sortInput.val();
     }

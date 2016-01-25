@@ -54,17 +54,35 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/index')
             ),
             array(
                 'name' => 'Производители',
-                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs')
             ),
         );
+        
+        // включен фильтр по функциональной группе?
+        $group = 0;
+        if (isset($this->params['group']) && ctype_digit($this->params['group'])) {
+            $group = (int)$this->params['group'];
+        }
+        
+        // включен фильтр по лидерам продаж?
+        $hit = 0;
+        if (isset($this->params['hit']) && $this->params['hit'] == 1) {
+            $hit = 1;
+        }
+
+        // включен фильтр по новинкам?
+        $new = 0;
+        if (isset($this->params['new']) && $this->params['new'] == 1) {
+            $new = 1;
+        }
 
         // включена сортировка?
         $sort = 0;
@@ -74,6 +92,34 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $sort = (int)$this->params['sort'];
         }
+        
+        // мета-тег robots
+        if ($group || $hit || $new || $sort) {
+            $this->robots = false;
+        }
+        
+        // получаем от модели массив функциональных групп
+        $groups = $this->catalogFrontendModel->getMakerGroups(
+            $this->params['id'],
+            $hit,
+            $new
+        );
+        
+        // получаем от модели количество лидеров продаж
+        $countHit = $this->catalogFrontendModel->getCountMakerHit(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new
+        );
+
+        // получаем от модели количество новинок
+        $countNew = $this->catalogFrontendModel->getCountMakerNew(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new
+        );
 
         /*
          * постраничная навигация
@@ -82,14 +128,22 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = (int)$this->params['page'];
         }
-        // общее кол-во товаров производителя
-        $totalProducts = $this->catalogFrontendModel->getCountMakerProducts($this->params['id']);
+        // общее кол-во товаров производителя с учетом фильтров по функционалу,
+        // лидерам продаж и новинкам
+        $totalProducts = $this->catalogFrontendModel->getCountMakerProducts(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new
+        );
         // URL этой страницы
-        $url = 'frontend/catalog/maker/id/' . $this->params['id'];
-        if ($sort) {
-            $url = $url . '/sort/' . $sort;
-        }
-        $thisPageURL = $this->catalogFrontendModel->getURL($url);
+        $thisPageURL = $this->catalogFrontendModel->getMakerURL(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $sort
+        );
         $temp = new Pager(
             $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
@@ -109,63 +163,76 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив всех товаров производителя
-        $products = $this->catalogFrontendModel->getMakerProducts($this->params['id'], $sort, $start);
-
-        /*
-         * Варианты сортировки:
-         * 0 - по умолчанию,
-         * 1 - по цене, по возрастанию
-         * 2 - по цене, по убыванию
-         * 3 - по наименованию, по возрастанию
-         * 4 - по наименованию, по убыванию
-         * 5 - по коду, по возрастанию
-         * 6 - по коду, по убыванию
-         */
-        for ($i = 0; $i <= 6; $i++) {
-            $url = 'frontend/catalog/maker/id/' . $this->params['id'];
-            if ($i) {
-                $url = $url . '/sort/' . $i;
-            }
-            switch ($i) {
-                case 0: $name = 'без сортировки';  break;
-                case 1: $name = 'цена, возр.';     break;
-                case 2: $name = 'цена, убыв.';     break;
-                case 3: $name = 'название, возр.'; break;
-                case 4: $name = 'название, убыв.'; break;
-                case 5: $name = 'код, возр.';      break;
-                case 6: $name = 'код, убыв.';      break;
-            }
-            $sortorders[$i] = array(
-                'url'  => $this->catalogFrontendModel->getURL($url),
-                'name' => $name
-            );
-        }
+        $products = $this->catalogFrontendModel->getMakerProducts(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $sort,
+            $start
+        );
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
+        
+        // ссылки для сортировки товаров по цене, наменованию, коду
+        $sortorders = $this->catalogFrontendModel->getMakerSortOrders(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new
+        );
+        
+        // атрибут action тега form
+        $action = $this->catalogFrontendModel->getURL('frontend/catalog/maker/id/' . $this->params['id']);
+
+        // URL ссылки для сборса фильтра
+        $url = 'frontend/catalog/maker/id/' . $this->params['id'];
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        $clearFilterURL = $this->catalogFrontendModel->getURL($url);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'    => $breadcrumbs,
             // уникальный идентификатор производителя
-            'id'          => $this->params['id'],
+            'id'             => $this->params['id'],
             // название производителя
-            'name'        => $maker['name'],
+            'name'           => $maker['name'],
+            // атрибут action тега форм
+            'action'         => $action,
+            // id выбранной функциональной группы или ноль
+            'group'          => $group,
+            // показывать только лидеров продаж?
+            'hit'            => $hit,
+            // количество лидеров продаж
+            'countHit'       => $countHit,
+            // показывать только новинки?
+            'new'            => $new,
+            // количество новинок
+            'countNew'       => $countNew,
+            // массив функциональных групп
+            'groups'         => $groups,
+            // массив всех параметров подбора 
+            'params'         => array(),          
             // массив товаров производителя
-            'products'    => $products,
+            'products'       => $products,
             // выбранная сортировка
-            'sort'        => $sort,
+            'sort'           => $sort,
             // массив вариантов сортировки
-            'sortorders'  => $sortorders,
+            'sortorders'     => $sortorders,
             // массив единиц измерения товара
-            'units'       => $units,
+            'units'          => $units,
+            // URL ссылки для сборса фильтра
+            'clearFilterURL' => $clearFilterURL,
             // постраничная навигация
-            'pager'       => $pager,
+            'pager'          => $pager,
             // текущая страница
-            'page'        => $page,
+            'page'           => $page,
         );
 
     }

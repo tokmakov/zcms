@@ -287,6 +287,101 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 90. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
+        
+        // товары производителя
+        '~^frontend/catalog/maker/id/(\d+)$~i' =>
+        'catalog/maker/$1',
+        
+        // 1. товары производителя, фильтр по функционалу
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2',
+        // 2. товары производителя, лидеры продаж
+        '~^frontend/catalog/maker/id/(\d+)/hit/1$~i' =>
+        'catalog/maker/$1/hit/1',
+        // 3. товары производителя, лидеры продаж
+        '~^frontend/catalog/maker/id/(\d+)/new/1$~i' =>
+        'catalog/maker/$1/new/1',
+        // 4. товары производителя, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/sort/(\d)$~i' =>
+        'catalog/maker/$1/sort/$2',
+        // 5. товары производителя, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/page/(\d+)$~i' =>
+        'catalog/maker/$1/page/$2',
+        // 6. товары производителя, фильтр по функционалу, лидеры продаж
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1$~i' =>
+        'catalog/maker/$1/group/$2/hit/1',
+        // 7. товары производителя, фильтр по функционалу, новинки
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1$~i' =>
+        'catalog/maker/$1/group/$2/new/1',
+        // 8. товары производителя, фильтр по функционалу, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/sort/(\d)$~i' =>
+        'catalog/maker/$1/group/$2/sort/$3',
+        // 9. товары производителя, фильтр по функционалу, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/page/$3',
+        // 10. товары производителя, лидеры продаж, новинки
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/new/1$~i' =>
+        'catalog/maker/$1/hit/1/new/1',
+        // 11. товары производителя, лидеры продаж, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/hit/1/sort/$2',
+        // 12. товары производителя, лидеры продаж, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/hit/1/page/$2',
+        // 13. товары производителя, новинки, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/new/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/new/1/sort/$2',
+        // 14. товары производителя, новинки, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/new/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/new/1/page/$2',
+        // 15. товары производителя, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/sort/$2/page/$3',
+        // 16. товары производителя, фильтр по функционалу, лидеры продаж, новинки
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/new/1$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/new/1',
+        // 17. товары производителя, фильтр по функционалу, лидеры продаж, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/sort/$3',
+        // 18. товары производителя, фильтр по функционалу, лидеры продаж, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/page/$3', 
+        // 19. товары производителя, фильтр по функционалу, новинки, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/group/$2/new/1/sort/$3',
+        // 20. товары производителя, фильтр по функционалу, новинки, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/new/1/page/$3',
+        // 21. товары производителя, фильтр по функционалу, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/sort/$3/page/$4',
+        // 22. товары производителя, лидеры продаж, новинки, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/hit/1/new/1/sort/$2',
+        // 23. товары производителя, лидеры продаж, новинки, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/hit/1/new/1/page/$2',
+        // 24. товары производителя, лидеры продаж, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/hit/1/sort/$2/page/$3',
+        // 25. товары производителя, лидеры продаж, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/new/1/sort/$2/page/$3',
+        // 26. товары производителя, фильтр по функционалу, лидеры продаж, новинки, сортировка
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/new/1/sort/$3',
+        // 27. товары производителя, фильтр по функционалу, лидеры продаж, новинки, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/new/1/page/$3',
+        // 28. товары производителя, фильтр по функционалу, лидеры продаж, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/hit/1/sort/$3/page/$4',
+        // 29. товары производителя, фильтр по функционалу, новинки, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/group/$2/new/1/sort/$3/page/$4',
+        // 30. товары производителя, лидеры продаж, новинки, сортировка, постраничная навигация
+        '~^frontend/catalog/maker/id/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'catalog/maker/$1/hit/1/new/1/sort/$2/page/$3',
 
         // страница товара каталога
         '~^frontend/catalog/product/id/(\d+)$~i' =>
@@ -294,18 +389,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком производителей
         '~^frontend/catalog/allmkrs$~i' =>
         'catalog/all-makers',
-        // страница со списком товаров выбранного производителя
-        '~^frontend/catalog/maker/id/(\d+)$~i' =>
-        'catalog/maker/$1',
-        // страница со списком товаров выбранного производителя, постраничная навигация
-        '~^frontend/catalog/maker/id/(\d+)/page/(\d+)$~i' =>
-        'catalog/maker/$1/page/$2',
-        // страница со списком товаров выбранного производителя, сортировка
-        '~^frontend/catalog/maker/id/(\d+)/sort/(\d)$~i' =>
-        'catalog/maker/$1/sort/$2',
-        // страница со списком товаров выбранного производителя, сортировка, постраничная навигация
-        '~^frontend/catalog/maker/id/(\d+)/sort/(\d)/page/(\d+)$~i' =>
-        'catalog/maker/$1/sort/$2/page/$3',
         // страница поиска по каталогу
         '~^frontend/catalog/search$~i'=>
         'catalog/search',
@@ -529,6 +612,8 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
     ),
 
     /*
+        КАТЕГОРИЯ КАТАЛОГА
+    
         1. category/group
         2. category/maker
         3. category/hit
@@ -626,6 +711,45 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 
         90. category/group/maker/hit/new/param/sort/page
      */
+     
+    /*
+        ТОВАРЫ ПРОИЗВОДИТЕЛЯ
+        
+        1.  maker/group
+        2.  maker/hit
+        3.  maker/new
+        4.  maker/sort
+        5.  maker/page
+        
+        6.  maker/group/hit
+        7.  maker/group/new
+        8.  maker/group/sort
+        9.  maker/group/page
+        10. maker/hit/new
+        11. maker/hit/sort
+        12. maker/hit/page
+        13. maker/new/sort
+        14. maker/new/page
+        15. maker/sort/page
+        
+        16. maker/group/hit/new
+        17. maker/group/hit/sort
+        18. maker/group/hit/page
+        19. maker/group/new/sort
+        20. maker/group/new/page
+        21. maker/group/sort/page
+        22. maker/hit/new/sort
+        23. maker/hit/new/page
+        24. maker/hit/sort/page
+        25. maker/new/sort/page
+        
+        26. maker/group/hit/new/sort
+        27. maker/group/hit/new/page
+        28. maker/group/hit/sort/page
+        29. maker/group/new/sort/page
+        30. maker/hit/new/sort/page
+        
+    */
 
     'sef2cap' => array( // Search Engines Friendly => Controller/Action/Params
         // главная страница сайта
@@ -912,6 +1036,101 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 90. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
+        
+        // товары производителя
+        '~^catalog/maker/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1',
+        
+        // 1. товары производителя, фильтр по функционалу
+        '~^catalog/maker/(\d+)/group/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2',
+        // 2. товары производителя, лидеры продаж
+        '~^catalog/maker/(\d+)/hit/1$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1',
+        // 3. товары производителя, новинки
+        '~^catalog/maker/(\d+)/new/1$~i' =>
+        'frontend/catalog/maker/id/$1/new/1',
+        // 4. товары производителя, сортировка
+        '~^catalog/maker/(\d+)/sort/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/sort/$2',
+        // 5. товары производителя, постраничная навигация
+        '~^catalog/maker/(\d+)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/page/$2',
+        // 6. товары производителя, фильтр по функционалу, лидеры продаж
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1',
+        // 7. товары производителя, фильтр по функционалу, новинки
+        '~^catalog/maker/(\d+)/group/(\d+)/new/1$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/new/1',
+        // 8. товары производителя, фильтр по функционалу, сортировка
+        '~^catalog/maker/(\d+)/group/(\d+)/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/sort/$3',
+        // 9. товары производителя, фильтр по функционалу, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/page/$3',
+        // 10. товары производителя, лидеры продаж, новинки
+        '~^catalog/maker/(\d+)/hit/1/new/1$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/new/1',
+        // 11. товары производителя, лидеры продаж, сортировка
+        '~^catalog/maker/(\d+)/hit/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/sort/$2',
+        // 12. товары производителя, лидеры продаж, постраничная навигация
+        '~^catalog/maker/(\d+)/hit/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/page/$2',
+        // 13. товары производителя, новинки, сортировка
+        '~^catalog/maker/(\d+)/new/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/new/1/sort/$2',
+        // 14. товары производителя, новинки, постраничная навигация
+        '~^catalog/maker/(\d+)/new/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/new/1/page/$2',
+        // 15. товары производителя, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/sort/$2/page/$3',
+        // 16. товары производителя, фильтр по функционалу, лидеры продаж, новинки
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/new/1$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/new/1',
+        // 17. товары производителя, фильтр по функционалу, лидеры продаж, сортировка
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/sort/$3',
+        // 18. товары производителя, фильтр по функционалу, лидеры продаж, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/page/$3',
+        // 19. товары производителя, фильтр по функционалу, новинки, сортировка
+        '~^catalog/maker/(\d+)/group/(\d+)/new/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/new/1/sort/$3',
+        // 20. товары производителя, фильтр по функционалу, новинки, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/new/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/new/1/page/$3',
+        // 21. товары производителя, фильтр по функционалу, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/sort/$3/page/$4',
+        // 22. товары производителя, лидеры продаж, новинки, сортировка
+        '~^catalog/maker/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/new/1/sort/$2',
+        // 23. товары производителя, лидеры продаж, новинки, постраничная навигация
+        '~^catalog/maker/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/new/1/page/$2',
+        // 24. товары производителя, лидеры продаж, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/sort/$2/page/$3',
+        // 25. товары производителя, новинки, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/new/1/sort/$2/page/$3',
+        // 26. товары производителя, фильтр по функционалу, лидеры продаж, новинки, сортировка
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/new/1/sort/(\d)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/new/1/sort/$3',
+        // 27. товары производителя, фильтр по функционалу, лидеры продаж, новинки, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/new/1/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/new/1/page/$3',
+        // 28. товары производителя, фильтр по функционалу, лидеры продаж, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/hit/1/sort/$3/page/$4',
+        // 29. товары производителя, фильтр по функционалу, новинки, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/group/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/group/$2/new/1/sort/$3/page/$4',
+        // 30. товары производителя, лидеры продаж, новинки, сортировка, постраничная навигация
+        '~^catalog/maker/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
+        'frontend/catalog/maker/id/$1/hit/1/new/1/sort/$2/page/$3',
 
         // страница товара каталога
         '~^catalog/product/(\d+)$~i' =>
@@ -919,17 +1138,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком всех производителей
         '~^catalog/all-makers$~i' =>
         'frontend/catalog/allmkrs',
-        // страница со списком товаров выбранного производителя
-        '~^catalog/maker/(\d+)$~i' => 'frontend/catalog/maker/id/$1',
-        // страница со списком товаров выбранного производителя, постраничная навигация
-        '~^catalog/maker/(\d+)/page/(\d+)$~i' =>
-        'frontend/catalog/maker/id/$1/page/$2',
-        // страница со списком товаров выбранного производителя, сортировка
-        '~^catalog/maker/(\d+)/sort/(\d+)$~i' =>
-        'frontend/catalog/maker/id/$1/sort/$2',
-        // страница со списком товаров выбранного производителя, сортировка, постраничная навигация
-        '~^catalog/maker/(\d+)/sort/(\d)/page/(\d+)$~i' =>
-        'frontend/catalog/maker/id/$1/sort/$2/page/$3',
         // страница поиска по каталогу
         '~^catalog/search$~i' =>
         'frontend/catalog/search',

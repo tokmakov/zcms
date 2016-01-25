@@ -7,7 +7,6 @@
  * $breadcrumbs - хлебные крошки
  * $id - уникальный идентификатор категории
  * $name - наименование категории
- * $thisPageUrl - URL этой страницы
  * $childCategories - массив дочерних категорий
  * $action - атрибут action тега форм
  * $group - id выбранной функциональной группы или ноль
@@ -305,7 +304,7 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
-<div id="category-filters">
+<div id="catalog-filter">
     <div>
         <span>
             Фильтр
@@ -398,13 +397,13 @@ for ($i = 0; $i <= 6; $i++) {
 </div>
 
 <?php if (empty($products)): ?>
-    <div id="category-products">
+    <div id="catalog-products">
         <p>По вашему запросу ничего не найдено.</p>
     </div>
     <?php return; ?>
 <?php endif; ?>
 
-<div id="category-products">
+<div id="catalog-products">
 
     <div id="sort-orders">
         <ul>

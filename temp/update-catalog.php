@@ -34,7 +34,7 @@ if (is_file('temp/makers.txt')) {
     unlink('temp/makers.txt');
 }
 
-// parseXML($register);
+parseXML($register);
 updateTempTables($register);
 updateWorkTables($register);
 

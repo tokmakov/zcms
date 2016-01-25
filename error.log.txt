@@ -39,3 +39,115 @@
 #8 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #9 {main}
 
+22.01.2016 17:50:18
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.products' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(219): Database->fetchOne('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(187): Compare_Frontend_Model->compareGroup()
+#4 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(30): Compare_Frontend_Model->getCompareGroup()
+#5 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(150): Compare_Frontend_Model->__construct()
+#6 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(8): Frontend_Controller->__construct(Array)
+#7 D:\work\localhost2\www\index.php(50): Index_Index_Frontend_Controller->__construct(Array)
+#8 {main}
+
+24.01.2016 13:56:35
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.maker' in 'where clause'
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1090): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1058): Catalog_Frontend_Model->makerGroups(2727, 0, 0)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Maker_Catalog_Frontend_Controller.php(106): Catalog_Frontend_Model->getMakerGroups(2727, 0, 0)
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(139): Maker_Catalog_Frontend_Controller->input()
+#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#7 {main}
+
+25.01.2016 10:52:20
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/maker/id/2482/group/390
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1755): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1722): Catalog_Frontend_Model->makerURL(2482, 390, 0, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Maker_Catalog_Frontend_Controller.php(76): Catalog_Frontend_Model->getMakerURL(2482, 390, 0, 0, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_maker_Catalog_Frontend_Controller->request()
+#5 {main}
+
+25.01.2016 10:53:48
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/maker/id/2482/group/390
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1755): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1722): Catalog_Frontend_Model->makerURL(2482, 390, 0, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Maker_Catalog_Frontend_Controller.php(76): Catalog_Frontend_Model->getMakerURL(2482, 390, 0, 0, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_maker_Catalog_Frontend_Controller->request()
+#5 {main}
+
+25.01.2016 10:55:53
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/maker/id/2482/group/390
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1755): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1722): Catalog_Frontend_Model->makerURL(2482, 390, 0, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Maker_Catalog_Frontend_Controller.php(76): Catalog_Frontend_Model->getMakerURL(2482, 390, 0, 0, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_maker_Catalog_Frontend_Controller->request()
+#5 {main}
+
+25.01.2016 12:25:35
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 0, 10' at line 12
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1542): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1502): Catalog_Frontend_Model->makerProducts(2482, 390, 0)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Maker_Catalog_Frontend_Controller.php(96): Catalog_Frontend_Model->getMakerProducts(2482, 390, 0, 0, 0)
+#5 D:\work\localhost2\www\index.php(52): Xhr_maker_Catalog_Frontend_Controller->request()
+#6 {main}
+
+25.01.2016 15:04:00
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 178
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(439): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(152): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+25.01.2016 15:04:02
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 178
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(439): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(152): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+25.01.2016 15:07:08
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 178
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(439): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(152): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+25.01.2016 15:07:10
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 178
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(439): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(152): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+

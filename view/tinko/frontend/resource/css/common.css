@@ -786,8 +786,8 @@ div.attention {
     color: #e9751f;
 }
 
-/* список товаров категории */
-#category-products {
+/* список товаров категории или производителя */
+#catalog-products {
     min-height: 100px;
     position: relative;
 }
@@ -1269,27 +1269,27 @@ div.attention {
                     }
 
 /* каталог, фильтр по функционалу, производителю и по параметрам */
-#category-filters {
+#catalog-filter {
     margin-bottom: 20px;
 }
-    #category-filters > div:first-child {
+    #catalog-filter > div:first-child {
         background-color: #323232;
         border: 1px solid #323232;
         color: #fff;
         padding: 10px 5px;
         overflow: hidden;
     }
-        #category-filters > div:first-child > span {
+        #catalog-filter > div:first-child > span {
             display: block;
             overflow: hidden;
             height: 17px;
         }
-        #category-filters > div:first-child > span:first-child {
+        #catalog-filter > div:first-child > span:first-child {
             float: left;
             width: 70%;
             white-space: nowrap;
         }
-            #category-filters > div:first-child > span:first-child > a {
+            #catalog-filter > div:first-child > span:first-child > a {
                 color: #ff6d00;
                 font-size: 13px;
                 text-decoration: none;
@@ -1297,80 +1297,80 @@ div.attention {
                 margin-left: 10px;
                 display: none;
             }
-            #category-filters > div:first-child > span:first-child > a.show-clear-filter {
+            #catalog-filter > div:first-child > span:first-child > a.show-clear-filter {
                 display: inline;
             }
-            #category-filters > div:first-child > span:first-child > a:hover {
+            #catalog-filter > div:first-child > span:first-child > a:hover {
                 text-decoration: none;
             }
-        #category-filters > div:first-child > span:last-child {
+        #catalog-filter > div:first-child > span:last-child {
             float: right;
             text-align: right;
             width: 25%;
         }
-            #category-filters > div:first-child > span:last-child > span {
+            #catalog-filter > div:first-child > span:last-child > span {
                 font-size: 13px;
                 cursor: pointer;
                 border-bottom: 1px dashed #fff;
             }
-    #category-filters > div:last-child {
+    #catalog-filter > div:last-child {
         border: 1px solid #d1d1d1;
         border-top: none;
         overflow: hidden;
     }
         /* фильтр по функционалу, производителю и по параметрам */
-        #category-filters > div:last-child > form > div:first-child {
+        #catalog-filter > div:last-child > form > div:first-child {
             position: relative;
         }
-            #category-filters > div:last-child > form > div:first-child > div {
+            #catalog-filter > div:last-child > form > div:first-child > div {
                 height: 30px;
                 overflow: hidden;
                 border-top: 1px dashed #d1d1d1;
                 padding: 0 5px;
             }
-            #category-filters > div:last-child > form > div:first-child > div:first-child {
+            #catalog-filter > div:last-child > form > div:first-child > div:first-child {
                 border-top: none;
             }
-                #category-filters > div:last-child > form > div:first-child > div > div {
+                #catalog-filter > div:last-child > form > div:first-child > div > div {
                     float: left;
                     width: 50%;
                     display: table;
                     height: 30px;
                     vertical-align: middle;
                 }
-                #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox {
+                #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox {
                     opacity: 0.6;
                 }
-                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label,
-                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label > span,
-                    #category-filters > div:last-child > form > div:first-child > div > div.empty-checkbox > label > input[type="checkbox"] {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label,
+                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label > span,
+                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label > input[type="checkbox"] {
                         cursor: not-allowed;
                     }
-                    #category-filters > div:last-child > form > div:first-child > div > div > span,
-                    #category-filters > div:last-child > form > div:first-child > div > div > label {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > span,
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > label {
                         display: table-cell;
                         height: 30px;
                         font-size: 14px;
                         line-height: 14px;
                         vertical-align: middle;
                     }
-                    #category-filters > div:last-child > form > div:first-child > div > div > label {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > label {
                         cursor: pointer;
                     }
-                    #category-filters > div:last-child > form > div:first-child > div > div:first-child > span {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div:first-child > span {
                         line-height: 15px;
                     }
-                    #category-filters > div:last-child > form > div:first-child > div > div > label > span {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > label > span {
                         cursor: pointer;
                         border-bottom: 1px dashed #323232;
                         margin-left: 3px;
                     }
-                    #category-filters > div:last-child > form > div:first-child > div > div > label > input[type="checkbox"] {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > label > input[type="checkbox"] {
                         cursor: pointer;
                         position: relative;
                         top: 3px;
                     }
-                        #category-filters select {
+                        #catalog-filter select {
                             width: 100%;
                             height: 24px;
                             box-sizing: border-box;
@@ -1378,17 +1378,17 @@ div.attention {
                             padding: 2px;
                             border: 1px solid #d1d1d1;
                         }
-                            #category-filters select option.empty-option {
+                            #catalog-filter select option.empty-option {
                                 background: #f0f0f0;
                                 color: #bbb;
                             }
         /* кнопка отправки формы */
-        #category-filters > div:last-child > form > div:last-child {
+        #catalog-filter > div:last-child > form > div:last-child {
             height: 26px;
             border-top: 1px dashed #d1d1d1;
             padding: 5px;
         }
-            #category-filters > div:last-child > form > div:last-child > input[type="submit"] {
+            #catalog-filter > div:last-child > form > div:last-child > input[type="submit"] {
                 display: block;
                 box-sizing: border-box;
                 height: 26px;
@@ -2462,17 +2462,17 @@ div.attention {
         border-bottom: none;
     }
     /* фильтры */
-    #category-filters > div:last-child > form > div:first-child > div:not(:last-child) {
+    #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) {
         height: auto;
         padding: 2px 5px;
     }
-        #category-filters > div:last-child > form > div:first-child > div:not(:last-child) > div {
+        #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div {
             float: none;
             width: 100%;
             height: auto;
             margin-bottom: 3px;
         }
-            #category-filters > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
+            #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
                 display: inline;
                 height: auto;
             }
@@ -2599,7 +2599,7 @@ div.attention {
         width: 100%;
     }
     /* фильтр товаров категории */
-    #category-filters > div:last-child > form > div:first-child > div:last-child > div:last-child > label {
+    #catalog-filter > div:last-child > form > div:first-child > div:last-child > div:last-child > label {
         text-align: center;
     }
 }

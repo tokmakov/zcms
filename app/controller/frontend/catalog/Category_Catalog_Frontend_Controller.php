@@ -179,7 +179,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountHit(
+        $countHit = $this->catalogFrontendModel->getCountCategoryHit(
             $this->params['id'],
             $group,
             $maker,
@@ -189,7 +189,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountNew(
+        $countNew = $this->catalogFrontendModel->getCountCategoryNew(
             $this->params['id'],
             $group,
             $maker,
@@ -215,7 +215,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param
         );
         // URL этой страницы
-        $thisPageUrl = $this->catalogFrontendModel->getCategoryURL(
+        $thisPageURL = $this->catalogFrontendModel->getCategoryURL(
             $this->params['id'],
             $group,
             $maker,
@@ -225,7 +225,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $sort
         );
         $temp = new Pager(
-            $thisPageUrl,                                       // URL этой страницы
+            $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров категории
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице

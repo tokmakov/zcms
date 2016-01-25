@@ -73,7 +73,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         );
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountHit(
+        $countHit = $this->catalogFrontendModel->getCountCategoryHit(
             $this->params['id'],
             $group,
             $maker,
@@ -83,7 +83,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountNew(
+        $countNew = $this->catalogFrontendModel->getCountCategoryNew(
             $this->params['id'],
             $group,
             $maker,
@@ -151,7 +151,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
 
         // формируем HTML результатов фильтрации товаров
         $output = $this->render(
-            $this->config->site->theme . '/frontend/template/catalog/xhr/filter.php',
+            $this->config->site->theme . '/frontend/template/catalog/xhr/category.php',
             array(
                 'id'          => $this->params['id'],       // id категории
                 'childs'      => $childs,                   // массив дочерних категорий
