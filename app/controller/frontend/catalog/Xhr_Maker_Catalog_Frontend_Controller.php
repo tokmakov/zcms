@@ -159,18 +159,22 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
      * Вспомогательная функция, проводит первичную обработку данных формы
      */
     private function processFormData() {
+
         $group = 0; // функционал
         if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
             $group = (int)$_POST['group'];
         }
+
         $hit = 0; // лидер продаж
         if (isset($_POST['hit'])) {
             $hit = 1;
         }
+
         $new = 0; // новинка
         if (isset($_POST['new'])) {
             $new = 1;
         }
+
         $sort = 0; // сортировка
         if (isset($_POST['sort'])
             && ctype_digit($_POST['sort'])
@@ -180,6 +184,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         return array($group, $hit, $new, $sort);
+
     }
 
 }
