@@ -1377,6 +1377,7 @@ div.attention {
                             font-size: 14px;
                             padding: 2px;
                             border: 1px solid #d1d1d1;
+                            /* font-family: "Lucida Console", Monaco, monospace; */
                         }
                             #catalog-filter select option.empty-option {
                                 background: #f0f0f0;
