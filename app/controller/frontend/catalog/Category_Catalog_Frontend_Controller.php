@@ -169,7 +169,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams(
+        $params = $this->catalogFrontendModel->getCategoryGroupParams(
             $this->params['id'],
             $group,
             $maker,

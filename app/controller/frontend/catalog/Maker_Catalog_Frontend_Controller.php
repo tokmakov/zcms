@@ -72,6 +72,18 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group = (int)$this->params['group'];
         }
         
+        // включен фильтр по параметрам?
+        $param = array();
+        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
+            $temp = explode('-', $this->params['param']);
+            foreach ($temp as $item) {
+                $tmp = explode('.', $item);
+                $key = (int)$tmp[0];
+                $value = (int)$tmp[1];
+                $param[$key] = $value;
+            }
+        }
+        
         // включен фильтр по лидерам продаж?
         $hit = 0;
         if (isset($this->params['hit']) && $this->params['hit'] == 1) {
@@ -105,12 +117,22 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new
         );
         
+        // получаем от модели массив всех параметров подбора
+        $params = $this->catalogFrontendModel->getMakerGroupParams(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $param
+        );
+        
         // получаем от модели количество лидеров продаж
         $countHit = $this->catalogFrontendModel->getCountMakerHit(
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         // получаем от модели количество новинок
@@ -118,7 +140,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         /*
@@ -134,7 +157,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
         // URL этой страницы
         $thisPageURL = $this->catalogFrontendModel->getMakerURL(
@@ -142,6 +166,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
+            $param,
             $sort
         );
         $temp = new Pager(
@@ -168,6 +193,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
+            $param,
             $sort,
             $start
         );
@@ -180,7 +206,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
         
         // атрибут action тега form
@@ -215,10 +242,12 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'new'            => $new,
             // количество новинок
             'countNew'       => $countNew,
+            // массив выбранных параметров подбора
+            'param'           => $param,
             // массив функциональных групп
             'groups'         => $groups,
             // массив всех параметров подбора 
-            'params'         => array(),          
+            'params'         => $params,          
             // массив товаров производителя
             'products'       => $products,
             // выбранная сортировка

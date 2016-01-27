@@ -717,10 +717,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив параметров подбора для выбранной функциональной группы
      * и выбранной категории $id и всех ее потомков; результат работы кэшируется
      */
-    public function getGroupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+    public function getCategoryGroupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->groupParams($id, $group, $maker, $hit, $new, $param);
+            return $this->categoryGroupParams($id, $group, $maker, $hit, $new, $param);
         }
 
         // уникальный ключ доступа к кэшу
@@ -738,7 +738,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив параметров подбора для выбранной функциональной группы
      * и выбранной категории и всех ее потомков
      */
-    protected function groupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
+    protected function categoryGroupParams($id, $group = 0, $maker = 0, $hit = 0, $new = 0, $param = array()) {
 
         if (0 == $group) {
             return array();
@@ -1047,176 +1047,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $count == $res;
 
     }
-    
-    /**
-     * Функция возвращает массив функциональных групп для производителя с
-     * уникальным идентификатором $id; результат работы кэшируется
-     */
-    public function getMakerGroups($id, $hit = 0, $new = 0) {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->makerGroups($id, $hit, $new);
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit . '-new-' . $new;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-    
-    /**
-     * Функция возвращает массив функциональных групп для производителя с
-     * уникальным идентификатором $id
-     */
-    protected function makerGroups($id, $hit, $new) {
-
-        $query = "SELECT
-                      `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
-                  FROM
-                      `groups` `a`
-                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                  WHERE
-                      `b`.`maker` = :maker
-                      AND `b`.`visible` = 1
-                  GROUP BY
-                      `a`.`id`, `a`. `name`
-                  ORDER BY
-                      COUNT(*) DESC, `a`.`name`";
-        $groups = $this->database->fetchAll($query, array('maker' => $id));
-
-        if (0 == $hit && 0 == $new) {
-            return $groups;
-        }
-
-        // теперь подсчитываем количество товаров для каждой группы с
-        // учетом фильтров по лидерам продаж и новинкам
-        foreach ($groups as $key => $value)  {
-            $query = "SELECT
-                          COUNT(*)
-                      FROM
-                          `groups` `a`
-                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                      WHERE
-                          `b`.`maker` = :maker
-                          AND `a`.`id` = :group
-                          AND `b`.`visible` = 1";
-            if ($hit) {
-                $query = $query . " AND `b`.`hit` > 0";
-            }
-            if ($new) {
-                $query = $query . " AND `b`.`new` > 0";
-            }
-            $groups[$key]['count'] = $this->database->fetchOne($query, array('maker' => $id, 'group' => $value['id']));
-        }
-
-        return $groups;
-    }
-    
-    /**
-     * Функция возвращает количество лидеров продаж для производителя с уникальным
-     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
-     * продаж, новинкам и т.п. Результат работы кэшируется
-     */
-    public function getCountMakerHit($id, $group = 0, $hit = 0, $new = 0) {
-
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->countMakerHit($id, $group, $hit, $new);
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Функция возвращает количество лидеров продаж для производителя с уникальным
-     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
-     * продаж, новинкам и т.п.
-     */
-    protected function countMakerHit($id, $group, $hit, $new) {
-
-        $query = "SELECT
-                      COUNT(*)
-                  FROM
-                      `products` `a`
-                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
-                  WHERE
-                      `a`.`maker` = :maker AND `a`.`visible` = 1";
-        if ($group) { // фильтр по функциональной группе
-            $query = $query . " AND `a`.`group` = " . $group;
-        }
-        if ( ! $hit) {
-            $query = $query . " AND `a`.`hit` > 0";
-        }
-        if ($new) { // фильтр по новинкам
-            $query = $query . " AND `a`.`new` > 0";
-        }
-        return $this->database->fetchOne($query, array('maker' => $id));
-
-    }
-
-    /**
-     * Функция возвращает количество новинок для производителя с уникальным
-     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
-     * продаж, новинкам и т.п. Результат работы кэшируется
-     */
-    public function getCountMakerNew($id, $group = 0, $hit = 0, $new = 0) {
-
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->countMakerNew($id, $group, $hit, $new);
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Функция возвращает количество новинок для производителя с уникальным
-     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
-     * продаж, новинкам и т.п.
-     */
-    protected function countMakerNew($id, $group, $hit, $new) {
-
-        $query = "SELECT
-                      COUNT(*)
-                  FROM
-                      `products` `a`
-                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
-                  WHERE
-                      `a`.`maker` = :maker AND `a`.`visible` = 1";
-        if ($group) { // фильтр по функциональной группе
-            $query = $query . " AND `a`.`group` = " . $group;
-        }
-        if ($hit) { // фильтр по лидерам продаж
-            $query = $query . " AND `a`.`hit` > 0";
-        }
-        if ( ! $new) {
-            $query = $query . " AND `a`.`new` > 0";
-        }
-        return $this->database->fetchOne($query, array('maker' => $id));
-        
-    }
 
     /**
      * Функция возвращает путь от корня каталога до категории с уникальным
@@ -1495,16 +1325,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив товаров производителя с уникальным идентификатором
      * $id; результат работы кэшируется
      */
-    public function getMakerProducts($id, $group = 0, $hit = 0, $new = 0, $sort = 0, $start = 0) {
+    public function getMakerProducts($id, $group = 0, $hit = 0, $new = 0, $param = array(), $sort = 0, $start = 0) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->makerProducts($id, $group, $hit, $new, $sort, $start);
+            return $this->makerProducts($id, $group, $hit, $new, $param, $sort, $start);
         }
 
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
-               . '-sort-' . $sort . '-start-' . $start;
+                . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1517,7 +1347,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив товаров производителя с уникальным идентификатором $id
      */
-    protected function makerProducts($id, $group, $hit, $new, $sort, $start) {
+    protected function makerProducts($id, $group, $hit, $new, $param, $sort, $start) {
 
         $tmp = '';
         if ($group) { // фильтр по функциональной группе
@@ -1528,6 +1358,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         if ($new) { // фильтр по новинкам
             $tmp = $tmp . " AND `a`.`new` > 0";
+        }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($group, $param);
+            if (empty($ids)) {
+                return array();
+            }
+            $tmp = $tmp . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
 
         switch ($sort) { // сортировка
@@ -1579,7 +1416,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает кол-во товаров производителя с уникальным идентификатором
      * $id; результат работы кэшируется
      */
-    public function getCountMakerProducts($id, $group, $hit, $new) {
+    public function getCountMakerProducts($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
         
         $temp = '';
         if ($group) { // фильтр по функциональной группе
@@ -1591,6 +1428,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if ($new) { // фильтр по новинкам
             $temp = $temp . " AND `a`.`new` > 0";
         }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($group, $param);
+            if (empty($ids)) {
+                return 0;
+            }
+            $temp = $temp . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
+        }
         $query = "SELECT
                       COUNT(*)
                   FROM
@@ -1598,6 +1442,303 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $temp;
         return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
+    }
+    
+    /**
+     * Функция возвращает массив функциональных групп для производителя с
+     * уникальным идентификатором $id; результат работы кэшируется
+     */
+    public function getMakerGroups($id, $hit = 0, $new = 0) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->makerGroups($id, $hit, $new);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit . '-new-' . $new;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+    
+    /**
+     * Функция возвращает массив функциональных групп для производителя с
+     * уникальным идентификатором $id
+     */
+    protected function makerGroups($id, $hit, $new) {
+
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
+                  FROM
+                      `groups` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                  WHERE
+                      `b`.`maker` = :maker
+                      AND `b`.`visible` = 1
+                  GROUP BY
+                      `a`.`id`, `a`. `name`
+                  ORDER BY
+                      COUNT(*) DESC, `a`.`name`";
+        $groups = $this->database->fetchAll($query, array('maker' => $id));
+
+        if (0 == $hit && 0 == $new) {
+            return $groups;
+        }
+
+        // теперь подсчитываем количество товаров для каждой группы с
+        // учетом фильтров по лидерам продаж и новинкам
+        foreach ($groups as $key => $value)  {
+            $query = "SELECT
+                          COUNT(*)
+                      FROM
+                          `groups` `a`
+                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      WHERE
+                          `b`.`maker` = :maker
+                          AND `a`.`id` = :group
+                          AND `b`.`visible` = 1";
+            if ($hit) {
+                $query = $query . " AND `b`.`hit` > 0";
+            }
+            if ($new) {
+                $query = $query . " AND `b`.`new` > 0";
+            }
+            $groups[$key]['count'] = $this->database->fetchOne($query, array('maker' => $id, 'group' => $value['id']));
+        }
+
+        return $groups;
+    }
+    
+    /**
+     * Возвращает массив параметров подбора для выбранной функциональной группы
+     * и выбранного производителя $id; результат работы кэшируется
+     */
+    public function getMakerGroupParams($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->makerGroupParams($id, $group, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+               . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив параметров подбора для выбранной функциональной группы
+     * и выбранного производителя $id
+     */
+    protected function makerGroupParams($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
+
+        if (0 == $group) {
+            return array();
+        }
+
+        // получаем список всех параметров подбора для выбранной функциональной
+        // группы и выбранного производителя
+        $query = "SELECT
+                      `e`.`id` AS `param_id`, `e`.`name` AS `param_name`,
+                      `f`.`id` AS `value_id`, `f`.`name` AS `value_name`,
+                      COUNT(*) AS `count`
+                  FROM
+                      `groups` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
+                      INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
+                      INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
+                  WHERE
+                      `a`.`id` = :group
+                      AND `b`.`maker` = :maker
+                      AND `b`.`visible` = 1
+                  GROUP BY
+                      1, 2, 3, 4
+                  ORDER BY
+                      `e`.`name`, `f`.`name`";
+        $result = $this->database->fetchAll($query, array('group' => $group, 'maker' => $id));
+
+        // теперь подсчитываем количество товаров для каждого параметра и каждого значения
+        // параметра с учетом фильтров по лидерам продаж, по новинкам и по параметрам
+        foreach ($result as $key => $value)  {
+            $query = "SELECT
+                          COUNT(*)
+                      FROM
+                          `groups` `a`
+                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                          INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
+                          INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
+                          INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
+                      WHERE
+                          `a`.`id` = :group
+                          AND `b`.`maker` = :maker
+                          AND `d`.`param_id` = :param_id
+                          AND `d`.`value_id` = :value_id
+                          AND `b`.`visible` = 1";
+            if ($hit) { // фильтр по лидерам продаж
+                $query = $query . " AND `b`.`hit` > 0";
+            }
+            if ($new) { // фильтр по новинкам
+                $query = $query . " AND `b`.`new` > 0";
+            }
+
+            $temp = $param;
+            if (( ! empty($temp)) && isset($temp[$value['param_id']])) {
+                unset($temp[$value['param_id']]);
+            }
+            if ( ! empty($temp)) { // фильтр по параметрам подбора
+                $ids = $this->getProductsByParam($group, $temp);
+                if ( ! empty($ids)) {
+                    $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
+                    $result[$key]['count'] = $this->database->fetchOne(
+                        $query,
+                        array('group' => $group, 'maker' => $id, 'param_id' => $value['param_id'], 'value_id' => $value['value_id'])
+                    );
+                } else {
+                    $result[$key]['count'] = 0;
+                }
+            } else {
+                $result[$key]['count'] = $this->database->fetchOne(
+                    $query,
+                    array('group' => $group, 'maker' => $id, 'param_id' => $value['param_id'], 'value_id' => $value['value_id'])
+                );
+            }
+        }
+
+        $params = array();
+        $param_id = 0;
+        $counter = -1;
+        foreach($result as $value) {
+            if ($param_id != $value['param_id']) {
+                $counter++;
+                $param_id = $value['param_id'];
+                $params[$counter] = array(
+                    'id' => $value['param_id'],
+                    'name' => $value['param_name']
+                );
+            }
+            $params[$counter]['values'][] = array(
+                'id' => $value['value_id'],
+                'name' => $value['value_name'],
+                'count' => $value['count']
+            );
+        }
+
+        return $params;
+
+    }
+    
+    /**
+     * Функция возвращает количество лидеров продаж для производителя с уникальным
+     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
+     * продаж, новинкам и т.п. Результат работы кэшируется
+     */
+    public function getCountMakerHit($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->countMakerHit($id, $group, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+               . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает количество лидеров продаж для производителя с уникальным
+     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
+     * продаж, новинкам и т.п.
+     */
+    protected function countMakerHit($id, $group, $hit, $new, $param) {
+
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                  WHERE
+                      `a`.`maker` = :maker AND `a`.`visible` = 1";
+        if ($group) { // фильтр по функциональной группе
+            $query = $query . " AND `a`.`group` = " . $group;
+        }
+        if ( ! $hit) {
+            $query = $query . " AND `a`.`hit` > 0";
+        }
+        if ($new) { // фильтр по новинкам
+            $query = $query . " AND `a`.`new` > 0";
+        }
+        return $this->database->fetchOne($query, array('maker' => $id));
+
+    }
+
+    /**
+     * Функция возвращает количество новинок для производителя с уникальным
+     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
+     * продаж, новинкам и т.п. Результат работы кэшируется
+     */
+    public function getCountMakerNew($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->countMakerNew($id, $group, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+               . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает количество новинок для производителя с уникальным
+     * идентификатором $id с учетом фильтров по функциональной группе, лидерам
+     * продаж, новинкам и т.п.
+     */
+    protected function countMakerNew($id, $group, $hit, $new, $param) {
+
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                  WHERE
+                      `a`.`maker` = :maker AND `a`.`visible` = 1";
+        if ($group) { // фильтр по функциональной группе
+            $query = $query . " AND `a`.`group` = " . $group;
+        }
+        if ($hit) { // фильтр по лидерам продаж
+            $query = $query . " AND `a`.`hit` > 0";
+        }
+        if ( ! $new) {
+            $query = $query . " AND `a`.`new` > 0";
+        }
+        return $this->database->fetchOne($query, array('maker' => $id));
+        
     }
 
     /**
@@ -1740,15 +1881,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя; результат работы кэшируется
      */
-    public function getMakerURL($id, $group = 0, $hit = 0, $new = 0, $sort = 0) {
+    public function getMakerURL($id, $group = 0, $hit = 0, $new = 0, $param = array(), $sort = 0) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->makerURL($id, $group, $hit, $new, $sort);
+            return $this->makerURL($id, $group, $hit, $new, $param, $sort);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new . '-sort-' . $sort;
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+               . '-param-' . md5(serialize($param)) . '-sort-' . $sort;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1762,7 +1904,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя
      */
-    protected function makerURL($id, $group, $hit, $new, $sort) {
+    protected function makerURL($id, $group, $hit, $new, $param, $sort) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
         if ($group) {
@@ -1773,6 +1915,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         if ($new) {
             $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
         }
         if ($sort) {
             $url = $url . '/sort/' . $sort;
@@ -1785,15 +1934,16 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
      * наименованию, коду (артикулу); результат работы кэшируется
      */
-    public function getMakerSortOrders($id, $group, $hit, $new) {
+    public function getMakerSortOrders($id, $group = 0, $hit = 0, $new = 0, $param = array()) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->makerSortOrders($id, $group, $hit, $new);
+            return $this->makerSortOrders($id, $group, $hit, $new, $param);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new;
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+                . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1807,7 +1957,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
      * наименованию, коду (артикулу)
      */
-    protected function makerSortOrders($id, $group, $hit, $new) {
+    protected function makerSortOrders($id, $group, $hit, $new, $param) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
         if ($group) {
@@ -1818,6 +1968,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         if ($new) {
             $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
         }
         /*
          * варианты сортировки:

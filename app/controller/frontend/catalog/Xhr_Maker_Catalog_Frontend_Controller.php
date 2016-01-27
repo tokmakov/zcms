@@ -39,8 +39,8 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         // обрабатываем данные формы: фильтр по функционалу, лидерам продаж,
-        // новинкам; сортировка
-        list($group, $hit, $new, $sort) = $this->processFormData();
+        // новинкам, параметрам; сортировка
+        list($group, $hit, $new, $param, $sort) = $this->processFormData();
 
         // получаем от модели массив функциональных групп
         $groups = $this->catalogFrontendModel->getMakerGroups(
@@ -48,13 +48,23 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $hit,
             $new
         );
+        
+        // получаем от модели массив всех параметров подбора
+        $params = $this->catalogFrontendModel->getMakerGroupParams(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $param
+        );
 
         // получаем от модели количество лидеров продаж
         $countHit = $this->catalogFrontendModel->getCountMakerHit(
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         // получаем от модели количество новинок
@@ -62,7 +72,8 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         /*
@@ -72,7 +83,8 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
         // URL этой страницы
         $thisPageURL = $this->catalogFrontendModel->getMakerURL(
@@ -80,6 +92,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
+            $param,
             $sort
         );
         $temp = new Pager(
@@ -100,6 +113,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
+            $param,
             $sort
         );
 
@@ -111,7 +125,8 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $this->params['id'],
             $group,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         // формируем HTML результатов фильтрации товаров
@@ -121,12 +136,13 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'id'          => $this->params['id'], // id производителя
                 'name'        => $maker['name'],      // название производителя
                 'group'       => $group,              // id выбранной функциональной группы или ноль
+                'param'       => $param,              // массив выбранных параметров подбора
                 'hit'         => $hit,                // показывать только лидеров продаж?
                 'countHit'    => $countHit,           // количество лидеров продаж
                 'new'         => $new,                // показывать только новинки?
                 'countNew'    => $countNew,           // количество новинок
                 'groups'      => $groups,             // массив функциональных групп
-                'params'      => array(),             // массив всех параметров подбора
+                'params'      => $params,             // массив всех параметров подбора
                 'sort'        => $sort,               // выбранная сортировка
                 'sortorders'  => $sortorders,         // массив вариантов сортировки
                 'units'       => $units,              // массив единиц измерения товара
@@ -174,6 +190,20 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         if (isset($_POST['new'])) {
             $new = 1;
         }
+        
+        $param = array(); // параметры подбора
+        if ($group && isset($_POST['param'])) {
+            foreach ($_POST['param'] as $key => $value) {
+                if ($key > 0 && ctype_digit($value) && $value > 0) {
+                    $param[$key] = (int)$value;
+                }
+            }
+        }
+        // если была выбрана новая функциональная группа, переданные параметры
+        // подбора учитывать не надо, потому как у новой группы они будут другие
+        if (isset($_POST['change']) && $_POST['change'] == 1) {
+            $param = array();
+        }
 
         $sort = 0; // сортировка
         if (isset($_POST['sort'])
@@ -183,7 +213,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $sort = (int)$_POST['sort'];
         }
 
-        return array($group, $hit, $new, $sort);
+        return array($group, $hit, $new, $param, $sort);
 
     }
 
