@@ -1,14 +1,3 @@
-if (window.location.hash.substr(0, 2) === '#!') {
-    var pathname;
-    if (/^\/catalog\/category\/[0-9]+/.test(window.location.pathname)) {
-        pathname = window.location.pathname.match(/^\/catalog\/category\/[0-9]+/i)[0] + window.location.hash.slice(2);
-        window.location.replace(pathname);
-    } else if (/^\/catalog\/maker\/[0-9]+/.test(window.location.pathname)) {
-        pathname = window.location.pathname.match(/^\/catalog\/maker\/[0-9]+/i)[0] + window.location.hash.slice(2);
-        window.location.replace(pathname);
-    }
-}
-
 $(document).ready(function() {
 
     // обработчик события добавления товара в корзину, к сравнению, в избранное
@@ -30,7 +19,7 @@ $(document).ready(function() {
                     if($('#top-search > div > div').is(':empty')) {
                         $('#top-search > div').empty();
                     }
-                },
+                }
             });
         } else {
             $('#top-search > div').empty();
@@ -198,100 +187,13 @@ $(document).ready(function() {
     });
 
     /*
-     * Свернуть/развернуть технические характеристики для страницы сравнения
-     */
-    $('.products-list-line > div > .product-line-techdata > div:last-child').hide();
-    $('.products-list-line > div > .product-line-techdata > div:first-child > span:last-child > span').click(function() {
-        $(this).parent().parent().next().slideToggle();
-        if ($(this).text() == 'показать') {
-            $(this).text('скрыть');
-        } else {
-            $(this).text('показать');
-        }
-    });
-
-    /*
-     * Фильтр для товаров выбранной категории
+     * Фильтр для товаров выбранной категории или производителя
      */
     $('#catalog-filter form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
     $('#catalog-filter form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
     $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
     $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
-
-    /*
-     * Свернуть/развернуть краткое описание товара распродажи
-     */
-    $('#sale-products table tr td:nth-child(3) > div').hide();
-    $('#sale-products table tr td:nth-child(3) > span').click(function () {
-        $(this).next().slideToggle();
-    });
-    
-    /*
-     * Свернуть/развернуть таблицу рейтинга продаж
-     */
-    $('#rating > div > div').hide();
-    $('#rating > div > p > span').click(function () {
-        $(this).parent().next().slideToggle();
-    });
-
-    /*
-     * Форма для редактирования личных данных пользователя
-     */
-    if ( ! $('#edit-user input[name="change"]').prop('checked')) {
-        $('#edit-user .password').hide();
-    }
-    $('#edit-user input[name="change"]').change(function() {
-        $('#edit-user .password').slideToggle();
-    });
-
-    /*
-     * Форма для добавления/редактирования профиля
-     */
-    // всплывающее окно с подсказкой для названия профиля
-    $('#add-edit-profile #profile-title-help').click(function() {
-        $('<div><p>Введите название профиля, например, «ИП&nbsp;Иванов» или «ООО&nbsp;Восход» или «Доставка на Онежскую улицу».</p></div>')
-        .prependTo('body')
-        .hide()
-        .addClass('modal-window')
-        .center()
-        .fadeIn(500, function() {
-            $(this).delay(3000).fadeOut(500, function() {
-                $(this).remove();
-            });
-        });
-    });
-    // всплывающее окно с подсказкой для юридического лица
-    $('#add-edit-profile #legal-person-help').click(function() {
-        $('<div><p>Отметьте флажок, чтобы использовать этот профиль для оформления заказов на юридическое лицо.</p><p>Укажите название компании, юридический адрес, ИНН, название банка, номер расчетного счета.</p></div>')
-        .prependTo('body')
-        .hide()
-        .addClass('modal-window')
-        .center()
-        .fadeIn(500, function() {
-            $(this).delay(3000).fadeOut(500, function() {
-                $(this).remove();
-            });
-        });
-    });
-    // если не отмечен checkbox «Юридическое лицо», скрываем часть формы, связанную с юридическим лицом
-    if ( ! $('#add-edit-profile input[name="legal_person"]').prop('checked')) {
-        $('#add-edit-profile > #legal-person').hide();
-    }
-    $('#add-edit-profile input[name="legal_person"]').change(function() {
-        $('#add-edit-profile > #legal-person').slideToggle();
-    });
-    // если отмечен checkbox «Самовывоз со склада», скрываем часть формы, связанную с адресом доставки
-    if ($('#add-edit-profile input[name="shipping"]').prop('checked')) {
-        $('#add-edit-profile > #shipping-address-city-index').hide();
-    } else {
-        $('#add-edit-profile select[name="office"]').hide();
-    }
-    $('#add-edit-profile input[name="shipping"]').change(function() {
-        $('#add-edit-profile > #shipping-address-city-index').slideToggle('normal', function() {
-            $('#add-edit-profile select[name="office"]').toggle();
-        });
-    });
 
 });
 
@@ -786,5 +688,5 @@ function removeSideCompareHandler() {
                 alert('Ошибка при удалении товаров из сравнения');
             }
         });
-    })
+    });
 }

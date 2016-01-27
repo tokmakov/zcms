@@ -36,6 +36,7 @@ if (is_file('temp/makers.txt')) {
 
 parseXML($register);
 updateTempTables($register);
+checkImages($register);
 updateWorkTables($register);
 
 function parseXML($register) {
@@ -336,17 +337,17 @@ function parseXML($register) {
         $data['image'] = '';
         if (is_file('files/catalog/src/temp/'.$data['code'].'.jpeg')) {
             $name = $name . '.jpg';
-            copy('files/catalog/src/temp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
+            //copy('files/catalog/src/temp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
         if (is_file('files/catalog/src/temp/'.$data['code'].'.png')) {
             $name = $name . '.png';
-            copy('files/catalog/src/temp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
+            //copy('files/catalog/src/temp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
         if (is_file('files/catalog/src/temp/'.$data['code'].'.gif')) {
             $name = $name . '.gif';
-            copy('files/catalog/src/temp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
+            //copy('files/catalog/src/temp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
         if ($image) {
@@ -648,7 +649,7 @@ function updateTempTables($register) {
     $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
     $register->database->execute($query, array('name' => 'Контроль и управление доступом', 'id' => 651));
     $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
-    $register->database->execute($query, array('name' => 'Оповещение и музыкальная трансляция', 'id' => 883));
+    $register->database->execute($query, array('name' => 'Системы оповещения', 'id' => 883));
     
     /*
      * ПРОИЗВОДИТЕЛИ
@@ -771,30 +772,37 @@ function updateTempTables($register) {
         $data['image'] = '';
         if (!empty($product['image'])) {
             $image = strtolower(substr($product['image'], 0, 36)) . '.jpg';
+            /*
             if (is_file('files/catalog/src/imgs/'.$product['image'])) {
                 // изменяем размер фото
-                resizeImage( // маленькое
+                $resize = resizeImage( // маленькое
                     'files/catalog/src/imgs/'.$product['image'],
                     'files/catalog/imgs/small/' . $image,
                     100,
                     100,
                     'jpg'
                 );
-                resizeImage( // среднее
-                    'files/catalog/src/imgs/'.$product['image'],
-                    'files/catalog/imgs/medium/' . $image,
-                    200,
-                    200,
-                    'jpg'
-                );
-                resizeImage( // большое
-                    'files/catalog/src/imgs/'.$product['image'],
-                    'files/catalog/imgs/big/' . $image,
-                    500,
-                    500,
-                    'jpg'
-                );
+                if (!$resize) {
+                    file_put_contents('temp/errors.txt', 'Не удалось изменить размер изображения '.$product['image'].' для товара '.$product['code'].PHP_EOL, FILE_APPEND);
+                    $image = '';
+                } else {
+                    resizeImage( // среднее
+                        'files/catalog/src/imgs/'.$product['image'],
+                        'files/catalog/imgs/medium/' . $image,
+                        200,
+                        200,
+                        'jpg'
+                    );
+                    resizeImage( // большое
+                        'files/catalog/src/imgs/'.$product['image'],
+                        'files/catalog/imgs/big/' . $image,
+                        500,
+                        500,
+                        'jpg'
+                    );
+                }
             }
+            */
             $data['image'] = $image;
         }
           
@@ -987,7 +995,7 @@ function updateTempTables($register) {
     }
     // если у каких-то товаров изменились фото
     $query = "SELECT
-                  `a`.`id` AS `id`, `a`.`image` AS `new`, `b`.`image` AS `old`
+                  `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`image` AS `new`, `b`.`image` AS `old`
               FROM
                   `tmp_products` `a` INNER JOIN `temp_products` `b`
                   ON `a`.`id` = `b`.`id`
@@ -1012,17 +1020,18 @@ function updateTempTables($register) {
         // если в 1С у товара новое фото
         $image = strtolower(substr($item['new'], 0, 36)) . '.jpg';
         if (is_file('files/catalog/src/imgs/'.$item['new'])) {
-            if (substr($item['new'], 0, -3) == 'png') {
-                echo $image . PHP_EOL;
-            }
             // изменяем размер фото
-            resizeImage( // маленькое
+            $resize = resizeImage( // маленькое
                 'files/catalog/src/imgs/'.$item['new'],
                 'files/catalog/imgs/small/' . $image,
                 100,
                 100,
                 'jpg'
             );
+            if (!$resize) {
+                file_put_contents('temp/errors.txt', 'Не удалось изменить размер изображения '.$item['new'].' для товара '.$item['code'].PHP_EOL, FILE_APPEND);
+                continue;
+            }
             resizeImage( // среднее
                 'files/catalog/src/imgs/'.$item['new'],
                 'files/catalog/imgs/medium/' . $image,
@@ -1247,7 +1256,8 @@ function updateTempTables($register) {
             continue;
         }
         $dst = 'files/catalog/docs/' . strtolower($doc['filename']);
-        copy($src, $dst);
+        // ПОТОМ УДАЛИТЬ КОММЕНТАРИЙ СЛЕДУЮЩЕЙ СТРОКИ!!!
+        // copy($src, $dst);
         $md5 = md5_file($dst);
         $query = "INSERT INTO `temp_docs`
                   (
@@ -1271,7 +1281,7 @@ function updateTempTables($register) {
             $query,
             array(
                 'title' => $doc['title'],
-                'filename' => $doc['filename'],
+                'filename' => strtolower($doc['filename']),
                 'filetype' => $doc['filetype'],
                 'md5' => $md5,
                 'code' => $doc['code']
@@ -1784,6 +1794,19 @@ function updateWorkTables($register) {
 
 }
 
+function checkImages($register) {
+    $query = "SELECT `id`, `code`, `image` FROM `temp_products` WHERE `image` <> ''";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (is_file('files/catalog/imgs/big/' . $item['image'])) {
+            continue;
+        }
+        file_put_contents('temp/errors.txt', 'Файл '.$item['image'].' для товара '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+    }
+}
+
 function updateSortOrderAllCategories($id, $sortorder, $level) {
     $register = Register::getInstance();
     // начало и конец строки, задающей сортировку
@@ -1856,6 +1879,9 @@ function resizeImage($src, $dst, $width, $height, $res = '', $rgb = array(255,25
 
     // читаем в память файл изображения с помощью функции imagecreatefrom...
     $isrc = $func($src);
+    if (!is_resource($isrc)) {
+        return false;
+    }
     // создаем новое изображение
     $idst = imagecreatetruecolor($width, $height);
 
@@ -1869,7 +1895,7 @@ function resizeImage($src, $dst, $width, $height, $res = '', $rgb = array(255,25
     imagefill($idst, 0, 0, $background);
 
     // копируем существующее изображение в новое с изменением размера
-    imagecopyresampled(
+    $resize = imagecopyresampled(
         $idst, // идентификатор нового изображения
         $isrc, // идентификатор исходного изображения
         $new_left, $new_top, // координаты (x,y) верхнего левого угла в новом изображении

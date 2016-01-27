@@ -244,11 +244,21 @@ $settings = array(
                 'index.js',
                 'tabs.js',
             ),
+            'basket-checkout' => 'basket-checkout.js', // корзина и оформление заказа
             'blog' => array(                     // блог
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
+            'catalog' => array(                  // каталог товаров
+                'reload.js',
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js',
+            ),
+            'compare'    => 'compare.js',        // сравнение товаров
+            'rating'     => 'rating.js',         // рейтинг лидеров продаж
+            'sale'       => 'sale.js',           // распродажа
             'sitemap'    => 'sitemap.js',        // карта сайта
             'solutions'  => array(               // типовые решения
                 'solutions.js',
@@ -256,12 +266,6 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'catalog' => array(                  // каталог товаров
-                'fancybox/jquery.mousewheel-3.0.6.pack.js',
-                'fancybox/jquery.fancybox.pack.js',
-                'lightbox.js',
-            ),
-            'basket-checkout' => 'basket-checkout.js', // корзина и оформление заказа
             'user'            => 'user.js',      // личный кабинет
             'wished'          => 'wished.js',    // избранное (отложенные товары)
 
