@@ -1686,6 +1686,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if ($new) { // фильтр по новинкам
             $query = $query . " AND `a`.`new` > 0";
         }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($group, $param);
+            if (empty($ids)) {
+                return 0;
+            }
+            $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
+        }
         return $this->database->fetchOne($query, array('maker' => $id));
 
     }
@@ -1736,6 +1743,13 @@ class Catalog_Frontend_Model extends Frontend_Model {
         }
         if ( ! $new) {
             $query = $query . " AND `a`.`new` > 0";
+        }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($group, $param);
+            if (empty($ids)) {
+                return 0;
+            }
+            $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
         return $this->database->fetchOne($query, array('maker' => $id));
         
