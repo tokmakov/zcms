@@ -291,5 +291,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/catalog/product/center.php -->
-
-

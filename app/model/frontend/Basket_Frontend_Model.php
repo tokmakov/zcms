@@ -30,6 +30,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if (0 == $quantity) {
             return;
         }
+        if ($quantity > 100000) {
+            $quantity = 100000;
+        }
         // такой товар уже есть в корзине?
         $query = "SELECT
                       1
@@ -99,6 +102,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = (int)$key;
             $value = (int)$value;
             if ($value) { // если количество товара не равно нулю
+                if ($value > 100000) {
+                    $value = 100000;
+                }
                 $query = "UPDATE
                               `baskets`
                           SET

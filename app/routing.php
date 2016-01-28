@@ -401,10 +401,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/maker/$1/group/$2/hit/1/sort/$3/page/$4',
         // 37. товары производителя, фильтр по функционалу, новинки, фильтр по параметрам, сортировка
-        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/maker/$1/group/$2/hit/1/param/$3/sort/$4',
         // 38. товары производителя, фильтр по функционалу, новинки, фильтр по параметрам, постраничная навигация
-        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
+        '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/maker/$1/group/$2/hit/1/param/$3/page/$4',
         // 39. товары производителя, фильтр по функционалу, новинки, сортировка, постраничная навигация
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/new/1/sort/(\d)/page/(\d+)$~i' =>

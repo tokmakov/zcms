@@ -30,9 +30,6 @@ $register->database = Database::getInstance();
 if (is_file('temp/errors.txt')) {
     unlink('temp/errors.txt');
 }
-if (is_file('temp/makers.txt')) {
-    unlink('temp/makers.txt');
-}
 
 parseXML($register);
 updateTempTables($register);
@@ -224,8 +221,9 @@ function parseXML($register) {
         echo 'cert ' . $data['code'] . PHP_EOL;
         $data['title'] = trim($cert->title);
         if (empty($data['title'])) continue;
-        $data['filename'] = trim($cert->files->name);
-        if (empty($data['filename'])) continue;
+        $filename = trim($cert->files->name);
+        if (empty($filename)) continue;
+        $data['filename'] = $filename[0] . '/' . $filename[1] . '/' . $filename;
         $data['count'] = (int)$cert->files->count;
         if (empty($data['count'])) continue;
         $query = "INSERT INTO `tmp_certs`
@@ -340,13 +338,18 @@ function parseXML($register) {
             //copy('files/catalog/src/temp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
+        if (is_file('files/catalog/src/temp/'.$data['code'].'.jpg')) {
+            $name = $name . '.jpg'; // потому как все файлы теперь jpg
+            //copy('files/catalog/src/temp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
         if (is_file('files/catalog/src/temp/'.$data['code'].'.png')) {
-            $name = $name . '.png';
+            $name = $name . '.jpg'; // потому как все файлы теперь jpg
             //copy('files/catalog/src/temp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
         if (is_file('files/catalog/src/temp/'.$data['code'].'.gif')) {
-            $name = $name . '.gif';
+            $name = $name . '.jpg'; // потому как все файлы теперь jpg
             //copy('files/catalog/src/temp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
             $image = true;
         }
@@ -772,7 +775,6 @@ function updateTempTables($register) {
         $data['image'] = '';
         if (!empty($product['image'])) {
             $image = strtolower(substr($product['image'], 0, 36)) . '.jpg';
-            /*
             if (is_file('files/catalog/src/imgs/'.$product['image'])) {
                 // изменяем размер фото
                 $resize = resizeImage( // маленькое
@@ -802,7 +804,6 @@ function updateTempTables($register) {
                     );
                 }
             }
-            */
             $data['image'] = $image;
         }
           
@@ -1003,7 +1004,9 @@ function updateTempTables($register) {
                   LEFT(LOWER(`a`.`image`), 36) <> LEFT(`b`.`image`, 36)";
     $items = $register->database->fetchAll($query);
     foreach ($items as $item) {
-        // если фото товара было удалено в 1С
+        /*
+         * если фото товара было удалено в 1С
+         */
         if (empty($item['new'])) {
             // удаляем его и на сайте
             if (is_file('files/catalog/imgs/small/'.$item['old'])) {
@@ -1015,9 +1018,28 @@ function updateTempTables($register) {
             if (is_file('files/catalog/imgs/big/'.$item['old'])) {
                 unlink('files/catalog/imgs/big/'.$item['old']);
             }
+            $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
+            $register->database->execute($query, array('id' => $item['id']));
             continue;
         }
-        // если в 1С у товара новое фото
+        /*
+         * если в 1С у товара новое фото
+         */
+        // сначала удаляем старое фото
+        if (!empty($item['old'])) {
+            if (is_file('files/catalog/imgs/small/'.$item['old'])) {
+                unlink('files/catalog/imgs/small/'.$item['old']);
+            }
+            if (is_file('files/catalog/imgs/medium/'.$item['old'])) {
+                unlink('files/catalog/imgs/medium/'.$item['old']);
+            }
+            if (is_file('files/catalog/imgs/big/'.$item['old'])) {
+                unlink('files/catalog/imgs/big/'.$item['old']);
+            }
+            $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
+            $register->database->execute($query, array('id' => $item['id']));
+        }
+        // потом добавляем новое фото
         $image = strtolower(substr($item['new'], 0, 36)) . '.jpg';
         if (is_file('files/catalog/src/imgs/'.$item['new'])) {
             // изменяем размер фото
@@ -1030,24 +1052,41 @@ function updateTempTables($register) {
             );
             if (!$resize) {
                 file_put_contents('temp/errors.txt', 'Не удалось изменить размер изображения '.$item['new'].' для товара '.$item['code'].PHP_EOL, FILE_APPEND);
-                continue;
+            } else {
+                resizeImage( // среднее
+                    'files/catalog/src/imgs/'.$item['new'],
+                    'files/catalog/imgs/medium/' . $image,
+                    200,
+                    200,
+                    'jpg'
+                );
+                resizeImage( // большое
+                    'files/catalog/src/imgs/'.$item['new'],
+                    'files/catalog/imgs/big/' . $image,
+                    500,
+                    500,
+                    'jpg'
+                );
+                $query = "UPDATE `temp_products` SET `image` = :image WHERE `id` = :id";
+                $register->database->execute($query, array('image' => $image, 'id' => $item['id']));
             }
-            resizeImage( // среднее
-                'files/catalog/src/imgs/'.$item['new'],
-                'files/catalog/imgs/medium/' . $image,
-                200,
-                200,
-                'jpg'
-            );
-            resizeImage( // большое
-                'files/catalog/src/imgs/'.$item['new'],
-                'files/catalog/imgs/big/' . $image,
-                500,
-                500,
-                'jpg'
-            );
+
         }
         
+    }
+    
+    // порядок сортировки товаров внутри родительской категории
+    $query = "SELECT `id` FROM `temp_categories` WHERE `id` IN (SELECT `category` FROM `temp_products` WHERE 1)";
+    $categories = $register->database->fetchAll($query);
+    foreach ($categories as $category) {
+        $query = "SELECT `id` FROM `temp_products` WHERE `category` = :category ORDER BY `sortorder`";
+        $products = $register->database->fetchAll($query, array('category' => $category['id']));
+        $sortorder = 1;
+        foreach ($products as $product) {
+            $query = "UPDATE `temp_products` SET `sortorder` = :sortorder WHERE `id` = :id";
+            $register->database->execute($query, array('sortorder' => $sortorder, 'id' => $product['id']));
+            $sortorder++;
+        }
     }
     
     /*
@@ -1253,11 +1292,12 @@ function updateTempTables($register) {
     foreach ($docs as $doc) {
         $src = 'files/catalog/src/docs/'.$doc['filename'];
         if (!is_file($src)) {
+            $register->database->execute("DELETE FROM `tmp_docs` WHERE `code` = :code", array('code' => $doc['code']));
+            $register->database->execute("DELETE FROM `tmp_doc_prd` WHERE `doc_code` = :code", array('code' => $doc['code']));
             continue;
         }
         $dst = 'files/catalog/docs/' . strtolower($doc['filename']);
-        // ПОТОМ УДАЛИТЬ КОММЕНТАРИЙ СЛЕДУЮЩЕЙ СТРОКИ!!!
-        // copy($src, $dst);
+        copy($src, $dst);
         $md5 = md5_file($dst);
         $query = "INSERT INTO `temp_docs`
                   (
@@ -1306,12 +1346,50 @@ function updateTempTables($register) {
      */
     echo 'update temp table certs'. PHP_EOL;
     // удаляем те записи о сертификатах, которых уже нет в 1С
+    $query = "SELECT * FROM `temp_certs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_certs` WHERE 1)";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (!is_file('files/catalog/cetr/'.$item['filename'])) {
+            continue;
+        }
+        unlink('files/catalog/certs/'.$item['filename']);
+        if ($item['count'] > 1) {
+            $page = 1;
+            while ($page <= $item['count']) {
+                $filename = str_replace('.jpg', $page.'.jpg', $item['filename']);
+                if (is_file('files/catalog/cert/'.$filename) ) {
+                    unlink('files/catalog/cert/'.$filename);
+                }
+                $page++;
+            }
+        }
+    }
     $query = "DELETE FROM `temp_certs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_certs` WHERE 1)";
     $register->database->execute($query);
     // добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
     $query = "SELECT * FROM `tmp_certs` WHERE `code` NOT IN (SELECT `code` FROM `temp_certs` WHERE 1)";
     $certs = $register->database->fetchAll($query);
     foreach ($certs as $cert) {
+        $src = 'files/catalog/src/cert/'.$cert['filename'];
+        if (!is_file($src)) {
+            $register->database->execute("DELETE FROM `tmp_certs` WHERE `code` = :code", array('code' => $cert['code']));
+            $register->database->execute("DELETE FROM `tmp_cert_prod` WHERE `cert_code` = :code", array('code' => $cert['code']));
+            continue;
+        }
+        $dst = 'files/catalog/cert/' . strtolower($cert['filename']);
+        copy($src, $dst);
+        if ($cert['count'] > 1) {
+            $page = 1;
+            while ($page <= $cert['count']) {
+                $filename = str_replace('.jpg', $page.'.jpg', $cert['filename']);
+                $src = 'files/catalog/src/cert/'.$filename;
+                $dst = 'files/catalog/cert/' . strtolower($filename);
+                if (is_file($src)) {
+                    copy($src, $dst);
+                }
+                $page++;
+            }
+        }
         $query = "INSERT INTO `temp_certs`
                   (
                       `title`,
@@ -1330,7 +1408,7 @@ function updateTempTables($register) {
             $query,
             array(
                 'title' => $cert['title'],
-                'filename' => $cert['filename'],
+                'filename' => strtolower($cert['filename']),
                 'count' => $cert['count'],
                 'code' => $cert['code']
             )
@@ -1360,10 +1438,9 @@ function updateTempTables($register) {
     $query = "SELECT * FROM `tmp_doc_prd` WHERE `concat_code` NOT IN (SELECT `concat_code` FROM `temp_doc_prd` WHERE 1)";
     $rows = $register->database->fetchAll($query);
     foreach ($rows as $row) {
-        // уникальный идентификатор докмента
+        // уникальный идентификатор документа
         $query = "SELECT `id` FROM `temp_docs` WHERE `code` = :doc_code";
         $doc_id = $register->database->fetchOne($query, array('doc_code' => $row['doc_code']));
-        // TODO: такого быть не должно
         if (false === $doc_id) {
             file_put_contents('temp/errors.txt', 'Попытка привязать не существующий документ '.$row['doc_code'].' к товару '.$row['prd_id'].PHP_EOL, FILE_APPEND);
             continue;
@@ -1404,7 +1481,6 @@ function updateTempTables($register) {
         // уникальный идентификатор сертификата
         $query = "SELECT `id` FROM `temp_certs` WHERE `code` = :cert_code";
         $cert_id = $register->database->fetchOne($query, array('cert_code' => $row['cert_code']));
-        // TODO: такого быть не должно
         if (false === $cert_id) {
             file_put_contents('temp/errors.txt', 'Попытка привязать не существующий сертификат '.$row['cert_code'].' к товару '.$row['prod_id'].PHP_EOL, FILE_APPEND);
             continue;

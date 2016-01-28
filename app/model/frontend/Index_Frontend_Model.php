@@ -210,7 +210,7 @@ class Index_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `b`.`globalsort`, `a`.`sortorder`
                   LIMIT
-                      15";
+                      20";
         $products = $this->database->fetchAll($query);
 
         // добавляем в массив товаров информацию об URL товаров, фото
@@ -268,7 +268,7 @@ class Index_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `b`.`globalsort`, `a`.`sortorder`
                   LIMIT
-                      15";
+                      20";
         $products = $this->database->fetchAll($query);
 
         // добавляем в массив товаров информацию об URL товаров, фото

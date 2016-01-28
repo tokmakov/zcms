@@ -22,6 +22,9 @@
         .page .office-block .office-info > p:nth-child(odd) {
             margin: 0 0 14px 0;
         }
+        .page .office-block .office-info > p:last-child {
+            margin: 0;
+        }
             .page .office-block .office-info > p:first-child > a {
                 color: #395985;
             }

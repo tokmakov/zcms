@@ -1,7 +1,8 @@
 $(document).ready(function() {
     $('#banner-slider').bxSlider({
         controls: false,
-        startSlide: 0
+        auto: true,
+        mode: 'fade'
     });
 
     var hitSlider =
@@ -10,7 +11,9 @@ $(document).ready(function() {
             slideWidth: 130,
             minSlides: 2,
             maxSlides: 7,
-            slideMargin: 12
+            slideMargin: 12,
+            auto: true,
+            autoDelay: 500
         });
 
     var newSlider =
@@ -19,7 +22,9 @@ $(document).ready(function() {
             slideWidth: 130,
             minSlides: 2,
             maxSlides: 7,
-            slideMargin: 12
+            slideMargin: 12,
+            auto: true,
+            autoDelay: 500
         });
 
     $('#new-hit-tabs > div > div:not(:first-child)').hide();
