@@ -1730,6 +1730,15 @@ div.attention {
             #product .product-item-others .center-block > div:last-child > ul > li {
                 padding: 2px;
             }
+        #product .product-item-others .center-block > div:last-child > a {
+            display: inline-block;
+            margin: 3px;
+        }
+            #product .product-item-others .center-block > div:last-child > a > img {
+               width: 100px;
+                border: 1px solid #d1d1d1;
+
+            }
 
 /* список всех производителей */
 #all-makers {

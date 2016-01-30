@@ -28,6 +28,7 @@
  * $equipment - доп. оборудование
  * $padding - доп. информация
  * $docs - файлы документации
+ * $certs - файлы сертификатов
  * $action - атирибут action тега form формы для добавления товара
  * в корзину, в список отложенных, в список сравнения
  *
@@ -251,6 +252,19 @@ defined('ZCMS') or die('Access denied');
                         <li><a href="<?php echo $doc['url']; ?>" target="_blank"><?php echo $doc['title']; ?></a></li>
                     <?php endforeach; ?>
                     </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($certs)): ?>
+            <div class="center-block">
+                <div><h3>Сертификаты</h3></div>
+                <div>
+                    <?php foreach ($certs as $cert): ?>
+                        <?php foreach ($cert['files'] as $file): ?>
+                            <a href="<?php echo $file; ?>" class="zoom" rel="certs"><img src="<?php echo $file; ?>" alt="<?php echo str_replace('"', '', $cert['title']); ?>" /></a>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         <?php endif; ?>

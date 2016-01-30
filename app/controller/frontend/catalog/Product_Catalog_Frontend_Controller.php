@@ -97,11 +97,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $techdata = unserialize($product['techdata']);
         }
 
-        // файлы документации
-        foreach ($product['docs'] as $key => $value) {
-            $product['docs'][$key]['url'] = $this->config->site->url . 'files/catalog/docs/' . $value['file'];
-        }
-
         // фото товара
         if ((!empty($product['image'])) && is_file('files/catalog/imgs/medium/' . $product['image'])) {
             $image['medium'] = $this->config->site->url . 'files/catalog/imgs/medium/' . $product['image'];
@@ -180,7 +175,9 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'padding'      => $product['padding'],
             // файлы документации
             'docs'         => $product['docs'],
-            // атирибут action тега form формы для добавления товара в корзину, в список отложенных, в список сравнения
+            // файлы сертификатов
+            'certs'        => $product['certs'],
+            // атирибут action тега form формы для добавления товара в корзину, в избранное, в список сравнения
             'action'       => array(
                 'basket'   => $this->catalogFrontendModel->getURL('frontend/basket/addprd'),
                 'wished'   => $this->catalogFrontendModel->getURL('frontend/wished/addprd'),

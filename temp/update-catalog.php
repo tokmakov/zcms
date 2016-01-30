@@ -1355,7 +1355,7 @@ function updateTempTables($register) {
         unlink('files/catalog/certs/'.$item['filename']);
         if ($item['count'] > 1) {
             $page = 1;
-            while ($page <= $item['count']) {
+            while ($page < $item['count']) {
                 $filename = str_replace('.jpg', $page.'.jpg', $item['filename']);
                 if (is_file('files/catalog/cert/'.$filename) ) {
                     unlink('files/catalog/cert/'.$filename);
@@ -1380,7 +1380,7 @@ function updateTempTables($register) {
         copy($src, $dst);
         if ($cert['count'] > 1) {
             $page = 1;
-            while ($page <= $cert['count']) {
+            while ($page < $cert['count']) {
                 $filename = str_replace('.jpg', $page.'.jpg', $cert['filename']);
                 $src = 'files/catalog/src/cert/'.$filename;
                 $dst = 'files/catalog/cert/' . strtolower($filename);

@@ -163,6 +163,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         if (false === $product) {
             return null;
         }
+
         // добавляем информацию о файлах документации
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`title` AS `title`,
@@ -175,6 +176,43 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `a`.`title`";
         $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
+        // ссылки на файлы документации
+        foreach ($product['docs'] as $key => $value) {
+            $product['docs'][$key]['url'] = $this->config->site->url . 'files/catalog/docs/' . $value['file'];
+        }
+
+        // добавляем информацию о сертификатах
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`title` AS `title`,
+                      `a`.`filename` AS `file`, `a`.`count` AS `count`
+                  FROM
+                      `certs` `a` INNER JOIN `cert_prod` `b`
+                      ON `a`.`id`=`b`.`cert_id`
+                  WHERE
+                      `b`.`prod_id` = :id
+                  ORDER BY
+                      `a`.`title`";
+        $temp = $this->database->fetchAll($query, array('id' => $id));
+        // ссылки на файлы сертификатов: у товара может быть несколько сертификатов, а каждый
+        // сертификат может иметь несколько файлов (т.е. содержать несколько страниц)
+        $certs = array();
+        foreach ($temp as $key => $value) {
+            if ( ! is_file('files/catalog/cert/' . $value['file'])) {
+                continue;
+            }
+            $certs[$key]['title'] = $value['title'];
+            $certs[$key]['count'] = $value['count'];
+            $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $value['file'];
+            if ($value['count'] > 1) {
+                $page = 1;
+                while ($page < $value['count']) {
+                    $file = str_replace('.jpg', $page.'.jpg', $value['file']);
+                    $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $file;
+                    $page++;
+                }
+            }
+        }
+        $product['certs'] = $certs;
 
         return $product;
     }
