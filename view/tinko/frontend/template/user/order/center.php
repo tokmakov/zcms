@@ -27,7 +27,7 @@ defined('ZCMS') or die('Access denied');
 <div id="user-order">
     <p>
         <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
-        <span>Итого: <strong><?php echo number_format($order['amount'], 2, '.', ''); ?></strong> руб.</span>
+        <span>Итого: <strong><?php echo number_format($order['amount'], 2, '.', ' '); ?></strong> руб.</span>
     </p>
     <table>
         <tr>

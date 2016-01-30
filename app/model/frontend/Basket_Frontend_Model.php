@@ -312,7 +312,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getSideTotalCost() {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->sideTotalCost();
         }
 
@@ -510,7 +510,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             } else {
                 $email = $form['buyer_email'];
             }
-            $this->sendOrderMail($email, $orderId, $form, $products);
+            $this->sendOrderMail($email, $orderId, $form, $products, $data['user_amount']);
         }
 
         // удаляем старые корзины
@@ -522,7 +522,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция формирует и отправляет письма о заказе покупателю и администратору
      */
-    private function sendOrderMail($email, $orderId, $details, $products) {
+    private function sendOrderMail($email, $orderId, $details, $products, $user_amount) {
         $html = '<h2>Заказ № '.$orderId.'</h2>' . PHP_EOL;
         $html = $html . '<table border="1">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
@@ -538,7 +538,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $html = $html . '</tr>' . PHP_EOL;
         }
         $html = $html . '<tr>' . PHP_EOL;
-        $html = $html . '<td colspan="4" align="right">Итого</td><td>'.number_format($data['user_amount'], 2, '.', '').'</td>' . PHP_EOL;
+        $html = $html . '<td colspan="4" align="right">Итого</td><td>'.number_format($user_amount, 2, '.', '').'</td>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
         $html = $html . '</table>' . PHP_EOL;
 
@@ -547,7 +547,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '<li>'.$details['buyer_name'].'</li>' . PHP_EOL;
         $html = $html . '<li>'.$details['buyer_surname'].'</li>' . PHP_EOL;
         $html = $html . '<li>'.$details['buyer_email'].'</li>' . PHP_EOL;
-        if (!empty($details['buyer_phone'])) {
+        if ( ! empty($details['buyer_phone'])) {
             $html = $html . '<li>'.$details['buyer_phone'].'</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
@@ -706,7 +706,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->recommendedProducts($ids);
         }
 

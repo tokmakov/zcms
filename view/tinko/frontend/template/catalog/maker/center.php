@@ -298,7 +298,11 @@ for ($i = 0; $i <= 6; $i++) {
                     <?php endif; ?>
                 </div>
                 <div class="product-line-image">
-                    <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
+                    <a href="<?php echo $product['url']['product']; ?>">
+                        <?php if ($product['hit']): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
+                        <?php if ($product['new']): ?><span class="new-product">Новинка</span><?php endif; ?>
+                        <img src="<?php echo $product['url']['image']; ?>" alt="" />
+                    </a>
                 </div>
                 <div class="product-line-info">
                     <div>

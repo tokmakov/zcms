@@ -61,8 +61,8 @@
     text-align: center;
 }
     .new-hit-item > div:first-child {
-        height: 30px;
-        margin-bottom: 5px;
+        height: 31px;
+        margin-bottom: 4px;
         overflow: hidden;
     }
         .new-hit-item > div:first-child > a {

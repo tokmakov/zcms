@@ -283,7 +283,7 @@
             top: -27px;
             min-width: 154px;
             margin: 0;
-            color: #333;
+            color: #395985;
             background: #fafafa;
             font-size: 16px;
             line-height: 16px;
@@ -504,9 +504,11 @@
         float: right;
         text-align: right;
     }
-    #user-order > p > span:last-child > strong {
+    #user-order > p > span:last-child > strong { /* сумма заказа */
         color: #395985;
         font-size: 18px;
+        word-spacing: -1px;
+        letter-spacing: -1px;
     }
     #user-order > table { /* таблица заказа */
         border-collapse: collapse;
