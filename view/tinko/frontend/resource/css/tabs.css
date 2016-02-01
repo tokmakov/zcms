@@ -45,6 +45,9 @@
                 line-height: 32px;
                 color: #323232;
                 text-decoration: none;
+                max-width: 120px;
+                white-space: nowrap;
+                overflow: hidden;
             }
                 .tabs > ul > li > a > span {
                     border-bottom: 1px dashed #323232;
@@ -61,29 +64,8 @@
             padding: 0 5px;
         }
 }
-@media screen and (max-width: 430px) {
-    .tabs > ul {
-        float: none;
-        list-style: disc outside;
-        border-bottom: none;
+@media screen and (max-width: 400px) {
+    .tabs > ul > li > a {
+        max-width: 99px;
     }
-    .tabs > ul > li {
-        float: none;
-        border: none;
-        background: transparent;
-        margin-left: 0;   
-    }
-        .tabs > ul > li:first-child {
-            margin-left: 0;
-        }
-        .tabs > ul > li > a {
-            height: 24px;
-            line-height: 24px;   
-        }
-        .tabs > ul > li.current > a {
-            color: #395985;
-        }
-            .tabs > ul > li.current > a > span {
-                border-bottom: 1px dashed #395985;
-            }
 }

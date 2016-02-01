@@ -117,7 +117,7 @@
     }
 }
 
-@media screen and (max-width: 940px) {
+@media screen and (max-width: 1100px) {
     /* список товаров категории */
     .products-list-line > div > .product-line-basket {
         clear: left;
@@ -131,7 +131,7 @@
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     .products-list-line {
         word-spacing: normal;
     }

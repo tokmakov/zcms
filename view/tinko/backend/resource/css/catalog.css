@@ -129,20 +129,14 @@
                         text-decoration: underline;
                         cursor: pointer;
                     }
+            #add-edit-product > #params > div:first-child > span {
+                border-bottom: 1px dashed #323232;
+                cursor: pointer;
+            }
             #add-edit-product > #params > div:last-child > div {
-                float: left;
-                width: 49.6%;
                 background: #fff;
                 margin-bottom: 2px;
-                min-height: 65px;
                 padding: 5px;
-                box-sizing: border-box;
-            }
-            #add-edit-product > #params > div:last-child > div:nth-child(odd) {
-                margin-right: 0.2%;
-            }
-            #add-edit-product > #params > div:last-child > div:nth-child(even) {
-                margin-left: 0.2%;
             }
             #add-edit-product > #params > div:last-child > div > p {
                 margin: 0 0 5px 0;
@@ -151,9 +145,9 @@
                 list-style: none;
                 margin: 0;
                 padding: 0;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                column-count: 2;
+                -webkit-column-count: 4;
+                -moz-column-count: 4;
+                column-count: 4;
             }
 
 /* форма для добавления/редактирования категории */

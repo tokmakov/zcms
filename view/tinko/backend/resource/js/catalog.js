@@ -55,8 +55,14 @@ $(document).ready(function() {
             dataType: 'html',
             data: 'group=' + group + '&product=' + product,
             success: function(html) {
-                $('#params-values').html(html);
+                $('#params > div:last-child').html(html);
             },
         });
+    });
+    
+    // показать/скрыть параметры подбора
+    $('#params > div:last-child').hide();
+    $('#params > div:first-child > span').click(function() {
+        $(this).parent().next().slideToggle();
     });
 });

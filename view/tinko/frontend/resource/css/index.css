@@ -46,6 +46,9 @@
                 line-height: 32px;
                 color: #323232;
                 text-decoration: none;
+                max-width: 105px;
+                white-space: nowrap;
+                overflow: hidden;
             }
                 #new-hit-tabs > ul > li > a > span {
                     border-bottom: 1px dashed #323232;
@@ -168,29 +171,8 @@
             padding: 0 5px;
         }
 }
-@media screen and (max-width: 430px) {
-    #new-hit-tabs > ul {
-        float: none;
-        list-style: disc outside;
-        border-bottom: none;
+@media screen and (max-width: 400px) {
+    .tabs > ul > li > a {
+        max-width: 120px !important;
     }
-        #new-hit-tabs > ul > li {
-            float: none;
-            border: none;
-            background: transparent;
-            margin-left: 0;
-        }
-        #new-hit-tabs > ul > li:first-child {
-            margin-left: 0;
-        }
-            #new-hit-tabs > ul > li > a {
-                height: 24px;
-                line-height: 24px;
-            }
-            #new-hit-tabs > ul > li.current > a {
-                color: #395985;
-            }
-                #new-hit-tabs > ul > li.current > a > span {
-                    border-bottom: 1px dashed #395985;
-                }
 }

@@ -280,8 +280,8 @@ defined('ZCMS') or die('Access denied');
         </div>
     </div>
     <div id="params">
-        <div>Параметры и значения</div>
-        <div id="params-values">
+        <div><span>Параметры и значения</span></div>
+        <div>
             <?php if (!empty($allParams)): ?>
                 <?php foreach ($allParams as $item): ?>
                     <div>
