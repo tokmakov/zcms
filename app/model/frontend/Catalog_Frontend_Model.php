@@ -345,8 +345,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив идентификаторов всех потомков категории $id, т.е.
      * дочерние, дочерние дочерних и так далее; результат работы кэшируется
      */
-    // TODO: public или protected или private?
-    public function getAllChildIds($id) {
+    private function getAllChildIds($id) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
             return $this->allChildIds($id);

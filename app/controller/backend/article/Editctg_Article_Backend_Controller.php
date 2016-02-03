@@ -1,10 +1,11 @@
 <?php
 /**
- * Класс Editctg_News_Backend_Controller для редактирования категории, формирует
+ * Класс Editctg_Article_Backend_Controller для редактирования категории, формирует
  * страницу с формой для редактирования категории, обновляет запись в таблице БД
- * news_ctgs, работает с моделью News_Backend_Model, административная часть сайта
+ * articles_categories, работает с моделью Article_Backend_Model, административная
+ * часть сайта
  */
-class Editctg_News_Backend_Controller extends News_Backend_Controller {
+class Editctg_Article_Backend_Controller extends Article_Backend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -12,15 +13,16 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
+     * с формой для редактирования категории
      */
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу News_Backend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Editctg_News_Backend_Controller
+         * сначала обращаемся к родительскому классу Article_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Editctg_Article_Backend_Controller
          */
         parent::input();
 
@@ -34,10 +36,10 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
-                $this->redirect($this->newsBackendModel->getURL('backend/news/editctg/id/' . $this->params['id']));
+            if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
+                $this->redirect($this->articleBackendModel->getURL('backend/article/editctg/id/' . $this->params['id']));
             } else {
-                $this->redirect($this->newsBackendModel->getURL('backend/news/allctgs'));
+                $this->redirect($this->articleBackendModel->getURL('backend/article/allctgs'));
             }
         }
 
@@ -45,13 +47,22 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->newsBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->newsBackendModel->getURL('backend/news/index'), 'name' => 'Новости'),
-            array('url' => $this->newsBackendModel->getURL('backend/news/allctgs'), 'name' => 'Категории'),
+            array(
+                'url' => $this->articleBackendModel->getURL('backend/index/index'),
+                'name' => 'Главная'
+            ),
+            array(
+                'url' => $this->articleBackendModel->getURL('backend/article/index'),
+                'name' => 'Статьи'
+            ),
+            array(
+                'url' => $this->articleBackendModel->getURL('backend/article/allctgs'),
+                'name' => 'Категории'
+            ),
         );
 
         // получаем от модели информацию о категории
-        $category = $this->newsBackendModel->getCategory($this->params['id']);
+        $category = $this->articleBackendModel->getCategory($this->params['id']);
         // если запрошенная категория не найдена в БД
         if (empty($category)) {
             $this->notFoundRecord = true;
@@ -65,7 +76,7 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->newsBackendModel->getURL('backend/news/editctg/id/' . $this->params['id']),
+            'action'      => $this->articleBackendModel->getURL('backend/article/editctg/id/' . $this->params['id']),
             // уникальный идентификатор категории
             'id'          => $this->params['id'],
             // наименование категории
@@ -76,11 +87,11 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
             'description' => $category['description'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
-        if ($this->issetSessionData('editNewsCategoryForm')) {
-            $this->centerVars['savedFormData'] = $this->getSessionData('editNewsCategoryForm');
+        if ($this->issetSessionData('editArticleCategoryForm')) {
+            $this->centerVars['savedFormData'] = $this->getSessionData('editArticleCategoryForm');
             $this->centerVars['errorMessage'] = $this->centerVars['savedFormData']['errorMessage'];
             unset($this->centerVars['savedFormData']['errorMessage']);
-            $this->unsetSessionData('editNewsCategoryForm');
+            $this->unsetSessionData('editArticleCategoryForm');
         }
 
     }
@@ -110,16 +121,16 @@ class Editctg_News_Backend_Controller extends News_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
-            $this->setSessionData('editNewsCategoryForm', $data);
+            $this->setSessionData('editArticleCategoryForm', $data);
             return false;
         }
 
         $data['id'] = $this->params['id']; // уникальный идентификатор категории
 
         // обращаемся к модели для обновления категории
-        $this->newsBackendModel->updateCategory($data);
+        $this->articleBackendModel->updateCategory($data);
 
         return true;
 

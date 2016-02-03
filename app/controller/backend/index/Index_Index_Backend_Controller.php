@@ -28,7 +28,7 @@ class Index_Index_Backend_Controller extends Backend_Controller {
         $lastOrders = $this->orderBackendModel->getAllOrders();
 
         // получаем от модели массив последних новостей
-        $lastNews = $this->newsBackendModel->getAllNews();
+        $lastNews = $this->blogBackendModel->getAllPosts();
 
         /*
          * переменные, которые будут переданы в шаблон center.php

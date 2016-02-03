@@ -44,14 +44,14 @@
                 padding: 0 15px;
                 height: 32px;
                 line-height: 32px;
-                color: #323232;
+                color: #395985;
                 text-decoration: none;
                 max-width: 105px;
                 white-space: nowrap;
                 overflow: hidden;
             }
                 #new-hit-tabs > ul > li > a > span {
-                    border-bottom: 1px dashed #323232;
+                    border-bottom: 1px dashed #395985;
                 }
 
 .new-hit-item {
