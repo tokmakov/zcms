@@ -1872,6 +1872,9 @@ div.attention {
                     #catalog-menu > ul > li > ul > li > ul > li > div > span > span {
                         background: url(../img/bullet-blue-arrow.png) center center no-repeat;
                     }
+                        #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > span > span {
+                            background: url(../img/bullet-dark-arrow.png) center center no-repeat;
+                        }
                 #catalog-menu li.parent.menu-loader > div > span > span {
                     background: url(../img/bullet-white-loader.gif) center center no-repeat;
                     border: 1px solid #d1d1d1;
@@ -1936,7 +1939,7 @@ div.attention {
                             }
                                 #catalog-menu > ul > li > ul > li > ul > li > ul > li > ul > li > div > a {
                                     width: 167px;
-                                    color: #d1d1d1;
+                                    color: #65b1fb;
                                 }
                 #catalog-menu li > div > a > span {
                     display: table-cell;

@@ -132,9 +132,10 @@ abstract class Backend_Controller extends Base_Controller {
             isset($this->register->menuBackendModel) ? $this->register->menuBackendModel : new Menu_Backend_Model();
 
         // экземпляр класса модели для работы с новостями
-        $this->newsBackendModel =
-            isset($this->register->newsBackendModel) ? $this->register->newsBackendModel : new News_Backend_Model();
-
+        /*
+         * $this->newsBackendModel =
+         *     isset($this->register->newsBackendModel) ? $this->register->newsBackendModel : new News_Backend_Model();
+         */
         // экземпляр класса модели для работы с заказами
         $this->orderBackendModel =
             isset($this->register->orderBackendModel) ? $this->register->orderBackendModel : new Order_Backend_Model();
@@ -232,10 +233,12 @@ abstract class Backend_Controller extends Base_Controller {
                 'name' => 'Решения',
                 'url' => $this->solutionsBackendModel->getURL('backend/solutions/index')
             ),
-            array(
-                'name' => 'Новости',
-                'url' => $this->newsBackendModel->getURL('backend/news/index')
-            ),
+            /*
+             * array(
+             *     'name' => 'Новости',
+             *     'url' => $this->newsBackendModel->getURL('backend/news/index')
+             * ),
+             */
             array(
                 'name' => 'Блог',
                 'url' => $this->blogBackendModel->getURL('backend/blog/index')

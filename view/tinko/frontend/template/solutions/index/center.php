@@ -43,7 +43,7 @@ defined('ZCMS') or die('Access denied');
 
 <?php if (!empty($categories)): // категории ?>
     <div id="categories-solutions">
-        <div>Категории:</div>
+        <div>Категории</div>
         <div>
             <ul>
                 <?php

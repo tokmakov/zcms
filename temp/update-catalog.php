@@ -32,6 +32,7 @@ if (is_file('temp/errors.txt')) {
 }
 
 parseXML($register);
+die();
 updateTempTables($register);
 checkImages($register);
 updateWorkTables($register);
@@ -328,7 +329,14 @@ function parseXML($register) {
         // доп.информация
         $data['padding'] = trim($product->padding);
 
+        $name = strtoupper(md5($data['code']));
+        $name = $name[0] . '/' . $name[1] . '/' . $name . '.jpg';
+        $data['image'] = '';
+        if (is_file('files/catalog/src/imgs/'.$name)) {
+            $data['image'] = $name;
+        }
         // ЭТОТ КОД ПОТОМ УДАЛИТЬ
+        /*
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name;
         $image = false;
@@ -356,6 +364,7 @@ function parseXML($register) {
         if ($image) {
             $data['image'] = $name;
         }
+        */
         // фото
         /*
         $data['image'] = '';
