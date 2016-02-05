@@ -48,16 +48,16 @@ class Editctg_Article_Backend_Controller extends Article_Backend_Controller {
         // формируем хлебные крошки
         $breadcrumbs = array(
             array(
-                'url' => $this->articleBackendModel->getURL('backend/index/index'),
-                'name' => 'Главная'
+                'name' => 'Главная',
+                'url'  => $this->articleBackendModel->getURL('backend/index/index')
             ),
             array(
-                'url' => $this->articleBackendModel->getURL('backend/article/index'),
-                'name' => 'Статьи'
+                'name' => 'Статьи',
+                'url'  => $this->articleBackendModel->getURL('backend/article/index')
             ),
             array(
-                'url' => $this->articleBackendModel->getURL('backend/article/allctgs'),
-                'name' => 'Категории'
+                'name' => 'Категории',
+                'url'  => $this->articleBackendModel->getURL('backend/article/allctgs')
             ),
         );
 

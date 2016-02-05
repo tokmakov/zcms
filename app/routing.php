@@ -572,23 +572,23 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'user/profile/$1',
 
         /*
-         * новости
+         * статьи
          */
-        // главная страница новостей
-        '~^frontend/news/index$~i' =>
-        'news',
-        // главная страница новостей, постраничная навигация
-        '~^frontend/news/index/page/(\d+)$~i' =>
-        'news/page/$1',
-        // отдельная новость
-        '~^frontend/news/item/id/(\d+)$~i' =>
-        'news/item/$1',
-        // список новостей выбранной категории
-        '~^frontend/news/category/id/(\d+)$~i' =>
-        'news/category/$1',
-        // список новостей выбранной категории, постраничная навигация
-        '~^frontend/news/category/id/(\d+)/page/(\d+)$~i' =>
-        'news/category/$1/page/$2',
+        // список всех статей
+        '~^frontend/article/index$~i' =>
+        'articles',
+        // список всех статей, постраничная навигация
+        '~^frontend/article/index/page/(\d+)$~i' =>
+        'articles/page/$1',
+        // отдельная статья
+        '~^frontend/article/item/id/(\d+)$~i' =>
+        'articles/item/$1',
+        // список статей выбранной категории
+        '~^frontend/article/category/id/(\d+)$~i' =>
+        'articles/category/$1',
+        // список статей выбранной категории, постраничная навигация
+        '~^frontend/article/category/id/(\d+)/page/(\d+)$~i' =>
+        'articles/category/$1/page/$2',
 
         /*
          * блог
@@ -1388,23 +1388,23 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'frontend/user/profile/id/$1',
 
         /*
-         * новости
+         * статьи
          */
-        // главная страница новостей
-        '~^news$~i' =>
-        'frontend/news/index',
-        // главная страница новостей, постраничная навигация
-        '~^news/page/(\d+)$~i' =>
-        'frontend/news/index/page/$1',
-        // отдельная новость
-        '~^news/item/(\d+)$~i' =>
-        'frontend/news/item/id/$1',
-        // список новостей выбранной категории
-        '~^news/category/(\d+)$~i' =>
-        'frontend/news/category/id/$1',
-        // список новостей выбранной категории, постраничная навигация
-        '~^news/category/(\d+)/page/(\d+)$~i' =>
-        'frontend/news/category/id/$1/page/$2',
+        // список всех статей
+        '~^articles$~i' =>
+        'frontend/article/index',
+        // список всех статей, постраничная навигация
+        '~^articles/page/(\d+)$~i' =>
+        'frontend/article/index/page/$1',
+        // отдельная статья
+        '~^articles/item/(\d+)$~i' =>
+        'frontend/article/item/id/$1',
+        // список статей выбранной категории
+        '~^articles/category/(\d+)$~i' =>
+        'frontend/article/category/id/$1',
+        // список статей выбранной категории, постраничная навигация
+        '~^articles/category/(\d+)/page/(\d+)$~i' =>
+        'frontend/article/category/id/$1/page/$2',
 
         /*
          * блога

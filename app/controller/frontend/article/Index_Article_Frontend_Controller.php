@@ -1,10 +1,9 @@
 <?php
 /**
- * Класс Index_News_Frontend_Controller формирует страницу списка новостей
- * (всех категорий), получает данные от модели News_Frontend_Model, общедоступная
- * часть сайта
+ * Класс Index_Article_Frontend_Controller формирует страницу списка всех статей,
+ * получает данные от модели Article_Frontend_Model, общедоступная часть сайта
  */
-class Index_News_Frontend_Controller extends News_Frontend_Controller {
+class Index_Article_Frontend_Controller extends Article_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -12,16 +11,16 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * списка новостей всех категорий
+     * списка статей всех категорий
      */
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу News_Frontend_Controller,
+         * сначала обращаемся к родительскому классу Article_Frontend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех
          * его потомков, потом переопределяем эти переменные (если необходимо)
          * и устанавливаем значения перменных, которые нужны для работы только
-         * Index_News_Frontend_Controller
+         * Index_Article_Frontend_Controller
          */
         parent::input();
 
@@ -29,7 +28,7 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->newsFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->articleFrontendModel->getURL('frontend/index/index')
             ),
         );
 
@@ -40,16 +39,16 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
-        // общее кол-во новостей всех категорий
-        $totalNews = $this->newsFrontendModel->getCountAllNews();
+        // общее кол-во статей
+        $totalArticles = $this->articleFrontendModel->getCountAllArticles();
         // URL этой страницы
-        $thisPageURL = $this->newsFrontendModel->getURL('frontend/news/index');
+        $thisPageURL = $this->articleFrontendModel->getURL('frontend/article/index');
         $temp = new Pager(
-            $thisPageURL,                                   // URL этой страницы
-            $page,                                          // текущая страница
-            $totalNews,                                     // общее кол-во новостей
-            $this->config->pager->frontend->news->perpage,  // новостей на страницу
-            $this->config->pager->frontend->news->leftright // кол-во ссылок слева и справа
+            $thisPageURL,                                      // URL этой страницы
+            $page,                                             // текущая страница
+            $totalArticles,                                    // общее кол-во статей
+            $this->config->pager->frontend->article->perpage,  // статей на страницу
+            $this->config->pager->frontend->article->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
         if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
@@ -60,10 +59,10 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $this->config->pager->frontend->news->perpage;
+        $start = ($page - 1) * $this->config->pager->frontend->article->perpage;
 
-        // получаем от модели массив новостей
-        $news = $this->newsFrontendModel->getAllNews($start);
+        // получаем от модели массив статей
+        $articles = $this->articleFrontendModel->getAllArticles($start);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -71,10 +70,10 @@ class Index_News_Frontend_Controller extends News_Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
-            // массив новостей всех категорий
-            'news' => $news,
+            // массив статей всех категорий
+            'articles'    => $articles,
             // постраничная навигация
-            'pager' => $pager
+            'pager'       => $pager
         );
 
     }

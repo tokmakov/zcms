@@ -37,7 +37,7 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <h2>Последние новости</h2>
-<div id="all-news-items">
+<div id="all-blog-posts">
     <ul>
         <?php foreach($lastNews as $item) : ?>
             <li>

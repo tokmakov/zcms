@@ -1,0 +1,24 @@
+04.02.2016 16:28:31
+Код: 0, текст: Файл view/tinko/backend/resource/css/news.css не найден
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 327
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\Base_Controller.php(258): Base_Controller->setCssJsFiles('index')
+#1 C:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 C:\work\localhost2\www\app\controller\backend\Backend_Controller.php(190): Base_Controller->input()
+#3 C:\work\localhost2\www\app\controller\backend\index\Index_Index_Backend_Controller.php(25): Backend_Controller->input()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Index_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+04.02.2016 16:34:32
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.articles' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\backend\Article_Backend_Model.php(80): Database->fetchOne('SELECT\r\n       ...')
+#3 C:\work\localhost2\www\app\controller\backend\article\Index_Article_Backend_Controller.php(43): Article_Backend_Model->getCountAllArticles()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Article_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

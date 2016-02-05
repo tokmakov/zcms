@@ -38,6 +38,11 @@ abstract class Frontend_Controller extends Base_Controller {
      */
 
     /**
+     * экземпляр класса модели для работы со статьями
+     */
+    protected $articleFrontendModel;
+
+    /**
      * экземпляр класса модели для работы с баннерами
      */
     protected $bannerFrontendModel;
@@ -128,6 +133,10 @@ abstract class Frontend_Controller extends Base_Controller {
         /*
          * Все модели, которые нужны для работы
          */
+
+        // экземпляр класса модели для работы с баннерами
+        $this->articleFrontendModel =
+            isset($this->register->articleFrontendModel) ? $this->register->articleFrontendModel : new Article_Frontend_Model();
 
         // экземпляр класса модели для работы с баннерами
         $this->bannerFrontendModel =

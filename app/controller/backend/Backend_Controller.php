@@ -6,9 +6,19 @@
 abstract class Backend_Controller extends Base_Controller {
 
     /**
+     * администратор сайта авторизован?
+     */
+    protected $authAdmin = false;
+
+    /**
      * экземпляр класса модели для работы с администратором сайта
      */
     protected $adminBackendModel;
+
+    /**
+     * экземпляр класса модели для работы со статьями
+     */
+    protected $articleBackendModel;
 
     /**
      * экземпляр класса модели для работы с баннерами
@@ -49,11 +59,6 @@ abstract class Backend_Controller extends Base_Controller {
     protected $menuBackendModel;
 
     /**
-     * экземпляр класса модели для работы с новостями
-     */
-    protected $newsBackendModel;
-
-    /**
      * экземпляр класса модели для работы с заказами
      */
     protected $orderBackendModel;
@@ -89,11 +94,6 @@ abstract class Backend_Controller extends Base_Controller {
      */
     protected $userBackendModel;
 
-    /**
-     * администратор сайта авторизован?
-     */
-    protected $authAdmin = false;
-
 
     public function __construct($params = null) {
 
@@ -102,6 +102,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с администратором сайта
         $this->adminBackendModel =
             isset($this->register->adminBackendModel) ? $this->register->adminBackendModel : new Admin_Backend_Model();
+
+        // экземпляр класса модели для работы со статьями
+        $this->articleBackendModel =
+            isset($this->register->articleBackendModel) ? $this->register->articleBackendModel : new Article_Backend_Model();
 
         // экземпляр класса модели для работы с баннерами
         $this->bannerBackendModel =
@@ -131,11 +135,6 @@ abstract class Backend_Controller extends Base_Controller {
         $this->menuBackendModel =
             isset($this->register->menuBackendModel) ? $this->register->menuBackendModel : new Menu_Backend_Model();
 
-        // экземпляр класса модели для работы с новостями
-        /*
-         * $this->newsBackendModel =
-         *     isset($this->register->newsBackendModel) ? $this->register->newsBackendModel : new News_Backend_Model();
-         */
         // экземпляр класса модели для работы с заказами
         $this->orderBackendModel =
             isset($this->register->orderBackendModel) ? $this->register->orderBackendModel : new Order_Backend_Model();
@@ -203,66 +202,66 @@ abstract class Backend_Controller extends Base_Controller {
         $this->menuVars = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->indexBackendModel->getURL('backend/index/index')
+                'url'  => $this->indexBackendModel->getURL('backend/index/index')
             ),
             array(
                 'name' => 'Витрина',
-                'url' => $this->startBackendModel->getURL('backend/start/index')
+                'url'  => $this->startBackendModel->getURL('backend/start/index')
             ),
             array(
                 'name' => 'Меню',
-                'url' => $this->menuBackendModel->getURL('backend/menu/index')
+                'url'  => $this->menuBackendModel->getURL('backend/menu/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->catalogBackendModel->getURL('backend/catalog/index')
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/index')
             ),
             array(
                 'name' => 'Фильтр',
-                'url' => $this->filterBackendModel->getURL('backend/filter/index')
+                'url'  => $this->filterBackendModel->getURL('backend/filter/index')
             ),
             array(
                 'name' => 'Распродажа',
-                'url' => $this->saleBackendModel->getURL('backend/sale/index')
+                'url'  => $this->saleBackendModel->getURL('backend/sale/index')
             ),
             array(
                 'name' => 'Рейтинг',
-                'url' => $this->ratingBackendModel->getURL('backend/rating/index')
+                'url'  => $this->ratingBackendModel->getURL('backend/rating/index')
             ),
             array(
                 'name' => 'Решения',
-                'url' => $this->solutionsBackendModel->getURL('backend/solutions/index')
+                'url'  => $this->solutionsBackendModel->getURL('backend/solutions/index')
             ),
-            /*
-             * array(
-             *     'name' => 'Новости',
-             *     'url' => $this->newsBackendModel->getURL('backend/news/index')
-             * ),
-             */
             array(
                 'name' => 'Блог',
-                'url' => $this->blogBackendModel->getURL('backend/blog/index')
+                'url'  => $this->blogBackendModel->getURL('backend/blog/index')
             ),
             array(
                 'name' => 'Заказы',
-                'url' => $this->orderBackendModel->getURL('backend/order/index')
+                'url'  => $this->orderBackendModel->getURL('backend/order/index')
             ),
             array(
                 'name' => 'Пользователи',
-                'url' => $this->userBackendModel->getURL('backend/user/index')
+                'url'  => $this->userBackendModel->getURL('backend/user/index')
             ),
             array(
                 'name' => 'Страницы',
-                'url' => $this->pageBackendModel->getURL('backend/page/index')
+                'url'  => $this->pageBackendModel->getURL('backend/page/index')
             ),
             array(
                 'name' => 'Баннеры',
-                'url' => $this->bannerBackendModel->getURL('backend/banner/index')
+                'url'  => $this->bannerBackendModel->getURL('backend/banner/index')
             ),
             array(
-                'name' => 'Кэш',
-                'url' => $this->cacheBackendModel->getURL('backend/cache/index')
-            ),
+                'name' => 'Статьи',
+                'url'  => $this->articleBackendModel->getURL('backend/article/index')
+             ),
+            /*
+             * array(
+             *    'name' => 'Кэш',
+             *    'url' => $this->cacheBackendModel->getURL('backend/cache/index')
+             * ),
+             */
         );
 
         $this->headerVars = array(

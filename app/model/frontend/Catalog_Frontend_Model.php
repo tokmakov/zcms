@@ -5,14 +5,8 @@
  */
 class Catalog_Frontend_Model extends Frontend_Model {
 
-    // для блокирования ajax поиска для пользователя, в разработке
-    private $userFrontendModel;
-
     public function __construct() {
         parent::__construct();
-        // TODO: для блокирования ajax поиска для пользователя, в разработке
-        $this->userFrontendModel =
-            isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
     }
 
     /**
@@ -2096,7 +2090,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает результаты поиска по каталогу; результат работы
      * кэшируется
      */
-    protected function searchResults($search = '', $start = 0, $ajax = false) {
+    protected function searchResults($search, $start, $ajax) {
         
         $search = $this->cleanSearchString($search);
         if (empty($search)) {
@@ -2143,6 +2137,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $result[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
             }
         }
+
         return $result;
 
     }
@@ -2414,25 +2409,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $search = trim($search);
         $search = utf8_strtolower($search);
         return $search;
-    }
-
-    // для блокирования поиска для пользователя, в разработке
-    private function searchLock() {
-        file_put_contents( 'temp/search/' . $this->userFrontendModel->getVisitorId() . '.txt', '');
-    }
-
-    // для блокирования поиска для пользователя, в разработке
-    private function searchUnlock() {
-        $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
-        if (is_file($file)) {
-            // unlink($file);
-        }
-    }
-
-    // для блокирования поиска для пользователя, в разработке
-    private function isSearchLocked() {
-        $file = 'temp/search' . $this->userFrontendModel->getVisitorId() . '.txt';
-        return is_file($file) && ((time() - filemtime($file)) < 5);
     }
 
 }

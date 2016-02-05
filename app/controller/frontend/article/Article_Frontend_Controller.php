@@ -1,9 +1,9 @@
 <?php
 /**
- * Абстрактный класс News_Frontend_Controller, родительский для всех
- * контроллеров, работающих с новостями, общедоступная часть сайта
+ * Абстрактный класс Article_Frontend_Controller, родительский для всех
+ * контроллеров, работающих со статьями, общедоступная часть сайта
  */
-abstract class News_Frontend_Controller extends Frontend_Controller {
+abstract class Article_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -11,7 +11,7 @@ abstract class News_Frontend_Controller extends Frontend_Controller {
 
     /**
      * Функция получает от моделей и из настроект данные, необходимые для
-     * работы всех потомков класса News_Frontend_Controller
+     * работы всех потомков класса Article_Frontend_Controller
      */
     protected function input() {
 
@@ -20,13 +20,13 @@ abstract class News_Frontend_Controller extends Frontend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы всех
-         * потомков News_Frontend_Controller
+         * потомков Article_Frontend_Controller
          */
         parent::input();
 
-        $this->title = $this->config->meta->news->title;
-        $this->keywords = $this->config->meta->news->keywords;
-        $this->description = $this->config->meta->news->description;
+        $this->title = $this->config->meta->article->title;
+        $this->keywords = $this->config->meta->article->keywords;
+        $this->description = $this->config->meta->article->description;
 
     }
 

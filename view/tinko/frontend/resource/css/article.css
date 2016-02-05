@@ -1,0 +1,112 @@
+/* список статей (всех статей или выбранной категории) */
+#articles-list {
+
+}
+    #articles-list > div {
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    #articles-list > div:last-child {
+        margin-bottom: 0;
+    }
+        #articles-list > div > div:first-child {
+            float: left
+        }
+        #articles-list > div > div:first-child a {
+            display: block;
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            border: 1px solid #d1d1d1;
+        }
+        #articles-list > div > div:first-child img {
+            width: 100px;
+            height: 100px;
+        }
+        #articles-list > div > div:last-child {
+            margin-left: 130px;
+        }
+            #articles-list > div > div:last-child .article-date {
+                margin-bottom: 2px;
+                font-size: 12px;
+                color: #969696;
+            }
+            #articles-list > div > div:last-child .article-heading {
+
+            }
+                #articles-list > div > div:last-child .article-heading h2,
+                #articles-list > div > div:last-child .article-heading h3 {
+                    margin: 0 0 5px 0;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+                    #articles-list > div > div:last-child .article-heading h2 a,
+                    #articles-list > div > div:last-child .article-heading h3 a {
+                        font-size: 16px;
+                        line-height: 19px;
+                        font-weight: bold;
+                        color: #395985;
+                    }
+            #articles-list > div > div:last-child .article-excerpt {
+                margin-bottom: 5px;
+            }
+                #articles-list > div > div:last-child .article-category a {
+                    font-size: 12px;
+                }
+
+/* отдельная статья */
+#article-item {
+
+}
+    #article-item > div:first-child {
+        overflow: hidden;
+        margin: 15px 0;
+    }
+        #article-item > div:first-child > p {
+            font-size: 12px;
+            color: #969696;
+            width: 50%;
+        }
+        #article-item > div:first-child > p:nth-child(1) {
+            float: left;
+        }
+        #article-item > div:first-child > p:nth-child(2) {
+            float: right;
+            text-align: right;
+        }
+            #article-item > div:first-child > p:nth-child(2) > a {
+                font-size: 12px;
+            }
+    #article-item > h2, #article-item > h3, #article-item > h4 {
+        margin: 15px 0;
+        color: #395985;
+        font-weight: normal;
+    }
+    #article-item > h2 {
+        font-size: 19px;
+    }
+    #article-item > h3 {
+        font-size: 16px;
+    }
+    #article-item > h4 {
+        font-size: 14px;
+    }
+    #article-item > p {
+        margin: 15px 0;
+    }
+    #article-item > ul, #article-item > ol {
+        margin: 15px 0 15px 30px;
+    }
+    #article-item img {
+        max-width: 100%;
+    }
+
+@media screen and (max-width: 560px) {
+    /* список статей */
+    #articles-list > div > div:first-child {
+        display: none;
+    }
+    #articles-list > div > div:last-child {
+        margin-left: 0;
+    }
+}

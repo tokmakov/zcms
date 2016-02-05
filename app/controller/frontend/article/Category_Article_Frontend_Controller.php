@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Category_News_Frontend_Controller формирует страницу списка новостей
- * выбранной категории, получает данные от модели News_Frontend_Model,
+ * Класс Category_Article_Frontend_Controller формирует страницу списка статей
+ * выбранной категории, получает данные от модели Article__Frontend_Model,
  * общедоступная часть сайта
  */
-class Category_News_Frontend_Controller extends News_Frontend_Controller {
+class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -12,16 +12,16 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * списка новостей выбранной категории
+     * списка статей выбранной категории
      */
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу News_Frontend_Controller,
+         * сначала обращаемся к родительскому классу Article_Frontend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Category_News_Frontend_Controller
+         * Category_Article_Frontend_Controller
          */
         parent::input();
 
@@ -34,7 +34,7 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
         }
 
         // получаем от модели данные о категории
-        $category = $this->newsFrontendModel->getCategory($this->params['id']);
+        $category = $this->articleFrontendModel->getCategory($this->params['id']);
         // если запрошенная категория не найдена в БД
         if (empty($category)) {
             $this->notFoundRecord = true;
@@ -53,11 +53,11 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->newsFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->articleFrontendModel->getURL('frontend/index/index')
             ),
             array(
-                'name' => 'Новости',
-                'url'  => $this->newsFrontendModel->getURL('frontend/news/index')
+                'name' => 'Статьи',
+                'url'  => $this->articleFrontendModel->getURL('frontend/article/index')
             ),
         );
 
@@ -68,16 +68,16 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
             $page = $this->params['page'];
         }
-        // общее кол-во новостей категории
-        $totalNews = $this->newsFrontendModel->getCountCategoryNews($this->params['id']);
+        // общее кол-во статей категории
+        $totalArticles = $this->articleFrontendModel->getCountCategoryNews($this->params['id']);
         // URL ссылки на эту страницу
-        $thisPageURL = $this->newsFrontendModel->getURL('frontend/news/category/id/' . $this->params['id']);
+        $thisPageURL = $this->articleFrontendModel->getURL('frontend/article/category/id/' . $this->params['id']);
         $temp = new Pager(
-            $thisPageURL,                                   // URL этой страницы
-            $page,                                          // текущая страница
-            $totalNews,                                     // общее кол-во новостей категории
-            $this->config->pager->frontend->news->perpage,  // новостей на страницу
-            $this->config->pager->frontend->news->leftright // кол-во ссылок слева и справа
+            $thisPageURL,                                      // URL этой страницы
+            $page,                                             // текущая страница
+            $totalArticles,                                    // общее кол-во статей категории
+            $this->config->pager->frontend->article->perpage,  // статей на страницу
+            $this->config->pager->frontend->article->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
         if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
@@ -88,10 +88,10 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
             $pager = null;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $this->config->pager->frontend->news->perpage;
+        $start = ($page - 1) * $this->config->pager->frontend->article->perpage;
 
-        // получаем от модели массив новостей текущей категории
-        $news = $this->newsFrontendModel->getCategoryNews($this->params['id'], $start);
+        // получаем от модели массив статей текущей категории
+        $articles = $this->articleFrontendModel->getCategoryArticles($this->params['id'], $start);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -103,8 +103,8 @@ class Category_News_Frontend_Controller extends News_Frontend_Controller {
             'id'          => $this->params['id'],
             // наименование категории
             'name'        => $category['name'],
-            // массив новостей выбранной категории
-            'news'        => $news,
+            // массив статей выбранной категории
+            'articles'    => $articles,
             // постраничная навигация
             'pager'       => $pager,
         );
