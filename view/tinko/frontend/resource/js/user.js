@@ -50,7 +50,7 @@ $(document).ready(function() {
     if ($('#add-edit-profile input[name="shipping"]').prop('checked')) {
         $('#add-edit-profile > #shipping-address-city-index').hide();
     } else {
-        $('#add-edit-profile select[name="office"]').hide();
+        $('#add-edit-profile select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
     }
     $('#add-edit-profile input[name="shipping"]').change(function() {
         $('#add-edit-profile > #shipping-address-city-index').slideToggle('normal', function() {

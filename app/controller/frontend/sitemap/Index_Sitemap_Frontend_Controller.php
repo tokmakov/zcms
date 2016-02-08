@@ -42,7 +42,7 @@ class Index_Sitemap_Frontend_Controller extends Frontend_Controller {
         $solutionsCategories = $this->solutionsFrontendModel->getCategories();
 
         // получаем от модели массив категорий новостей
-        $newsCategories = $this->newsFrontendModel->getCategories();
+        $newsCategories = $this->blogFrontendModel->getCategories();
 
         // получаем от модели массив корневых категорий и их детей
         $root = $this->catalogFrontendModel->getRootAndChilds();

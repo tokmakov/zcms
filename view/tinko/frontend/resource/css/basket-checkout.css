@@ -16,9 +16,11 @@
         margin: 20px 0;
     }
     #checkout-order input[type="checkbox"] {
-        position: relative;
-        top: 3px;
         border: 1px solid #d1d1d1;
+        position: relative;
+        top: 4px;
+        width: 15px;
+        height: 15px;
     }
     #checkout-order select[name="office"] {
         font-size: 14px;
@@ -116,7 +118,7 @@
                         overflow: hidden;
                     }
                     #checkout-order > div > fieldset > div > div:last-child,
-                    #checkout-order > div > div > div > div:last-child{
+                    #checkout-order > div > div > div > div:last-child {
                         float: left;
                         width: 70%;
                     }

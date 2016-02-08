@@ -51,8 +51,11 @@
             }
                 #login-user-center > form > div > div:last-child > label > input[type="checkbox"] {
                     position: relative;
-                    top: 3px;
+                    top: 4px;
                     margin: 8px 0 12px 0;
+                    border: 1px solid #d1d1d1;
+                    width: 15px;
+                    height: 15px;
                 }
                 #login-user-center > form > div > div:last-child > label > span {
                     margin-left: 5px;
@@ -118,8 +121,11 @@
                 margin: 5px 0;
             }
                 #edit-user > div > div:last-child > label > input[type="checkbox"] {
+                    border: 1px solid #d1d1d1;
                     position: relative;
-                    top: 3px;
+                    top: 4px;
+                    width: 15px;
+                    height: 15px;
                 }
                 #edit-user > div > div:last-child > label > span {
                     cursor: pointer;
@@ -257,11 +263,14 @@
         padding: 2px;
         border: 1px solid #d1d1d1;
         margin-left: 39px;
+        display: inline-block;
     }
     #add-edit-profile input[type="checkbox"] {
         position: relative;
-        top: 3px;
+        top: 4px;
         border: 1px solid #d1d1d1;
+        width: 15px;
+        height: 15px;
     }
     #add-edit-profile label span {
         display: inline-block;

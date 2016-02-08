@@ -78,11 +78,6 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $menuFrontendModel;
 
     /**
-     * экземпляр класса модели для работы с новостями
-     */
-    protected $newsFrontendModel;
-
-    /**
      * экземпляр класса модели для работы со страницами сайта
      */
     protected $pageFrontendModel;
@@ -165,10 +160,6 @@ abstract class Frontend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с главным меню
         $this->menuFrontendModel =
             isset($this->register->menuFrontendModel) ? $this->register->menuFrontendModel : new Menu_Frontend_Model();
-
-        // экземпляр класса модели для работы с новостями
-        $this->newsFrontendModel =
-            isset($this->register->newsFrontendModel) ? $this->register->newsFrontendModel : new News_Frontend_Model();
 
         // экземпляр класса модели для работы со страницами сайта
         $this->pageFrontendModel =

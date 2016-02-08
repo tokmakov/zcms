@@ -33,7 +33,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
+            if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/reg'));
             } else { // ошибок не было, регистрация прошла успешно
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));

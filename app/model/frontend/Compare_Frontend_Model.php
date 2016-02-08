@@ -602,7 +602,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 'group_id'   => $this->groupId
             )
         );
-        if (!empty($temp)) {
+        if ( ! empty($temp)) {
             foreach ($temp as $item) {
                 $ids[] = $item['id'];
             }
@@ -625,7 +625,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                   FROM
                       `compare`
                   WHERE
-                      `visitor_id` = :visitor_id,
+                      `visitor_id` = :visitor_id AND
                       `active` = 1
                   GROUP BY
                       `product_id`

@@ -22,3 +22,21 @@
 #5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+05.02.2016 09:03:45
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
+                      `active` = 1
+                  GROUP BY
+              ' at line 6
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(634): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(136): Compare_Frontend_Model->update(Object(User_Frontend_Model))
+#4 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(321): User_Frontend_Model->notify()
+#5 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(144): User_Frontend_Model->loginUser(Array)
+#6 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(58): Login_User_Frontend_Controller->validateForm()
+#7 D:\work\localhost2\www\app\controller\Base_Controller.php(139): Login_User_Frontend_Controller->input()
+#8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#9 {main}
+

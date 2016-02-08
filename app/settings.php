@@ -318,7 +318,10 @@ $settings = array(
                 'jquery-2.1.1.min.js',
                 'common.js',
             ),
-            
+            'article'   => array(
+                'insert-at-caret.js',
+                'article.js',
+            ),
             'blog'      => array(
                 'insert-at-caret.js',
                 'blog.js',
@@ -329,10 +332,6 @@ $settings = array(
                 'filter.js',
             ),
             'menu'      => 'add-edit-menu-item.js',
-            'news'      => array(
-                'insert-at-caret.js',
-                'news.js',
-            ),
             'page'      => array(
                 'insert-at-caret.js',
                 'page.js',

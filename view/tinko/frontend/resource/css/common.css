@@ -1190,7 +1190,7 @@ div.attention {
         #category-childs > div:first-child > span {
             display: block;
             overflow: hidden;
-            height: 17px;
+            height: 18px;
         }
         #category-childs > div:first-child > span:first-child {
             float: left;
@@ -1282,7 +1282,7 @@ div.attention {
         #catalog-filter > div:first-child > span {
             display: block;
             overflow: hidden;
-            height: 17px;
+            height: 18px;
         }
         #catalog-filter > div:first-child > span:first-child {
             float: left;
@@ -1367,8 +1367,11 @@ div.attention {
                     }
                     #catalog-filter > div:last-child > form > div:first-child > div > div > label > input[type="checkbox"] {
                         cursor: pointer;
+                        border: 1px solid #d1d1d1;
                         position: relative;
-                        top: 3px;
+                        top: 4px;
+                        width: 15px;
+                        height: 15px;
                     }
                         #catalog-filter select {
                             width: 100%;
@@ -2029,7 +2032,9 @@ div.attention {
         margin-top: 5px;
         margin-bottom: 17px;
         position: relative;
-        top: 3px;
+        top: 4px;
+        width: 15px;
+        height: 15px;
     }
     #login-user-right > label > span {
         cursor: pointer;
@@ -2136,6 +2141,9 @@ div.attention {
     #right #side-viewed table tr td:last-child {
         text-align: right;
     }
+    #right #side-compare table tr td:last-child {
+        text-align: center;
+    }
     #right #side-compare table tr th:first-child {
         width: 22%;
     }
@@ -2153,6 +2161,7 @@ div.attention {
             #right #side-compare table tr th a i {
                 font-size: 14px;
                 line-height: 14px;
+                vertical-align: top;
             }
         #right #side-compare table tr th a:hover {
             color: #e9751f;
@@ -2169,6 +2178,7 @@ div.attention {
             #right #side-compare table tr td form button i {
                 font-size: 14px;
                 line-height: 14px;
+                vertical-align: top;
             }
         #right #side-compare table tr td form button:hover {
             color: #e9751f;

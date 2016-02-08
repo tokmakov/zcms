@@ -43,14 +43,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     public function __construct() {
 
         parent::__construct();
-        // устанавливаем уникальный идентификатор посетителя сайта
-        $this->setVisitorId();
+
         // пользователь авторизован?
         if (isset($_SESSION['zcmsAuthUser'])) {
             $this->authUser = true;
             $this->userId = $_SESSION['zcmsAuthUser'];
             $this->user = $this->getUser();
         }
+        
+        // устанавливаем уникальный идентификатор посетителя сайта
+        $this->setVisitorId();
 
     }
 
@@ -64,9 +66,13 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             // обновляем cookie, чтобы идентификатор хранился еще Config::getInstance()->user->cookie дней
             setcookie('visitor', $_COOKIE['visitor'], time() + $time, '/');
             $this->visitorId = $_COOKIE['visitor'];
-        } else { //
+        } else {
             // идентификатора посетителя нет в cookie, формируем его и сохраняем в cookie
-            $this->visitorId = md5(uniqid(rand(), true));
+            if ($this->authUser) {
+                $this->visitorId = $this->user['visitor_id'];
+            } else {
+                $this->visitorId = md5(uniqid(rand(), true));
+            }
             setcookie('visitor', $this->visitorId, time() + $time, '/');
         }
     }
@@ -213,7 +219,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       :visitor_id,
                       5
                   )";
-        $data['visitor_id'] = md5(uniqid(rand(), true));
+        $data['visitor_id'] = $this->visitorId;
         $this->database->execute($query, $data);
 
     }
