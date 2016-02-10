@@ -32,7 +32,6 @@ if (is_file('temp/errors.txt')) {
 }
 
 parseXML($register);
-die();
 updateTempTables($register);
 checkImages($register);
 updateWorkTables($register);
@@ -649,7 +648,6 @@ function updateTempTables($register) {
         $sort = $i;
         if (strlen($sort) == 1) $sort = '0' . $sort;
         $query = "UPDATE `temp_categories` SET `globalsort` = '" . $sort . "000000000000000000' WHERE `id` = " . $root['id'];
-        // echo $query . PHP_EOL;
         $register->database->execute($query);
         updateSortOrderAllCategories($root['id'], $sort . '000000000000000000', 1);
         $i++;
@@ -1361,7 +1359,7 @@ function updateTempTables($register) {
         if (!is_file('files/catalog/cetr/'.$item['filename'])) {
             continue;
         }
-        unlink('files/catalog/certs/'.$item['filename']);
+        unlink('files/catalog/cert/'.$item['filename']);
         if ($item['count'] > 1) {
             $page = 1;
             while ($page < $item['count']) {
@@ -1380,48 +1378,52 @@ function updateTempTables($register) {
     $certs = $register->database->fetchAll($query);
     foreach ($certs as $cert) {
         $src = 'files/catalog/src/cert/'.$cert['filename'];
-        if (!is_file($src)) {
+        if (is_file($src)) {
+            $dst = 'files/catalog/cert/' . strtolower($cert['filename']);
+            copy($src, $dst);
+            if ($cert['count'] > 1) {
+                $page = 1;
+                while ($page < $cert['count']) {
+                    $filename = str_replace('.jpg', $page.'.jpg', $cert['filename']);
+                    $src = 'files/catalog/src/cert/'.$filename;
+                    $dst = 'files/catalog/cert/' . strtolower($filename);
+                    if (is_file($src)) {
+                        copy($src, $dst);
+                    } else {
+                        file_put_contents('temp/errors.txt', 'Файл '.$filename.' сертификата '.$cert['code'].' не существует (№'.$page.')'.PHP_EOL, FILE_APPEND);
+                    }
+                    $page++;
+                }
+            }
+            $query = "INSERT INTO `temp_certs`
+                      (
+                          `title`,
+                          `filename`,
+                          `count`,
+                          `code`
+                      )
+                      VALUES
+                      (
+                          :title,
+                          :filename,
+                          :count,
+                          :code
+                      )";
+            $register->database->execute(
+                $query,
+                array(
+                    'title' => $cert['title'],
+                    'filename' => strtolower($cert['filename']),
+                    'count' => $cert['count'],
+                    'code' => $cert['code']
+                )
+            );
+        } else {
             $register->database->execute("DELETE FROM `tmp_certs` WHERE `code` = :code", array('code' => $cert['code']));
             $register->database->execute("DELETE FROM `tmp_cert_prod` WHERE `cert_code` = :code", array('code' => $cert['code']));
+            file_put_contents('temp/errors.txt', 'Файл '.$cert['filename'].' сертификата '.$cert['code'].' не существует'.PHP_EOL, FILE_APPEND);
             continue;
         }
-        $dst = 'files/catalog/cert/' . strtolower($cert['filename']);
-        copy($src, $dst);
-        if ($cert['count'] > 1) {
-            $page = 1;
-            while ($page < $cert['count']) {
-                $filename = str_replace('.jpg', $page.'.jpg', $cert['filename']);
-                $src = 'files/catalog/src/cert/'.$filename;
-                $dst = 'files/catalog/cert/' . strtolower($filename);
-                if (is_file($src)) {
-                    copy($src, $dst);
-                }
-                $page++;
-            }
-        }
-        $query = "INSERT INTO `temp_certs`
-                  (
-                      `title`,
-                      `filename`,
-                      `count`,
-                      `code`
-                  )
-                  VALUES
-                  (
-                      :title,
-                      :filename,
-                      :count,
-                      :code
-                  )";
-        $register->database->execute(
-            $query,
-            array(
-                'title' => $cert['title'],
-                'filename' => strtolower($cert['filename']),
-                'count' => $cert['count'],
-                'code' => $cert['code']
-            )
-        ); 
     }
     // теперь таблицы tmp_certs и tmp_certs содержат одинаковое количество записей
     $query = "SELECT * FROM `tmp_certs` WHERE 1";
@@ -1890,6 +1892,38 @@ function checkImages($register) {
         $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
         $register->database->execute($query, array('id' => $item['id']));
     }
+}
+
+function updateMeta($register) {
+    $query = "SELECT `a`.`id` AS `id`, `a`.`category` AS `category`, `a`.`name` AS `name`, `a`.`title` AS `title`, `b`.`name` AS `maker` FROM `temp_products` `a` INNER JOIN `temp_makers` `b` ON `a`.`maker`=`b`.`id` WHERE `a`.`keywords` = ''";
+    $products = $register->database->fetchAll($query);
+    foreach ($products as $product) {
+        $root = getRootCategory($product['category'], $register);
+        $product['name'] = str_replace('"', '', $product['name']);
+        $product['title'] = str_replace('"', '', $product['title']);
+        $product['maker'] = str_replace('"', '', $product['maker']);
+        $description = $product['name'];
+        if (!empty($product['title'])) $description = $description.'. '.$product['title'];
+        $description = $description.'. '.$root.'.';
+        if (strlen($description) < 188) $description = $description.' Каталог оборудования систем безопасности. Торговый Дом ТИНКО.';
+        $keywords = $product['name'];
+        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($prd['title']));
+        $keywords = $keywords.' '.$product['maker'];
+        $keywords = $keywords.' цена купить';
+        $keywords = $keywords.' '.lcfirst($root));
+        if (strlen($keywords) < 200) $keywords = $keywords.' каталог оборудование системы безопасности ТД ТИНКО';
+        $keywords = str_replace('«', ' ', $keywords);
+        $keywords = str_replace('»', ' ', $keywords);
+        $keywords = str_replace('(', ' ', $keywords);
+        $keywords = str_replace(')', ' ', $keywords);
+        $keywords = preg_replace('~\s+~', ' ', $keywords);
+        $query = "UPDATE `temp_products` SET `keywords` = :keywords, `description` = :description WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $product['id']));
+    }
+}
+
+function getRootCategory($id, $register) {
+    
 }
 
 function updateSortOrderAllCategories($id, $sortorder, $level) {

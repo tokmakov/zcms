@@ -201,7 +201,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $page = 1;
                 while ($page < $value['count']) {
                     $file = str_replace('.jpg', $page.'.jpg', $value['file']);
-                    $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $file;
+                    if (is_file('files/catalog/cert/' . $file)) {
+                        $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $file;
+                    }
                     $page++;
                 }
             }
