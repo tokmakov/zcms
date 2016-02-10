@@ -1,5 +1,13 @@
+.page h3 {
+    margin-bottom: 7px;
+}
 .page .office-block {
     overflow: hidden;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #5390cc;
+}
+.page .office-block:last-of-type {
+    border-bottom: none;
 }
     .page .office-block .office-photo {
         float: left;
@@ -13,7 +21,7 @@
             border: 1px solid #d1d1d1;
         }
     .page .office-block .office-info {
-        margin-left:335px
+        margin-left: 335px
     }
         .page .office-block .office-info > p:nth-child(even) {
             margin: 0 0 2px 0;
@@ -23,7 +31,7 @@
             margin: 0 0 14px 0;
         }
         .page .office-block .office-info > p:last-child {
-            margin: 0;
+            margin: 0 !important;
         }
             .page .office-block .office-info > p:first-child > a {
                 color: #395985;
@@ -43,7 +51,7 @@
     padding-top: 20px;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width:750px) {
     .page .office-block .office-photo {
         float: none;
     }
