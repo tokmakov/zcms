@@ -26,7 +26,7 @@
         font-size: 14px;
         line-height: 14px;
         box-sizing: border-box;
-        padding: 2px;
+        padding: 4px;
         border: 1px solid #d1d1d1;
         margin-left: 29px;
     }
@@ -137,7 +137,7 @@
                             box-sizing: border-box;
                             font-size: 14px;
                             line-height: 14px;
-                            padding: 2px;
+                            padding: 4px;
                             border: 1px solid #d1d1d1;
                             margin: 2px 0;
                         }

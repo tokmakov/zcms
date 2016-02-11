@@ -35,6 +35,21 @@ a:hover {
         margin-bottom: 0;
     }
 
+.selected {
+    color: #ff6d00 !important;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none !important;
+    background-image: url('../img/select-arrow.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding-right: 18px !important;
+}
+
 /*
  * КАРКАС
  */
@@ -532,10 +547,6 @@ div.attention {
         div.attention > div:last-child :last-child {
             margin-bottom: 0 !important;
         }
-
-.selected {
-    color: #ff6d00 !important;
-}
 
 .ajax-loader {
     min-height: 32px;
@@ -1378,9 +1389,7 @@ div.attention {
                             height: 24px;
                             box-sizing: border-box;
                             font-size: 14px;
-                            padding: 2px;
                             border: 1px solid #d1d1d1;
-                            /* font-family: "Lucida Console", Monaco, monospace; */
                         }
                             #catalog-filter select option.empty-option {
                                 background: #f0f0f0;

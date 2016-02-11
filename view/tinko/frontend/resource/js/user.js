@@ -53,9 +53,8 @@ $(document).ready(function() {
         $('#add-edit-profile select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
     }
     $('#add-edit-profile input[name="shipping"]').change(function() {
-        $('#add-edit-profile > #shipping-address-city-index').slideToggle('normal', function() {
-            $('#add-edit-profile select[name="office"]').toggle();
-        });
+        $('#add-edit-profile > #shipping-address-city-index').slideToggle();
+        $('#add-edit-profile select[name="office"]').toggle()
     });
 
     /*

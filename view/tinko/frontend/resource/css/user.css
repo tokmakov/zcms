@@ -114,7 +114,6 @@
                 border: 1px solid #d1d1d1;
                 font-size: 14px;
                 line-height: 14px;
-                height: 26px;
             }
             #edit-user > div > div:last-child > label {
                 display: block;
@@ -260,7 +259,7 @@
         font-size: 14px;
         line-height: 14px;
         box-sizing: border-box;
-        padding: 2px;
+        padding: 4px;
         border: 1px solid #d1d1d1;
         margin-left: 39px;
         display: inline-block;

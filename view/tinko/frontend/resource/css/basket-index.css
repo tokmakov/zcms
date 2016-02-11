@@ -5,7 +5,7 @@
     #basket > a { /* очистить корзину */
         display: block;
         float: right;
-        margin-top: -20px;
+        margin-top: -25px;
         margin-bottom: 7px;
         text-decoration: none;
         color: #395985;

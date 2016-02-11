@@ -58,7 +58,7 @@ $(document).ready(function() {
     if ($('#checkout-order input[name="shipping"]').prop('checked')) {
         $('#checkout-order #buyer-shipping-details').hide();
     } else {
-        $('#checkout-order select[name="office"]').hide();
+        $('#checkout-order select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
     }
     // при изменении состояния checkbox «Самовывоз со склада» для получателя,
     // скрываем/показываем часть формы, связанную с адресом доставки получателя
