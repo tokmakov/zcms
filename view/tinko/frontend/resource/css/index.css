@@ -64,7 +64,7 @@
     text-align: center;
 }
     .new-hit-item > div:first-child {
-        height: 31px;
+        height: 33px;
         margin-bottom: 4px;
         overflow: hidden;
     }
@@ -85,7 +85,7 @@
             background: #fff;
         }
     .new-hit-item > div:last-child {
-        height: 18px;
+        height: 16px;
         color: #969696;
         overflow: hidden;
     }
@@ -93,6 +93,7 @@
             font-weight: bold;
             color: #395985;
             font-size: 16px;
+            line-height: 16px;
             letter-spacing: -1px;
             word-spacing: -1px;
         }

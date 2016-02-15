@@ -459,22 +459,65 @@ function filterSelectHandler() {
              * перед отправкой формы добавляем оверлей для трех блоков
              */
             // первый блок: дочерние категории текущей категории
-            var childsHeight = $('#category-childs > div:last-child').height();
-            var childsWidth = $('#category-childs > div:last-child').width();
-            $('<div></div>').prependTo('#category-childs > div:last-child').addClass('overlay').height(childsHeight).width(childsWidth);
+            var childs = $('#category-childs > div:last-child');
+            if (childs.length > 0) {
+                var childsHeight = childs.height();
+                var childsWidth = childs.width();
+                var childsTop = childs.offset().top;
+                var childsLeft = childs.offset().left;
+                $('<div></div>')
+                    .prependTo('body')
+                    .css({
+                        'position' : 'absolute',
+                        'width' : childsWidth,
+                        'height' : childsHeight,
+                        'left' : childsLeft,
+                        'top' : childsTop,
+                        'z-index' : 5
+                    })
+                    .addClass('overlay');
+            }
             // второй блок: фильтр по функционалу, производителю и параметрам
-            var filtersHeight = $('#catalog-filter form > div:first-child').height();
-            var filtersWidth = $('#catalog-filter form > div:first-child').width();
-            $('<div></div>').prependTo('#catalog-filter form > div:first-child').addClass('overlay').height(filtersHeight).width(filtersWidth);
+            var filters = $('#catalog-filter form > div:first-child');
+            var filtersHeight = filters.height();
+            var filtersWidth = filters.width();
+            var filtersTop = filters.offset().top;
+            var filtersLeft = filters.offset().left;
+            $('<div></div>')
+                .prependTo('body')
+                .css({
+                    'position' : 'absolute',
+                    'width' : filtersWidth,
+                    'height' : filtersHeight,
+                    'left' : filtersLeft,
+                    'top' : filtersTop,
+                    'z-index' : 5
+                })
+                .addClass('overlay');
             // третий блок: товары выбранной категории
-            var productsHeight = $('#catalog-products').height();
-            var productsWidth = $('#catalog-products').width();
-            $('<div></div>').prependTo('#catalog-products').addClass('products-overlay').height(productsHeight).width(productsWidth);
+            var products = $('#catalog-products');
+            var productsHeight = products.height();
+            var productsWidth = products.width();
+            var productsTop = products.offset().top;
+            var productsLeft = products.offset().left;
+            $('<div></div>')
+                .prependTo('body')
+                .css({
+                    'position' : 'absolute',
+                    'width' : productsWidth,
+                    'height' : productsHeight,
+                    'left' : productsLeft,
+                    'top' : productsTop,
+                    'z-index' : 5
+                })
+                .addClass('products-overlay');
         },
         success: function(dt) {
             /*
              * получен ответ от сервера, вставляем содержимое трех блоков
              */
+            // удаляем три overlay
+            $('.overlay, .products-overlay').remove();
             // первый блок: дочерние категории текущей категории
             $('#category-childs > div:last-child').html(dt.childs);
             // второй блок: фильтр по функционалу, производителю и параметрам

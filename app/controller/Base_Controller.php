@@ -120,8 +120,7 @@ abstract class Base_Controller extends Base {
                 'centerContent' => $this->centerContent,
                 'leftContent'   => $this->leftContent,
                 'rightContent'  => $this->rightContent,
-                'footerContent' => $this->footerContent,
-                'jsFiles'       => $this->jsFiles,
+                'footerContent' => $this->footerContent
             )
         );
     }
@@ -223,30 +222,56 @@ abstract class Base_Controller extends Base {
         $action = $this->register->router->getAction();
 
         /*
-         * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е.
-         * те файлы, которые есть на всех страницах сайта. Дальше подключаются файлы,
-         * заданные для родительского класса, например для абстрактного класса
-         * Catalog_Frontend_Controller. Наконец, подключаются файлы, заданные для
-         * этого класса, например, Product_Catalog_Frontend_Controller
+         * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те файлы, которые
+         * есть на всех страницах сайта. Дальше подключаются файлы, заданные для родительского класса,
+         * например для абстрактного класса Catalog_Frontend_Controller. Наконец, подключаются файлы,
+         * заданные для этого класса, например, Product_Catalog_Frontend_Controller
          *
          * Пример подключения CSS-файлов (см. файл app/settings.php):
-         * 'css' => array(                         // CSS файлы, подключаемые к странице
-         *     'frontend' => array(                // общедоступная часть сайта
-         *         'base' => array(                // css-файлы, подключаемые ко всем страницам сайта
+         * 'css' => array (                         // CSS файлы, подключаемые к странице
+         *     'frontend' => array (                // общедоступная часть сайта
+         *         'base' => array (                // css-файлы, подключаемые ко всем страницам сайта
          *             'reset.css',
          *             'common.css',
          *         ),
-         *         'index' => 'jquery.slider.css', // только для главной страницы сайта
-         *         'page' => 'page.css',           // для страниц сайта, формируемых Page_Frontend_Controller
-         *         'catalog' => 'catalog.css',     // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
-         *         'catalog-product' => array(     // только для страниц, которые формирует Product_Catalog_Frontend_Controller
+         *         'index' => 'jquery.slider.css', // только для главной страницы, формируемой Index_Index_Frontend_Controller
+         *         'page' => 'page.css',           // для страниц, которые формирует Index_Page_Frontend_Controller
+         *         'catalog' => 'catalog.css',     // для страниц, которые все формируют дочерние классы Catalog_Frontend_Controller
+         *         'catalog-product' => array (    // только для страниц, которые формирует Product_Catalog_Frontend_Controller
          *             'product.css',
          *             'jquery.lightbox.css',
          *         ),
          *     ),
-         *     'backend' => array(                 // административная часть сайта
+         *     'backend' => array (                // административная часть сайта
          *         ..........
          *     ),
+         * )
+         *
+         * Здесь важно понимать, что у некоторых абстактных классов есть только один дочерний класс,
+         * например: Page_Frontend_Controller и Index_Page_Frontend_Controller. А у других абстрактных
+         * классов есть несколько дочерних классов, например у Catalog_Frontend_Controller:
+         * 1. Index_Catalog_Frontend_Controller
+         * 2. Product_Catalog_Frontend_Controller
+         * 3. Category_Catalog_Frontend_Controller
+         * 4. Maker_Catalog_Frontend_Controller
+         *
+         * Запись вида
+         *   'catalog' => 'catalog.css', // для всех страниц каталога
+         *   'catalog-index' => 'catalog-index.css' // только для главной страницы каталога
+         * имеет смысл, а запись вида
+         *   'page' => 'page.css'
+         *   'page-index' => 'lightbox.css'
+         * не будет ошибочной, но сбивает с толку. Сбивает с толку потому, что подразумевает,
+         * что page.css подключается для всех дочерних классов Page_Frontend_Controller. Но у
+         * Page_Frontend_Controller только один дочерний класс, поэтому либо так
+         * 'page' => array(
+         *     'page.css',
+         *     'lightbox.css'
+         * )
+         * либо так
+         * 'page-index' => array(
+         *     'page.css',
+         *     'lightbox.css'
          * )
          */
 
@@ -267,7 +292,7 @@ abstract class Base_Controller extends Base {
         }
 
         /*
-         * Eсли для контроллера Page_Frontend_Controller существует файл
+         * Eсли для контроллера Index_Page_Frontend_Controller существует файл
          * view/example/frontend/template/page/wrapper.php, то будет использован
          * именно он, а не view/example/frontend/template/wrapper.php. Аналогично
          * для файлов header.php, menu.php, center.php, left.php и т.д.

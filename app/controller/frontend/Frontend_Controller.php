@@ -398,14 +398,10 @@ abstract class Frontend_Controller extends Base_Controller {
         /*
          * получаем html-код правой колонки
          */
-        // кэширование не оправдывает себя; см. комментарии
-        // к методу Frontend_Controller::render()
-        $this->notUseCache = true;
         $this->rightContent = $this->render(
             $this->rightTemplateFile,
             $this->rightVars
         );
-        $this->notUseCache = false;
 
         /*
          * получаем html-код подвала страницы
@@ -419,11 +415,7 @@ abstract class Frontend_Controller extends Base_Controller {
          * html-код отдельных частей страницы получен, теперь формируем
          * всю страницу целиком, обращаясь к Base_Controller::output()
          */
-        // кэширование не оправдывает себя: если не кэширован right.php,
-        // то и wrapper.php нет смысла кэшировать
-        $this->notUseCache = true;
         parent::output();
-        $this->notUseCache = false;
 
     }
 
@@ -435,18 +427,12 @@ abstract class Frontend_Controller extends Base_Controller {
     protected function render($template, $params = array()) {
 
         // если не включено кэширование шаблонов
-        if (!$this->enableHtmlCache) {
+        if ( ! $this->enableHtmlCache) {
             return parent::render($template, $params);
         }
 
         /*
-         * Кэширование включено, но в некоторых случаях оно не оправдывает себя,
-         * например, для шаблона right.php. У разных пользователей будут разные
-         * корзины, списки отложенных товаров, товаров для сравнения, просмотренных
-         * товаров. Вероятность, что у двух пользователей содержимое всех четырех
-         * списков совпадёт, ничтожно мала. Поэтому в Frontend_Controller::output()
-         * для шаблона правой колонки notUseCache выставляется в true, а потом
-         * обратно в false.
+         * Кэширование включено, но в некоторых случаях оно не оправдывает себя
          */
         if ($this->notUseCache) {
             return parent::render($template, $params);

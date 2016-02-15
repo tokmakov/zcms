@@ -48,6 +48,10 @@ select {
     background-position: right center;
     background-repeat: no-repeat;
     padding-right: 18px !important;
+    padding-left: 2px;
+}
+select::-ms-expand {
+    display: none;
 }
 
 /*
@@ -1352,31 +1356,23 @@ div.attention {
                 #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox {
                     opacity: 0.6;
                 }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label,
-                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label > span,
-                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > label > input[type="checkbox"] {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > span > input[type="checkbox"],
+                    #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox > span > label {
                         cursor: not-allowed;
                     }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div > span,
-                    #catalog-filter > div:last-child > form > div:first-child > div > div > label {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > span {
                         display: table-cell;
                         height: 30px;
                         font-size: 14px;
-                        line-height: 14px;
+                        line-height: 15px;
                         vertical-align: middle;
                     }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div > label {
-                        cursor: pointer;
-                    }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div:first-child > span {
-                        line-height: 15px;
-                    }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div > label > span {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > span > label { /* фильтр новинки, хиты */
                         cursor: pointer;
                         border-bottom: 1px dashed #323232;
                         margin-left: 3px;
                     }
-                    #catalog-filter > div:last-child > form > div:first-child > div > div > label > input[type="checkbox"] {
+                    #catalog-filter > div:last-child > form > div:first-child > div > div > span > input[type="checkbox"] { /* фильтр новинки, хиты */
                         cursor: pointer;
                         border: 1px solid #d1d1d1;
                         position: relative;
@@ -2132,13 +2128,16 @@ div.attention {
     #right #side-basket table tr td:last-child {
         text-align: center;
     }
-    #right #side-basket table tr:last-child td span {
-        font-weight: bold;
-        color: #395985;
-        font-size: 16px;
-        letter-spacing: -1px;
-        word-spacing: -1px;
+    #right #side-basket table tr:last-child td {
+        text-align: right;
     }
+        #right #side-basket table tr:last-child td span {
+            font-weight: bold;
+            color: #395985;
+            font-size: 16px;
+            letter-spacing: -1px;
+            word-spacing: -1px;
+        }
     #right #side-wished table tr th:first-child {
         width: 22%;
     }

@@ -372,16 +372,16 @@ for ($i = 0; $i <= 6; $i++) {
                 <?php endif; ?>
                 <div>
                     <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
-                        <label>
-                            <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" />
-                            <span>Лидер продаж</span>
-                        </label>
+                        <span>
+                            <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" id="hit-prd-box" />
+                            <label for="hit-prd-box">Лидер продаж</label>
+                        </span>
                     </div>
                     <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
-                        <label>
-                            <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" />
-                            <span>Новинка</span>
-                        </label>
+                        <span>
+                            <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" id="new-prd-box" />
+                            <label for="new-prd-box">Новинка</label>
+                        </span>
                     </div>
                 </div>
             </div>

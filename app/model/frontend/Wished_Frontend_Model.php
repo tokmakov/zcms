@@ -72,7 +72,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция комментарий к товару в списке отложенных
+     * Функция добавляет комментарий к товару в списке отложенных
      */
     public function addComment($product_id, $comment) {
         $query = "UPDATE

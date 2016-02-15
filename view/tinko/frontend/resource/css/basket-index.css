@@ -89,7 +89,7 @@
         #basket form div > span:last-child > strong {
             font-size: 18px;
             letter-spacing: -1px;
-            word-spacing: -2px;
+            word-spacing: -1px;
         }
         #basket form div > span:last-child > strong:first-child {
             color: #969696;

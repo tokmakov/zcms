@@ -8,9 +8,7 @@ class Xhr_Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
-        // не использовать кэширование шаблона списка отложенных товаров в
-        // правой колонке, потому как вероятность, что у двух пользователей
-        // совпадут списки избанных товаров, довольно мала
+        // не использовать кэширование шаблона списка отложенных товаров
         $this->notUseCache = true;
     }
 

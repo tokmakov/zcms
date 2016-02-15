@@ -8,9 +8,7 @@ class Xhr_Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
-        // не использовать кэширование шаблона корзины в правой колонке,
-        // потому как вероятность, что у двух покупателей совпадут
-        // товары в корзинах, довольно мала
+        // не использовать кэширование шаблона списка товаров в корзине
         $this->notUseCache = true;
     }
 

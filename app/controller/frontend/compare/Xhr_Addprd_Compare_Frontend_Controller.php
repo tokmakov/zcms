@@ -13,8 +13,6 @@ class Xhr_Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller
         }
         parent::__construct($params);
         // не использовать кэширование шаблона списка товаров для сравнения
-        // в правой колонке, потому как вероятность, что у двух пользователей
-        // совпадут списки товаров для сравнения, довольно мала
         $this->notUseCache = true;
     }
 

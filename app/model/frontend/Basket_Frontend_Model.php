@@ -593,7 +593,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                $html = $html . '</ul>' . PHP_EOL;
            }
         }
-        if (!empty($details['comment'])) {
+        if ( ! empty($details['comment'])) {
             $html = $html . '<h4>Комментарий</h4>' . PHP_EOL;
             $html = $html . '<p>'.nl2br($details['comment']).'</p>' . PHP_EOL;
         }
