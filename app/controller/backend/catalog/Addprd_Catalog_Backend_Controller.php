@@ -63,7 +63,7 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $categories = $this->catalogBackendModel->getAllCategories();
 
         // получаем от модели массив всех функиональных групп, для возможности выбора
-        $groups = $this->filterBackendModel->getGroups();
+        $groups = $this->catalogBackendModel->getAllGroups();
 
         // получаем от модели массив всех производителей, для возможности выбора
         $makers = $this->catalogBackendModel->getMakers();

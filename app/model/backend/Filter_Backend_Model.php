@@ -189,36 +189,22 @@ class Filter_Backend_Model extends Backend_Model {
     public function getGroupParams($id) {
 
         $query = "SELECT
-                      `a`.`param_id` AS `param_id`, `b`.`name` AS `param_name`,
-                      `a`.`value_id` AS `value_id`, `c`.`name` AS `value_name`
+                      `a`.`param_id` AS `id`, `b`.`name` AS `name`,
+                      GROUP_CONCAT(`value_id`) AS `ids`
                   FROM
-                      `group_param_value` `a`
-                      INNER JOIN `params` `b` ON `a`.`param_id` = `b`.`id`
-                      INNER JOIN `values` `c` ON `a`.`value_id` = `c`.`id`
+                      `group_param_value` `a` INNER JOIN `params` `b`
+                      ON `a`.`param_id` = `b`.`id`
                   WHERE
                       `a`.`group_id` = :group_id
-                  ORDER BY `b`.`name`, `c`.`name`";
+                  GROUP BY
+                      1, 2";
         $result = $this->database->fetchAll($query, array('group_id' => $id));
         
-        $params = array();
-        $param_id = 0;
-        $counter = -1;
-        foreach($result as $value) {
-            if ($param_id != $value['param_id']) {
-                $counter++;
-                $param_id = $value['param_id'];
-                $params[$counter] = array(
-                    'id' => $value['param_id'],
-                    'name' => $value['param_name']
-                );
-            }
-            $params[$counter]['values'][] = array(
-                'id' => $value['value_id'],
-                'name' => $value['value_name']
-            );
+        foreach ($result as $key => $value) {
+            $result[$key]['ids'] = explode(',', $value['ids']);
         }
 
-        return $params;
+        return $result;
 
     }
 

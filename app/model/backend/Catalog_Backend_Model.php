@@ -521,6 +521,22 @@ class Catalog_Backend_Model extends Backend_Model {
         $this->uploadDocFiles($data['id']);
 
     }
+    
+    /**
+     * Функция возвращает массив всех функциональных групп для
+     * возможности выбора при добавлении/редактировании товара
+     */
+    public function getAllGroups() {
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `groups`
+                  WHERE
+                      1
+                  ORDER BY
+                      `name`";
+        return $this->database->fetchAll($query);
+    }
 
     /**
      * Функция возвращает массив параметров, привязанных к группе $id и массивы

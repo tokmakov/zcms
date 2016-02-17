@@ -140,6 +140,7 @@
             }
             #add-edit-product > #params > div:last-child > div > p {
                 margin: 0 0 5px 0;
+                color: #395985;
             }
             #add-edit-product > #params > div:last-child > div > ul {
                 list-style: none;

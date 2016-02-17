@@ -111,9 +111,8 @@
                     }
             #compare-products .product-table-item .product-table-image { /* изображение */
                 display: inline-block;
-                width: 100px;
-                height: 100px;
-                padding: 9px;
+                width: 118px;
+                height: 118px;
                 border: 1px solid #d1d1d1;
                 background: #fff;
                 margin-bottom: 7px;
@@ -123,6 +122,7 @@
                     position: relative;
                     width: 100px;
                     height: 100px;
+                    padding: 9px;
                 }
                     #compare-products .product-table-item .product-table-image > a > img { /* изображение */
                         display: block;
@@ -141,16 +141,16 @@
                         padding-left: 1px;
                     }
                     #compare-products .product-table-item .product-table-image > a > span.hit-product {
-                        background: #e9751f;
+                        background: #395985;
                         width: 72px;
-                        left: -8px;
-                        top: -8px;
+                        left: 1px;
+                        top: 1px;
                     }
                     #compare-products .product-table-item .product-table-image > a > span.new-product {
                         background: #395985;
                         width: 41px;
-                        right: -8px;
-                        top: -8px;
+                        right: 1px;
+                        top: 1px;
                     }
             #compare-products .product-table-item .product-table-price { /* цена */
                 color: #969696;

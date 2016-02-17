@@ -237,18 +237,14 @@ function addBasketHandler() {
                 .remove()
                 .end()
                 .prependTo('body')
+                .addClass('image-clone')
                 .css({
-                    'position' : 'absolute',
                     'width' : imageWidth,
                     'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
-                    'background' : '#fff',
-                    'z-index' : 5,
-                    'padding' : '9px',
-                    'border' : '1px solid #e9751f'
                 })
-                .delay(100)
+                .delay(200)
                 .animate(
                     {left: basketLeft, top: basketTop, width: 0, height: 0, padding: 0},
                     500,
@@ -313,18 +309,14 @@ function addBasketHandler() {
                 .remove()
                 .end()
                 .prependTo('body')
+                .addClass('image-clone')
                 .css({
-                    'position' : 'absolute',
                     'width' : imageWidth,
                     'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
-                    'background' : '#fff',
-                    'z-index' : 5,
-                    'padding' : '9px',
-                    'border' : '1px solid #e9751f'
                 })
-                .delay(100)
+                .delay(200)
                 .animate(
                     {left: wishedLeft, top: wishedTop, width: 0, height: 0, padding: 0},
                     500,
@@ -403,18 +395,14 @@ function addBasketHandler() {
                 .remove()
                 .end()
                 .prependTo('body')
+                .addClass('image-clone')
                 .css({
-                    'position' : 'absolute',
                     'width' : imageWidth,
                     'height' : imageHeight,
                     'left' : imageLeft,
                     'top' : imageTop,
-                    'background' : '#fff',
-                    'z-index' : 5,
-                    'padding' : '9px',
-                    'border' : '1px solid #e9751f'
                 })
-                .delay(100)
+                .delay(200)
                 .animate(
                     {left: compareLeft, top: compareTop, width: 0, height: 0, padding: 0},
                     500,
