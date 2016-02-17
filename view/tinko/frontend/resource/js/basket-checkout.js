@@ -34,7 +34,7 @@ $(document).ready(function() {
 
     // если не отмечен checkbox «Плательщик и получатель различаются»,
     // скрываем часть формы, связанную с плательщиком
-    if (!$('#checkout-order input[name="buyer_payer_different"]').prop('checked')) {
+    if ( ! $('#checkout-order input[name="buyer_payer_different"]').prop('checked')) {
         $('#checkout-order #payer-order').hide();
     }
     // при изменении состояния checkbox «Плательщик и получатель различаются»,
@@ -44,7 +44,7 @@ $(document).ready(function() {
     });
     // если не отмечен checkbox «Юридическое лицо» для получателя,
     // скрываем часть формы, связанную с юр.лицом получателя
-    if (!$('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
+    if ( ! $('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
         $('#checkout-order #buyer-legal-person').hide();
     }
     // при изменении состояния checkbox «Юридическое лицо» для получателя,
@@ -58,7 +58,7 @@ $(document).ready(function() {
     if ($('#checkout-order input[name="shipping"]').prop('checked')) {
         $('#checkout-order #buyer-shipping-details').hide();
     } else {
-        $('#checkout-order select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
+        $('#checkout-order select[name="office"]').css('display','inline-block').hide(); // css() для MS IE
     }
     // при изменении состояния checkbox «Самовывоз со склада» для получателя,
     // скрываем/показываем часть формы, связанную с адресом доставки получателя
@@ -69,7 +69,7 @@ $(document).ready(function() {
 
     // если не отмечен checkbox «Юридическое лицо» для плательщика,
     // скрываем часть формы, связанную с юр.лицом плательщика
-    if (!$('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
+    if ( ! $('#checkout-order input[name="payer_legal_person"]').prop('checked')) {
         $('#checkout-order #payer-legal-person').hide();
     }
     // при изменении состояния checkbox «Юридическое лицо» для плательщика,
@@ -86,7 +86,7 @@ $(document).ready(function() {
         if ($('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
             $('#checkout-order input[name="buyer_legal_person"]').prop('checked', false).change();
         }
-        if (!$('#checkout-order input[name="shipping"]').prop('checked')) {
+        if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
             $('#checkout-order input[name="shipping"]').prop('checked', true).change();
         }
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
             // телефон контактного лица получателя
             $('#checkout-order input[name="buyer_phone"]').val(data.phone);
             if (data.legal_person === '1') { // получатель - юридическое лицо?
-                if (!$('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
+                if ( ! $('#checkout-order input[name="buyer_legal_person"]').prop('checked')) {
                     $('#checkout-order input[name="buyer_legal_person"]').prop('checked', true).change();
                 }
                 $('#checkout-order input[name="buyer_company"]').val(data.company);

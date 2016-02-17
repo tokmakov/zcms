@@ -1894,6 +1894,79 @@ function checkImages($register) {
     }
 }
 
+function checkFiles($register) {
+    $query = "SELECT `id`, `filename`, `code` FROM `temp_docs` WHERE 1";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (is_file('files/catalog/docs/' . $item['filename'])) {
+            continue;
+        }
+        file_put_contents('temp/errors.txt', 'Файл документации '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        $query = "DELETE FROM `temp_docs` WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+        $query = "DELETE FROM `temp_doc_prd` WHERE `doc_id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+    }
+}
+
+function removeOldImages($register) {
+    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+    foreach ($dirs as $dir1) {
+        foreach($dirs as $dir2) {
+            $dir = 'files/catalog/imgs/small/' . $dir1 . '/' . $dir2;
+            if (is_dir($dir)) {
+                $files = scandir($dir);
+                foreach ($files as $file) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $image = $dir1 . '/' . $dir2 . '/' . $file;
+                    $query = "SELECT 1 FROM `temp_products` WHERE `image` = :image";
+                    $result = $register->database->fetchOne($query, array('image' => $image));
+                    if (false === $result) {
+                        /*
+                        unlink('files/catalog/imgs/small/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
+                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        }
+                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
+                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        }
+                        */
+                        file_put_contents('temp/remove.txt', 'Удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
+        }
+    }
+}
+
+function removeOldFiles() {
+    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+    foreach ($dirs as $dir1) {
+        foreach($dirs as $dir2) {
+            $dir = 'files/catalog/docs/' . $dir1 . '/' . $dir2;
+            if (is_dir($dir)) {
+                $files = scandir($dir);
+                foreach ($files as $file) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $filename = $dir1 . '/' . $dir2 . '/' . $file;
+                    $query = "SELECT 1 FROM `temp_docs` WHERE `filename` = :filename";
+                    $result = $register->database->fetchOne($query, array('filename' => $filename));
+                    if (false === $result) {
+                        /*
+                        unlink('files/catalog/docs/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        */
+                        file_put_contents('temp/remove.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
+        }
+    }
+}
+
 function updateMeta($register) {
     $query = "SELECT `a`.`id` AS `id`, `a`.`category` AS `category`, `a`.`name` AS `name`, `a`.`title` AS `title`, `b`.`name` AS `maker` FROM `temp_products` `a` INNER JOIN `temp_makers` `b` ON `a`.`maker`=`b`.`id` WHERE `a`.`keywords` = ''";
     $products = $register->database->fetchAll($query);
@@ -1907,10 +1980,10 @@ function updateMeta($register) {
         $description = $description.'. '.$root.'.';
         if (strlen($description) < 188) $description = $description.' Каталог оборудования систем безопасности. Торговый Дом ТИНКО.';
         $keywords = $product['name'];
-        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($prd['title']));
+        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($prd['title']);
         $keywords = $keywords.' '.$product['maker'];
         $keywords = $keywords.' цена купить';
-        $keywords = $keywords.' '.lcfirst($root));
+        $keywords = $keywords.' '.lcfirst($root);
         if (strlen($keywords) < 200) $keywords = $keywords.' каталог оборудование системы безопасности ТД ТИНКО';
         $keywords = str_replace('«', ' ', $keywords);
         $keywords = str_replace('»', ' ', $keywords);
