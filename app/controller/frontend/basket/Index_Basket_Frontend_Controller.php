@@ -33,8 +33,6 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->redirect($this->basketFrontendModel->getURL('frontend/basket/index'));
         }
 
-        $this->title = 'Корзина. ' . $this->title;
-
         // формируем хлебные крошки
         $breadcrumbs = array(
             array(
@@ -88,7 +86,7 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,
             // массив единиц измерения товара
-            'units'               => $this->catalogFrontendModel->getUnits(),
+            'units'               => $this->basketFrontendModel->getUnits(),
             // тип пользователя
             'type'                => $type,
         );

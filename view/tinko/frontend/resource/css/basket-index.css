@@ -32,7 +32,7 @@
         #basket form table tr th {
             background: #f0f0f0;
             font-weight: normal;
-            padding: 8px 5px;
+            padding: 12px 5px;
         }
         #basket form table tr:first-child th:nth-child(1),
         #basket form table tr:first-child th:nth-child(3),
@@ -135,10 +135,6 @@
         #basket form p:last-child a:hover {
             text-decoration: none;
         }
-        
-#basket-related > div:last-child {
-    padding: 0;
-}
 
 @media screen and (max-width: 612px) {
     #basket form table tr:first-child th:nth-child(3),

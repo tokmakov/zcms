@@ -15,7 +15,6 @@
  * $countHit - количество лидеров продаж
  * $new - показывать только новинки?
  * $countNew - количество новинок
- * $param - массив выбранных параметров подбора
  * $groups - массив функциональных групп
  * $makers - массив производителей
  * $params - массив всех параметров подбора
@@ -81,42 +80,41 @@
  *   [0] => Array (
  *     [id] => 5
  *     [name] => Напряжение питания
+ *     [selected] = true
  *     [values] => Array (
  *       [0] => Array (
  *         [id] => 7
  *         [name] => 12 Вольт
  *         [count] => 3
+ *         [selected] => false
  *       )
  *       [1] => Array (
  *         [id] => 9
  *         [name] => 24 Вольт
  *         [count] => 5
+ *         [selected] => true
  *       )
  *     )
  *   )
  *   [1] => Array (
  *     [id] => 8
  *     [name] => Встроенная ИК подсветка
+ *     [selected] => true
  *     [values] => Array (
  *       [0] => Array (
  *         [id] => 11
  *         [name] => есть
  *         [count] => 4
+ *         [selected] => true
  *       )
  *       [1] => Array (
  *         [id] => 14
  *         [name] => нет
  *         [count] => 6
+ *         [selected] => false
  *       )
  *     )
  *   )
- * )
- *
- * ключ элемента массива - id параметра (например, «Напряжение питания»)
- * значение элемента массива - id значения (например, «12 Вольт»)
- * $param = Array (
- *   [5] => 7
- *   [8] => 11
  * )
  *
  * $makers = Array (
@@ -332,6 +330,7 @@ for ($i = 0; $i <= 6; $i++) {
                             <?php endforeach; ?>
                         </select>
                         </span>
+                        <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
                 <div>
@@ -347,11 +346,11 @@ for ($i = 0; $i <= 6; $i++) {
                             <?php endforeach; ?>
                         </select>
                         </span>
+                        <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
                 <?php if (!empty($params)): ?>
                     <?php foreach ($params as $item): ?>
-                        <?php $selected = false; ?>
                         <div>
                             <div>
                                 <span><?php echo $item['name']; ?></span>
@@ -361,11 +360,11 @@ for ($i = 0; $i <= 6; $i++) {
                                 <select name="param[<?php echo $item['id']; ?>]">
                                     <option value="0">Выберите</option>
                                     <?php foreach ($item['values'] as $value): ?>
-                                        <?php $selected = isset($param[$item['id']]) && $param[$item['id']] == $value['id']; ?>
-                                        <option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
+                                        <option value="<?php echo $value['id']; ?>"<?php echo $value['selected'] ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
                                     <?php endforeach; ?>
                                 </select>
                                 </span>
+                                <?php if ($item['selected']): ?><i class="fa fa-times"></i><?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

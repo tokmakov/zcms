@@ -521,6 +521,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // оформление заказа
         '~^frontend/basket/checkout$~i' =>
         'basket/checkout',
+        // добавить товар в корзину
+        '~^frontend/basket/upsell$~i' =>
+        'basket/upsell',
 
         /*
          * пользователи
@@ -1337,6 +1340,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // оформление заказа
         '~^basket/checkout$~i' =>
         'frontend/basket/checkout',
+        // добавить товар в корзину из рекомендованных
+        '~^basket/upsell$~i' =>
+        'frontend/basket/upsell',
 
         /*
          * пользователи

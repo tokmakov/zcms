@@ -195,6 +195,11 @@ $(document).ready(function() {
     $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
     $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
 
+    $('#catalog-filter form i').click(function() {
+        var select = $(this).prev().children();
+        select.children('option:selected').prop('selected', false);
+        select.change();
+    });
 });
 
 function addBasketHandler() {
@@ -515,7 +520,13 @@ function filterSelectHandler() {
             // третий блок: товары выбранной категории
             $('#catalog-products').html(dt.products);
 
+            // обработчики событий для второго блока
             $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
+            $('#catalog-filter form i').click(function() {
+                var select = $(this).prev().children();
+                select.children('option:selected').prop('selected', false);
+                select.change();
+            });
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();

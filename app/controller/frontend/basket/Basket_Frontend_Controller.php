@@ -27,7 +27,7 @@ abstract class Basket_Frontend_Controller extends Frontend_Controller {
         parent::input();
 
         $this->title = 'Корзина. ' . $this->title;
-        $this->keywords = 'корзина ' . $this->keywords;
+        $this->keywords = 'корзина, ' . $this->keywords;
         $this->description = 'Корзина. ' . $this->description;
 
     }

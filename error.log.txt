@@ -40,3 +40,153 @@
 #8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #9 {main}
 
+18.02.2016 11:36:44
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:37:31
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:38:38
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:40:33
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:42:30
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:44:12
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:44:30
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:45:19
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:46:21
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:51:17
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:53:04
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:54:16
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:58:12
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:59:28
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 11:59:59
+Код: 0, текст: Не найден файл шаблона 
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+

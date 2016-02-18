@@ -861,13 +861,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $param_id = $value['param_id'];
                 $params[$counter] = array(
                     'id' => $value['param_id'],
-                    'name' => $value['param_name']
+                    'name' => $value['param_name'],
+                    'selected' => isset($param[$value['param_id']]),
                 );
             }
             $params[$counter]['values'][] = array(
                 'id' => $value['value_id'],
                 'name' => $value['value_name'],
-                'count' => $value['count']
+                'count' => $value['count'],
+                'selected' => in_array($value['value_id'], $param)
             );
         }
 
@@ -1664,13 +1666,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $param_id = $value['param_id'];
                 $params[$counter] = array(
                     'id' => $value['param_id'],
-                    'name' => $value['param_name']
+                    'name' => $value['param_name'],
+                    'selected' => isset($param[$value['param_id']]),
                 );
             }
             $params[$counter]['values'][] = array(
                 'id' => $value['value_id'],
                 'name' => $value['value_name'],
-                'count' => $value['count']
+                'count' => $value['count'],
+                'selected' => in_array($value['value_id'], $param),
             );
         }
 

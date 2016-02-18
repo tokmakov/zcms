@@ -27,7 +27,7 @@ class Xhr_Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         if (isset($_POST['count']) && ctype_digit($_POST['count'])) {
             $count = (int)$_POST['count'];
         }
-        $this->basketFrontendModel->addToBasket($_POST['product_id'], $count);
+        $this->basketFrontendModel->addToBasket($product_id, $count);
 
         // получаем от модели массив товаров в корзине (для правой колонки)
         $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();
@@ -37,7 +37,7 @@ class Xhr_Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // получаем html-код товаров в корзине (для правой колонки)
         $this->pageContent = $this->render(
-            $this->config->site->theme . '/frontend/template/basket/xhr/basket.php',
+            $this->config->site->theme . '/frontend/template/basket/xhr/side-basket.php',
             array(
                 'sideBasketProducts'  => $sideBasketProducts,
                 'sideBasketTotalCost' => $sideBasketTotalCost,

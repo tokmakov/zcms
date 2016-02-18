@@ -44,11 +44,11 @@ for ($i = 0; $i <= 6; $i++) {
             <?php endforeach; ?>
         </select>
         </span>
+        <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
     </div>
 </div>
 <?php if (!empty($params)): ?>
     <?php foreach ($params as $item): ?>
-        <?php $selected = false; ?>
         <div>
             <div>
                 <span><?php echo $item['name']; ?></span>
@@ -58,11 +58,11 @@ for ($i = 0; $i <= 6; $i++) {
                 <select name="param[<?php echo $item['id']; ?>]">
                     <option value="0">Выберите</option>
                     <?php foreach ($item['values'] as $value): ?>
-                        <?php $selected = isset($param[$item['id']]) && $param[$item['id']] == $value['id']; ?>
-                        <option value="<?php echo $value['id']; ?>"<?php echo $selected ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
+                        <option value="<?php echo $value['id']; ?>"<?php echo $value['selected'] ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
                     <?php endforeach; ?>
                 </select>
                 </span>
+                <?php if ($item['selected']): ?><i class="fa fa-times"></i><?php endif; ?>
             </div>
         </div>
     <?php endforeach; ?>

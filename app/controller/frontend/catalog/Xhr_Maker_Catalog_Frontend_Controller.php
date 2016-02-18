@@ -136,7 +136,6 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'id'          => $this->params['id'], // id производителя
                 'name'        => $maker['name'],      // название производителя
                 'group'       => $group,              // id выбранной функциональной группы или ноль
-                'param'       => $param,              // массив выбранных параметров подбора
                 'hit'         => $hit,                // показывать только лидеров продаж?
                 'countHit'    => $countHit,           // количество лидеров продаж
                 'new'         => $new,                // показывать только новинки?

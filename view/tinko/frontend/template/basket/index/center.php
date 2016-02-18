@@ -78,9 +78,10 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 </div>
 
+<div id="upsell">
 <?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
-    <div class="center-block" id="basket-related">
-        <div><h2>С этими товарами покупают</h2></div>
+    <div class="center-block">
+        <div><h3>С этими товарами покупают</h3></div>
         <div class="no-padding">
             <div class="products-list-grid">
                 <?php foreach($recommendedProducts as $product): ?>
@@ -92,12 +93,11 @@ defined('ZCMS') or die('Access denied');
                             <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                         </div>
                         <div class="product-grid-price">
-                            <span><?php echo number_format($product['price'], 2, '.', ''); ?></span> <?php echo $units[$product['unit']]; ?>
+                            <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
                         </div>
                         <div class="product-grid-basket">
-                            <form action="<?php echo $product['action']; ?>" method="post">
+                            <form action="<?php echo $product['action']; ?>" method="post" class="upsell-form">
                                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-                                <input type="hidden" name="return" value="basket" />
                                 <input type="submit" name="submit" value="В корзину" />
                             </form>
                         </div>
@@ -107,6 +107,7 @@ defined('ZCMS') or die('Access denied');
         </div>
     </div>
 <?php endif ?>
+</div>
 
 <!-- Конец шаблона view/example/frontend/template/basket/index/center.php -->
 

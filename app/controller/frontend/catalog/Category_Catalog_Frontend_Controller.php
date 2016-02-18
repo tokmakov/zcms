@@ -292,7 +292,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'countHit'        => $countHit,           // количество лидеров продаж
             'new'             => $new,                // показывать только новинки?
             'countNew'        => $countNew,           // количество новинок
-            'param'           => $param,              // массив выбранных параметров подбора
             'groups'          => $groups,             // массив функциональных групп
             'makers'          => $makers,             // массив производителей
             'params'          => $params,             // массив всех параметров подбора

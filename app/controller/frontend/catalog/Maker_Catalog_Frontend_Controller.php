@@ -242,8 +242,6 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'new'            => $new,
             // количество новинок
             'countNew'       => $countNew,
-            // массив выбранных параметров подбора
-            'param'           => $param,
             // массив функциональных групп
             'groups'         => $groups,
             // массив всех параметров подбора 

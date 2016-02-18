@@ -1367,10 +1367,15 @@ div.attention {
             }
                 #catalog-filter > div:last-child > form > div:first-child > div > div {
                     float: left;
-                    width: 50%;
                     display: table;
                     height: 30px;
-                    vertical-align: middle;
+                    width: 50%;
+                }
+                #catalog-filter > div:last-child > form > div:first-child > div > div:first-child {
+
+                }
+                #catalog-filter > div:last-child > form > div:first-child > div > div:last-child {
+                    position: relative;
                 }
                 #catalog-filter > div:last-child > form > div:first-child > div > div.empty-checkbox {
                     opacity: 0.6;
@@ -1386,6 +1391,25 @@ div.attention {
                         line-height: 15px;
                         vertical-align: middle;
                     }
+                    #catalog-filter > div:last-child > form > div:first-child > div > div:first-child > span {
+                        padding-right: 21px;
+                    }
+                    #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > span {
+                        position: relative;
+                        left: -30px;
+                    }
+                        #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > i {
+                            position: absolute;
+                            width: 16px;
+                            height: 16px;
+                            font-size: 14px;
+                            right: 4px;
+                            top: 7px;
+                            color: #ff6d00;
+                            text-align: center;
+                            line-height: 16px;
+                            cursor: pointer;
+                        }
                     #catalog-filter > div:last-child > form > div:first-child > div > div > span > label { /* фильтр новинки, хиты */
                         cursor: pointer;
                         border-bottom: 1px dashed #323232;
@@ -2523,8 +2547,10 @@ div.attention {
             margin-bottom: 3px;
         }
             #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
-                display: inline;
                 height: auto;
+            }
+            #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div:last-child > span {
+                padding-right: 0;
             }
     /* список товаров категории */
     .products-list-line > div > .product-line-basket {

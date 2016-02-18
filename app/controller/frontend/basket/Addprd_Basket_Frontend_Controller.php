@@ -12,7 +12,7 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
     protected function input() {
 
         // данные должны быть отправлены методом POST
-        if (!$this->isPostMethod()) {
+        if ( ! $this->isPostMethod()) {
             $this->notFoundRecord = true;
             return;
         }
@@ -34,7 +34,7 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         $this->basketFrontendModel->addToBasket($product_id, $count);
 
         // куда перенаправить посетителя после добавления товара в корзину?
-        if (!isset($_POST['return'])) {
+        if ( ! isset($_POST['return'])) {
             $this->redirect($this->basketFrontendModel->getURL('frontend/basket/index'));
         }
 
