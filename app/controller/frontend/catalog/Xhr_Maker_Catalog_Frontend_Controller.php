@@ -140,6 +140,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'countHit'    => $countHit,           // количество лидеров продаж
                 'new'         => $new,                // показывать только новинки?
                 'countNew'    => $countNew,           // количество новинок
+                'param'       => $param,              // массив выбранных параметров подбора
                 'groups'      => $groups,             // массив функциональных групп
                 'params'      => $params,             // массив всех параметров подбора
                 'sort'        => $sort,               // выбранная сортировка

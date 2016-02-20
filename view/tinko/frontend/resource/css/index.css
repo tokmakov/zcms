@@ -1,3 +1,15 @@
+/* слайдер */
+#banner-slider {
+    list-style: none;
+    margin-bottom: 20px;
+}
+    #banner-slider li:not(:first-child) {
+        display: none;
+    }
+    #banner-slider img {
+        max-width: 100%;
+    }
+
 /* вкладки: новинки и лидеры продаж */
 #new-hit-tabs {
 
@@ -97,6 +109,16 @@
             letter-spacing: -1px;
             word-spacing: -1px;
         }
+
+#new-hit-tabs {
+    margin-bottom: 20px;
+}
+#hit-products > ul, #new-products > ul {
+    overflow: hidden;
+}        
+    #hit-products > ul > li, #new-products > ul > li {
+        float: left;
+    }
 
 /* список новостей */
 .news-list {

@@ -48,7 +48,6 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          *     <phone>...</phone>
          *     <shipping office="0">
          *       <address>...</address>
-         *       <city/>
          *       <index/>
          *     </shipping>
          *     <company>
@@ -101,8 +100,8 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
           * 3 - офис продаж «Мещанский»
           * 4 - офис продаж «Нагорный»
           * а сам элемент <shipping> не содержит дочерних элементов. Если
-          * доставка по адресу, у элемента <shipping> три дочерних элемента:
-          * <address>, <city> и <index>, а атрибут office равен нулю.
+          * доставка по адресу, у элемента <shipping> два дочерних элемента:
+          * <address> и <index>, а атрибут office равен нулю.
           *
           * Если получатель - физическое лицо, элемент <company> не содержит
           * дочерних элементов. Если получатель - юридическое лицо, у элемента
@@ -174,8 +173,6 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
             // создаем узел <address>, адрес доставки
             $address = $dom->createElement('address', $order['buyer_shipping_address']);
             $shipping->appendChild($address);
-            // создаем узел <city>, город доставки
-            $city = $dom->createElement('city', $order['buyer_shipping_city']);
             $shipping->appendChild($city);
             // создаем узел <index>, почтовый индекс
             $index = $dom->createElement('index', $order['buyer_shipping_index']);
@@ -184,24 +181,24 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         // создаем узел <company>
         $company = $dom->createElement('company');
         $buyer->appendChild($company);
-        if ($order['buyer_legal_person']) { // если получатель - юридическое лицо
+        if ($order['buyer_company']) { // если получатель - юридическое лицо
             // создаем узел <name>, название компании-получателя
-            $name = $dom->createElement('name', $order['buyer_company']);
+            $name = $dom->createElement('name', $order['buyer_company_name']);
             $company->appendChild($name);
             // создаем узел <ceo>, имя генерального директора компании-получателя
-            $ceo = $dom->createElement('ceo', $order['buyer_ceo_name']);
+            $ceo = $dom->createElement('ceo', $order['buyer_company_ceo']);
             $company->appendChild($ceo);
             // создаем узел <address>, юридический адрес компании-получателя
-            $address = $dom->createElement('address', $order['buyer_legal_address']);
+            $address = $dom->createElement('address', $order['buyer_company_address']);
             $company->appendChild($address);
             // создаем узел <inn>, ИНН компании-получателя
-            $inn = $dom->createElement('inn', $order['buyer_inn']);
+            $inn = $dom->createElement('inn', $order['buyer_company_inn']);
             $company->appendChild($inn);
             // создаем узел <bank>, название банка компании-получателя
             $bank = $dom->createElement('bank', $order['buyer_bank_name']);
             $company->appendChild($bank);
-            // создаем узел <bik>, БИК компании-получателя
-            $bik = $dom->createElement('bik', $order['buyer_bik']);
+            // создаем узел <bik>, БИК банка компании-получателя
+            $bik = $dom->createElement('bik', $order['buyer_bank_bik']);
             $company->appendChild($bik);
             // создаем узел <settl>, расчетный счет компании-получателя
             $settl = $dom->createElement('settl', $order['buyer_settl_acc']);
@@ -232,24 +229,24 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
             // создаем узел <company>
             $company = $dom->createElement('company');
             $payer->appendChild($company);
-            if ($order['payer_legal_person']) { // если плательщик - юридическое лицо
+            if ($order['payer_company']) { // если плательщик - юридическое лицо
                 // создаем узел <name>, название компании-плательщика
-                $name = $dom->createElement('name', $order['payer_company']);
+                $name = $dom->createElement('name', $order['payer_company_name']);
                 $company->appendChild($name);
                 // создаем узел <ceo>, имя генерального директора компании-плательщика
-                $ceo = $dom->createElement('ceo', $order['payer_ceo_name']);
+                $ceo = $dom->createElement('ceo', $order['payer_company_ceo']);
                 $company->appendChild($ceo);
                 // создаем узел <address>, юридический адрес компании-плательщика
-                $address = $dom->createElement('address', $order['payer_legal_address']);
+                $address = $dom->createElement('address', $order['payer_company_address']);
                 $company->appendChild($address);
                 // создаем узел <inn>, ИНН компании-плательщика
-                $inn = $dom->createElement('inn', $order['payer_inn']);
+                $inn = $dom->createElement('inn', $order['payer_company_inn']);
                 $company->appendChild($inn);
                 // создаем узел <bank>, название банка компании-плательщика
                 $bank = $dom->createElement('bank', $order['payer_bank_name']);
                 $company->appendChild($bank);
-                // создаем узел <bik>, БИК компании-плательщика
-                $bik = $dom->createElement('bik', $order['payer_bik']);
+                // создаем узел <bik>, БИК банка компании-плательщика
+                $bik = $dom->createElement('bik', $order['payer_bank_bik']);
                 $company->appendChild($bik);
                 // создаем узел <settl>, расчетный счет компании-плательщика
                 $settl = $dom->createElement('settl', $order['payer_settl_acc']);
@@ -280,7 +277,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          */
         // создаем элемент <comment>, комментарий к заказу
         $comment = $dom->createElement('comment');
-        if (!empty($order['comment'])) {
+        if ( ! empty($order['comment'])) {
             // создаем текстовой узел внутри конструкции <![CDATA[ ... ]]>
             $text = $dom->createCDATASection($order['comment']);
             // добавляем текстовой узел для <comment>

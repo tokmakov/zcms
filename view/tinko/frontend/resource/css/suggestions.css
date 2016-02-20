@@ -1,0 +1,10 @@
+.suggestions-suggestions {
+    border: 1px solid #d1d1d1;
+    font-size: 13px;
+}
+.suggestions-hint {
+  font-size: 12px;
+}
+.suggestions-suggestions .suggestions-suggestion {
+    border-top: 1px dashed #d1d1d1;
+}

@@ -2,7 +2,8 @@
 /**
  * Класс Addmkr_Catalog_Backend_Controller для добавления нового производителя,
  * формирует страницу с формой для добавления производителя, добавляет запись в
- * таблицу БД makers, работает с моделью Catalog_Backend_Model
+ * таблицу БД makers, работает с моделью Catalog_Backend_Model, административная
+ * часть сайта
  */
 class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
@@ -16,18 +17,20 @@ class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу Catalog_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Addmkr_Catalog_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу Catalog_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Addmkr_Catalog_Backend_Controller
+         */
         parent::input();
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
             if ($this->validateForm()) { // ошибок не было, добавление производителя прошло успешно
                 $this->redirect($this->catalogBackendModel->getURL('backend/catalog/allmkrs'));
-            } else { // если при заполнении формы были допущены ошибки
+            } else { // при заполнении формы были допущены ошибки
                 $this->redirect($this->catalogBackendModel->getURL('backend/catalog/addmkr'));
             }
         }
@@ -36,8 +39,18 @@ class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->catalogBackendModel->getURL('backend/catalog/index'), 'name' => 'Каталог'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/index')
+            ),
+            array(
+                'name' => 'Производители',
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/allmkrs') 
+            ),
         );
 
         /*
@@ -61,7 +74,7 @@ class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
     /**
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
-     * функция возвращает false; если ошибок нет, функция добавляет категорию и возвращает true
+     * функция возвращает false; если ошибок нет, функция добавляет производителя и возвращает true
      */
     private function validateForm() {
 
@@ -86,7 +99,7 @@ class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addCatalogMakerForm', $data);
             return false;

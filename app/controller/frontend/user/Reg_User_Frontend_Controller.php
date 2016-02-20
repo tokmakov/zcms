@@ -53,6 +53,11 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
                 'url'  => $this->userFrontendModel->getURL('frontend/user/index'),
             )
         );
+        
+        // проверка на робота
+        $number1 = rand(1, 5);
+        $number2 = rand(1, 4);
+        $this->setSessionData('checkRobot', $number1 + $number2);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -62,6 +67,8 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action' => $this->userFrontendModel->getURL('frontend/user/reg'),
+            // проверка на робота
+            'numbers'     => array($number1, $number2),
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
@@ -90,6 +97,11 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
         $data['email']    = trim(utf8_substr($_POST['email'], 0, 32));    // электронная почта
         $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
         $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
+        
+        $answer = 0; // проверка на робота
+        if (isset($_POST['answer']) && in_array($_POST['answer'], array(1,2,3,4,5,6,7,8,9))) {
+            $answer = (int)$_POST['answer'];
+        }
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['surname'])) {
@@ -104,7 +116,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
         }
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail»';
-        } elseif (!preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
+        } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
             $errorMessage[] = 'Поле «E-mail» должно соответствовать формату somebody@mail.ru';
         } elseif ($this->userFrontendModel->isUserExists($data['email'])) {
             $errorMessage[] = 'Пользователь с таким e-mail уже зарегистрирован';
@@ -113,10 +125,19 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
             $errorMessage[] = 'Не заполнено обязательное поле «Пароль»';
         }
         if (empty($confirm)) {
-            $errorMessage[] = 'Не заполнено обязательное поле «Подтвердите пароль»';
+            $errorMessage[] = 'Не заполнено обязательное поле «Пароль еще раз»';
         }
-        if ( (!empty($data['password'])) && (!empty($confirm)) && ($data['password'] != $confirm) ) {
+        if ( ( ! empty($data['password'])) && ( ! empty($confirm)) && ($data['password'] != $confirm) ) {
             $errorMessage[] = 'Не совпадают пароли';
+        }
+        if (empty($answer)) {
+            $errorMessage[] = 'Выберите из списка ответ на вопрос';
+        } elseif ($answer != $this->getSessionData('checkRobot')) {
+            $errorMessage[] = 'Неправильный ответ на вопрос';
+        }
+        
+        if ($this->issetSessionData('checkRobot')) {
+            $this->unsetSessionData('checkRobot');
         }
 
         /*

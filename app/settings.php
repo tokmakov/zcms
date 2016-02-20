@@ -120,7 +120,11 @@ $settings = array(
             'compare-table'   => 'compare-table.css', // сравнение товаров
             'rating'          => 'rating.css',   // рейтинг продаж
             'sale'            => 'sale.css',     // распродажа
-            'user'            => 'user.css',     // личный кабинет
+            'user'            => array(          // личный кабинет
+                'user.css',
+                'https://dadata.ru/static/css/lib/suggestions-16.1.css',
+                'suggestions.css',
+            ),
             'solutions'       => array(          // типовые решения
                 'solutions.css',
                 'fancybox/jquery.fancybox.css',
@@ -244,8 +248,11 @@ $settings = array(
                 'index.js',
                 'tabs.js',
             ),
-            'basket-index' => 'basket-index.js',       // корзина
-            'basket-checkout' => 'basket-checkout.js', // оформление заказа
+            'basket-index'    => 'basket-index.js',    // корзина
+            'basket-checkout' => array(          // оформление заказа
+                'jquery.maskedinput.min.js',
+                'basket-checkout.js',
+            ),
             'blog' => array(                     // блог
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
@@ -267,7 +274,11 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'user'            => 'user.js',      // личный кабинет
+            'user'            => array(          // личный кабинет
+                'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
+                'jquery.maskedinput.min.js',
+                'user.js',
+            ),     
             'wished'          => 'wished.js',    // избранное (отложенные товары)
 
             'page-40'         => array(          // для страницы «Контакты»

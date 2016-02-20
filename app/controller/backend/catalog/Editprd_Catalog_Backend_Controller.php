@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Editprd_Catalog_Backend_Controller для редактирования товара каталога,
- * формирует страницу с формой для редактирования товара, обновляет запись в
- * таблице БД products, работает с моделью Catalog_Backend_Model
+ * Класс Editprd_Catalog_Backend_Controller для редактирования товара каталога, формирует
+ * страницу с формой для редактирования товара, обновляет запись в таблице БД products,
+ * работает с моделью Catalog_Backend_Model, административная часть сайта
  */
 class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 

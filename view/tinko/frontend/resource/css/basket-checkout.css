@@ -130,7 +130,6 @@
                         #checkout-order > div > fieldset > div > div:last-child > input[type="text"] {
                             width: 100%;
                             font-size: 14px;
-                            line-height: 14px;
                             box-sizing: border-box;
                             padding: 5px;
                             border: 1px solid #d1d1d1;

@@ -19,13 +19,13 @@
  * $shipping_address - адрес доставки
  * $shipping_city - город  доставки
  * $shipping_index - почтовый индекс
- * $legal_person - юридическое лицо?
- * $company - название компании
- * $ceo_name - генеральный директор
- * $legal_address - юридический адрес
- * $inn - ИНН
+ * $company - юридическое лицо?
+ * $company_name - название компании
+ * $company_ceo - генеральный директор
+ * $company_address - юридический адрес
+ * $company_inn - ИНН
  * $bank_name - название банка
- * $bik - БИК
+ * $bank_bik - БИК банка
  * $settl_acc - расчетный счет
  * $corr_acc - корреспондентский счет
  *
@@ -68,47 +68,44 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-$title            = htmlspecialchars($title);            // название профиля
-$name             = htmlspecialchars($name);             // имя контактного лица
-$surname          = htmlspecialchars($surname);          // фамилия контактного лица
-$email            = htmlspecialchars($email);            // e-mail контактного лица
-$phone            = htmlspecialchars($phone);            // телефон контактного лица
-$shipping_address = htmlspecialchars($shipping_address); // адрес доставки
-$shipping_city    = htmlspecialchars($shipping_city);    // город доставки
-$shipping_index   = htmlspecialchars($shipping_index );  // почтовый индекс
-$company          = htmlspecialchars($company);          // название компании
-$ceo_name         = htmlspecialchars($ceo_name);         // генеральный директор
-$legal_address    = htmlspecialchars($legal_address);    // юридический адрес
-$inn              = htmlspecialchars($inn);              // ИНН
-$bank_name        = htmlspecialchars($bank_name);        // название банка
-$bik              = htmlspecialchars($bik);              // БИК
-$settl_acc        = htmlspecialchars($settl_acc);        // расчетный счет
-$corr_acc         = htmlspecialchars($corr_acc);         // корреспондентский счет
+    $title            = htmlspecialchars($title);            // название профиля
+    $name             = htmlspecialchars($name);             // имя контактного лица
+    $surname          = htmlspecialchars($surname);          // фамилия контактного лица
+    $email            = htmlspecialchars($email);            // e-mail контактного лица
+    $phone            = htmlspecialchars($phone);            // телефон контактного лица
+    $shipping_address = htmlspecialchars($shipping_address); // адрес доставки
+    $shipping_index   = htmlspecialchars($shipping_index );  // почтовый индекс
+    $company_name     = htmlspecialchars($company_name);     // название компании
+    $company_ceo      = htmlspecialchars($company_ceo);      // генеральный директор
+    $company_address  = htmlspecialchars($company_address);  // юридический адрес
+    $company_inn      = htmlspecialchars($company_inn);      // ИНН
+    $bank_name        = htmlspecialchars($bank_name);        // название банка
+    $bank_bik         = htmlspecialchars($bank_bik);         // БИК банка
+    $settl_acc        = htmlspecialchars($settl_acc);        // расчетный счет
+    $corr_acc         = htmlspecialchars($corr_acc);         // корреспондентский счет
 
-if (isset($savedFormData)) {
-    $title            = htmlspecialchars($savedFormData['title']);
-    $name             = htmlspecialchars($savedFormData['name']);
-    $surname          = htmlspecialchars($savedFormData['surname']);
-    $email            = htmlspecialchars($savedFormData['email']);
-    $phone            = htmlspecialchars($savedFormData['phone']);
-    $shipping         = $savedFormData['shipping'];
-    $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
-    $shipping_city    = htmlspecialchars($savedFormData['shipping_city']);
-    $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
-    $legal_person     = $savedFormData['legal_person'];
-    $company          = htmlspecialchars($savedFormData['company']);
-    $ceo_name         = htmlspecialchars($savedFormData['ceo_name']);
-    $legal_address    = htmlspecialchars($savedFormData['legal_address']);
-    $inn              = htmlspecialchars($savedFormData['inn']);
-    $bank_name        = htmlspecialchars($savedFormData['bank_name']);
-    $bik              = htmlspecialchars($savedFormData['bik']);
-    $settl_acc        = htmlspecialchars($savedFormData['settl_acc']);
-    $corr_acc         = htmlspecialchars($savedFormData['corr_acc']);
-}
+    if (isset($savedFormData)) {
+        $title            = htmlspecialchars($savedFormData['title']);
+        $name             = htmlspecialchars($savedFormData['name']);
+        $surname          = htmlspecialchars($savedFormData['surname']);
+        $email            = htmlspecialchars($savedFormData['email']);
+        $phone            = htmlspecialchars($savedFormData['phone']);
+        $shipping         = $savedFormData['shipping'];
+        $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
+        $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
+        $company          = $savedFormData['company'];
+        $company_name     = htmlspecialchars($savedFormData['company_name']);
+        $companyceo       = htmlspecialchars($savedFormData['company_ceo']);
+        $company_address  = htmlspecialchars($savedFormData['company_address']);
+        $company_inn      = htmlspecialchars($savedFormData['company_inn']);
+        $bank_name        = htmlspecialchars($savedFormData['bank_name']);
+        $bank_bik         = htmlspecialchars($savedFormData['bank_bik']);
+        $settl_acc        = htmlspecialchars($savedFormData['settl_acc']);
+        $corr_acc         = htmlspecialchars($savedFormData['corr_acc']);
+    }
 ?>
 
-<form action="<?php echo $action; ?>" method="post">
-<div id="add-edit-profile">
+<form action="<?php echo $action; ?>" method="post" id="add-edit-profile">
     <div>
         <div>
             <div>Название профиля <span class="form-field-required">*</span></div>
@@ -117,26 +114,26 @@ if (isset($savedFormData)) {
     </div>
 
     <div>
-        <label><input type="checkbox" name="legal_person" value="1"<?php echo $legal_person ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
+        <label><input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
     </div>
 
     <div id="legal-person">
         <h2>Юридическое лицо</h2>
         <div>
             <div>Название компании <span class="form-field-required">*</span></div>
-            <div><input type="text" name="company" maxlength="64" value="<?php echo $company; ?>" /></div>
+            <div><input type="text" name="company_name" maxlength="64" value="<?php echo $company_name; ?>" /></div>
         </div>
         <div>
             <div>Генеральный директор <span class="form-field-required">*</span></div>
-            <div><input type="text" name="ceo_name" maxlength="64" value="<?php echo $ceo_name; ?>" /></div>
+            <div><input type="text" name="company_ceo" maxlength="64" value="<?php echo $company_ceo; ?>" /></div>
         </div>
         <div>
             <div>Юридический адрес <span class="form-field-required">*</span></div>
-            <div><input type="text" name="legal_address" maxlength="250" value="<?php echo $legal_address; ?>" /></div>
+            <div><input type="text" name="company_address" maxlength="250" value="<?php echo $company_address; ?>" /></div>
         </div>
         <div>
             <div>ИНН <span class="form-field-required">*</span></div>
-            <div><input type="text" name="inn" maxlength="32" value="<?php echo $inn; ?>" /></div>
+            <div><input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" /></div>
         </div>
         <div>
             <div>Название банка <span class="form-field-required">*</span></div>
@@ -144,7 +141,7 @@ if (isset($savedFormData)) {
         </div>
         <div>
             <div>БИК <span class="form-field-required">*</span></div>
-            <div><input type="text" name="bik" maxlength="32" value="<?php echo $bik; ?>" /></div>
+            <div><input type="text" name="bank_bik" maxlength="32" value="<?php echo $bank_bik; ?>" /></div>
         </div>
         <div>
             <div>Расчетный счет <span class="form-field-required">*</span></div>
@@ -172,7 +169,7 @@ if (isset($savedFormData)) {
         </div>
         <div>
             <div>Телефон</div>
-            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" /></div>
+            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" /></div>
         </div>
     </div>
 
@@ -189,15 +186,11 @@ if (isset($savedFormData)) {
         <?php endif; ?>
     </div>
 
-    <div id="shipping-address-city-index">
+    <div id="shipping-address-index">
         <h2>Адрес доставки</h2>
         <div>
             <div>Адрес <span class="form-field-required">*</span></div>
             <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
-        </div>
-        <div>
-            <div>Город</div>
-            <div><input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" /></div>
         </div>
         <div>
             <div>Почтовый индекс</div>
@@ -211,7 +204,6 @@ if (isset($savedFormData)) {
             <div><input type="submit" name="submit" value="Сохранить" /></div>
         </div>
     </div>
-</div>
 </form>
 
 <!-- Конец шаблона view/example/backend/template/catalog/editprof/center.php -->

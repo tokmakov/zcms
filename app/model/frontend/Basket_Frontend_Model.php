@@ -554,7 +554,6 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '<ul>' . PHP_EOL;
         if ( ! $details['shipping']) {
             $html = $html . '<li>Адрес доставки: '.$details['buyer_shipping_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Город: '.$details['buyer_shipping_city'].'</li>' . PHP_EOL;
             $html = $html . '<li>Почтовый индекс: '.$details['buyer_shipping_index'].'</li>' . PHP_EOL;
         } else {
             $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;

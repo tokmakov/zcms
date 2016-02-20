@@ -347,6 +347,11 @@ abstract class Base_Controller extends Base {
             $temp = $this->config->css->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
                 foreach ($temp as $file) {
+                    // если это внешний файл
+                    if ('http' == substr($file, 0, 4)) {
+                        $this->cssFiles[] = $file;
+                        continue;
+                    }
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $file;
                     if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
@@ -354,11 +359,15 @@ abstract class Base_Controller extends Base {
                     $this->cssFiles[] = $this->config->site->url . $fileName;
                 }
             } else { // один файл
-                $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $temp;
-                if ( ! is_file($fileName)) {
-                    throw new Exception('Файл ' . $fileName . ' не найден');
+                if ('http' == substr($temp, 0, 4)) { // если это внешний файл
+                    $this->cssFiles[] = $temp;
+                } else {
+                    $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $temp;
+                    if ( ! is_file($fileName)) {
+                        throw new Exception('Файл ' . $fileName . ' не найден');
+                    }
+                    $this->cssFiles[] = $this->config->site->url . $fileName;
                 }
-                $this->cssFiles[] = $this->config->site->url . $fileName;
             }
         }
 

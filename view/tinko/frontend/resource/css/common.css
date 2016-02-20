@@ -81,7 +81,6 @@ body > .wrapper {
 #content {
     margin: 0 250px 0 250px;
     padding: 20px;
-    overflow: hidden;
 }
 #left {
     width: 250px;
@@ -1392,7 +1391,7 @@ div.attention {
                         vertical-align: middle;
                     }
                     #catalog-filter > div:last-child > form > div:first-child > div > div:first-child > span {
-                        padding-right: 21px;
+                        padding-right: 30px;
                     }
                     #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > span {
                         position: relative;
@@ -2549,8 +2548,11 @@ div.attention {
             #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
                 height: auto;
             }
-            #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div:last-child > span {
-                padding-right: 0;
+            #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > span {
+                left: 0;
+            }
+            #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > i {
+                display: none;
             }
     /* список товаров категории */
     .products-list-line > div > .product-line-basket {

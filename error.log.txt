@@ -190,3 +190,83 @@
 #3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #4 {main}
 
+18.02.2016 20:20:19
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+18.02.2016 20:20:31
+Код: 0, текст: Не найден файл шаблона 
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 14:10:23
+Код: 0, текст: Данные сессии с ключом [randomNumber] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('randomNumber')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 14:12:07
+Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 15:11:59
+Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 15:12:10
+Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 15:22:30
+Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+
+19.02.2016 15:33:18
+Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
+Файл: D:\work\localhost2\www\app\Base.php, строка: 80
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(135): Base->getSessionData('checkRobot')
+#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#4 {main}
+

@@ -53,24 +53,42 @@ defined('ZCMS') or die('Access denied');
 
 <form action="<?php echo $action; ?>" method="post" id="reg-user">
     <div>
-        <div>Фамилия</div>
+        <div>Фамилия <span class="form-field-required">*</span></div>
         <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" /></div>
     </div>
     <div>
-        <div>Имя</div>
+        <div>Имя <span class="form-field-required">*</span></div>
         <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
     </div>
     <div>
-        <div>E-mail</div>
+        <div>E-mail <span class="form-field-required">*</span></div>
         <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
     </div>
     <div>
-        <div>Пароль</div>
+        <div>Пароль <span class="form-field-required">*</span></div>
         <div><input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" /></div>
     </div>
     <div>
-        <div>Подтвердите пароль</div>
+        <div>Пароль еще раз <span class="form-field-required">*</span></div>
         <div><input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" /></div>
+    </div>
+    <div>
+        <div>Вопрос <span class="form-field-required">*</span></div>
+        <div>
+            <strong><?php echo $numbers[0]; ?> + <?php echo $numbers[1]; ?> =</strong>
+            <select name="answer">
+                <option value="0">Выберите</option>
+                <option value="1">Один</option>
+                <option value="2">Два</option>
+                <option value="3">Три</option>
+                <option value="4">Четыре</option>
+                <option value="5">Пять</option>
+                <option value="6">Шесть</option>
+                <option value="7">Семь</option>
+                <option value="8">Восемь</option>
+                <option value="9">Девять</option>
+            </select>
+        </div>
     </div>
     <div>
         <div></div>

@@ -69,20 +69,19 @@ defined('ZCMS') or die('Access denied');
 <ul>
 <?php if (!$order['shipping']): ?>
     <li>Адрес доставки: <?php echo $order['buyer_shipping_address']; ?></li>
-    <li>Город: <?php echo $order['buyer_shipping_city']; ?></li>
     <li>Почтовый индекс: <?php echo $order['buyer_shipping_index']; ?></li>
 <?php else: ?>
     <li>Самовывоз со склада</li>
 <?php endif; ?>
 </ul>
-<?php if ($order['buyer_legal_person']): ?>
+<?php if ($order['buyer_company']): ?>
     <ul>
-        <li>Название компании: <?php echo $order['buyer_company']; ?></li>
+        <li>Название компании: <?php echo $order['buyer_company_name']; ?></li>
         <li>Генеральный директор: <?php echo $order['buyer_ceo_name']; ?></li>
-        <li>Юридический адрес: <?php echo $order['buyer_legal_address']; ?></li>
-        <li>ИНН: <?php echo $order['buyer_inn']; ?></li>
+        <li>Юридический адрес: <?php echo $order['buyer_company_address']; ?></li>
+        <li>ИНН: <?php echo $order['buyer_company_inn']; ?></li>
         <li>Название банка: <?php echo $order['buyer_bank_name']; ?></li>
-        <li>БИК: <?php echo $order['buyer_bik']; ?></li>
+        <li>БИК: <?php echo $order['buyer_bank_bik']; ?></li>
         <li>Расчетный счет: <?php echo $order['buyer_settl_acc']; ?></li>
         <li>Корреспондентский счет: <?php echo $order['buyer_corr_acc']; ?></li>
     </ul>
@@ -97,14 +96,14 @@ defined('ZCMS') or die('Access denied');
         <li>E-mail: <?php echo $order['payer_email']; ?></li>
         <li>Телефон: <?php echo $order['payer_phone']; ?></li>
     </ul>
-    <?php if ($order['payer_legal_person']): ?>
+    <?php if ($order['payer_company']): ?>
         <ul>
-            <li>Название компании: <?php echo $order['payer_company']; ?></li>
-            <li>Генеральный директор: <?php echo $order['payer_ceo_name']; ?></li>
-            <li>Юридический адрес: <?php echo $order['payer_legal_address']; ?></li>
-            <li>ИНН: <?php echo $order['payer_inn']; ?></li>
+            <li>Название компании: <?php echo $order['payer_company_name']; ?></li>
+            <li>Генеральный директор: <?php echo $order['payer_company_ceo']; ?></li>
+            <li>Юридический адрес: <?php echo $order['payer_company_address']; ?></li>
+            <li>ИНН: <?php echo $order['payer_company_inn']; ?></li>
             <li>Название банка: <?php echo $order['payer_bank_name']; ?></li>
-            <li>БИК: <?php echo $order['payer_bik']; ?></li>
+            <li>БИК: <?php echo $order['payer_bank_bik']; ?></li>
             <li>Расчетный счет: <?php echo $order['payer_settl_acc']; ?></li>
             <li>Корреспондентский счет: <?php echo $order['payer_corr_acc']; ?></li>
         </ul>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Editmkr_Catalog_Backend_Controller для редактирования производителя
- * формирует страницу с формой для редактирования производителя, обновляет
- * запись в таблице БД makers, работает с моделью Catalog_Backend_Model
+ * Класс Editmkr_Catalog_Backend_Controller для редактирования производителя, формирует
+ * страницу с формой для редактирования производителя, обновляет запись в таблице БД makers,
+ * работает с моделью Catalog_Backend_Model, административная часть сайта
  */
 class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
@@ -15,11 +15,14 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * с формой для редактирования производителя
      */
     protected function input() {
-
-        // сначала обращаемся к родительскому классу Catalog_Backend_Controller,
-        // чтобы получить html-код отдельных частей страницы, которые общие для
-        // всех потомков Catalog_Backend_Controller, потом получаем html-код тех
-        // частей страницы, которые нужны только для Editmkr_Catalog_Backend_Controller
+        
+        /*
+         * сначала обращаемся к родительскому классу Catalog_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Editmkr_Catalog_Backend_Controller
+         */
         parent::input();
 
         // если не передан id производителя или id производителя не число
@@ -34,7 +37,7 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         if ($this->isPostMethod()) {
             if ($this->validateForm()) { // ошибок не было, обновление производителя прошло успешно
                 $this->redirect($this->catalogBackendModel->getURL('backend/catalog/allmkrs'));
-            } else { // если при заполнении формы были допущены ошибки
+            } else { // при заполнении формы были допущены ошибки
                 $this->redirect($this->catalogBackendModel->getURL('backend/catalog/editmkr/id/' . $this->params['id']));
             }
         }
@@ -43,9 +46,18 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->catalogBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->catalogBackendModel->getURL('backend/catalog/index'), 'name' => 'Каталог'),
-            array('url' => $this->catalogBackendModel->getURL('backend/catalog/allmkrs'), 'name' => 'Производители'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Каталог',
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/index')  
+            ),
+            array(
+                'name' => 'Производители',
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/allmkrs') 
+            ),
         );
 
         // получаем от модели информацию о производителе
@@ -60,15 +72,22 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs' => $breadcrumbs,          // хлебные крошки
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->catalogBackendModel->getURL('backend/catalog/editmkr/id/' . $this->params['id']),
-            'id'          => $this->params['id'],   // уникальный идентификатор производителя
-            'name'        => $maker['name'],        // наименование производителя
-            'altname'     => $maker['altname'],     // альтернативное наименование производителя
-            'keywords'    => $maker['keywords'],    // мета-тег keywords
-            'description' => $maker['description'], // мета-тег description
-            'body'        => $maker['body'],        // описание производителя
+            // уникальный идентификатор производителя
+            'id'          => $this->params['id'],
+            // наименование производителя
+            'name'        => $maker['name'],
+            // альтернативное наименование производителя
+            'altname'     => $maker['altname'],
+            // мета-тег keywords
+            'keywords'    => $maker['keywords'],
+            // мета-тег description
+            'description' => $maker['description'],
+            // описание производителя
+            'body'        => $maker['body'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('editCatalogMakerForm')) {
@@ -81,13 +100,14 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
     }
 
     /**
-     * Функция проверяет корректность введенных пользователем данных; если были
-     * допущены ошибки, функция возвращает false; если ошибок нет, функция
-     * обновляет категорию и возвращает true
+     * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
+     * функция возвращает false; если ошибок нет, функция обновляет производителя и возвращает true
      */
     private function validateForm() {
 
-        // обрабатываем данные, полученные из формы
+        /*
+         * обрабатываем данные, полученные из формы
+         */
         $data['name']        = trim(utf8_substr($_POST['name'], 0, 64)); // наименование
         $data['altname']     = trim(utf8_substr($_POST['altname'], 0, 64)); // альтернативное наименование
         $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
@@ -101,10 +121,12 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование»';
         }
 
-        // были допущены ошибки при заполнении формы, сохраняем введенные
-        // пользователем данные, чтобы после редиректа снова показать форму,
-        // заполненную введенными ранее данными и сообщением об ошибке
-        if (!empty($errorMessage)) {
+        /*
+         * были допущены ошибки при заполнении формы, сохраняем введенные
+         * пользователем данные, чтобы после редиректа снова показать форму,
+         * заполненную введенными ранее данными и сообщением об ошибке
+         */
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('editCatalogMakerForm', $data);
             return false;

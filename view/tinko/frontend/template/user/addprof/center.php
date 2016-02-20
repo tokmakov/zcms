@@ -6,6 +6,9 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $name - имя контактного лица по-умолчанию
+ * $surname - фамилия контактного лица по умолчанию
+ * $email - электронная почта контактного лица по умолчанию
  * $offices - массив офисов для самовывоза
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже введенными данными и вывести сообщение об ошибках.
@@ -46,23 +49,19 @@ defined('ZCMS') or die('Access denied');
 
 <?php
     $title            = ''; // название профиля
-    $name             = ''; // имя контактного лица
-    $surname          = ''; // фамилия контактного лица
-    $email            = ''; // e-mail контактного лица
     $phone            = ''; // телефон контактного лица
     $shipping         = 1;  // самовывоз со склада?
     $shipping_address = ''; // адрес доставки
-    $shipping_city    = ''; // город доставки
     $shipping_index   = ''; // почтовый индекс
-    $legal_person     = 0;  // юридическое лицо?
-    $company          = ''; // название компании
-    $ceo_name         = ''; // генеральный директор
-    $legal_address    = ''; // юридический адрес
-    $inn              = ''; // ИНН
-    $bank_name        = ''; // название банка
-    $bik              = ''; // БИК
-    $settl_acc        = ''; // расчетный счет
-    $corr_acc         = ''; // корреспондентский счет
+    $company          = 0;  // юридическое лицо?
+    $company_name     = htmlspecialchars($company_name);     // название компании
+    $company_ceo      = htmlspecialchars($company_ceo);      // генеральный директор
+    $company_address  = htmlspecialchars($company_address);  // юридический адрес
+    $company_inn      = htmlspecialchars($company_inn);      // ИНН
+    $bank_name        = htmlspecialchars($bank_name);        // название банка
+    $bank_bik         = htmlspecialchars($bank_bik);         // БИК банка
+    $settl_acc        = htmlspecialchars($settl_acc);        // расчетный счет
+    $corr_acc         = htmlspecialchars($corr_acc);         // корреспондентский счет
 
     if (isset($savedFormData)) {
         $title            = htmlspecialchars($savedFormData['title']);
@@ -72,22 +71,20 @@ defined('ZCMS') or die('Access denied');
         $phone            = htmlspecialchars($savedFormData['phone']);
         $shipping         = $savedFormData['shipping'];
         $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
-        $shipping_city    = htmlspecialchars($savedFormData['shipping_city']);
         $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
-        $legal_person     = $savedFormData['legal_person'];
-        $company          = htmlspecialchars($savedFormData['company']);
-        $ceo_name         = htmlspecialchars($savedFormData['ceo_name']);
-        $legal_address    = htmlspecialchars($savedFormData['legal_address']);
-        $inn              = htmlspecialchars($savedFormData['inn']);
+        $company          = $savedFormData['company'];
+        $company_name     = htmlspecialchars($savedFormData['company_name']);
+        $companyceo       = htmlspecialchars($savedFormData['company_ceo']);
+        $company_address  = htmlspecialchars($savedFormData['company_address']);
+        $company_inn      = htmlspecialchars($savedFormData['company_inn']);
         $bank_name        = htmlspecialchars($savedFormData['bank_name']);
-        $bik              = htmlspecialchars($savedFormData['bik']);
+        $bank_bik         = htmlspecialchars($savedFormData['bank_bik']);
         $settl_acc        = htmlspecialchars($savedFormData['settl_acc']);
         $corr_acc         = htmlspecialchars($savedFormData['corr_acc']);
     }
 ?>
 
-<form action="<?php echo $action; ?>" method="post">
-<div id="add-edit-profile">
+<form action="<?php echo $action; ?>" method="post" id="add-edit-profile">
     <div>
         <div>
             <div>Название профиля <span class="form-field-required">*</span></div>
@@ -96,26 +93,26 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div>
-        <label><input type="checkbox" name="legal_person" value="1"<?php echo $legal_person ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
+        <label><input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
     </div>
 
     <div id="legal-person">
         <h2>Юридическое лицо</h2>
         <div>
             <div>Название компании <span class="form-field-required">*</span></div>
-            <div><input type="text" name="company" maxlength="64" value="<?php echo $company; ?>" /></div>
+            <div><input type="text" name="company_name" maxlength="64" value="<?php echo $company_name; ?>" /></div>
         </div>
         <div>
             <div>Генеральный директор <span class="form-field-required">*</span></div>
-            <div><input type="text" name="ceo_name" maxlength="64" value="<?php echo $ceo_name; ?>" /></div>
+            <div><input type="text" name="company_ceo" maxlength="64" value="<?php echo $company_ceo; ?>" /></div>
         </div>
         <div>
             <div>Юридический адрес <span class="form-field-required">*</span></div>
-            <div><input type="text" name="legal_address" maxlength="250" value="<?php echo $legal_address; ?>" /></div>
+            <div><input type="text" name="company_address" maxlength="250" value="<?php echo $company_address; ?>" /></div>
         </div>
         <div>
             <div>ИНН <span class="form-field-required">*</span></div>
-            <div><input type="text" name="inn" maxlength="32" value="<?php echo $inn; ?>" /></div>
+            <div><input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" /></div>
         </div>
         <div>
             <div>Название банка <span class="form-field-required">*</span></div>
@@ -123,7 +120,7 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>БИК <span class="form-field-required">*</span></div>
-            <div><input type="text" name="bik" maxlength="32" value="<?php echo $bik; ?>" /></div>
+            <div><input type="text" name="bank_bik" maxlength="32" value="<?php echo $bank_bik; ?>" /></div>
         </div>
         <div>
             <div>Расчетный счет <span class="form-field-required">*</span></div>
@@ -151,7 +148,10 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>Телефон</div>
-            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" /></div>
+            <div>
+                <input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" />
+                <!--<span id="on-off-phone-mask">отключить маску</span>-->
+            </div>
         </div>
     </div>
 
@@ -168,15 +168,11 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </div>
 
-    <div id="shipping-address-city-index">
+    <div id="shipping-address-index">
         <h2>Адрес доставки</h2>
         <div>
             <div>Адрес <span class="form-field-required">*</span></div>
             <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
-        </div>
-        <div>
-            <div>Город</div>
-            <div><input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" /></div>
         </div>
         <div>
             <div>Почтовый индекс</div>
@@ -190,7 +186,6 @@ defined('ZCMS') or die('Access denied');
             <div><input type="submit" name="submit" value="Сохранить" /></div>
         </div>
     </div>
-</div>
 </form>
 
 <!-- Конец шаблона view/example/backend/template/catalog/addprof/center.php -->

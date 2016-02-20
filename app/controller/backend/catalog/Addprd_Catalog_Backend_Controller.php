@@ -2,7 +2,7 @@
 /**
  * Класс Addprd_Catalog_Backend_Controller для добавления нового товара, формирует
  * страницу с формой для добавления товара, добавляет новую запись в таблицу БД
- * products, работает с моделью Catalog_Backend_Model
+ * products, работает с моделью Catalog_Backend_Model, административная часть сайта
  */
 class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 

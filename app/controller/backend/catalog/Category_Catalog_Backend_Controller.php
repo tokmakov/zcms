@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Category_Catalog_Backend_Controller формирует страницу категории
- * каталога, т.е. список дочерних категорий и список товаров категории, получает
- * данные от модели Catalog_Backend_Model
+ * Класс Category_Catalog_Backend_Controller формирует страницу категории каталога,
+ * т.е. список дочерних категорий и список товаров категории, получает данные от
+ * модели Catalog_Backend_Model, административная часть сайта
  */
 class Category_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
@@ -55,7 +55,7 @@ class Category_Catalog_Backend_Controller extends Catalog_Backend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во товаров категории
         $totalProducts = $this->catalogBackendModel->getCountCategoryProducts($this->params['id']);

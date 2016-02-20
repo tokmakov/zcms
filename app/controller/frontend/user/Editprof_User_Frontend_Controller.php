@@ -18,15 +18,15 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Editprof_User_Frontend_Controller
          */
         parent::input();
 
         // если пользователь не авторизован, перенаправляем его на страницу авторизации
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
         }
 
@@ -40,7 +40,7 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки, опять показываем форму
+            if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки, опять показываем форму
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/editprof/id/' . $this->params['id']));
             } else { // ошибок не было, профиль обновлён, перенаправляем пользователя на страницу со списком профилей
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/allprof'));
@@ -100,24 +100,22 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             'shipping'         => $profile['shipping'],
             // массив офисов для самовывоза
             'offices'          => $offices,
-            // фактический адрес
+            // адрес доставки
             'shipping_address' => $profile['shipping_address'],
-            // город (фактический адрес)
-            'shipping_city'    => $profile['shipping_city'],
-            // почтовый индекс (фактический адрес)
+            // почтовый индекс
             'shipping_index'   => $profile['shipping_index'],
             // юридическое лицо?
-            'legal_person'     => $profile['legal_person'],
-            // название компании
             'company'          => $profile['company'],
+            // название компании
+            'company_name'     => $profile['company_name'],
             // генеральный директор
-            'ceo_name'         => $profile['ceo_name'],
+            'company_ceo'      => $profile['company_ceo'],
             // юридический адрес
-            'legal_address'    => $profile['legal_address'],
+            'company_address'  => $profile['company_address'],
+            // ИНН
+            'company_inn'      => $profile['company_inn'],
             // название банка
             'bank_name'        => $profile['bank_name'],
-            // ИНН
-            'inn'              => $profile['inn'],
             // БИК
             'bik'              => $profile['bik'],
             // номер расчетного счета в банке
@@ -137,20 +135,19 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
     }
 
     /**
-     * Функция проверяет корректность введенных пользователем данных; если были
-     * допущены ошибки, функция возвращает false; если ошибок нет, функция
-     * обновляет профиль и возвращает true
+     * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
+     * функция возвращает false; если ошибок нет, функция обновляет профиль и возвращает true
      */
     private function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['title']            = trim(utf8_substr(strip_tags($_POST['title']), 0, 32));   // название профиля
-        $data['name']             = trim(utf8_substr(strip_tags($_POST['name']), 0, 32));    // имя контактного лица
-        $data['surname']          = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32)); // фамилия контактного лица
-        $data['email']            = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));   // e-mail контактного лица
-        $data['phone']            = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));   // телефон контактного лица
+        $data['title']   = trim(utf8_substr(strip_tags($_POST['title']), 0, 32));   // название профиля
+        $data['surname'] = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32)); // фамилия контактного лица
+        $data['name']    = trim(utf8_substr(strip_tags($_POST['name']), 0, 32));    // имя контактного лица
+        $data['email']   = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));   // e-mail контактного лица
+        $data['phone']   = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));   // телефон контактного лица
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $data['shipping']         = 1;
@@ -158,52 +155,50 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
                 $data['shipping'] = $_POST['office'];
             }
             $data['shipping_address'] = '';
-            $data['shipping_city']    = '';
             $data['shipping_index']   = '';
         } else { // доставка по адресу
             $data['shipping']         = 0;
             $data['shipping_address'] = trim(utf8_substr(strip_tags($_POST['shipping_address']), 0, 250)); // адрес доставки
-            $data['shipping_city']    = trim(utf8_substr(strip_tags($_POST['shipping_city']), 0, 32));     // город доставки
             $data['shipping_index']   = trim(utf8_substr(strip_tags($_POST['shipping_index']), 0, 32));    // почтовый индекс
         }
+        
+        $data['company']         = 0;
+        $data['company_name']    = '';
+        $data['company_ceo']     = '';
+        $data['company_address'] = '';
+        $data['company_inn']     = '';
+        $data['bank_name']       = '';
+        $data['bik']             = '';
+        $data['settl_acc']       = '';
+        $data['corr_acc']        = '';
 
-        $data['company']       = '';
-        $data['ceo_name']      = '';
-        $data['legal_address'] = '';
-        $data['bank_name']     = '';
-        $data['inn']           = '';
-        $data['bik']           = '';
-        $data['settl_acc']     = '';
-        $data['corr_acc']      = '';
-
-        $data['legal_person']  = 0; // юридическое лицо?
-        if (isset($_POST['legal_person'])) {
-            $data['legal_person']  = 1;
-            $data['company']       = trim(utf8_substr(strip_tags($_POST['company']), 0, 64));        // название компании
-            $data['ceo_name']      = trim(utf8_substr(strip_tags($_POST['ceo_name']), 0, 64));       // генеральный директор
-            $data['legal_address'] = trim(utf8_substr(strip_tags($_POST['legal_address']), 0, 250)); // юридический адрес
-            $data['inn']           = trim(utf8_substr(strip_tags($_POST['inn']), 0, 32));            // ИНН
-            $data['bank_name']     = trim(utf8_substr(strip_tags($_POST['bank_name']), 0, 64));      // название банка
-            $data['bik']           = trim(utf8_substr(strip_tags($_POST['bik']), 0, 32));            // БИК
-            $data['settl_acc']     = trim(utf8_substr(strip_tags($_POST['settl_acc']), 0, 32));      // номер расчетного счета в банке
-            $data['corr_acc']      = trim(utf8_substr(strip_tags($_POST['corr_acc']), 0, 32));       // номер корреспондентского счета
+        if (isset($_POST['company'])) { // юридическое лицо?
+            $data['company']       = 1;
+            $data['company_name']    = trim(utf8_substr(strip_tags($_POST['company_name']), 0, 64));     // название компании
+            $data['company_ceo']     = trim(utf8_substr(strip_tags($_POST['ceo_name']), 0, 64));         // генеральный директор
+            $data['company_address'] = trim(utf8_substr(strip_tags($_POST['company_address']), 0, 250)); // юридический адрес
+            $data['company_inn']     = trim(utf8_substr(strip_tags($_POST['company_inn']), 0, 32));      // ИНН
+            $data['bank_name']       = trim(utf8_substr(strip_tags($_POST['bank_name']), 0, 64));        // название банка
+            $data['bik']             = trim(utf8_substr(strip_tags($_POST['bik']), 0, 32));              // БИК
+            $data['settl_acc']       = trim(utf8_substr(strip_tags($_POST['settl_acc']), 0, 32));        // номер расчетного счета в банке
+            $data['corr_acc']        = trim(utf8_substr(strip_tags($_POST['corr_acc']), 0, 32));         // номер корреспондентского счета
         }
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['title'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Название профиля»';
         }
-        if ($data['legal_person']) { // для юридического лица
-            if (empty($data['company'])) {
+        if ($data['company']) { // для юридического лица
+            if (empty($data['company_name'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Название компании»';
             }
-            if (empty($data['ceo_name'])) {
+            if (empty($data['company_ceo'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Генеральный директор»';
             }
-            if (empty($data['legal_address'])) {
+            if (empty($data['company_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Юридический адрес»';
             }
-            if (empty($data['inn'])) {
+            if (empty($data['company_inn'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «ИНН»';
             }
             if (empty($data['bank_name'])) {
@@ -219,14 +214,16 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
                 $errorMessage[] = 'Не заполнено обязательное поле «Корреспондентский счет»';
             }
         }
-        if (empty($data['name'])) {
-            $errorMessage[] = 'Не заполнено обязательное поле «Имя контактного лица»';
-        }
         if (empty($data['surname'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Фамилия контактного лица»';
         }
+        if (empty($data['name'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Имя контактного лица»';
+        }
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица»';
+        } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
+            $errorMessage[] = 'Поле «E-mail» должно соответствовать формату somebody@mail.ru';
         }
         if ( ! $data['shipping']) {
             if (empty($data['shipping_address'])) {
@@ -239,7 +236,7 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('editUserProfileForm', $data);
             return false;

@@ -39,6 +39,90 @@ $(document).ready(function() {
                 });
             });
     });
+    
+    // форматирование телефона
+    $(".phone").mask("+7 (999) 999-99-99");
+    /*
+    $('#off-phone-mask').click(function () {
+        $(".phone").unmask();
+    });
+    */
+    
+    // подсказки для ФИО, e-mail, юр.лица, банка
+    /*
+    $('#add-edit-profile input[name="ceo_name"]').attr('autocomplete', 'off').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "NAME",
+        count: 5,
+    });
+    $('#add-edit-profile input[name="legal_address"]').attr('autocomplete', 'off').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "ADDRESS",
+        count: 5,
+    });
+    */
+    $('#add-edit-profile input[name="company"]').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "PARTY",
+        count: 5,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            $('#add-edit-profile input[name="ceo_name"]').val(suggestion.data.management.name);
+            $('#add-edit-profile input[name="legal_address"]').val(suggestion.data.address.value);
+            $('#add-edit-profile input[name="inn"]').val(suggestion.data.inn);
+        }
+    });
+    $('#add-edit-profile input[name="inn"]').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "PARTY",
+        count: 5,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            $(this).val(suggestion.data.inn);
+            $('#add-edit-profile input[name="company"]').val(suggestion.value);
+            $('#add-edit-profile input[name="ceo_name"]').val(suggestion.data.management.name);
+            $('#add-edit-profile input[name="legal_address"]').val(suggestion.data.address.value);
+            
+        }
+    });
+    $('#add-edit-profile input[name="bank_name"]').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "BANK",
+        count: 5,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            $('#add-edit-profile input[name="bik"]').val(suggestion.data.bic);
+            $('#add-edit-profile input[name="corr_acc"]').val(suggestion.data.correspondent_account);
+        }
+    });
+    $('#add-edit-profile input[name="bik"]').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "BANK",
+        count: 5,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            $(this).val(suggestion.data.bic);
+            $('#add-edit-profile input[name="bank_name"]').val(suggestion.value);
+            $('#add-edit-profile input[name="corr_acc"]').val(suggestion.data.correspondent_account);
+        }
+    });
+    $('#add-edit-profile input[name="shipping_address"]').attr('autocomplete', 'off').suggestions({
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "ADDRESS",
+        count: 5,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            $('#add-edit-profile input[name="shipping_index"]').val(suggestion.data.postal_code);
+        }
+    });
+    
     // если не отмечен checkbox «Юридическое лицо», скрываем часть формы, связанную с юридическим лицом
     if ( ! $('#add-edit-profile input[name="legal_person"]').prop('checked')) {
         $('#add-edit-profile > #legal-person').hide();
@@ -48,12 +132,12 @@ $(document).ready(function() {
     });
     // если отмечен checkbox «Самовывоз со склада», скрываем часть формы, связанную с адресом доставки
     if ($('#add-edit-profile input[name="shipping"]').prop('checked')) {
-        $('#add-edit-profile > #shipping-address-city-index').hide();
+        $('#add-edit-profile > #shipping-address-index').hide();
     } else {
         $('#add-edit-profile select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
     }
     $('#add-edit-profile input[name="shipping"]').change(function() {
-        $('#add-edit-profile > #shipping-address-city-index').slideToggle();
+        $('#add-edit-profile > #shipping-address-index').slideToggle();
         $('#add-edit-profile select[name="office"]').toggle()
     });
 

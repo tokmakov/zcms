@@ -2,7 +2,7 @@
 /**
  * Класс Editctg_Catalog_Backend_Controller для редактирования категории, формирует
  * страницу с формой для редактирования категории, обновляет запись в таблице БД
- * categories, работает с моделью Catalog_Backend_Model
+ * categories, работает с моделью Catalog_Backend_Model, администртивная часть сайта
  */
 class Editctg_Catalog_Backend_Controller extends Catalog_Backend_Controller {
 
