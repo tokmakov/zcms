@@ -52,16 +52,18 @@ defined('ZCMS') or die('Access denied');
     $phone            = ''; // телефон контактного лица
     $shipping         = 1;  // самовывоз со склада?
     $shipping_address = ''; // адрес доставки
+    $shipping_city    = ''; // город доставки
     $shipping_index   = ''; // почтовый индекс
     $company          = 0;  // юридическое лицо?
-    $company_name     = htmlspecialchars($company_name);     // название компании
-    $company_ceo      = htmlspecialchars($company_ceo);      // генеральный директор
-    $company_address  = htmlspecialchars($company_address);  // юридический адрес
-    $company_inn      = htmlspecialchars($company_inn);      // ИНН
-    $bank_name        = htmlspecialchars($bank_name);        // название банка
-    $bank_bik         = htmlspecialchars($bank_bik);         // БИК банка
-    $settl_acc        = htmlspecialchars($settl_acc);        // расчетный счет
-    $corr_acc         = htmlspecialchars($corr_acc);         // корреспондентский счет
+    $company_name     = ''; // название компании
+    $company_ceo      = ''; // генеральный директор
+    $company_address  = ''; // юридический адрес
+    $company_inn      = ''; // ИНН компании
+    $company_kpp      = ''; // КПП компании
+    $bank_name        = ''; // название банка
+    $bank_bik         = ''; // БИК банка
+    $settl_acc        = ''; // расчетный счет
+    $corr_acc         = ''; // корреспондентский счет
 
     if (isset($savedFormData)) {
         $title            = htmlspecialchars($savedFormData['title']);
@@ -71,12 +73,14 @@ defined('ZCMS') or die('Access denied');
         $phone            = htmlspecialchars($savedFormData['phone']);
         $shipping         = $savedFormData['shipping'];
         $shipping_address = htmlspecialchars($savedFormData['shipping_address']);
+        $shipping_city    = htmlspecialchars($savedFormData['shipping_city']);
         $shipping_index   = htmlspecialchars($savedFormData['shipping_index']);
         $company          = $savedFormData['company'];
         $company_name     = htmlspecialchars($savedFormData['company_name']);
-        $companyceo       = htmlspecialchars($savedFormData['company_ceo']);
+        $company_ceo      = htmlspecialchars($savedFormData['company_ceo']);
         $company_address  = htmlspecialchars($savedFormData['company_address']);
         $company_inn      = htmlspecialchars($savedFormData['company_inn']);
+        $company_kpp      = htmlspecialchars($savedFormData['company_kpp']);
         $bank_name        = htmlspecialchars($savedFormData['bank_name']);
         $bank_bik         = htmlspecialchars($savedFormData['bank_bik']);
         $settl_acc        = htmlspecialchars($savedFormData['settl_acc']);
@@ -93,10 +97,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div>
-        <label><input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
+        <label>
+            <input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> />
+            <span>Юридическое лицо</span>
+        </label>
+        <span id="company-checkbox-help">?</span>
     </div>
 
-    <div id="legal-person">
+    <div id="company">
         <h2>Юридическое лицо</h2>
         <div>
             <div>Название компании <span class="form-field-required">*</span></div>
@@ -111,15 +119,18 @@ defined('ZCMS') or die('Access denied');
             <div><input type="text" name="company_address" maxlength="250" value="<?php echo $company_address; ?>" /></div>
         </div>
         <div>
-            <div>ИНН <span class="form-field-required">*</span></div>
-            <div><input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" /></div>
+            <div>ИНН <span class="form-field-required">*</span>, КПП</div>
+            <div>
+                <input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" placeholder="ИНН" />
+                <input type="text" name="company_kpp" maxlength="32" value="<?php echo $company_kpp; ?>" placeholder="КПП" />
+            </div>
         </div>
         <div>
             <div>Название банка <span class="form-field-required">*</span></div>
             <div><input type="text" name="bank_name" maxlength="64" value="<?php echo $bank_name; ?>" /></div>
         </div>
         <div>
-            <div>БИК <span class="form-field-required">*</span></div>
+            <div>БИК банка <span class="form-field-required">*</span></div>
             <div><input type="text" name="bank_bik" maxlength="32" value="<?php echo $bank_bik; ?>" /></div>
         </div>
         <div>
@@ -149,8 +160,7 @@ defined('ZCMS') or die('Access denied');
         <div>
             <div>Телефон</div>
             <div>
-                <input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" />
-                <!--<span id="on-off-phone-mask">отключить маску</span>-->
+                <input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" />
             </div>
         </div>
     </div>
@@ -168,15 +178,18 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </div>
 
-    <div id="shipping-address-index">
+    <div id="shipping-address">
         <h2>Адрес доставки</h2>
         <div>
-            <div>Адрес <span class="form-field-required">*</span></div>
+            <div>Адрес доставки <span class="form-field-required">*</span></div>
             <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
         </div>
         <div>
-            <div>Почтовый индекс</div>
-            <div><input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" /></div>
+            <div>Город, почтовый индекс</div>
+            <div>
+                <input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" placeholder="город" />
+                <input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" placeholder="индекс" />
+            </div>
         </div>
     </div>
 

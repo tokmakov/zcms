@@ -560,8 +560,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         $query = "SELECT
                       `title`, `name`, `surname`, `email`, `phone`, `shipping`, `shipping_address`,
-                      `shipping_index`, `company`, `company_name`, `company_ceo`,`company_address`,
-                      `company_inn`, `bank_name`, `bik`, `settl_acc`, `corr_acc`
+                      `shipping_city`, `shipping_index`, `company`, `company_name`, `company_ceo`,
+                      `company_address`, `company_inn`, `company_kpp`, `bank_name`, `bank_bik`,
+                      `settl_acc`, `corr_acc`
                   FROM
                       `profiles`
                   WHERE
@@ -589,14 +590,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `phone`,
                       `shipping`,
                       `shipping_address`,
+                      `shipping_city`,
                       `shipping_index`,
                       `company`,
                       `company_name`,
                       `company_ceo`,
                       `company_address`,
                       `company_inn`,
+                      `company_kpp`,
                       `bank_name`,
-                      `bik`,
+                      `bank_bik`,
                       `settl_acc`,
                       `corr_acc`
                   )
@@ -610,14 +613,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       :phone,
                       :shipping,
                       :shipping_address,
+                      :shipping_city,
                       :shipping_index,
                       :company,
                       :company_name,
                       :company_ceo,
                       :company_address,
                       :company_inn,
+                      :company_kpp,
                       :bank_name,
-                      :bik,
+                      :bank_bik,
                       :settl_acc,
                       :corr_acc
                   )";
@@ -645,14 +650,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `phone`            = :phone,
                       `shipping`         = :shipping,
                       `shipping_address` = :shipping_address,
+                      `shipping_city`    = :shipping_city,
                       `shipping_index`   = :shipping_index,
                       `company`          = :company,
                       `company_name`     = :company_name,
                       `company_ceo`      = :company_ceo,
                       `company_address`  = :company_address,
                       `company_inn`      = :company_inn,
+                      `company_kpp`      = :company_kpp,
                       `bank_name`        = :bank_name,
-                      `bik`              = :bik,
+                      `bank_bik`         = :bank_bik,
                       `settl_acc`        = :settl_acc,
                       `corr_acc`         = :corr_acc
                   WHERE

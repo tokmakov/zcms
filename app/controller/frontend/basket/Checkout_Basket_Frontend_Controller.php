@@ -60,8 +60,19 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'url'  => $this->basketFrontendModel->getURL('frontend/basket/index')
             ),
         );
+        
+        // если пользователь авторизован, получаем информацию о нем
+        $surname = ''; // фамилия контактного лица по умолчанию
+        $name    = ''; // имя контактного лица по-умолчанию
+        $email   = ''; // электронная почта контактного лица по умолчанию
+        if ($this->authUser) {
+            $user    = $this->userFrontendModel->getUser();
+            $surname = $user['surname'];
+            $name    = $user['name'];
+            $email   = $user['email'];
+        }
 
-        // получаем от модели массив профилей пользователя
+        // если пользователь авторизован, получаем от модели массив профилей
         $profiles = array();
         if ($this->authUser) {
             $profiles = $this->userFrontendModel->getUserProfiles();
@@ -82,17 +93,23 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'   => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
+            'action'        => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
             // пользователь авторизован?
-            'authUser'    => $this->authUser,
+            'authUser'      => $this->authUser,
+            // имя контактного лица получателя
+            'buyer_surname' => $surname,
+            // фамилия контактного лица получателя
+            'buyer_name'    => $name,
+            // e-mail контактного лица получателя
+            'buyer_email'   => $email,
             // массив профилей пользователя
-            'profiles'    => $profiles,
+            'profiles'      => $profiles,
             // массив офисов для самовывоза
-            'offices'     => $offices,
+            'offices'       => $offices,
             // если true, заказ размещен
-            'success'     => $success,
+            'success'       => $success,
         );
         if ($success) { // заказ размещен, большинство переменных в шаблоне не нужны
             unset(
@@ -124,10 +141,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          * обрабатываем данные, полученные из формы
          */
 
-        // имя контактного лица получателя
-        $form['buyer_name']    = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 32));
         // фамилия контактного лица получателя
         $form['buyer_surname'] = trim(utf8_substr(strip_tags($_POST['buyer_surname']), 0, 32));
+        // имя контактного лица получателя
+        $form['buyer_name']    = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 32));
         // e-mail контактного лица получателя
         $form['buyer_email']   = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 32));
         // телефон контактного лица получателя
@@ -139,10 +156,12 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $form['own_shipping'] = $_POST['office'];
             }
             $form['buyer_shipping_address'] = ''; // адрес доставки
+            $form['buyer_shipping_city']    = ''; // город доставки
             $form['buyer_shipping_index']   = ''; // почтовый индекс
         } else { // доставка по адресу
             $form['shipping']               = 0;
             $form['buyer_shipping_address'] = trim(utf8_substr(strip_tags($_POST['buyer_shipping_address']), 0, 250));
+            $form['buyer_shipping_city']    = trim(utf8_substr(strip_tags($_POST['buyer_shipping_city']), 0, 32));
             $form['buyer_shipping_index']   = trim(utf8_substr(strip_tags($_POST['buyer_shipping_index']), 0, 32));
         }
 
@@ -157,6 +176,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['buyer_company_address'] = trim(utf8_substr(strip_tags($_POST['buyer_company_address']), 0, 250));
             // ИНН компании получателя
             $form['buyer_company_inn']     = trim(utf8_substr(strip_tags($_POST['buyer_company_inn']), 0, 32));
+            // КПП компании получателя
+            $form['buyer_company_kpp']     = trim(utf8_substr(strip_tags($_POST['buyer_company_kpp']), 0, 32));
             // название банка компании получателя
             $form['buyer_bank_name']       = trim(utf8_substr(strip_tags($_POST['buyer_bank_name']), 0, 64));
             // БИК банка компании получателя
@@ -171,6 +192,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['buyer_company_ceo']     = ''; // генеральный директор компании получателя
             $form['buyer_company_address'] = ''; // юридический адрес компании получателя
             $form['buyer_company_inn']     = ''; // ИНН компании получателя
+            $form['buyer_company_kpp']     = ''; // КПП компании получателя
             $form['buyer_bank_name']       = ''; // название банка компании получателя
             $form['buyer_bank_bik']        = ''; // БИК банка компании получателя
             $form['buyer_settl_acc']       = ''; // номер расчетного счета в банке компании получателя
@@ -200,6 +222,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $form['payer_company_address'] = trim(utf8_substr(strip_tags($_POST['payer_company_address']), 0, 250));
                 // ИНН компании плательщика
                 $form['payer_company_inn']     = trim(utf8_substr(strip_tags($_POST['payer_company_inn']), 0, 32));
+                // КПП компании плательщика
+                $form['payer_company_kpp']     = trim(utf8_substr(strip_tags($_POST['payer_company_kpp']), 0, 32));
                 // название банка компании плательщика
                 $form['payer_bank_name']       = trim(utf8_substr(strip_tags($_POST['payer_bank_name']), 0, 64));
                 // БИК банка компании плательщика
@@ -214,6 +238,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $form['payer_company_ceo']     = ''; // генеральный директор компании плательщика
                 $form['payer_company_address'] = ''; // юридический адрес компании плательщика
                 $form['payer_company_inn']     = ''; // ИНН компании плательщика
+                $form['payer_company_kpp']     = ''; // КПП компании плательщика
                 $form['payer_bank_name']       = ''; // название банка компании плательщика
                 $form['payer_bank_bik']        = ''; // БИК банка компании плательщика
                 $form['payer_settl_acc']       = ''; // номер расчетного счета в банке компании плательщика
@@ -233,6 +258,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['payer_company_ceo']     = $form['buyer_company_ceo'];
             $form['payer_company_address'] = $form['buyer_company_address'];
             $form['payer_company_inn']     = $form['buyer_company_inn'];
+            $form['payer_company_kpp']     = $form['buyer_company_kpp'];
             $form['payer_bank_name']       = $form['buyer_bank_name'];
             $form['payer_bank_bik']        = $form['buyer_bank_bik'];
             $form['payer_settl_acc']       = $form['buyer_settl_acc'];
@@ -350,12 +376,14 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'phone'            => $form['buyer_phone'],
                 'shipping'         => $form['shipping'],
                 'shipping_address' => $form['buyer_shipping_address'],
+                'shipping_city'    => $form['buyer_shipping_city'],
                 'shipping_index'   => $form['buyer_shipping_index'],
                 'company'          => $form['buyer_company'],
                 'company_name'     => $form['buyer_company_name'],
                 'company_ceo'      => $form['buyer_company_ceo'],
                 'company_address'  => $form['buyer_company_address'],
                 'company_inn'      => $form['buyer_company_inn'],
+                'company_kpp'      => $form['buyer_company_kpp'],
                 'bank_name'        => $form['buyer_bank_name'],
                 'bank_bik'         => $form['buyer_bank_bik'],
                 'settl_acc'        => $form['buyer_settl_acc'],
@@ -374,12 +402,14 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'phone'            => $form['payer_phone'],
                 'shipping'         => 1,
                 'shipping_address' => '',
+                'shipping_city'    => '',
                 'shipping_index'   => '',
                 'company'          => $form['payer_company'],
                 'company_name'     => $form['payer_company_name'],
                 'company_ceo'      => $form['payer_company_ceo'],
                 'company_address'  => $form['payer_company_address'],
                 'company_inn'      => $form['payer_company_inn'],
+                'company_kpp'      => $form['payer_company_kpp'],
                 'bank_name'        => $form['payer_bank_name'],
                 'bank_bik'         => $form['payer_bank_bik'],
                 'settl_acc'        => $form['payer_settl_acc'],

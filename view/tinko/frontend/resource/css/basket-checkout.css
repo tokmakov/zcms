@@ -2,7 +2,7 @@
 #checkout-order {
 
 }
-    #checkout-order .legal_person_help, #checkout-order .make_profile_help {
+    #checkout-order .company-checkbox-help, #checkout-order .make_profile_help {
         background: #395985;
         color: #fff;
         border-radius: 8px;
@@ -24,7 +24,6 @@
     }
     #checkout-order select[name="office"] {
         font-size: 14px;
-        line-height: 14px;
         box-sizing: border-box;
         padding: 4px;
         border: 1px solid #d1d1d1;
@@ -66,7 +65,7 @@
         /* выбор профиля для Получателя и Плательщика */
         #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile {
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 5px 10px;
             background: #f0f0f0;
         }
         #checkout-order .make-profile, #checkout-order .make-profile { /* создать профиль */
@@ -74,8 +73,8 @@
             padding-top: 10px;
             border-top: 1px dashed #d1d1d1;
         }
-        #checkout-order > #payer-order > fieldset#payer-legal-person,
-        #checkout-order > #buyer-order > fieldset#buyer-legal-person,
+        #checkout-order > #payer-order > fieldset#payer-company,
+        #checkout-order > #buyer-order > fieldset#buyer-company,
         #checkout-order > #payer-order > fieldset#payer-physical-person,
         #checkout-order > #buyer-order > fieldset#buyer-physical-person,
         #checkout-order > #buyer-order > fieldset#buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
@@ -85,9 +84,9 @@
             margin-top: 15px;
         }
         #checkout-order > #buyer-order > #buyer-shipping {
-            min-height: 25px;
             margin-top: 14px;
-            line-height: 25px;
+            min-height: 30px;
+            line-height: 30px;
         }
             #checkout-order > #buyer-order > #buyer-shipping > label {
                 vertical-align: top;
@@ -97,8 +96,8 @@
                 line-height: normal;
             }
             /* заголовок для блоков юридические лицо и контактное лицо */
-            #checkout-order > #payer-order > fieldset#payer-legal-person > legend,
-            #checkout-order > #buyer-order > fieldset#buyer-legal-person > legend,
+            #checkout-order > #payer-order > fieldset#payer-company > legend,
+            #checkout-order > #buyer-order > fieldset#buyer-company > legend,
             #checkout-order > #payer-order > fieldset#payer-physical-person > legend,
             #checkout-order > #buyer-order > fieldset#buyer-physical-person > legend,
             #checkout-order > #buyer-order > fieldset#buyer-shipping-details > legend {
@@ -107,7 +106,13 @@
             }
                 #checkout-order > div > fieldset > div,
                 #checkout-order > div > div > div {
-                    overflow: hidden;
+
+                }
+                #checkout-order > div > fieldset > div:after,
+                #checkout-order > div > div > div:after {
+                    content: "";
+                    display: table;
+                    clear: both;
                 }
                     #checkout-order > div > fieldset > div > div:first-child,
                     #checkout-order > div > div > div > div:first-child {
@@ -134,12 +139,26 @@
                             padding: 5px;
                             border: 1px solid #d1d1d1;
                         }
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_inn"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_city"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_inn"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
+                            float: left;
+                            width: 60%;
+                        }
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
+                            border-left: none;
+                            width: 40%;
+                        }
                         /* выбор профиля Получателя и Плательщика */
                         #checkout-order > div > div > div > div:last-child > select {
                             width: 100%;
                             box-sizing: border-box;
                             font-size: 14px;
-                            line-height: 14px;
                             padding: 4px;
                             border: 1px solid #d1d1d1;
                         }

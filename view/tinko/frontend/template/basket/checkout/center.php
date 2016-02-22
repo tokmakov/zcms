@@ -56,9 +56,6 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $buyer_name             = ''; // имя контактного лица получателя
-    $buyer_surname          = ''; // фамилия контактного лица получателя
-    $buyer_email            = ''; // e-mail контактного лица получателя
     $buyer_phone            = ''; // телефон контактного лица получателя
 
     $shipping               = 1;  // самовывоз?
@@ -88,6 +85,7 @@ defined('ZCMS') or die('Access denied');
     $payer_company_ceo      = ''; // генеральный директор компании плательщика
     $payer_company_address  = ''; // юридический адрес компании плательщика
     $payer_company_inn      = ''; // ИНН компании плательщика
+    $payer_company_kpp      = ''; // КПП компании плательщика
     $payer_bank_name        = ''; // название банка компании плательщика
     $payer_bank_bik         = ''; // БИК банка компании плательщика
     $payer_settl_acc        = ''; // расчетный счет компании плательщика
@@ -111,6 +109,7 @@ defined('ZCMS') or die('Access denied');
         $buyer_company_ceo      = htmlspecialchars($savedFormData['buyer_company_ceo']);
         $buyer_company_address  = htmlspecialchars($savedFormData['buyer_company_address']);
         $buyer_company_inn      = htmlspecialchars($savedFormData['buyer_company_inn']);
+        $buyer_company_kpp      = htmlspecialchars($savedFormData['buyer_company_kpp']);
         $buyer_bank_name        = htmlspecialchars($savedFormData['buyer_bank_name']);
         $buyer_bank_bik         = htmlspecialchars($savedFormData['buyer_bank_bik']);
         $buyer_settl_acc        = htmlspecialchars($savedFormData['buyer_settl_acc']);
@@ -127,6 +126,7 @@ defined('ZCMS') or die('Access denied');
         $payer_company_ceo          = htmlspecialchars($savedFormData['payer_company_ceo']);
         $payer_company_address      = htmlspecialchars($savedFormData['payer_company_address']);
         $payer_company_inn          = htmlspecialchars($savedFormData['payer_company_inn']);
+        $payer_company_kpp          = htmlspecialchars($savedFormData['payer_company_kpp']);
         $payer_bank_name            = htmlspecialchars($savedFormData['payer_bank_name']);
         $payer_bank_bik             = htmlspecialchars($savedFormData['payer_bank_bik']);
         $payer_settl_acc            = htmlspecialchars($savedFormData['payer_settl_acc']);
@@ -159,10 +159,14 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
 
         <div>
-            <label><input type="checkbox" name="buyer_company"<?php if ($buyer_company) echo ' checked="checked"'; ?> value="1" /> <span>Юридическое лицо</span></label> <span class="legal_person_help">?</span>
+            <label>
+                <input type="checkbox" name="buyer_company"<?php if ($buyer_company) echo ' checked="checked"'; ?> value="1" />
+                <span>Юридическое лицо</span>
+            </label>
+            <span class="company-checkbox-help">?</span>
         </div>
 
-        <fieldset id="buyer-legal-person">
+        <fieldset id="buyer-company">
             <legend>Юридическое лицо</legend>
             <div>
                 <div>Название компании <span class="form-field-required">*</span></div>
@@ -177,15 +181,18 @@ defined('ZCMS') or die('Access denied');
                 <div><input type="text" name="buyer_company_address" maxlength="250" value="<?php echo $buyer_company_address; ?>" /></div>
             </div>
             <div>
-                <div>ИНН <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_company_inn" maxlength="32" value="<?php echo $buyer_company_inn; ?>" /></div>
+                <div>ИНН <span class="form-field-required">*</span>, КПП</div>
+                <div>
+                    <input type="text" name="buyer_company_inn" maxlength="32" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
+                    <input type="text" name="buyer_company_kpp" maxlength="32" value="<?php echo $payer_company_kpp; ?>" placeholder="КПП" />
+                </div>
             </div>
             <div>
                 <div>Название банка <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_bank_name" maxlength="64" value="<?php echo $buyer_bank_name; ?>" /></div>
             </div>
             <div>
-                <div>БИК <span class="form-field-required">*</span></div>
+                <div>БИК банка<span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_bank_bik" maxlength="32" value="<?php echo $buyer_bank_bik; ?>" /></div>
             </div>
             <div>
@@ -214,7 +221,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Телефон</div>
-                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" /></div>
+                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
         </fieldset>
 
@@ -234,12 +241,15 @@ defined('ZCMS') or die('Access denied');
         <fieldset id="buyer-shipping-details">
             <legend>Адрес доставки</legend>
             <div>
-                <div>Адрес <span class="form-field-required">*</span></div>
+                <div>Адрес доставки <span class="form-field-required">*</span></div>
                 <div><input type="text" name="buyer_shipping_address" maxlength="250" value="<?php echo $buyer_shipping_address; ?>" /></div>
             </div>
             <div>
-                <div>Почтовый индекс</div>
-                <div><input type="text" name="buyer_shipping_index" maxlength="32" value="<?php echo $buyer_shipping_index; ?>" /></div>
+                <div>Город, почтовый индекс</div>
+                <div>
+                    <input type="text" name="buyer_shipping_city" maxlength="32" value="<?php echo $buyer_shipping_city; ?>" placeholder="город" />
+                    <input type="text" name="buyer_shipping_index" maxlength="32" value="<?php echo $buyer_shipping_index; ?>" placeholder="индекс" />
+                </div>
             </div>
         </fieldset>
 
@@ -287,10 +297,10 @@ defined('ZCMS') or die('Access denied');
                 <input type="checkbox" name="payer_company"<?php if ($payer_company) echo ' checked="checked"'; ?> value="1" />
                 <span>Юридическое лицо</span>
             </label>
-            <span class="legal_person_help">?</span>
+            <span class="company-checkbox-help">?</span>
         </div>
 
-        <fieldset id="payer-legal-person">
+        <fieldset id="payer-company">
             <legend>Юридическое лицо</legend>
             <div>
                 <div>Название компании <span class="form-field-required">*</span></div>
@@ -305,15 +315,18 @@ defined('ZCMS') or die('Access denied');
                 <div><input type="text" name="payer_company_address" maxlength="250" value="<?php echo $payer_company_address; ?>" /></div>
             </div>
             <div>
-                <div>ИНН <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_company_inn" maxlength="32" value="<?php echo $payer_company_inn; ?>" /></div>
+                <div>ИНН <span class="form-field-required">*</span>, КПП</div>
+                <div>
+                    <input type="text" name="payer_company_inn" maxlength="32" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
+                    <input type="text" name="payer_company_kpp" maxlength="32" value="<?php echo $payer_company_kpp; ?>" placeholder="КПП" />
+                </div>
             </div>
             <div>
                 <div>Название банка <span class="form-field-required">*</span></div>
                 <div><input type="text" name="payer_bank_name" maxlength="64" value="<?php echo $payer_bank_name; ?>" /></div>
             </div>
             <div>
-                <div>БИК <span class="form-field-required">*</span></div>
+                <div>БИК банка <span class="form-field-required">*</span></div>
                 <div><input type="text" name="payer_bank_bik" maxlength="32" value="<?php echo $payer_bank_bik; ?>" /></div>
             </div>
             <div>
@@ -342,7 +355,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Телефон</div>
-                <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" /></div>
+                <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
         </fieldset>
 

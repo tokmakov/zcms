@@ -243,7 +243,7 @@
 #add-edit-profile {
 
 }
-    #add-edit-profile #legal-person-help, #add-edit-profile #profile-title-help {
+    #add-edit-profile #company-checkbox-help, #add-edit-profile #profile-title-help {
         background: #395985;
         color: #fff;
         border-radius: 8px;
@@ -258,9 +258,9 @@
         margin-top: 20px;
     }
     #add-edit-profile > div:nth-child(5) {
-        margin-top: 24px;
-        min-height: 24px;
-        line-height: 24px;
+        margin-top: 20px;
+        min-height: 30px;
+        line-height: 30px;
     }
     #add-edit-profile > div:nth-child(3),
     #add-edit-profile > div:nth-child(4),
@@ -296,7 +296,6 @@
         line-height: normal;
     }
         #add-edit-profile > div > div {
-            /*overflow: hidden;*/
             margin-bottom: 10px;
         }
         #add-edit-profile > div > div:after {
@@ -338,6 +337,19 @@
                     border: 1px solid #d1d1d1;
                     font-size: 14px;
                 }
+                #add-edit-profile > div > div > div:last-child > input[name="shipping_city"],
+                #add-edit-profile > div > div > div:last-child > input[name="shipping_index"],
+                #add-edit-profile > div > div > div:last-child > input[name="company_inn"],
+                #add-edit-profile > div > div > div:last-child > input[name="company_kpp"] {
+                    float: left;
+                    width: 60%;
+                }
+                #add-edit-profile > div > div > div:last-child > input[name="shipping_index"],
+                #add-edit-profile > div > div > div:last-child > input[name="company_kpp"] {
+                    border-left: none;
+                    width: 40%;
+                }
+                
                 #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
                     width: 95%;
                 }

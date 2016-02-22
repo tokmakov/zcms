@@ -130,7 +130,11 @@ $settings = array(
                 'fancybox/jquery.fancybox.css',
             ),
             'basket-index'    => 'basket-index.css', // покупательская корзина
-            'basket-checkout' => 'basket-checkout.css', // оформление заказа
+            'basket-checkout' => array(              // оформление заказа
+                'basket-checkout.css',
+                'https://dadata.ru/static/css/lib/suggestions-16.1.css',
+                'suggestions.css',
+            ),
             'sitemap'         => 'sitemap.css',  // карта сайта
 
             'page-40'         => array(          // для страницы «Контакты»
@@ -250,7 +254,7 @@ $settings = array(
             ),
             'basket-index'    => 'basket-index.js',    // корзина
             'basket-checkout' => array(          // оформление заказа
-                'jquery.maskedinput.min.js',
+                'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
                 'basket-checkout.js',
             ),
             'blog' => array(                     // блог
@@ -276,7 +280,6 @@ $settings = array(
             ),
             'user'            => array(          // личный кабинет
                 'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
-                'jquery.maskedinput.min.js',
                 'user.js',
             ),     
             'wished'          => 'wished.js',    // избранное (отложенные товары)

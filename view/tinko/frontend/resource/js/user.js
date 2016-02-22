@@ -27,7 +27,7 @@ $(document).ready(function() {
             });
     });
     // всплывающее окно с подсказкой для юридического лица
-    $('#add-edit-profile #legal-person-help').click(function() {
+    $('#add-edit-profile #company-checkbox-help').click(function() {
         $('<div><p>Отметьте флажок, чтобы использовать этот профиль для оформления заказов на юридическое лицо.</p><p>Укажите название компании, юридический адрес, ИНН, название банка, номер расчетного счета.</p></div>')
             .prependTo('body')
             .hide()
@@ -40,71 +40,65 @@ $(document).ready(function() {
             });
     });
     
-    // форматирование телефона
-    $(".phone").mask("+7 (999) 999-99-99");
-    /*
-    $('#off-phone-mask').click(function () {
-        $(".phone").unmask();
-    });
-    */
-    
-    // подсказки для ФИО, e-mail, юр.лица, банка
-    /*
-    $('#add-edit-profile input[name="ceo_name"]').attr('autocomplete', 'off').suggestions({
-        serviceUrl: "https://dadata.ru/api/v2",
-        token: "14977cbf05ebd40c763abed4418ace516625be3e",
-        type: "NAME",
-        count: 5,
-    });
-    $('#add-edit-profile input[name="legal_address"]').attr('autocomplete', 'off').suggestions({
-        serviceUrl: "https://dadata.ru/api/v2",
-        token: "14977cbf05ebd40c763abed4418ace516625be3e",
-        type: "ADDRESS",
-        count: 5,
-    });
-    */
-    $('#add-edit-profile input[name="company"]').suggestions({
+    // подсказки для юр.лица, банка, адреса доставки
+    $('#add-edit-profile input[name="company_name"]').suggestions({ // юр.лицо
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
         count: 5,
+        triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
-            $('#add-edit-profile input[name="ceo_name"]').val(suggestion.data.management.name);
-            $('#add-edit-profile input[name="legal_address"]').val(suggestion.data.address.value);
-            $('#add-edit-profile input[name="inn"]').val(suggestion.data.inn);
+            if (suggestion.data.type === 'LEGAL') { // юр.лицо
+                $('#add-edit-profile input[name="company_ceo"]').val(suggestion.data.management.name);
+            }
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+                $('#add-edit-profile input[name="company_ceo"]').val(suggestion.data.name.full);
+            }
+            $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
+            $('#add-edit-profile input[name="company_inn"]').val(suggestion.data.inn);
+            $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
         }
     });
-    $('#add-edit-profile input[name="inn"]').suggestions({
+    $('#add-edit-profile input[name="company_inn"]').suggestions({ // юр.лицо
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
         count: 5,
+        triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
             $(this).val(suggestion.data.inn);
-            $('#add-edit-profile input[name="company"]').val(suggestion.value);
-            $('#add-edit-profile input[name="ceo_name"]').val(suggestion.data.management.name);
-            $('#add-edit-profile input[name="legal_address"]').val(suggestion.data.address.value);
+            $('#add-edit-profile input[name="company_name"]').val(suggestion.value);
+            if (suggestion.data.type === 'LEGAL') { // юр.лицо
+                $('#add-edit-profile input[name="company_ceo"]').val(suggestion.data.management.name);
+            }
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+                $('#add-edit-profile input[name="company_ceo"]').val(suggestion.data.name.full);
+            }
+            $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
+            $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
             
         }
     });
-    $('#add-edit-profile input[name="bank_name"]').suggestions({
+    $('#add-edit-profile input[name="bank_name"]').suggestions({ // банк
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
         count: 5,
+        triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
-            $('#add-edit-profile input[name="bik"]').val(suggestion.data.bic);
+            $('#add-edit-profile input[name="bank_bik"]').val(suggestion.data.bic);
             $('#add-edit-profile input[name="corr_acc"]').val(suggestion.data.correspondent_account);
         }
     });
-    $('#add-edit-profile input[name="bik"]').suggestions({
+    $('#add-edit-profile input[name="bank_bik"]').suggestions({ // банк
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
         count: 5,
+        triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
             $(this).val(suggestion.data.bic);
@@ -112,32 +106,36 @@ $(document).ready(function() {
             $('#add-edit-profile input[name="corr_acc"]').val(suggestion.data.correspondent_account);
         }
     });
-    $('#add-edit-profile input[name="shipping_address"]').attr('autocomplete', 'off').suggestions({
+    $('#add-edit-profile input[name="shipping_address"]').suggestions({ // адрес доставки
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "ADDRESS",
         count: 5,
+        triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
+            $('#add-edit-profile input[name="shipping_city"]').val(suggestion.data.city);
             $('#add-edit-profile input[name="shipping_index"]').val(suggestion.data.postal_code);
         }
     });
     
     // если не отмечен checkbox «Юридическое лицо», скрываем часть формы, связанную с юридическим лицом
-    if ( ! $('#add-edit-profile input[name="legal_person"]').prop('checked')) {
-        $('#add-edit-profile > #legal-person').hide();
+    if ( ! $('#add-edit-profile input[name="company"]').prop('checked')) {
+        $('#add-edit-profile > #company').hide();
     }
-    $('#add-edit-profile input[name="legal_person"]').change(function() {
-        $('#add-edit-profile > #legal-person').slideToggle();
+    // при изменении checkbox «Юридическое лицо», скрываем/показываем часть формы, связанную с юридическим лицом
+    $('#add-edit-profile input[name="company"]').change(function() {
+        $('#add-edit-profile > #company').slideToggle();
     });
     // если отмечен checkbox «Самовывоз со склада», скрываем часть формы, связанную с адресом доставки
     if ($('#add-edit-profile input[name="shipping"]').prop('checked')) {
-        $('#add-edit-profile > #shipping-address-index').hide();
+        $('#add-edit-profile > #shipping-address').hide();
     } else {
         $('#add-edit-profile select[name="office"]').css('display','inline-block').hide(); // css()для MS IE
     }
+    // при изменении checkbox «Самовывоз со склада», скрываем/показываем часть формы, связанную с адресом доставки
     $('#add-edit-profile input[name="shipping"]').change(function() {
-        $('#add-edit-profile > #shipping-address-index').slideToggle();
+        $('#add-edit-profile > #shipping-address').slideToggle();
         $('#add-edit-profile select[name="office"]').toggle()
     });
 

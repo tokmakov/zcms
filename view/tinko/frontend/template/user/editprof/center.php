@@ -114,10 +114,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div>
-        <label><input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> /> <span>Юридическое лицо</span></label> <span id="legal-person-help">?</span>
+        <label>
+            <input type="checkbox" name="company" value="1"<?php echo $company ? ' checked="checked"' : ''; ?> />
+            <span>Юридическое лицо</span>
+        </label>
+        <span id="company-checkbox-help">?</span>
     </div>
 
-    <div id="legal-person">
+    <div id="company">
         <h2>Юридическое лицо</h2>
         <div>
             <div>Название компании <span class="form-field-required">*</span></div>
@@ -132,15 +136,18 @@ defined('ZCMS') or die('Access denied');
             <div><input type="text" name="company_address" maxlength="250" value="<?php echo $company_address; ?>" /></div>
         </div>
         <div>
-            <div>ИНН <span class="form-field-required">*</span></div>
-            <div><input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" /></div>
+            <div>ИНН <span class="form-field-required">*</span>, КПП</div>
+            <div>
+                <input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" placeholder="ИНН" />
+                <input type="text" name="company_kpp" maxlength="32" value="<?php echo $company_kpp; ?>" placeholder="КПП" />
+            </div>
         </div>
         <div>
             <div>Название банка <span class="form-field-required">*</span></div>
             <div><input type="text" name="bank_name" maxlength="64" value="<?php echo $bank_name; ?>" /></div>
         </div>
         <div>
-            <div>БИК <span class="form-field-required">*</span></div>
+            <div>БИК банка <span class="form-field-required">*</span></div>
             <div><input type="text" name="bank_bik" maxlength="32" value="<?php echo $bank_bik; ?>" /></div>
         </div>
         <div>
@@ -169,7 +176,7 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>Телефон</div>
-            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" class="phone" placeholder="+7 (495) 123-45-67" /></div>
+            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
         </div>
     </div>
 
@@ -186,15 +193,18 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </div>
 
-    <div id="shipping-address-index">
+    <div id="shipping-address">
         <h2>Адрес доставки</h2>
         <div>
-            <div>Адрес <span class="form-field-required">*</span></div>
+            <div>Адрес доставки <span class="form-field-required">*</span></div>
             <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
         </div>
         <div>
-            <div>Почтовый индекс</div>
-            <div><input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" /></div>
+            <div>Город, почтовый индекс</div>
+            <div>
+                <input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" placeholder="город" />
+                <input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" placeholder="индекс" />
+            </div>
         </div>
     </div>
 
@@ -207,4 +217,3 @@ defined('ZCMS') or die('Access denied');
 </form>
 
 <!-- Конец шаблона view/example/backend/template/catalog/editprof/center.php -->
-

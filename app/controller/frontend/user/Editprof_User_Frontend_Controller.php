@@ -102,6 +102,8 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             'offices'          => $offices,
             // адрес доставки
             'shipping_address' => $profile['shipping_address'],
+            // город доставки
+            'shipping_city'    => $profile['shipping_city'],
             // почтовый индекс
             'shipping_index'   => $profile['shipping_index'],
             // юридическое лицо?
@@ -114,10 +116,12 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             'company_address'  => $profile['company_address'],
             // ИНН
             'company_inn'      => $profile['company_inn'],
+            // КПП
+            'company_kpp'      => $profile['company_kpp'],
             // название банка
             'bank_name'        => $profile['bank_name'],
-            // БИК
-            'bik'              => $profile['bik'],
+            // БИК банка
+            'bank_bik'         => $profile['bank_bik'],
             // номер расчетного счета в банке
             'settl_acc'        => $profile['settl_acc'],
             // номер корреспондентского счета
@@ -155,11 +159,13 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
                 $data['shipping'] = $_POST['office'];
             }
             $data['shipping_address'] = '';
+            $data['shipping_city']    = '';
             $data['shipping_index']   = '';
         } else { // доставка по адресу
             $data['shipping']         = 0;
             $data['shipping_address'] = trim(utf8_substr(strip_tags($_POST['shipping_address']), 0, 250)); // адрес доставки
-            $data['shipping_index']   = trim(utf8_substr(strip_tags($_POST['shipping_index']), 0, 32));    // почтовый индекс
+            $data['shipping_city']    = trim(utf8_substr(strip_tags($_POST['shipping_city']), 0, 32));     // город доставки
+            $data['shipping_index']   = trim(utf8_substr(strip_tags($_POST['shipping_index']), 0, 6));     // почтовый индекс
         }
         
         $data['company']         = 0;
@@ -167,21 +173,23 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
         $data['company_ceo']     = '';
         $data['company_address'] = '';
         $data['company_inn']     = '';
+        $data['company_kpp']     = '';
         $data['bank_name']       = '';
-        $data['bik']             = '';
+        $data['bank_bik']        = '';
         $data['settl_acc']       = '';
         $data['corr_acc']        = '';
 
         if (isset($_POST['company'])) { // юридическое лицо?
             $data['company']       = 1;
             $data['company_name']    = trim(utf8_substr(strip_tags($_POST['company_name']), 0, 64));     // название компании
-            $data['company_ceo']     = trim(utf8_substr(strip_tags($_POST['ceo_name']), 0, 64));         // генеральный директор
+            $data['company_ceo']     = trim(utf8_substr(strip_tags($_POST['company_ceo']), 0, 64));      // генеральный директор
             $data['company_address'] = trim(utf8_substr(strip_tags($_POST['company_address']), 0, 250)); // юридический адрес
-            $data['company_inn']     = trim(utf8_substr(strip_tags($_POST['company_inn']), 0, 32));      // ИНН
+            $data['company_inn']     = trim(utf8_substr(strip_tags($_POST['company_inn']), 0, 12));      // ИНН компании
+            $data['company_kpp']     = trim(utf8_substr(strip_tags($_POST['company_kpp']), 0, 9));       // КПП компании
             $data['bank_name']       = trim(utf8_substr(strip_tags($_POST['bank_name']), 0, 64));        // название банка
-            $data['bik']             = trim(utf8_substr(strip_tags($_POST['bik']), 0, 32));              // БИК
-            $data['settl_acc']       = trim(utf8_substr(strip_tags($_POST['settl_acc']), 0, 32));        // номер расчетного счета в банке
-            $data['corr_acc']        = trim(utf8_substr(strip_tags($_POST['corr_acc']), 0, 32));         // номер корреспондентского счета
+            $data['bank_bik']        = trim(utf8_substr(strip_tags($_POST['bank_bik']), 0, 9));          // БИК банка
+            $data['settl_acc']       = trim(utf8_substr(strip_tags($_POST['settl_acc']), 0, 20));        // номер расчетного счета в банке
+            $data['corr_acc']        = trim(utf8_substr(strip_tags($_POST['corr_acc']), 0, 20));         // номер корреспондентского счета
         }
 
         // были допущены ошибки при заполнении формы?
@@ -200,18 +208,31 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
             }
             if (empty($data['company_inn'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «ИНН»';
+            } elseif ( ! preg_match('#^\d{10}|\d{12}$#i', $data['company_inn'])) {
+                $errorMessage[] = 'Поле «ИНН» должно содержать 10 или 12 цифр';
+            }
+            if ( ! empty($data['company_kpp'])) {
+                if ( ! preg_match('#^\d{9}$#i', $data['company_kpp'])) {
+                    $errorMessage[] = 'Поле «КПП» должно содержать 9 цифр';
+                }
             }
             if (empty($data['bank_name'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Название банка»';
             }
-            if (empty($data['bik'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «БИК»';
+            if (empty($data['bank_bik'])) {
+                $errorMessage[] = 'Не заполнено обязательное поле «БИК банка»';
+            } elseif ( ! preg_match('#^\d{9}$#i', $data['bank_bik'])) {
+                $errorMessage[] = 'Поле «БИК банка» должно содержать 9 цифр';
             }
             if (empty($data['settl_acc'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Расчетный счет»';
+            } elseif ( ! preg_match('#^\d{20}$#i', $data['settl_acc'])) {
+                $errorMessage[] = 'Поле «Расчетный счет» должно содержать 20 цифр';
             }
             if (empty($data['corr_acc'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Корреспондентский счет»';
+            } elseif ( ! preg_match('#^\d{20}$#i', $data['corr_acc'])) {
+                $errorMessage[] = 'Поле «Корреспондентский счет» должно содержать 20 цифр';
             }
         }
         if (empty($data['surname'])) {
@@ -228,6 +249,11 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
         if ( ! $data['shipping']) {
             if (empty($data['shipping_address'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «Адрес доставки»';
+            }
+            if ( ! empty($data['shipping_index'])) {
+                if ( ! preg_match('#^\d{6}$#i', $data['shipping_index'])) {
+                    $errorMessage[] = 'Поле «Почтовый индекс» должно содержать 6 цифр';
+                }
             }
         }
 

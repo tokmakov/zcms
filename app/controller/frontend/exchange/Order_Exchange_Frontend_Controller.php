@@ -48,7 +48,8 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          *     <phone>...</phone>
          *     <shipping office="0">
          *       <address>...</address>
-         *       <index/>
+         *       <city/>
+         *       <index>...<index>
          *     </shipping>
          *     <company>
          *       <name>...</name>
@@ -71,6 +72,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          *       <ceo>...</ceo>
          *       <address>...</address>
          *       <inn>...</inn>
+         *       <kpp>...</kpp>
          *       <bank>...</bank>
          *       <bik>...</bik>
          *       <settl>...</settl>
@@ -100,13 +102,13 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
           * 3 - офис продаж «Мещанский»
           * 4 - офис продаж «Нагорный»
           * а сам элемент <shipping> не содержит дочерних элементов. Если
-          * доставка по адресу, у элемента <shipping> два дочерних элемента:
-          * <address> и <index>, а атрибут office равен нулю.
+          * доставка по адресу, у элемента <shipping> три дочерних элемента:
+          * <address>, <city> и <index>, а атрибут office равен нулю.
           *
           * Если получатель - физическое лицо, элемент <company> не содержит
           * дочерних элементов. Если получатель - юридическое лицо, у элемента
-          * <company> восемь дочерних элементов: <name>, <ceo>, <address>,
-          * <inn>, <bank>, <bik>, <settl> и <corr>.
+          * <company> девять дочерних элементов: <name>, <ceo>, <address>,
+          * <inn>, <kpp>, <bank>, <bik>, <settl> и <corr>.
           *
           * Если получатель и плательщик различаются, у элемента <payer> пять
           * дочерних элементов: <name>, <surname>, <email>, <phone> и <company>.
@@ -114,8 +116,8 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
           *
           * Если плательщик - физическое лицо, элемент <company> не содержит
           * дочерних элементов. Если плательщик - юридическое лицо, у элемента
-          * <company> восемь дочерних элементов: <name>, <ceo>, <address>, <inn>,
-          * <bank>, <bik>, <settl> и <corr>.
+          * <company> девять дочерних элементов: <name>, <ceo>, <address>, <inn>,
+          * <kpp>, <bank>, <bik>, <settl> и <corr>.
           */
 
         // создаём XML-документ
@@ -173,6 +175,8 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
             // создаем узел <address>, адрес доставки
             $address = $dom->createElement('address', $order['buyer_shipping_address']);
             $shipping->appendChild($address);
+            // создаем узел <city>, город доставки
+            $city = $dom->createElement('address', $order['buyer_shipping_city']);
             $shipping->appendChild($city);
             // создаем узел <index>, почтовый индекс
             $index = $dom->createElement('index', $order['buyer_shipping_index']);
@@ -194,6 +198,9 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
             // создаем узел <inn>, ИНН компании-получателя
             $inn = $dom->createElement('inn', $order['buyer_company_inn']);
             $company->appendChild($inn);
+            // создаем узел <kpp>, КПП компании-получателя
+            $kpp = $dom->createElement('kpp', $order['buyer_company_kpp']);
+            $company->appendChild($kpp);
             // создаем узел <bank>, название банка компании-получателя
             $bank = $dom->createElement('bank', $order['buyer_bank_name']);
             $company->appendChild($bank);
@@ -242,6 +249,9 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
                 // создаем узел <inn>, ИНН компании-плательщика
                 $inn = $dom->createElement('inn', $order['payer_company_inn']);
                 $company->appendChild($inn);
+                // создаем узел <kpp>, КПП компании-плательщика
+                $kpp = $dom->createElement('inn', $order['payer_company_kpp']);
+                $company->appendChild($kpp);
                 // создаем узел <bank>, название банка компании-плательщика
                 $bank = $dom->createElement('bank', $order['payer_bank_name']);
                 $company->appendChild($bank);

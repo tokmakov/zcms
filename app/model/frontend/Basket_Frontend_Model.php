@@ -505,12 +505,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             // очищаем корзину
             $this->clearBasket();
             // отправляем письма покупателю и администратору
-            if ($this->register->userFrontendModel->isAuthUser()) {
-                $email = $this->register->userFrontendModel->getUserEmail();
-            } else {
-                $email = $form['buyer_email'];
-            }
-            $this->sendOrderMail($email, $orderId, $form, $products, $data['user_amount']);
+            $this->sendOrderMail($orderId, $form, $products, $data['user_amount']);
         }
 
         // удаляем старые корзины
@@ -522,7 +517,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция формирует и отправляет письма о заказе покупателю и администратору
      */
-    private function sendOrderMail($email, $orderId, $details, $products, $user_amount) {
+    private function sendOrderMail($orderId, $details, $products, $user_amount) {
         $html = '<h2>Заказ № '.$orderId.'</h2>' . PHP_EOL;
         $html = $html . '<table border="1">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
@@ -554,19 +549,21 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '<ul>' . PHP_EOL;
         if ( ! $details['shipping']) {
             $html = $html . '<li>Адрес доставки: '.$details['buyer_shipping_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Город доставки: '.$details['buyer_shipping_city'].'</li>' . PHP_EOL;
             $html = $html . '<li>Почтовый индекс: '.$details['buyer_shipping_index'].'</li>' . PHP_EOL;
         } else {
             $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
-        if ($details['buyer_legal_person']) {
+        if ($details['buyer_company']) {
             $html = $html . '<ul>' . PHP_EOL;
             $html = $html . '<li>Название компании: '.$details['buyer_company'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Генеральный директор: '.$details['buyer_ceo_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Юридический адрес: '.$details['buyer_legal_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>ИНН: '.$details['buyer_inn'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Генеральный директор: '.$details['buyer_company_ceo'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Юридический адрес: '.$details['buyer_company_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>ИНН: '.$details['buyer_company_inn'].'</li>' . PHP_EOL;
+            $html = $html . '<li>КПП: '.$details['buyer_company_kpp'].'</li>' . PHP_EOL;
             $html = $html . '<li>Название банка: '.$details['buyer_bank_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>БИК: '.$details['buyer_bik'].'</li>' . PHP_EOL;
+            $html = $html . '<li>БИК банка: '.$details['buyer_bank_bik'].'</li>' . PHP_EOL;
             $html = $html . '<li>Расчетный счет: '.$details['buyer_settl_acc'].'</li>' . PHP_EOL;
             $html = $html . '<li>Корреспондентский счет: '.$details['buyer_corr_acc'].'</li>' . PHP_EOL;
             $html = $html . '</ul>' . PHP_EOL;
@@ -579,14 +576,15 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
            $html = $html . '<li>'.$details['payer_email'].'</li>' . PHP_EOL;
            $html = $html . '<li>'.$details['payer_phone'].'</li>' . PHP_EOL;
            $html = $html . '</ul>' . PHP_EOL;
-           if ($details['payer_legal_person']) {
+           if ($details['payer_company']) {
                $html = $html . '<ul>' . PHP_EOL;
-               $html = $html . '<li>Название компании: '.$details['payer_company'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Генеральный директор: '.$details['payer_ceo_name'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Юридический адрес: '.$details['payer_legal_address'].'</li>' . PHP_EOL;
-               $html = $html . '<li>ИНН: '.$details['payer_inn'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Название компании: '.$details['payer_company_name'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Генеральный директор: '.$details['payer_company_ceo'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Юридический адрес: '.$details['payer_company_address'].'</li>' . PHP_EOL;
+               $html = $html . '<li>ИНН: '.$details['payer_company_inn'].'</li>' . PHP_EOL;
+               $html = $html . '<li>КПП: '.$details['payer_company_kpp'].'</li>' . PHP_EOL;
                $html = $html . '<li>Название банка: '.$details['payer_bank_name'].'</li>' . PHP_EOL;
-               $html = $html . '<li>БИК: '.$details['payer_bik'].'</li>' . PHP_EOL;
+               $html = $html . '<li>БИК банка: '.$details['payer_bank_bik'].'</li>' . PHP_EOL;
                $html = $html . '<li>Расчетный счет: '.$details['payer_settl_acc'].'</li>' . PHP_EOL;
                $html = $html . '<li>Корреспондентский счет: '.$details['payer_corr_acc'].'</li>' . PHP_EOL;
                $html = $html . '</ul>' . PHP_EOL;
@@ -596,20 +594,40 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $html = $html . '<h4>Комментарий</h4>' . PHP_EOL;
             $html = $html . '<p>'.nl2br($details['comment']).'</p>' . PHP_EOL;
         }
+        
+        // если пользователь авторизован, отправляем письмо на адрес, указанный при регистрации
+        if ($this->register->userFrontendModel->isAuthUser()) {
+            $email = $this->register->userFrontendModel->getUserEmail();
+        } else { // если не авторизован, отправляем письмо на адрес получателя заказа
+            $email = $details['buyer_email'];
+        }
 
         $subject = '=?utf-8?B?'.base64_encode('Заказ № '.$orderId).'?=';
         $headers = 'From: <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
-        $headers = $headers . 'Cc: <' . $this->config->email->order . '>' . "\r\n";
+        // определяем, кому будем отправлять копии письма    
+        $carbonCopy = array();
+        // если пользователь авторизован, и адреса пользователя (сайта) и получателя (заказа)
+        // не совпадают, отправляем копию письма получателю заказа
+        if ($details['buyer_email'] != $email) {
+            $carbonCopy[] = $details['buyer_email'];
+        }
+        // если получатель и плательщик различаются, отправляем копию письма плательщику
+        if ($details['payer_email'] != $details['buyer_email'] && $details['payer_email'] != $email) {
+            $carbonCopy[] = $details['payer_email'];
+        }
+        if ( ! empty($carbonCopy)) {
+            $headers = $headers . 'Cc: <' . implode(',', $carbonCopy) . '>' . "\r\n";
+        }
+        // отправляем скрытую копию письма администратору
+        $headers = $headers . 'Bcc: <' . $this->config->email->order . '>' . "\r\n";
         $headers = $headers . 'Date: ' . date('r') . "\r\n";
         $headers = $headers . 'Content-type: text/html; charset="utf-8"' . "\r\n";
         $headers = $headers . 'Content-Transfer-Encoding: base64';
+        
         $message = chunk_split(base64_encode($html));
-
-        if (empty($email)) {
-            $email = $details['buyer_email'];
-        }
-        mail($email, $subject, $message, $headers);
+        
+        // mail($email, $subject, $message, $headers);
     }
 
     /**
