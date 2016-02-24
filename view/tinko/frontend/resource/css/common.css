@@ -811,19 +811,19 @@ div.attention {
 }
 
 /* список товаров, линейный вид */
-.products-list-line {
+.product-list-line {
     margin-top: 30px;
 }
-    .products-list-line > div { /* отдельный товар */
+    .product-list-line > div { /* отдельный товар */
         margin-bottom: 12px;
         padding-bottom: 15px;
         border-bottom: 1px dashed #5390cc;
         overflow: hidden;
     }
-    .products-list-line > div:last-child {
+    .product-list-line > div:last-child {
         border-bottom: none;
     }
-        .products-list-line > div > .product-line-added { /* дата добавления */
+        .product-list-line > div > .product-list-added { /* дата добавления */
             font-size: 10px;
             line-height: 10px;
             margin: 2px 0;
@@ -831,41 +831,41 @@ div.attention {
             height: 10px;
             overflow: hidden;
         }
-        .products-list-line > div > .product-line-heading { /* заголовки */
+        .product-list-line > div > .product-list-heading { /* заголовки */
             margin-bottom: 10px;
         }
-            .products-list-line > div > .product-line-heading h2,
-            .products-list-line > div > .product-line-heading h3 {
+            .product-list-line > div > .product-list-heading h2,
+            .product-list-line > div > .product-list-heading h3 {
                 margin: 0;
                 line-height: 17px;
             }
-                .products-list-line > div > .product-line-heading h2 a {
+                .product-list-line > div > .product-list-heading h2 a {
                     font-size: 16px;
                 }
-            .products-list-line > div > .product-line-heading h3 {
+            .product-list-line > div > .product-list-heading h3 {
                 font-weight: normal;
                 font-size: 15px;
             }
 
-        .products-list-line > div > .product-line-image { /* фото товара */
+        .product-list-line > div > .product-list-image { /* фото товара */
             float: left;
             width: 118px;
             height: 118px;
             border: 1px solid #d1d1d1;
             background: #fff;
         }
-            .products-list-line > div > .product-line-image > a {
+            .product-list-line > div > .product-list-image > a {
                 display: block;
                 position: relative;
                 width: 100px;
                 height: 100px;
                 padding: 9px;
             }
-                .products-list-line > div > .product-line-image > a > img {
+                .product-list-line > div > .product-list-image > a > img {
                     width: 100px;
                     height: 100px;
                 }
-                .products-list-line > div > .product-line-image > a > span {
+                .product-list-line > div > .product-list-image > a > span {
                     display: block;
                     position: absolute;
                     width: 58px;
@@ -875,64 +875,64 @@ div.attention {
                     color: #fff;
                     padding-left: 1px;
                 }
-                .products-list-line > div > .product-line-image > a > span.hit-product {
+                .product-list-line > div > .product-list-image > a > span.hit-product {
                     background: #395985;
                     width: 72px;
                     left: 1px;
                     top: 1px;
                 }
-                .products-list-line > div > .product-line-image > a > span.new-product {
+                .product-list-line > div > .product-list-image > a > span.new-product {
                     background: #395985;
                     width: 41px;
                     right: 1px;
                     top: 1px;
                 }
 
-        .products-list-line > div > .product-line-info { /* цена, код, производитель */
+        .product-list-line > div > .product-list-info { /* цена, код, производитель */
             margin-bottom: 11px;
             margin-left: 140px;
         }
-            .products-list-line > div > .product-line-info > div {
+            .product-list-line > div > .product-list-info > div {
                 color: #969696;
                 font-size: 14px;
                 overflow: hidden;
                 border-bottom: 1px dashed #d1d1d1;
                 padding: 5px 0;
             }
-            .products-list-line > div > .product-line-info > div:first-child {
+            .product-list-line > div > .product-list-info > div:first-child {
                 padding: 0;
             }
-                .products-list-line > div > .product-line-info > div > span {
+                .product-list-line > div > .product-list-info > div > span {
                     overflow: hidden;
                 }
-                .products-list-line > div > .product-line-info > div > span:first-child {
+                .product-list-line > div > .product-list-info > div > span:first-child {
                     float: left;
                     width: 35%;
                 }
-                .products-list-line > div > .product-line-info > div > span:last-child {
+                .product-list-line > div > .product-list-info > div > span:last-child {
                     float: right;
                     width: 65%;
                     text-align: right;
                 }
-                .products-list-line > div > .product-line-info > div:first-child > span:first-child {
+                .product-list-line > div > .product-list-info > div:first-child > span:first-child {
                     height: 26px;
                     line-height: 26px;
                 }
-                .products-list-line > div > .product-line-info > div:first-child > span:last-child {
+                .product-list-line > div > .product-list-info > div:first-child > span:last-child {
 
                 }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span {
+                    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span {
                         display: inline-block;
                         text-align: left;
                     }
-                    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) {
+                    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) {
                         margin-left: 4px;
                     }
-                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong,
-                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span {
+                        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span > strong,
+                        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span > span {
                             display: block;
                         }
-                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > strong { /* цена, число */
+                        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span > strong { /* цена, число */
                             color: #395985;
                             font-size: 18px;
                             line-height: 16px;
@@ -940,43 +940,43 @@ div.attention {
                             word-spacing: -1px;
                             letter-spacing: -1px;
                         }
-                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
+                        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
                             color: #969696;
                         }
-                        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
+                        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
                             font-size: 10px;
                             line-height: 10px;
                             font-style: italic;
                         }
-                    .products-list-line > div > .product-line-info > div:nth-child(2) > span:last-child { /* код, число */
+                    .product-list-line > div > .product-list-info > div:nth-child(2) > span:last-child { /* код, число */
                         font-weight: bold;
                         color: #323232;
                     }
 
-        .products-list-line > div > .product-line-basket { /* добавить в корзину */
+        .product-list-line > div > .product-list-basket { /* добавить в корзину */
             margin-left: 140px;
             margin-bottom: 12px;
         }
-        .products-list-line > div > .product-line-basket:after {
+        .product-list-line > div > .product-list-basket:after {
             content: "";
             display: table;
             clear: both;
         }
-            .products-list-line > div > .product-line-basket > form {
+            .product-list-line > div > .product-list-basket > form {
                 float: right;
                 overflow: hidden;
                 width: 25%;
                 box-sizing: border-box;
                 padding-right: 3%;
             }
-            .products-list-line > div > .product-line-basket > form:first-child {
+            .product-list-line > div > .product-list-basket > form:first-child {
                 float: left;
                 width: 50%;
             }
-            .products-list-line > div > .product-line-basket > form:nth-child(2) {
+            .product-list-line > div > .product-list-basket > form:nth-child(2) {
                 padding-right: 0;
             }
-                .products-list-line > div > .product-line-basket > form input {
+                .product-list-line > div > .product-list-basket > form input {
                     display: block;
                     box-sizing: border-box;
                     height: 26px;
@@ -986,30 +986,30 @@ div.attention {
                     border: 1px solid #d1d1d1;
                     outline: none;
                 }
-                .products-list-line > div > .product-line-basket > form input[type="submit"] {
+                .product-list-line > div > .product-list-basket > form input[type="submit"] {
                     cursor: pointer;
                 }
-                .products-list-line > div > .product-line-basket > form:first-child input {
+                .product-list-line > div > .product-list-basket > form:first-child input {
                     float: left;
                 }
-                .products-list-line > div > .product-line-basket > form:first-child input[type="submit"] {
+                .product-list-line > div > .product-list-basket > form:first-child input[type="submit"] {
                     background: #395985;
                     border: 1px solid #395985;
                     color: #fff;
                     width: 75%;
                 }
-                .products-list-line  > div > .product-line-basket > form:first-child input[type="text"] {
+                .product-list-line  > div > .product-list-basket > form:first-child input[type="text"] {
                     width: 23%;
                     margin-right: 2%;
                     background: #fff;
                     text-align: center;
                     border: 1px solid #395985;
                 }
-                .products-list-line > div > .product-line-basket > form:not(:first-child) input[type="submit"] {
+                .product-list-line > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
                     width: 100%;
                 }
 
-        .products-list-line > div > .product-line-descr { /* краткое описание */
+        .product-list-line > div > .product-list-descr { /* краткое описание */
             clear: left;
             font-size: 14px;
             line-height: 15px;
@@ -1017,18 +1017,18 @@ div.attention {
         }
 
         /* комментарий для отложенных товаров */
-        .products-list-line > div > .product-line-comment {
+        .product-list-line > div > .product-list-comment {
             clear: left;
             padding-top: 10px;
         }
-            .products-list-line > div > .product-line-comment > form > div:first-child {
+            .product-list-line > div > .product-list-comment > form > div:first-child {
                 overflow: hidden;
                 margin-bottom: 3px;
             }
-                .products-list-line > div > .product-line-comment > form > div:first-child > span {
+                .product-list-line > div > .product-list-comment > form > div:first-child > span {
                     float: left;
                 }
-                .products-list-line > div > .product-line-comment > form > div:first-child > input {
+                .product-list-line > div > .product-list-comment > form > div:first-child > input {
                     float: right;
                     color: #395985;
                     font-size: 13px;
@@ -1038,7 +1038,7 @@ div.attention {
                     background: transparent;
                     outline: none;
                 }
-                .products-list-line > div > .product-line-comment > form > div:last-child textarea {
+                .product-list-line > div > .product-list-comment > form > div:last-child textarea {
                     width: 100%;
                     box-sizing: border-box;
                     border: 1px solid #d1d1d1;
@@ -1051,64 +1051,64 @@ div.attention {
                 }
 
         /* технические характеристики для страницы сравнения товаров */
-        .products-list-line > div > .product-line-techdata {
+        .product-list-line > div > .product-list-techdata {
             clear: left;
             padding-top: 10px;
         }
-            .products-list-line > div > .product-line-techdata > div:first-child {
+            .product-list-line > div > .product-list-techdata > div:first-child {
                 background-color: #f0f0f0;
                 border: 1px solid #d1d1d1;
                 color: #323232;
                 padding: 5px 6px;
                 overflow: hidden;
             }
-                .products-list-line > div > .product-line-techdata > div:first-child > span:first-child {
+                .product-list-line > div > .product-list-techdata > div:first-child > span:first-child {
                     float: left;
                     overflow: hidden;
                     width: 74%;
                     white-space: nowrap;
                 }
-                .products-list-line > div > .product-line-techdata > div:first-child > span:last-child {
+                .product-list-line > div > .product-list-techdata > div:first-child > span:last-child {
                     float: right;
                     text-align: right;
                     width: 25%;
                 }
-                    .products-list-line > div > .product-line-techdata > div:first-child > span:last-child > span {
+                    .product-list-line > div > .product-list-techdata > div:first-child > span:last-child > span {
                         font-size: 13px;
                         cursor: pointer;
                         border-bottom: 1px dashed #323232;
                         vertical-align: top;
                     }
-            .products-list-line > div > .product-line-techdata > div:last-child {
+            .product-list-line > div > .product-list-techdata > div:last-child {
                 border: 1px solid #d1d1d1;
                 border-top: none;
                 overflow: hidden;
             }
-                .products-list-line > div > .product-line-techdata > div:last-child > table {
+                .product-list-line > div > .product-list-techdata > div:last-child > table {
                     width: 100%;
                     border-collapse: collapse;
                 }
-                    .products-list-line > div > .product-line-techdata > div:last-child > table tr:nth-child(odd) {
+                    .product-list-line > div > .product-list-techdata > div:last-child > table tr:nth-child(odd) {
                         background: #fff;
                     }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr td {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr td {
                             padding: 3px 5px;
                             vertical-align: top;
                             border-bottom: 1px solid #f0f0f0;
                         }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr td:first-child {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr td:first-child {
                             border-right: 1px solid #f0f0f0;
                         }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr:last-child td {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr:last-child td {
                             border-bottom: none;
                         }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr:first-child td:first-child {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr:first-child td:first-child {
                             width: 60%;
                         }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr td:last-child {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr td:last-child {
                             border-right: none;
                         }
-                        .products-list-line > div > .product-line-techdata > div:last-child > table tr:last-child td {
+                        .product-list-line > div > .product-list-techdata > div:last-child > table tr:last-child td {
                             border-bottom: none;
                         }
                         
@@ -1126,34 +1126,34 @@ div.attention {
     }
     
 /* список товаров, табличный вид (плитка) */
-.products-list-grid {
+.product-list-grid {
     overflow: hidden;
 }
-    .products-list-grid > div {
+    .product-list-grid > div {
         box-sizing: border-box;
         width: 50%;
         float: left;
         border-top: 1px dashed #5390cc;
         padding: 10px;
     }
-    .products-list-grid > div:nth-child(1), .products-list-grid > div:nth-child(2) {
+    .product-list-grid > div:nth-child(1), .product-list-grid > div:nth-child(2) {
         border-top: none;
     }
-    .products-list-grid > div:nth-child(odd) {
+    .product-list-grid > div:nth-child(odd) {
         border-right: 1px dashed #5390cc;
         padding-left: 0;
     }
-    .products-list-grid > div:nth-child(even) {
+    .product-list-grid > div:nth-child(even) {
         padding-right: 0;
     }
-    .products-list-grid > div:only-child {
+    .product-list-grid > div:only-child {
         border: none;
     }
-        .products-list-grid > div > .product-line-heading { /* заголовки */
+        .product-list-grid > div > .product-list-heading { /* заголовки */
             margin-bottom: 10px;
         }
-            .products-list-grid > div > .product-line-heading h2,
-            .products-list-grid > div > .product-line-heading h3 {
+            .product-list-grid > div > .product-list-heading h2,
+            .product-list-grid > div > .product-list-heading h3 {
                 margin: 0;
                 font-size: 14px;
                 line-height: 14px;
@@ -1161,32 +1161,32 @@ div.attention {
                 overflow: hidden;
                 white-space: nowrap;
             }
-                .products-list-grid > div > .product-line-heading h2 a {
+                .product-list-grid > div > .product-list-heading h2 a {
                     font-size: 14px;
                     line-height: 14px;
                 }
-            .products-list-grid > div > .product-line-heading h3 {
+            .product-list-grid > div > .product-list-heading h3 {
                 font-weight: normal;
             }
-        .products-list-grid > div > .product-line-image { /* фото товара */
+        .product-list-grid > div > .product-list-image { /* фото товара */
             float: left;
             width: 118px;
             height: 118px;
             border: 1px solid #d1d1d1;
             background: #fff;
         }
-            .products-list-grid > div > .product-line-image > a {
+            .product-list-grid > div > .product-list-image > a {
                 display: block;
                 position: relative;
                 width: 100px;
                 height: 100px;
                 padding: 9px;
             }
-                .products-list-grid > div > .product-line-image > a > img {
+                .product-list-grid > div > .product-list-image > a > img {
                     width: 100px;
                     height: 100px;
                 }
-                .products-list-grid > div > .product-line-image > a > span {
+                .product-list-grid > div > .product-list-image > a > span {
                     display: block;
                     position: absolute;
                     width: 58px;
@@ -1196,65 +1196,65 @@ div.attention {
                     color: #fff;
                     padding-left: 1px;
                 }
-                .products-list-grid > div > .product-line-image > a > span.hit-product {
+                .product-list-grid > div > .product-list-image > a > span.hit-product {
                     background: #395985;
                     width: 72px;
                     left: 1px;
                     top: 1px;
                 }
-                .products-list-grid > div > .product-line-image > a > span.new-product {
+                .product-list-grid > div > .product-list-image > a > span.new-product {
                     background: #395985;
                     width: 41px;
                     right: 1px;
                     top: 1px;
                 }
-        .products-list-grid > div > .product-line-info { /* цена, код, производитель */
+        .product-list-grid > div > .product-list-info { /* цена, код, производитель */
             margin-left: 130px;
         }
-            .products-list-grid> div > .product-line-info > div {
+            .product-list-grid> div > .product-list-info > div {
                 color: #969696;
                 font-size: 14px;
                 overflow: hidden;
                 border-bottom: 1px dashed #d1d1d1;
                 padding: 4px 0;
             }
-            .products-list-grid > div > .product-line-info > div:first-child {
+            .product-list-grid > div > .product-list-info > div:first-child {
                 padding: 0;
             }
-            .products-list-grid > div > .product-line-info > div:last-child {
+            .product-list-grid > div > .product-list-info > div:last-child {
                 display: none;
             }
-                .products-list-grid > div > .product-line-info > div > span {
+                .product-list-grid > div > .product-list-info > div > span {
                     overflow: hidden;
                 }
-                .products-list-grid > div > .product-line-info > div > span:first-child {
+                .product-list-grid > div > .product-list-info > div > span:first-child {
                     float: left;
                     width: 45%;
                 }
-                .products-list-grid > div > .product-line-info > div > span:last-child {
+                .product-list-grid > div > .product-list-info > div > span:last-child {
                     float: right;
                     width: 55%;
                     text-align: right;
                 }
-                .products-list-grid > div > .product-line-info > div:first-child > span:first-child {
+                .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
                     height: 26px;
                     line-height: 26px;
                 }
-                .products-list-grid > div > .product-line-info > div:first-child > span:last-child {
+                .product-list-grid > div > .product-list-info > div:first-child > span:last-child {
 
                 }
-                    .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span {
+                    .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span {
                         display: inline-block;
                         text-align: left;
                     }
-                    .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) {
+                    .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) {
                         display: none;
                     }
-                        .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span > strong,
-                        .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span > span {
+                        .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span > strong,
+                        .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span > span {
                             display: block;
                         }
-                        .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span > strong { /* цена, число */
+                        .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span > strong { /* цена, число */
                             color: #395985;
                             font-size: 18px;
                             line-height: 16px;
@@ -1262,44 +1262,44 @@ div.attention {
                             word-spacing: -1px;
                             letter-spacing: -1px;
                         }
-                        .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
+                        .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
                             color: #969696;
                         }
-                        .products-list-grid > div > .product-line-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
+                        .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span > span { /* цена, розничная, оптовая */
                             font-size: 10px;
                             line-height: 10px;
                             font-style: italic;
                         }
-                    .products-list-grid > div > .product-line-info > div:nth-child(2) > span:last-child { /* код, число */
+                    .product-list-grid > div > .product-list-info > div:nth-child(2) > span:last-child { /* код, число */
                         font-weight: bold;
                         color: #323232;
                     }
-        .products-list-grid > div > .product-line-basket { /* добавить в корзину */
+        .product-list-grid > div > .product-list-basket { /* добавить в корзину */
             margin-left: 130px;
             margin-top: 7px;
         }
-        .products-list-grid > div > .product-line-basket:after {
+        .product-list-grid > div > .product-list-basket:after {
             content: "";
             display: table;
             clear: both;
         }
-            .products-list-grid > div > .product-line-basket > form:first-child {
+            .product-list-grid > div > .product-list-basket > form:first-child {
                 overflow: hidden;
                 margin-bottom: 7px;
             }
-            .products-list-grid > div > .product-line-basket > form:not(:first-child) {
+            .product-list-grid > div > .product-list-basket > form:not(:first-child) {
                 box-sizing: border-box;
                 width: 48%;
             }
-            .products-list-grid > div > .product-line-basket > form:nth-child(2) {
+            .product-list-grid > div > .product-list-basket > form:nth-child(2) {
                 margin-right: 1%;
                 float: left;
             }
-            .products-list-grid > div > .product-line-basket > form:nth-child(3) {
+            .product-list-grid > div > .product-list-basket > form:nth-child(3) {
                 margin-left: 1%;
                 float: right;
             }
-                .products-list-grid > div > .product-line-basket > form input {
+                .product-list-grid > div > .product-list-basket > form input {
                     display: block;
                     box-sizing: border-box;
                     height: 26px;
@@ -1309,39 +1309,39 @@ div.attention {
                     outline: none;
                     width: 100%;
                 }
-                .products-list-grid > div > .product-line-basket > form input[type="submit"] {
+                .product-list-grid > div > .product-list-basket > form input[type="submit"] {
                     cursor: pointer;
                 }
-                .products-list-grid > div > .product-line-basket > form:first-child input {
+                .product-list-grid > div > .product-list-basket > form:first-child input {
                     float: left;
                     border: 1px solid #395985;
                 }
-                .products-list-grid > div > .product-line-basket > form:first-child input[type="text"] {
+                .product-list-grid > div > .product-list-basket > form:first-child input[type="text"] {
                     background: #fff;
                     width: 20%;
                     margin-right: 3%;
                     text-align: center;
                 }
-                .products-list-grid > div > .product-line-basket > form:first-child input[type="submit"] {
+                .product-list-grid > div > .product-list-basket > form:first-child input[type="submit"] {
                     background: #395985;
                     color: #fff;
                     width: 77%;
                 }
     
-        .products-list-grid > div > .product-line-descr { /* краткое описание */
+        .product-list-grid > div > .product-list-descr { /* краткое описание */
             display: none;
         }
 
 /* список товаров, рекомендованные товары */
-.products-list-upsell {
+.product-list-upsell {
     overflow: hidden;
     padding: 0 0 15px 15px;
 }
-    .products-list-upsell > div { /* отдельный товар */
+    .product-list-upsell > div { /* отдельный товар */
         float: left;
         width: 25%;
     }
-        .products-list-upsell > div > div { /* отдельный товар */
+        .product-list-upsell > div > div { /* отдельный товар */
             border: 1px solid #f0f0f0;
             margin: 15px 15px 0 0;
             padding: 10px;
@@ -1349,26 +1349,26 @@ div.attention {
             background: #fafafa;
             overflow: hidden;
         }
-            .products-list-upsell > div > div > .product-upsell-heading { /* заголовок */
+            .product-list-upsell > div > div > .product-upsell-heading { /* заголовок */
                 margin-bottom: 5px;
                 height: 32px;
                 overflow: hidden;
             }
-                .products-list-upsell > div > div > .product-upsell-heading h2,
-                .products-list-upsell > div > div > .product-upsell-heading h3,
-                .products-list-upsell > div > div > .product-upsell-heading h4 {
+                .product-list-upsell > div > div > .product-upsell-heading h2,
+                .product-list-upsell > div > div > .product-upsell-heading h3,
+                .product-list-upsell > div > div > .product-upsell-heading h4 {
                     margin: 0;
                     font-size: 15px;
                     line-height: 16px;
                     font-weight: normal;
                 }
-                    .products-list-upsell > div > div > .product-upsell-heading h2 a,
-                    .products-list-upsell > div > div > .product-upsell-heading h3 a,
-                    .products-list-upsell > div > div > .product-upsell-heading h4 a {
+                    .product-list-upsell > div > div > .product-upsell-heading h2 a,
+                    .product-list-upsell > div > div > .product-upsell-heading h3 a,
+                    .product-list-upsell > div > div > .product-upsell-heading h4 a {
                         font-size: 15px;
                         line-height: 16px;
                     }
-            .products-list-upsell > div > div > .product-upsell-image { /* изображение */
+            .product-list-upsell > div > div > .product-upsell-image { /* изображение */
                 width: 118px;
                 height: 118px;
                 overflow: hidden;
@@ -1377,17 +1377,17 @@ div.attention {
                 border: 1px solid #f0f0f0;
                 background: #fff;
             }
-                .products-list-upsell > div > div > .product-upsell-image > a { /* изображение */
+                .product-list-upsell > div > div > .product-upsell-image > a { /* изображение */
                     display: block;
                     width: 100px;
                     height: 100px;
                     padding: 9px;
                 }
-                    .products-list-upsell > div > div > .product-upsell-image > a > img { /* изображение */
+                    .product-list-upsell > div > div > .product-upsell-image > a > img { /* изображение */
                         width: 100px;
                         height: 100px;
                     }
-            .products-list-upsell > div > div > .product-upsell-price { /* цена */
+            .product-list-upsell > div > div > .product-upsell-price { /* цена */
                 color: #969696;
                 font-weight: normal;
                 height: 16px;
@@ -1395,7 +1395,7 @@ div.attention {
                 margin-bottom: 12px;
                 white-space: nowrap;
             }
-                .products-list-upsell > div > div > .product-upsell-price span {
+                .product-list-upsell > div > div > .product-upsell-price span {
                     font-weight: bold;
                     font-size: 16px;
                     line-height: 16px;
@@ -1403,11 +1403,11 @@ div.attention {
                     word-spacing: -1px;
                     letter-spacing: -1px;
                 }
-            .products-list-upsell > div > div > .product-upsell-basket { /* добавить в корзину */
+            .product-list-upsell > div > div > .product-upsell-basket { /* добавить в корзину */
                 height: 26px;
                 overflow: hidden;
             }
-                .products-list-upsell > div > div > .product-upsell-basket input[type="submit"] {
+                .product-list-upsell > div > div > .product-upsell-basket input[type="submit"] {
                     box-sizing: border-box;
                     font-size: 14px;
                     line-height: 14px;
@@ -2691,14 +2691,14 @@ div.attention {
         padding-left: 5px;
     }
     /* список товаров категории, скрываем мелкооптовую цену */
-    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) {
         display: none;
     }
 }
 
 @media screen and (max-width: 700px) {
     /* вместе с этим часто покупают */
-    .products-list-grid > div {
+    .product-list-grid > div {
         width: 33.33333%;
     }
 }
@@ -2766,12 +2766,12 @@ div.attention {
                 display: none;
             }
     /* список товаров категории */
-    .products-list-line > div > .product-line-basket {
+    .product-list-line > div > .product-list-basket {
         clear: left;
         margin-left: 0;
         padding-top: 0;
     }
-    .products-list-line > div > .product-line-info {
+    .product-list-line > div > .product-list-info {
         clear: left;
         margin-left: 0;
         padding-top: 12px;
@@ -2823,20 +2823,20 @@ div.attention {
         border-bottom: none;
     }
     /* список товаров категории */
-    .products-list-line > div > .product-line-basket > form:first-child {
+    .product-list-line > div > .product-list-basket > form:first-child {
         float: none;
         width: 100%;
         padding-right: 0;
         margin-bottom: 10px;
     }
-    .products-list-line > div > .product-line-basket > form:not(:first-child) {
+    .product-list-line > div > .product-list-basket > form:not(:first-child) {
         width: 50%;
     }
-        .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) {
             display: none;
         }
     /* вместе с этим часто покупают */
-    .products-list-grid > div {
+    .product-list-grid > div {
         width: 50%;
     }
 }
@@ -2861,7 +2861,7 @@ div.attention {
 
 @media screen and (max-width: 400px) {
     /* список товаров категории, скрываем оптовую цену */
-    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(3) {
+    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(3) {
         display: none;
     }
     /* страница товара, скрываем оптовую цену */
@@ -2923,7 +2923,7 @@ div.attention {
         margin-left: 0;
     }
     /* вместе с этим часто покупают */
-    .products-list-grid > div {
+    .product-list-grid > div {
         width: 100%;
     }
 }

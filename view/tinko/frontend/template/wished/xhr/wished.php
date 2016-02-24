@@ -1,6 +1,6 @@
 <?php
 /**
- * Файл view/example/frontend/template/wished/ajax/wished.php
+ * Файл view/example/frontend/template/wished/xhr/wished.php
  *
  * Переменные, которые приходят в шаблон:
  * $sideWishedProducts - массив отложенных товаров

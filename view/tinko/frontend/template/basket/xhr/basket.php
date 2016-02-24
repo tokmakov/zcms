@@ -98,7 +98,7 @@ defined('ZCMS') or die('Access denied');
     <div class="center-block">
         <div><h3>С этими товарами покупают</h3></div>
         <div class="no-padding">
-            <div class="products-list-upsell">
+            <div class="product-list-upsell">
                 <?php foreach($recommendedProducts as $product): ?>
                     <div><div>
                             <div class="product-upsell-heading">
