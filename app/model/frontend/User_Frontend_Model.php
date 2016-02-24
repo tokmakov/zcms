@@ -161,7 +161,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         if ( ! isset($this->user)) {
             $query = "SELECT
-                          `id`, `name`, `surname`, `email`, `type`, `visitor_id`, `newuser`
+                          `id`, `name`, `patronymic`, `surname`,
+                          `email`, `type`, `visitor_id`, `newuser`
                       FROM
                           `users`
                       WHERE
@@ -202,6 +203,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $query = "INSERT INTO `users`
                   (
                       `name`,
+                      `patronymic`,
                       `surname`,
                       `email`,
                       `type`,
@@ -212,6 +214,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                   VALUES
                   (
                       :name,
+                      :patronymic,
                       :surname,
                       :email,
                       0,
@@ -237,17 +240,19 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $query = "UPDATE
                           `users`
                       SET
-                          `name` = :name,
-                          `surname` = :surname,
-                          `password` = :password
+                          `name`       = :name,
+                          `patronymic` = :patronymic,
+                          `surname`    = :surname,
+                          `password`   = :password
                       WHERE
                           `id` = :id";
         } else { // пароль изменять не нужно
             $query = "UPDATE
                           `users`
                       SET
-                          `name` = :name,
-                          `surname` = :surname
+                          `name`       = :name,
+                          `patronymic` = :patronymic,
+                          `surname`    = :surname
                       WHERE
                           `id` = :id";
         }
@@ -559,10 +564,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         $query = "SELECT
-                      `title`, `name`, `surname`, `email`, `phone`, `shipping`, `shipping_address`,
-                      `shipping_city`, `shipping_index`, `company`, `company_name`, `company_ceo`,
-                      `company_address`, `company_inn`, `company_kpp`, `bank_name`, `bank_bik`,
-                      `settl_acc`, `corr_acc`
+                      `title`, `name`, `surname`, `patronymic`, `email`, `phone`, `shipping`,
+                      `shipping_address`, `shipping_city`, `shipping_index`, `company`,
+                      `company_name`, `company_ceo`, `company_address`, `company_inn`,
+                      `company_kpp`, `bank_name`, `bank_bik`, `settl_acc`, `corr_acc`
                   FROM
                       `profiles`
                   WHERE
@@ -585,6 +590,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `user_id`,
                       `title`,
                       `name`,
+                      `patronymic`,
                       `surname`,
                       `email`,
                       `phone`,
@@ -608,6 +614,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       :user_id,
                       :title,
                       :name,
+                      :patronymic,
                       :surname,
                       :email,
                       :phone,
@@ -645,6 +652,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                   SET
                       `title`            = :title,
                       `name`             = :name,
+                      `patronymic`       = :patronymic,
                       `surname`          = :surname,
                       `email`            = :email,
                       `phone`            = :phone,

@@ -6,8 +6,9 @@
  *
  * Переменные, которые приходят в шаблон:
  * $action - атрибут action тега form
- * $name - имя пользователя
  * $surname - фамилия пользователя
+ * $name - имя пользователя
+ * $patronymic - отчество пользователя
  * $type - тип пользователя
  * $types - типы пользователей, для возможности выбора
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
@@ -46,22 +47,26 @@ defined('ZCMS') or die('Access denied');
     $confirm  = '';
 
     if (isset($savedFormData)) {
-        $name    = htmlspecialchars($savedFormData['name']);
-        $surname = htmlspecialchars($savedFormData['surname']);
-        $change  = $savedFormData['change'];
-        $type    = $savedFormData['type'];
+        $surname    = htmlspecialchars($savedFormData['surname']);
+        $name       = htmlspecialchars($savedFormData['name']);
+        $patronymic = htmlspecialchars($savedFormData['patronymic']);
+        $email      = htmlspecialchars($savedFormData['email']);
+        $type       = $savedFormData['type'];
     }
 ?>
 
 <form action="<?php echo $action; ?>" method="post">
 <div id="add-edit-user">
     <div>
-        <div>Имя</div>
-        <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
-    </div>
-    <div>
         <div>Фамилия</div>
         <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" /></div>
+    </div>
+    <div>
+        <div>Имя, Отчество</div>
+        <div>
+            <input type="text" name="name" maxlength="16" value="<?php echo $name; ?>" placeholder="имя" />
+            <input type="text" name="patronymic" maxlength="16" value="<?php echo $patronymic; ?>" placeholder="отчество" />
+        </div>
     </div>
     <div>
         <div>Тип пользователя</div>

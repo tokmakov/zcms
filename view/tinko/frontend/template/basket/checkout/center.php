@@ -7,6 +7,10 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * buyer_name - фамилия контактного лица получателя
+ * buyer_surname - имя контактного лица получателя
+ * buyer_patronymic - отчество контактного лица получателя
+ * buyer_email - e-mail контактного лица получателя
  * $profiles - массив профилей зарегистрированного и авторизованного пользователя
  * $offices - список офисов для самовывоза товара со склада
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены
@@ -75,8 +79,9 @@ defined('ZCMS') or die('Access denied');
 
     $buyer_payer_different  = 0;  // плательщик и получатель различаются?
 
-    $payer_name             = ''; // имя контактного лица плательщика
     $payer_surname          = ''; // фамилия контактного лица плательщика
+    $payer_name             = ''; // имя контактного лица плательщика
+    $payer_patronymic       = ''; // отчество контактного лица плательщика
     $payer_email            = ''; // e-mail контактного лица плательщика
     $payer_phone            = ''; // телефон контактного лица плательщика
 
@@ -94,8 +99,9 @@ defined('ZCMS') or die('Access denied');
     $comment                = ''; // комментарий к заказу
 
     if (isset($savedFormData)) {
-        $buyer_name             = htmlspecialchars($savedFormData['buyer_name']);
         $buyer_surname          = htmlspecialchars($savedFormData['buyer_surname']);
+        $buyer_name             = htmlspecialchars($savedFormData['buyer_name']);
+        $buyer_patronymic       = htmlspecialchars($savedFormData['buyer_patronymic']);
         $buyer_email            = htmlspecialchars($savedFormData['buyer_email']);
         $buyer_phone            = htmlspecialchars($savedFormData['buyer_phone']);
 
@@ -117,8 +123,9 @@ defined('ZCMS') or die('Access denied');
 
         $buyer_payer_different  = $savedFormData['buyer_payer_different'];
 
-        $payer_name                 = htmlspecialchars($savedFormData['payer_name']);
         $payer_surname              = htmlspecialchars($savedFormData['payer_surname']);
+        $payer_name                 = htmlspecialchars($savedFormData['payer_name']);
+        $payer_patronymic           = htmlspecialchars($savedFormData['payer_patronymic']);
         $payer_email                = htmlspecialchars($savedFormData['payer_email']);
         $payer_phone                = htmlspecialchars($savedFormData['payer_phone']);
         $payer_company              = $savedFormData['payer_company'];
@@ -183,8 +190,8 @@ defined('ZCMS') or die('Access denied');
             <div>
                 <div>ИНН <span class="form-field-required">*</span>, КПП</div>
                 <div>
-                    <input type="text" name="buyer_company_inn" maxlength="32" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
-                    <input type="text" name="buyer_company_kpp" maxlength="32" value="<?php echo $payer_company_kpp; ?>" placeholder="КПП" />
+                    <input type="text" name="buyer_company_inn" maxlength="12" value="<?php echo $buyer_company_inn; ?>" placeholder="ИНН" />
+                    <input type="text" name="buyer_company_kpp" maxlength="9" value="<?php echo $buyer_company_kpp; ?>" placeholder="КПП" />
                 </div>
             </div>
             <div>
@@ -192,16 +199,16 @@ defined('ZCMS') or die('Access denied');
                 <div><input type="text" name="buyer_bank_name" maxlength="64" value="<?php echo $buyer_bank_name; ?>" /></div>
             </div>
             <div>
-                <div>БИК банка<span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_bank_bik" maxlength="32" value="<?php echo $buyer_bank_bik; ?>" /></div>
+                <div>БИК банка <span class="form-field-required">*</span></div>
+                <div><input type="text" name="buyer_bank_bik" maxlength="9" value="<?php echo $buyer_bank_bik; ?>" /></div>
             </div>
             <div>
                 <div>Расчетный счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_settl_acc" maxlength="32" value="<?php echo $buyer_settl_acc; ?>" /></div>
+                <div><input type="text" name="buyer_settl_acc" maxlength="20" value="<?php echo $buyer_settl_acc; ?>" /></div>
             </div>
             <div>
                 <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_corr_acc" maxlength="32" value="<?php echo $buyer_corr_acc; ?>" /></div>
+                <div><input type="text" name="buyer_corr_acc" maxlength="20" value="<?php echo $buyer_corr_acc; ?>" /></div>
             </div>
         </fieldset>
 
@@ -213,7 +220,10 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_name" maxlength="32" value="<?php echo $buyer_name; ?>" /></div>
+                <div>
+                    <input type="text" name="buyer_name" maxlength="16" value="<?php echo $buyer_name; ?>" placeholder="имя" />
+                    <input type="text" name="buyer_patronymic" maxlength="16" value="<?php echo $buyer_patronymic; ?>" placeholder="отчество" />
+                </div>
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
@@ -248,7 +258,7 @@ defined('ZCMS') or die('Access denied');
                 <div>Город, почтовый индекс</div>
                 <div>
                     <input type="text" name="buyer_shipping_city" maxlength="32" value="<?php echo $buyer_shipping_city; ?>" placeholder="город" />
-                    <input type="text" name="buyer_shipping_index" maxlength="32" value="<?php echo $buyer_shipping_index; ?>" placeholder="индекс" />
+                    <input type="text" name="buyer_shipping_index" maxlength="6" value="<?php echo $buyer_shipping_index; ?>" placeholder="индекс" />
                 </div>
             </div>
         </fieldset>
@@ -317,8 +327,8 @@ defined('ZCMS') or die('Access denied');
             <div>
                 <div>ИНН <span class="form-field-required">*</span>, КПП</div>
                 <div>
-                    <input type="text" name="payer_company_inn" maxlength="32" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
-                    <input type="text" name="payer_company_kpp" maxlength="32" value="<?php echo $payer_company_kpp; ?>" placeholder="КПП" />
+                    <input type="text" name="payer_company_inn" maxlength="12" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
+                    <input type="text" name="payer_company_kpp" maxlength="9" value="<?php echo $payer_company_kpp; ?>" placeholder="КПП" />
                 </div>
             </div>
             <div>
@@ -327,15 +337,15 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>БИК банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_bank_bik" maxlength="32" value="<?php echo $payer_bank_bik; ?>" /></div>
+                <div><input type="text" name="payer_bank_bik" maxlength="9" value="<?php echo $payer_bank_bik; ?>" /></div>
             </div>
             <div>
                 <div>Расчетный счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_settl_acc" maxlength="32" value="<?php echo $payer_settl_acc; ?>" /></div>
+                <div><input type="text" name="payer_settl_acc" maxlength="20" value="<?php echo $payer_settl_acc; ?>" /></div>
             </div>
             <div>
                 <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_corr_acc" maxlength="32" value="<?php echo $payer_corr_acc; ?>" /></div>
+                <div><input type="text" name="payer_corr_acc" maxlength="20" value="<?php echo $payer_corr_acc; ?>" /></div>
             </div>
         </fieldset>
 
@@ -347,7 +357,10 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_name" maxlength="32" value="<?php echo $payer_name; ?>" /></div>
+                <div>
+                    <input type="text" name="payer_name" maxlength="16" value="<?php echo $payer_name; ?>" placeholder="имя" />
+                    <input type="text" name="payer_patronymic" maxlength="16" value="<?php echo $payer_patronymic; ?>" placeholder="отчество" />
+                </div>
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>

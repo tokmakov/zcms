@@ -16,11 +16,13 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу User_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Edit_User_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу User_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Edit_User_Backend_Controller
+         */
         parent::input();
 
         // если не передан id пользователя или id пользователя не число
@@ -33,7 +35,7 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->ValidateForm()) { // если при заполнении формы были допущены ошибки
+            if ( ! $this->ValidateForm()) { // при заполнении формы были допущены ошибки, возвращаемся на страницу с формой
                 $this->redirect($this->userBackendModel->getURL('backend/user/edit/id/' . $this->params['id']));
             } else { // ошибок не было, пользователь был добавлен, возвращаемся на страницу со списком пользователей
                 $this->redirect($this->userBackendModel->getURL('backend/user/index'));
@@ -44,8 +46,14 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userBackendModel->getURL('backend/user/index'), 'name' => 'Пользователи'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Пользователи',
+                'url'  => $this->userBackendModel->getURL('backend/user/index')
+            ),
         );
 
         // получаем от модели личные данные пользователя
@@ -66,10 +74,12 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->userBackendModel->getURL('backend/user/edit/id/' . $this->params['id']),
-            // имя пользовтеля
-            'name'        => $user['name'],
             // фамилия пользовтеля
             'surname'     => $user['surname'],
+            // имя пользовтеля
+            'name'        => $user['name'],
+            // отчество пользовтеля
+            'patronymic'  => $user['patronymic'],
             // тип пользователя
             'type'        => $user['type'],
             // типы пользователей, для возможности выбора
@@ -88,20 +98,21 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
 
     /**
      * Функция проверяет корректность введенных пользователем данных; если были допущены ошибки,
-     * функция возвращает false; если ошибок нет, функция добавляет пользователя и возвращает true
+     * функция возвращает false; если ошибок нет, функция обновляет пользователя и возвращает true
      */
     protected function validateForm() {
 
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']     = trim(utf8_substr($_POST['name'], 0, 32)); // имя пользователя
-        $data['surname']  = trim(utf8_substr($_POST['surname'], 0, 32)); // фамилия пользователя
-        $data['change'] = false;
+        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(utf8_substr($_POST['name'], 0, 16));       // имя пользователя
+        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 16)); // отчество пользователя
+        $data['change']     = false;
         if (isset($_POST['change'])) { // изменить пароль?
-            $data['change'] = true;
+            $data['change']   = true;
             $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
-            $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32)); // подтверждение пароля
+            $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
         }
 
         $data['type'] = (int)$_POST['type']; // тип пользователя

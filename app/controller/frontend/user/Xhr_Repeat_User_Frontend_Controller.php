@@ -41,7 +41,7 @@ class Xhr_Repeat_User_Frontend_Controller extends User_Frontend_Controller {
 
         // получаем html-код товаров в корзине (для правой колонки)
         $this->pageContent = $this->render(
-            $this->config->site->theme . '/frontend/template/basket/xhr/basket.php',
+            $this->config->site->theme . '/frontend/template/basket/xhr/side-basket.php',
             array(
                 'sideBasketProducts'  => $sideBasketProducts,
                 'sideBasketTotalCost' => $sideBasketTotalCost,

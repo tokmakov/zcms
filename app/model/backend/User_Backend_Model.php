@@ -14,7 +14,7 @@ class User_Backend_Model extends Backend_Model {
      */
     public function getAllUsers($start) {
         $query = "SELECT
-                      `id`, `name`, `surname`, `email`
+                      `id`, `name`, `patronymic`, `surname`, `email`
                   FROM
                       `users`
                   WHERE
@@ -50,7 +50,7 @@ class User_Backend_Model extends Backend_Model {
      */
     public function getUser($id) {
         $query = "SELECT
-                      `name`, `surname`, `email`, `type`
+                      `name`, `patronymic`, `surname`, `email`, `type`
                   FROM
                       `users`
                   WHERE
@@ -77,8 +77,8 @@ class User_Backend_Model extends Backend_Model {
 
         foreach ($orders as $key => $value) {
             $query = "SELECT
-                             `product_id`, `code`, `name`, `title`,
-                             `price`, `quantity`, `cost`
+                          `product_id`, `code`, `name`, `title`,
+                          `price`, `quantity`, `cost`
                       FROM
                           `orders_prds`
                       WHERE
@@ -133,6 +133,7 @@ class User_Backend_Model extends Backend_Model {
         $query = "INSERT INTO `users`
                     (
                         `name`,
+                        `patronymic`,
                         `surname`,
                         `email`,
                         `type`,
@@ -142,6 +143,7 @@ class User_Backend_Model extends Backend_Model {
                     VALUES
                     (
                         :name,
+                        :patronymic,
                         :surname,
                         :email,
                         :type,
@@ -160,19 +162,21 @@ class User_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `users`
                       SET
-                          `name`     = :name,
-                          `surname`  = :surname,
-                          `type`     = :type,
-                          `password` = :password
+                          `name`       = :name,
+                          `patronymic` = :patronymic,
+                          `surname`    = :surname,
+                          `type`       = :type,
+                          `password`   = :password
                       WHERE
                           `id` = :id";
         } else { // пароль изменять не нужно
             $query = "UPDATE
                           `users`
                       SET
-                          `name`    = :name,
-                          `surname` = :surname,
-                          `type`    = :type
+                          `name`       = :name,
+                          `patronymic` = :patronymic,
+                          `surname`    = :surname,
+                          `type`       = :type
                       WHERE
                           `id` = :id";
         }

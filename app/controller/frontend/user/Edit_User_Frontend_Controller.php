@@ -54,11 +54,13 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/edit'),
-            // имя пользователя
-            'name' => $this->user['name'],
+            'action'      => $this->userFrontendModel->getURL('frontend/user/edit'),
             // фамилия пользователя
-            'surname' => $this->user['surname'],
+            'surname'     => $this->user['surname'],
+            // имя пользователя
+            'name'        => $this->user['name'],
+            // отчество пользователя
+            'patronymic'  => $this->user['patronymic'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
@@ -81,10 +83,10 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']     = trim(utf8_substr($_POST['name'], 0, 32));    // имя пользователя
-        $data['name']     = preg_replace('#\s+#u', ' ', $data['name']);
-        $data['surname']  = trim(utf8_substr($_POST['surname'], 0, 32)); // фамилия пользователя
-        $data['change']   = false;
+        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(utf8_substr($_POST['name'], 0, 16));       // имя пользователя
+        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 16)); // отчество пользователя
+        $data['change']     = false;
         if (isset($_POST['change'])) { // изменить пароль?
             $data['change']   = true;
             $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
@@ -99,8 +101,13 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
         }
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Имя»';
-        } elseif ( ! preg_match('#^[ a-zA-Zа-яА-ЯёЁ]+$#u', $data['name'])) {
+        } elseif ( ! preg_match('#^[-a-zA-Zа-яА-ЯёЁ]+$#u', $data['name'])) {
             $errorMessage[] = 'Поле «Имя» содержит недопустимые символы';
+        }
+        if ( ! empty($data['patronymic'])) {
+            if ( ! preg_match('#^[a-zA-Zа-яА-ЯёЁ]+$#u', $data['patronymic'])) {
+                $errorMessage[] = 'Поле «Отчество» содержит недопустимые символы';
+            }
         }
         if ($data['change']) { // изменить пароль?
             if (empty($data['password'])) {

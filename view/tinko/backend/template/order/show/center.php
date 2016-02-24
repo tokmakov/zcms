@@ -26,8 +26,11 @@ defined('ZCMS') or die('Access denied');
 
 <?php if (!empty($order['user_name'])): ?>
     <ul>
-        <li>Имя: <?php echo $order['user_name']; ?></li>
         <li>Фамилия: <?php echo $order['user_surname']; ?></li>
+        <li>Имя: <?php echo $order['user_name']; ?></li>
+        <?php if ( ! empty($order['user_patronymic'])): ?>
+            <li>Отчество: <?php echo $order['user_patronymic']; ?></li>
+        <?php endif; ?>
         <li>E-mail: <?php echo $order['user_email']; ?></li>
     </ul>
 <?php else: ?>
@@ -61,25 +64,30 @@ defined('ZCMS') or die('Access denied');
 
 <h2>Получатель</h2>
 <ul>
-    <li>Имя: <?php echo $order['buyer_name']; ?></li>
     <li>Фамилия: <?php echo $order['buyer_surname']; ?></li>
+    <li>Имя: <?php echo $order['buyer_name']; ?></li>
+    <?php if ( ! empty($order['buyer_patronymic'])): ?>
+        <li>Отчество: <?php echo $order['buyer_patronymic']; ?></li>
+    <?php endif; ?>
     <li>E-mail: <?php echo $order['buyer_email']; ?></li>
     <li>Телефон: <?php echo $order['buyer_phone']; ?></li>
 </ul>
 <ul>
-<?php if (!$order['shipping']): ?>
+<?php if ( ! $order['shipping']): ?>
     <li>Адрес доставки: <?php echo $order['buyer_shipping_address']; ?></li>
+    <li>Город: <?php echo $order['buyer_shipping_city']; ?></li>
     <li>Почтовый индекс: <?php echo $order['buyer_shipping_index']; ?></li>
 <?php else: ?>
     <li>Самовывоз со склада</li>
 <?php endif; ?>
 </ul>
-<?php if ($order['buyer_company']): ?>
+<?php if ($order['buyer_company']): // получатель - юридические лицо? ?>
     <ul>
         <li>Название компании: <?php echo $order['buyer_company_name']; ?></li>
-        <li>Генеральный директор: <?php echo $order['buyer_ceo_name']; ?></li>
+        <li>Генеральный директор: <?php echo $order['buyer_company_ceo']; ?></li>
         <li>Юридический адрес: <?php echo $order['buyer_company_address']; ?></li>
         <li>ИНН: <?php echo $order['buyer_company_inn']; ?></li>
+        <li>КПП: <?php echo $order['buyer_company_kpp']; ?></li>
         <li>Название банка: <?php echo $order['buyer_bank_name']; ?></li>
         <li>БИК: <?php echo $order['buyer_bank_bik']; ?></li>
         <li>Расчетный счет: <?php echo $order['buyer_settl_acc']; ?></li>
@@ -91,23 +99,28 @@ defined('ZCMS') or die('Access denied');
 <?php if ($order['buyer_payer_different']): ?>
     <h2>Плательщик</h2>
     <ul>
-        <li>Имя: <?php echo $order['payer_name']; ?></li>
         <li>Фамилия: <?php echo $order['payer_surname']; ?></li>
+        <li>Имя: <?php echo $order['payer_name']; ?></li>
+        <?php if ( ! empty($order['payer_patronymic'])): ?>
+            <li>Отчество: <?php echo $order['payer_patronymic']; ?></li>
+        <?php endif; ?>
         <li>E-mail: <?php echo $order['payer_email']; ?></li>
         <li>Телефон: <?php echo $order['payer_phone']; ?></li>
     </ul>
-    <?php if ($order['payer_company']): ?>
+    <?php if ($order['payer_company']): // плательщик - юридическое лицо? ?>
         <ul>
             <li>Название компании: <?php echo $order['payer_company_name']; ?></li>
             <li>Генеральный директор: <?php echo $order['payer_company_ceo']; ?></li>
             <li>Юридический адрес: <?php echo $order['payer_company_address']; ?></li>
             <li>ИНН: <?php echo $order['payer_company_inn']; ?></li>
+            <li>КПП: <?php echo $order['payer_company_kpp']; ?></li>
             <li>Название банка: <?php echo $order['payer_bank_name']; ?></li>
             <li>БИК: <?php echo $order['payer_bank_bik']; ?></li>
             <li>Расчетный счет: <?php echo $order['payer_settl_acc']; ?></li>
             <li>Корреспондентский счет: <?php echo $order['payer_corr_acc']; ?></li>
         </ul>
     <?php endif; ?>
+
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/order/show/center.php -->

@@ -83,19 +83,19 @@ defined('ZCMS') or die('Access denied');
     <div class="center-block">
         <div><h3>С этими товарами покупают</h3></div>
         <div class="no-padding">
-            <div class="products-list-grid">
+            <div class="products-list-upsell">
                 <?php foreach($recommendedProducts as $product): ?>
                     <div><div>
-                        <div class="product-grid-heading">
+                        <div class="product-upsell-heading">
                             <h3><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h3>
                         </div>
-                        <div class="product-grid-image">
+                        <div class="product-upsell-image">
                             <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                         </div>
-                        <div class="product-grid-price">
+                        <div class="product-upsell-price">
                             <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
                         </div>
-                        <div class="product-grid-basket">
+                        <div class="product-upsell-basket">
                             <form action="<?php echo $product['action']; ?>" method="post" class="upsell-form">
                                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                                 <input type="submit" name="submit" value="В корзину" />

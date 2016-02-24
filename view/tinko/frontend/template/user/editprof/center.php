@@ -138,8 +138,8 @@ defined('ZCMS') or die('Access denied');
         <div>
             <div>ИНН <span class="form-field-required">*</span>, КПП</div>
             <div>
-                <input type="text" name="company_inn" maxlength="32" value="<?php echo $company_inn; ?>" placeholder="ИНН" />
-                <input type="text" name="company_kpp" maxlength="32" value="<?php echo $company_kpp; ?>" placeholder="КПП" />
+                <input type="text" name="company_inn" maxlength="12" value="<?php echo $company_inn; ?>" placeholder="ИНН" />
+                <input type="text" name="company_kpp" maxlength="9" value="<?php echo $company_kpp; ?>" placeholder="КПП" />
             </div>
         </div>
         <div>
@@ -148,15 +148,15 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>БИК банка <span class="form-field-required">*</span></div>
-            <div><input type="text" name="bank_bik" maxlength="32" value="<?php echo $bank_bik; ?>" /></div>
+            <div><input type="text" name="bank_bik" maxlength="9" value="<?php echo $bank_bik; ?>" /></div>
         </div>
         <div>
             <div>Расчетный счет <span class="form-field-required">*</span></div>
-            <div><input type="text" name="settl_acc" maxlength="32" value="<?php echo $settl_acc; ?>" /></div>
+            <div><input type="text" name="settl_acc" maxlength="20" value="<?php echo $settl_acc; ?>" /></div>
         </div>
         <div>
             <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-            <div><input type="text" name="corr_acc" maxlength="32" value="<?php echo $corr_acc; ?>" /></div>
+            <div><input type="text" name="corr_acc" maxlength="20" value="<?php echo $corr_acc; ?>" /></div>
         </div>
     </div>
 
@@ -168,7 +168,10 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>Имя <span class="form-field-required">*</span></div>
-            <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
+            <div>
+                <input type="text" name="name" maxlength="16" value="<?php echo $name; ?>" placeholder="имя" />
+                <input type="text" name="patronymic" maxlength="16" value="<?php echo $patronymic; ?>" placeholder="отчество" />
+            </div>
         </div>
         <div>
             <div>E-mail <span class="form-field-required">*</span></div>

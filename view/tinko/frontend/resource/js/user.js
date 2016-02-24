@@ -21,7 +21,7 @@ $(document).ready(function() {
             .addClass('modal-window')
             .center()
             .fadeIn(500, function() {
-                $(this).delay(3000).fadeOut(500, function() {
+                $(this).delay(3500).fadeOut(500, function() {
                     $(this).remove();
                 });
             });
@@ -34,7 +34,7 @@ $(document).ready(function() {
             .addClass('modal-window')
             .center()
             .fadeIn(500, function() {
-                $(this).delay(3000).fadeOut(500, function() {
+                $(this).delay(3500).fadeOut(500, function() {
                     $(this).remove();
                 });
             });
@@ -49,7 +49,7 @@ $(document).ready(function() {
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
-            if (suggestion.data.type === 'LEGAL') { // юр.лицо
+            if (suggestion.data.type === 'LEGAL') { // юридическое лицо
                 $('#add-edit-profile input[name="company_ceo"]').val(suggestion.data.management.name);
             }
             if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
@@ -58,6 +58,27 @@ $(document).ready(function() {
             $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
             $('#add-edit-profile input[name="company_inn"]').val(suggestion.data.inn);
             $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
+        }
+    });
+    $('#add-edit-profile input[name="company_ceo"]').suggestions({ // юр.лицо
+        serviceUrl: "https://dadata.ru/api/v2",
+        token: "14977cbf05ebd40c763abed4418ace516625be3e",
+        type: "PARTY",
+        count: 5,
+        triggerSelectOnBlur: false,
+        // вызывается, когда пользователь выбирает одну из подсказок
+        onSelect: function(suggestion) {
+            if (suggestion.data.type === 'LEGAL') { // юридическое лицо
+                $(this).val(suggestion.data.management.name);
+            }
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+                $(this).val(suggestion.data.name.full);
+            }
+            $('#add-edit-profile input[name="company_name"]').val(suggestion.value);
+            $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
+            $('#add-edit-profile input[name="company_inn"]').val(suggestion.data.inn);
+            $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
+            
         }
     });
     $('#add-edit-profile input[name="company_inn"]').suggestions({ // юр.лицо

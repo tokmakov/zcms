@@ -113,7 +113,14 @@
                 padding: 5px;
                 border: 1px solid #d1d1d1;
                 font-size: 14px;
-                line-height: 14px;
+            }
+            #edit-user > div > div:last-child > input[name="name"],
+            #edit-user > div > div:last-child > input[name="patronymic"] {
+                float: left;
+                width: 50%;
+            }
+            #edit-user > div > div:last-child > input[name="patronymic"] {
+                border-left: none;
             }
             #edit-user > div > div:last-child > label {
                 display: block;
@@ -168,7 +175,14 @@
                 padding: 5px;
                 border: 1px solid #d1d1d1;
                 font-size: 14px;
-                line-height: 14px;
+            }
+            #reg-user > div > div:last-child > input[name="name"],
+            #reg-user > div > div:last-child > input[name="patronymic"] {
+                float: left;
+                width: 50%;
+            }
+            #reg-user > div > div:last-child > input[name="patronymic"] {
+                border-left: none;
             }
             #reg-user > div > div:last-child > select {
                 font-size: 14px;
@@ -337,19 +351,21 @@
                     border: 1px solid #d1d1d1;
                     font-size: 14px;
                 }
-                #add-edit-profile > div > div > div:last-child > input[name="shipping_city"],
-                #add-edit-profile > div > div > div:last-child > input[name="shipping_index"],
                 #add-edit-profile > div > div > div:last-child > input[name="company_inn"],
-                #add-edit-profile > div > div > div:last-child > input[name="company_kpp"] {
+                #add-edit-profile > div > div > div:last-child > input[name="company_kpp"],
+                #add-edit-profile > div > div > div:last-child > input[name="name"],
+                #add-edit-profile > div > div > div:last-child > input[name="patronymic"],
+                #add-edit-profile > div > div > div:last-child > input[name="shipping_city"],
+                #add-edit-profile > div > div > div:last-child > input[name="shipping_index"] {
                     float: left;
                     width: 60%;
                 }
                 #add-edit-profile > div > div > div:last-child > input[name="shipping_index"],
+                #add-edit-profile > div > div > div:last-child > input[name="patronymic"],
                 #add-edit-profile > div > div > div:last-child > input[name="company_kpp"] {
                     border-left: none;
                     width: 40%;
                 }
-                
                 #add-edit-profile > div:first-child > div > div:last-child > input[type="text"] {
                     width: 95%;
                 }
@@ -414,6 +430,17 @@
     }
     #add-new-prof a:hover {
         text-decoration: none;
+    }
+    
+/* инфориация о профиле */
+#about-profile {
+
+}
+    #about-profile p {
+        margin: 15px 0;
+    }
+    #about-profile ul {
+        margin: 15px 0 15px 20px;
     }
 
 /* список заказов пользователя */

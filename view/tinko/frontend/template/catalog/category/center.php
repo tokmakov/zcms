@@ -427,7 +427,7 @@ for ($i = 0; $i <= 6; $i++) {
         </ul>
     </div>
 
-    <div class="products-list-line">
+    <div class="products-list-grid">
         <?php
             if ( ! empty($param)) {
                 $temp = array();

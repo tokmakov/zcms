@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $action - атрибут action тега form
  * $name - имя пользователя
+ * $patronymic - отчество пользователя
  * $surname - фамилия пользователя
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже введенными данными и вывести сообщение об ошибках.
@@ -44,20 +45,24 @@ defined('ZCMS') or die('Access denied');
     $confirm  = '';
 
     if (isset($savedFormData)) {
-        $name    = htmlspecialchars($savedFormData['name']);
-        $surname = htmlspecialchars($savedFormData['surname']);
-        $change  = $savedFormData['change'];
+        $name       = htmlspecialchars($savedFormData['name']);
+        $patronymic = htmlspecialchars($savedFormData['patronymic']);
+        $surname    = htmlspecialchars($savedFormData['surname']);
+        $change     = $savedFormData['change'];
     }
 ?>
 
 <form action="<?php echo $action; ?>" method="post" id="edit-user">
     <div>
-        <div>Фамилия</div>
+        <div>Фамилия <span class="form-field-required">*</span></div>
         <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" /></div>
     </div>
     <div>
-        <div>Имя</div>
-        <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
+        <div>Имя <span class="form-field-required">*</span></div>
+        <div>
+            <input type="text" name="name" maxlength="16" value="<?php echo $name; ?>" placeholder="имя" />
+            <input type="text" name="patronymic" maxlength="16" value="<?php echo $patronymic; ?>" placeholder="отчество" />
+        </div>
     </div>
     <div>
         <div></div>
@@ -66,11 +71,11 @@ defined('ZCMS') or die('Access denied');
         </div>
     </div>
     <div class="password">
-        <div>Новый пароль</div>
+        <div>Новый пароль <span class="form-field-required">*</span></div>
         <div><input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" /></div>
     </div>
     <div class="password">
-        <div>Подтвердите пароль</div>
+        <div>Пароль еще раз <span class="form-field-required">*</span></div>
         <div><input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" /></div>
     </div>
     <div>

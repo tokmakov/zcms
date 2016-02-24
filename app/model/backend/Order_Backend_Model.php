@@ -19,6 +19,7 @@ class Order_Backend_Model extends Backend_Model {
                       DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`,
                       IFNULL(`b`.`name`, '') AS `user_name`,
+                      IFNULL(`b`.`patronymic`, '') AS `user_patronymic`,
                       IFNULL(`b`.`surname`, '') AS `user_surname`,
                       IFNULL(`b`.`email`, '') AS `user_email`
                   FROM
@@ -54,8 +55,8 @@ class Order_Backend_Model extends Backend_Model {
                       `a`.`id` AS `order_id`, `a`.`user_id` AS `user_id`, `a`.`amount` AS `amount`,
                       `a`.`details` AS `details`, DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`, `a`.`status` AS `status`,
-                      IFNULL(`b`.`name`, '') AS `user_name`, IFNULL(`b`.`surname`, '') AS `user_surname`,
-                      IFNULL(`b`.`email`, '') AS `user_email`
+                      IFNULL(`b`.`name`, '') AS `user_name`, IFNULL(`b`.`patronymic`, '') AS `user_patronymic`,
+                      IFNULL(`b`.`surname`, '') AS `user_surname`, IFNULL(`b`.`email`, '') AS `user_email`
                   FROM
                       `orders` `a` LEFT JOIN `users` `b` ON `a`.`user_id` = `b`.`id`
                   WHERE
@@ -66,14 +67,15 @@ class Order_Backend_Model extends Backend_Model {
         }
         $order = array_merge(
             array(
-                'order_id' => $id,
-                'user_name' => $result['user_name'],
-                'user_surname' => $result['user_surname'],
-                'user_email' => $result['user_email'],
-                'amount' => $result['amount'],
-                'date' => $result['date'],
-                'time' => $result['time'],
-                'status' => $result['status']
+                'order_id'        => $id,
+                'user_name'       => $result['user_name'],
+                'user_patronymic' => $result['user_patronymic'],
+                'user_surname'    => $result['user_surname'],
+                'user_email'      => $result['user_email'],
+                'amount'          => $result['amount'],
+                'date'            => $result['date'],
+                'time'            => $result['time'],
+                'status'          => $result['status']
             ),
             unserialize($result['details'])
         );

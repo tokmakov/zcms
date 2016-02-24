@@ -16,11 +16,13 @@ class Add_User_Backend_Controller extends User_Backend_Controller {
      */
     protected function input() {
 
-        // сначала обращаемся к родительскому классу User_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
-        // Add_User_Backend_Controller
+        /*
+         * сначала обращаемся к родительскому классу User_Backend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Add_User_Backend_Controller
+         */
         parent::input();
 
         // если данные формы были отправлены
@@ -32,12 +34,18 @@ class Add_User_Backend_Controller extends User_Backend_Controller {
             }
         }
 
-        $this->title = 'Добавление нового пользователя. ' . $this->title;
+        $this->title = 'Новый пользователь. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userBackendModel->getURL('backend/user/index'), 'name' => 'Пользователи'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Пользователи',
+                'url'  => $this->userBackendModel->getURL('backend/user/index')
+            ),
         );
 
         // типы пользователей, для возможности выбора
@@ -74,11 +82,12 @@ class Add_User_Backend_Controller extends User_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']     = trim(utf8_substr($_POST['name'], 0, 32));     // имя пользователя
-        $data['surname']  = trim(utf8_substr($_POST['surname'], 0, 32));  // фамилия пользователя
-        $data['email']    = trim(utf8_substr($_POST['email'], 0, 32));    // электронная почта
-        $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
-        $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
+        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(utf8_substr($_POST['name'], 0, 16));       // имя пользователя
+        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 16)); // отчество пользователя
+        $data['email']      = trim(utf8_substr($_POST['email'], 0, 32));      // электронная почта
+        $data['password']   = trim(utf8_substr($_POST['password'], 0, 32));   // пароль
+        $confirm            = trim(utf8_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
 
         $data['type'] = (int)$_POST['type']; // тип пользователя
 

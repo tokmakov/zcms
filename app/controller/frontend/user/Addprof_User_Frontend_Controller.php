@@ -108,11 +108,12 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['title']   = trim(utf8_substr(strip_tags($_POST['title']), 0, 32));   // название профиля
-        $data['surname'] = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32)); // фамилия контактного лица
-        $data['name']    = trim(utf8_substr(strip_tags($_POST['name']), 0, 32));    // имя контактного лица
-        $data['email']   = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));   // e-mail контактного лица
-        $data['phone']   = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));   // телефон контактного лица
+        $data['title']      = trim(utf8_substr(strip_tags($_POST['title']), 0, 32));      // название профиля
+        $data['surname']    = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32));    // фамилия контактного лица
+        $data['name']       = trim(utf8_substr(strip_tags($_POST['name']), 0, 16));       // имя контактного лица
+        $data['patronymic'] = trim(utf8_substr(strip_tags($_POST['patronymic']), 0, 16)); // отчество контактного лица
+        $data['email']      = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));      // e-mail контактного лица
+        $data['phone']      = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));      // телефон контактного лица
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $data['shipping']         = 1;
@@ -169,7 +170,7 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
             }
             if (empty($data['company_inn'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «ИНН»';
-            } elseif ( ! preg_match('#^\d{10}|\d{12}$#i', $data['company_inn'])) {
+            } elseif ( ! preg_match('#^(\d{10}|\d{12})$#i', $data['company_inn'])) {
                 $errorMessage[] = 'Поле «ИНН» должно содержать 10 или 12 цифр';
             }
             if ( ! empty($data['company_kpp'])) {

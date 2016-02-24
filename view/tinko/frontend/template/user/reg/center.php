@@ -38,16 +38,19 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name     = '';
-    $surname  = '';
-    $email    = '';
-    $password = '';
-    $confirm  = '';
+    
+    $surname    = '';
+    $name       = '';
+    $patronymic = '';
+    $email      = '';
+    $password   = '';
+    $confirm    = '';
 
     if (isset($savedFormData)) {
-        $name    = htmlspecialchars($savedFormData['name']);
-        $surname = htmlspecialchars($savedFormData['surname']);
-        $email   = htmlspecialchars($savedFormData['email']);
+        $surname    = htmlspecialchars($savedFormData['surname']);
+        $name       = htmlspecialchars($savedFormData['name']);
+        $patronymic = htmlspecialchars($savedFormData['patronymic']);
+        $email      = htmlspecialchars($savedFormData['email']);
     }
 ?>
 
@@ -58,7 +61,10 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Имя <span class="form-field-required">*</span></div>
-        <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
+        <div>
+            <input type="text" name="name" maxlength="16" value="<?php echo $name; ?>" placeholder="имя" />
+            <input type="text" name="patronymic" maxlength="16" value="<?php echo $patronymic; ?>" placeholder="отчество" />
+        </div>
     </div>
     <div>
         <div>E-mail <span class="form-field-required">*</span></div>

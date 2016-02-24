@@ -65,7 +65,7 @@
         /* выбор профиля для Получателя и Плательщика */
         #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile {
             margin-bottom: 15px;
-            padding: 5px 10px;
+            padding: 8px;
             background: #f0f0f0;
         }
         #checkout-order .make-profile, #checkout-order .make-profile { /* создать профиль */
@@ -141,15 +141,21 @@
                         }
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_inn"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_name"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_patronymic"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_city"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_name"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_patronymic"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_inn"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
                             float: left;
                             width: 60%;
                         }
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_patronymic"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
+                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_patronymic"],
                         #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
                             border-left: none;
                             width: 40%;
