@@ -58,14 +58,16 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         );
         
         // если пользователь авторизован, получаем информацию о нем
-        $surname = ''; // фамилия контактного лица по умолчанию
-        $name    = ''; // имя контактного лица по-умолчанию
-        $email   = ''; // электронная почта контактного лица по умолчанию
+        $surname    = ''; // фамилия контактного лица по умолчанию
+        $name       = ''; // имя контактного лица по-умолчанию
+        $patronymic = ''; // отчество контактного лица по-умолчанию
+        $email      = ''; // электронная почта контактного лица по умолчанию
         if ($this->authUser) {
-            $user    = $this->userFrontendModel->getUser();
-            $surname = $user['surname'];
-            $name    = $user['name'];
-            $email   = $user['email'];
+            $user       = $this->userFrontendModel->getUser();
+            $surname    = $user['surname'];
+            $name       = $user['name'];
+            $patronymic = $user['patronymic'];
+            $email      = $user['email'];
         }
 
         // получаем от модели список офисов для самовывоза товара со склада
@@ -83,6 +85,8 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
             'surname'     => $surname,
             // имя контактного лица по-умолчанию
             'name'        => $name,
+            // отчество контактного лица по-умолчанию
+            'patronymic'  => $patronymic,
             // электронная почта контактного лица по умолчанию
             'email'       => $email,
             // массив офисов для самовывоза

@@ -72,6 +72,7 @@ defined('ZCMS') or die('Access denied');
     $buyer_company_ceo      = ''; // генеральный директор компании получателя
     $buyer_company_address  = ''; // юридический адрес компании получателя
     $buyer_company_inn      = ''; // ИНН компании получателя
+    $buyer_company_kpp      = ''; // КПП компании получателя
     $buyer_bank_name        = ''; // название банка компании получателя
     $buyer_bank_bik         = ''; // БИК банка компании получателя
     $buyer_settl_acc        = ''; // расчетный счет компании получателя

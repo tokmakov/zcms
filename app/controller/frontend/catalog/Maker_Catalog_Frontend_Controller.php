@@ -220,6 +220,12 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         $clearFilterURL = $this->catalogFrontendModel->getURL($url);
 
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -232,6 +238,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'name'           => $maker['name'],
             // атрибут action тега форм
             'action'         => $action,
+            // представление списка товаров
+            'view'           => $view,
             // id выбранной функциональной группы или ноль
             'group'          => $group,
             // показывать только лидеров продаж?

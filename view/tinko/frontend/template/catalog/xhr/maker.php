@@ -98,7 +98,7 @@ for ($i = 0; $i <= 6; $i++) {
         </ul>
     </div>
 
-    <div class="product-list-line">
+    <div class="product-list-<?php echo $view; ?>">
         <?php foreach ($products as $product): ?>
             <div>
                 <div class="product-list-heading">

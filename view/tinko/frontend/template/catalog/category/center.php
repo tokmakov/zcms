@@ -8,7 +8,8 @@
  * $id - уникальный идентификатор категории
  * $name - наименование категории
  * $childCategories - массив дочерних категорий
- * $action - атрибут action тега форм
+ * $action - атрибут action тега form
+ * $view - представление списка товаров
  * $group - id выбранной функциональной группы или ноль
  * $maker - id выбранного производителя или ноль
  * $hit - показывать только лидеров продаж?
@@ -268,6 +269,10 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 <?php endif; ?>
 
+<span id="switch-line-grid">
+    <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
+    <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
+</span>
 <h1><?php echo $name; ?></h1>
 
 <?php if (!empty($childCategories)): // дочерние категории ?>
@@ -427,7 +432,7 @@ for ($i = 0; $i <= 6; $i++) {
         </ul>
     </div>
 
-    <div class="product-list-line">
+    <div class="product-list-<?php echo $view; ?>">
         <?php
             if ( ! empty($param)) {
                 $temp = array();

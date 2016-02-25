@@ -129,11 +129,18 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $param
         );
 
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
+
         // формируем HTML результатов фильтрации товаров
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/maker.php',
             array(
                 'id'          => $this->params['id'], // id производителя
+                'view'        => $view,                     // представление списка товаров
                 'name'        => $maker['name'],      // название производителя
                 'group'       => $group,              // id выбранной функциональной группы или ноль
                 'hit'         => $hit,                // показывать только лидеров продаж?

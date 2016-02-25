@@ -165,6 +165,9 @@ $settings = array(
             'page-54'         => array(          // для страницы «Грани безопасности»
                 'page/journal.css',
             ),
+            'page-55'         => array(          // для страницы «Новый сайт»
+                'fancybox/jquery.fancybox.css',
+            ),
 
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
@@ -310,6 +313,11 @@ $settings = array(
             ),
             'page-52'          => array(         // для страницы «Библиотека»
                 'page/library.js',
+            ),
+            'page-55'          => array(         // для страницы «Новый сайт»
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js',
             ),
 
             /*

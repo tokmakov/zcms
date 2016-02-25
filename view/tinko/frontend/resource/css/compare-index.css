@@ -62,14 +62,14 @@
             vertical-align: top;
         }
 
-.products-list-line {
+.product-list-line {
     word-spacing: -4px;
     margin-top: 0;
 }
-.products-list-line > p {
+.product-list-line > p {
     word-spacing: normal;
 }
-.products-list-line > div {
+.product-list-line > div {
     word-spacing: normal;
     width: 49.4%;
     display: inline-block;
@@ -80,24 +80,24 @@
     background: #fafafa;
     margin-bottom: 15px;
 }
-.products-list-line > div:last-child {
+.product-list-line > div:last-child {
     border: 1px solid #d1d1d1;
 }
-.products-list-line > div:nth-child(odd) {
+.product-list-line > div:nth-child(odd) {
     margin-right: 0.6%;
 }
-.products-list-line > div:nth-child(even) {
+.product-list-line > div:nth-child(even) {
     margin-left: 0.6%;
 }
-.products-list-line > div > .product-line-heading h2 {
+.product-list-line > div > .product-list-heading h2 {
     height: 18px;
     overflow: hidden;
 }
-.products-list-line > div > .product-line-heading h3 {
+.product-list-line > div > .product-list-heading h3 {
     height: 16px;
     overflow: hidden;
 }
-.products-list-line > div > .product-line-techdata {
+.product-list-line > div > .product-list-techdata {
     clear: left;
     padding-top: 0;
     padding-bottom: 10px;
@@ -112,19 +112,19 @@
 
 @media screen and (max-width: 1200px) {
     /* список товаров категории, скрываем мелкооптовую цену */
-    .products-list-line > div > .product-line-info > div:first-child > span:last-child > span:nth-child(2) {
+    .products-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) {
         display: none;
     }
 }
 
 @media screen and (max-width: 1100px) {
     /* список товаров категории */
-    .products-list-line > div > .product-line-basket {
+    .product-list-line > div > .product-list-basket {
         clear: left;
         margin-left: 0;
         padding-top: 0;
     }
-    .products-list-line > div > .product-line-info {
+    .product-list-line > div > .product-list-info {
         clear: left;
         margin-left: 0;
         padding-top: 12px;
@@ -132,17 +132,17 @@
 }
 
 @media screen and (max-width: 800px) {
-    .products-list-line {
+    .product-list-line {
         word-spacing: normal;
     }
-    .products-list-line > div {
+    .product-list-line > div {
         width: 100%;
         display: block;
     }
-    .products-list-line > div:nth-child(odd) {
+    .product-list-line > div:nth-child(odd) {
         margin-right: 0;
     }
-    .products-list-line > div:nth-child(even) {
+    .product-list-line > div:nth-child(even) {
         margin-left: 0;
     }
 }

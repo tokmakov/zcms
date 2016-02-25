@@ -159,7 +159,7 @@ class Editprof_User_Frontend_Controller extends User_Frontend_Controller {
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $data['shipping']         = 1;
             if (isset($_POST['office']) && in_array($_POST['office'], array(1,2,3,4))) {
-                $data['shipping'] = $_POST['office'];
+                $data['shipping'] = (int)$_POST['office'];
             }
             $data['shipping_address'] = '';
             $data['shipping_city']    = '';

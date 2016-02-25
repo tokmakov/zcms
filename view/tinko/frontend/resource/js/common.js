@@ -31,6 +31,23 @@ $(document).ready(function() {
     });
 
     /*
+     * Переключить представление списка товаров: линнейный или плитка
+     */
+    $('#switch-line-grid > i.fa-bars').click(function () {
+        $(this).addClass('selected');
+        $(this).next().removeClass('selected');
+        $('.product-list-grid').removeClass('product-list-grid').addClass('product-list-line');
+        $.cookie('view', 'line', {expires: 365, path: '/'});
+    });
+    $('#switch-line-grid > i.fa-th-large').click(function () {
+        $(this).addClass('selected');
+        $(this).prev().removeClass('selected');
+        $('.product-list-line').removeClass('product-list-line').addClass('product-list-grid');
+        $.cookie('view', 'grid', {expires: 365, path: '/'});
+    });
+
+
+    /*
      * Свернуть/развернуть список дочерних категорий меню каталога
      */
     $('#catalog-menu li.closed > ul').hide();
@@ -169,9 +186,9 @@ $(document).ready(function() {
                     .fadeIn(300, function() {
                         $(this).delay(1000).fadeOut(300, function() {
                             $(this).remove();
-                            if ($('#compare-products > .products-list-line > div').length == 0) {
+                            if ($('#compare-products > .product-list-line > div').length == 0) {
                                 $('#compare-products > div:first-child > h2').remove();
-                                $('div.products-list-line').html('<p>Нет товаров для сравнения</p>');
+                                $('div.product-list-line').html('<p>Нет товаров для сравнения</p>');
                             };
                         });
                     });
@@ -454,56 +471,28 @@ function filterSelectHandler() {
             // первый блок: дочерние категории текущей категории
             var childs = $('#category-childs > div:last-child');
             if (childs.length > 0) {
-                var childsHeight = childs.height();
-                var childsWidth = childs.width();
-                var childsTop = childs.offset().top;
-                var childsLeft = childs.offset().left;
                 $('<div></div>')
-                    .prependTo('body')
-                    .css({
-                        'position' : 'absolute',
-                        'width' : childsWidth,
-                        'height' : childsHeight,
-                        'left' : childsLeft,
-                        'top' : childsTop,
-                        'z-index' : 5
-                    })
-                    .addClass('overlay');
+                    .prependTo('#category-childs > div:last-child')
+                    .addClass('overlay')
+                    .height(childs.height())
+                    .width(childs.width();
             }
             // второй блок: фильтр по функционалу, производителю и параметрам
-            var filters = $('#catalog-filter form > div:first-child');
-            var filtersHeight = filters.height();
-            var filtersWidth = filters.width();
-            var filtersTop = filters.offset().top;
-            var filtersLeft = filters.offset().left;
+            var filtersHeight = $('#catalog-filter > div:last-child').height();
+            var filtersWidth = $('#catalog-filter > div:last-child').width();
             $('<div></div>')
-                .prependTo('body')
-                .css({
-                    'position' : 'absolute',
-                    'width' : filtersWidth,
-                    'height' : filtersHeight,
-                    'left' : filtersLeft,
-                    'top' : filtersTop,
-                    'z-index' : 5
-                })
-                .addClass('overlay');
+                .prependTo('#catalog-filter > div:last-child')
+                .addClass('overlay')
+                .height(filtersHeight)
+                .width(filtersWidth);
             // третий блок: товары выбранной категории
-            var products = $('#catalog-products');
-            var productsHeight = products.height();
-            var productsWidth = products.width();
-            var productsTop = products.offset().top;
-            var productsLeft = products.offset().left;
+            var productsHeight = $('#catalog-products').height();
+            var productsWidth = $('#catalog-products').width();
             $('<div></div>')
-                .prependTo('body')
-                .css({
-                    'position' : 'absolute',
-                    'width' : productsWidth,
-                    'height' : productsHeight,
-                    'left' : productsLeft,
-                    'top' : productsTop,
-                    'z-index' : 5
-                })
-                .addClass('products-overlay');
+                .prependTo('#catalog-products')
+                .addClass('products-overlay')
+                .height(productsHeight)
+                .width(productsWidth);
         },
         success: function(dt) {
             /*

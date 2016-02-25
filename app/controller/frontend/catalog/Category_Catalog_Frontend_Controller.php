@@ -277,6 +277,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         $clearFilterURL = $this->catalogFrontendModel->getURL($url);
 
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -286,6 +292,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'name'            => $category['name'],   // наименование категории
             'childCategories' => $childCategories,    // массив дочерних категорий
             'action'          => $action,             // атрибут action тега форм
+            'view'            => $view,               // представление списка товаров
             'group'           => $group,              // id выбранной функциональной группы или ноль
             'maker'           => $maker,              // id выбранного производителя или ноль
             'hit'             => $hit,                // показывать только лидеров продаж?

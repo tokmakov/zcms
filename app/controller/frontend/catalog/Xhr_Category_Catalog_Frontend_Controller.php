@@ -11,7 +11,6 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
      */
     private $output;
 
-
     public function __construct($params = null) {
         if ( ! $this->isPostMethod()) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
@@ -21,6 +20,8 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
     }
 
     public function request() {
+
+        sleep(5);
 
         // если не передан id категории или id категории не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
@@ -149,11 +150,18 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $param
         );
 
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
+
         // формируем HTML результатов фильтрации товаров
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/category.php',
             array(
                 'id'          => $this->params['id'],       // id категории
+                'view'        => $view,                     // представление списка товаров
                 'childs'      => $childs,                   // массив дочерних категорий
                 'group'       => $group,                    // id выбранной функциональной группы или ноль
                 'maker'       => $maker,                    // id выбранного производителя или ноль
