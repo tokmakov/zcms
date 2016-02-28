@@ -475,7 +475,7 @@ function filterSelectHandler() {
                     .prependTo('#category-childs > div:last-child')
                     .addClass('overlay')
                     .height(childs.height())
-                    .width(childs.width();
+                    .width(childs.width());
             }
             // второй блок: фильтр по функционалу, производителю и параметрам
             var filtersHeight = $('#catalog-filter > div:last-child').height();

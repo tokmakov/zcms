@@ -106,12 +106,11 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $value = (int)$tmp[1];
                 $param[$key] = $value;
             }
-            /*
-            if ( ! $this->catalogFrontendModel->isValidParams($param)) {
+            // проверяем корректность переданных параметров и значений
+            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
                 $this->notFoundRecord = true;
                 return;
             }
-            */
         }
 
         // включен фильтр по лидерам продаж?

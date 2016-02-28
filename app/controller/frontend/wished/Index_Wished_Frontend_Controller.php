@@ -73,6 +73,12 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
+        
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -80,6 +86,8 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs'    => $breadcrumbs,
+            // представление списка товаров
+            'view'           => $view,
             // массив отложенных товаров
             'wishedProducts' => $wishedProducts,
             // массив единиц измерения товара

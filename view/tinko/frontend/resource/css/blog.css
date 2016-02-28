@@ -106,10 +106,10 @@
 
 @media screen and (max-width: 560px) {
     /* список постов блога */
-    #post-list > div > div:first-child {
+    #posts-list > div > div:first-child {
         display: none;
     }
-    #post-list > div > div:last-child {
+    #posts-list > div > div:last-child {
         margin-left: 0;
     }
 }

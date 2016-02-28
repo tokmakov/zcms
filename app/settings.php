@@ -64,8 +64,8 @@ $settings = array(
     ),
     'cache' => array(
         'enable' => array(
-            'data' => false,                     // кэширование данных разрешено?
-            'html' => false,                     // кэширование шаблонов разрешено?
+            'data' => true,                     // кэширование данных разрешено?
+            'html' => true,                     // кэширование шаблонов разрешено?
         ),
         'file'   => array(                       // кэширование с использованием файлов
             'time' => 7200,                      // время храниения кэша в секундах
@@ -136,7 +136,6 @@ $settings = array(
                 'suggestions.css',
             ),
             'sitemap'         => 'sitemap.css',  // карта сайта
-
             'page-40'         => array(          // для страницы «Контакты»
                 'tabs.css',
                 'page/contacts.css',
@@ -168,7 +167,6 @@ $settings = array(
             'page-55'         => array(          // для страницы «Новый сайт»
                 'fancybox/jquery.fancybox.css',
             ),
-
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
              * 'base' => array(                // css-файлы, подключаемые ко всем страницам сайта
@@ -203,7 +201,6 @@ $settings = array(
              *     'lightbox.css'
              * )
              */
-
         ),
         'backend' => array( // административная часть сайта
             'base'      => array(
@@ -211,6 +208,7 @@ $settings = array(
                 'common.css',
                 'awesome/font-awesome.min.css',
             ),
+
             'index'     => array(
                 'blog.css',
                 'order.css',
@@ -284,9 +282,8 @@ $settings = array(
             'user'            => array(          // личный кабинет
                 'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
                 'user.js',
-            ),     
+            ), 
             'wished'          => 'wished.js',    // избранное (отложенные товары)
-
             'page-40'         => array(          // для страницы «Контакты»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
@@ -295,31 +292,30 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js'
             ),
-            'page-39'          => array(         // для страницы «О компании»
+            'page-39'         => array(         // для страницы «О компании»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'page-41'          => array(         // для страницы «Доставка»
+            'page-41'         => array(         // для страницы «Доставка»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
                 'page/offices-map-route.js',
                 'page/delivery-map.js',
             ),
-            'page-51'          => array(         // для страницы «Партнеры»
+            'page-51'         => array(         // для страницы «Партнеры»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'page-52'          => array(         // для страницы «Библиотека»
+            'page-52'         => array(         // для страницы «Библиотека»
                 'page/library.js',
             ),
-            'page-55'          => array(         // для страницы «Новый сайт»
+            'page-55'         => array(         // для страницы «Новый сайт»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
              * 'base' => array(                // js-файлы, подключаемые ко всем страницам сайта
@@ -334,7 +330,6 @@ $settings = array(
              *     'jquery.lightbox.js',
              * ),
              */
-
         ),
         'backend' => array( // административная часть сайта
             'base'      => array(
@@ -370,10 +365,6 @@ $settings = array(
                 'perpage'   => 6,                // статей на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
             ),
-            'news'      => array(
-                'perpage'   => 6,                // новостей на страницу
-                'leftright' => 2,                // кол-во ссылок слева и справа
-            ),
             'blog'      => array(
                 'perpage'   => 10,               // постов на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
@@ -394,10 +385,6 @@ $settings = array(
         'backend' => array(                      // административная часть сайта
             'article'  => array(
                 'perpage'   => 20,               // статей на страницу
-                'leftright' => 2,                // кол-во ссылок слева и справа
-            ),
-            'news'     => array(
-                'perpage'   => 20,               // новостей на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
             ),
             'blog'     => array(

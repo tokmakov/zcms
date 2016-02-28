@@ -320,16 +320,25 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $this->userId = $res;
         $this->user = $this->getUser();
 
-        // записываем в cookie уникальный идентификатор пользователя,
-        // вместо временного идентификатора посетителя
+        // записываем в cookie уникальный идентификатор пользователя, вместо временного
+        // идентификатора посетителя; учитываем, что посетителя может быть два аккаунта
+        $query = "SELECT `visitor_id` FROM `users` WHERE `visitor_id` = :visitor_id AND `id` <> :user_id";
+        $res = $this->database->fetchOne(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'user_id'    => $this->userId
+            )
+        );
         $this->visitorId = $this->user['visitor_id'];
         $time = 86400 * $this->config->user->cookie;
         setcookie('visitor', $this->visitorId, time() + $time, '/');
-
-        // известить наблюдателей о событии авторизации посетителя, чтобы они
-        // синхронизировали корзины, отложенные товары, товары для сравнения и
-        // просмотренные товары; реализация шаблона проектирования «Наблюдатель»
-        $this->notify();
+        if (false === $res) { 
+            // известить наблюдателей о событии авторизации посетителя, чтобы они
+            // синхронизировали корзины, отложенные товары, товары для сравнения и
+            // просмотренные товары; реализация шаблона проектирования «Наблюдатель»
+            $this->notify();
+        }
 
         // запомнить пользователя, чтобы входить автоматически?
         if ($remember) {
@@ -387,7 +396,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function logoutUser() {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка выхода из личного кабинета не авторизованного пользователя');
         }
 

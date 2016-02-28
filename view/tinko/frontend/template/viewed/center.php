@@ -6,6 +6,7 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $view - представление списка товаров
  * $viewedProducts - массив просмотренных товаров
  * $units - массив единиц измерения товара
  * $pager - постраничная навигация
@@ -114,10 +115,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
+<span id="switch-line-grid">
+    <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
+    <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
+</span>
 <h1>Вы уже смотрели</h1>
 
 <?php if (!empty($viewedProducts)): // просмотренные товары ?>
-    <div class="product-list-line">
+    <div class="product-list-<?php echo $view; ?>">
     <?php foreach($viewedProducts as $product): ?>
         <div>
             <div class="product-list-added">

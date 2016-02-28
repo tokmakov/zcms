@@ -82,6 +82,11 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $value = (int)$tmp[1];
                 $param[$key] = $value;
             }
+            // проверяем корректность переданных параметров и значений
+            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+                $this->notFoundRecord = true;
+                return;
+            }
         }
         
         // включен фильтр по лидерам продаж?

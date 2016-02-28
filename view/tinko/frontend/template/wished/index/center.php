@@ -6,6 +6,7 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $view - представление списка товаров
  * $thisPageUrl - URL этой страницы
  * $wishedProducts - массив отложенных товаров
  * $units - массив единиц измерения товара
@@ -114,10 +115,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
+<span id="switch-line-grid">
+    <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
+    <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
+</span>
 <h1>Избранное</h1>
 
 <?php if (!empty($wishedProducts)): // отложенные товары ?>
-    <div class="product-list-line">
+    <div class="product-list-<?php echo $view; ?>">
     <?php foreach($wishedProducts as $product): ?>
         <div>
             <div class="product-list-added">

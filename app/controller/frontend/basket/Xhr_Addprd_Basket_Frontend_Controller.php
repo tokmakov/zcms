@@ -2,11 +2,16 @@
 /**
  * Класс Xhr_Addprd_Basket_Frontend_Controller принимает запрос XmlHttpRequest,
  * добавляет товар в корзину, работает с моделью Basket_Frontend_Model,
- * общедоступная часть сайта
+ * общедоступная часть сайта. Результат работы: HTML списка товаров в корзине
+ * в правой колонке
  */
 class Xhr_Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
     public function __construct($params = null) {
+        if ( ! $this->isPostMethod()) {
+            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            die();
+        }
         parent::__construct($params);
         // не использовать кэширование шаблона списка товаров в корзине
         $this->notUseCache = true;

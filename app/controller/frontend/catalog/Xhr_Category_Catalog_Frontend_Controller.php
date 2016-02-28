@@ -21,8 +21,6 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
 
     public function request() {
 
-        sleep(5);
-
         // если не передан id категории или id категории не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
@@ -134,7 +132,8 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $hit,
             $new,
             $param,
-            $sort
+            $sort,
+            0
         );
 
         // единицы измерения товара
@@ -227,6 +226,11 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
                     $param[$key] = (int)$value;
                 }
+            }
+            // проверяем корректность переданных параметров и значений
+            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+                header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+                die();
             }
         }
         // если была выбрана новая функциональная группа, переданные параметры

@@ -69,8 +69,14 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/index'), 'name' => 'Личный кабинет')
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Личный кабинет',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/index')
+            )
         );
 
         /*
@@ -78,11 +84,11 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'       => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/login'),
+            'action'            => $this->userFrontendModel->getURL('frontend/user/login'),
             // URL ссылки для регистрации на сайте
-            'regUserUrl' => $this->userFrontendModel->getURL('frontend/user/reg'),
+            'regUserUrl'        => $this->userFrontendModel->getURL('frontend/user/reg'),
             // URL ссылки для восстановления пароля
             'forgotPasswordUrl' => $this->userFrontendModel->getURL('frontend/user/forgot'),
         );

@@ -6,6 +6,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $view - представление списка товаров
  * $query - поисковый запрос
  * $results - массив результатов поиска
  * $units - массив единиц измерения товара
@@ -60,6 +61,10 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
+<span id="switch-line-grid">
+    <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
+    <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
+</span>
 <h1>Поиск по каталогу</h1>
 
 <div id="center-search-form">
@@ -70,7 +75,7 @@ defined('ZCMS') or die('Access denied');
 
     <?php if (!empty($query)): ?>
         <?php if (!empty($results)): ?>
-            <div class="product-list-line">
+            <div class="product-list-<?php echo $view; ?>">
             <?php foreach($results as $product): ?>
                 <div>
                     <div class="product-list-heading">

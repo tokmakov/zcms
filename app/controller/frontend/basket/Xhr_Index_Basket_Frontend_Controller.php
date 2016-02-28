@@ -1,14 +1,14 @@
 <?php
 /**
- * Класс Xhr_Upsell_Basket_Frontend_Controller принимает запрос XmlHttpRequest,
- * добавляет товар в корзину из списка рекомендованных, работает с моделью
+ * Класс Xhr_Index_Basket_Frontend_Controller принимает запрос XmlHttpRequest,
+ * обновляет (и удаляет) количество товаров в корзине, работает с моделью
  * Basket_Frontend_Model, общедоступная часть сайта. Возвращает результат в
  * формате JSON:
  * 1. HTML корзины в правой колонке,
  * 2. HTML корзины в центральной колонке
  * 3. HTML списка рекомендованных товаров
  */
-class Xhr_Upsell_Basket_Frontend_Controller extends Basket_Frontend_Controller {
+class Xhr_Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
     /**
      * результат работы в формате JSON
@@ -27,20 +27,8 @@ class Xhr_Upsell_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
     public function request() {
 
-        // если не передан id товара или id товара не число
-        if ( ! (isset($_POST['product_id']) && ctype_digit($_POST['product_id'])) ) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        } else {
-            $product_id = (int)$_POST['product_id'];
-        }
-
-        // добавляем товар в корзину
-        $count = 1; // кол-во товара
-        if (isset($_POST['count']) && ctype_digit($_POST['count'])) {
-            $count = (int)$_POST['count'];
-        }
-        $this->basketFrontendModel->addToBasket($product_id, $count);
+        // обращаемся к модели, чтобы обновить корзину
+        $this->basketFrontendModel->updateBasket();
 
         // получаем от модели массив товаров в корзине (для правой колонки)
         $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();

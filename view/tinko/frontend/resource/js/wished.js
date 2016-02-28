@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.products-list-line .product-line-comment form').ajaxForm({
+    $('.product-list-comment form').ajaxForm({
         success: function() {
             // показываем окно с сообщением
             $('<div>Комментарий к товару сохранен</div>')

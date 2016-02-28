@@ -69,3 +69,9 @@
         max-width: 99px;
     }
 }
+
+@media screen and (max-width: 320px) {
+    .tabs > ul > li > a {
+        max-width: 80px;
+    }
+}

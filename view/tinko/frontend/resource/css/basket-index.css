@@ -41,10 +41,10 @@
             width: 12%;
         }
         #basket form table tr:first-child th:nth-child(2) {
-            width: 45%;
+            width: 47%;
         }
         #basket form table tr:first-child th:nth-child(6) {
-            width: 7%;
+            width: 5%;
         }
         #basket form table tr th:nth-child(2) {
             text-align: left;
@@ -54,6 +54,13 @@
         }
         #basket form table tr td:first-child, #basket form table tr td:nth-child(6) {
             text-align: center;
+        }
+        #basket form table tr td:nth-child(6) a {
+            color: #395985;
+            font-size: 18px;
+        }
+        #basket form table tr td:nth-child(6) a:hover {
+            color: #e9751f;
         }
         #basket form table tr:last-child td.note-user-price {
             text-align: left;
@@ -136,17 +143,17 @@
             text-decoration: none;
         }
 
-@media screen and (max-width: 612px) {
+@media screen and (max-width: 650px) {
     #basket form table tr:first-child th:nth-child(3),
     #basket form table tr:first-child th:nth-child(4),
     #basket form table tr:first-child th:nth-child(5) {
         width: 14%;
     }
     #basket form table tr:first-child th:nth-child(2) {
-        width: 36%;
+        width: 40%;
     }
     #basket form table tr:first-child th:nth-child(6) {
-        width: 10%;
+        width: 8%;
     }
 
     #basket form div > span:last-child {
@@ -157,12 +164,12 @@
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
     #basket form table tr th:nth-child(5), #basket form table tr td:nth-child(5) {
         display: none;
     }
     #basket form table tr:first-child th:nth-child(1) {
-        width: 14%;
+        width: 15%;
     }
     #basket form table tr:first-child th:nth-child(2) {
         width: 46%;
@@ -172,7 +179,7 @@
         width: 15%;
     }
     #basket form table tr:first-child th:nth-child(6) {
-        width: 10%;
+        width: 9%;
     }
     #basket form div > span:first-child {
         width: 35%;

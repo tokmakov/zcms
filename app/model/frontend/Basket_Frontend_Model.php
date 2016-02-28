@@ -519,7 +519,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     private function sendOrderMail($orderId, $details, $products, $user_amount) {
         $html = '<h2>Заказ № '.$orderId.'</h2>' . PHP_EOL;
-        $html = $html . '<table border="1">' . PHP_EOL;
+        $html = $html . '<table border="1" cellspacing="0" cellpadding="4">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
         $html = $html . '<th>Код</th><th>Наименование</th><th>Кол.</th><th>Цена</th><th>Стоим.</th>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
@@ -539,11 +539,14 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $html = $html . '<h3>Получатель</h3>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
-        $html = $html . '<li>'.$details['buyer_name'].'</li>' . PHP_EOL;
-        $html = $html . '<li>'.$details['buyer_surname'].'</li>' . PHP_EOL;
-        $html = $html . '<li>'.$details['buyer_email'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Фамилия: '.$details['buyer_surname'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Имя: '.$details['buyer_name'].'</li>' . PHP_EOL;
+        if ( ! empty($details['buyer_patronymic'])) {
+            $html = $html . '<li>Отчество: '.$details['buyer_patronymic'].'</li>' . PHP_EOL;
+        }
+        $html = $html . '<li>E-mail: '.$details['buyer_email'].'</li>' . PHP_EOL;
         if ( ! empty($details['buyer_phone'])) {
-            $html = $html . '<li>'.$details['buyer_phone'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Телефон: '.$details['buyer_phone'].'</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
@@ -557,7 +560,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '</ul>' . PHP_EOL;
         if ($details['buyer_company']) {
             $html = $html . '<ul>' . PHP_EOL;
-            $html = $html . '<li>Название компании: '.$details['buyer_company'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Название компании: '.$details['buyer_company_name'].'</li>' . PHP_EOL;
             $html = $html . '<li>Генеральный директор: '.$details['buyer_company_ceo'].'</li>' . PHP_EOL;
             $html = $html . '<li>Юридический адрес: '.$details['buyer_company_address'].'</li>' . PHP_EOL;
             $html = $html . '<li>ИНН: '.$details['buyer_company_inn'].'</li>' . PHP_EOL;
@@ -571,10 +574,15 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($details['buyer_payer_different']) {
            $html = $html . '<h3>Плательщик</h3>' . PHP_EOL;
            $html = $html . '<ul>' . PHP_EOL;
-           $html = $html . '<li>'.$details['payer_name'].'</li>' . PHP_EOL;
-           $html = $html . '<li>'.$details['payer_surname'].'</li>' . PHP_EOL;
-           $html = $html . '<li>'.$details['payer_email'].'</li>' . PHP_EOL;
-           $html = $html . '<li>'.$details['payer_phone'].'</li>' . PHP_EOL;
+           $html = $html . '<li>Фамилия: '.$details['payer_surname'].'</li>' . PHP_EOL;
+           $html = $html . '<li>Имя: '.$details['payer_name'].'</li>' . PHP_EOL;
+           if ( ! empty($details['payer_patronymic'])) {
+               $html = $html . '<li>Отчество: '.$details['payer_patronymic'].'</li>' . PHP_EOL;
+           }
+           $html = $html . '<li>E-mail: '.$details['payer_email'].'</li>' . PHP_EOL;
+           if ( ! empty($details['payer_phone'])) {
+               $html = $html . '<li>Телефон: '.$details['payer_phone'].'</li>' . PHP_EOL;
+           }
            $html = $html . '</ul>' . PHP_EOL;
            if ($details['payer_company']) {
                $html = $html . '<ul>' . PHP_EOL;
@@ -627,7 +635,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         
         $message = chunk_split(base64_encode($html));
         
-        // mail($email, $subject, $message, $headers);
+        mail($email, $subject, $message, $headers);
     }
 
     /**

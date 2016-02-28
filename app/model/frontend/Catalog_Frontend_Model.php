@@ -1069,23 +1069,49 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция проверяет корректность идентификаторов значений параметров подбора
+     * Функция проверяет корректность идентификаторов параметров и значений;
+     * если параметры и значения коррекные, возвращает true, иначе false;
+     * результат работы кэшируется
      */
-    public function isValidParams($ids) {
+    public function getCheckParams($param) {
 
-        if (empty($ids)) {
-            return false;
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->checkParams($param);
         }
-        if (is_array($ids)) {
-            $count = count($ids);
-            $temp = implode(',', $ids);
-        } else {
-            $count = 1;
-            $temp = $ids;
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+    
+    /**
+     * Функция проверяет корректность идентификаторов параметров и значений;
+     * если параметры и значения коррекные, возвращает true, иначе false;
+     */
+    protected function checkParams($param) {
+
+        if (empty($param)) {
+            return true;
         }
-        $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $temp . ")";
-        $res = $this->database->fetchOne($query);
-        return $count == $res;
+
+        $count = count($param);
+        
+        $params = implode(',', array_keys($param));
+        $query = "SELECT COUNT(*) FROM `params` WHERE `id` IN (" . $params . ")";
+        $count1 = $this->database->fetchOne($query);
+        
+        $values = implode(',', $param);
+        $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $values . ")";
+        $count2 = $this->database->fetchOne($query);
+
+        return ($count == $count1) && ($count == $count2);
 
     }
 

@@ -1156,6 +1156,7 @@ div.attention {
 /* список товаров, табличный вид (плитка) */
 .product-list-grid {
     overflow: hidden;
+    margin-top: 20px;
 }
     .product-list-grid > div {
         box-sizing: border-box;
@@ -1177,6 +1178,18 @@ div.attention {
     .product-list-grid > div:only-child {
         border: none;
     }
+    .product-list-grid > div:not(:first-child):nth-last-child(2):nth-child(even) {
+        border-bottom: 1px dashed #5390cc;
+    }
+
+        .product-list-grid > div > .product-list-added { /* дата добавления */
+            font-size: 10px;
+            line-height: 10px;
+            margin: 2px 0;
+            color: #969696;
+            height: 10px;
+            overflow: hidden;
+        }
         .product-list-grid > div > .product-list-heading { /* заголовки */
             margin-bottom: 10px;
         }
@@ -1239,7 +1252,7 @@ div.attention {
         .product-list-grid > div > .product-list-info { /* цена, код, производитель */
             margin-left: 130px;
         }
-            .product-list-grid> div > .product-list-info > div {
+            .product-list-grid > div > .product-list-info > div {
                 color: #969696;
                 font-size: 14px;
                 overflow: hidden;
@@ -1248,6 +1261,7 @@ div.attention {
             }
             .product-list-grid > div > .product-list-info > div:first-child {
                 padding: 0;
+                height: 28px;
             }
             .product-list-grid > div > .product-list-info > div:last-child {
                 display: none;
@@ -1289,6 +1303,7 @@ div.attention {
                             text-align: center;
                             word-spacing: -1px;
                             letter-spacing: -1px;
+                            margin-right: 1px;
                         }
                         .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
                             color: #969696;
@@ -1359,6 +1374,39 @@ div.attention {
         .product-list-grid > div > .product-list-descr { /* краткое описание */
             display: none;
         }
+        
+        /* комментарий для отложенных товаров */
+        .product-list-grid > div > .product-list-comment {
+            padding-top: 10px;
+        }
+            .product-list-grid > div > .product-list-comment > form > div:first-child {
+                overflow: hidden;
+                margin-bottom: 3px;
+            }
+                .product-list-grid > div > .product-list-comment > form > div:first-child > span {
+                    float: left;
+                }
+                .product-list-grid > div > .product-list-comment > form > div:first-child > input {
+                    float: right;
+                    color: #395985;
+                    font-size: 13px;
+                    border: none;
+                    border-bottom: 1px dashed #395985;
+                    cursor: pointer;
+                    background: transparent;
+                    outline: none;
+                }
+                .product-list-grid > div > .product-list-comment > form > div:last-child textarea {
+                    width: 100%;
+                    box-sizing: border-box;
+                    border: 1px solid #d1d1d1;
+                    height: 100px;
+                    padding: 4px;
+                    outline: none;
+                    font-size: 13px;
+                    line-height: 13px;
+                    background: #fafafa;
+                }
 
 /* список товаров, рекомендованные товары */
 .product-list-upsell {
@@ -1640,13 +1688,16 @@ div.attention {
                             position: absolute;
                             width: 16px;
                             height: 16px;
-                            font-size: 14px;
+                            font-size: 16px;
                             right: 4px;
                             top: 7px;
-                            color: #ff6d00;
+                            color: #395985;
                             text-align: center;
                             line-height: 16px;
                             cursor: pointer;
+                        }
+                        #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > i:hover {
+                            color: #ff6d00;
                         }
                     #catalog-filter > div:last-child > form > div:first-child > div > div > span > label { /* фильтр новинки, хиты */
                         cursor: pointer;

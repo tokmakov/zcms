@@ -93,6 +93,12 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
+        
+        // представление списка товаров: линейный или плитка
+        $view = 'line';
+        if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
+            $view = 'grid';
+        }
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -102,6 +108,8 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/search'),
+            // представление списка товаров
+            'view'        => $view,
             // поисковый запрос
             'query'       => $this->params['query'],
             // массив результатов поиска
