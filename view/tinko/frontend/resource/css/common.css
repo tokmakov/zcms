@@ -1281,6 +1281,7 @@ div.attention {
                 .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
                     height: 26px;
                     line-height: 26px;
+                    white-space: nowrap;
                 }
                 .product-list-grid > div > .product-list-info > div:first-child > span:last-child {
 
@@ -1298,12 +1299,13 @@ div.attention {
                         }
                         .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span > strong { /* цена, число */
                             color: #395985;
-                            font-size: 18px;
+                            font-size: 17px;
                             line-height: 16px;
                             text-align: center;
                             word-spacing: -1px;
                             letter-spacing: -1px;
                             margin-right: 1px;
+                            white-space: nowrap;
                         }
                         .product-list-grid > div > .product-list-info > div:first-child > span:last-child > span:not(:first-child) > strong { /* цена, число */
                             color: #969696;
@@ -2708,6 +2710,13 @@ div.attention {
         -moz-column-count: 2;
         column-count: 2;
     }
+    /* список товаров, плитка */
+    .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
+        letter-spacing: -1px;
+    }
+    .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
+        letter-spacing: -1px;
+    }
 }
 
 @media screen and (max-width: 935px) {
@@ -2739,6 +2748,13 @@ div.attention {
     }
     #header #top-menu {
         left: 70px;
+    }
+    /* список товаров, плитка */
+    .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
+        letter-spacing: normal;
+    }
+    .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
+        letter-spacing: normal;
     }
     /* уменьшаем карту проезда */
     #tinkoMap, #deliveryMap {
@@ -2777,16 +2793,11 @@ div.attention {
 
 @media screen and (max-width: 700px) {
     /* список товаров, плитка */
-    .product-list-grid > div {
-        float: none;
-        width: 100%;
-        padding: 10px 0;
+    .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
+        letter-spacing: -1px;
     }
-    .product-list-grid > div:nth-child(2) {
-        border-top: 1px dashed #5390cc;
-    }
-    .product-list-grid > div:nth-child(odd) {
-        border-right: none;
+    .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
+        letter-spacing: -1px;
     }
     /* вместе с этим часто покупают */
     .product-list-upsell > div {
@@ -2811,6 +2822,24 @@ div.attention {
     #product .product-item-main .product-item-basket,
     #product .product-item-main .product-item-social {
         margin-left: 0;
+    }
+    /* список товаров, плитка */
+    .product-list-grid > div {
+        float: none;
+        width: 100%;
+        padding: 10px 0;
+    }
+    .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
+        letter-spacing: normal;
+    }
+    .product-list-grid > div > .product-list-info > div:first-child > span:first-child {
+        letter-spacing: normal;
+    }
+    .product-list-grid > div:nth-child(2) {
+        border-top: 1px dashed #5390cc;
+    }
+    .product-list-grid > div:nth-child(odd) {
+        border-right: none;
     }
 }
 

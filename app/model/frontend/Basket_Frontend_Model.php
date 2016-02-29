@@ -610,8 +610,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $email = $details['buyer_email'];
         }
 
-        $subject = '=?utf-8?B?'.base64_encode('Заказ № '.$orderId).'?=';
-        $headers = 'From: <' . $this->config->email->site . '>' . "\r\n";
+        $subject = '=?utf-8?b?'.base64_encode('Заказ № '.$orderId).'?=';
+        $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
         // определяем, кому будем отправлять копии письма    
         $carbonCopy = array();

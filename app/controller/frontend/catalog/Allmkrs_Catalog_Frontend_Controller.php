@@ -40,7 +40,7 @@ class Allmkrs_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив всех производителей
-        $makers = $this->catalogFrontendModel->getAllMakers();
+        $makers = $this->catalogFrontendModel->getAllMakers(0);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

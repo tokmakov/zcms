@@ -17,9 +17,9 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Search_Catalog_Frontend_Controller
          */
         parent::input();
@@ -43,11 +43,11 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/index')
             )
         );
 
@@ -89,7 +89,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив результатов поиска
-        $results = $this->catalogFrontendModel->getSearchResults($this->params['query'], $start);
+        $results = $this->catalogFrontendModel->getSearchResults($this->params['query'], $start, false);
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();

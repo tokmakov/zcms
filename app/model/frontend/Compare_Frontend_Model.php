@@ -310,7 +310,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `id` = :group_id";
         return $this->database->fetchOne($query, array('group_id' => $this->groupId));
     }
-
+    
     /**
      * Функция возвращает массив параметров, привязанных к группе
      */
@@ -319,6 +319,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         if (is_null($this->groupId)) {
             return array();
         }
+        
+        // получаем массив товаров, отложенных для сравнения
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`title` AS `title`,
                       `a`.`shortdescr` AS `shortdescr`, `d`.`name` AS `maker`
@@ -328,17 +330,19 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
+                      `a`.`group` = :group_id AND
+                      `b`.`visitor_id` = :visitor_id AND
+                      `b`.`active` = 1 AND
+                      `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC";
         $products = $this->database->fetchAll(
             $query,
-            array('visitor_id' => $this->visitorId),
-            $this->enableDataCache
+            array('group_id' => $this->groupId, 'visitor_id' => $this->visitorId)
         );
-        $title[] = 'Функциональное наименование';
-        $code[] = 'Код';
-        $maker[] = 'Производитель';
+        $title[]      = 'Функциональное наименование';
+        $code[]       = 'Код';
+        $maker[]      = 'Производитель';
         $shortdescr[] = 'Краткое описание';
         foreach ($products as $product) {
             $title[]      = $product['title'];
@@ -349,25 +353,36 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         if (0 == $this->groupId) {
             return array($title, $code, $maker, $shortdescr);
         }
-        $query = "SELECT
-                      DISTINCT `a`.`id` AS `id`, `a`.`name` AS `name`
-                  FROM
-                      `params` `a`
-                      INNER JOIN `group_param_value` `b`
-                      ON `a`.`id` = `b`.`param_id`
-                  WHERE
-                      `b`.`group_id` = :group_id
-                  ORDER BY
-                      `a`.`name`, `a`.`id`";
-        $result = $this->database->fetchAll(
-            $query,
-            array('group_id' => $this->groupId),
-            $this->enableDataCache
-        );
         
+        // получаем массив параметров подбора для функциональной группы
+        $query = "SELECT
+                      `f`.`id` AS `id`, `f`.`name` AS `name`
+                  FROM
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `product_param_value` `e` ON `b`.`id` = `e`.`product_id`
+                      INNER JOIN `params` `f` ON `e`.`param_id` = `f`.`id`
+                  WHERE
+                      `a`.`active` = 1 AND
+                      `b`.`group` = :group_id AND
+                      `b`.`visible` = 1
+                  GROUP BY
+                      1, 2
+                  ORDER BY
+                      `f`.`name`";
+        $result = $this->database->fetchAll($query, array('group_id' => $this->groupId));
+
+        /*
+         * перебираем все параметры подбора, для каждого товара
+         * получаем конкретное значение параметра
+         */
         $params = array();
+        // цикл по параметрам подбора
         foreach ($result as $i => $value) {
             $params[$i][] = $value['name'];
+            // цикл по товарам, отложенным для сравнения
             foreach ($products as $j => $product) {
                 $query = "SELECT
                               `b`.`name` AS `value`
@@ -399,7 +414,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         }
         
         return array_merge(array($title, $code, $maker), $params, array($shortdescr));
-
     }
 
     /**
