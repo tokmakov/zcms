@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     // всплывающее окно с подсказкой для юридического лица
     $('#checkout-order .company-checkbox-help').click(function() {
-        $('<div><p>Отметьте флажок, чтобы оформить заказ на юридическое лицо.</p><p>Укажите название компании, юридический адрес, ИНН, банк, номер счета.</p></div>')
+        $('<div><p>Отметьте флажок, чтобы оформить заказ на юридическое лицо.</p><p>Укажите название компании, юр.адрес, ИНН, банк, БИК, номер счета.</p></div>')
         .prependTo('body')
         .hide()
         .addClass('modal-window')
@@ -63,8 +63,9 @@ $(document).ready(function() {
     // при изменении состояния checkbox «Самовывоз со склада» для получателя,
     // скрываем/показываем часть формы, связанную с адресом доставки получателя
     $('#checkout-order input[name="shipping"]').change(function() {
-        $('#checkout-order #buyer-shipping-details').slideToggle();
-        $('#checkout-order select[name="office"]').toggle();
+        $('#checkout-order #buyer-shipping-details').slideToggle('normal', function() {
+            $('#checkout-order select[name="office"]').toggle();
+        });
     });
 
     // если не отмечен checkbox «Юридическое лицо» для плательщика,

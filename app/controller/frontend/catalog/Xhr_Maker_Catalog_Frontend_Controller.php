@@ -96,9 +96,9 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $sort
         );
         $temp = new Pager(
-            $thisPageURL,                                       // URL этой страницы
-            1,                                                  // текущая страница
-            $totalProducts,                                     // общее кол-во товаров
+            $thisPageURL,   // URL этой страницы
+            1,              // текущая страница
+            $totalProducts, // общее кол-во товаров
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
@@ -141,8 +141,8 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $this->config->site->theme . '/frontend/template/catalog/xhr/maker.php',
             array(
                 'id'          => $this->params['id'], // id производителя
-                'view'        => $view,                     // представление списка товаров
                 'name'        => $maker['name'],      // название производителя
+                'view'        => $view,               // представление списка товаров
                 'group'       => $group,              // id выбранной функциональной группы или ноль
                 'hit'         => $hit,                // показывать только лидеров продаж?
                 'countHit'    => $countHit,           // количество лидеров продаж
@@ -161,7 +161,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
         $output = explode('¤', $output);
         // пусто, подбор по параметрам, список товаров
-        $result = array('childs' => $output[0], 'filters' => $output[1], 'products' => $output[2]);
+        $result = array('childs' => $output[0], 'filter' => $output[1], 'products' => $output[2]);
         $this->output = json_encode($result);
 
     }

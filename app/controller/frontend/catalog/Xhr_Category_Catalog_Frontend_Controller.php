@@ -182,7 +182,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         );
         $output = explode('¤', $output);
         // дочерние категории, подбор по параметрам, список товаров
-        $result = array('childs' => $output[0], 'filters' => $output[1], 'products' => $output[2]);
+        $result = array('childs' => $output[0], 'filter' => $output[1], 'products' => $output[2]);
         $this->output = json_encode($result);
 
     }

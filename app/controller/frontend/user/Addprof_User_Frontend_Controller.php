@@ -116,8 +116,8 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         $data['surname']    = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32));    // фамилия контактного лица
         $data['name']       = trim(utf8_substr(strip_tags($_POST['name']), 0, 16));       // имя контактного лица
         $data['patronymic'] = trim(utf8_substr(strip_tags($_POST['patronymic']), 0, 16)); // отчество контактного лица
-        $data['email']      = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));      // e-mail контактного лица
         $data['phone']      = trim(utf8_substr(strip_tags($_POST['phone']), 0, 32));      // телефон контактного лица
+        $data['email']      = trim(utf8_substr(strip_tags($_POST['email']), 0, 32));      // e-mail контактного лица
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $data['shipping']         = 1;
@@ -206,6 +206,9 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         }
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Имя контактного лица»';
+        }
+        if (empty($data['phone'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Телефон контактного лица»';
         }
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица»';

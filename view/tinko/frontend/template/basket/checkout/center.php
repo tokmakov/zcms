@@ -34,7 +34,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/basket/checkout/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
     <?php foreach ($breadcrumbs as $item): ?>
         <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -49,7 +49,7 @@ defined('ZCMS') or die('Access denied');
     <?php return; ?>
 <?php endif; ?>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
@@ -227,12 +227,12 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
             <div>
-                <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" /></div>
+                <div>Телефон <span class="form-field-required">*</span></div>
+                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
             <div>
-                <div>Телефон</div>
-                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+                <div>E-mail <span class="form-field-required">*</span></div>
+                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" /></div>
             </div>
         </fieldset>
 
@@ -364,12 +364,12 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
             <div>
-                <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_email" maxlength="32" value="<?php echo $payer_email; ?>" /></div>
+                <div>Телефон <span class="form-field-required">*</span></div>
+                <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
             <div>
-                <div>Телефон</div>
-                <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+                <div>E-mail <span class="form-field-required">*</span></div>
+                <div><input type="text" name="payer_email" maxlength="32" value="<?php echo $payer_email; ?>" /></div>
             </div>
         </fieldset>
 

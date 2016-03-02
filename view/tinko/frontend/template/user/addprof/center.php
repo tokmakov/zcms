@@ -28,7 +28,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/catalog/addprof/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -159,14 +159,14 @@ defined('ZCMS') or die('Access denied');
             </div>
         </div>
         <div>
-            <div>E-mail <span class="form-field-required">*</span></div>
-            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
-        </div>
-        <div>
-            <div>Телефон</div>
+            <div>Телефон <span class="form-field-required">*</span></div>
             <div>
                 <input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" />
             </div>
+        </div>
+        <div>
+            <div>E-mail <span class="form-field-required">*</span></div>
+            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
         </div>
     </div>
 

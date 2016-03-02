@@ -156,8 +156,9 @@ $(document).ready(function() {
     }
     // при изменении checkbox «Самовывоз со склада», скрываем/показываем часть формы, связанную с адресом доставки
     $('#add-edit-profile input[name="shipping"]').change(function() {
-        $('#add-edit-profile > #shipping-address').slideToggle();
-        $('#add-edit-profile select[name="office"]').toggle()
+        $('#add-edit-profile > #shipping-address').slideToggle('normal', function() {
+            $('#add-edit-profile select[name="office"]').toggle();
+        });
     });
 
     /*

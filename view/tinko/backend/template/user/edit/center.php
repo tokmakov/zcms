@@ -90,13 +90,12 @@ defined('ZCMS') or die('Access denied');
             </label>
         </div>
     </div>
-    <div class="password">
-        <div>Пароль</div>
-        <div><input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" /></div>
-    </div>
-    <div class="password">
-        <div>Подтвердите пароль</div>
-        <div><input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" /></div>
+    <div>
+        <div>Пароль, пароль</div>
+        <div>
+            <input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" />
+            <input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" />
+        </div>
     </div>
     <div>
         <div></div>

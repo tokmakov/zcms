@@ -32,6 +32,7 @@
     #add-edit-user > div {
         overflow: hidden;
         margin-bottom: 10px;
+        min-height: 22px;
     }
         #add-edit-user > div > div:first-child {
             float: left;
@@ -42,14 +43,31 @@
             float: left;
             width: 70%;
         }
-            #add-edit-user > div > div:last-child > input[type="text"],
-            #add-edit-user > div > div:last-child > select {
+            #add-edit-user > div > div:last-child > input[type="text"] {
                 width: 100%;
                 box-sizing: border-box;
-                padding: 3px;
+                padding: 5px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
+            }
+
+            #add-edit-user > div > div:last-child > input[name="name"],
+            #add-edit-user > div > div:last-child > input[name="patronymic"],
+            #add-edit-user > div > div:last-child > input[name="password"],
+            #add-edit-user > div > div:last-child > input[name="confirm"] {
+                float: left;
+                width: 50%;
+            }
+            #add-edit-user > div > div:last-child > input[name="patronymic"],
+            #add-edit-user > div > div:last-child > input[name="confirm"] {
+                border-left: none;
             }
             #add-edit-user > div > div:last-child > select {
                 width: 50%;
+                box-sizing: border-box;
+                padding: 4px;
+                border: 1px solid #d1d1d1;
+                font-size: 14px;
             }
                 #add-edit-user > div > div:last-child > label > input[type="checkbox"] {
                     position: relative;

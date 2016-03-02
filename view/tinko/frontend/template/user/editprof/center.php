@@ -47,7 +47,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/catalog/editprof/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -71,8 +71,8 @@ defined('ZCMS') or die('Access denied');
     $title            = htmlspecialchars($title);            // название профиля
     $name             = htmlspecialchars($name);             // имя контактного лица
     $surname          = htmlspecialchars($surname);          // фамилия контактного лица
-    $email            = htmlspecialchars($email);            // e-mail контактного лица
     $phone            = htmlspecialchars($phone);            // телефон контактного лица
+    $email            = htmlspecialchars($email);            // e-mail контактного лица
     $shipping_address = htmlspecialchars($shipping_address); // адрес доставки
     $shipping_index   = htmlspecialchars($shipping_index );  // почтовый индекс
     $company_name     = htmlspecialchars($company_name);     // название компании
@@ -174,12 +174,12 @@ defined('ZCMS') or die('Access denied');
             </div>
         </div>
         <div>
-            <div>E-mail <span class="form-field-required">*</span></div>
-            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
+            <div>Телефон <span class="form-field-required">*</span></div>
+            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
         </div>
         <div>
-            <div>Телефон</div>
-            <div><input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+            <div>E-mail <span class="form-field-required">*</span></div>
+            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
         </div>
     </div>
 
@@ -206,7 +206,7 @@ defined('ZCMS') or die('Access denied');
             <div>Город, почтовый индекс</div>
             <div>
                 <input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" placeholder="город" />
-                <input type="text" name="shipping_index" maxlength="32" value="<?php echo $shipping_index; ?>" placeholder="индекс" />
+                <input type="text" name="shipping_index" maxlength="6" value="<?php echo $shipping_index; ?>" placeholder="индекс" />
             </div>
         </div>
     </div>

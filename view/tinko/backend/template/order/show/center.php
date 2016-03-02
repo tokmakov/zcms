@@ -14,7 +14,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/order/show/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -24,7 +24,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Заказ № <?php echo $order['order_id']; ?></h1>
 
-<?php if (!empty($order['user_name'])): ?>
+<?php if ( ! empty($order['user_email'])): ?>
     <ul>
         <li>Фамилия: <?php echo $order['user_surname']; ?></li>
         <li>Имя: <?php echo $order['user_name']; ?></li>
@@ -69,8 +69,9 @@ defined('ZCMS') or die('Access denied');
     <?php if ( ! empty($order['buyer_patronymic'])): ?>
         <li>Отчество: <?php echo $order['buyer_patronymic']; ?></li>
     <?php endif; ?>
-    <li>E-mail: <?php echo $order['buyer_email']; ?></li>
     <li>Телефон: <?php echo $order['buyer_phone']; ?></li>
+    <li>E-mail: <?php echo $order['buyer_email']; ?></li>
+
 </ul>
 <ul>
 <?php if ( ! $order['shipping']): ?>
@@ -104,8 +105,8 @@ defined('ZCMS') or die('Access denied');
         <?php if ( ! empty($order['payer_patronymic'])): ?>
             <li>Отчество: <?php echo $order['payer_patronymic']; ?></li>
         <?php endif; ?>
-        <li>E-mail: <?php echo $order['payer_email']; ?></li>
         <li>Телефон: <?php echo $order['payer_phone']; ?></li>
+        <li>E-mail: <?php echo $order['payer_email']; ?></li>
     </ul>
     <?php if ($order['payer_company']): // плательщик - юридическое лицо? ?>
         <ul>

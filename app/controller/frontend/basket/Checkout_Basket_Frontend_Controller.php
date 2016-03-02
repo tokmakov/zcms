@@ -151,10 +151,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         $form['buyer_name']       = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 16));
         // отчество контактного лица получателя
         $form['buyer_patronymic'] = trim(utf8_substr(strip_tags($_POST['buyer_patronymic']), 0, 16));
-        // e-mail контактного лица получателя
-        $form['buyer_email']      = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 32));
         // телефон контактного лица получателя
         $form['buyer_phone']      = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 32));
+        // e-mail контактного лица получателя
+        $form['buyer_email']      = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 32));
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $form['shipping']               = 1;
@@ -214,10 +214,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['payer_surname']    = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 16));
             // отчество контактного лица получателя
             $form['payer_patronymic'] = trim(utf8_substr(strip_tags($_POST['payer_patronymic']), 0, 16));
-            // e-mail контактного лица плательщика
-            $form['payer_email']      = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 32));
             // телефон контактного лица плательщика
             $form['payer_phone']      = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 32));
+            // e-mail контактного лица плательщика
+            $form['payer_email']      = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 32));
 
             if (isset($_POST['payer_company'])) { // плательщик - юридическое лицо?
                 // плательщик - юридическое лицо
@@ -258,8 +258,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // контактное лицо
             $form['payer_name']            = $form['buyer_name'];
             $form['payer_surname']         = $form['buyer_surname'];
-            $form['payer_email']           = $form['buyer_email'];
             $form['payer_phone']           = $form['buyer_phone'];
+            $form['payer_email']           = $form['buyer_email'];
             // юридическое лицо
             $form['payer_company']         = $form['buyer_company'];
             $form['payer_company_name']    = $form['buyer_company_name'];
@@ -293,10 +293,13 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $errorMessage[] = 'Поле «Отчество контактного лица получателя» содержит недопустимые символы';
             }
         }
+        if (empty($form['buyer_phone'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Телефон контактного лица получателя»';
+        }
         if (empty($form['buyer_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
         } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $form['buyer_email'])) {
-            $errorMessage[] = 'Поле «E-mail получателя» должно соответствовать формату somebody@mail.ru';
+            $errorMessage[] = 'Поле «E-mail контактного лица получателя» должно соответствовать формату somebody@mail.ru';
         }
         if ( ! $form['shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
             if (empty($form['buyer_shipping_address'])) {
@@ -365,10 +368,13 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                     $errorMessage[] = 'Поле «Отчество контактного лица плательщика» содержит недопустимые символы';
                 }
             }
+            if (empty($form['payer_phone'])) {
+                $errorMessage[] = 'Не заполнено обязательное поле «Телефон контактного лица плательщика»';
+            }
             if (empty($form['payer_email'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица плательщика»';
             } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $form['payer_email'])) {
-                $errorMessage[] = 'Поле «E-mail плательщика» должно соответствовать формату somebody@mail.ru';
+                $errorMessage[] = 'Поле «E-mail контактного лица плательщика» должно соответствовать формату somebody@mail.ru';
             }
             // если плательщик - юридическое лицо
             if ($form['payer_company']) {
@@ -429,8 +435,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'title'            => 'Профиль получателя',
                 'name'             => $form['buyer_name'],
                 'surname'          => $form['buyer_surname'],
-                'email'            => $form['buyer_email'],
                 'phone'            => $form['buyer_phone'],
+                'email'            => $form['buyer_email'],
                 'shipping'         => $form['shipping'],
                 'shipping_address' => $form['buyer_shipping_address'],
                 'shipping_city'    => $form['buyer_shipping_city'],
@@ -455,8 +461,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'title'            => 'Профиль плательщика',
                 'name'             => $form['payer_name'],
                 'surname'          => $form['payer_surname'],
-                'email'            => $form['payer_email'],
                 'phone'            => $form['payer_phone'],
+                'email'            => $form['payer_email'],
                 'shipping'         => 1,
                 'shipping_address' => '',
                 'shipping_city'    => '',
