@@ -114,6 +114,9 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // получаем от модели массив рекомендованных товаров
         $recommendedProducts = $this->basketFrontendModel->getRecommendedProducts($this->params['id']);
+        
+        // получаем от модели массив похожих товаров
+        $likedProducts = $this->catalogFrontendModel->getLikedProducts($this->params['id'], $product['grp_id']);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -185,6 +188,8 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,
+            // массив похожих товаров
+            'likedProducts' => $likedProducts,
         );
 
     }

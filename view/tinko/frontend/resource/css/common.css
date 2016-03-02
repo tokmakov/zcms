@@ -1253,8 +1253,10 @@ div.attention {
             margin-left: 130px;
         }
             .product-list-grid > div > .product-list-info > div {
+                height: 16px;
                 color: #969696;
                 font-size: 14px;
+                line-height: 15px;
                 overflow: hidden;
                 border-bottom: 1px dashed #d1d1d1;
                 padding: 4px 0;

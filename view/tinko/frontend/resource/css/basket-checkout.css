@@ -27,7 +27,8 @@
         box-sizing: border-box;
         padding: 4px;
         border: 1px solid #d1d1d1;
-        margin-left: 29px;
+        margin-left: 28px;
+        min-width: 205px;
     }
     #checkout-order label {
         white-space: nowrap;
@@ -118,13 +119,10 @@
                     #checkout-order > div > div > div > div:first-child {
                         float: left;
                         width: 30%;
-                        margin-top: 7px;
+                        height: 32px;
+                        line-height: 32px;
                         white-space: nowrap;
                         overflow: hidden;
-                    }
-                    #checkout-order > div#buyer-order > div#buyer-profile > div > div:first-child,
-                    #checkout-order > div#payer-order > div#payer-profile > div > div:first-child {
-                        margin-bottom: 2px;
                     }
                     #checkout-order > div > fieldset > div > div:last-child,
                     #checkout-order > div > div > div > div:last-child {
@@ -195,9 +193,15 @@
     #checkout-order > div > fieldset > div > div:last-child,
     #checkout-order > div > fieldset > div > div:first-child,
     #checkout-order > div > div > div > div:last-child,
-    #checkout-order > div > div > div > div:first-child{
+    #checkout-order > div > div > div > div:first-child {
         float: none;
         width: 100%;
+    }
+    #checkout-order > div > fieldset > div > div:first-child,
+    #checkout-order > div > div > div > div:first-child {
+        height: auto;
+        line-height: normal;
+        margin-top: 5px;
     }
     #checkout-order > div:last-child > input[type="submit"] {
         width: 50%;

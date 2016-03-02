@@ -794,7 +794,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       `d`.`sortorder`
                   LIMIT
                       20";
-        $products = $this->database->fetchAll($query, array());
+        $products = $this->database->fetchAll($query);
         // добавляем в массив товаров информацию об URL товаров, фото
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара

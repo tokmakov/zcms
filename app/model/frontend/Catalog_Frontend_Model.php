@@ -2095,6 +2095,130 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $sortorders;
 
     }
+    
+    /**
+     * Функция возвращает массив товаров с теми же параметрами подбора, что и
+     * у товара с уникальным идентификатором $id
+     */
+    public function getLikedProducts($id, $group) {
+        $query = "SELECT
+                      `param_id`, `value_id`
+                  FROM
+                      `product_param_value`
+                  WHERE
+                      `product_id` = :product_id";
+        $result = $this->database->fetchAll($query, array('product_id' => $id));
+        
+        if (empty($result)) {
+            return array();
+            // return $this->getGroupProducts($id, $group);
+        }
+        
+        $param = array();
+        foreach($result as $item) {
+            $param[$item['param_id']] = $item['value_id'];
+        }
+      
+        $ids = implode(',', $this->getProductsByParam($group, $param));
+        
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
+                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `a`.`image` AS `image`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
+                      `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`id` IN (".$ids.") AND `a`.`id` <> :product_id
+                  ORDER BY
+                      `a`.`price` DESC";
+        $result = $this->database->fetchAll($query, array('product_id' => $id)); 
+   
+        // TODO: надо разделить все параметры подбора на важные и не очень, тогда
+        // можно несущественные параметры отбрасывать
+    
+        if (empty($result)) {
+            return array();
+            // return $this->getGroupProducts($id, $group);
+        }
+        
+        $count = count($result);
+        if ($count > 12) { // шесть самых дорогих и шесть самых дешевых
+            $products = array_merge(array_slice($result, 0, 6), array_slice($result, -6));
+        } else {
+            $products = $result;
+        }
+        
+        // добавляем в массив товаров информацию об URL товаров, фото
+        foreach ($products as $key => $value) {
+            // URL ссылки на страницу товара
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            // URL ссылки на страницу производителя
+            $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
+            // URL ссылки на фото товара
+            if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+            // атрибут action тега form для добавления товара в корзину
+            $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
+        }
+        return $products;
+    }
+    
+    /**
+     * Функция возвращает массив товаров функциональной группы с идентификатором $group,
+     * исключая товар с уникальным идентификатором $id
+     */
+    protected function getGroupProducts($id, $group) {
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
+                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `a`.`image` AS `image`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
+                      `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`group` = :group_id AND `a`.`id` <> :product_id
+                  ORDER BY
+                      `a`.`price` DESC";
+        $result = $this->database->fetchAll($query, array('product_id' => $id, 'group_id' => $group));
+        
+        if (empty($result)) {
+            return array();
+        }
+        
+        $count = count($result);
+        if ($count > 12) { // шесть самых дорогих и шесть самых дешевых
+            $products = array_merge(array_slice($result, 0, 6), array_slice($result, -6));
+        } else {
+            $products = $result;
+        }
+        
+        // добавляем в массив товаров информацию об URL товаров, фото
+        foreach ($products as $key => $value) {
+            // URL ссылки на страницу товара
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            // URL ссылки на страницу производителя
+            $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
+            // URL ссылки на фото товара
+            if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+            // атрибут action тега form для добавления товара в корзину
+            $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
+        }
+        return $products; 
+    }
 
     /**
      * Функция возвращает результаты поиска по каталогу; результат работы

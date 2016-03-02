@@ -71,18 +71,20 @@
     padding: 4px;
     border: 1px solid #f0f0f0;
     width: 130px;
-    height: 178px;
+    height: 176px;
     background: #fafafa;
     text-align: center;
 }
     .new-hit-item > div:first-child {
-        height: 33px;
+        height: 30px;
         margin-bottom: 4px;
         overflow: hidden;
     }
         .new-hit-item > div:first-child > a {
             font-size: 14px;
             line-height: 15px;
+            height: 30px;
+            display: block;
         }
     .new-hit-item > div:nth-child(2) {
         margin-bottom: 5px;
@@ -97,7 +99,7 @@
             background: #fff;
         }
     .new-hit-item > div:last-child {
-        height: 16px;
+        height: 17px;
         color: #969696;
         overflow: hidden;
     }

@@ -299,6 +299,37 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
         <?php endif ?>
+        
+        <?php if (!empty($likedProducts)): // похожие товары ?>
+            <div class="center-block">
+                <div><h3>Похожие товары</h3></div>
+                <div class="no-padding">
+                    <div class="product-list-upsell">
+                        <?php foreach($likedProducts as $product): ?>
+                            <div><div>
+                                <div class="product-upsell-heading">
+                                    <h4><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h4>
+                                </div>
+                                <div class="product-upsell-image">
+                                    <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
+                                </div>
+                                <div class="product-upsell-price">
+                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
+                                </div>
+                                <div class="product-upsell-basket">
+                                    <form action="<?php echo $product['action']; ?>" method="post" class="add-basket-form">
+                                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
+                                        <input type="hidden" name="return" value="product" />
+                                        <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
+                                        <input type="submit" name="submit" value="В корзину" />
+                                    </form>
+                                </div>
+                            </div></div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
 
     </div>
 

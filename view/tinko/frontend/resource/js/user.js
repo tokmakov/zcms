@@ -46,6 +46,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
@@ -65,6 +66,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
@@ -86,6 +88,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
@@ -107,6 +110,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
@@ -119,6 +123,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
@@ -132,6 +137,7 @@ $(document).ready(function() {
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "ADDRESS",
         count: 5,
+        mobileWidth: 240,
         triggerSelectOnBlur: false,
         // вызывается, когда пользователь выбирает одну из подсказок
         onSelect: function(suggestion) {
