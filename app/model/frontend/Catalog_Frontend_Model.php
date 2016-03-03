@@ -709,8 +709,33 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   GROUP BY
                       `a`.`id`, `a`. `name`
                   ORDER BY
-                      COUNT(*) DESC, `a`.`name`";
+                      `a`.`name`, COUNT(*) DESC";
         $groups = $this->database->fetchAll($query);
+
+        if (count($groups) > 15) {
+            $bound = false;
+            foreach ($groups as $value)  {
+                if ($value['count'] > 1) {
+                    $bound = true;
+                    break;
+                }
+            }
+            if ($bound) {
+                $first = array();
+                $second = array();
+                foreach ($groups as $value)  {
+                    if ($value['count'] > 1) {
+                        $first[] = $value;
+                    } else {
+                        $second[] = $value;
+                    }
+                }
+            }
+            if (!empty($second)) {
+                $second[0]['bound'] = true;
+            }
+            $groups = array_merge($first, $second);
+        }
 
         if (0 == $maker && 0 == $hit && 0 == $new) {
             return $groups;
@@ -740,8 +765,8 @@ class Catalog_Frontend_Model extends Frontend_Model {
                 $query = $query . " AND `b`.`new` > 0";
             }
             $groups[$key]['count'] = $this->database->fetchOne($query);
-        }
 
+        }
         return $groups;
 
     }
@@ -1549,8 +1574,33 @@ class Catalog_Frontend_Model extends Frontend_Model {
                   GROUP BY
                       `a`.`id`, `a`. `name`
                   ORDER BY
-                      COUNT(*) DESC, `a`.`name`";
+                      `a`.`name`, COUNT(*) DESC";
         $groups = $this->database->fetchAll($query, array('maker' => $id));
+
+        if (count($groups) > 15) {
+            $bound = false;
+            foreach ($groups as $value)  {
+                if ($value['count'] > 1) {
+                    $bound = true;
+                    break;
+                }
+            }
+            if ($bound) {
+                $first = array();
+                $second = array();
+                foreach ($groups as $value)  {
+                    if ($value['count'] > 1) {
+                        $first[] = $value;
+                    } else {
+                        $second[] = $value;
+                    }
+                }
+            }
+            if (!empty($second)) {
+                $second[0]['bound'] = true;
+            }
+            $groups = array_merge($first, $second);
+        }
 
         if (0 == $hit && 0 == $new) {
             return $groups;
@@ -1831,6 +1881,249 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
+     * Функция возвращает массив всех функциональных групп
+     */
+    public function getAllGroups() {
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
+                  FROM
+                      `groups` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                  WHERE
+                      `b`.`visible` = 1
+                  GROUP BY
+                     1, 2
+                  ORDER BY
+                      `a`.`name`, COUNT(*) DESC";
+        $groups = $this->database->fetchAll($query);
+        // добавляем ссылки
+        foreach ($groups as $key => $value) {
+            $groups[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
+        }
+        return $groups;
+    }
+
+    /**
+     * Функция возвращает наименование функциональной группы
+     */
+    public function getGroupName($id) {
+        $query = "SELECT `name` FROM `groups` WHERE `id` = :id";
+        return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
+    }
+
+    /**
+     * Функция возвращает массив товаров функциональной группы с уникальным
+     * идентификатором $id; результат работы кэшируется
+     */
+    public function getGroupProducts($id, $maker, $hit, $new, $param, $sort, $start) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupProducts($id, $maker, $hit, $new, $param, $sort, $start);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
+            . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает массив товаров производителя с уникальным идентификатором $id
+     */
+    protected function groupProducts($id, $maker, $hit, $new, $param, $sort, $start) {
+
+        $tmp = '';
+        if ($maker) { // фильтр по производителю
+            $tmp = $tmp . " AND `a`.`maker` = " . $maker;
+        }
+        if ($hit) { // фильтр по лидерам продаж
+            $tmp = $tmp . " AND `a`.`hit` > 0";
+        }
+        if ($new) { // фильтр по новинкам
+            $tmp = $tmp . " AND `a`.`new` > 0";
+        }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($id, $param);
+            if (empty($ids)) {
+                return array();
+            }
+            $tmp = $tmp . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
+        }
+
+        switch ($sort) { // сортировка
+            case 0: $temp = '`b`.`globalsort`, `a`.`sortorder`';  break; // сортировка по умолчанию
+            case 1: $temp = '`a`.`price`';                        break; // сортировка по цене, по возрастанию
+            case 2: $temp = '`a`.`price` DESC';                   break; // сортировка по цене, по убыванию
+            case 3: $temp = '`a`.`name`';                         break; // сортировка по наименованию, по возрастанию
+            case 4: $temp = '`a`.`name` DESC';                    break; // сортировка по наименованию, по убыванию
+            case 5: $temp = '`a`.`code`';                         break; // сортировка по коду, по возрастанию
+            case 6: $temp = '`a`.`code` DESC';                    break; // сортировка по коду, по убыванию
+        }
+
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`new` AS `new`, `a`.`hit` AS `hit`,
+                      `a`.`image` AS `image`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
+                      `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`, `a`.`group` AS `grp_id`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`group` = :id AND `a`.`visible` = 1" . $tmp . "
+                  ORDER BY " . $temp . "
+                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
+        $products = $this->database->fetchAll($query, array('id' => $id));
+
+        // добавляем в массив URL ссылок на товары и фото
+        foreach($products as $key => $value) {
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+            // атрибут action тега form для добавления товара в корзину
+            $products[$key]['action']['basket'] = $this->getURL('frontend/basket/addprd');
+            // атрибут action тега form для добавления товара в список отложенных
+            $products[$key]['action']['wished'] = $this->getURL('frontend/wished/addprd');
+            // атрибут action тега form для добавления товара в список сравнения
+            $products[$key]['action']['compare'] = $this->getURL('frontend/compare/addprd');
+        }
+
+        return $products;
+
+    }
+
+    /**
+     * Функция возвращает кол-во товаров функциональной группы с уникальным
+     * идентификатором $id; результат работы кэшируется
+     */
+    public function getCountGroupProducts($id, $maker, $hit, $new, $param) {
+
+        $temp = '';
+        if ($maker) { // фильтр по производителю
+            $temp = $temp . " AND `a`.`maker` = " . $maker;
+        }
+        if ($hit) { // фильтр по лидерам продаж
+            $temp = $temp . " AND `a`.`hit` > 0";
+        }
+        if ($new) { // фильтр по новинкам
+            $temp = $temp . " AND `a`.`new` > 0";
+        }
+        if ( ! empty($param)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByParam($id, $param);
+            if (empty($ids)) {
+                return 0;
+            }
+            $temp = $temp . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
+        }
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                  WHERE
+                      `a`.`group` = :id AND `a`.`visible` = 1" . $temp;
+        return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
+    }
+
+    /**
+     * Возвращает массив производителей товаров для функциональной группы
+     * с уникальным идентификатором $id; результат работы кэшируется
+     */
+    public function getGroupMakers($id, $hit = 0, $new = 0, $param = array()) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupMakers($id, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit. '-new-'
+            . $new . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Возвращает массив производителей товаров для функциональной
+     * группы с уникальным идентификатором $id
+     */
+    protected function groupMakers($id, $hit, $new, $param) {
+
+        // получаем список всех произвоителей для функционально группы
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
+                  FROM
+                      `makers` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                  WHERE
+                      `a`.`group` = :id
+                      AND `b`.`visible` = 1
+                  GROUP BY
+                      `a`.`id`, `a`. `name`
+                  ORDER BY
+                      `a`.`name`";
+
+        $makers = $this->database->fetchAll($query, array('id' => $id));
+
+        if (0 == $hit && 0 == $new) {
+            return $makers;
+        }
+
+        // теперь подсчитываем количество товаров для каждого производителя с
+        // учетом фильтров по лидерам продаж, новинкам и по параметрам
+        foreach ($makers as $key => $value) {
+            $query = "SELECT
+                          COUNT(*)
+                      FROM
+                          `makers` `a`
+                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
+                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      WHERE
+                          `a`.`group` = :group_id AND
+                          `a`.`id` = :maker_id AND
+                          `b`.`visible` = 1";
+            if ($hit) { // фильтров по лидерам продаж
+                $query = $query . " AND `b`.`hit` > 0";
+            }
+            if ($new) { // фильтр по новинкам
+                $query = $query . " AND `b`.`new` > 0";
+            }
+            if ( ! empty($param)) { // фильтр по параметрам подбора
+                $ids = $this->getProductsByParam($id, $param);
+                if ( ! empty($ids)) {
+                    $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
+                    $makers[$key]['count'] = $this->database->fetchOne($query);
+                } else {
+                    $makers[$key]['count'] = 0;
+                }
+            } else {
+                $makers[$key]['count'] = $this->database->fetchOne($query);
+            }
+        }
+
+        return $makers;
+
+    }
+
+    /**
      * Функция возвращает ЧПУ для категории с уникальным идентификатором $id с учетом
      * фильтров и сортировки товаров; результат работы кэшируется
      */
@@ -2095,12 +2388,143 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $sortorders;
 
     }
+
+    /**
+     * Функция возвращает ЧПУ для страницы функциональной группы с уникальным
+     * идентификатором $id, с учетом фильтров и сортировки; результат работы
+     * кэшируется
+     */
+    public function getGroupURL($id, $maker, $hit, $new, $param, $sort) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupURL($id, $maker, $hit, $new, $param, $sort);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
+            . '-param-' . md5(serialize($param)) . '-sort-' . $sort;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает ЧПУ для страницы функциональной группы с уникальным
+     * идентификатором $id, с учетом фильтров и сортировки
+     */
+    protected function groupURL($id, $maker, $hit, $new, $param, $sort) {
+
+        $url = 'frontend/catalog/group/id/' . $id;
+        if ($maker) {
+            $url = $url . '/maker/' . $maker;
+        }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
+        }
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        return $this->getURL($url);
+
+    }
+
+    /**
+     * Функция возвращает массив ссылок для сортировки товаров функциональной группы
+     * $id по цене, наименованию, коду (артикулу); результат работы кэшируется
+     */
+    public function getGroupSortOrders($id, $maker, $hit, $new, $param) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupSortOrders($id, $maker, $hit, $new, $param);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
+            . '-param-' . md5(serialize($param));
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает массив ссылок для сортировки товаров функциональной группы
+     * $id по цене, наименованию, коду (артикулу)
+     */
+    protected function groupSortOrders($id, $maker, $hit, $new, $param) {
+
+        $url = 'frontend/catalog/group/id/' . $id;
+        if ($maker) {
+            $url = $url . '/maker/' . $maker;
+        }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
+        }
+        /*
+         * варианты сортировки:
+         * 0 - по умолчанию,
+         * 1 - по цене, по возрастанию
+         * 2 - по цене, по убыванию
+         * 3 - по наименованию, по возрастанию
+         * 4 - по наименованию, по убыванию
+         * 5 - по коду, по возрастанию
+         * 6 - по коду, по убыванию
+         */
+        $sortorders = array();
+        for ($i = 0; $i <= 6; $i++) {
+            switch ($i) {
+                case 0: $name = 'без сортировки';  break;
+                case 1: $name = 'цена, возр.';     break;
+                case 2: $name = 'цена, убыв.';     break;
+                case 3: $name = 'название, возр.'; break;
+                case 4: $name = 'название, убыв.'; break;
+                case 5: $name = 'код, возр.';      break;
+                case 6: $name = 'код, убыв.';      break;
+            }
+            $temp = $i ? $url . '/sort/' . $i : $url;
+            $sortorders[$i] = array(
+                'url'  => $this->getURL($temp),
+                'name' => $name
+            );
+        }
+        return $sortorders;
+
+    }
     
     /**
      * Функция возвращает массив товаров с теми же параметрами подбора, что и
      * у товара с уникальным идентификатором $id
      */
-    public function getLikedProducts($id, $group) {
+    public function getLikedProducts($id, $group, $category, $maker) {
         $query = "SELECT
                       `param_id`, `value_id`
                   FROM
@@ -2110,8 +2534,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
         $result = $this->database->fetchAll($query, array('product_id' => $id));
         
         if (empty($result)) {
-            return array();
-            // return $this->getGroupProducts($id, $group);
+            return $this->_getGroupProducts($id, $group, $category, $maker);
         }
         
         $param = array();
@@ -2137,12 +2560,10 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `a`.`price` DESC";
         $result = $this->database->fetchAll($query, array('product_id' => $id)); 
    
-        // TODO: надо разделить все параметры подбора на важные и не очень, тогда
-        // можно несущественные параметры отбрасывать
+        // TODO: надо разделить все параметры подбора на важные и не очень
     
         if (empty($result)) {
-            return array();
-            // return $this->getGroupProducts($id, $group);
+            return $this->_getGroupProducts($id, $group, $category, $maker);
         }
         
         $count = count($result);
@@ -2174,7 +2595,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив товаров функциональной группы с идентификатором $group,
      * исключая товар с уникальным идентификатором $id
      */
-    protected function getGroupProducts($id, $group) {
+    protected function _getGroupProducts($id, $group, $category, $maker) {
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
                       `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
@@ -2186,20 +2607,28 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
                   WHERE
-                      `a`.`group` = :group_id AND `a`.`id` <> :product_id
+                      `a`.`id` <> :product_id AND
+                      `a`.`group` = :group_id AND
+                      `a`.`category` = :category_id AND
+                      `a`.`maker` = :maker_id
                   ORDER BY
                       `a`.`price` DESC";
-        $result = $this->database->fetchAll($query, array('product_id' => $id, 'group_id' => $group));
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'product_id'  => $id,
+                'group_id'    => $group,
+                'category_id' => $category,
+                'maker_id'    => $maker
+            )
+        );
         
-        if (empty($result)) {
+        if (empty($products)) {
             return array();
         }
-        
-        $count = count($result);
-        if ($count > 12) { // шесть самых дорогих и шесть самых дешевых
-            $products = array_merge(array_slice($result, 0, 6), array_slice($result, -6));
-        } else {
-            $products = $result;
+
+        if (count($products) > 12) {
+            return array();
         }
         
         // добавляем в массив товаров информацию об URL товаров, фото

@@ -1723,6 +1723,13 @@ div.attention {
                             font-size: 14px;
                             border: 1px solid #d1d1d1;
                         }
+                            #catalog-filter select optgroup {
+                                background: #323232;
+                                color: #fff;
+                            }
+                                #catalog-filter select optgroup option {
+                                    background: #395985;
+                                }
                             #catalog-filter select option.empty-option {
                                 background: #f0f0f0;
                                 color: #bbb;
@@ -2149,6 +2156,57 @@ div.attention {
         #all-makers > p > a:hover {
             text-decoration: none;
         }
+
+/* список всех функциональных групп */
+#all-groups {
+    overflow: hidden;
+    margin: 15px 0
+}
+    #all-groups > ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+    }
+    #all-groups > ul:first-child {
+        border-right: 1px dashed #d1d1d1;
+    }
+        #all-groups > ul > li {
+            padding: 0 30px 0 5px;
+            border-bottom: 1px dashed #d1d1d1;
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        #all-groups > ul > li:first-child {
+            border-top: 1px dashed #d1d1d1;
+        }
+            #all-groups > ul > li > span {
+                display: table;
+                width: 100%;
+            }
+                #all-groups > ul > li > span > a {
+                    display: table-cell;
+                    height: 30px;
+                    vertical-align: middle;
+                    font-size: 14px;
+                    line-height: 15px;
+                }
+                #all-groups > ul > li > span > span {
+                    display: block;
+                    position: absolute;
+                    color: #5390cc;
+                    font-size: 13px;
+                    line-height: 30px;
+                    height: 30px;
+                    width: 30px;
+                    text-align: center;
+                    background: #f0f0f0;
+                    top: 0;
+                    right: 0;
+                }
 
 /*
  * ЛЕВАЯ КОЛОНКА

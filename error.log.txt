@@ -473,3 +473,38 @@
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+03.03.2016 15:31:56
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.pdoducts' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1900): Database->fetchAll('SELECT\r\n       ...')
+#3 C:\work\localhost2\www\app\controller\frontend\catalog\Groups_Catalog_Frontend_Controller.php(43): Catalog_Frontend_Model->getAllGroups()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Groups_Catalog_Frontend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+
+03.03.2016 15:32:19
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/179
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1903): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\app\controller\frontend\catalog\Groups_Catalog_Frontend_Controller.php(43): Catalog_Frontend_Model->getAllGroups()
+#3 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Groups_Catalog_Frontend_Controller->input()
+#4 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#5 {main}
+
+03.03.2016 16:49:05
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/179/sort/1
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2514): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2453): Catalog_Frontend_Model->groupSortOrders(179, 0, 0, 0, Array)
+#3 C:\work\localhost2\www\app\controller\frontend\catalog\Group_Catalog_Frontend_Controller.php(161): Catalog_Frontend_Model->getGroupSortOrders(179, 0, 0, 0, Array)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Group_Catalog_Frontend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

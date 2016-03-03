@@ -40,8 +40,15 @@ for ($i = 0; $i <= 6; $i++) {
         <select name="group">
             <option value="0">Выберите</option>
             <?php foreach ($groups as $item): ?>
+                <?php if (isset($item['bound'])): ?>
+                    <?php $bound = true; ?>
+                    <optgroup label="Разное">
+                <?php endif; ?>
                 <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>
             <?php endforeach; ?>
+            <?php if (isset($bound)): ?>
+                </optgroup>
+            <?php endif; ?>
         </select>
         </span>
         <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>

@@ -1,26 +1,21 @@
 <?php
 /**
- * Список товаров выбранного производителя,
- * файл view/example/frontend/template/catalog/maker/center.php,
+ * Список товаров выбранной функциональной группы,
+ * файл view/example/frontend/template/catalog/group/center.php,
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $id - уникальный идентификатор производителя
- * $name - наименование производителя
+ * $id - уникальный идентификатор функциональной группы
+ * $name - наименование функциональной группы
  * $action - атрибут action тега form
  * $view - представление списка товаров
- * $group - id выбранной функциональной группы или ноль
- * $groups - массив функциональных групп
  * $param - массив выбранных параметров подбора
- * $params - массив всех параметров подбора
  * $hit - показывать только лидеров продаж?
- * $countHit - количество лидеров продаж
  * $new - показывать только новинки?
- * $countNew - количество новинок
  * $sort - выбранная сортировка
  * $sortorders - массив всех вариантов сортировки
- * $products - массив товаров производителя
+ * $products - массив товаров функциональной группы
  * $units - массив единиц измерения товара
  * $clearFilterURL - URL ссылки для сброса фильтра
  * $pager - постраничная навигация
@@ -58,31 +53,31 @@
  *
  * $sortorders = Array (
  *   [0] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74
+ *     [url] => http://www.host.ru/catalog/group/74
  *     [name] => без сортировки
  *   )
  *   [1] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/1
+ *     [url] => http://www.host.ru/catalog/group/74/sort/1
  *     [name] => цена, возр.
  *   )
  *   [2] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/2
+ *     [url] => http://www.host.ru/catalog/group/74/sort/2
  *     [name] => цена, убыв.
  *   )
  *   [3] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/3
+ *     [url] => http://www.host.ru/catalog/group/74/sort/3
  *     [name] => название, возр.
  *   )
  *   [4] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/4
+ *     [url] => http://www.host.ru/catalog/group/74/sort/4
  *     [name] => название, убыв.
  *   )
  *   [5] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/5
+ *     [url] => http://www.host.ru/catalog/group/74/sort/5
  *     [name] => код, возр.
  *   )
  *   [6] => Array (
- *     [url] => http://www.host.ru/catalog/maker/74/sort/6
+ *     [url] => http://www.host.ru/catalog/group/74/sort/6
  *     [name] => код, убыв.
  *   )
  * )
@@ -99,42 +94,42 @@
  * $pager = Array (
  *   [first] => Array (
  *     [num] => 1
- *     [url] => http://www.host.ru/catalog/maker/384
+ *     [url] => http://www.host.ru/catalog/group/384
  *   )
  *   [prev] => Array (
  *     [num] => 2
- *     [url] => http://www.host.ru/catalog/maker/384/page/2
+ *     [url] => http://www.host.ru/catalog/group/384/page/2
  *   )
  *   [current] => Array (
  *     [num] => 3
- *     [url] => http://www.host.ru/catalog/maker/384/page/3
+ *     [url] => http://www.host.ru/catalog/group/384/page/3
  *   )
  *   [last] => Array (
  *     [num] => 37
- *     [url] => http://www.host.ru/catalog/maker/384/page/37
+ *     [url] => http://www.host.ru/catalog/group/384/page/37
  *   )
  *   [next] => Array (
  *     [num] => 4
- *     [url] => http://www.host.ru/catalog/maker/384/page/4
+ *     [url] => http://www.host.ru/catalog/group/384/page/4
  *   )
  *   [left] => Array (
  *     [0] => Array (
  *       [num] => 1
- *       [url] => http://www.host.ru/catalog/maker/384
+ *       [url] => http://www.host.ru/catalog/group/384
  *     )
  *     [1] => Array (
  *       [num] => 2
- *       [url] => http://www.host.ru/catalog/maker/384/page/2
+ *       [url] => http://www.host.ru/catalog/group/384/page/2
  *     )
  *   )
  *   [right] => Array (
  *     [0] => Array (
  *       [num] => 4
- *       [url] => http://www.host.ru/catalog/maker/384/page/4
+ *       [url] => http://www.host.ru/catalog/group/384/page/4
  *     )
  *     [1] => Array (
  *       [num] => 5
- *       [url] => http://www.host.ru/catalog/maker/384/page/5
+ *       [url] => http://www.host.ru/catalog/group/384/page/5
  *     )
  *   )
  * )
@@ -173,7 +168,7 @@ for ($i = 0; $i <= 6; $i++) {
 
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/catalog/maker/center.php -->
+<!-- Начало шаблона view/example/frontend/template/catalog/group/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -189,94 +184,10 @@ for ($i = 0; $i <= 6; $i++) {
 </span>
 <h1><?php echo $name; ?></h1>
 
-<?php if (empty($products) && empty($group) && empty($hit) && empty($new)): ?>
-    <p>Нет товаров у выбранного производителя</p>
+<?php if (empty($products) && empty($maker) && empty($param) && empty($hit) && empty($new)): ?>
+    <p>Нет товаров в этой функциональной группе</p>
     <?php return; ?>
 <?php endif; ?>
-
-<div id="catalog-filter">
-    <div>
-        <span>
-            Фильтр
-            <a href="<?php echo $clearFilterURL; ?>"<?php if ($group || $hit || $new) echo ' class="show-clear-filter"'; ?>>
-                сбросить
-            </a>
-        </span>
-        <span>
-            <span>скрыть</span>
-        </span>
-    </div>
-    <div>
-        <form action="<?php echo $action; ?>" method="post">
-            <div>
-                <div>
-                    <div>
-                        <span>Функциональное назначение</span>
-                    </div>
-                    <div>
-                        <span>
-                        <select name="group">
-                            <option value="0">Выберите</option>
-                            <?php foreach ($groups as $item): ?>
-                                <?php if (isset($item['bound'])): ?>
-                                    <?php $bound = true; ?>
-                                    <optgroup label="Разное">
-                                <?php endif; ?>
-                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>
-                            <?php endforeach; ?>
-                            <?php if (isset($bound)): ?>
-                                </optgroup>
-                            <?php endif; ?>
-                        </select>
-                        </span>
-                        <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
-                    </div>
-                </div>
-                <?php if (!empty($params)): ?>
-                    <?php foreach ($params as $item): ?>
-                        <div>
-                            <div>
-                                <span><?php echo $item['name']; ?></span>
-                            </div>
-                            <div>
-                                <span>
-                                <select name="param[<?php echo $item['id']; ?>]">
-                                    <option value="0">Выберите</option>
-                                    <?php foreach ($item['values'] as $value): ?>
-                                        <option value="<?php echo $value['id']; ?>"<?php echo $value['selected'] ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
-                                    <?php endforeach; ?>
-                                </select>
-                                </span>
-                                <?php if ($item['selected']): ?><i class="fa fa-times"></i><?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-                <div>
-                    <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
-                        <span>
-                            <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" id="hit-prd-box" />
-                            <label for="hit-prd-box">Лидер продаж</label>
-                        </span>
-                    </div>
-                    <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
-                        <span>
-                            <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" id="new-prd-box" />
-                            <label for="new-prd-box">Новинка</label>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <?php if ($sort): ?>
-                    <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
-                <?php endif; ?>
-                <input type="hidden" name="change" value="0" />
-                <input type="submit" name="submit" value="Применить" />
-            </div>
-        </form>
-    </div>
-</div>
 
 <?php if (empty($products)): ?>
     <div id="catalog-products">
@@ -340,8 +251,8 @@ for ($i = 0; $i <= 6; $i++) {
                     <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="text" name="count" value="1" size="5" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -352,8 +263,8 @@ for ($i = 0; $i <= 6; $i++) {
                     </form>
                     <form action="<?php echo $product['action']['wished']; ?>" method="post" class="add-wished-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -364,8 +275,8 @@ for ($i = 0; $i <= 6; $i++) {
                     </form>
                     <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -426,4 +337,4 @@ for ($i = 0; $i <= 6; $i++) {
     
 </div>
 
-<!-- Конец шаблона view/example/frontend/template/catalog/maker/center.php -->
+<!-- Конец шаблона view/example/frontend/template/catalog/group/center.php -->

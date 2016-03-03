@@ -511,7 +511,7 @@ function filterSelectHandler() {
             $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
             $('#catalog-filter form i').click(function() {
                 var select = $(this).prev().children();
-                select.children('option:selected').prop('selected', false);
+                select.find('option:selected').prop('selected', false);
                 select.change();
             });
             // для третьего блока (товары после фильтрации) назначаем обработчики
