@@ -1,510 +1,122 @@
-04.02.2016 16:28:31
-Код: 0, текст: Файл view/tinko/backend/resource/css/news.css не найден
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 327
+04.03.2016 12:00:45
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/307/param/187.1603-241.1939
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
 Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\Base_Controller.php(258): Base_Controller->setCssJsFiles('index')
-#1 C:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
-#2 C:\work\localhost2\www\app\controller\backend\Backend_Controller.php(190): Base_Controller->input()
-#3 C:\work\localhost2\www\app\controller\backend\index\Index_Index_Backend_Controller.php(25): Backend_Controller->input()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Index_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2699): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2658): Catalog_Frontend_Model->groupURL(307, 0, 0, 0, Array, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(105): Catalog_Frontend_Model->getGroupURL(307, 0, 0, 0, Array, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#5 {main}
+
+04.03.2016 12:08:32
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/307/param/187.1605
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2699): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2658): Catalog_Frontend_Model->groupURL(307, 0, 0, 0, Array, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(105): Catalog_Frontend_Model->getGroupURL(307, 0, 0, 0, Array, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#5 {main}
+
+04.03.2016 12:13:37
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/307/param/187.1605
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2699): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2658): Catalog_Frontend_Model->groupURL(307, 0, 0, 0, Array, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(105): Catalog_Frontend_Model->getGroupURL(307, 0, 0, 0, Array, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#5 {main}
+
+04.03.2016 12:23:09
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/307/param/187.1605/sort/1
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2772): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2711): Catalog_Frontend_Model->groupSortOrders(307, 0, 0, 0, Array)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Group_Catalog_Frontend_Controller.php(210): Catalog_Frontend_Model->getGroupSortOrders(307, 0, 0, 0, Array)
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Group_Catalog_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
-04.02.2016 16:34:32
-Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.articles' doesn't exist
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 231
+04.03.2016 12:35:10
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
 Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
-#2 C:\work\localhost2\www\app\model\backend\Article_Backend_Model.php(80): Database->fetchOne('SELECT\r\n       ...')
-#3 C:\work\localhost2\www\app\controller\backend\article\Index_Article_Backend_Controller.php(43): Article_Backend_Model->getCountAllArticles()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(139): Index_Article_Backend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2118): Database->fetchOne('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2054): Catalog_Frontend_Model->groupMakers(307, 1, 0, Array)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(52): Catalog_Frontend_Model->getGroupMakers(307, 1, 0, Array)
+#5 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
 #6 {main}
 
-05.02.2016 09:03:45
-Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
-                      `active` = 1
-                  GROUP BY
-              ' at line 6
+04.03.2016 12:42:25
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2123): Database->fetchOne('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2054): Catalog_Frontend_Model->groupMakers(307, 1, 0, Array)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(52): Catalog_Frontend_Model->getGroupMakers(307, 1, 0, Array)
+#5 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#6 {main}
+
+04.03.2016 12:43:19
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2118): Database->fetchOne('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2054): Catalog_Frontend_Model->groupMakers(307, 1, 0, Array)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(52): Catalog_Frontend_Model->getGroupMakers(307, 1, 0, Array)
+#5 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#6 {main}
+
+04.03.2016 12:49:16
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/307/hit/1/param/187.1605
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2699): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2658): Catalog_Frontend_Model->groupURL(307, 0, 1, 0, Array, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Group_Catalog_Frontend_Controller.php(105): Catalog_Frontend_Model->getGroupURL(307, 0, 1, 0, Array, 0)
+#4 D:\work\localhost2\www\index.php(52): Xhr_Group_Catalog_Frontend_Controller->request()
+#5 {main}
+
+06.03.2016 11:52:57
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'where clause'
 Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
 Стек вызовов: 
 #0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
 #1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(634): Database->fetchAll('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(136): Compare_Frontend_Model->update(Object(User_Frontend_Model))
-#4 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(321): User_Frontend_Model->notify()
-#5 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(144): User_Frontend_Model->loginUser(Array)
-#6 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(58): Login_User_Frontend_Controller->validateForm()
-#7 D:\work\localhost2\www\app\controller\Base_Controller.php(139): Login_User_Frontend_Controller->input()
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1406): Database->fetchAll('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1358): Catalog_Frontend_Model->makers()
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(258): Catalog_Frontend_Model->getMakers()
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Catalog_Frontend_Controller.php(25): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\frontend\catalog\Group_Catalog_Frontend_Controller.php(26): Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Group_Catalog_Frontend_Controller->input()
 #8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #9 {main}
 
-18.02.2016 11:36:44
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
+06.03.2016 12:30:07
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 13
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
 Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:37:31
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:38:38
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:40:33
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:42:30
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:44:12
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:44:30
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:45:19
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:46:21
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:51:17
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:53:04
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:54:16
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:58:12
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:59:28
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 11:59:59
-Код: 0, текст: Не найден файл шаблона 
-Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 C:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 20:20:19
-Код: 0, текст: Не найден файл шаблона 
-Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-18.02.2016 20:20:31
-Код: 0, текст: Не найден файл шаблона 
-Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 177
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(431): Base_Controller->render(NULL, Array)
-#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(364): Frontend_Controller->render(NULL, Array)
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(151): Frontend_Controller->output()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 14:10:23
-Код: 0, текст: Данные сессии с ключом [randomNumber] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('randomNumber')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 14:12:07
-Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 15:11:59
-Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 15:12:10
-Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 15:22:30
-Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(138): Base->getSessionData('checkRobot')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-19.02.2016 15:33:18
-Код: 0, текст: Данные сессии с ключом [checkRobot] не найдены
-Файл: D:\work\localhost2\www\app\Base.php, строка: 80
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(135): Base->getSessionData('checkRobot')
-#1 D:\work\localhost2\www\app\controller\frontend\user\Reg_User_Frontend_Controller.php(36): Reg_User_Frontend_Controller->validateForm()
-#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Reg_User_Frontend_Controller->input()
-#3 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#4 {main}
-
-21.02.2016 01:19:11
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(625): Database->execute('INSERT INTO `pr...', Array)
-#2 D:\work\localhost2\www\app\controller\frontend\user\Addprof_User_Frontend_Controller.php(211): User_Frontend_Model->addProfile(Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Addprof_User_Frontend_Controller.php(35): Addprof_User_Frontend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Addprof_User_Frontend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-21.02.2016 01:34:40
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(661): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\frontend\user\Editprof_User_Frontend_Controller.php(248): User_Frontend_Model->updateProfile(Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Editprof_User_Frontend_Controller.php(43): Editprof_User_Frontend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprof_User_Frontend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-21.02.2016 01:34:56
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(661): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\frontend\user\Editprof_User_Frontend_Controller.php(248): User_Frontend_Model->updateProfile(Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Editprof_User_Frontend_Controller.php(43): Editprof_User_Frontend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprof_User_Frontend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-23.02.2016 15:37:10
-Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'patronymic' in 'field list'
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(172): Database->fetch('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(477): User_Frontend_Model->getUser()
-#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(201): User_Frontend_Model->autoLogin()
-#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(8): Frontend_Controller->__construct(Array)
-#6 D:\work\localhost2\www\index.php(50): Index_Index_Frontend_Controller->__construct(Array)
-#7 {main}
-
-23.02.2016 15:40:20
-Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'patronymic' in 'field list'
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 200
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(200): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(182): Database->pdoFetch('SELECT\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(575): Database->fetch('SELECT\r\n       ...', Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Editprof_User_Frontend_Controller.php(69): User_Frontend_Model->getProfile(24)
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprof_User_Frontend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-26.02.2016 09:13:12
-Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause'
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT 1 FROM `...', Array)
-#2 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(333): Database->fetchOne('SELECT 1 FROM `...', Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(144): User_Frontend_Model->loginUser(Array)
-#4 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(58): Login_User_Frontend_Controller->validateForm()
-#5 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Login_User_Frontend_Controller->input()
-#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#7 {main}
-
-26.02.2016 09:16:29
-Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 231
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT 1 FROM `...', Array)
-#2 D:\work\localhost2\www\app\model\frontend\User_Frontend_Model.php(333): Database->fetchOne('SELECT 1 FROM `...', Array)
-#3 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(144): User_Frontend_Model->loginUser(Array)
-#4 D:\work\localhost2\www\app\controller\frontend\user\Login_User_Frontend_Controller.php(58): Login_User_Frontend_Controller->validateForm()
-#5 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Login_User_Frontend_Controller->input()
-#6 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#7 {main}
-
-28.02.2016 13:16:46
-Код: 0, текст: Метод Catalog_Frontend_Model::alidParams не существует
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 47
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1088): Frontend_Model->getCachedData('Catalog_Fronten...', 'isValidParams', Array)
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(230): Catalog_Frontend_Model->isValidParams(Array)
-#2 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(34): Xhr_Category_Catalog_Frontend_Controller->processFormData()
-#3 D:\work\localhost2\www\index.php(52): Xhr_Category_Catalog_Frontend_Controller->request()
-#4 {main}
-
-28.02.2016 13:17:32
-Код: 0, текст: Метод Catalog_Frontend_Model::alidParams не существует
-Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 47
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1088): Frontend_Model->getCachedData('Catalog_Fronten...', 'isValidParams', Array)
-#1 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(230): Catalog_Frontend_Model->isValidParams(Array)
-#2 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(34): Xhr_Category_Catalog_Frontend_Controller->processFormData()
-#3 D:\work\localhost2\www\index.php(52): Xhr_Category_Catalog_Frontend_Controller->request()
-#4 {main}
-
-29.02.2016 13:41:02
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(353): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:41:19
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(353): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:41:48
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(353): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:42:42
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(353): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:43:00
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(353): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:44:20
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(354): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:45:06
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(354): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-29.02.2016 13:46:07
-Код: HY000, текст: SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xD0 \xD0\xAF\xD0\x94...' for column 'techdata' at row 1
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 142
-Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(142): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Catalog_Backend_Model.php(484): Database->execute('UPDATE\r\n       ...', Array)
-#2 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(352): Catalog_Backend_Model->updateProduct(Array)
-#3 D:\work\localhost2\www\app\controller\backend\catalog\Editprd_Catalog_Backend_Controller.php(45): Editprd_Catalog_Backend_Controller->validateForm()
-#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Editprd_Catalog_Backend_Controller->input()
-#5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-03.03.2016 15:31:56
-Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.pdoducts' doesn't exist
-Файл: C:\work\localhost2\www\app\include\Database.php, строка: 169
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
-#1 C:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
-#2 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1900): Database->fetchAll('SELECT\r\n       ...')
-#3 C:\work\localhost2\www\app\controller\frontend\catalog\Groups_Catalog_Frontend_Controller.php(43): Catalog_Frontend_Model->getAllGroups()
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Groups_Catalog_Frontend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
-
-03.03.2016 15:32:19
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/179
-Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1903): Frontend_Model->getURL('frontend/catalo...')
-#2 C:\work\localhost2\www\app\controller\frontend\catalog\Groups_Catalog_Frontend_Controller.php(43): Catalog_Frontend_Model->getAllGroups()
-#3 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Groups_Catalog_Frontend_Controller->input()
-#4 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#5 {main}
-
-03.03.2016 16:49:05
-Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/group/id/179/sort/1
-Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
-Стек вызовов: 
-#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
-#1 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2514): Frontend_Model->getURL('frontend/catalo...')
-#2 C:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(2453): Catalog_Frontend_Model->groupSortOrders(179, 0, 0, 0, Array)
-#3 C:\work\localhost2\www\app\controller\frontend\catalog\Group_Catalog_Frontend_Controller.php(161): Catalog_Frontend_Model->getGroupSortOrders(179, 0, 0, 0, Array)
-#4 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Group_Catalog_Frontend_Controller->input()
-#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
-#6 {main}
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1387): Database->fetchAll('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(1355): Catalog_Frontend_Model->makers()
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(258): Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Catalog_Frontend_Controller.php(25): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\frontend\catalog\Index_Catalog_Frontend_Controller.php(26): Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Catalog_Frontend_Controller->input()
+#8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#9 {main}
 

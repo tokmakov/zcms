@@ -320,7 +320,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div class="product-list-info">
                     <div>
-                        <span>Цена, <?php echo $units[$product['unit']]; ?></span>
+                        <span>Цена, <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ' '); ?></strong><span>розничная</span></span>
                             <span><strong><?php echo number_format($product['price2'], 2, '.', ' '); ?></strong><span>мелкий опт</span></span>

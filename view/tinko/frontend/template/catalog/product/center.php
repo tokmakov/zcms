@@ -5,7 +5,6 @@
  *
  * Переменные, которые приходят в шаблон:
  * $id - уникальный идентификатор товара
- * $group - идентификатор функциональной группы
  * $breadcrumbs - хлебные крошки
  * $breadcrumbs2 - хлебные крошки
  * $thisPageUrl - URL этой страницы
@@ -16,7 +15,8 @@
  * $price - цена
  * $unit - единица измерения
  * $units - массив единиц измерения товара
- * $maker - производитель
+ * $maker - информация о функциональной группе
+ * $maker - информация о производителе
  * $new - новый товар?
  * $hit - лидер продаж?
  * $shortdescr - краткое описание
@@ -45,6 +45,12 @@
  *   [id] => 22
  *   [name] => РЗМКП
  *   [url] => http://www.host.ru/catalog/maker/22
+ * )
+ * 
+ * $group = Array (
+ *   [id] => 22
+ *   [name] => Извещатель охранный
+ *   [url] => http://www.host.ru/catalog/group/76
  * )
  *
  * $image = Array (
@@ -141,7 +147,7 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div class="product-item-info">
             <div>
-                <span>Цена, <?php echo $units[$unit]; ?></span>
+                <span>Цена, <i class="fa fa-rub"></i>/<?php echo $units[$unit]; ?></span>
                 <span>
                     <span>
                         <span><?php echo number_format($price, 2, '.', ' '); ?></span> <span>розничная</span>
@@ -156,6 +162,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div><span>Код</span> <span><?php echo $code; ?></span></div>
             <div><span>Производитель</span> <span><a href="<?php echo $maker['url']; ?>"><?php echo $maker['name']; ?></a></span></div>
+            <div><span>Функционал</span> <span><a href="<?php echo $group['url']; ?>"><?php echo $group['name']; ?></a></span></div>
         </div>
         <div class="product-item-basket">
             <form action="<?php echo $action['basket']; ?>" method="post" class="add-basket-form">
@@ -171,22 +178,13 @@ defined('ZCMS') or die('Access denied');
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
                 <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
             </form>
-            <form action="<?php echo $action['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $group; ?>">
+            <form action="<?php echo $action['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $group['id']; ?>">
                 <input type="hidden" name="product_id" value="<?php echo $id; ?>" />
                 <input type="hidden" name="return" value="product" />
                 <input type="hidden" name="return_prd_id" value="<?php echo $id; ?>" />
                 <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
             </form>
             <div></div>
-        </div>
-        <div class="product-item-social">
-            <a href="http://vkontakte.ru/share.php?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="ВКонтакте" class="fa fa-vk"></a>
-            <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Одноклассники" class="fa fa-odnoklassniki"></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Facebook" class="fa fa-facebook"></a>
-            <a href="http://twitter.com/share?text=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Twitter" class="fa fa-twitter"></a>
-            <a href="https://plus.google.com/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Google+" class="fa fa-google-plus"></a>
-            <a href="http://connect.mail.ru/share?url=<?php echo rawurlencode($thisPageUrl); ?>" target="_blank" title="Мой Мир@Mail.Ru" class="fa fa-at"></a>
-            <a href="mailto:?subject=<?php echo rawurlencode($name); echo (!empty($title)) ? rawurlencode(' '.$title) : ''; ?>&amp;body=<?php echo rawurldecode($thisPageUrl); ?>" target="_blank" title="Отправить на e-mail" class="fa fa-envelope-o"></a>
         </div>
         <div class="product-item-descr"><?php echo $shortdescr; ?></div>
     </div>
@@ -283,7 +281,7 @@ defined('ZCMS') or die('Access denied');
                                     <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                                 </div>
                                 <div class="product-upsell-price">
-                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
+                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?>
                                 </div>
                                 <div class="product-upsell-basket">
                                     <form action="<?php echo $product['action']; ?>" method="post" class="add-basket-form">
@@ -314,7 +312,7 @@ defined('ZCMS') or die('Access denied');
                                     <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                                 </div>
                                 <div class="product-upsell-price">
-                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
+                                    <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?>
                                 </div>
                                 <div class="product-upsell-basket">
                                     <form action="<?php echo $product['action']; ?>" method="post" class="add-basket-form">

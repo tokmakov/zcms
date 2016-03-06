@@ -59,11 +59,11 @@
         }
             #all-params > ul > li > div:first-child {
                 float: left;
-                width: 70%;
+                width: 75%;
             }
             #all-params > ul > li > div:last-child {
                 float: right;
-                width: 30%;
+                width: 25%;
                 text-align: right;
             }
 

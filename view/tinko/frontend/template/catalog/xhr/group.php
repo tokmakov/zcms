@@ -33,25 +33,18 @@ for ($i = 0; $i <= 6; $i++) {
 ¤
 <div>
     <div>
-        <span>Функциональное назначение</span>
+        <span>Производитель</span>
     </div>
     <div>
         <span>
-        <select name="group">
+        <select name="maker">
             <option value="0">Выберите</option>
-            <?php foreach ($groups as $item): ?>
-                <?php if (isset($item['bound'])): ?>
-                    <?php $bound = true; ?>
-                    <optgroup label="Разное">
-                <?php endif; ?>
-                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>
+            <?php foreach ($makers as $item): ?>
+                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>
             <?php endforeach; ?>
-            <?php if (isset($bound)): ?>
-                </optgroup>
-            <?php endif; ?>
         </select>
         </span>
-        <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
+        <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
     </div>
 </div>
 <?php if (!empty($params)): ?>
@@ -136,17 +129,17 @@ for ($i = 0; $i <= 6; $i++) {
                     </div>
                     <div>
                         <span>Производитель</span>
-                        <span><span class="selected"><?php echo $name; ?></a></span>
+                        <span><a href="<?php echo $product['url']['maker']; ?>"<?php echo ($maker) ? ' class="selected"' : ''; ?>><?php echo $product['mkr_name']; ?></a></span>
                     </div>
                 </div>
                 <div class="product-list-basket">
                     <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="text" name="count" value="1" size="5" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
-                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
                         <?php if ($hit): ?>
                             <input type="hidden" name="hit" value="1" />
@@ -164,10 +157,10 @@ for ($i = 0; $i <= 6; $i++) {
                     </form>
                     <form action="<?php echo $product['action']['wished']; ?>" method="post" class="add-wished-form">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
-                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
                         <?php if ($hit): ?>
                             <input type="hidden" name="hit" value="1" />
@@ -185,10 +178,10 @@ for ($i = 0; $i <= 6; $i++) {
                     </form>
                     <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-                        <input type="hidden" name="return" value="maker" />
-                        <input type="hidden" name="return_mkr_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
-                            <input type="hidden" name="group" value="<?php echo $group; ?>" />
+                        <input type="hidden" name="return" value="group" />
+                        <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
                         <?php if ($hit): ?>
                             <input type="hidden" name="hit" value="1" />

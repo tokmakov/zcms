@@ -18,7 +18,7 @@
  * $countNew - количество новинок
  * $param - массив выбранных параметров подбора
  * $groups - массив функциональных групп
- * $makers - массив производителей
+ * $makers - массив всех производителей
  * $params - массив всех параметров подбора
  * $sort - выбранная сортировка
  * $sortorders - массив всех вариантов сортировки
@@ -468,7 +468,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div class="product-list-info">
                     <div>
-                        <span>Цена, <?php echo $units[$product['unit']]; ?></span>
+                        <span>Цена, <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ' '); ?></strong><span>розничная</span></span>
                             <span><strong><?php echo number_format($product['price2'], 2, '.', ' '); ?></strong><span>мелкий опт</span></span>

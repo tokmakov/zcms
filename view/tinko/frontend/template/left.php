@@ -5,8 +5,10 @@
  *
  * Переменные, доступные в шаблоне:
  * $catalogMenu - меню каталога (дерево каталога с одной раскрытой веткой)
- * $makers = массив 10 производителей
- * $allMakersUrl - URL ссылки на страницу со списком всех производителей
+ * $makers - массив 10 производителей
+ * $allMakersURL - URL ссылки на страницу со списком всех производителей
+ * $groups - массив 10 функциональных групп
+ * $allGroupsURL - URL ссылки на страницу со списком всех функциональных групп
  *
  * $catalogMenu = Array (
  *   [0] => Array (
@@ -209,7 +211,21 @@ defined('ZCMS') or die('Access denied');
             </li>
         <?php endforeach; ?>
         </ul>
-        <p><a href="<?php echo $allMakersUrl; ?>">Все производители</a></p>
+        <p><a href="<?php echo $allMakersURL; ?>">Все производители</a></p>
+    </div>
+</div>
+
+<div id="side-groups">
+    <div class="side-heading">Функциональные группы</div>
+    <div class="side-content">
+        <ul>
+        <?php foreach ($groups as $item): ?>
+            <li>
+                <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <p><a href="<?php echo $allGroupsURL; ?>">Все функциональные группы</a></p>
     </div>
 </div>
 

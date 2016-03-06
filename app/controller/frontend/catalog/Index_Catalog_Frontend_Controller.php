@@ -37,7 +37,10 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $root = $this->catalogFrontendModel->getRootCategories();
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getAllMakers(40);
+        $makers = $this->catalogFrontendModel->getMakers(20);
+        
+        // получаем от модели массив функциональных групп
+        $groups = $this->catalogFrontendModel->getGroups(20);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -49,8 +52,12 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'root'         => $root,
             // массив производителей
             'makers'       => $makers,
+            // массив функциональных групп
+            'groups'       => $groups,
             // URL ссылки на страницу со списком всех производителей
-            'allMakersUrl' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
+            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
+            // URL ссылки на страницу со списком всех функциональных групп
+            'allGroupsURL' => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
         );
 
     }

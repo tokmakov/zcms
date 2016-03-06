@@ -1895,18 +1895,27 @@ div.attention {
                 color: #969696;
             }
             #product .product-item-main .product-item-info > div:first-child {
-                padding: 0;
+                padding: 0 0 7px 0;
+            }
+            #product .product-item-main .product-item-info > div:nth-child(2) {
+                padding: 8px 0;
+            }
+            #product .product-item-main .product-item-info > div:nth-child(3) {
+                padding: 9px 0;
+            }
+            #product .product-item-main .product-item-info > div:last-child {
+
             }
             #product .product-item-main .product-item-info > div > span {
                 display: block;
                 overflow: hidden;
             }
             #product .product-item-main .product-item-info > div > span:first-child {
-                width: 30%;
+                width: 25%;
                 float: left;
             }
             #product .product-item-main .product-item-info > div > span:last-child {
-                width: 70%;
+                width: 75%;
                 float: right;
                 text-align: right;
             }
@@ -1914,6 +1923,20 @@ div.attention {
                 height: 26px;
                 line-height: 26px;
             }
+            #product .product-item-main .product-item-info > div:last-child > span:first-child {
+                height: 32px;
+                line-height: 32px;
+            }
+            #product .product-item-main .product-item-info > div:last-child > span:last-child {
+                height: 32px;
+                display: table;
+            }
+                #product .product-item-main .product-item-info > div:last-child > span:last-child > a {
+                    height: 32px;
+                    width: 100%;
+                    display: table-cell;
+                    vertical-align: middle;
+                }
             #product .product-item-main .product-item-info > div:first-child > span:last-child {
                 
             }
@@ -1950,10 +1973,12 @@ div.attention {
                 color:#323232;
             }
         #product .product-item-main .product-item-basket {
-            margin-bottom: 12px;
-            padding-bottom: 12px;
             margin-left: 240px;
-            border-bottom: 1px dashed #d1d1d1;
+        }
+        #product .product-item-main .product-item-basket:after {
+            display: table;
+            content: "";
+            clear: both;
         }
             #product .product-item-main .product-item-basket > div {
                 clear: right;
@@ -2011,35 +2036,8 @@ div.attention {
                     height: 26px;
                     padding: 5px;
                 }
-        #product .product-item-main .product-item-social {
-            margin-left: 240px;
-        }
-        #product .product-item-main .product-item-social:after {
-            content: "";
-            display: table;
-            clear: left;
-        }
-            #product .product-item-main .product-item-social a {
-                display: block;
-                width: 38px;
-                height: 38px;
-                float: left;
-                margin-right: 5px;
-                margin-bottom: 5px;
-                background: #969696;
-                border-radius: 4px;
-                color: #fff;
-                font-size: 25px;
-                line-height: 38px;
-                text-align: center;
-            }
-            #product .product-item-main .product-item-social a:hover {
-                text-decoration: none;
-                background: #395985;
-            }
         #product .product-item-main .product-item-descr {
-            clear: left;
-            padding-top: 15px;
+            padding-top: 17px;
             font-size: 14px;
             color: #969696;
         }
@@ -2207,6 +2205,22 @@ div.attention {
                     top: 0;
                     right: 0;
                 }
+                
+    #all-groups > p {
+        clear: both;
+        padding: 15px 0 0 15px;
+    }
+        #all-groups > p > a {
+            display: block;
+            text-align: center;
+            background: #395985;
+            color: #fff;
+            padding: 6px 0;
+            width: 30%;
+        }
+        #all-groups > p > a:hover {
+            text-decoration: none;
+        }
 
 /*
  * ЛЕВАЯ КОЛОНКА
@@ -2406,6 +2420,117 @@ div.attention {
         #side-makers > .side-content > p > a:hover {
             text-decoration: none;
         }
+        
+/* список функциональных групп в правой колонке */
+#side-groups {
+
+}
+    #side-groups > .side-content > ul {
+        margin: 15px 0 0 0;
+        padding: 0;
+        list-style: none;
+    }
+        #side-groups > .side-content > ul > li {
+            padding: 0 28px 0 5px;
+            border-bottom: 1px dashed #d1d1d1;
+            height: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+        #side-groups > .side-content > ul > li:first-child {
+            border-top: 1px dashed #d1d1d1;
+        }
+            #side-groups > .side-content > ul > li > span {
+                display: table;
+                width: 100%;
+            }
+                #side-groups > .side-content > ul > li > span > a {
+                    /*padding-left: 5px;*/
+                    
+                    display: table-cell;
+                    height: 28px;
+                    vertical-align: middle;
+                    font-size: 13px;
+                    line-height: 14px;
+                }
+                #side-groups > .side-content > ul > li > span > span {
+                    display: block;
+                    position: absolute;
+                    font-size: 13px;
+                    line-height: 28px;
+                    height: 28px;
+                    width: 28px;
+                    text-align: center;
+                    background: #f0f0f0;
+                    top: 0;
+                    right: 0;
+                    color: #5390cc;
+                }
+
+    #side-groups > .side-content > p {
+        margin: 15px;
+    }
+        #side-groups > .side-content > p > a {
+            display: block;
+            text-align: center;
+            background: #395985;
+            color: #fff;
+            padding: 6px 0;
+        }
+        #side-groups > .side-content > p > a:hover {
+            text-decoration: none;
+        }
+/*
+#all-groups {
+    overflow: hidden;
+    margin: 15px 0
+}
+    #all-groups > ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+    }
+    #all-groups > ul:first-child {
+        border-right: 1px dashed #d1d1d1;
+    }
+        #all-groups > ul > li {
+            padding: 0 30px 0 5px;
+            border-bottom: 1px dashed #d1d1d1;
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        #all-groups > ul > li:first-child {
+            border-top: 1px dashed #d1d1d1;
+        }
+            #all-groups > ul > li > span {
+                display: table;
+                width: 100%;
+            }
+                #all-groups > ul > li > span > a {
+                    display: table-cell;
+                    height: 30px;
+                    vertical-align: middle;
+                    font-size: 14px;
+                    line-height: 15px;
+                }
+                #all-groups > ul > li > span > span {
+                    display: block;
+                    position: absolute;
+                    color: #5390cc;
+                    font-size: 13px;
+                    line-height: 30px;
+                    height: 30px;
+                    width: 30px;
+                    text-align: center;
+                    background: #f0f0f0;
+                    top: 0;
+                    right: 0;
+                }
+*/
 
 /*
  * ПРАВАЯ КОЛОНКА

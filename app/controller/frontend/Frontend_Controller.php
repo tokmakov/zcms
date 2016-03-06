@@ -255,7 +255,10 @@ abstract class Frontend_Controller extends Base_Controller {
         $catalogMenu = $this->catalogFrontendModel->getCatalogMenu();
 
         // список производителей (для левой колонки)
-        $makers = $this->catalogFrontendModel->getMakers();
+        $makers = $this->catalogFrontendModel->getMakers(10);
+        
+        // список функциональных групп (для левой колонки)
+        $groups = $this->catalogFrontendModel->getGroups(10);
 
         /*
          * массив переменных, которые будут переданы в шаблон left.php
@@ -265,8 +268,12 @@ abstract class Frontend_Controller extends Base_Controller {
             'catalogMenu'  => $catalogMenu,
             // массив производителей
             'makers'       => $makers,
+            // массив функциональных групп
+            'groups'       => $groups,
             // URL ссылки на страницу со списком всех производителей
-            'allMakersUrl' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
+            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
+            // URL ссылки на страницу со списком всех функциональных групп
+            'allGroupsURL' => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
         );
 
         // получаем от модели массив товаров в корзине (для правой колонки)

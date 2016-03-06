@@ -10,9 +10,13 @@
  * $name - наименование функциональной группы
  * $action - атрибут action тега form
  * $view - представление списка товаров
+ * $maker - id выбранного производителя или ноль
  * $param - массив выбранных параметров подбора
+ * $params - массив всех параметров подбора
  * $hit - показывать только лидеров продаж?
+ * $countHit - количество лидеров продаж
  * $new - показывать только новинки?
+ * $countNew - количество новинок
  * $sort - выбранная сортировка
  * $sortorders - массив всех вариантов сортировки
  * $products - массив товаров функциональной группы
@@ -34,9 +38,11 @@
  *     [shortdescr] => Дверной блок, накладной, ЛС 4-х пров.; 420 Твл, ИК-подветка; -50…+50°С; 140х70х20 мм
  *     [ctg_id] => 844
  *     [ctg_name] => Видеопенели вызывные
- *     [grp_id] => 7
+ *     [mkr_id] => 779
+ *     [mkr_name] => Activision
  *     [url] => Array (
- *       [product] => http://www.host.ru/catalog/product/230524
+ *       [product] => http://www.host.ru/catalog/product/37
+ *       [maker] => http://www.host.ru/catalog/maker/5
  *       [image] => http://www.host.ru/files/catalog/imgs/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
  *     )
  *     [action] => Array (
@@ -189,6 +195,83 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
+<div id="catalog-filter">
+    <div>
+        <span>
+            Фильтр
+            <a href="<?php echo $clearFilterURL; ?>"<?php if (count($param) || $maker || $hit || $new) echo ' class="show-clear-filter"'; ?>>
+                сбросить
+            </a>
+        </span>
+        <span>
+            <span>скрыть</span>
+        </span>
+    </div>
+    <div>
+        <form action="<?php echo $action; ?>" method="post">
+            <div>
+                <div>
+                    <div>
+                        <span>Производитель</span>
+                    </div>
+                    <div>
+                        <span>
+                        <select name="maker">
+                            <option value="0">Выберите</option>
+                            <?php foreach ($makers as $item): ?>
+                                <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>
+                            <?php endforeach; ?>
+                        </select>
+                        </span>
+                        <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
+                    </div>
+                </div>
+                <?php if (!empty($params)): ?>
+                    <?php foreach ($params as $item): ?>
+                        <div>
+                            <div>
+                                <span><?php echo $item['name']; ?></span>
+                            </div>
+                            <div>
+                                <span>
+                                <select name="param[<?php echo $item['id']; ?>]">
+                                    <option value="0">Выберите</option>
+                                    <?php foreach ($item['values'] as $value): ?>
+                                        <option value="<?php echo $value['id']; ?>"<?php echo $value['selected'] ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
+                                    <?php endforeach; ?>
+                                </select>
+                                </span>
+                                <?php if ($item['selected']): ?><i class="fa fa-times"></i><?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <div>
+                    <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
+                        <span>
+                            <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" id="hit-prd-box" />
+                            <label for="hit-prd-box">Лидер продаж</label>
+                        </span>
+                    </div>
+                    <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
+                        <span>
+                            <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" id="new-prd-box" />
+                            <label for="new-prd-box">Новинка</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <?php if ($sort): ?>
+                    <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+                <?php endif; ?>
+                <input type="hidden" name="change" value="0" />
+                <input type="submit" name="submit" value="Применить" />
+            </div>
+        </form>
+    </div>
+</div>
+
 <?php if (empty($products)): ?>
     <div id="catalog-products">
         <p>По вашему запросу ничего не найдено.</p>
@@ -214,7 +297,7 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 
     <div class="product-list-<?php echo $view; ?>">
-        <?php foreach ($products as $product): ?>
+        <?php foreach ($products as $product): // товары функциональной группы ?>
             <div>
                 <div class="product-list-heading">
                     <h2><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h2>
@@ -231,7 +314,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <div class="product-list-info">
                     <div>
-                        <span>Цена, <?php echo $units[$product['unit']]; ?></span>
+                        <span>Цена, <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></span>
                         <span>
                             <span><strong><?php echo number_format($product['price'], 2, '.', ' '); ?></strong><span>розничная</span></span>
                             <span><strong><?php echo number_format($product['price2'], 2, '.', ' '); ?></strong><span>мелкий опт</span></span>
@@ -244,7 +327,7 @@ for ($i = 0; $i <= 6; $i++) {
                     </div>
                     <div>
                         <span>Производитель</span>
-                        <span><span class="selected"><?php echo $name; ?></span></span>
+                        <span><a href="<?php echo $product['url']['maker']; ?>"<?php echo ($maker) ? ' class="selected"' : ''; ?>><?php echo $product['mkr_name']; ?></a></span>
                     </div>
                 </div>
                 <div class="product-list-basket">

@@ -8,6 +8,9 @@
  * $breadcrumbs - хлебные крошки
  * $root - массив категорий верхнего уровня
  * $makers - массив производителей
+ * $allMakersURL - URL ссылки на страницу со списком всех производителей
+ * $groups - массив функциональных групп
+ * $allGroupsURL - URL ссылки на страницу со списком всех функциональных групп
  */
 
 defined('ZCMS') or die('Access denied');
@@ -51,7 +54,28 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
             <?php endforeach; ?>
             </ul>
-            <p><a href="<?php echo $allMakersUrl; ?>">Все производители</a></p>
+            <p><a href="<?php echo $allMakersURL; ?>">Все производители</a></p>
+        </div>
+
+    </div>
+</div>
+
+<div class="center-block">
+    <div><h2>Функциональные группы</h2></div>
+    <div class="no-padding">
+        <div id="all-groups">
+            <?php $divide = ceil(count($groups)/2); ?>
+            <ul>
+            <?php foreach ($groups as $key => $item): ?>
+                <li>
+                    <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
+                </li>
+                <?php if ($divide == ($key+1)): ?>
+                    </ul><ul>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </ul>
+            <p><a href="<?php echo $allGroupsURL; ?>">Все функциональные группы</a></p>
         </div>
 
     </div>

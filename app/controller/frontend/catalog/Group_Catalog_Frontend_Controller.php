@@ -67,6 +67,20 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // включен фильтр по параметрам?
         $param = array();
+        if (isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
+            $temp = explode('-', $this->params['param']);
+            foreach ($temp as $item) {
+                $tmp = explode('.', $item);
+                $key = (int)$tmp[0];
+                $value = (int)$tmp[1];
+                $param[$key] = $value;
+            }
+            // проверяем корректность переданных параметров и значений
+            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+                $this->notFoundRecord = true;
+                return;
+            }
+        }
         
         // включен фильтр по лидерам продаж?
         $hit = 0;
@@ -93,6 +107,41 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ($maker || $hit || $new || $sort) {
             $this->robots = false;
         }
+        
+        // получаем от модели массив всех производителей
+        $makers = $this->catalogFrontendModel->getGroupMakers(
+            $this->params['id'],
+            $hit,
+            $new,
+            $param
+        );
+
+        // получаем от модели массив всех параметров подбора
+        $params = $this->catalogFrontendModel->getGroupParams(
+            $this->params['id'],
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
+        
+        // получаем от модели количество лидеров продаж
+        $countHit = $this->catalogFrontendModel->getCountGroupHit(
+            $this->params['id'],
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
+
+        // получаем от модели количество новинок
+        $countNew = $this->catalogFrontendModel->getCountGroupNew(
+            $this->params['id'],
+            $maker,
+            $hit,
+            $new,
+            $param
+        );
 
         /*
          * постраничная навигация
@@ -192,12 +241,20 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'view'           => $view,
             // id выбранного производителя или ноль
             'maker'          => $maker,
+            // массив всех производителей
+            'makers'         => $makers,
             // показывать только лидеров продаж?
             'hit'            => $hit,
+            // количество лидеров продаж
+            'countHit'       => $countHit,
             // показывать только новинки?
             'new'            => $new,
+            // количество новинок
+            'countNew'       => $countNew,
             // массив выбранных параметров подбора
             'param'          => $param,
+            // массив всех параметров подбора
+            'params'         => $params,
             // массив товаров функциональной группы
             'products'       => $products,
             // выбранная сортировка

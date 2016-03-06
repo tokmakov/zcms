@@ -114,7 +114,7 @@ defined('ZCMS') or die('Access denied');
                         </a>
                     </div>
                     <div class="product-table-price">
-                        <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
+                        <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?>
                     </div>
                     <div class="product-table-basket">
                         <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form">

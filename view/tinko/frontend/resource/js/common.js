@@ -526,7 +526,7 @@ function filterSelectHandler() {
 function addFilterHash() {
     var hash = '';
     var group = $('#catalog-filter form select[name="group"]').val();
-    if (group !== '0') {
+    if (group !== '0' && group !== undefined) {
         hash = '/group/' + group;
     }
     var maker = $('#catalog-filter form select[name="maker"]').val();

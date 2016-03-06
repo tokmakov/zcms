@@ -112,7 +112,7 @@ defined('ZCMS') or die('Access denied');
                     <div class="new-hit-item">
                         <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
                         <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
-                        <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?></div>
+                        <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></div>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -125,7 +125,7 @@ defined('ZCMS') or die('Access denied');
                         <div class="new-hit-item">
                             <div><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></div>
                             <div><a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a></div>
-                            <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?></div>
+                            <div><span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></div>
                         </div>
                     </li>
                 <?php endforeach; ?>

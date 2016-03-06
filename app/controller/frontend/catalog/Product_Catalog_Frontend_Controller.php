@@ -129,8 +129,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $this->centerVars = array(
             // уникальный идентификатор товара
             'id'           => $this->params['id'],
-            // идентификатор функциональной группы
-            'group'        => $product['grp_id'],
             // хлебные крошки
             'breadcrumbs'  => $breadcrumbs,
             // хлебные крошки
@@ -160,6 +158,12 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 'id'   => $product['mkr_id'],
                 'name' => $product['mkr_name'],
                 'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id']),
+            ),
+            // функциональная группа
+            'group'        => array(
+                'id'   => $product['grp_id'],
+                'name' => $product['grp_name'],
+                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id']),
             ),
             // новый товар?
             'new'          => $product['new'],

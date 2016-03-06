@@ -45,7 +45,7 @@ class Index_Sitemap_Frontend_Controller extends Frontend_Controller {
         $newsCategories = $this->blogFrontendModel->getCategories();
 
         // получаем от модели массив корневых категорий и их детей
-        $root = $this->catalogFrontendModel->getRootAndChilds();
+        $root = $this->sitemapFrontendModel->getRootAndChilds();
 
         /*
          * переменные, которые будут переданы в шаблон center.php

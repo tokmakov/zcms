@@ -316,6 +316,9 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         if (empty($data['category'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Категория»';
         }
+        if (empty($data['group'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Функциональная группа»';
+        }
         if (empty($data['maker'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Производитель»';
         }
