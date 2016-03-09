@@ -1,10 +1,10 @@
 $(document).ready(function() {
     /*
-     * Свернуть/развернуть технические характеристики для страницы сравнения
+     * Свернуть/развернуть краткое описание для страницы сравнения
      */
-    $('.product-list-line > div > .product-list-techdata > div:last-child').hide();
-    $('.product-list-line > div > .product-list-techdata > div:first-child > span:last-child > span').click(function() {
-        $(this).parent().parent().next().slideToggle();
+    $('#compare-products table tr td > span:last-child').hide();
+    $('#compare-products table tr td > span:first-child').click(function() {
+        $(this).next().slideToggle();
         if ($(this).text() == 'показать') {
             $(this).text('скрыть');
         } else {

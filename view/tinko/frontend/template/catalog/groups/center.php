@@ -24,9 +24,25 @@ defined('ZCMS') or die('Access denied');
 
 
 <div class="center-block">
-    <div><h1>Функционал</h1></div>
+    <div><h1>Функциональные группы</h1></div>
     <div class="no-padding">
         <div id="all-groups">
+        
+            <form action="" method="post">
+                <input type="text" name="query" value="" placeholder="поиск функциональной группы" />
+                <input type="submit" name="submit" value="" />
+                <div></div>
+            </form>
+            
+            <?php if (!empty($result)): ?>
+                <ol>
+                    <li>Результаты поиска</li>
+                <?php foreach ($result as $item): ?>
+                    <li><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a></li>
+                <?php endforeach; ?>
+                </ol>
+            <?php endif; ?>
+        
             <?php $divide = ceil(count($groups)/2); ?>
             <ul>
             <?php foreach ($groups as $key => $item): ?>

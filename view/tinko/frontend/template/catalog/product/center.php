@@ -128,7 +128,7 @@ defined('ZCMS') or die('Access denied');
 
 
 
-<div id="product">
+<div id="product-item">
 
     <div class="product-item-heading">
         <h1><?php echo $name; ?></h1>

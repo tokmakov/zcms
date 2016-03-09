@@ -29,6 +29,31 @@ $(document).ready(function() {
         $('#top-search > form > input[name="query"]').val('');
         $('#top-search > div').empty();
     });
+    
+    /*
+     * Поиск по функциональным группам
+     */
+    $('#all-groups > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
+        if ($(this).val().length > 1) {
+            $('#all-groups > form > div').html('<div class="top-search-loader"></div>');
+            $('#all-groups > form > div > div').show();
+            $('#all-groups > form').ajaxSubmit({
+                target: '#all-groups > form > div > div',
+                success: function() {
+                    $('#all-groups > form > div > div').removeClass('top-search-loader');
+                    if($('#all-groups > form > div > div').is(':empty')) {
+                        $('#all-groups > form > div').empty();
+                    }
+                }
+            });
+        } else {
+            $('#all-groups > form > div').empty();
+        }
+    });
+    $('#all-groups > form > div').on('click', 'div > span', function() {
+        $('#all-groups > form > input[name="query"]').val('');
+        $('#all-groups > form > div').empty();
+    });
 
     /*
      * Переключить представление списка товаров: линнейный или плитка

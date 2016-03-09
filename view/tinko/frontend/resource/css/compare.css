@@ -1,0 +1,414 @@
+#left, #right {
+    display: none;
+}
+#content {
+    margin: 0;
+    padding: 20px 0;
+}
+#header #top-phone { /*  телефоны в шапке */
+    position: absolute;
+    width: 160px;
+    height: 53px;
+    right: 5px;
+    top: 29px;
+    background: transparent;
+    background-size: 40px;
+}
+    #header #top-phone > div:first-child {
+        display: none;
+    }
+        #header #top-phone > div > span {
+            font-size: 20px;
+        }
+#header #top-menu {
+    display: block;
+}
+#top-search {
+    top: 36px;
+    right: 206px;
+}
+
+#compare-products > div:first-child {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+    #compare-products > div:first-child > h1 {
+        margin-bottom: 0;
+        font-size: 22px;
+    }
+    #compare-products > div:first-child > h2 {
+        margin-top: 0;
+        color: #395985;
+        font-size: 18px;
+        font-weight: normal;
+    }
+/*
+    #compare-products > div:first-child > a {
+        display: block;
+        float: right;
+        color: #395985;
+        text-decoration: none;
+        margin-top: 5px;
+    }
+    #compare-products > div:first-child > a:hover {
+        text-decoration: none;
+    }
+        #compare-products > div:first-child > a > i {
+            font-size: 16px;
+            line-height: 21px;
+        }
+        #compare-products > div:first-child > a > span {
+            border-bottom: 1px dashed #395985;
+            vertical-align: top;
+        }
+*/
+#compare-products table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+    #compare-products table tr:first-child {
+        background: #fafafa;
+    }
+    #compare-products table tr td {
+        border: 1px solid #d1d1d1;
+        padding: 5px;
+        width: 185px;
+        vertical-align: top;
+    }
+        #compare-products table tr:first-child td:nth-child(1) {
+            width: 250px;
+            background: url(../img/compare-table-bg.png) center center no-repeat;
+        }
+        #compare-products table tr td > span:first-child { /* краткое описание */
+            color: #395985;
+            cursor: pointer;
+            border-bottom: 1px dashed #395985;
+        }
+        #compare-products table tr td > span:last-child { /* краткое описание */
+            display: block;
+            margin-top: 7px;
+            font-size: 13px;
+        }
+        
+    #compare-products .product-table-item { /* отдельный товар */
+        text-align: center;
+    }
+        
+        #compare-products .product-table-item .product-table-added { /* дата добавления */
+            font-size: 10px;
+            line-height: 10px;
+            margin-bottom: 5px;
+            color: #969696;
+            height: 10px;
+            overflow: hidden;
+        }
+            #compare-products .product-table-item .product-table-heading { /* заголовок */
+                margin-bottom: 5px;
+                height: 32px;
+                overflow: hidden;
+            }
+                #compare-products .product-table-item .product-table-heading h3 {
+                    margin: 0;
+                    font-size: 15px;
+                    line-height: 16px;
+                }
+                    #compare-products .product-table-item .product-table-heading h3 a {
+                        font-size: 15px;
+                        line-height: 16px;
+                    }
+            #compare-products .product-table-item .product-table-image { /* изображение */
+                display: inline-block;
+                width: 118px;
+                height: 118px;
+                border: 1px solid #d1d1d1;
+                background: #fff;
+                margin-bottom: 7px;
+            }
+                #compare-products .product-table-item .product-table-image > a { /* изображение */
+                    display: block;
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    padding: 9px;
+                }
+                    #compare-products .product-table-item .product-table-image > a > img { /* изображение */
+                        display: block;
+                        width: 100px;
+                        height: 100px;
+                    }
+                    /* лидер продаж, новинка */
+                    #compare-products .product-table-item .product-table-image > a > span {
+                        display: block;
+                        position: absolute;
+                        width: 58px;
+                        height: 12px;
+                        font-size: 10px;
+                        line-height: 12px;
+                        color: #fff;
+                        padding-left: 1px;
+                    }
+                    #compare-products .product-table-item .product-table-image > a > span.hit-product {
+                        background: #395985;
+                        width: 72px;
+                        left: 1px;
+                        top: 1px;
+                    }
+                    #compare-products .product-table-item .product-table-image > a > span.new-product {
+                        background: #395985;
+                        width: 41px;
+                        right: 1px;
+                        top: 1px;
+                    }
+            #compare-products .product-table-item .product-table-price { /* цена */
+                color: #969696;
+                font-weight: normal;
+                height: 16px;
+                overflow: hidden;
+                margin-bottom: 7px;
+                white-space: nowrap;
+            }
+                #compare-products .product-table-item .product-table-price span {
+                    font-weight: bold;
+                    font-size: 16px;
+                    line-height: 16px;
+                    color: #395985;
+                    word-spacing: -1px;
+                    letter-spacing: -1px;
+                }
+            #compare-products .product-table-item .product-table-basket { /* добавить в корзину */
+                height: 26px;
+                overflow: hidden;
+            }
+                #compare-products .product-table-item .product-table-basket input[type="submit"] {
+                    box-sizing: border-box;
+                    font-size: 14px;
+                    line-height: 14px;
+                    padding: 5px;
+                    background: #395985;
+                    border: 1px solid #395985;
+                    color: #fff;
+                    width: 150px;
+                    cursor: pointer;
+                    outline: none;
+                }
+
+.fancybox-nav {
+    top: 210px !important;
+    width: 15% !important;
+}
+.fancybox-nav span {
+    top: 35% !important;   
+}
+                
+/* карточка товара в модальном окне */
+#product {
+    width: 700px;
+}
+    #product .product-heading { /* заголовки */
+        margin-bottom: 20px;
+    }
+        #product .product-heading h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #323232;
+        }
+        #product .product-heading h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #395985;
+        }
+    #product .product-main { /* основная информация */
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+        /* изображение товара */
+        #product .product-main .product-image {
+            float: left;
+            border: 1px solid #d1d1d1;
+            width: 120px;
+            height: 120px;
+            padding: 9px;
+            position: relative;
+            background: #fff;
+        }
+            #product .product-main .product-image > img {
+                display: block;
+                width: 120px;
+                height: 120px;
+            }
+            /* новинка, лидер продаж */
+            #product .product-main .product-image > span {
+                display: block;
+                position: absolute;
+                width: 58px;
+                height: 12px;
+                font-size: 10px;
+                line-height: 12px;
+                color: #fff;
+                padding-left: 1px;
+            }
+            #product .product-main .product-image > span.hit-product {
+                background: #395985;
+                width: 72px;
+                left: 1px;
+                top: 1px;
+            }
+            #product .product-main .product-image > span.new-product {
+                background: #395985;
+                width: 41px;
+                right: 1px;
+                top: 1px;
+            }
+        #product .product-main .product-info { /* цена, код, производитель */
+            margin-left: 150px;
+        }
+            #product .product-main .product-info > div {
+                border-bottom: 1px dashed #d1d1d1;
+                padding: 6px 0;
+                overflow: hidden;
+                color: #969696;
+            }
+            #product .product-main .product-info > div:first-child {
+                padding-top: 0;
+            }
+            #product .product-main .product-info > div:nth-child(3) {
+                padding: 7px 0;
+            }
+            #product-item .product-main .product-info > div > span {
+                display: block;
+                overflow: hidden;
+            }
+            #product-item .product-main .product-info > div > span:first-child {
+                width: 25%;
+                float: left;
+            }
+            #product .product-main .product-info > div > span:last-child {
+                width: 75%;
+                float: right;
+                text-align: right;
+            }
+            #product .product-main .product-info > div:first-child > span:first-child {
+                height: 26px;
+                line-height: 26px;
+            }
+            #product .product-main .product-info > div:last-child > span:first-child {
+                height: 32px;
+                line-height: 32px;
+            }
+            #product .product-main .product-info > div:last-child > span:last-child {
+                height: 32px;
+                display: table;
+            }
+                #product .product-main .product-info > div:last-child > span:last-child > a {
+                    height: 32px;
+                    width: 100%;
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+            #product .product-main .product-info > div:first-child > span:last-child {
+                
+            }
+                #product .product-main .product-info > div:first-child > span:last-child > span {
+                    display: inline-block;
+                    text-align: left;
+                }
+                #product .product-main .product-info > div:first-child > span:last-child > span:not(:first-child) {
+                    margin-left: 4px;
+                }
+                    #product .product-main .product-info > div:first-child > span:last-child > span > span {
+                        display: block;
+                    }
+                    #product .product-main .product-info > div:first-child > span:last-child > span > span:first-child {
+                        font-weight: bold;
+                        font-size: 18px;
+                        line-height: 16px;
+                        word-spacing: -1px;
+                        letter-spacing: -1px;
+                    }
+                    #product .product-main .product-info > div:first-child > span:last-child > span:first-child > span:first-child {
+                        color: #395985;
+                    }
+                    #product .product-main .product-info > div:first-child > span:last-child > span:nth-child(2) > span:first-child {
+                        text-align: center;
+                    }
+                    #product .product-main .product-info > div:first-child > span:last-child > span > span:last-child {
+                        font-size: 10px;
+                        line-height: 10px;
+                        font-style: italic;
+                    }
+            #product .product-main .product-info > div:nth-child(2) > span:last-child {
+                font-weight: bold;
+                color:#323232;
+            }
+            
+    #product .product-others { /* доп. информация */
+    
+    }
+        #product .product-others .center-block > div  {
+            padding: 10px;
+        }
+        #product .product-others .center-block > div.no-padding {
+            padding: 0;
+        }
+        /* технические характеристики изделия на странице товара */
+        #product .product-others .center-block > div:last-child > table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+            #product .product-others .center-block > div:last-child > table tr:nth-child(even) {
+              background: #fafafa;
+            }
+                #product .product-others .center-block > div:last-child > table tr td {
+                    padding: 5px 10px;
+                    vertical-align: top;
+                    border-bottom: 1px solid #f0f0f0;
+                }
+                #product .product-others .center-block > div:last-child > table tr td:first-child {
+                    border-right: 1px solid #f0f0f0;
+                }
+                #product .product-others .center-block > div:last-child > table tr:last-child td {
+                    border-bottom: none;
+                }
+                #product .product-others .center-block > div:last-child > table tr:first-child td:first-child {
+                    width: 60%;
+                }
+        #product .product-others .product-descr {
+            color: #969696;
+        }
+        
+@media screen and (max-width: 1285px) {
+    #top-search {
+        right: 5px;
+        top: 36px;
+    }
+}
+@media screen and (max-width: 800px) {
+    #product {
+        width: 650px;
+    }
+}
+@media screen and (max-width: 750px) {
+    #product {
+        width: 600px;
+    }
+}
+@media screen and (max-width: 700px) {
+    #product {
+        width: 550px;
+    }
+    #compare-products table tr:nth-child(5) { /* скрываем технические характеристики */
+        display: none;
+    }
+}
+@media screen and (max-width: 650px) {
+    #product {
+        width: 500px;
+    }
+}
+@media screen and (max-width: 600px) {
+    #product {
+        width: 450px;
+    }
+}

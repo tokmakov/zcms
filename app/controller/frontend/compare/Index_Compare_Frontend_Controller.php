@@ -1,7 +1,7 @@
 <?php
 /**
- * Класс Index_Compare_Frontend_Controller формирует страницу со списком всех
- * товаров для сравнения, получает данные от модели Compare_Frontend_Model,
+ * Класс Index_Compare_Frontend_Controller формирует страницу всех товаров для
+ * сравнения в виде таблицы, получает данные от модели Compare_Frontend_Model,
  * общедоступная часть сайта
  */
 class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
@@ -18,9 +18,9 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу Compare_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Index_Compare_Frontend_Controller
          */
         parent::input();
@@ -41,9 +41,12 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
         
         // получаем от модели наимнование функциональной группы
         $name = $this->compareFrontendModel->getGroupName();
+        
+        // получаем от модели массив параметров, привязанных к группе
+        $params = $this->compareFrontendModel->getGroupParams();
 
-        // получаем от модели массив отложенных для сравнения товаров
-        $compareProducts = $this->compareFrontendModel->getCompareProducts();
+        // получаем от модели массив товаров для сравнения
+        $products = $this->compareFrontendModel->getCompareProducts();
 
         // единицы измерения товара
         $units = $this->catalogFrontendModel->getUnits();
@@ -53,17 +56,17 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs'     => $breadcrumbs,
+            'breadcrumbs' => $breadcrumbs,
             // URL ссылки на эту страницу
-            'thisPageUrl'     => $this->compareFrontendModel->getURL('frontend/compare/index'),
-            // URL ссылки на таблицу сравнения
-            'tablePageUrl'    => $this->compareFrontendModel->getURL('frontend/compare/table'),
+            'thisPageUrl' => $this->compareFrontendModel->getURL('frontend/compare/index'),
             // наимнование функциональной группы
-            'name'            => $name,     
-            // массив отложенных для сравнения товаров
-            'compareProducts' => $compareProducts,
+            'name'        => $name,
+            // массив параметров, привязанных к группе
+            'params'      => $params,
+            // массив товаров для сравнения
+            'products'    => $products,
             // массив единиц измерения товара
-            'units'           => $units,
+            'units'       => $units,
         );
 
     }

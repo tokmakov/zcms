@@ -2020,6 +2020,35 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $groups;
 
     }
+    
+    /**
+     * Функция возвращает результаты поиска по функциональной группе
+     */
+    public function getGroupSearchResult($query) {
+        $query = $this->cleanSearchString($query);
+        if (empty($query)) {
+            return array();
+        }
+        $words = explode(' ', $query);
+        $query = "SELECT
+                      `a`.`id` AS `id`, `a`.`name` AS `name`
+                  FROM
+                      `groups` `a`
+                  WHERE
+                      EXISTS (SELECT 1 FROM `products` `b` WHERE `a`.`id` = `b`.`group` AND `b`.`visible` = 1) AND ";
+        $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
+        for ($i = 1; $i < count($words); $i++) {
+            $query = $query." AND `a`.`name` LIKE '%".$words[$i]."%'";
+        }
+        $query = $query." ORDER BY `a`.`name`";
+        $query = $query." LIMIT 10";
+        $result = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок на страницы функциональных групп
+        foreach($result as $key => $value) {
+            $result[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
+        }
+        return $result;
+    }
 
     /**
      * Функция возвращает наименование функциональной группы

@@ -116,8 +116,11 @@ $settings = array(
                 'fancybox/jquery.fancybox.css',
             ),
             'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
-            'compare-index'   => 'compare-index.css', // сравнение товаров
-            'compare-table'   => 'compare-table.css', // сравнение товаров
+            'compare'   => array(         // сравнение товаров
+                'compare.css', 
+                'responsive-table.css',
+                'fancybox/jquery.fancybox.css',
+            ),
             'rating'          => 'rating.css',   // рейтинг продаж
             'sale'            => 'sale.css',     // распродажа
             'user'            => array(          // личный кабинет
@@ -269,7 +272,12 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'compare'    => 'compare.js',        // сравнение товаров
+            'compare'    => array(              // сравнение товаров
+                'compare.js',
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js',
+            ),
             'rating'     => 'rating.js',         // рейтинг лидеров продаж
             'sale'       => 'sale.js',           // распродажа
             'sitemap'    => 'sitemap.js',        // карта сайта

@@ -323,7 +323,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // получаем массив товаров, отложенных для сравнения
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`title` AS `title`,
-                      `a`.`shortdescr` AS `shortdescr`, `d`.`name` AS `maker`
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`techdata` AS `techdata`,
+                      `d`.`name` AS `maker`
                   FROM
                       `products` `a`
                       INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
@@ -343,15 +344,21 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         $title[]      = 'Функциональное наименование';
         $code[]       = 'Код';
         $maker[]      = 'Производитель';
+        $techdata[]   = 'Технические характеристики';
         $shortdescr[] = 'Краткое описание';
         foreach ($products as $product) {
             $title[]      = $product['title'];
             $code[]       = $product['code'];
             $maker[]      = $product['maker'];
+            if ( ! empty($product['techdata'])) {
+                $techdata[] = $this->getURL('frontend/catalog/product/id/' . $product['id']);
+            } else {
+                $techdata[] = '';
+            }
             $shortdescr[] = $product['shortdescr'];
         }
         if (0 == $this->groupId) {
-            return array($title, $code, $maker, $shortdescr);
+            return array($title, $code, $maker, $techdata, $shortdescr);
         }
         
         // получаем массив параметров подбора для функциональной группы
@@ -413,7 +420,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             }
         }
         
-        return array_merge(array($title, $code, $maker), $params, array($shortdescr));
+        return array_merge(array($title, $code, $maker, $techdata, $shortdescr), $params);
     }
 
     /**

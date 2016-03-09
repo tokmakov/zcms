@@ -628,12 +628,18 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница товара каталога
         '~^frontend/catalog/product/id/(\d+)$~i' =>
         'catalog/product/$1',
-        // страница со списком производителей
+        // страница всех производителей
         '~^frontend/catalog/allmkrs$~i' =>
         'catalog/all-makers',
-        // страница со списком функциональных групп
+        // страница результатов поиска по производителям
+        '~^frontend/catalog/allmkrs/query/([a-z0-9%_.-]+)$~i' =>
+        'catalog/all-makers/query/$1',
+        // страница всех функциональных групп
         '~^frontend/catalog/groups$~i' =>
         'catalog/all-groups',
+        // страница результатов поиска по функционалу
+        '~^frontend/catalog/groups/query/([a-z0-9%_.-]+)$~i' =>
+        'catalog/all-groups/query/$1',
         // страница поиска по каталогу
         '~^frontend/catalog/search$~i'=>
         'catalog/search',
@@ -683,12 +689,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком товаров для сравнения
         '~^frontend/compare/index$~i' =>
         'compare',
-        // страница со списком товаров для сравнения, таблица
-        '~^frontend/compare/table$~i' =>
-        'compare/table',
-        // товары для сравнения, постраничная навигация
-        '~^frontend/compare/index/page/(\d+)$~i' =>
-        'compare/page/$1',
         // добавить товар в список сравнения
         '~^frontend/compare/addprd$~i' =>
         'compare/addprd',
@@ -1718,12 +1718,18 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница товара каталога
         '~^catalog/product/(\d+)$~i' =>
         'frontend/catalog/product/id/$1',
-        // страница со списком всех производителей
+        // страница всех производителей
         '~^catalog/all-makers$~i' =>
         'frontend/catalog/allmkrs',
-        // страница со списком всех функциональных групп
+        // страница результатов поиска по производителям
+        '~^catalog/all-groups/query/([a-z0-9%_.-]+)$~i' =>
+        'frontend/allmkrs/query/$1',
+        // страница всех функциональных групп
         '~^catalog/all-groups$~i' =>
         'frontend/catalog/groups',
+        // страница результатов поиска по функционалу
+        '~^catalog/all-groups/query/([a-z0-9%_.-]+)$~i' =>
+        'frontend/catalog/groups/query/$1',
         // страница поиска по каталогу
         '~^catalog/search$~i' =>
         'frontend/catalog/search',
@@ -1773,12 +1779,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница со списком товаров для сравнения
         '~^compare$~i' =>
         'frontend/compare/index',
-        // страница со списком товаров для сравнения, таблица
-        '~^compare/table$~i' =>
-        'frontend/compare/table',
-        // товары для сравнения, постраничная навигация
-        '~^compare/page/(\d+)$~i' =>
-        'frontend/compare/index/page/$1',
         // добавить товар в список сравнения
         '~^compare/addprd$~i' =>
         'frontend/compare/addprd',

@@ -356,7 +356,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                     </form>
-                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
+                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $id; ?>">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="group" />
                         <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
