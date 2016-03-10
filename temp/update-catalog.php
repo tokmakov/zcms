@@ -1736,6 +1736,12 @@ function updateWorkTables($register) {
                   )";
         $register->database->execute($query, $product); 
     }
+    // удаляем функциональные группы, товаров которых нет в таблице products
+    $query = "DELETE FROM `groups` WHERE `id` NOT IN (SELECT  `group` FROM  `products` WHERE 1)";
+    $register->database->execute($query);
+    // удаляем производителей, товаров которых нет в таблице products
+    $query = "DELETE FROM `makers` WHERE `id` NOT IN (SELECT  `maker` FROM  `products` WHERE 1)";
+    $register->database->execute($query);
 
     /*
      * ПРИВЯЗКА ПАРАМЕТРОВ И ДОПУСТИМЫХ ЗНАЧЕНИЙ К ГРУППЕ

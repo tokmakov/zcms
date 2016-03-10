@@ -6,6 +6,8 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $action - атрибут action тега form
+ * $result - массив результатов поиска функционала
  * $groups - массив всех функциональных групп
  */
 
@@ -22,13 +24,12 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-
 <div class="center-block">
     <div><h1>Функциональные группы</h1></div>
     <div class="no-padding">
         <div id="all-groups">
         
-            <form action="" method="post">
+            <form action="<?php echo $action; ?>" method="post">
                 <input type="text" name="query" value="" placeholder="поиск функциональной группы" />
                 <input type="submit" name="submit" value="" />
                 <div></div>
@@ -54,6 +55,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
             <?php endforeach; ?>
             </ul>
+
         </div>
     </div>
 </div>

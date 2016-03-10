@@ -232,3 +232,15 @@
 #5 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+10.03.2016 11:54:28
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/makers
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/catalo...')
+#1 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(274): Frontend_Model->getURL('frontend/catalo...')
+#2 C:\work\localhost2\www\app\controller\frontend\catalog\Catalog_Frontend_Controller.php(25): Frontend_Controller->input()
+#3 C:\work\localhost2\www\app\controller\frontend\catalog\Groups_Catalog_Frontend_Controller.php(26): Catalog_Frontend_Controller->input()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Groups_Catalog_Frontend_Controller->input()
+#5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#6 {main}
+

@@ -629,10 +629,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^frontend/catalog/product/id/(\d+)$~i' =>
         'catalog/product/$1',
         // страница всех производителей
-        '~^frontend/catalog/allmkrs$~i' =>
+        '~^frontend/catalog/makers$~i' =>
         'catalog/all-makers',
         // страница результатов поиска по производителям
-        '~^frontend/catalog/allmkrs/query/([a-z0-9%_.-]+)$~i' =>
+        '~^frontend/catalog/makers/query/([a-z0-9%_.-]+)$~i' =>
         'catalog/all-makers/query/$1',
         // страница всех функциональных групп
         '~^frontend/catalog/groups$~i' =>
@@ -1720,10 +1720,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'frontend/catalog/product/id/$1',
         // страница всех производителей
         '~^catalog/all-makers$~i' =>
-        'frontend/catalog/allmkrs',
+        'frontend/catalog/makers',
         // страница результатов поиска по производителям
-        '~^catalog/all-groups/query/([a-z0-9%_.-]+)$~i' =>
-        'frontend/allmkrs/query/$1',
+        '~^catalog/all-makers/query/([a-z0-9%_.-]+)$~i' =>
+        'frontend/catalog/makers/query/$1',
         // страница всех функциональных групп
         '~^catalog/all-groups$~i' =>
         'frontend/catalog/groups',

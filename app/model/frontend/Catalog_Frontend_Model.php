@@ -1432,6 +1432,56 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
+     * Функция возвращает результаты поиска производителя; результат работы
+     * кэшируется
+     */
+    public function getMakerSearchResult($query) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->makerSearchResult($query);
+        }
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-query-' . md5($query);
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает результаты поиска производителя
+     */
+    protected function makerSearchResult($query) {
+
+        $query = $this->cleanSearchString($query);
+        if (empty($query)) {
+            return array();
+        }
+        $words = explode(' ', $query);
+        $query = "SELECT
+                      `id`, `name`
+                  FROM
+                      `makers`
+                  WHERE
+                      `name` LIKE '%".$words[0]."%'";
+        for ($i = 1; $i < count($words); $i++) {
+            $query = $query." AND `name` LIKE '%".$words[$i]."%'";
+        }
+        $query = $query." ORDER BY `name` LIMIT 10";
+        $result = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок на страницы производителей
+        foreach($result as $key => $value) {
+            $result[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
+        }
+        return $result;
+
+    }
+
+    /**
      * Функция возвращает массив товаров производителя с уникальным идентификатором
      * $id; результат работы кэшируется
      */
@@ -2020,28 +2070,47 @@ class Catalog_Frontend_Model extends Frontend_Model {
         return $groups;
 
     }
-    
+
     /**
-     * Функция возвращает результаты поиска по функциональной группе
+     * Функция возвращает результаты поиска функциональной группы; результат работы
+     * кэшируется
      */
     public function getGroupSearchResult($query) {
+
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->groupSearchResult($query);
+        }
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-query-' . md5($query);
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+    
+    /**
+     * Функция возвращает результаты поиска функциональной группы
+     */
+    protected function groupSearchResult($query) {
         $query = $this->cleanSearchString($query);
         if (empty($query)) {
             return array();
         }
         $words = explode(' ', $query);
         $query = "SELECT
-                      `a`.`id` AS `id`, `a`.`name` AS `name`
+                      `id`, `name`
                   FROM
-                      `groups` `a`
+                      `groups`
                   WHERE
-                      EXISTS (SELECT 1 FROM `products` `b` WHERE `a`.`id` = `b`.`group` AND `b`.`visible` = 1) AND ";
-        $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
+                      `name` LIKE '%".$words[0]."%'";
         for ($i = 1; $i < count($words); $i++) {
-            $query = $query." AND `a`.`name` LIKE '%".$words[$i]."%'";
+            $query = $query." AND `name` LIKE '%".$words[$i]."%'";
         }
-        $query = $query." ORDER BY `a`.`name`";
-        $query = $query." LIMIT 10";
+        $query = $query." ORDER BY `name` LIMIT 10";
         $result = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на страницы функциональных групп
         foreach($result as $key => $value) {

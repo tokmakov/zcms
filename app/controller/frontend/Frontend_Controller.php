@@ -271,7 +271,7 @@ abstract class Frontend_Controller extends Base_Controller {
             // массив функциональных групп
             'groups'       => $groups,
             // URL ссылки на страницу со списком всех производителей
-            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs'),
+            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/makers'),
             // URL ссылки на страницу со списком всех функциональных групп
             'allGroupsURL' => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
         );

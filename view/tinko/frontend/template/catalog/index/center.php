@@ -43,6 +43,13 @@ defined('ZCMS') or die('Access denied');
     <div><h2>Производители</h2></div>
     <div class="no-padding">
         <div id="all-makers">
+
+            <form action="<?php echo $allMakersURL; ?>" method="post">
+                <input type="text" name="query" value="" placeholder="поиск производителя" />
+                <input type="submit" name="submit" value="" />
+                <div></div>
+            </form>
+
             <?php $divide = ceil(count($makers)/2); ?>
             <ul>
             <?php foreach ($makers as $key => $item): ?>
@@ -64,6 +71,13 @@ defined('ZCMS') or die('Access denied');
     <div><h2>Функциональные группы</h2></div>
     <div class="no-padding">
         <div id="all-groups">
+
+            <form action="<?php echo $allGroupsURL; ?>" method="post">
+                <input type="text" name="query" value="" placeholder="поиск функциональной группы" />
+                <input type="submit" name="submit" value="" />
+                <div></div>
+            </form>
+
             <?php $divide = ceil(count($groups)/2); ?>
             <ul>
             <?php foreach ($groups as $key => $item): ?>

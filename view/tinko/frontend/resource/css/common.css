@@ -556,6 +556,16 @@ div.attention {
     background: url('../img/ajax-loader.gif') center center no-repeat !important;
 }
 
+.ajax-group-loader {
+    min-height: 36px;
+    background: #fff url('../img/ajax-loader.gif') center center no-repeat !important;
+}
+
+.ajax-maker-loader {
+    min-height: 36px;
+    background: #fff url('../img/ajax-loader.gif') center center no-repeat !important;
+}
+
 .top-search-loader {
     min-height: 34px;
     background: #323232 url('../img/ajax-search-loader.gif') center center no-repeat !important;
@@ -577,18 +587,6 @@ div.attention {
     background: #fff url('../img/ajax-loader.gif') center 65px no-repeat;
     opacity: 0.6;
     z-index: 4;
-}
-
-.compare-overlay {
-    z-index: 6; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
-    position: fixed; /* всегдa перекрывaет весь сaйт */
-    background-color: #000; /* чернaя */
-    opacity: 0.8; /* нo немнoгo прoзрaчнa */
-    width: 100%;
-    height: 100%; /* рaзмерoм вo весь экрaн */
-    top: 0; /* сверху и слевa 0, oбязaтельные свoйствa! */
-    left: 0;
-    display: none; /* в oбычнoм сoстoянии её нет) */
 }
 
 /* хлебные крошки */
@@ -2088,7 +2086,6 @@ div.attention {
 /* список всех производителей */
 #all-makers {
     overflow: hidden;
-    margin: 15px 0
 }
     #all-makers > ul {
         margin: 0;
@@ -2103,12 +2100,9 @@ div.attention {
     }
         #all-makers > ul > li {
             padding-right: 30px;
-            border-bottom: 1px dashed #d1d1d1;
+            border-top: 1px dashed #d1d1d1;
             position: relative;
             overflow: hidden;
-        }
-        #all-makers > ul > li:first-child {
-            border-top: 1px dashed #d1d1d1;
         }
             #all-makers > ul > li > span {
                 display: block;
@@ -2137,7 +2131,8 @@ div.attention {
 
     #all-makers > p {
         clear: both;
-        padding: 15px 0 0 15px;
+        padding: 15px;
+        border-top: 1px dashed #d1d1d1;
     }
         #all-makers > p > a {
             display: block;
@@ -2150,6 +2145,89 @@ div.attention {
         #all-makers > p > a:hover {
             text-decoration: none;
         }
+
+    #all-makers > form {
+        margin: 15px;
+        position: relative;
+    }
+    #all-makers > form:after {
+        display: table;
+        content: "";
+        clear: both;
+    }
+        #all-makers > form input[name="query"] {
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 14px;
+            padding: 5px 33px 5px 5px;
+            width: 100%;
+            height: 28px;
+            border: 1px solid #d1d1d1;
+        }
+        #all-makers > form input[type="submit"] {
+            position: absolute;
+            background: #d1d1d1 url(../img/search.png) center center no-repeat;
+            border: none;
+            width: 28px;
+            height: 28px;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+
+        #all-makers > form > div {
+            position: absolute;
+            top: 35px;
+            width: 100%;
+        }
+            #all-makers > form > div > div {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px 10px;
+                background: #fff;
+                position: absolute;
+                z-index: 2;
+                border: 1px solid #d1d1d1;;
+            }
+                #all-makers > form > div > div > span {
+                    display: block;
+                    position: absolute;
+                    background: #d1d1d1 url('../img/close.png') center center no-repeat;
+                    width: 22px;
+                    height: 22px;
+                    right: 4px;
+                    top: 4px;
+                    cursor: pointer;
+                }
+                #all-makers > form > div > div > div {
+                    border-bottom: 1px dashed #d1d1d1;;
+                    padding: 1px 0;
+                }
+                #all-makers > form > div > div > div > a {
+                    display: block;
+                    font-size: 14px;
+                    line-height: 14px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    padding: 5px 0;
+                }
+                #all-makers > form > div > div > div:first-of-type > a {
+                    margin-right: 25px;
+                }
+                #all-makers > form > div > div > div:last-child {
+                    border-bottom: none;
+                }
+
+        #all-makers > ol {
+            margin: 0 15px 15px 15px;
+            list-style: none;
+        }
+            #all-makers > ol > li {
+                padding: 1px 0;
+            }
+            #all-makers > ol > li:first-child {
+                padding-bottom: 3px;
+            }
 
 /* список всех функциональных групп */
 #all-groups {
@@ -2201,6 +2279,7 @@ div.attention {
     #all-groups > p {
         clear: both;
         padding: 15px;
+        border-top: 1px dashed #d1d1d1;
     }
         #all-groups > p > a {
             display: block;
@@ -2252,24 +2331,23 @@ div.attention {
             width: 100%;
             box-sizing: border-box;
             padding: 5px 10px;
-            background: #395985;
+            background: #fff;
             position: absolute;
             z-index: 2;
-            box-shadow: 0 0 10px #000;
+            border: 1px solid #d1d1d1;;
         }
             #all-groups > form > div > div > span {
                 display: block;
                 position: absolute;
-                background: url('../img/close.png');
-                width: 20px;
-                height: 20px;
+                background: #d1d1d1 url('../img/close.png') center center no-repeat;
+                width: 22px;
+                height: 22px;
                 right: 4px;
                 top: 4px;
-                border: 1px solid #fff;
                 cursor: pointer;
             }
             #all-groups > form > div > div > div {
-                border-bottom: 1px dashed #fff;
+                border-bottom: 1px dashed #d1d1d1;;
                 padding: 1px 0;
             }
                 #all-groups > form > div > div > div > a {
@@ -2278,7 +2356,6 @@ div.attention {
                     line-height: 14px;
                     white-space: nowrap;
                     overflow: hidden;
-                    color: #fff;
                     padding: 5px 0;
                 }
                 #all-groups > form > div > div > div:first-of-type > a {
@@ -3291,11 +3368,11 @@ div.attention {
     }
     /* список всех производителей */
     #all-makers > p > a {
-        width: 90%;
+        width: 100%;
     }
     /* список всех функциональных групп */
     #all-groups > p > a {
-        width: 90%;
+        width: 100%;
     }
 }
 

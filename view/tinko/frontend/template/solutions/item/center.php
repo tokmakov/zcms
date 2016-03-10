@@ -102,7 +102,7 @@ defined('ZCMS') or die('Access denied');
                         </div>
                     </td>
                     <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
-                    <td><?php echo $units[$item['unit']]; ?></td>
+                    <td><i class="fa fa-rub"></i>/<?php echo $units[$item['unit']]; ?></td>
                     <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
                     <td><?php $cost = $item['count'] * $item['price']; echo number_format($cost, 2, '.', ''); ?></td>
                 </tr>

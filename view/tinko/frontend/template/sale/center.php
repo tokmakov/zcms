@@ -129,7 +129,7 @@ defined('ZCMS') or die('Access denied');
                     <td><?php echo $product['count']; ?></td>
                     <td><?php echo number_format($product['price1'], 2, '.', ''); ?></td>
                     <td><?php echo number_format($product['price2'], 2, '.', ''); ?></td>
-                    <td><?php echo $units[$product['unit']]; ?></td>
+                    <td><i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></td>
                 </tr>
             <?php endforeach; ?>
             </table>

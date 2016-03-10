@@ -31,16 +31,16 @@ $(document).ready(function() {
     });
     
     /*
-     * Поиск по функциональным группам
+     * Поиск функциональной группы
      */
     $('#all-groups > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
         if ($(this).val().length > 1) {
-            $('#all-groups > form > div').html('<div class="top-search-loader"></div>');
+            $('#all-groups > form > div').html('<div class="ajax-group-loader"></div>');
             $('#all-groups > form > div > div').show();
             $('#all-groups > form').ajaxSubmit({
                 target: '#all-groups > form > div > div',
                 success: function() {
-                    $('#all-groups > form > div > div').removeClass('top-search-loader');
+                    $('#all-groups > form > div > div').removeClass('ajax-group-loader');
                     if($('#all-groups > form > div > div').is(':empty')) {
                         $('#all-groups > form > div').empty();
                     }
@@ -53,6 +53,31 @@ $(document).ready(function() {
     $('#all-groups > form > div').on('click', 'div > span', function() {
         $('#all-groups > form > input[name="query"]').val('');
         $('#all-groups > form > div').empty();
+    });
+
+    /*
+     * Поиск производителя
+     */
+    $('#all-makers > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
+        if ($(this).val().length > 1) {
+            $('#all-makers > form > div').html('<div class="ajax-maker-loader"></div>');
+            $('#all-makers > form > div > div').show();
+            $('#all-makers > form').ajaxSubmit({
+                target: '#all-makers > form > div > div',
+                success: function() {
+                    $('#all-makers > form > div > div').removeClass('ajax-maker-loader');
+                    if($('#all-makers > form > div > div').is(':empty')) {
+                        $('#all-makers > form > div').empty();
+                    }
+                }
+            });
+        } else {
+            $('#all-makers > form > div').empty();
+        }
+    });
+    $('#all-makers > form > div').on('click', 'div > span', function() {
+        $('#all-makers > form > input[name="query"]').val('');
+        $('#all-makers > form > div').empty();
     });
 
     /*

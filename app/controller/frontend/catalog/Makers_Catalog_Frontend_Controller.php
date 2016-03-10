@@ -1,10 +1,10 @@
 <?php
 /**
- * Класс Groups_Catalog_Frontend_Controller формирует страницу со списком всех
- * функциональных групп, получает данные от модели Catalog_Frontend_Model,
- * общедоступная часть сайта
+ * Класс Makers_Catalog_Frontend_Controller формирует страницу со списком всех
+ * производителей, получает данные от модели Catalog_Frontend_Model, общедоступная
+ * часть сайта
  */
-class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
+class Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -12,7 +12,7 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * со списком всех функциональных групп
+     * со списком всех производителей
      */
     protected function input() {
 
@@ -21,21 +21,21 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * чтобы установить значения переменных, которые нужны для работы всех
          * его потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Groups_Catalog_Frontend_Controller
+         * Makers_Catalog_Frontend_Controller
          */
         parent::input();
-        
-        // если данные формы были отправлены: поиск функционала
+
+        // если данные формы были отправлены: поиск производителя
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
                 $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/groups/query/' . rawurlencode($_POST['query'])));
+                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/makers/query/' . rawurlencode($_POST['query'])));
             } else {
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/groups'));
+                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/makers'));
             }
         }
 
-        $this->title = 'Функциональные группы. ' . $this->title;
+        $this->title = 'Производители. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
@@ -53,11 +53,11 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $result = array();
         if (isset($this->params['query'])) {
             $this->params['query'] = str_replace('|', '/', $this->params['query']);
-            $result = $this->catalogFrontendModel->getGroupSearchResult($this->params['query']);
+            $result = $this->catalogFrontendModel->getMakerSearchResult($this->params['query']);
         }
 
-        // получаем от модели массив всех функциональных групп
-        $groups = $this->catalogFrontendModel->getAllGroups();
+        // получаем от модели массив всех производителей
+        $makers = $this->catalogFrontendModel->getAllMakers();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -66,11 +66,11 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
-            // результаты поиска функционала
+            'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/makers'),
+            // результаты поиска производителя
             'result'      => $result,
-            // массив всех функциональных групп
-            'groups'      => $groups,
+            // массив всех производителей
+            'makers'      => $makers,
         );
 
     }

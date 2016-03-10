@@ -62,7 +62,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             ),
             array(
                 'name' => 'Производители',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/allmkrs')
+                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/makers')
             ),
         );
         
