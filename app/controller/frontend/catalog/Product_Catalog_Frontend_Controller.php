@@ -120,7 +120,8 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'],
             $product['grp_id'],
             $product['ctg_id'],
-            $product['mkr_id']
+            $product['mkr_id'],
+            $product['title']
         );
 
         /*

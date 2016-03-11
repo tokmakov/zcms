@@ -133,7 +133,9 @@ defined('ZCMS') or die('Access denied');
                         <td>
                             <?php
                                 if ($i == 3 && $j > 0) { // технические характеристики
-                                    echo '<a href="' . $cell . '" class="zoom fancybox.ajax" rel="techdata">смотреть</a>';
+                                    if (!empty($cell)) {
+                                        echo '<a href="' . $cell . '" class="zoom fancybox.ajax" rel="techdata">смотреть</a>';
+                                    }
                                     continue;
                                 }
                                 if ($i == 4 && $j > 0) { // краткое описание

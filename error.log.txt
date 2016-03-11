@@ -244,3 +244,18 @@
 #5 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #6 {main}
 
+11.03.2016 10:07:47
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3078): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3102): Catalog_Frontend_Model->getLikedProductsByGroup('144')
+#4 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3013): Catalog_Frontend_Model->getLikedProductsByParam('144', Array)
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(124): Catalog_Frontend_Model->getLikedProducts(246344, '144', '2062', '410')
+#6 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(40): Product_Catalog_Frontend_Controller->getProduct()
+#7 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Product_Catalog_Frontend_Controller->input()
+#8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#9 {main}
+

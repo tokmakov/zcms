@@ -1062,8 +1062,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
                           `products` `a` INNER JOIN `product_param_value` `b`
                           ON `a`.`id` = `b`.`product_id`
                       WHERE
-                          `a`.`group` = :group
-                          AND `b`.`param_id` = :param_id AND `b`.`value_id` = :value_id";
+                          `a`.`group` = :group AND
+                          `b`.`param_id` = :param_id AND
+                          `b`.`value_id` = :value_id";
             $result = $this->database->fetchAll(
                 $query,
                 array(
@@ -2992,28 +2993,113 @@ class Catalog_Frontend_Model extends Frontend_Model {
     }
     
     /**
-     * Функция возвращает массив товаров с теми же параметрами подбора, что и
-     * у товара с уникальным идентификатором $id
+     * Функция возвращает массив товаров похожих товаров для товара с уникальным
+     * идентификатором $id; результат работы кэшируется
      */
-    public function getLikedProducts($id, $group, $category, $maker) {
+    public function getLikedProducts($id, $group, $category, $maker, $title) {
+        
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->likedProducts($id, $group, $category, $maker, $title);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+        
+    }
+    
+    /**
+     * Функция возвращает массив товаров похожих товаров для товара с уникальным
+     * идентификатором $id
+     */
+    protected function likedProducts($id, $group, $category, $maker, $title) {
         $query = "SELECT
-                      `param_id`, `value_id`
+                      `id`, `title`
                   FROM
-                      `product_param_value`
+                      `products`
                   WHERE
-                      `product_id` = :product_id";
-        $result = $this->database->fetchAll($query, array('product_id' => $id));
-        
-        if (empty($result)) {
-            return $this->_getGroupProducts($id, $group, $category, $maker);
+                      `group` = :group";
+        $result = $this->database->fetchAll($query, array('group' => $group));
+        if (count($result) > 10) {
+            $temp = array();
+            foreach ($result as $item) {
+                similar_text($title, $item['title'], $percent);
+                if ($percent > 90) {
+                    $temp[] = $item;
+                }
+            }
+            if (count($temp) > 4) {
+                $result = $temp;
+            }
+        }
+        if (count($result) > 10) {
+            $query = $query . " AND `category` = :category";
+            $temp = $this->database->fetchAll($query, array('group' => $group, 'category' => $category));
+            if (count($temp) > 4) {
+                $result = $temp;
+            }
+            if (count($result) > 10) {
+                $temp = array();
+                foreach ($result as $item) {
+                    similar_text($title, $item['title'], $percent);
+                    if ($percent > 90) {
+                        $temp[] = $item;
+                    }
+                }
+                if (count($temp) > 4) {
+                    $result = $temp;
+                }
+            }
+        }
+        if (count($result) > 10) {
+            $query = $query . " AND `maker` = :maker";
+            $temp = $this->database->fetchAll(
+                $query,
+                array(
+                    'group' => $group,
+                    'category' => $category,
+                    'maker' => $maker
+                )
+            );
+            if (count($temp) > 4) {
+                $result = $temp;
+            }
+            if (count($result) > 10) {
+                $temp = array();
+                foreach ($result as $item) {
+                    similar_text($title, $item['title'], $percent);
+                    if ($percent > 90) {
+                        $temp[] = $item;
+                    }
+                }
+                if (count($temp) > 4) {
+                    $result = $temp;
+                }
+            }
         }
         
-        $param = array();
-        foreach($result as $item) {
-            $param[$item['param_id']] = $item['value_id'];
+        while (count($result) > 12) {
+            $temp = array();
+            foreach($result as $key => $value) {
+                if ($key%2) {
+                    $temp[] = $value;
+                }
+            }
+            $result = $temp;
         }
-      
-        $ids = implode(',', $this->getProductsByParam($group, $param));
+        
+        $ids = array();
+        foreach ($result as $item) {
+            $ids[] = $item['id'];
+        }
+        
+        $ids = implode(',', $ids);
         
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
@@ -3026,20 +3112,19 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
                   WHERE
-                      `a`.`id` IN (".$ids.") AND `a`.`id` <> :product_id
+                      `a`.`id` IN (".$ids.") AND `a`.`id` <> :product_id AND `a`.`visible` = 1
                   ORDER BY
                       `a`.`price` DESC";
         $result = $this->database->fetchAll($query, array('product_id' => $id)); 
-   
-        // TODO: надо разделить все параметры подбора на важные и не очень
-    
-        if (empty($result)) {
-            return $this->_getGroupProducts($id, $group, $category, $maker);
-        }
         
         $count = count($result);
-        if ($count > 12) { // шесть самых дорогих и шесть самых дешевых
-            $products = array_merge(array_slice($result, 0, 6), array_slice($result, -6));
+        
+        if ($count == 0) {
+            return array();
+        }
+        
+        if ($count > 8) { // четыре самых дорогих и четыре самых дешевых
+            $products = array_merge(array_slice($result, 0, 4), array_slice($result, -4));
         } else {
             $products = $result;
         }
@@ -3060,64 +3145,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
         }
         return $products;
-    }
-    
-    /**
-     * Функция возвращает массив товаров функциональной группы с идентификатором $group,
-     * исключая товар с уникальным идентификатором $id
-     */
-    protected function _getGroupProducts($id, $group, $category, $maker) {
-        $query = "SELECT
-                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`image` AS `image`,
-                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
-                      `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
-                  FROM
-                      `products` `a`
-                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
-                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
-                  WHERE
-                      `a`.`id` <> :product_id AND
-                      `a`.`group` = :group_id AND
-                      `a`.`category` = :category_id AND
-                      `a`.`maker` = :maker_id
-                  ORDER BY
-                      `a`.`price` DESC";
-        $products = $this->database->fetchAll(
-            $query,
-            array(
-                'product_id'  => $id,
-                'group_id'    => $group,
-                'category_id' => $category,
-                'maker_id'    => $maker
-            )
-        );
-        
-        if (empty($products)) {
-            return array();
-        }
-
-        if (count($products) > 12) {
-            return array();
-        }
-        
-        // добавляем в массив товаров информацию об URL товаров, фото
-        foreach ($products as $key => $value) {
-            // URL ссылки на страницу товара
-            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
-            // URL ссылки на страницу производителя
-            $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
-            // URL ссылки на фото товара
-            if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
-            } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
-            }
-            // атрибут action тега form для добавления товара в корзину
-            $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
-        }
-        return $products; 
     }
 
     /**

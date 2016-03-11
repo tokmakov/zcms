@@ -1195,14 +1195,14 @@ div.attention {
             .product-list-grid > div > .product-list-heading h3 {
                 margin: 0;
                 font-size: 14px;
-                line-height: 14px;
-                height: 14px;
+                line-height: 15px;
+                height: 15px;
                 overflow: hidden;
                 white-space: nowrap;
             }
                 .product-list-grid > div > .product-list-heading h2 a {
                     font-size: 14px;
-                    line-height: 14px;
+                    line-height: 15px;
                 }
             .product-list-grid > div > .product-list-heading h3 {
                 font-weight: normal;
@@ -1429,7 +1429,7 @@ div.attention {
         }
             .product-list-upsell > div > div > .product-upsell-heading { /* заголовок */
                 margin-bottom: 5px;
-                height: 32px;
+                height: 34px;
                 overflow: hidden;
             }
                 .product-list-upsell > div > div > .product-upsell-heading h2,
@@ -1482,7 +1482,7 @@ div.attention {
                     letter-spacing: -1px;
                 }
             .product-list-upsell > div > div > .product-upsell-basket { /* добавить в корзину */
-                height: 26px;
+                height: 28px;
                 overflow: hidden;
             }
                 .product-list-upsell > div > div > .product-upsell-basket input[type="submit"] {

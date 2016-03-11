@@ -756,8 +756,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * с уникальным идентификатором $id(s)
      */
     protected function recommendedProducts($ids) {
+        $limit = 8;
         if (is_array($ids)) { // рекомендации для массива товаров
             $temp = implode(',', $ids);
+            if (count($ids) > 1) {
+                $limit = 20; 
+            }
         } else { // рекомендации для одного товара
             $temp = $ids;
         }
@@ -792,8 +796,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       `d`.`id1` IN (".$temp.") AND `a`.`id` NOT IN (".$temp.")
                   ORDER BY
                       `d`.`sortorder`
-                  LIMIT
-                      20";
+                  LIMIT " . $limit;
         $products = $this->database->fetchAll($query);
         // добавляем в массив товаров информацию об URL товаров, фото
         foreach ($products as $key => $value) {
