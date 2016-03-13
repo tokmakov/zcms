@@ -56,17 +56,19 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs' => $breadcrumbs,
+            'breadcrumbs'     => $breadcrumbs,
             // URL ссылки на эту страницу
-            'thisPageUrl' => $this->compareFrontendModel->getURL('frontend/compare/index'),
+            'thisPageUrl'     => $this->compareFrontendModel->getURL('frontend/compare/index'),
+            // ссылка для удаления всех товаров из сравнения
+            'clearCompareURL' => $this->basketFrontendModel->getURL('frontend/compare/clear'),
             // наимнование функциональной группы
-            'name'        => $name,
+            'name'            => $name,
             // массив параметров, привязанных к группе
-            'params'      => $params,
+            'params'          => $params,
             // массив товаров для сравнения
-            'products'    => $products,
+            'products'        => $products,
             // массив единиц измерения товара
-            'units'       => $units,
+            'units'           => $units,
         );
 
     }

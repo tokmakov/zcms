@@ -7,7 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $thisPageUrl - URL этой страницы
- * $gridPageUrl - URL ссылки на список сравнения
+ * $clearCompareURL - URL ссылки для удаления всех товаров из сравнения
  * $name - наимнование функциональной группы
  * $products - массив отложенных для сравнения товаров
  * $units - массив единиц измерения товара
@@ -92,6 +92,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <?php if (!empty($products)): // отложенные для сравнения товары ?>
+        <a href="<?php echo $clearCompareURL; ?>">
+            <i class="fa fa-trash-o"></i>&nbsp; <span>Очистить список сравнения</span>
+        </a>
         <div class="table-responsive">
             <table>
             <tr>

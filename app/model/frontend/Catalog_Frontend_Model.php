@@ -1952,15 +1952,15 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех функциональных групп; результат работы кэшируется
      */
-    public function getAllGroups($limit = 0) {
+    public function getAllGroups() {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->allGroups($limit);
+            return $this->allGroups();
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-limit-' . $limit;
+        $key = __METHOD__;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -1973,7 +1973,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех функциональных групп
      */
-    protected function allGroups($limit) {
+    protected function allGroups() {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
@@ -1988,9 +1988,6 @@ class Catalog_Frontend_Model extends Frontend_Model {
                      1, 2
                   ORDER BY
                       `a`.`name`, COUNT(*) DESC";
-        if ($limit) {
-            $query = $query . " LIMIT " . $limit;
-        }
         $groups = $this->database->fetchAll($query);
         // добавляем ссылки
         foreach ($groups as $key => $value) {

@@ -29,7 +29,6 @@
 }
 
 #compare-products > div:first-child {
-    margin-bottom: 20px;
     overflow: hidden;
 }
     #compare-products > div:first-child > h1 {
@@ -42,26 +41,24 @@
         font-size: 18px;
         font-weight: normal;
     }
-/*
-    #compare-products > div:first-child > a {
+    #compare-products > a { /* очистить список сравнения */
         display: block;
         float: right;
+        margin-bottom: 7px;
+        text-decoration: none;
         color: #395985;
-        text-decoration: none;
-        margin-top: 5px;
     }
-    #compare-products > div:first-child > a:hover {
-        text-decoration: none;
-    }
-        #compare-products > div:first-child > a > i {
-            font-size: 16px;
-            line-height: 21px;
-        }
-        #compare-products > div:first-child > a > span {
+        #compare-products > a > span {
             border-bottom: 1px dashed #395985;
-            vertical-align: top;
         }
-*/
+        #compare-products > a > i {
+            font-size: 17px;
+            position: relative;
+            top: 2px;
+        }
+#compare-products > p {  /* нет товаров для сравнения */
+    margin-top: 20px;
+}
 #compare-products table {
     border-collapse: collapse;
     table-layout: fixed;
@@ -400,6 +397,10 @@
     }
     #compare-products table tr:nth-child(5) { /* скрываем технические характеристики */
         display: none;
+    }
+    #compare-products > a { /* очистить список сравнения */
+        float: none;
+        margin-top: 7px;
     }
 }
 @media screen and (max-width: 650px) {
