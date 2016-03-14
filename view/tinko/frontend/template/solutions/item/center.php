@@ -68,9 +68,9 @@ defined('ZCMS') or die('Access denied');
                 <th>Код</th>
                 <th>Наименование</th>
                 <th>Кол.</th>
-                <th>Ед.изм.</th>
                 <th>Цена</th>
                 <th>Стоим.</th>
+                <th>Ед.изм.</th>
             </tr>
             <?php $totalCost = 0.0; ?>
             <?php foreach($products as $item) : ?>
@@ -102,9 +102,9 @@ defined('ZCMS') or die('Access denied');
                         </div>
                     </td>
                     <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
-                    <td><i class="fa fa-rub"></i>/<?php echo $units[$item['unit']]; ?></td>
                     <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
                     <td><?php $cost = $item['count'] * $item['price']; echo number_format($cost, 2, '.', ''); ?></td>
+                    <td><i class="fa fa-rub"></i>/<?php echo $units[$item['unit']]; ?></td>
                 </tr>
                 <?php $totalCost = $totalCost + $cost; ?>
             <?php endforeach; ?>

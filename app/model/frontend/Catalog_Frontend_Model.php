@@ -3022,73 +3022,32 @@ class Catalog_Frontend_Model extends Frontend_Model {
                       `products`
                   WHERE
                       `group` = :group";
-        $result = $this->database->fetchAll($query, array('group' => $group));
-        if (count($result) > 10) {
-            $temp = array();
-            foreach ($result as $item) {
-                similar_text($title, $item['title'], $percent);
-                if ($percent > 90) {
-                    $temp[] = $item;
-                }
-            }
-            if (count($temp) > 4) {
-                $result = $temp;
+        $temp = $this->database->fetchAll($query . " ORDER BY `id`", array('group' => $group));
+        $tmp = array();
+        foreach ($temp as $item) {
+            similar_text($title, $item['title'], $percent);
+            if ($percent > 90) {
+                $tmp[] = $item;
             }
         }
+        $result = $tmp;
         if (count($result) > 10) {
             $query = $query . " AND `category` = :category";
-            $temp = $this->database->fetchAll($query, array('group' => $group, 'category' => $category));
-            if (count($temp) > 4) {
-                $result = $temp;
-            }
-            if (count($result) > 10) {
-                $temp = array();
-                foreach ($result as $item) {
-                    similar_text($title, $item['title'], $percent);
-                    if ($percent > 90) {
-                        $temp[] = $item;
-                    }
-                }
-                if (count($temp) > 4) {
-                    $result = $temp;
+            $temp = $this->database->fetchAll($query . " ORDER BY `id`", array('group' => $group, 'category' => $category));
+            $tmp = array();
+            foreach ($temp as $item) {
+                similar_text($title, $item['title'], $percent);
+                if ($percent > 90) {
+                    $tmp[] = $item;
                 }
             }
-        }
-        if (count($result) > 10) {
-            $query = $query . " AND `maker` = :maker";
-            $temp = $this->database->fetchAll(
-                $query,
-                array(
-                    'group' => $group,
-                    'category' => $category,
-                    'maker' => $maker
-                )
-            );
-            if (count($temp) > 4) {
-                $result = $temp;
-            }
-            if (count($result) > 10) {
-                $temp = array();
-                foreach ($result as $item) {
-                    similar_text($title, $item['title'], $percent);
-                    if ($percent > 90) {
-                        $temp[] = $item;
-                    }
-                }
-                if (count($temp) > 4) {
-                    $result = $temp;
-                }
+            if (count($tmp) > 4) {
+                $result = $tmp;
             }
         }
         
-        while (count($result) > 12) {
-            $temp = array();
-            foreach($result as $key => $value) {
-                if ($key%2) {
-                    $temp[] = $value;
-                }
-            }
-            $result = $temp;
+        while (count($result) > 9) {
+            array_pop($result);
         }
         
         $ids = array();

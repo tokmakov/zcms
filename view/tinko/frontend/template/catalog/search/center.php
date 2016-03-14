@@ -1,7 +1,8 @@
 <?php
 /**
- * Результаты поиска по каталогу, общедоступная часть сайта,
- * файл view/example/frontend/template/catalog/search/center.php
+ * Результаты поиска по каталогу,
+ * файл view/example/frontend/template/catalog/search/center.php,
+ * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
@@ -31,7 +32,7 @@
  *       [product] => /catalog/product/37
  *       [maker] => /catalog/maker/5
  *       [image] => /files/catalog/products/small/nophoto.jpg
- *     ))
+ *     )
  *   )
  *   [1] => Array (
  *     .....
@@ -39,12 +40,12 @@
  * )
  *
  * $units = Array (
- *   0 => 'руб',
- *   1 => 'руб/шт',
- *   2 => 'руб/компл',
- *   3 => 'руб/упак',
- *   4 => 'руб/метр',
- *   5 => 'руб/пара',
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара',
  * );
  */
 

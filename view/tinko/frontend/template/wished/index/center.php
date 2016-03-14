@@ -34,9 +34,9 @@
  *       [image] => http://www.host.ru/files/catalog/imgs/small/8/7/8710c4a3ed9f660b5549092b5378c42c.jpg
  *     )
  *     [action] => Array (
- *       [basket] => http://www.host.ru/basket/addprd/37
- *       [compare] => http://www.host.ru/compare/addprd/37
- *       [wished] => http://www.host.ru/wished/rmvprd/37
+ *       [basket] => http://www.host.ru/basket/addprd
+ *       [compare] => http://www.host.ru/compare/addprd
+ *       [wished] => http://www.host.ru/wished/rmvprd
  *       [comment] => http://www.host.ru/wished/comment
  *     )
  *   )
@@ -49,12 +49,12 @@
  * )
  *
  * $units = Array (
- *     0 => 'руб',
- *     1 => 'руб/шт',
- *     2 => 'руб/компл',
- *     3 => 'руб/упак',
- *     4 => 'руб/метр',
- *     5 => 'руб/пара',
+ *     0 => '-',
+ *     1 => 'шт',
+ *     2 => 'компл',
+ *     3 => 'упак',
+ *     4 => 'метр',
+ *     5 => 'пара',
  * )
  *
  * $pager = Array (

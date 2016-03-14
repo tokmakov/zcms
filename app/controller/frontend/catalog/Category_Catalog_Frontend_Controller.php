@@ -294,11 +294,11 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'view'            => $view,               // представление списка товаров
             'group'           => $group,              // id выбранной функциональной группы или ноль
             'maker'           => $maker,              // id выбранного производителя или ноль
+            'param'           => $param,              // массив выбранных параметров подбора
             'hit'             => $hit,                // показывать только лидеров продаж?
             'countHit'        => $countHit,           // количество лидеров продаж
             'new'             => $new,                // показывать только новинки?
             'countNew'        => $countNew,           // количество новинок
-            'param'           => $param,              // массив выбранных параметров подбора
             'groups'          => $groups,             // массив функциональных групп
             'makers'          => $makers,             // массив производителей
             'params'          => $params,             // массив всех параметров подбора

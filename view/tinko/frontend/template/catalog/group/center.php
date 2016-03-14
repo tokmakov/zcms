@@ -56,6 +56,64 @@
  *   )
  *   ..........
  * )
+ * 
+ * $param = Array (
+ *   [187] => 1603 // 187 - уникальный ID параметра, 1603 - уникальный ID значения параметра
+ *   [241] => 1937
+ * )
+ * 
+ * $params = Array (
+ *   [0] => Array (
+ *     [id] => 187
+ *     [name] => Напряжение питания, В
+ *     [selected] => 1
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 1605
+ *         [name] => переменное 220
+ *         [count] => 2
+ *         [selected] => 0
+ *       )
+ *       [1] => Array (
+ *         [id] => 1603
+ *         [name] => постоянное 12
+ *         [count] => 2
+ *         [selected] => 1
+ *       )
+ *       [2] => Array (
+ *         [id] => 1945
+ *         [name] => постоянное 24
+ *         [count] => 1
+ *         [selected] => 0
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 241
+ *     [name] => Тип табло
+ *     [selected] => 0
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 1938
+ *         [name] => Свето-звуковое табло
+ *         [count] => 0
+ *         [selected] => 0
+ *       )
+ *       [1] => Array (
+ *         [id] => 1937
+ *         [name] => Световое табло
+ *         [count] => 2
+ *         [selected] => 0
+ *       )
+ *       [2] => Array (
+ *         [id] => 1939
+ *         [name] => Световое табло двухсторонее
+ *         [count] => 0
+ *         [selected] => 0
+ *       )
+ *     )
+ *   )
+ * )
  *
  * $sortorders = Array (
  *   [0] => Array (
@@ -89,12 +147,12 @@
  * )
  *
  * $units = Array (
- *     0 => 'руб',
- *     1 => 'руб/шт',
- *     2 => 'руб/компл',
- *     3 => 'руб/упак',
- *     4 => 'руб/метр',
- *     5 => 'руб/пара',
+ *     0 => '-',
+ *     1 => 'шт',
+ *     2 => 'компл',
+ *     3 => 'упак',
+ *     4 => 'метр',
+ *     5 => 'пара',
  * )
  *
  * $pager = Array (
@@ -336,7 +394,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <input type="text" name="count" value="1" size="5" />
                         <input type="hidden" name="return" value="group" />
                         <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
-                        <?php if ($sort): ?>
+                        <?php if ($sort): // TODO: hidden maker и param ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
                         <?php if ($page > 1): ?>

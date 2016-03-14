@@ -1584,7 +1584,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
             'frontend/catalog/group/id/$1/param/$2/sort/$3',
         // 20. товары функциональной группы, фильтр по параметрам, постраничная навигация
         '~^catalog/group/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
-            'frontend/catalog/group/id/$1/new/$2/page/$3',
+            'frontend/catalog/group/id/$1/param/$2/page/$3',
         // 21. товары функциональной группы, сортировка, постраничная навигация
         '~^catalog/group/(\d+)/sort/(\d)/page/(\d+)$~i' =>
             'frontend/catalog/group/id/$1/sort/$2/page/$3',

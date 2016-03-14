@@ -188,12 +188,12 @@
         #item-solutions table tr th.heading, #item-solutions table tr th:nth-child(3) {
             text-align: left;
         }
-        #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
-        #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(5) {
-            text-align: center;
-        }
-        #item-solutions table tr td:nth-child(6), #item-solutions table tr td:nth-child(7) {
+        #item-solutions table tr td:nth-child(5), #item-solutions table tr td:nth-child(6) {
             text-align: right;
+        }
+        #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
+        #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(7) {
+            text-align: center;
         }
 
         #item-solutions table tr:last-child td:first-child {
@@ -208,3 +208,28 @@
                 word-spacing: -1px;
                 letter-spacing: -1px;
             }
+            
+@media screen and (max-width: 600px) {
+    #item-solutions table tr th:nth-child(6), #item-solutions table tr td:nth-child(6) {
+        display: none;
+    }
+}
+@media screen and (max-width: 500px) {
+    #item-solutions table tr th:nth-child(7), #item-solutions table tr td:nth-child(7) {
+        display: none;
+    }
+}
+@media screen and (max-width: 410px) {
+    #item-solutions table tr th:nth-child(5), #item-solutions table tr td:nth-child(5) {
+        display: none;
+    }
+    #item-solutions table tr th:nth-child(3), #item-solutions table tr td:nth-child(3) {
+        width: 60%;
+    }
+    #item-solutions form h2, #item-solutions form input[type="submit"] {
+        float: none;
+    }
+    #item-solutions form h2 {
+        margin-bottom: 10px;
+    }
+}

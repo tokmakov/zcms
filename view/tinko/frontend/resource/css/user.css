@@ -711,6 +711,14 @@
     #login-user-center > ul {
         margin-left: 0;
     }
+    /* история заказов зарегистрированного пользователя */
+    #user-orders-list > div > table tr th:nth-child(5), #user-orders-list > div > table tr td:nth-child(5) {
+        display: none;
+    }
+    /* отдельный заказ зарегистрированного пользователя */
+    #user-order > table tr th:nth-child(5), #user-order > table tr td:nth-child(5) {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 370px) {

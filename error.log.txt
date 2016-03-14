@@ -259,3 +259,31 @@
 #8 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #9 {main}
 
+14.03.2016 15:45:20
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORDER BY `id`' at line 6
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3066): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3000): Catalog_Frontend_Model->likedProducts(213488, '375', '67', '73', '\xD0\x90\xD0\xBD\xD1\x82\xD0\xB5\xD0\xBD\xD0\xBD\xD0\xB0 ...')
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(125): Catalog_Frontend_Model->getLikedProducts(213488, '375', '67', '73', '\xD0\x90\xD0\xBD\xD1\x82\xD0\xB5\xD0\xBD\xD0\xBD\xD0\xB0 ...')
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(40): Product_Catalog_Frontend_Controller->getProduct()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Product_Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#8 {main}
+
+14.03.2016 15:51:01
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 169
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(169): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(151): Database->pdoFetchAll('SELECT\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3025): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Catalog_Frontend_Model.php(3000): Catalog_Frontend_Model->likedProducts(246367, '375', '2063', '410', '\xD0\x90\xD0\xBD\xD1\x82\xD0\xB5\xD0\xBD\xD0\xBD\xD0\xB0 ...')
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(125): Catalog_Frontend_Model->getLikedProducts(246367, '375', '2063', '410', '\xD0\x90\xD0\xBD\xD1\x82\xD0\xB5\xD0\xBD\xD0\xBD\xD0\xB0 ...')
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(40): Product_Catalog_Frontend_Controller->getProduct()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Product_Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(52): Base_Controller->request()
+#8 {main}
+

@@ -3219,7 +3219,7 @@ div.attention {
             float: none;
             width: 100%;
             height: auto;
-            margin-bottom: 3px;
+            margin: 3px 0 3px 0;
         }
             #catalog-filter > div:last-child > form > div:first-child > div:not(:last-child) > div > span {
                 height: auto;
@@ -3359,6 +3359,10 @@ div.attention {
     /* страница товара, скрываем оптовую цену */
     #product-item .product-item-main .product-item-info > div:first-child > span:last-child > span:nth-child(3) {
         display: none;
+    }
+    /* постраничная навигация */
+    .pager li {
+        margin-right: 5px;
     }
 }
 

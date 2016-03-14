@@ -49,9 +49,9 @@
  *       [image] => http://www.host.ru/files/catalog/products/small/nophoto.jpg
  *     )
  *     [action] => Array (
- *       [basket] => http://www.host.ru/basket/addprd/37
- *       [wished] => http://www.host.ru/wished/addprd/37
- *       [compare] => http://www.host.ru/compare/addprd/37
+ *       [basket] => http://www.host.ru/basket/addprd
+ *       [wished] => http://www.host.ru/wished/addprd
+ *       [compare] => http://www.host.ru/compare/addprd
  *     )
  *   )
  *   [1] => Array (

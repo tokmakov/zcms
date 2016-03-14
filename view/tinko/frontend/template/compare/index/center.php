@@ -47,9 +47,9 @@
  *       [image] => /files/catalog/products/small/8710c4a3ed9f660b5549092b5378c42c.jpg
  *     )
  *     [action] => Array (
- *       [basket] => /basket/addprd/37
- *       [wished] => /wished/addprd/37
- *       [compared] => /compare/rmvprd/37
+ *       [basket] => /basket/addprd
+ *       [wished] => /wished/addprd
+ *       [compared] => /compare/rmvprd
  *     )
  *   )
  *   [1] => Array (
@@ -61,12 +61,12 @@
  * )
  *
  * $units = Array (
- *     0 => 'руб',
- *     1 => 'руб/шт',
- *     2 => 'руб/компл',
- *     3 => 'руб/упак',
- *     4 => 'руб/метр',
- *     5 => 'руб/пара',
+ *     0 => '-',
+ *     1 => 'шт',
+ *     2 => 'компл',
+ *     3 => 'упак',
+ *     4 => 'метр',
+ *     5 => 'пара',
  * )
  */
 
