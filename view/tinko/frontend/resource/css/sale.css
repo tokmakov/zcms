@@ -30,7 +30,7 @@
             width: 5%;
         }
         #sale-products > table tr th:nth-child(3) {
-            width: 57%;
+            width: 58%;
             text-align: left;
         }
         #sale-products > table tr th:nth-child(4) {
@@ -43,7 +43,7 @@
             width: 10%;
         }
         #sale-products > table tr th:nth-child(7) {
-            width: 10%;
+            width: 9%;
         }
         #sale-products > table tr td:nth-child(3) > span {
             color: #395985;
@@ -66,4 +66,10 @@
                     margin-top: 5px;
                     color: #969696;
                 }
+        #sale-products > table tr td:nth-child(4), #sale-products > table tr td:nth-child(7) {
+            text-align: center;
+        }
+        #sale-products > table tr td:nth-child(5), #sale-products > table tr td:nth-child(6) {
+            text-align: right;
+        }
 

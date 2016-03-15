@@ -21,7 +21,7 @@ class Index_Sale_Frontend_Controller extends Frontend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Sale_Frontend_Controller
+         * Index_Sale_Frontend_Controller
          */
         parent::input();
         

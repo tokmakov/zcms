@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Xhr_Maker_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
- * в формате JSON, получает данные от модели Catalog_Frontend_Model, общедоступная
+ * в формате JSON, получает данные от модели Maker_Catalog_Frontend_Model, общедоступная
  * часть сайта. Ответ содержит результат фильтрации товаров выбранного производителя
  */
 class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
@@ -31,7 +31,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
         
         // получаем от модели информацию о производителе
-        $maker = $this->catalogFrontendModel->getMaker($this->params['id']);
+        $maker = $this->makerCatalogFrontendModel->getMaker($this->params['id']);
         // если запрошенный производитель не найден в БД
         if (empty($maker)) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
@@ -43,14 +43,14 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         list($group, $hit, $new, $param, $sort) = $this->processFormData();
 
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getMakerGroups(
+        $groups = $this->makerCatalogFrontendModel->getMakerGroups(
             $this->params['id'],
             $hit,
             $new
         );
         
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getMakerGroupParams(
+        $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
             $group,
             $hit,
@@ -59,7 +59,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountMakerHit(
+        $countHit = $this->makerCatalogFrontendModel->getCountMakerHit(
             $this->params['id'],
             $group,
             $hit,
@@ -68,7 +68,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountMakerNew(
+        $countNew = $this->makerCatalogFrontendModel->getCountMakerNew(
             $this->params['id'],
             $group,
             $hit,
@@ -79,7 +79,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         /*
          * постраничная навигация
          */
-        $totalProducts = $this->catalogFrontendModel->getCountMakerProducts( // общее кол-во товаров
+        $totalProducts = $this->makerCatalogFrontendModel->getCountMakerProducts( // общее кол-во товаров
             $this->params['id'],
             $group,
             $hit,
@@ -87,7 +87,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $param
         );
         // URL этой страницы
-        $thisPageURL = $this->catalogFrontendModel->getMakerURL(
+        $thisPageURL = $this->makerCatalogFrontendModel->getMakerURL(
             $this->params['id'],
             $group,
             $hit,
@@ -108,7 +108,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         // получаем от модели массив товаров производителя
-        $products = $this->catalogFrontendModel->getMakerProducts(
+        $products = $this->makerCatalogFrontendModel->getMakerProducts(
             $this->params['id'],
             $group,
             $hit,
@@ -119,10 +119,10 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->makerCatalogFrontendModel->getUnits();
 
         // ссылки для сортировки товаров по цене, наменованию, коду
-        $sortorders = $this->catalogFrontendModel->getMakerSortOrders(
+        $sortorders = $this->makerCatalogFrontendModel->getMakerSortOrders(
             $this->params['id'],
             $group,
             $hit,
@@ -207,7 +207,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 }
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }

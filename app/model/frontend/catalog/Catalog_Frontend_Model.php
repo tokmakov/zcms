@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Catalog_Frontend_Model для работы с каталогом товаров, взаимодействует
- * с базой данных, общедоступная часть сайта
+ * Абстрактный класс Catalog_Frontend_Model, родительский для всех моделей, работающих
+ * с каталогом товаров, общедоступная часть сайта
  */
-class Catalog_Frontend_Model extends Frontend_Model {
+abstract class Catalog_Frontend_Model extends Frontend_Model {
     
     /*
      * public function getRootCategories()
@@ -14,9 +14,9 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * public function getCategory(...)
      * public function getChildCategories(...)
      * protected function childCategories(...)
-     * private function getAllChildIds(...)
+     * protected function getAllChildIds(...)
      * protected function allChildIds(...)
-     * private function childIds(...)
+     * protected function childIds(...)
      * public function getCategoryProducts(...)
      * protected function categoryProducts(...)
      * public function getCountCategoryProducts(...)
@@ -31,14 +31,14 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * protected function countCategoryHit(...)
      * public function getCountCategoryNew(...)
      * protected function countCategoryNew(...)
-     * private function getProductsByParam(...)
+     * protected function getProductsByParam(...)
      * public function getCheckParams(...)
      * protected function checkParams(...)
      * public function getCategoryPath(...)
      * protected function categoryPath(...)
      * public function getCatalogMenu(...)
      * protected function catalogMenu(...)
-     * private function getAllCategoryParents(...)
+     * protected function getAllCategoryParents(...)
      * protected function allCategoryParents(...)
      * public function getAllMakers(...)
      * protected function allMakers(...)
@@ -342,7 +342,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив идентификаторов всех потомков категории $id, т.е.
      * дочерние, дочерние дочерних и так далее; результат работы кэшируется
      */
-    private function getAllChildIds($id) {
+    protected function getAllChildIds($id) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
             return $this->allChildIds($id);
@@ -380,7 +380,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Возвращает массив идентификаторов дочерних категорий (прямых потомков)
      * категории с уникальным идентификатором $id
      */
-    private function childIds($id) {
+    protected function childIds($id) {
         $query = "SELECT
                       `id`
                   FROM
@@ -1044,7 +1044,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * которые входят в функциональную группу $group и  подходят под параметры
      * подбора $param
      */
-    private function getProductsByParam($group, $param) {
+    protected function getProductsByParam($group, $param) {
 
         if (empty($group)) {
             return array();
@@ -1253,7 +1253,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив всех родителей категории с уникальным
      * идентификатром $id; результат работы кэшируется
      */
-    private function getAllCategoryParents($id = 0) {
+    protected function getAllCategoryParents($id = 0) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
@@ -3199,7 +3199,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает SQL-запрос для поиска по каталогу
      */
-    private function getSearchQuery($search) {
+    protected function getSearchQuery($search) {
         if (empty($search)) {
             return '';
         }
@@ -3388,7 +3388,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает SQL-запрос для поиска по каталогу
      */
-    private function getCountSearchQuery($search) {
+    protected function getCountSearchQuery($search) {
         if (empty($search)) {
             return '';
         }
@@ -3439,7 +3439,7 @@ class Catalog_Frontend_Model extends Frontend_Model {
      * Вспмогательная функция, очищает строку поискового запроса с сайта
      * от всякого мусора
      */
-    private function cleanSearchString($search) {
+    protected function cleanSearchString($search) {
         $search = utf8_substr($search, 0, 64);
         // удаляем все, кроме букв и цифр
         $search = preg_replace('#[^0-9a-zA-ZА-Яа-яёЁ]#u', ' ', $search);

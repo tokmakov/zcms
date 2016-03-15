@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Xhr_Groups_Catalog_Frontend_Controller формирует ответ на запрос
- * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
- * общедоступная часть сайта. Ответ содержит результаты поиска по функционалу
+ * Класс Xhr_Groups_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
+ * в формате HTML, получает данные от модели Group_Catalog_Frontend_Model, общедоступная
+ * часть сайта. Ответ содержит результаты поиска по функционалу
  */
 class Xhr_Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -23,7 +23,7 @@ class Xhr_Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
     public function request() {
 
         // получаем от модели массив результатов поиска
-        $result = $this->catalogFrontendModel->getGroupSearchResult($_POST['query']);
+        $result = $this->groupCatalogFrontendModel->getGroupSearchResult($_POST['query']);
 
         // формируем HTML результатов поиска
         $this->output = $this->render(

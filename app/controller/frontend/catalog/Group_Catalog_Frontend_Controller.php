@@ -42,7 +42,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели информацию о функциональной группе
-        $name = $this->catalogFrontendModel->getGroupName($this->params['id']);
+        $name = $this->groupCatalogFrontendModel->getGroupName($this->params['id']);
         // если запрошенная функциональная группа не найдена в БД
         if (empty($name)) {
             $this->notFoundRecord = true;
@@ -55,15 +55,15 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->groupCatalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->groupCatalogFrontendModel->getURL('frontend/catalog/index')
             ),
             array(
                 'name' => 'Функциональные группы',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/groups')
+                'url'  => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups')
             ),
         );
 
@@ -84,7 +84,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $param[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->groupCatalogFrontendModel->getCheckParams($param)) {
                 $this->notFoundRecord = true;
                 return;
             }
@@ -117,7 +117,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         
         // получаем от модели массив всех производителей
-        $makers = $this->catalogFrontendModel->getGroupMakers(
+        $makers = $this->groupCatalogFrontendModel->getGroupMakers(
             $this->params['id'],
             $hit,
             $new,
@@ -125,7 +125,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams(
+        $params = $this->groupCatalogFrontendModel->getGroupParams(
             $this->params['id'],
             $maker,
             $hit,
@@ -134,7 +134,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
         
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountGroupHit(
+        $countHit = $this->groupCatalogFrontendModel->getCountGroupHit(
             $this->params['id'],
             $maker,
             $hit,
@@ -143,7 +143,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountGroupNew(
+        $countNew = $this->groupCatalogFrontendModel->getCountGroupNew(
             $this->params['id'],
             $maker,
             $hit,
@@ -160,7 +160,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во товаров производителя с учетом фильтров по функционалу,
         // лидерам продаж и новинкам
-        $totalProducts = $this->catalogFrontendModel->getCountGroupProducts(
+        $totalProducts = $this->groupCatalogFrontendModel->getCountGroupProducts(
             $this->params['id'],
             $maker,
             $hit,
@@ -168,7 +168,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param
         );
         // URL этой страницы
-        $thisPageURL = $this->catalogFrontendModel->getGroupURL(
+        $thisPageURL = $this->groupCatalogFrontendModel->getGroupURL(
             $this->params['id'],
             $maker,
             $hit,
@@ -195,7 +195,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив всех товаров функциональной группы
-        $products = $this->catalogFrontendModel->getGroupProducts(
+        $products = $this->groupCatalogFrontendModel->getGroupProducts(
             $this->params['id'],
             $maker,
             $hit,
@@ -206,10 +206,10 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->groupCatalogFrontendModel->getUnits();
         
         // ссылки для сортировки товаров по цене, наменованию, коду
-        $sortorders = $this->catalogFrontendModel->getGroupSortOrders(
+        $sortorders = $this->groupCatalogFrontendModel->getGroupSortOrders(
             $this->params['id'],
             $maker,
             $hit,
@@ -218,14 +218,14 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
         
         // атрибут action тега form
-        $action = $this->catalogFrontendModel->getURL('frontend/catalog/group/id/' . $this->params['id']);
+        $action = $this->groupCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $this->params['id']);
 
         // URL ссылки для сборса фильтра
         $url = 'frontend/catalog/group/id/' . $this->params['id'];
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        $clearFilterURL = $this->catalogFrontendModel->getURL($url);
+        $clearFilterURL = $this->groupCatalogFrontendModel->getURL($url);
 
         // представление списка товаров: линейный или плитка
         $view = 'line';
@@ -313,7 +313,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
-        $this->redirect($this->catalogFrontendModel->getURL($url));
+        $this->redirect($this->groupCatalogFrontendModel->getURL($url));
     }
 
 }

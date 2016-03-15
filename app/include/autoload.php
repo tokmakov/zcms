@@ -18,24 +18,5 @@ function getIncludePath($dir, &$includePath) {
 }
 
 function __autoload($className) {
-    if (substr($className, -10) != 'Controller') {
-        require $className . '.php';
-        return;
-    }
-    $classes = array(
-                    'Base',
-                    'Base_Controller',
-                    'Frontend_Controller',
-                    'Backend_Controller',
-                );
-    if (in_array($className, $classes)) {
-        require $className . '.php';
-        return;
-    }
-    $temp = explode('_', strtolower($className));
-    $count = count($temp);
-    $file = 'app/' . $temp[$count-1] . '/' . $temp[$count-2] . '/' . $temp[$count-3] . '/' . $className . '.php';
-    if (is_file($file)) {
-        require $className . '.php';
-    }
+    require $className . '.php';
 }

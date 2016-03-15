@@ -58,9 +58,15 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $blogFrontendModel;
 
     /**
-     * экземпляр класса модели для работы с каталогом товаров
+     * экземпляры классов моделей для работы с каталогом товаров
      */
-    protected $catalogFrontendModel;
+    protected $indexCatalogFrontendModel,
+              $categoryCatalogFrontendModel,
+              $groupCatalogFrontendModel,
+              $makerCatalogFrontendModel,
+              $productCatalogFrontendModel,
+              $searchCatalogFrontendModel,
+              $menuCatalogFrontendModel;
 
     /**
      * экземпляр класса модели для работы с товарами для сравнения
@@ -145,9 +151,21 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->blogFrontendModel =
             isset($this->register->blogFrontendModel) ? $this->register->blogFrontendModel : new Blog_Frontend_Model();
 
-        // экземпляр класса модели для работы с каталогом товаров
-        $this->catalogFrontendModel =
-            isset($this->register->catalogFrontendModel) ? $this->register->catalogFrontendModel : new Catalog_Frontend_Model();
+        // экземпляры классов моделей для работы с каталогом товаров
+        $this->indexCatalogFrontendModel =
+            isset($this->register->indexCatalogFrontendModel) ? $this->register->indexCatalogFrontendModel : new Index_Catalog_Frontend_Model();
+        $this->categoryCatalogFrontendModel =
+            isset($this->register->categoryCatalogFrontendModel) ? $this->register->categoryCatalogFrontendModel : new Category_Catalog_Frontend_Model();
+        $this->groupCatalogFrontendModel =
+            isset($this->register->groupCatalogFrontendModel) ? $this->register->groupCatalogFrontendModel : new Group_Catalog_Frontend_Model();
+        $this->makerCatalogFrontendModel =
+            isset($this->register->makerCatalogFrontendModel) ? $this->register->makerCatalogFrontendModel : new Maker_Catalog_Frontend_Model();
+        $this->productCatalogFrontendModel =
+            isset($this->register->productCatalogFrontendModel) ? $this->register->productCatalogFrontendModel : new Product_Catalog_Frontend_Model();
+        $this->searchCatalogFrontendModel =
+            isset($this->register->searchCatalogFrontendModel) ? $this->register->searchCatalogFrontendModel : new Search_Catalog_Frontend_Model();
+        $this->menuCatalogFrontendModel =
+            isset($this->register->menuCatalogFrontendModel) ? $this->register->menuCatalogFrontendModel : new Menu_Catalog_Frontend_Model();
 
         // экземпляр класса модели для работы с товарами для сравнения
         $this->compareFrontendModel =
@@ -230,7 +248,7 @@ abstract class Frontend_Controller extends Base_Controller {
             // URL ссылки на главную страницу сайта
             'indexUrl'    => $this->indexFrontendModel->getURL('frontend/index/index'),
             // URL страницы поиска по каталогу товаров
-            'searchUrl'   => $this->catalogFrontendModel->getURL('frontend/catalog/search'),
+            'searchUrl'   => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
             // URL ссылки на страницу корзины
             'basketUrl'   => $this->basketFrontendModel->getURL('frontend/basket/index'),
             // URL ссылки на страницу личного кабинета
@@ -252,13 +270,13 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->menuVars = array('menu' => $menu);
 
         // меню каталога (для левой колонки)
-        $catalogMenu = $this->catalogFrontendModel->getCatalogMenu();
+        $catalogMenu = $this->menuCatalogFrontendModel->getCatalogMenu();
 
         // список производителей (для левой колонки)
-        $makers = $this->catalogFrontendModel->getMakers(10);
+        $makers = $this->makerCatalogFrontendModel->getMakers(10);
         
         // список функциональных групп (для левой колонки)
-        $groups = $this->catalogFrontendModel->getGroups(10);
+        $groups = $this->groupCatalogFrontendModel->getGroups(10);
 
         /*
          * массив переменных, которые будут переданы в шаблон left.php
@@ -271,9 +289,9 @@ abstract class Frontend_Controller extends Base_Controller {
             // массив функциональных групп
             'groups'       => $groups,
             // URL ссылки на страницу со списком всех производителей
-            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/makers'),
+            'allMakersURL' => $this->makerCatalogFrontendModel->getURL('frontend/catalog/makers'),
             // URL ссылки на страницу со списком всех функциональных групп
-            'allGroupsURL' => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
+            'allGroupsURL' => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'),
         );
 
         // получаем от модели массив товаров в корзине (для правой колонки)

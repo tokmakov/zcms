@@ -53,7 +53,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // переопределяем переменную, которая будет передана в шаблон left.php,
         // чтобы раскрыть ветку текущей категории
-        $this->leftVars['catalogMenu'] = $this->catalogFrontendModel->getCatalogMenu($this->params['id']);
+        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu($this->params['id']);
 
     }
 
@@ -64,7 +64,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     private function getCategory() {
 
         // получаем от модели информацию о категории
-        $category = $this->catalogFrontendModel->getCategory($this->params['id']);
+        $category = $this->categoryCatalogFrontendModel->getCategory($this->params['id']);
         // если запрошенная категория не найдена в БД
         if (empty($category)) {
             $this->notFoundRecord = true;
@@ -81,7 +81,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // формируем хлебные крошки
-        $breadcrumbs = $this->catalogFrontendModel->getCategoryPath($this->params['id']); // путь до категории
+        $breadcrumbs = $this->categoryCatalogFrontendModel->getCategoryPath($this->params['id']); // путь до категории
         array_pop($breadcrumbs); // последний элемент - текущая категория, нам она не нужна
 
         // включен фильтр по функциональной группе?
@@ -107,7 +107,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $param[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($param)) {
                 $this->notFoundRecord = true;
                 return;
             }
@@ -140,7 +140,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели массив дочерних категорий
-        $childCategories = $this->catalogFrontendModel->getChildCategories(
+        $childCategories = $this->categoryCatalogFrontendModel->getChildCategories(
             $this->params['id'],
             $group,
             $maker,
@@ -151,7 +151,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getCategoryGroups(
+        $groups = $this->categoryCatalogFrontendModel->getCategoryGroups(
             $this->params['id'],
             $maker,
             $hit,
@@ -159,7 +159,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getCategoryMakers(
+        $makers = $this->categoryCatalogFrontendModel->getCategoryMakers(
             $this->params['id'],
             $group,
             $hit,
@@ -168,7 +168,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getCategoryGroupParams(
+        $params = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
             $this->params['id'],
             $group,
             $maker,
@@ -178,7 +178,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountCategoryHit(
+        $countHit = $this->categoryCatalogFrontendModel->getCountCategoryHit(
             $this->params['id'],
             $group,
             $maker,
@@ -188,7 +188,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountCategoryNew(
+        $countNew = $this->categoryCatalogFrontendModel->getCountCategoryNew(
             $this->params['id'],
             $group,
             $maker,
@@ -205,7 +205,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $page = (int)$this->params['page'];
         }
         // общее кол-во товаров категории
-        $totalProducts = $this->catalogFrontendModel->getCountCategoryProducts(
+        $totalProducts = $this->categoryCatalogFrontendModel->getCountCategoryProducts(
             $this->params['id'],
             $group,
             $maker,
@@ -214,7 +214,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param
         );
         // URL этой страницы
-        $thisPageURL = $this->catalogFrontendModel->getCategoryURL(
+        $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
             $this->params['id'],
             $group,
             $maker,
@@ -242,7 +242,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив товаров категории
-        $products = $this->catalogFrontendModel->getCategoryProducts(
+        $products = $this->categoryCatalogFrontendModel->getCategoryProducts(
             $this->params['id'],
             $group,
             $maker,
@@ -254,10 +254,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->categoryCatalogFrontendModel->getUnits();
 
         // ссылки для сортировки товаров по цене, наменованию, коду
-        $sortorders = $this->catalogFrontendModel->getCategorySortOrders(
+        $sortorders = $this->categoryCatalogFrontendModel->getCategorySortOrders(
             $this->params['id'],
             $group,
             $maker,
@@ -267,14 +267,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // атрибут action тега form
-        $action = $this->catalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
+        $action = $this->categoryCatalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
 
         // URL ссылки для сборса фильтра
         $url = 'frontend/catalog/category/id/' . $this->params['id'];
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        $clearFilterURL = $this->catalogFrontendModel->getURL($url);
+        $clearFilterURL = $this->categoryCatalogFrontendModel->getURL($url);
 
         // представление списка товаров: линейный или плитка
         $view = 'line';
@@ -350,7 +350,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
-        $this->redirect($this->catalogFrontendModel->getURL($url));
+        $this->redirect($this->categoryCatalogFrontendModel->getURL($url));
     }
 
 }

@@ -1,7 +1,8 @@
 <?php
 /**
  * Класс Search_Catalog_Frontend_Controller формирует страницу поиска по каталогу,
- * получает данные от модели Catalog_Frontend_Model
+ * получает данные от модели Search_Catalog_Frontend_Model, общедоступная часть
+ * сайта
  */
 class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -28,9 +29,9 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
                 $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($_POST['query'])));
+                $this->redirect($this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($_POST['query'])));
             } else {
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/search'));
+                $this->redirect($this->searchCatalogFrontendModel->getURL('frontend/catalog/search'));
             }
         }
 
@@ -43,16 +44,16 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->searchCatalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->searchCatalogFrontendModel->getURL('frontend/catalog/index')
             )
         );
 
         if (empty($this->params['query'])) {
-            $this->centerVars['action'] = $this->catalogFrontendModel->getURL('frontend/catalog/search');
+            $this->centerVars['action'] = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search');
             $this->centerVars['breadcrumbs'] = $breadcrumbs;
             return;
         }
@@ -67,9 +68,9 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $page = (int)$this->params['page'];
         }
         // общее кол-во результатов поиска
-        $totalProducts = $this->catalogFrontendModel->getCountSearchResults($this->params['query']);
+        $totalProducts = $this->searchCatalogFrontendModel->getCountSearchResults($this->params['query']);
         // URL этой страницы
-        $thisPageUrl = $this->catalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
+        $thisPageUrl = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
         $temp = new Pager(
             $thisPageUrl,                                       // URL этой страницы
             $page,                                              // текущая страница
@@ -89,10 +90,10 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив результатов поиска
-        $results = $this->catalogFrontendModel->getSearchResults($this->params['query'], $start, false);
+        $results = $this->searchCatalogFrontendModel->getSearchResults($this->params['query'], $start, false);
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->searchCatalogFrontendModel->getUnits();
         
         // представление списка товаров: линейный или плитка
         $view = 'line';
@@ -107,7 +108,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/search'),
+            'action'      => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
             // представление списка товаров
             'view'        => $view,
             // поисковый запрос

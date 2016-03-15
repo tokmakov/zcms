@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Xhr_Product_Catalog_Frontend_Controller формирует ответ на запрос
- * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
- * общедоступная часть сайта. Ответ содержит информацию о товаре каталога
+ * Класс Xhr_Product_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
+ * в формате HTML, получает данные от модели Product_Catalog_Frontend_Model, общедоступная
+ * часть сайта. Ответ содержит информацию о товаре каталога для показа в модальном окне
  */
 class Xhr_Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -27,7 +27,7 @@ class Xhr_Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controlle
         }
 
         // получаем от модели данные о товаре
-        $product = $this->catalogFrontendModel->getProduct($this->params['id']);
+        $product = $this->productCatalogFrontendModel->getProduct($this->params['id']);
         // если запрошенный товар не найден в БД
         if (empty($product)) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
@@ -48,7 +48,7 @@ class Xhr_Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controlle
         }
         
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->productCatalogFrontendModel->getUnits();
 
         // формируем HTML
         $this->output = $this->render(
@@ -74,13 +74,13 @@ class Xhr_Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controlle
                 'maker'        => array(
                     'id'   => $product['mkr_id'],
                     'name' => $product['mkr_name'],
-                    'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id']),
+                    'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id']),
                 ),
                 // функциональная группа
                 'group'        => array(
                     'id'   => $product['grp_id'],
                     'name' => $product['grp_name'],
-                    'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id']),
+                    'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id']),
                 ),
                 // новый товар?
                 'new'          => $product['new'],

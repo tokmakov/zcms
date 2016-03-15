@@ -2,7 +2,7 @@
 /**
  * Класс Maker_Catalog_Frontend_Controller формирует страницу со списком
  * всех товаров выбранного производителя, получает данные от модели
- * Catalog_Frontend_Model, общедоступная часть сайта
+ * Maker_Catalog_Frontend_Model, общедоступная часть сайта
  */
 class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -42,7 +42,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели информацию о производителе
-        $maker = $this->catalogFrontendModel->getMaker($this->params['id']);
+        $maker = $this->makerCatalogFrontendModel->getMaker($this->params['id']);
         // если запрошенный производитель не найден в БД
         if (empty($maker)) {
             $this->notFoundRecord = true;
@@ -62,15 +62,15 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->makerCatalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->makerCatalogFrontendModel->getURL('frontend/catalog/index')
             ),
             array(
                 'name' => 'Производители',
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/makers')
+                'url'  => $this->makerCatalogFrontendModel->getURL('frontend/catalog/makers')
             ),
         );
         
@@ -124,14 +124,14 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getMakerGroups(
+        $groups = $this->makerCatalogFrontendModel->getMakerGroups(
             $this->params['id'],
             $hit,
             $new
         );
         
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getMakerGroupParams(
+        $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
             $group,
             $hit,
@@ -140,7 +140,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
         
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountMakerHit(
+        $countHit = $this->makerCatalogFrontendModel->getCountMakerHit(
             $this->params['id'],
             $group,
             $hit,
@@ -149,7 +149,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountMakerNew(
+        $countNew = $this->makerCatalogFrontendModel->getCountMakerNew(
             $this->params['id'],
             $group,
             $hit,
@@ -166,7 +166,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во товаров производителя с учетом фильтров по функционалу,
         // лидерам продаж и новинкам
-        $totalProducts = $this->catalogFrontendModel->getCountMakerProducts(
+        $totalProducts = $this->makerCatalogFrontendModel->getCountMakerProducts(
             $this->params['id'],
             $group,
             $hit,
@@ -174,7 +174,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param
         );
         // URL этой страницы
-        $thisPageURL = $this->catalogFrontendModel->getMakerURL(
+        $thisPageURL = $this->makerCatalogFrontendModel->getMakerURL(
             $this->params['id'],
             $group,
             $hit,
@@ -201,7 +201,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив всех товаров производителя
-        $products = $this->catalogFrontendModel->getMakerProducts(
+        $products = $this->makerCatalogFrontendModel->getMakerProducts(
             $this->params['id'],
             $group,
             $hit,
@@ -212,10 +212,10 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->makerCatalogFrontendModel->getUnits();
         
         // ссылки для сортировки товаров по цене, наменованию, коду
-        $sortorders = $this->catalogFrontendModel->getMakerSortOrders(
+        $sortorders = $this->makerCatalogFrontendModel->getMakerSortOrders(
             $this->params['id'],
             $group,
             $hit,
@@ -224,14 +224,14 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
         
         // атрибут action тега form
-        $action = $this->catalogFrontendModel->getURL('frontend/catalog/maker/id/' . $this->params['id']);
+        $action = $this->makerCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $this->params['id']);
 
         // URL ссылки для сборса фильтра
         $url = 'frontend/catalog/maker/id/' . $this->params['id'];
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        $clearFilterURL = $this->catalogFrontendModel->getURL($url);
+        $clearFilterURL = $this->makerCatalogFrontendModel->getURL($url);
 
         // представление списка товаров: линейный или плитка
         $view = 'line';
@@ -321,7 +321,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
-        $this->redirect($this->catalogFrontendModel->getURL($url));
+        $this->redirect($this->makerCatalogFrontendModel->getURL($url));
     }
 
 }

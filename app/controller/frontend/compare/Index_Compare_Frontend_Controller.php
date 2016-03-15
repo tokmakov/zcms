@@ -49,7 +49,7 @@ class Index_Compare_Frontend_Controller extends Compare_Frontend_Controller {
         $products = $this->compareFrontendModel->getCompareProducts();
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->compareFrontendModel->getUnits();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

@@ -31,16 +31,16 @@ class Allmkrs_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->makerCatalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->makerCatalogFrontendModel->getURL('frontend/catalog/index')
             ),
         );
 
         // получаем от модели массив всех производителей
-        $makers = $this->catalogFrontendModel->getAllMakers();
+        $makers = $this->makerCatalogFrontendModel->getAllMakers();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

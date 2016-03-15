@@ -73,7 +73,7 @@ class Index_Viewed_Frontend_Controller extends Frontend_Controller {
         $viewedProducts = $this->viewedFrontendModel->getViewedProducts($start);
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->viewedFrontendModel->getUnits();
         
         // представление списка товаров: линейный или плитка
         $view = 'line';

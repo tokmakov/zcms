@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Xhr_Group_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
- * в формате JSON, получает данные от модели Catalog_Frontend_Model, общедоступная
+ * в формате JSON, получает данные от модели Group_Catalog_Frontend_Model, общедоступная
  * часть сайта. Ответ содержит результат фильтрации товаров выбранной функциональной
  * группы
  */
@@ -32,7 +32,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
         
         // получаем от модели информацию о функциональной группе
-        $name = $this->catalogFrontendModel->getGroupName($this->params['id']);
+        $name = $this->groupCatalogFrontendModel->getGroupName($this->params['id']);
         // если запрошенная функциональная группа не найдена в БД
         if (empty($name)) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
@@ -44,7 +44,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         list($maker, $hit, $new, $param, $sort) = $this->processFormData();
 
         // получаем от модели массив всех производителей
-        $makers = $this->catalogFrontendModel->getGroupMakers(
+        $makers = $this->groupCatalogFrontendModel->getGroupMakers(
             $this->params['id'],
             $hit,
             $new,
@@ -52,7 +52,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->catalogFrontendModel->getGroupParams(
+        $params = $this->groupCatalogFrontendModel->getGroupParams(
             $this->params['id'],
             $maker,
             $hit,
@@ -61,7 +61,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
         
         // получаем от модели количество лидеров продаж
-        $countHit = $this->catalogFrontendModel->getCountGroupHit(
+        $countHit = $this->groupCatalogFrontendModel->getCountGroupHit(
             $this->params['id'],
             $maker,
             $hit,
@@ -70,7 +70,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // получаем от модели количество новинок
-        $countNew = $this->catalogFrontendModel->getCountGroupNew(
+        $countNew = $this->groupCatalogFrontendModel->getCountGroupNew(
             $this->params['id'],
             $maker,
             $hit,
@@ -87,7 +87,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
         // общее кол-во товаров производителя с учетом фильтров по функционалу,
         // лидерам продаж и новинкам
-        $totalProducts = $this->catalogFrontendModel->getCountGroupProducts(
+        $totalProducts = $this->groupCatalogFrontendModel->getCountGroupProducts(
             $this->params['id'],
             $maker,
             $hit,
@@ -95,7 +95,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $param
         );
         // URL этой страницы
-        $thisPageURL = $this->catalogFrontendModel->getGroupURL(
+        $thisPageURL = $this->groupCatalogFrontendModel->getGroupURL(
             $this->params['id'],
             $maker,
             $hit,
@@ -120,7 +120,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         // получаем от модели массив всех товаров функциональной группы
-        $products = $this->catalogFrontendModel->getGroupProducts(
+        $products = $this->groupCatalogFrontendModel->getGroupProducts(
             $this->params['id'],
             $maker,
             $hit,
@@ -131,10 +131,10 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         );
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->groupCatalogFrontendModel->getUnits();
         
         // ссылки для сортировки товаров по цене, наменованию, коду
-        $sortorders = $this->catalogFrontendModel->getGroupSortOrders(
+        $sortorders = $this->groupCatalogFrontendModel->getGroupSortOrders(
             $this->params['id'],
             $maker,
             $hit,
@@ -219,7 +219,7 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 }
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->groupCatalogFrontendModel->getCheckParams($param)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }

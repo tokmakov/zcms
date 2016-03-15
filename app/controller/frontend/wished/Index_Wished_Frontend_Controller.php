@@ -72,7 +72,7 @@ class Index_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         $wishedProducts = $this->wishedFrontendModel->getWishedProducts($start);
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->wishedFrontendModel->getUnits();
         
         // представление списка товаров: линейный или плитка
         $view = 'line';

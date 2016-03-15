@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Xhr_Makers_Catalog_Frontend_Controller формирует ответ на запрос
- * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
- * общедоступная часть сайта. Ответ содержит результаты поиска производителя
+ * Класс Xhr_Makers_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
+ * в формате HTML, получает данные от модели Maker_Catalog_Frontend_Model, общедоступная
+ * часть сайта. Ответ содержит результаты поиска производителя
  */
 class Xhr_Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -23,7 +23,7 @@ class Xhr_Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
     public function request() {
 
         // получаем от модели массив результатов поиска
-        $result = $this->catalogFrontendModel->getMakerSearchResult($_POST['query']);
+        $result = $this->makerCatalogFrontendModel->getMakerSearchResult($_POST['query']);
 
         // формируем HTML результатов поиска
         $this->output = $this->render(

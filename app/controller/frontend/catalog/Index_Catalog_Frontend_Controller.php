@@ -1,8 +1,9 @@
 <?php
 /**
- * Класс Index_Catalog_Frontend_Controller формирует главную страницу каталога,
- * т.е. список категорий верхнего уровня + список производителей, получает данные
- * от модели Catalog_Frontend_Model, общедоступная часть сайта
+ * Класс Index_Catalog_Frontend_Controller формирует главную страницу каталога, т.е.
+ * список категорий верхнего уровня + список производителей + список функциональных
+ * групп, получает данные от модели Index_Catalog_Frontend_Model, общедоступная часть
+ * сайта
  */
 class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -29,18 +30,18 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->indexCatalogFrontendModel->getURL('frontend/index/index')
             ),
         );
 
         // получаем от модели массив категорий верхнего уровня
-        $root = $this->catalogFrontendModel->getRootCategories();
+        $root = $this->indexCatalogFrontendModel->getRootCategories();
 
         // получаем от модели массив производителей
-        $makers = $this->catalogFrontendModel->getMakers(20);
+        $makers = $this->makerCatalogFrontendModel->getMakers(20);
         
         // получаем от модели массив функциональных групп
-        $groups = $this->catalogFrontendModel->getGroups(20);
+        $groups = $this->groupCatalogFrontendModel->getGroups(20);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -55,9 +56,9 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // массив функциональных групп
             'groups'       => $groups,
             // URL ссылки на страницу со списком всех производителей
-            'allMakersURL' => $this->catalogFrontendModel->getURL('frontend/catalog/makers'),
+            'allMakersURL' => $this->indexCatalogFrontendModel->getURL('frontend/catalog/makers'),
             // URL ссылки на страницу со списком всех функциональных групп
-            'allGroupsURL' => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
+            'allGroupsURL' => $this->indexCatalogFrontendModel->getURL('frontend/catalog/groups'),
         );
 
     }

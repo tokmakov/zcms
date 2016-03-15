@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Xhr_Menu_Catalog_Frontend_Controller формирует ответ на запрос
- * XmlHttpRequest в формате HTML, получает данные от модели Catalog_Frontend_Model,
- * общедоступная часть сайта. Ответ содержит дочерние категории для элемента меню.
+ * Класс Xhr_Menu_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
+ * в формате HTML, получает данные от модели Menu_Catalog_Frontend_Model, общедоступная
+ * часть сайта. Ответ содержит дочерние категории для элемента меню каталога
  */
 class Xhr_Menu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -31,7 +31,7 @@ class Xhr_Menu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели массив дочерних категорий
-        $childs = $this->catalogFrontendModel->getCategoryChilds($id);
+        $childs = $this->menuCatalogFrontendModel->getCategoryChilds($id);
 
         // формируем HTML
         $this->output = $this->render(

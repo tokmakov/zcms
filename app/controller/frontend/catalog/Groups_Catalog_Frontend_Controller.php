@@ -29,9 +29,9 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
                 $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/groups/query/' . rawurlencode($_POST['query'])));
+                $this->redirect($this->groupCatalogFrontendModel->getURL('frontend/catalog/groups/query/' . rawurlencode($_POST['query'])));
             } else {
-                $this->redirect($this->catalogFrontendModel->getURL('frontend/catalog/groups'));
+                $this->redirect($this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'));
             }
         }
 
@@ -41,11 +41,11 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url' => $this->catalogFrontendModel->getURL('frontend/index/index')
+                'url'  => $this->groupCatalogFrontendModel->getURL('frontend/index/index')
             ),
             array(
                 'name' => 'Каталог',
-                'url' => $this->catalogFrontendModel->getURL('frontend/catalog/index')
+                'url'  => $this->groupCatalogFrontendModel->getURL('frontend/catalog/index')
             ),
         );
 
@@ -53,11 +53,11 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $result = array();
         if (isset($this->params['query'])) {
             $this->params['query'] = str_replace('|', '/', $this->params['query']);
-            $result = $this->catalogFrontendModel->getGroupSearchResult($this->params['query']);
+            $result = $this->groupCatalogFrontendModel->getGroupSearchResult($this->params['query']);
         }
 
         // получаем от модели массив всех функциональных групп
-        $groups = $this->catalogFrontendModel->getAllGroups();
+        $groups = $this->groupCatalogFrontendModel->getAllGroups();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -66,7 +66,7 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action'      => $this->catalogFrontendModel->getURL('frontend/catalog/groups'),
+            'action'      => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'),
             // результаты поиска функционала
             'result'      => $result,
             // массив всех функциональных групп

@@ -1,8 +1,8 @@
 <?php
 /**
  * Класс Product_Catalog_Frontend_Controller формирует страницу товара,
- * получает данные от модели Catalog_Frontend_Model, общедоступная часть
- * сайта
+ * получает данные от модели Product_Catalog_Frontend_Model, общедоступная
+ * часть сайта
  */
 class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -57,7 +57,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // переопределяем переменную, которая будет передана в шаблон left.php,
         // чтобы раскрыть ветку текущей категории
-        $this->leftVars['catalogMenu'] = $this->catalogFrontendModel->getCatalogMenu($this->centerVars['ctg_id']);
+        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu($this->centerVars['ctg_id']);
 
     }
 
@@ -68,7 +68,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     private function getProduct() {
 
         // получаем от модели данные о товаре
-        $product = $this->catalogFrontendModel->getProduct($this->params['id']);
+        $product = $this->productCatalogFrontendModel->getProduct($this->params['id']);
         // если запрошенный товар не найден в БД
         if (empty($product)) {
             $this->notFoundRecord = true;
@@ -84,11 +84,11 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // формируем хлебные крошки
-        $breadcrumbs = $this->catalogFrontendModel->getCategoryPath($product['ctg_id']); // путь до категории
+        $breadcrumbs = $this->productCatalogFrontendModel->getCategoryPath($product['ctg_id']); // путь до категории
         // если товар размещен в двух категориях
         $breadcrumbs2 = null;
         if ( ! empty($product['second'])) {
-            $breadcrumbs2 = $this->catalogFrontendModel->getCategoryPath($product['second']); // путь до категории
+            $breadcrumbs2 = $this->productCatalogFrontendModel->getCategoryPath($product['second']); // путь до категории
         }
 
         // технические характеристики
@@ -110,13 +110,13 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->productCatalogFrontendModel->getUnits();
 
         // получаем от модели массив рекомендованных товаров
         $recommendedProducts = $this->basketFrontendModel->getRecommendedProducts($this->params['id']);
         
         // получаем от модели массив похожих товаров
-        $likedProducts = $this->catalogFrontendModel->getLikedProducts(
+        $likedProducts = $this->productCatalogFrontendModel->getLikedProducts(
             $this->params['id'],
             $product['grp_id'],
             $product['ctg_id'],
@@ -135,7 +135,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs2' => $breadcrumbs2,
             // URL этой страницы
-            'thisPageUrl'  => $this->catalogFrontendModel->getURL('frontend/catalog/product/id/' . $this->params['id']),
+            'thisPageUrl'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/product/id/' . $this->params['id']),
             // заголовок h1 - торговое наименование товара
             'name'         => $product['name'],
             // заголовок h2 - функциональное наименование товара
@@ -158,13 +158,13 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'maker'        => array(
                 'id'   => $product['mkr_id'],
                 'name' => $product['mkr_name'],
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']),
             ),
             // функциональная группа
             'group'        => array(
                 'id'   => $product['grp_id'],
                 'name' => $product['grp_name'],
-                'url'  => $this->catalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']),
             ),
             // новый товар?
             'new'          => $product['new'],
@@ -192,9 +192,9 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'certs'        => $product['certs'],
             // атирибут action тега form формы для добавления товара в корзину, в избранное, в список сравнения
             'action'       => array(
-                'basket'   => $this->catalogFrontendModel->getURL('frontend/basket/addprd'),
-                'wished'   => $this->catalogFrontendModel->getURL('frontend/wished/addprd'),
-                'compare'  => $this->catalogFrontendModel->getURL('frontend/compare/addprd'),
+                'basket'   => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
+                'wished'   => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
+                'compare'  => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,
