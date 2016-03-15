@@ -72,6 +72,18 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
         } elseif ($_POST['return'] == 'maker') { // перенаправляем на страницу производителя
             if (isset($_POST['return_mkr_id']) && ctype_digit($_POST['return_mkr_id'])) {
                 $url = 'frontend/catalog/maker/id/' . $_POST['return_mkr_id'];
+                if (isset($_POST['group']) && ctype_digit($_POST['group']) && $_POST['group'] > 0) {
+                    $url = $url . '/group/' . $_POST['group'];
+                }
+                if (isset($_POST['hit']) && $_POST['hit'] == 1) {
+                    $url = $url . '/hit/1';
+                }
+                if (isset($_POST['new']) && $_POST['new'] == 1) {
+                    $url = $url . '/new/1';
+                }
+                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
+                    $url = $url . '/param/' . $_POST['param'];
+                }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
                 }
@@ -79,8 +91,30 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                     $url = $url . '/page/' . $_POST['page'];
                 }
             }
-        } elseif ($_POST['return'] == 'compared') { // перенаправляем на страницу отложенных для сравнения товаров
-            $url = 'frontend/compared/index';
+        } elseif ($_POST['return'] == 'group') { // перенаправляем на страницу функциональной группы
+            if (isset($_POST['return_grp_id']) && ctype_digit($_POST['return_grp_id'])) {
+                $url = 'frontend/catalog/group/id/' . $_POST['return_grp_id'];
+                if (isset($_POST['maker']) && ctype_digit($_POST['maker']) && $_POST['maker'] > 0) {
+                    $url = $url . '/maker/' . $_POST['maker'];
+                }
+                if (isset($_POST['hit']) && $_POST['hit'] == 1) {
+                    $url = $url . '/hit/1';
+                }
+                if (isset($_POST['new']) && $_POST['new'] == 1) {
+                    $url = $url . '/new/1';
+                }
+                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
+                    $url = $url . '/param/' . $_POST['param'];
+                }
+                if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
+                    $url = $url . '/sort/' . $_POST['sort'];
+                }
+                if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
+                    $url = $url . '/page/' . $_POST['page'];
+                }
+            }
+        } elseif ($_POST['return'] == 'compare') { // перенаправляем на страницу отложенных для сравнения товаров
+            $url = 'frontend/compare/index';
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                 $url = $url . '/page/' . $_POST['page'];
             }

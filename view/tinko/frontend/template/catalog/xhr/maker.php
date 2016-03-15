@@ -106,6 +106,17 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 
     <div class="product-list-<?php echo $view; ?>">
+        <?php
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            if ( ! empty($temp)) {
+                $prm = implode('-', $temp);
+            }
+        }
+        ?>
         <?php foreach ($products as $product): ?>
             <div>
                 <div class="product-list-heading">
@@ -154,6 +165,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -175,6 +189,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -195,6 +212,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />

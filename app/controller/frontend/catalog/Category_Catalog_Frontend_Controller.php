@@ -316,7 +316,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     /**
      * Вспомогательная функция, обрабатывает отправленные данные формы, если у посетителя отключен
      * JavaScript, после чего делает редирект на страницу категории, но уже с параметрами в URL
-     *
      */
     private function processFormData() {
         $url = 'frontend/catalog/category/id/' . $this->params['id'];

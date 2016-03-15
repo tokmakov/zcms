@@ -33,6 +33,14 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'] = (int)$this->params['id'];
         }
 
+        // если данные формы были отправлены: выбор производителя, параметров
+        // подбора; для пользователей, у которых отключен JavaScript
+        if ($this->isPostMethod()) {
+            // обрабатываем отправленные данные формы, после чего делаем редирект
+            // на страницу функц.группы, но уже с параметрами формы в URL
+            $this->processFormData();
+        }
+
         // получаем от модели информацию о функциональной группе
         $name = $this->catalogFrontendModel->getGroupName($this->params['id']);
         // если запрошенная функциональная группа не найдена в БД
@@ -271,6 +279,41 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'page'           => $page,
         );
 
+    }
+
+    /**
+     * Вспомогательная функция, обрабатывает отправленные данные формы, если у посетителя отключен
+     * JavaScript, после чего делает редирект на страницу функц.группы, но уже с параметрами в URL
+     */
+    private function processFormData() {
+        $url = 'frontend/catalog/group/id/' . $this->params['id'];
+        if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
+            $url = $url . '/maker/' . $_POST['maker'];
+        }
+        if (isset($_POST['hit'])) {
+            $url = $url . '/hit/1';
+        }
+        if (isset($_POST['new'])) {
+            $url = $url . '/new/1';
+        }
+        if (isset($_POST['param']) && is_array($_POST['param'])) {
+            $param = array();
+            foreach ($_POST['param'] as $key => $value) {
+                if ($key > 0 && ctype_digit($value) && $value > 0) {
+                    $param[] = $key . '.' . $value;
+                }
+            }
+            if ( ! empty($param)) {
+                $url = $url . '/param/' . implode('-', $param);
+            }
+        }
+        if (isset($_POST['sort'])
+            && ctype_digit($_POST['sort'])
+            && in_array($_POST['sort'], array(1,2,3,4,5,6))
+        ) {
+            $url = $url . '/sort/' . $_POST['sort'];
+        }
+        $this->redirect($this->catalogFrontendModel->getURL($url));
     }
 
 }

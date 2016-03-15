@@ -355,6 +355,17 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 
     <div class="product-list-<?php echo $view; ?>">
+        <?php
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            if ( ! empty($temp)) {
+                $prm = implode('-', $temp);
+            }
+        }
+        ?>
         <?php foreach ($products as $product): // товары функциональной группы ?>
             <div>
                 <div class="product-list-heading">
@@ -394,7 +405,19 @@ for ($i = 0; $i <= 6; $i++) {
                         <input type="text" name="count" value="1" size="5" />
                         <input type="hidden" name="return" value="group" />
                         <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
-                        <?php if ($sort): // TODO: hidden maker и param ?>
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
+                        <?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
+                        <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
                         <?php if ($page > 1): ?>
@@ -406,6 +429,18 @@ for ($i = 0; $i <= 6; $i++) {
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="group" />
                         <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
+                        <?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
@@ -418,6 +453,18 @@ for ($i = 0; $i <= 6; $i++) {
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="group" />
                         <input type="hidden" name="return_grp_id" value="<?php echo $id; ?>" />
+                        <?php if ($maker): ?>
+                            <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
+                        <?php endif; ?>
+                        <?php if ($hit): ?>
+                            <input type="hidden" name="hit" value="1" />
+                        <?php endif; ?>
+                        <?php if ($new): ?>
+                            <input type="hidden" name="new" value="1" />
+                        <?php endif; ?>
+                        <?php if ( ! empty($prm)): ?>
+                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
