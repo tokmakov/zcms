@@ -729,13 +729,15 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         // отправляем новый пароль по почте
         $subject = '=?utf-8?B?' . base64_encode('Новый пароль') . '?=';
-        $headers = 'From: <' . $this->config->email->site . '>' . "\r\n";
+        $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers.'Date: ' . date('r') . "\r\n";
         $headers = $headers.'Content-type: text/plain; charset="utf-8"' . "\r\n";
         $headers = $headers.'Content-Transfer-Encoding: base64';
         $message = 'Добрый день!' . "\r\n\r\n";
         $message .= 'Ваш новый пароль: ' . $password . "\r\n\r\n";
-        $message .= $this->config->site->name;
+        $message .= $this->config->site->name . "\r\n";
+        $message .= 'Телефон: ' . $this->config->site->phone . "\r\n";
+        $message .= 'Почта: ' . $this->config->site->email;
         $message = chunk_split(base64_encode($message));
         mail($email, $subject, $message, $headers);
 

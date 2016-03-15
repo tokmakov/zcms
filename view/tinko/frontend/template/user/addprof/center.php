@@ -149,7 +149,7 @@ defined('ZCMS') or die('Access denied');
         <h2>Контактное лицо</h2>
         <div>
             <div>Фамилия <span class="form-field-required">*</span></div>
-            <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" /></div>
+            <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" placeholder="фамилия" /></div>
         </div>
         <div>
             <div>Имя <span class="form-field-required">*</span></div>
@@ -166,7 +166,7 @@ defined('ZCMS') or die('Access denied');
         </div>
         <div>
             <div>E-mail <span class="form-field-required">*</span></div>
-            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
+            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
         </div>
     </div>
 

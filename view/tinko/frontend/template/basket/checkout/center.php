@@ -217,7 +217,7 @@ defined('ZCMS') or die('Access denied');
             <legend>Контактное лицо</legend>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_surname" maxlength="32" value="<?php echo $buyer_surname; ?>" /></div>
+                <div><input type="text" name="buyer_surname" maxlength="32" value="<?php echo $buyer_surname; ?>" placeholder="фамилия" /></div>
             </div>
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
@@ -232,7 +232,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" /></div>
+                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" placeholder="e-mail" /></div>
             </div>
         </fieldset>
 
@@ -354,7 +354,7 @@ defined('ZCMS') or die('Access denied');
             <legend>Контактное лицо</legend>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_surname" maxlength="32" value="<?php echo $payer_surname; ?>" /></div>
+                <div><input type="text" name="payer_surname" maxlength="32" value="<?php echo $payer_surname; ?>" placeholder="фамилия" /></div>
             </div>
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
@@ -369,7 +369,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_email" maxlength="32" value="<?php echo $payer_email; ?>" /></div>
+                <div><input type="text" name="payer_email" maxlength="32" value="<?php echo $payer_email; ?>" placeholder="e-mail" /></div>
             </div>
         </fieldset>
 

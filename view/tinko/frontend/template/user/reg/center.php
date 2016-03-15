@@ -57,7 +57,7 @@ defined('ZCMS') or die('Access denied');
 <form action="<?php echo $action; ?>" method="post" id="reg-user">
     <div>
         <div>Фамилия <span class="form-field-required">*</span></div>
-        <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" /></div>
+        <div><input type="text" name="surname" maxlength="32" value="<?php echo $surname; ?>" placeholder="фамилия" /></div>
     </div>
     <div>
         <div>Имя <span class="form-field-required">*</span></div>
@@ -68,15 +68,15 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>E-mail <span class="form-field-required">*</span></div>
-        <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
+        <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
     </div>
     <div>
         <div>Пароль <span class="form-field-required">*</span></div>
-        <div><input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" /></div>
+        <div><input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" placeholder="пароль" /></div>
     </div>
     <div>
         <div>Пароль еще раз <span class="form-field-required">*</span></div>
-        <div><input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" /></div>
+        <div><input type="text" name="confirm" maxlength="32" value="<?php echo $confirm; ?>" placeholder="пароль" /></div>
     </div>
     <div>
         <div>Вопрос <span class="form-field-required">*</span></div>
