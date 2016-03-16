@@ -1,8 +1,8 @@
 <?php
 /**
  * Класс Allmkrs_Catalog_Frontend_Controller формирует страницу со списком всех
- * производителей, получает данные от модели Catalog_Frontend_Model, общедоступная
- * часть сайта
+ * производителей, получает данные от модели Maker_Catalog_Frontend_Model,
+ * общедоступная часть сайта
  */
 class Allmkrs_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 

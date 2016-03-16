@@ -612,6 +612,22 @@ function addFilterHash() {
     if (sortInput.length > 0 && sortInput.val() !== '0') {
         hash = hash + '/sort/' + sortInput.val();
     }
+    if (hash === '') {
+        // TODO: переделать
+        var pathname;
+        if (/^\/catalog\/category\/[0-9]+\/(group|maker|hit|new)/i.test(window.location.pathname)) {
+            pathname = window.location.pathname.replace(/^(\/catalog\/category\/[0-9]+).+$/i, '$1');
+            window.location.replace(pathname);
+        }
+        if (/^\/catalog\/group\/[0-9]+\/(maker|hit|new)/i.test(window.location.pathname)) {
+            pathname = window.location.pathname.replace(/^(\/catalog\/group\/[0-9]+).+$/i, '$1');
+            window.location.replace(pathname);
+        }
+        if (/^\/catalog\/maker\/[0-9]+\/(group|hit|new)/i.test(window.location.pathname)) {
+            pathname = window.location.pathname.replace(/^(\/catalog\/maker\/[0-9]+).+$/i, '$1');
+            window.location.replace(pathname);
+        }
+    }
     if (hash !== '') {
         window.location.hash = '#!' + hash;
     } else {

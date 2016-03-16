@@ -2,7 +2,7 @@
 /**
  * Класс Category_Catalog_Frontend_Controller формирует страницу категории каталога,
  * т.е. список дочерних категорий и список товаров категории, получает данные от
- * модели Catalog_Frontend_Model, общедоступная часть сайта
+ * модели Category_Catalog_Frontend_Model, общедоступная часть сайта
  */
 class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 

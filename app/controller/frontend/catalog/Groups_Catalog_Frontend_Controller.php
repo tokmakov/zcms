@@ -1,7 +1,7 @@
 <?php
 /**
  * Класс Groups_Catalog_Frontend_Controller формирует страницу со списком всех
- * функциональных групп, получает данные от модели Catalog_Frontend_Model,
+ * функциональных групп, получает данные от модели Group_Catalog_Frontend_Model,
  * общедоступная часть сайта
  */
 class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {

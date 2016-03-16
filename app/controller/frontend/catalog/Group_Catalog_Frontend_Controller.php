@@ -2,7 +2,7 @@
 /**
  * Класс Group_Catalog_Frontend_Controller формирует страницу со списком
  * всех товаров выбранной функциональной группы, получает данные от модели
- * Catalog_Frontend_Model, общедоступная часть сайта
+ * Group_Catalog_Frontend_Model, общедоступная часть сайта
  */
 class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 

@@ -1,4 +1,5 @@
 if (window.location.hash.substr(0, 2) === '#!') {
+    // TODO: переделать
     var pathname;
     if (/^\/catalog\/category\/[0-9]+/.test(window.location.pathname)) {
         pathname = window.location.pathname.match(/^\/catalog\/category\/[0-9]+/i)[0] + window.location.hash.slice(2);

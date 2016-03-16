@@ -158,13 +158,13 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'maker'        => array(
                 'id'   => $product['mkr_id'],
                 'name' => $product['mkr_name'],
-                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id']),
             ),
             // функциональная группа
             'group'        => array(
                 'id'   => $product['grp_id'],
                 'name' => $product['grp_name'],
-                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id']),
             ),
             // новый товар?
             'new'          => $product['new'],

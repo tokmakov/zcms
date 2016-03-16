@@ -47,7 +47,7 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         $newProducts = $this->indexFrontendModel->getNewProducts();
         
         // единицы измерения товара
-        $units = $this->catalogFrontendModel->getUnits();
+        $units = $this->indexFrontendModel->getUnits();
 
         /*
          * переменные, которые будут переданы в шаблон center.php
