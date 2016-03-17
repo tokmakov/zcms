@@ -218,6 +218,16 @@
     #item-solutions table tr th:nth-child(7), #item-solutions table tr td:nth-child(7) {
         display: none;
     }
+    #categories-solutions > div:last-child > ul {
+        float: none;
+        width: 100%;
+    }
+    #categories-solutions > div:last-child > ul:first-child {
+        border-right: none;
+    }
+    #categories-solutions > div:last-child > ul:first-child > li:last-child {
+        border-bottom: 1px dashed #d1d1d1;
+    }
 }
 @media screen and (max-width: 410px) {
     #item-solutions table tr th:nth-child(5), #item-solutions table tr td:nth-child(5) {

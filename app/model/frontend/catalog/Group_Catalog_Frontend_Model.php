@@ -175,15 +175,16 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         $words = explode(' ', $query);
         $query = "SELECT
-                      `id`, `name`
+                      `a`.`id` AS `id`, `a`.`name` AS `name`
                   FROM
-                      `groups`
+                      `groups` `a`
                   WHERE
-                      `name` LIKE '%".$words[0]."%'";
+                      EXISTS (SELECT 1 FROM `products` `b` WHERE `a`.`id` = `b`.`group` AND `b`.`visible` = 1)
+                      AND `a`.`name` LIKE '%".$words[0]."%'";
         for ($i = 1; $i < count($words); $i++) {
-            $query = $query." AND `name` LIKE '%".$words[$i]."%'";
+            $query = $query." AND `a`.`name` LIKE '%".$words[$i]."%'";
         }
-        $query = $query." ORDER BY `name` LIMIT 10";
+        $query = $query." ORDER BY `a`.`name` LIMIT 10";
         $result = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на страницы функциональных групп
         foreach($result as $key => $value) {
@@ -369,8 +370,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
                   WHERE
-                      `b`.`group` = :id
-                      AND `b`.`visible` = 1
+                      `b`.`group` = :id AND
+                      `b`.`visible` = 1
                   GROUP BY
                       `a`.`id`, `a`. `name`
                   ORDER BY
@@ -453,15 +454,15 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `f`.`id` AS `value_id`, `f`.`name` AS `value_name`,
                       COUNT(*) AS `count`
                   FROM
-                      `groups` `a`
-                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                      INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `product_param_value` `d` ON `a`.`id` = `d`.`product_id`
                       INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
                       INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
                   WHERE
-                      `a`.`id` = :id AND
-                      `b`.`visible` = 1
+                      `a`.`group` = :id AND
+                      `a`.`visible` = 1
                   GROUP BY
                       1, 2, 3, 4
                   ORDER BY
@@ -474,25 +475,25 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = "SELECT
                           COUNT(*)
                       FROM
-                          `groups` `a`
-                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                          INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
+                          `products` `a`
+                          INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                          INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                          INNER JOIN `product_param_value` `d` ON `a`.`id` = `d`.`product_id`
                           INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
                           INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
                       WHERE
-                          `a`.`id` = :id AND
-                          `b`.`visible` = 1 AND
+                          `a`.`group` = :id AND
+                          `a`.`visible` = 1 AND
                           `d`.`param_id` = :param_id AND
                           `d`.`value_id` = :value_id";
             if ($maker) { // фильтр по производителю
-                $query = $query . " AND `b`.`maker` = " . $maker;
+                $query = $query . " AND `a`.`maker` = " . $maker;
             }
             if ($hit) { // фильтр по лидерам продаж
-                $query = $query . " AND `b`.`hit` > 0";
+                $query = $query . " AND `a`.`hit` > 0";
             }
             if ($new) { // фильтр по новинкам
-                $query = $query . " AND `b`.`new` > 0";
+                $query = $query . " AND `a`.`new` > 0";
             }
 
             $temp = $param;
@@ -502,7 +503,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ( ! empty($temp)) { // фильтр по параметрам подбора
                 $ids = $this->getProductsByParam($id, $temp);
                 if ( ! empty($ids)) {
-                    $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
+                    $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne(
                         $query,
                         array(

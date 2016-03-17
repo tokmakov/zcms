@@ -287,3 +287,17 @@
 #7 D:\work\localhost2\www\index.php(52): Base_Controller->request()
 #8 {main}
 
+17.03.2016 14:54:07
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.group' doesn't exist
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 231
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(231): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(213): Database->pdoFetchOne('SELECT\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(326): Database->fetchOne('SELECT\r\n       ...')
+#3 C:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(273): Category_Catalog_Frontend_Model->countCategoryProducts(186, 0, 0, 0, 0, Array)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(215): Category_Catalog_Frontend_Model->getCountCategoryProducts(186, 0, 0, 0, 0, Array)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(48): Category_Catalog_Frontend_Controller->getCategory()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(138): Category_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(52): Base_Controller->request()
+#8 {main}
+

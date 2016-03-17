@@ -91,7 +91,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $param[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->catalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
                 $this->notFoundRecord = true;
                 return;
             }

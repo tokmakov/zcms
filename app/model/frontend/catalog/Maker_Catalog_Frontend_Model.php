@@ -182,15 +182,16 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         $words = explode(' ', $query);
         $query = "SELECT
-                      `id`, `name`
+                      `a`.`id` AS `id`, `a`.`name` AS `name`
                   FROM
-                      `makers`
+                      `makers` `a`
                   WHERE
-                      `name` LIKE '%".$words[0]."%'";
+                      EXISTS (SELECT 1 FROM `products` `b` WHERE `a`.`id` = `b`.`maker` AND `b`.`visible` = 1)
+                      AND `a`.`name` LIKE '%".$words[0]."%'";
         for ($i = 1; $i < count($words); $i++) {
-            $query = $query." AND `name` LIKE '%".$words[$i]."%'";
+            $query = $query." AND `a`.`name` LIKE '%".$words[$i]."%'";
         }
-        $query = $query." ORDER BY `name` LIMIT 10";
+        $query = $query." ORDER BY `a`.`name` LIMIT 10";
         $result = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на страницы производителей
         foreach($result as $key => $value) {
@@ -265,6 +266,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `groups` `c` ON `a`.`group` = `c`.`id`
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $tmp . "
                   ORDER BY " . $temp . "
@@ -317,7 +319,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $query = "SELECT
                       COUNT(*)
                   FROM
-                      `products` `a` INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `groups` `c` ON `a`.`group` = `c`.`id`
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $temp;
         return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
@@ -452,24 +456,23 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // получаем список всех параметров подбора для выбранной функциональной
         // группы и выбранного производителя
         $query = "SELECT
-                      `e`.`id` AS `param_id`, `e`.`name` AS `param_name`,
-                      `f`.`id` AS `value_id`, `f`.`name` AS `value_name`,
+                      `d`.`id` AS `param_id`, `d`.`name` AS `param_name`,
+                      `e`.`id` AS `value_id`, `e`.`name` AS `value_name`,
                       COUNT(*) AS `count`
                   FROM
-                      `groups` `a`
-                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                      INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
-                      INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
-                      INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `product_param_value` `c` ON `a`.`id` = `c`.`product_id`
+                      INNER JOIN `params` `d` ON `c`.`param_id` = `d`.`id`
+                      INNER JOIN `values` `e` ON `c`.`value_id` = `e`.`id`
                   WHERE
-                      `a`.`id` = :group
-                      AND `b`.`maker` = :maker
-                      AND `b`.`visible` = 1
+                      `a`.`group` = :group
+                      AND `a`.`maker` = :maker
+                      AND `a`.`visible` = 1
                   GROUP BY
                       1, 2, 3, 4
                   ORDER BY
-                      `e`.`name`, `f`.`name`";
+                      `d`.`name`, `e`.`name`";
         $result = $this->database->fetchAll($query, array('group' => $group, 'maker' => $id));
 
         // теперь подсчитываем количество товаров для каждого параметра и каждого значения
@@ -478,23 +481,22 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = "SELECT
                           COUNT(*)
                       FROM
-                          `groups` `a`
-                          INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
-                          INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
-                          INNER JOIN `product_param_value` `d` ON `b`.`id` = `d`.`product_id`
-                          INNER JOIN `params` `e` ON `d`.`param_id` = `e`.`id`
-                          INNER JOIN `values` `f` ON `d`.`value_id` = `f`.`id`
+                          `products` `a`
+                          INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                          INNER JOIN `product_param_value` `c` ON `a`.`id` = `c`.`product_id`
+                          INNER JOIN `params` `d` ON `c`.`param_id` = `d`.`id`
+                          INNER JOIN `values` `e` ON `c`.`value_id` = `e`.`id`
                       WHERE
-                          `a`.`id` = :group
-                          AND `b`.`maker` = :maker
-                          AND `d`.`param_id` = :param_id
-                          AND `d`.`value_id` = :value_id
-                          AND `b`.`visible` = 1";
+                          `a`.`group` = :group
+                          AND `a`.`maker` = :maker
+                          AND `a`.`visible` = 1
+                          AND `c`.`param_id` = :param_id
+                          AND `c`.`value_id` = :value_id";
             if ($hit) { // фильтр по лидерам продаж
-                $query = $query . " AND `b`.`hit` > 0";
+                $query = $query . " AND `a`.`hit` > 0";
             }
             if ($new) { // фильтр по новинкам
-                $query = $query . " AND `b`.`new` > 0";
+                $query = $query . " AND `a`.`new` > 0";
             }
 
             $temp = $param;
@@ -504,7 +506,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ( ! empty($temp)) { // фильтр по параметрам подбора
                 $ids = $this->getProductsByParam($group, $temp);
                 if ( ! empty($ids)) {
-                    $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
+                    $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne(
                         $query,
                         array('group' => $group, 'maker' => $id, 'param_id' => $value['param_id'], 'value_id' => $value['value_id'])
@@ -642,6 +644,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `groups` `c` ON `a`.`group` = `c`.`id`
                   WHERE
                       `a`.`maker` = :maker AND `a`.`visible` = 1";
         if ($group) { // фильтр по функциональной группе

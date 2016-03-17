@@ -120,11 +120,11 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив товаров похожих товаров для товара с уникальным
      * идентификатором $id; результат работы кэшируется
      */
-    public function getLikedProducts($id, $group, $category, $maker, $title) {
+    public function getLikedProducts($id, $group, $category, $title) {
         
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->likedProducts($id, $group, $category, $maker, $title);
+            return $this->likedProducts($id, $group, $category, $title);
         }
 
         // уникальный ключ доступа к кэшу
@@ -142,7 +142,7 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив товаров похожих товаров для товара с уникальным
      * идентификатором $id
      */
-    protected function likedProducts($id, $group, $category, $maker, $title) {
+    protected function likedProducts($id, $group, $category, $title) {
         $query = "SELECT
                       `id`, `title`
                   FROM

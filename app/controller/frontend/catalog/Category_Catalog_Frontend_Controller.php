@@ -213,33 +213,37 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        // URL этой страницы
-        $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort
-        );
-        $temp = new Pager(
-            $thisPageURL,                                       // URL этой страницы
-            $page,                                              // текущая страница
-            $totalProducts,                                     // общее кол-во товаров категории
-            $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
-            $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
-        );
-        $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
-            $this->notFoundRecord = true;
-            return;
+        $pager = null; // постраничная навигация
+        $start = 0; // стартовая позиция
+        if ($totalProducts > $this->config->pager->frontend->products->perpage) { // постраничная навигация нужна?
+            // URL этой страницы
+            $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
+                $this->params['id'],
+                $group,
+                $maker,
+                $hit,
+                $new,
+                $param,
+                $sort
+            );
+            $temp = new Pager(
+                $thisPageURL,                                       // URL этой страницы
+                $page,                                              // текущая страница
+                $totalProducts,                                     // общее кол-во товаров категории
+                $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
+                $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
+            );
+            $pager = $temp->getNavigation();
+            if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
+                $this->notFoundRecord = true;
+                return;
+            }
+            if (false === $pager) { // постраничная навигация не нужна
+                $pager = null;
+            }
+            // стартовая позиция для SQL-запроса
+            $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
         }
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
-        }
-        // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
         // получаем от модели массив товаров категории
         $products = $this->categoryCatalogFrontendModel->getCategoryProducts(

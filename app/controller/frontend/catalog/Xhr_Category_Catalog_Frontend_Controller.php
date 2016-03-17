@@ -102,26 +102,29 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $new,
             $param
         );
-        // URL этой страницы
-        $thisPageUrl = $this->categoryCatalogFrontendModel->getCategoryURL(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort
-        );
-        $temp = new Pager(
-            $thisPageUrl,                                       // URL этой страницы
-            1,                                                  // текущая страница
-            $totalProducts,                                     // общее кол-во товаров
-            $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
-            $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
-        );
-        $pager = $temp->getNavigation();
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
+        $pager = null;
+        if ($totalProducts > $this->config->pager->frontend->products->perpage) {
+            // URL этой страницы
+            $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
+                $this->params['id'],
+                $group,
+                $maker,
+                $hit,
+                $new,
+                $param,
+                $sort
+            );
+            $temp = new Pager(
+                $thisPageURL,                                       // URL этой страницы
+                1,                                                  // текущая страница
+                $totalProducts,                                     // общее кол-во товаров
+                $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
+                $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
+            );
+            $pager = $temp->getNavigation();
+            if (false === $pager) { // постраничная навигация не нужна
+                $pager = null;
+            }
         }
 
         // получаем от модели массив товаров категории

@@ -95,8 +95,9 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                           `products` `a`
                           INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                           INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                          INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                       WHERE
-                          (`category` IN (" . $childs . ") OR `category2` IN (" . $childs . "))
+                          (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
                           AND `a`.`visible` = 1";
             if ($group) { // фильтр по функциональной группе
                 $query = $query . " AND `a`.`group` = " . $group;
@@ -224,11 +225,12 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`image` AS `image`, `a`.`hit` AS `hit`, `a`.`new` AS `new`,
                       `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`,
-                      `a`.`group` AS `grp_id`
+                      `d`.`id` AS `grp_id`, `d`.`name` AS `grp_name`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))" . $tmp . "
                       AND `a`.`visible` = 1
@@ -298,6 +300,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
                       AND `a`.`visible` = 1";
@@ -364,6 +367,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `makers` `a`
                       INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `b`.`group` = `d`.`id`
                   WHERE
                       (`b`.`category` IN (" . $childs . ") OR `b`.`category2` IN (" . $childs . "))
                       AND `b`.`visible` = 1
@@ -388,6 +392,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                           `makers` `a`
                           INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                           INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                          INNER JOIN `groups` `d` ON `b`.`group` = `d`.`id`
                       WHERE
                           (`b`.`category` IN (" . $childs . ") OR `b`.`category2` IN (" . $childs . "))
                           AND `a`.`id` = " . $value['id'] . "
@@ -698,6 +703,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
                       AND `a`.`visible` = 1";
@@ -766,6 +772,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))
                       AND `a`.`visible` = 1";
