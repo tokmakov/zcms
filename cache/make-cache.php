@@ -18,31 +18,28 @@ require 'app/routing.php';
 // настройки приложения
 require 'app/settings.php';
 Config::init($settings);
-// реестр, для хранения всех объектов приложения
-$register = Register::getInstance();
-// сохраняем в реестре настройки, чтобы везде иметь к ним доступ; доступ к
-// настройкам возможен через реестр или напрямую через Config::getInstance()
-$register->config = Config::getInstance();
+$config = Config::getInstance();
 /*
  * отмечаем, что приложение запущено из командной строки с целью формирования кэша
  */
-$register->config->cache->make = true;
+$config->cache->make = true;
+// реестр
+$register = Register::getInstance();
 // кэширование данных
-$register->cache = Cache::getInstance();
+$cache = Cache::getInstance();
 // база данных
-$register->database = Database::getInstance();
+$database = Database::getInstance();
 
 // очищаем кэш
-$register->cache->clearCache();
-
+// $cache->clearCache();
+/*
 // все страницы сайта
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";
-$pages = $register->database->fetchAll($query);
+$pages = $database->fetchAll($query);
 foreach($pages as $page) {
     // экземпляр класса роутера
-    $router = Router::getInstance('Page_Frontend_Controller', array('id' => $page['id']));
-    $register->router = $router;
-    // получаем имя класса контроллера, например Page_Frontend_Controller
+    $router = Router::getInstance('Index_Page_Frontend_Controller', array('id' => $page['id']));
+    // получаем имя класса контроллера
     $controller = $router->getControllerClassName();
     // параметры, передаваемые контроллеру
     $params = $router->getParams();
@@ -55,18 +52,16 @@ foreach($pages as $page) {
     echo 'page-' . $page['id'] . PHP_EOL;
 
     $router->destroy();
-    unset($register->router);
-    unset($register->pageFrontendController);
+    unset($register->indexPageFrontendController);
 }
 
 // все товары каталога
-$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 300";
-$products = $register->database->fetchAll($query, array());
+$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 500";
+$products = $database->fetchAll($query, array());
 foreach($products as $product) {
     // экземпляр класса роутера
     $router = Router::getInstance('Product_Catalog_Frontend_Controller', array('id' => $product['id']));
-    $register->router = $router;
-    // получаем имя класса контроллера, например Page_Frontend_Controller
+    // получаем имя класса контроллера
     $controller = $router->getControllerClassName();
     // параметры, передаваемые контроллеру
     $params = $router->getParams();
@@ -79,18 +74,16 @@ foreach($products as $product) {
     echo 'product-' . $product['id'] . PHP_EOL;
 
     $router->destroy();
-    unset($register->router);
     unset($register->productCatalogFrontendController);
 }
 
 // все категории каталога
-$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id` LIMIT 300";
-$categories = $register->database->fetchAll($query, array());
+$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id` LIMIT 500";
+$categories = $database->fetchAll($query, array());
 foreach($categories as $category) {
     // экземпляр класса роутера
     $router = Router::getInstance('Category_Catalog_Frontend_Controller', array('id' => $category['id']));
-    $register->router = $router;
-    // получаем имя класса контроллера, например Page_Frontend_Controller
+    // получаем имя класса контроллера
     $controller = $router->getControllerClassName();
     // параметры, передаваемые контроллеру
     $params = $router->getParams();
@@ -103,18 +96,16 @@ foreach($categories as $category) {
     echo 'category-' . $category['id'] . PHP_EOL;
 
     $router->destroy();
-    unset($register->router);
     unset($register->categoryCatalogFrontendController);
 }
 
 // все производители каталога
-$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id` LIMIT 300";
-$makers = $register->database->fetchAll($query, array());
+$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id` LIMIT 500";
+$makers = $database->fetchAll($query);
 foreach($makers as $maker) {
     // экземпляр класса роутера
     $router = Router::getInstance('Maker_Catalog_Frontend_Controller', array('id' => $maker['id']));
-    $register->router = $router;
-    // получаем имя класса контроллера, например Page_Frontend_Controller
+    // получаем имя класса контроллера
     $controller = $router->getControllerClassName();
     // параметры, передаваемые контроллеру
     $params = $router->getParams();
@@ -127,84 +118,83 @@ foreach($makers as $maker) {
     echo 'maker-' . $maker['id'] . PHP_EOL;
 
     $router->destroy();
-    unset($register->router);
     unset($register->makerCatalogFrontendController);
 }
-
+*/
 // поиск по каталогу
-$router = Router::getInstance('Index_Frontend_Controller');
-$register->router = $router;
-$catalogFrontendModel = isset($register->catalogFrontendModel) ? $register->catalogFrontendModel : new Catalog_Frontend_Model();
-
+$router = Router::getInstance('Index_Index_Frontend_Controller');
+$searchCatalogFrontendModel
+    = isset($register->searchCatalogFrontendModel) ? $register->searchCatalogFrontendModel : new Search_Catalog_Frontend_Model();
+/*
 $query = "SELECT LEFT(`name`, 2) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
+*/
 $query = "SELECT LEFT(`name`, 3) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`name`, 4) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`name`, 5) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`name`, 6) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 
 $query = "SELECT LEFT(`code`, 2) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`code`, 3) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`code`, 4) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
 $query = "SELECT LEFT(`code`, 5) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
-
 $query = "SELECT `code` AS `search` FROM `products` WHERE 1 ORDER BY `code`";
-$queries = $register->database->fetchAll($query, array());
+$queries = $database->fetchAll($query);
 foreach($queries as $query) {
-    $result = $catalogFrontendModel->getSearchResults($query['search'], 0, true);
+    $result = $searchCatalogFrontendModel->getSearchResults($query['search'], 0, true);
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }

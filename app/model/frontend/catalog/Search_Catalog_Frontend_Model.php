@@ -62,12 +62,16 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($ajax) { // для поиска в шапке сайта
                 $result[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
                 unset(
+                    $result[$key]['price'],
                     $result[$key]['price2'],
                     $result[$key]['price3'],
                     $result[$key]['shortdescr'],
                     $result[$key]['image'],
+                    $result[$key]['hit'],
+                    $result[$key]['new'],
                     $result[$key]['ctg_id'],
                     $result[$key]['ctg_name'],
+                    $result[$key]['mkr_id'],
                     $result[$key]['mkr_id'],
                     $result[$key]['ctg_name'],
                     $result[$key]['relevance']
@@ -295,6 +299,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                               `products` `a`
                               INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                               INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                              INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                           WHERE (";
 
         $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
