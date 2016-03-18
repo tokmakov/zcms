@@ -50,9 +50,9 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как после добавления товара он будет не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
         
         // данные для выполнения SQL-запросов
@@ -492,9 +492,9 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
         // на случай, если это последний товар из списка
         // сравнения; заодно сформируем кэш
@@ -532,9 +532,9 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -585,9 +585,9 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
         $this->visitorId = $newVisitorId;

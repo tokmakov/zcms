@@ -126,8 +126,10 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // получаем от модели массив функциональных групп
         $groups = $this->makerCatalogFrontendModel->getMakerGroups(
             $this->params['id'],
+            $group,
             $hit,
-            $new
+            $new,
+            $param
         );
         
         // получаем от модели массив всех параметров подбора

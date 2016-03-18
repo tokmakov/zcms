@@ -214,7 +214,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
-                . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
+               . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -331,14 +331,15 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив функциональных групп для производителя с
      * уникальным идентификатором $id; результат работы кэшируется
      */
-    public function getMakerGroups($id, $hit, $new) {
+    public function getMakerGroups($id, $group, $hit, $new, $param) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->makerGroups($id, $hit, $new);
+            return $this->makerGroups($id, $group, $hit, $new, $param);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit . '-new-' . $new;
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+               . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -351,7 +352,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив функциональных групп для производителя с
      * уникальным идентификатором $id
      */
-    protected function makerGroups($id, $hit, $new) {
+    protected function makerGroups($id, $group, $hit, $new, $param) {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
@@ -393,7 +394,11 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $groups = array_merge($first, $second);
         }
 
-        if (0 == $hit && 0 == $new) {
+        if (0 == $group && 0 == $hit && 0 == $new) {
+            return $groups;
+        }
+        
+        if ($group && empty($param) && 0 == $hit && 0 == $new) {
             return $groups;
         }
 
@@ -415,6 +420,25 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
             if ($new) {
                 $query = $query . " AND `b`.`new` > 0";
+            }
+            /*
+             * если выбрана функциональная группа, то на количество товаров в ней 
+             * влияют выбранные параметры подбора; но они влияют только на количество
+             * товаров выбранной функциональной группы, потому как для других
+             * функциональных групп параметры подбора будет совсем другими
+             */
+            if ($group) {
+                if ($group == $value['id']) {
+                    if ( ! empty($param)) {
+                        $ids = $this->getProductsByParam($group, $param);
+                        if (empty($ids)) {
+                            $groups[$key]['count'] = 0;
+                            continue;
+                        } else {
+                            $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
+                        }
+                    }
+                }
             }
             $groups[$key]['count'] = $this->database->fetchOne($query, array('maker' => $id, 'group' => $value['id']));
         }

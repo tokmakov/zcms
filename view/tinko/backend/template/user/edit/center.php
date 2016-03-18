@@ -90,7 +90,7 @@ defined('ZCMS') or die('Access denied');
             </label>
         </div>
     </div>
-    <div>
+    <div class="password">
         <div>Пароль, пароль</div>
         <div>
             <input type="text" name="password" maxlength="32" value="<?php echo $password; ?>" />

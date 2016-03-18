@@ -17,7 +17,7 @@ class Error extends Base {
         parent::__construct();
 
         // административная часть сайта?
-        $this->backend = $this->register->router->isBackend();
+        $this->backend = $this->router->isBackend();
 
         /*
          * полная информация об ошибке; код ошибки; сообщение об ошибке; файл,

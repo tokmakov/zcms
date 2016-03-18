@@ -469,9 +469,9 @@ abstract class Frontend_Controller extends Base_Controller {
         /*
          * данные сохранены в кэше?
          */
-        if ($this->register->cache->isExists($key)) {
+        if ($this->cache->isExists($key)) {
             // получаем данные из кэша
-            return $this->register->cache->getValue($key);
+            return $this->cache->getValue($key);
         }
 
         /*
@@ -479,10 +479,10 @@ abstract class Frontend_Controller extends Base_Controller {
          * момент получает данные от parent::render(), чтобы записать их в кэш,
          * нам надо их только получить из кэша после снятия блокировки
          */
-        if ($this->register->cache->isLocked($key)) {
+        if ($this->cache->isLocked($key)) {
             try {
                 // получаем данные из кэша
-                return $this->register->cache->getValue($key);
+                return $this->cache->getValue($key);
             } catch (Exception $e) {
                 /*
                  * другой процесс поставил блокировку, попытался получить данные
@@ -501,12 +501,12 @@ abstract class Frontend_Controller extends Base_Controller {
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
-        $this->register->cache->lockValue($key);
+        $this->cache->lockValue($key);
         try {
             $html = parent::render($template, $params);
-            $this->register->cache->setValue($key, $html);
+            $this->cache->setValue($key, $html);
         } finally {
-            $this->register->cache->unlockValue($key);
+            $this->cache->unlockValue($key);
         }
         // возвращаем результат
         return $html;

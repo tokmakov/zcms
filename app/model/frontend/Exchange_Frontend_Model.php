@@ -13,6 +13,7 @@ class Exchange_Frontend_Model extends Frontend_Model {
      * Функция возвращает массив новых заказов в магазине
      */
     public function getNewOrders() {
+
         $query = "SELECT
                       `id`
                   FROM
@@ -24,12 +25,14 @@ class Exchange_Frontend_Model extends Frontend_Model {
                   LIMIT
                       100";
         return $this->database->fetchAll($query);
+
     }
 
     /**
      * Функция возвращает заказ в магазине с уникальным идентификатором $id
      */
     public function getOrder($id) {
+
         // общая информация о заказе (сумма, покупатель и плательщик, статус)
         $query = "SELECT
                       `a`.`user_id` AS `user_id`, `a`.`details` AS `details`,
@@ -67,6 +70,7 @@ class Exchange_Frontend_Model extends Frontend_Model {
         $order['products'] = $this->database->fetchAll($query, array('order_id' => $id));
 
         return $order;
+
     }
 
     /**

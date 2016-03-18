@@ -301,3 +301,74 @@
 #7 C:\work\localhost2\www\index.php(52): Base_Controller->request()
 #8 {main}
 
+18.03.2016 12:26:36
+Код: 0, текст: Объект с ключом Register::data[router] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(221): Register->__get('router')
+#1 D:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(237): Base_Controller->input()
+#3 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(23): Frontend_Controller->input()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Index_Index_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(50): Base_Controller->request()
+#6 {main}
+
+18.03.2016 12:51:59
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(85): Register->__get('cache')
+#1 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(197): Frontend_Model->getCachedData('Compare_Fronten...', 'getCompareGroup', Array)
+#2 D:\work\localhost2\www\app\model\frontend\Compare_Frontend_Model.php(30): Compare_Frontend_Model->getCompareGroup()
+#3 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(172): Compare_Frontend_Model->__construct()
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Catalog_Frontend_Controller.php(9): Frontend_Controller->__construct(Array)
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(10): Catalog_Frontend_Controller->__construct(Array)
+#6 D:\work\localhost2\www\index.php(48): Category_Catalog_Frontend_Controller->__construct(Array)
+#7 {main}
+
+18.03.2016 12:54:45
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Viewed_Frontend_Model.php(69): Register->__get('cache')
+#1 D:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(55): Viewed_Frontend_Model->addToViewed(1001)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(138): Product_Catalog_Frontend_Controller->input()
+#3 D:\work\localhost2\www\index.php(50): Base_Controller->request()
+#4 {main}
+
+18.03.2016 13:04:17
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(78): Register->__get('cache')
+#1 D:\work\localhost2\www\app\controller\frontend\basket\Xhr_Addprd_Basket_Frontend_Controller.php(35): Basket_Frontend_Model->addToBasket(1001, 1)
+#2 D:\work\localhost2\www\index.php(50): Xhr_Addprd_Basket_Frontend_Controller->request()
+#3 {main}
+
+18.03.2016 13:04:19
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(78): Register->__get('cache')
+#1 D:\work\localhost2\www\app\controller\frontend\basket\Xhr_Addprd_Basket_Frontend_Controller.php(35): Basket_Frontend_Model->addToBasket(1004, 1)
+#2 D:\work\localhost2\www\index.php(50): Xhr_Addprd_Basket_Frontend_Controller->request()
+#3 {main}
+
+18.03.2016 13:04:22
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(78): Register->__get('cache')
+#1 D:\work\localhost2\www\app\controller\frontend\basket\Xhr_Addprd_Basket_Frontend_Controller.php(35): Basket_Frontend_Model->addToBasket(1003, 1)
+#2 D:\work\localhost2\www\index.php(50): Xhr_Addprd_Basket_Frontend_Controller->request()
+#3 {main}
+
+18.03.2016 13:04:24
+Код: 0, текст: Объект с ключом Register::data[cache] не существует
+Файл: D:\work\localhost2\www\app\include\Register.php, строка: 41
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(78): Register->__get('cache')
+#1 D:\work\localhost2\www\app\controller\frontend\basket\Xhr_Addprd_Basket_Frontend_Controller.php(35): Basket_Frontend_Model->addToBasket(1036, 1)
+#2 D:\work\localhost2\www\index.php(50): Xhr_Addprd_Basket_Frontend_Controller->request()
+#3 {main}
+

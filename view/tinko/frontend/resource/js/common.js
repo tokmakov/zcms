@@ -254,17 +254,17 @@ $(document).ready(function() {
     });
 
     /*
-     * Фильтр для товаров выбранной категории или производителя
+     * Фильтр для товаров выбранной категории или производителя или функциональной группы
      */
     $('#catalog-filter form > div:last-child').hide();
     // назначаем обработчик события при выборе функционала, производителя, параметра подбора
-    $('#catalog-filter form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+    $('#catalog-filter form select option:selected:not(:first-child)').closest('select').css('border', '1px solid #ff6d00');
     $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
     $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
 
     $('#catalog-filter form i').click(function() {
-        var select = $(this).prev().children();
-        select.children('option:selected').prop('selected', false);
+        var select = $(this).prev().children('select');
+        select.find('option:selected').prop('selected', false);
         select.change();
     });
 });
@@ -552,7 +552,7 @@ function filterSelectHandler() {
             $('#category-childs > div:last-child').html(data.childs);
             // второй блок: фильтр по функционалу, производителю и параметрам
             $('#catalog-filter form > div:first-child').html(data.filter);
-            $('#catalog-filter form select option:selected:not(:first-child)').parent().css('border', '1px solid #ff6d00');
+            $('#catalog-filter form select option:selected:not(:first-child)').closest('select').css('border', '1px solid #ff6d00');
             $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
             // третий блок: товары выбранной категории
             $('#catalog-products').html(data.products);
@@ -560,7 +560,7 @@ function filterSelectHandler() {
             // обработчики событий для второго блока
             $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
             $('#catalog-filter form i').click(function() {
-                var select = $(this).prev().children();
+                var select = $(this).prev().children('select');
                 select.find('option:selected').prop('selected', false);
                 select.change();
             });

@@ -66,7 +66,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
     }
@@ -250,7 +250,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -301,7 +301,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
         $this->visitorId = $newVisitorId;

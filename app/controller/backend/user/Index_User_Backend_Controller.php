@@ -45,9 +45,9 @@ class Index_User_Backend_Controller extends User_Backend_Controller {
         // общее кол-во пользователей
         $totalUsers = $this->userBackendModel->getCountAllUsers();
         // URL этой страницы
-        $thisPageUrl = $this->userBackendModel->getURL('backend/user/index');
+        $thisPageURL = $this->userBackendModel->getURL('backend/user/index');
         $temp = new Pager(
-            $thisPageUrl,                                   // URL этой страницы
+            $thisPageURL,                                   // URL этой страницы
             $page,                                          // текущая старница
             $totalUsers,                                    // общее кол-во пользователей
             $this->config->pager->backend->users->perpage,  // кол-во пользователей на страницу

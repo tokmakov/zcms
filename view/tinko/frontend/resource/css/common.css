@@ -3190,6 +3190,9 @@ div.attention {
     .product-list-grid > div:nth-child(odd) {
         border-right: none;
     }
+    .product-list-grid > div:not(:first-child):nth-last-child(2):nth-child(even) {
+        border-bottom: none;
+    }
 }
 
 @media screen and (max-width: 612px) {

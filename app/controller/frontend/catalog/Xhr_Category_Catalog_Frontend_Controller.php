@@ -47,9 +47,11 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         // получаем от модели массив функциональных групп
         $groups = $this->categoryCatalogFrontendModel->getCategoryGroups(
             $this->params['id'],
+            $group,
             $maker,
             $hit,
-            $new
+            $new,
+            $param
         );
 
         // получаем от модели массив производителей

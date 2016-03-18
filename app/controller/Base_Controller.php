@@ -218,8 +218,8 @@ abstract class Base_Controller extends Base {
      */
     private function setCssJsTemplateFiles() {
 
-        $controller = $this->register->router->getController();
-        $action = $this->register->router->getAction();
+        $controller = $this->router->getController();
+        $action = $this->router->getAction();
 
         /*
          * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те файлы, которые

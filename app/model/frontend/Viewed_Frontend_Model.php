@@ -66,7 +66,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
     }
@@ -141,7 +141,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getSideViewedProducts() {
         // если не включено кэширование данных
-        if (!$this->enableDataCache) {
+        if ( ! $this->enableDataCache) {
             return $this->sideViewedProducts();
         }
 
@@ -249,7 +249,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
         $this->visitorId = $newVisitorId;

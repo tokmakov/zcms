@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $order - подробная информация о заказе
+ * $offices - список офисов для самовывоза
  */
 
 defined('ZCMS') or die('Access denied');
@@ -67,7 +68,7 @@ defined('ZCMS') or die('Access denied');
         <li>Город: <?php echo $order['buyer_shipping_city']; ?></li>
         <li>Почтовый индекс: <?php echo $order['buyer_shipping_index']; ?></li>
     <?php else: ?>
-        <li>Самовывоз со склада</li>
+        <li>Самовывоз со склада: <?php echo $offices[$order['shipping']]; ?></li>
     <?php endif; ?>
     </ul>
     <?php if ($order['buyer_company']): // получатель - юридические лицо? ?>

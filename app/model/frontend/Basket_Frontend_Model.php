@@ -75,9 +75,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -136,9 +136,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -160,9 +160,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -377,9 +377,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
     }
 
@@ -673,9 +673,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->register->cache->removeValue($key);
+            $this->cache->removeValue($key);
         }
 
         $this->visitorId = $newVisitorId;

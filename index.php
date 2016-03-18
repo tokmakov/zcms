@@ -23,21 +23,12 @@ require 'app/include/autoload.php';
 require 'app/routing.php';
 // настройки приложения
 require 'app/settings.php';
+// инициализация настроек
 Config::init($settings);
-// реестр, для хранения всех объектов приложения
-$register = Register::getInstance();
-// сохраняем в реестре настройки, чтобы везде иметь к ним доступ; доступ к
-// настройкам возможен через реестр или напрямую через Config::getInstance()
-$register->config = Config::getInstance();
-// кэширование данных
-$register->cache = Cache::getInstance();
-// база данных
-$register->database = Database::getInstance();
 
 try {
     // экземпляр класса роутера
     $router = Router::getInstance();
-    $register->router = $router;
     /*
      * Получаем имя класса контроллера, например Index_Page_Frontend_Controller. Если
      * класс контроллера не найден, работает контроллер Index_Notfound_Frontend_Controller

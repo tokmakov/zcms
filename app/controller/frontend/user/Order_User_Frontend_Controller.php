@@ -62,6 +62,9 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+        
+        // получаем от модели список офисов для самовывоза товара со склада
+        $offices = $this->userFrontendModel->getOffices();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -71,6 +74,8 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // информация о заказе
             'order'       => $order,
+            // список офисов для самовывоза
+            'offices'     => $offices,
         );
 
     }

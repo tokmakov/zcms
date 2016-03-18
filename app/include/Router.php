@@ -40,21 +40,26 @@ class Router {
      * идет работа с админкой?
      */
     private $backend = false;
-    
-    /**
-     * для хранения всех объектов приложения, экземпляр класса Register
-     */
-    protected $register;
 
     /**
      * настройки приложения, экземпляр класса Config
      */
-    protected $config;
+    private $config;
+    
+    /**
+     * для хранения всех объектов приложения, экземпляр класса Register
+     */
+    private $register;
+    
+    /**
+     * для хранения экземпляра класса Cache
+     */
+    private $cache;
     
     /**
      * для хранения экземпляра класса базы данных Database
      */
-    protected $database;
+    private $database;
 
 
     /**
@@ -78,6 +83,8 @@ class Router {
         $this->register = Register::getInstance();
         // настройки приложения, экземпляр класса Config
         $this->config = Config::getInstance();
+        // экземпляр класса Cache
+        $this->cache = Cache::getInstance();
         // экземпляр класса базы данных
         $this->database = Database::getInstance();
 
@@ -245,9 +252,9 @@ class Router {
         /*
          * данные сохранены в кэше?
          */
-        if ($this->register->cache->isExists($key)) {
+        if ($this->cache->isExists($key)) {
             // получаем данные из кэша
-            return $this->register->cache->getValue($key);
+            return $this->cache->getValue($key);
         }
 
         /*
@@ -255,10 +262,10 @@ class Router {
          * момент получает данные отRender::URL(), чтобы записать их в кэш,
          * нам надо их только получить из кэша после снятия блокировки
          */
-        if ($this->register->cache->isLocked($key)) {
+        if ($this->cache->isLocked($key)) {
             try {
                 // получаем данные из кэша
-                return $this->register->cache->getValue($key);
+                return $this->cache->getValue($key);
             } catch (Exception $e) {
                 /*
                  * другой процесс поставил блокировку, попытался получить данные от
@@ -277,12 +284,12 @@ class Router {
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
-        $this->register->cache->lockValue($key);
+        $this->cache->lockValue($key);
         try {
             $result = $this->URL($path);
-            $this->register->cache->setValue($key, $result);
+            $this->cache->setValue($key, $result);
         } finally {
-            $this->register->cache->unlockValue($key);
+            $this->cache->unlockValue($key);
         }
         // возвращаем результат
         return $result;

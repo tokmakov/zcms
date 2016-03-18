@@ -50,9 +50,9 @@ abstract class Frontend_Model extends Base_Model {
         /*
          * данные сохранены в кэше?
          */
-        if ($this->register->cache->isExists($key)) {
+        if ($this->cache->isExists($key)) {
             // получаем данные из кэша
-            return $this->register->cache->getValue($key);
+            return $this->cache->getValue($key);
         }
 
         /*
@@ -60,10 +60,10 @@ abstract class Frontend_Model extends Base_Model {
          * момент получает данные от БД, чтобы записать их в кэш, нам надо их
          * только получить из кэша после снятия блокировки
          */
-        if ($this->register->cache->isLocked($key)) {
+        if ($this->cache->isLocked($key)) {
             // получаем данные из кэша
             try {
-                return $this->register->cache->getValue($key);
+                return $this->cache->getValue($key);
             } catch (Exception $e) {
                 /*
                  * другой процесс поставил блокировку, попытался получить данные
@@ -82,12 +82,12 @@ abstract class Frontend_Model extends Base_Model {
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
-        $this->register->cache->lockValue($key);
+        $this->cache->lockValue($key);
         try {
             $data = call_user_func_array(array($this, $function), $arguments);
-            $this->register->cache->setValue($key, $data);
+            $this->cache->setValue($key, $data);
         } finally {
-            $this->register->cache->unlockValue($key);
+            $this->cache->unlockValue($key);
         }
 
         // возвращаем результат
