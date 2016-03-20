@@ -1,5 +1,4 @@
 <?php
-// $includePath = get_include_path();
 $includePath = '.' . PATH_SEPARATOR . 'app';
 getIncludePath('app', $includePath);
 set_include_path($includePath);

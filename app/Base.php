@@ -15,11 +15,6 @@ abstract class Base {
     protected $config;
     
     /**
-     * для хранения экземпляра класса Router
-     */
-    protected $router;
-    
-    /**
      * для хранения экземпляра класса Cache
      */
     protected $cache;
@@ -41,14 +36,12 @@ abstract class Base {
         $this->register = Register::getInstance();
         // настройки приложения, экземпляр класса Config
         $this->config = Config::getInstance();
-        // экземпляр класса Router
-        $this->router = Router::getInstance();
         // экземпляр класса Cache
         $this->cache = Cache::getInstance();
         // экземпляр класса базы данных
         $this->database = Database::getInstance();
         // административная часть сайта?
-        $this->backend = $this->router->isBackend();
+        $this->backend = Router::getInstance()->isBackend();
         // сохраняем в реестре экземпляр текущего класса
         $class = str_replace('_', '', lcfirst(get_class($this)));
         if (isset($this->register->$class)) {

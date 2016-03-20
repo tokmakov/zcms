@@ -2,25 +2,35 @@
 #list-solutions {
 
 }
-    #list-solutions  > div { /* отдельное типовое решение */
-        overflow: hidden;
-        margin-bottom: 20px;
+    #list-solutions > div { /* отдельное типовое решение */
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #5390cc;
     }
-    #list-solutions  > div > h2 {
+    #list-solutions > div:last-child {
+        border-bottom: none;
+    }
+    #list-solutions > div > h2 {
             margin: 0 0 5px 0;
             font-size: 16px;
             line-height: 19px;
         }
-        #list-solutions  > div > h2 > a {
+        #list-solutions > div > h2 > a {
             font-size: 16px;
             line-height: 19px;
             font-weight: bold;
             color: #395985;
         }
+        #list-solutions > div > div { /* краткое описание типового решения */
+            margin-bottom: 4px;
+        }
+        #list-solutions > div > a { /* ссылка на категорию типового решения */
+            font-size: 12px;
+        }
 
 /* типовые решения, список категорий */
 #categories-solutions {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
     #categories-solutions > div:first-child {
         background-color: #323232;

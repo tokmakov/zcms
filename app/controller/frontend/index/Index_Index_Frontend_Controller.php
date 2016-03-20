@@ -22,9 +22,18 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
          */
         parent::input();
 
-        // получаем от модели данные о главной странице
-        $index = $this->indexFrontendModel->getIndexPage();
-
+        /*
+         * получаем от модели все данные для формирования главной страницы сайта:
+         * $index - данные о главной странице
+         * $banners - массив баннеров слайдера
+         * $companyNews - массив новостей компании
+         * $generalNews - массив событий отрасли
+         * $hitProducts - массив лидеров продаж
+         * $newProducts - массив новых товаров
+         */
+        list($index, $banners, $companyNews, $generalNews, $hitProducts, $newProducts) =
+            $this->indexFrontendModel->getAllIndexData();
+            
         $this->title = $index['title'];
         if ( ! empty($index['keywords'])) {
             $this->keywords = $index['keywords'];
@@ -32,19 +41,6 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         if ( ! empty($index['description'])) {
             $this->description = $index['description'];
         }
-
-        // получаем от модели массив баннеров
-        $banners = $this->indexFrontendModel->getAllBanners();
-
-        // получаем от модели массив последних новостей
-        $companyNews = $this->indexFrontendModel->getCompanyNews();
-        $generalNews = $this->indexFrontendModel->getGeneralNews();
-
-        // получаем от модели массив лидеров продаж
-        $hitProducts = $this->indexFrontendModel->getHitProducts();
-
-        // получаем от модели массив новых товаров
-        $newProducts = $this->indexFrontendModel->getNewProducts();
         
         // единицы измерения товара
         $units = $this->indexFrontendModel->getUnits();

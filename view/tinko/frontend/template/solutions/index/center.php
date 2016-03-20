@@ -76,6 +76,7 @@ defined('ZCMS') or die('Access denied');
         <div>
             <h2><a href="<?php echo $item['url']['item']; ?>"><?php echo $item['name']; ?></a></h2>
             <div><?php echo $item['excerpt']; ?></div>
+            <a href="<?php echo $item['url']['ctg']; ?>"><?php echo $item['ctg_name']; ?></a>
         </div>
     <?php endforeach; ?>
     </div>

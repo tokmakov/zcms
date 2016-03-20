@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Page_Frontend_Model для показа гланой страницы,
+ * Класс Index_Frontend_Model для показа главной страницы сайта,
  * взаимодействует с базой данных, общедоступная часть сайта
  */
 class Index_Frontend_Model extends Frontend_Model {
@@ -8,14 +8,15 @@ class Index_Frontend_Model extends Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-
+    
     /**
-     * Возвращает информацию о главной (стартовой) странице сайта
+     * Функция возвращает все данные для формирования главной страницы сайта;
+     * результат работы кэшируется
      */
-    public function getIndexPage() {
+    public function getAllIndexData() {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->indexPage();
+            return $this->allIndexData();
         }
 
         // уникальный ключ доступа к кэшу
@@ -25,13 +26,28 @@ class Index_Frontend_Model extends Frontend_Model {
         // арументы, переданные этой функции
         $arguments = func_get_args();
         // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
+        return $this->getCachedData($key, $function, $arguments);   
+    }
+    
+    /**
+     * Функция возвращает все данные для формирования главной страницы сайта
+     */
+    protected function allIndexData() {
+        $data = array(
+            $this->getIndexPage(),
+            $this->getAllBanners(),
+            $this->getCompanyNews(),
+            $this->getGeneralNews(),
+            $this->getHitProducts(),
+            $this->getNewProducts()
+        );
+        return $data;
     }
 
     /**
-     * Возвращает информацию о главной (стартовой) странице сайта
+     * Функция возвращает информацию о главной (стартовой) странице сайта
      */
-    protected function indexPage() {
+    private function getIndexPage() {
         $query = "SELECT
                       `name`, `title`, `description`, `keywords`, `body`
                   FROM
@@ -42,28 +58,9 @@ class Index_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех баннеров для главной (стартовой) страницы сайта
+     * Функция возвращает массив всех баннеров для главной (стартовой) страницы сайта
      */
-    public function getAllBanners() {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->allBanners();
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-
-    /**
-     * Возвращает массив всех баннеров для главной (стартовой) страницы сайта
-     */
-    protected function allBanners() {
+    private function getAllBanners() {
         $query = "SELECT
                       `id`, `name`, `url`, `alttext`
                   FROM
@@ -76,28 +73,10 @@ class Index_Frontend_Model extends Frontend_Model {
     }
     
     /**
-     * Возвращает массив трех последних событий отрасли; результат работы кэшируется
+     * Функция возвращает массив трех последних событий отрасли
      */
-    public function getGeneralNews() {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->generalNews();
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-    
-    /**
-     * Возвращает массив трех последних событий отрасли
-     */
-    protected function generalNews() {
+    private function getGeneralNews() {
+        
         $query = "SELECT
                       `id`, `name`, `excerpt`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
@@ -121,31 +100,14 @@ class Index_Frontend_Model extends Frontend_Model {
             }
         }
         return $news;
+        
     }
 
     /**
-     * Возвращает массив трех последних новостей компании; результат работы кэшируется
+     * Функция возвращает массив трех последних новостей компании
      */
-    public function getCompanyNews() {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->companyNews();
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-    
-    /**
-     * Возвращает массив трех последних новостей компании
-     */
-    protected function companyNews() {
+    private function getCompanyNews() {
+        
         $query = "SELECT
                       `id`, `name`, `excerpt`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
@@ -169,41 +131,23 @@ class Index_Frontend_Model extends Frontend_Model {
             }
         }
         return $news;
+        
     }
 
     /**
-     * Возвращает массив лидеров продаж для главной (стартовой) страницы сайта;
-     * результат работы кэшируется
+     * Функция возвращает массив лидеров продаж для главной (стартовой) страницы сайта
      */
-    public function getHitProducts() {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->hitProducts();
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-
-    /**
-     * Возвращает массив лидеров продаж для главной (стартовой) страницы сайта
-     */
-    protected function hitProducts() {
-
+    private function getHitProducts() {
+        
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                       `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,
-                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`
+                      `a`.`image` AS `image`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       `a`.`hit` = 2
                       AND `a`.`visible` = 1
@@ -226,42 +170,23 @@ class Index_Frontend_Model extends Frontend_Model {
         }
 
         return $products;
-
+        
     }
 
     /**
-     * Возвращает массив новых товаров для главной (стартовой) страницы сайта;
-     * результат работы кэшируется
+     * Функция возвращает массив новых товаров для главной (стартовой) страницы сайта
      */
     public function getNewProducts() {
-        // если не включено кэширование данных
-        if ( ! $this->enableDataCache) {
-            return $this->newProducts();
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-    }
-
-    /**
-     * Возвращает массив новых товаров для главной (стартовой) страницы сайта
-     */
-    protected function newProducts() {
-
+        
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                       `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,
-                      `a`.`shortdescr` AS `shortdescr`, `a`.`image` AS `image`
+                      `a`.`image` AS `image`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       `a`.`new` = 2
                       AND `a`.`visible` = 1

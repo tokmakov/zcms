@@ -18,7 +18,7 @@ abstract class Frontend_Model extends Base_Model {
     }
 
     /**
-     * Вспомогательный метод, возвращает данные из кэша или получает данные от
+     * Вспомогательный метод, возвращает данные из кэша или получает данные из
      * БД, сохраняет их кэш, а потом возвращает. Например, контроллер
      * Product_Catalog_Frontend_Controller вызывает метод модели
      * Catalog_Frontend_Model::getProduct(). Если кэширование разрешено, метод
@@ -35,7 +35,7 @@ abstract class Frontend_Model extends Base_Model {
         /*
          * Из имени вызывающего метода, например Catalog_Frontend_Model::getProduct(),
          * получаем имя метода, который должен быть вызван, если кэш пустой или
-         * устарел, например, Catalog_Frontend_Model::product. Имена методов,
+         * устарел, например, Catalog_Frontend_Model::product(). Имена методов,
          * передаваемые в аргументе $function, имеют пару, например:
          * 1. Catalog_Frontend_Model::getProduct() и Catalog_Frontend_Model::product()
          * 2. Page_Frontend_Model::getPage() и Page_Frontend_Model::page()
@@ -133,7 +133,7 @@ abstract class Frontend_Model extends Base_Model {
                 return $this->config->site->url . preg_replace($key, $value, $url);
             }
         }
-        if (!isset($this->register->pageFrontendModel)) {
+        if ( ! isset($this->register->pageFrontendModel)) {
             new Page_Frontend_Model();
         }
         $pages = $this->register->pageFrontendModel->getAllPagesSEF();

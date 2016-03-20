@@ -91,7 +91,7 @@ class Rating_Frontend_Model extends Frontend_Model {
                 );
             }
             $url = null;
-            if (!empty($value['id'])) {
+            if ( ! empty($value['id'])) {
                 $url = $this->getURL('frontend/catalog/product/id/' . $value['id']);
             }
             $root[$counter]['products'][] = array(

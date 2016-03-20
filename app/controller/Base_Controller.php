@@ -134,20 +134,24 @@ abstract class Base_Controller extends Base {
      */
     public function request() {
 
-        // получение от модели данных, необходимых для формирования страницы
+        /*
+         * Получение от модели данных, необходимых для формирования страницы
+         */
         $this->input();
 
         /*
-         * Запись не найдена в таблице БД, дальше формировать страницу нет
-         * смысла, все равно будет вызван контроллер Notfound_Frontend_Controller
-         * или Notfound_Backend_Controller
+         * Запись не найдена в таблице БД, дальше формировать страницу нет смысла,
+         * все равно будет вызван контроллер Index_Notfound_Frontend_Controller
+         * или Index_Notfound_Backend_Controller
          */
         if ($this->notFoundRecord) {
             return;
         }
 
-        // формирование отдельных частей страницы (шапка, меню,
-        // основной контент, левая и правая колонка, подвал)
+        /*
+         * Формирование отдельных частей страницы (шапка, меню, основной контент,
+         * левая и правая колонка, подвал)
+         */
         $this->output();
 
     }
@@ -195,7 +199,7 @@ abstract class Base_Controller extends Base {
 
     /**
      * Функция возвращает true, если какому-либо контроллеру, например
-     * Page_Frontend_Controller, были переданы некорректные параметры.
+     * Index_Page_Frontend_Controller, были переданы некорректные параметры.
      * Пример: frontend/page/id/12345, но страницы с уникальным id=12345
      * нет в таблице pages базы данных. Это возможно, если страница (новость,
      * товар) была удалена или пользователь ошибся при вводе URL страницы.
@@ -218,8 +222,9 @@ abstract class Base_Controller extends Base {
      */
     private function setCssJsTemplateFiles() {
 
-        $controller = $this->router->getController();
-        $action = $this->router->getAction();
+        $router     = Router::getInstance();
+        $controller = $router->getController();
+        $action     = $router->getAction();
 
         /*
          * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те файлы, которые

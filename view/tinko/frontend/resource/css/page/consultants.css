@@ -3,24 +3,27 @@
 }
     #consultants > div {
         overflow: hidden;
-        padding-bottom: 20px;
+        margin-top: 15px;
         border-bottom: 1px dashed #5390cc;
     }
-    
+    #consultants > div:first-child {
+        margin-top: 20px;
+    }
     #consultants > div:last-child {
         border-bottom: none;
     }
         #consultants > div > h2 {
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
         }
         #consultants > div > div {
             float: left;
             width: 50%;
             overflow: hidden;
+            margin-bottom: 20px;
         }
         #consultants > div > div:only-child {
             float: none;
-            width: 100;
+            width: 100%;
         }
             #consultants > div > div > img {
                 float: left;
@@ -31,7 +34,7 @@
                 margin-left: 130px;
             }
             #consultants > div > div > div > p {
-                margin: 0 0 13px 0;
+                margin: 0 0 15px 0;
             }
                 #consultants > div > div > div > p:first-child > span {
                     display: block;
@@ -63,6 +66,5 @@
     #consultants > div > div {
         float: none;
         width: 100%;
-        margin-bottom: 15px;
     }
 }

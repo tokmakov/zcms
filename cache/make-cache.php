@@ -31,8 +31,9 @@ $cache = Cache::getInstance();
 $database = Database::getInstance();
 
 // очищаем кэш
-// $cache->clearCache();
-/*
+$cache->clearCache();
+die();
+
 // все страницы сайта
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";
 $pages = $database->fetchAll($query);
@@ -120,12 +121,11 @@ foreach($makers as $maker) {
     $router->destroy();
     unset($register->makerCatalogFrontendController);
 }
-*/
+
 // поиск по каталогу
 $router = Router::getInstance('Index_Index_Frontend_Controller');
 $searchCatalogFrontendModel
     = isset($register->searchCatalogFrontendModel) ? $register->searchCatalogFrontendModel : new Search_Catalog_Frontend_Model();
-/*
 $query = "SELECT LEFT(`name`, 2) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
 $queries = $database->fetchAll($query);
 foreach($queries as $query) {
@@ -133,7 +133,6 @@ foreach($queries as $query) {
     file_put_contents('cache/cache.txt', $query['search'] . PHP_EOL, FILE_APPEND);
     echo 'search-' . md5($query['search']) . PHP_EOL;
 }
-*/
 $query = "SELECT LEFT(`name`, 3) AS `search`, COUNT(*) FROM `products` WHERE 1 GROUP BY 1 ORDER BY 2 DESC";
 $queries = $database->fetchAll($query);
 foreach($queries as $query) {
