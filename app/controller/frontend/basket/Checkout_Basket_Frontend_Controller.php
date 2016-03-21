@@ -81,7 +81,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // получаем от модели список офисов для самовывоза товара со склада
-        $offices = $this->userFrontendModel->getOffices();
+        $offices = $this->basketFrontendModel->getOffices();
 
         // если true, данные формы успешно отправлены, заказ размещен
         $success  = false;

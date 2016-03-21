@@ -602,11 +602,11 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $html = $html . '<h4>Комментарий</h4>' . PHP_EOL;
             $html = $html . '<p>'.nl2br($details['comment']).'</p>' . PHP_EOL;
         }
-        $html = $html . '<p><strong>';
+        $html = $html . '<p>';
         $html = $html . $this->config->site->name . '<br/>';
         $html = $html . 'Телефон: ' . $this->config->site->phone . '<br/>';
         $html = $html . 'Почта: <a href="mailto:' . $this->config->site->email . '">' . $this->config->site->email . '</a>';
-        $html = $html . '</strong></p>';
+        $html = $html . '</p>';
         
         // если пользователь авторизован, отправляем письмо на адрес, указанный при регистрации
         if ($this->register->userFrontendModel->isAuthUser()) {
