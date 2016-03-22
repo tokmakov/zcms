@@ -989,18 +989,21 @@ div.attention {
             clear: both;
         }
             .product-list-line > div > .product-list-basket > form {
-                float: right;
+                float: left;
                 overflow: hidden;
                 width: 25%;
                 box-sizing: border-box;
                 padding-right: 3%;
             }
             .product-list-line > div > .product-list-basket > form:first-child {
-                float: left;
                 width: 50%;
             }
             .product-list-line > div > .product-list-basket > form:nth-child(2) {
+                padding-right: 1%;
+            }
+            .product-list-line > div > .product-list-basket > form:last-child {
                 padding-right: 0;
+                padding-left: 1%;
             }
                 .product-list-line > div > .product-list-basket > form input {
                     display: block;
@@ -3126,10 +3129,6 @@ div.attention {
         text-align: center;
         padding-left: 5px;
     }
-    /* список товаров категории, скрываем мелкооптовую цену */
-    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) {
-        display: none;
-    }
 }
 
 @media screen and (max-width: 700px) {
@@ -3233,6 +3232,9 @@ div.attention {
             #catalog-filter > div:last-child > form > div:first-child > div > div:last-child > i {
                 display: none;
             }
+            #catalog-filter > div:last-child > form > div:first-child > div > div:first-child > span {
+                padding-right: 0;
+            }
     /* список товаров категории */
     .product-list-line > div > .product-list-basket {
         clear: left;
@@ -3275,18 +3277,6 @@ div.attention {
         -moz-column-count: 1;
         column-count: 1;
     }
-    /* список производителей категории */
-    #category-makers > div:last-child > ul {
-        float: none;
-        width: 100%;
-        border-right: none !important;
-    }
-    #category-makers > div:last-child > ul:first-child > li:last-child {
-        border-bottom: 1px dashed #d1d1d1;
-    }
-    #category-makers > div:last-child > ul:only-child > li:last-child {
-        border-bottom: none;
-    }
     /* список всех производителей */
     #all-makers > ul {
         float: none;
@@ -3309,19 +3299,9 @@ div.attention {
     #all-groups > ul:first-child > li:last-child {
         border-bottom: none;
     }
-    /* список товаров категории */
-    .product-list-line > div > .product-list-basket > form:first-child {
-        float: none;
-        width: 100%;
-        padding-right: 0;
-        margin-bottom: 10px;
+    .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) { /* цена, мелкий опт */
+        display: none;
     }
-    .product-list-line > div > .product-list-basket > form:not(:first-child) {
-        width: 50%;
-    }
-        .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(2) {
-            display: none;
-        }
     /* вместе с этим часто покупают */
     .product-list-upsell > div {
         width: 50%;
@@ -3344,6 +3324,16 @@ div.attention {
     /* список всех функциональных групп */
     #all-groups > p > a {
         width: 70%;
+    }
+    /* список товаров категории */
+    .product-list-line > div > .product-list-basket > form:first-child {
+        float: none;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+    .product-list-line > div > .product-list-basket > form:not(:first-child) {
+        width: 50%;
     }
 }
 
@@ -3393,6 +3383,10 @@ div.attention {
     /* фильтр товаров категории */
     #catalog-filter > div:last-child > form > div:first-child > div:last-child > div:last-child > label {
         text-align: center;
+    }
+    /* уменьшаем текст для кнопок «В избранное» и «К сравнению» */
+    .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
+        letter-spacing: -1px;
     }
 }
 

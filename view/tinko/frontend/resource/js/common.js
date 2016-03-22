@@ -208,52 +208,6 @@ $(document).ready(function() {
     });
 
     /*
-     * Удаление товара из сравнения, страница сравнения, ajax
-     */
-    $('.remove-compare-form').ajaxForm({
-        target: '#side-compare > .side-content',
-        beforeSubmit: function(formData, jqForm, options) {
-            // добавляем overlay для правой колонки
-            $('<div></div>')
-                .prependTo('#side-compare > .side-content')
-                .addClass('overlay')
-                .height($('#side-compare > .side-content').height())
-                .width($('#side-compare > .side-content').width())
-                .offset({
-                    top : $('#side-compare > .side-content').offset().top,
-                    left : $('#side-compare > .side-content').offset().left
-                });
-            // удаляем товар из сравнения
-            jqForm.parent().parent().hide(500, function() {
-                // удаляем товар со страницы
-                $(this).remove();
-                // показываем окно с сообщением
-                $('<div>Товар удален из сравнения</div>')
-                    .prependTo('body')
-                    .hide()
-                    .addClass('modal-window')
-                    .center()
-                    .fadeIn(300, function() {
-                        $(this).delay(1000).fadeOut(300, function() {
-                            $(this).remove();
-                            if ($('#compare-products > .product-list-line > div').length == 0) {
-                                $('#compare-products > div:first-child > h2').remove();
-                                $('div.product-list-line').html('<p>Нет товаров для сравнения</p>');
-                            };
-                        });
-                    });
-            });
-        },
-        success: function() {
-            // обработчик события удаления товара из сравнения в правой колонке
-            removeSideCompareHandler();
-        },
-        error: function() {
-            alert('Ошибка при удалении товара из сравнения');
-        }
-    });
-
-    /*
      * Фильтр для товаров выбранной категории или производителя или функциональной группы
      */
     $('#catalog-filter form > div:last-child').hide();

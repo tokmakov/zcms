@@ -177,6 +177,13 @@ defined('ZCMS') or die('Access denied');
                                 <input type="submit" name="submit" value="В корзину" />
                             </form>
                         </div>
+                        <div class="product-table-remove">
+                            <form action="<?php echo $product['action']['compare']; ?>" method="post" class="remove-compare-form">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
+                                <input type="hidden" name="return" value="compare" />
+                                <input type="submit" name="submit" value="Удалить из сравнения" title="Удалить из сравнения" class="selected" />
+                            </form>
+                        </div>
                     </div>
                 </td>
                 <?php endforeach; ?>

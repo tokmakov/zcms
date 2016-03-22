@@ -183,7 +183,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция возвращает идентификатор функциональной группы товаров,
      * которые уже есть в списке сравнения; если список сравнения пустой,
-     * функция возвращает null; результат работы кэшируется
+     * функция возвращает ноль; результат работы кэшируется
      */
     private function getCompareGroup() {
         // если не включено кэширование данных
@@ -418,6 +418,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         }
         
         return array_merge(array($title, $code, $maker, $techdata, $shortdescr), $params);
+
     }
 
     /**

@@ -90,7 +90,6 @@
     #compare-products .product-table-item { /* отдельный товар */
         text-align: center;
     }
-        
         #compare-products .product-table-item .product-table-added { /* дата добавления */
             font-size: 10px;
             line-height: 10px;
@@ -175,11 +174,13 @@
             #compare-products .product-table-item .product-table-basket { /* добавить в корзину */
                 height: 26px;
                 overflow: hidden;
+                margin-bottom: 7px;
             }
                 #compare-products .product-table-item .product-table-basket input[type="submit"] {
                     box-sizing: border-box;
                     font-size: 14px;
                     line-height: 14px;
+                    height: 26px;
                     padding: 5px;
                     background: #395985;
                     border: 1px solid #395985;
@@ -188,6 +189,23 @@
                     cursor: pointer;
                     outline: none;
                 }
+            #compare-products .product-table-item .product-table-remove { /* удалить из сравнения */
+                height: 26px;
+                overflow: hidden;
+            }
+            #compare-products .product-table-item .product-table-remove input[type="submit"] {
+                box-sizing: border-box;
+                font-size: 14px;
+                line-height: 14px;
+                letter-spacing: -0.4px;
+                height: 26px;
+                padding: 5px;
+                background: #f0f0f0;
+                border: 1px solid #d1d1d1;
+                width: 150px;
+                cursor: pointer;
+                outline: none;
+            }
 
 .fancybox-nav {
     top: 210px !important;
