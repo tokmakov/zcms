@@ -14,7 +14,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * хранит идентификатор функциональной группы товаров,
      * которые в настоящий момент добавлены к сравнению
      */
-    private $groupId = null;
+    private $groupId = 0;
 
 
     public function __construct() {
@@ -28,12 +28,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         $this->visitorId = $this->register->userFrontendModel->getVisitorId();
         // идентификатор функциональной группы товаров для сравнения
         $this->groupId = $this->getCompareGroup();
-        if (is_null($this->groupId)) {
-            // удаляем cookie
-            setcookie('compare_group', '', time() - 86400, '/');
-        } else {
+        if ($this->groupId) {
             // обновляем cookie
             setcookie('compare_group', $this->groupId, time() + 31536000, '/');
+        } else {
+            // удаляем cookie
+            setcookie('compare_group', '', time() - 86400, '/');
         }
     }
 
@@ -62,6 +62,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         );
         // функциональная группа нового товара
         $newProductGroupId = $this->getProductGroup($productId);
+        // товара не найден и не может быть добавлен к сравнению
         if (false === $newProductGroupId) {
             return false;
         }
@@ -69,7 +70,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         /*
          * список сравнения пуст, можем добавлять любой товар
          */
-        if (is_null($this->groupId)) {
+        if (0 === $this->groupId) {
             $query = "INSERT INTO `compare`
                       (
                           `visitor_id`,
@@ -151,12 +152,13 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         $query = "SELECT
                       COUNT(*)
                   FROM
-                      `products` `a`
-                      INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1";
+                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1";
         return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
 
@@ -165,11 +167,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     private function getProductGroup($id) {
         $query = "SELECT
-                      `a`.`group`
+                      `d`.`id`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE
                       `a`.`id` = :id AND
                       `a`.`visible` = 1";
@@ -200,25 +203,26 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция возвращает идентификатор функциональной группы товаров,
      * которые уже есть в списке сравнения; если список сравнения пустой,
-     * функция возвращает null
+     * функция возвращает ноль
      */
     protected function compareGroup() {
         $query = "SELECT
-                      `a`.`group`
+                      `e`.`id`
                   FROM
-                      `products` `a`
-                      INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
                   ORDER BY
-                      `added` DESC
+                      `a`.`added` DESC
                   LIMIT
                       1";
         $group = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
         if (false === $group) {
-            return null;
+            return 0;
         }
         return $group;
     }
@@ -229,34 +233,36 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getCompareProducts() {
         $query = "SELECT
-                      `a`.`id` AS `id`,
-                      `a`.`code` AS `code`,
-                      `a`.`name` AS `name`,
-                      `a`.`title` AS `title`,
-                      `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`techdata` AS `techdata`,
-                      `a`.`price` AS `price`,
-                      `a`.`price2` AS `price2`,
-                      `a`.`price3` AS `price3`,
-                      `a`.`unit` AS `unit`,
-                      `a`.`image` AS `image`,
-                      `a`.`hit` AS `hit`,
-                      `a`.`new` AS `new`,
+                      `b`.`id` AS `id`,
+                      `b`.`code` AS `code`,
+                      `b`.`name` AS `name`,
+                      `b`.`title` AS `title`,
+                      `b`.`shortdescr` AS `shortdescr`,
+                      `b`.`price` AS `price`,
+                      `b`.`price2` AS `price2`,
+                      `b`.`price3` AS `price3`,
+                      `b`.`unit` AS `unit`,
+                      `b`.`image` AS `image`,
+                      `b`.`hit` AS `hit`,
+                      `b`.`new` AS `new`,
                       `c`.`id` AS `ctg_id`,
                       `c`.`name` AS `ctg_name`,
                       `d`.`id` AS `mkr_id`,
                       `d`.`name` AS `mkr_name`,
-                      DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
-                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`
+                      `e`.`id` AS `grp_id`,
+                      `e`.`name` AS `grp_name`,
+                      DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `date`,
+                      DATE_FORMAT(`a`.`added`, '%H:%i:%s') AS `time`
                   FROM
-                      `products` `a`
-                      INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
                   ORDER BY
-                      `b`.`added` DESC";
+                      `a`.`added` DESC";
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         foreach($products as $key => $value) {
@@ -269,12 +275,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
             } else {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
-            }
-            // технические характеристики
-            if (!empty($value['techdata'])) {
-                $products[$key]['techdata'] = unserialize($value['techdata']);
-            } else {
-                $products[$key]['techdata'] = array();
             }
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action']['basket'] = $this->getURL('frontend/basket/addprd');
@@ -296,9 +296,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция возвращает наименование функциональной группы
      */
     public function getGroupName() {
-        if (is_null($this->groupId)) {
-            return '';
-        }
         if (0 === $this->groupId) {
             return '';
         }
@@ -316,27 +313,28 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getGroupParams() {
         
-        if (is_null($this->groupId)) {
+        if (0 === $this->groupId) {
             return array();
         }
         
         // получаем массив товаров, отложенных для сравнения
         $query = "SELECT
-                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`title` AS `title`,
-                      `a`.`shortdescr` AS `shortdescr`, `a`.`techdata` AS `techdata`,
+                      `b`.`id` AS `id`, `b`.`code` AS `code`, `b`.`title` AS `title`,
+                      `b`.`shortdescr` AS `shortdescr`, `b`.`techdata` AS `techdata`,
                       `d`.`name` AS `maker`
                   FROM
-                      `products` `a`
-                      INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `a`.`group` = :group_id AND
-                      `b`.`visitor_id` = :visitor_id AND
-                      `b`.`active` = 1 AND
-                      `a`.`visible` = 1
+                      `e`.`id` = :group_id AND
+                      `a`.`visitor_id` = :visitor_id AND
+                      `a`.`active` = 1 AND
+                      `b`.`visible` = 1
                   ORDER BY
-                      `b`.`added` DESC";
+                      `a`.`added` DESC";
         $products = $this->database->fetchAll(
             $query,
             array('group_id' => $this->groupId, 'visitor_id' => $this->visitorId)
@@ -357,20 +355,18 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             }
             $shortdescr[] = $product['shortdescr'];
         }
-        if (0 == $this->groupId) {
-            return array($title, $code, $maker, $techdata, $shortdescr);
-        }
         
         // получаем массив параметров подбора для функциональной группы
         $query = "SELECT
-                      `f`.`id` AS `id`, `f`.`name` AS `name`
+                      `g`.`id` AS `id`, `g`.`name` AS `name`
                   FROM
                       `compare` `a`
                       INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
-                      INNER JOIN `product_param_value` `e` ON `b`.`id` = `e`.`product_id`
-                      INNER JOIN `params` `f` ON `e`.`param_id` = `f`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
+                      INNER JOIN `product_param_value` `f` ON `b`.`id` = `f`.`product_id`
+                      INNER JOIN `params` `g` ON `f`.`param_id` = `g`.`id`
                   WHERE
                       `a`.`active` = 1 AND
                       `b`.`group` = :group_id AND
@@ -378,7 +374,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                   GROUP BY
                       1, 2
                   ORDER BY
-                      `f`.`name`";
+                      `g`.`name`";
         $result = $this->database->fetchAll($query, array('group_id' => $this->groupId));
 
         /*
@@ -449,20 +445,21 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     protected function sideCompareProducts() {
         $query = "SELECT
-                      `a`.`id` AS `id`,
-                      `a`.`code` AS `code`,
-                      `a`.`name` AS `name`,
-                      `a`.`price` AS `price`,
-                      `a`.`unit` AS `unit`
+                      `b`.`id` AS `id`,
+                      `b`.`code` AS `code`,
+                      `b`.`name` AS `name`,
+                      `b`.`price` AS `price`,
+                      `b`.`unit` AS `unit`
                   FROM
-                      `products` `a`
-                      INNER JOIN `compare` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `b`.`active` = 1 AND `a`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
                   ORDER BY
-                      `b`.`added` DESC";
+                      `a`.`added` DESC";
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products as $key => $value) {
@@ -496,15 +493,14 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
-        // на случай, если это последний товар из списка
-        // сравнения; заодно сформируем кэш
+        // на случай, если это последний товар из списка сравнения
         $this->groupId = $this->getCompareGroup();
-        if (is_null($this->groupId)) {
-            // удаляем cookie
-            setcookie('compare_group', '', time() - 86400, '/');
-        } else {
+        if ($this->groupId) {
             // обновляем cookie
             setcookie('compare_group', $this->groupId, time() + 31536000, '/');
+        } else {
+            // удаляем cookie
+            setcookie('compare_group', '', time() - 86400, '/');
         }
 
     }
@@ -525,7 +521,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 'visitor_id' => $this->visitorId
             )
         );
-        $this->groupId = null;
+        $this->groupId = 0;
         // удаляем cookie
         setcookie('compare_group', '', time() - 86400, '/');
 
@@ -596,7 +592,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
         // если список сравнения и после объединения пустой,
         // больше ничего делать не надо
-        if (is_null($this->groupId)) {
+        if (0 === $this->groupId) {
             // удаляем cookie
             setcookie('compare_group', '', time() - 86400, '/');
             return;
@@ -611,11 +607,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
                       `a`.`visitor_id` = :visitor_id AND
                       `a`.`active` = 1 AND
                       `b`.`visible` = 1 AND
-                      `b`.`group` <> :group_id";
+                      `e`.`id` <> :group_id";
         $temp = $this->database->fetchAll(
             $query,
             array(
