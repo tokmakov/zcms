@@ -1,7 +1,8 @@
 <?php
 /**
  * Класс Compare_Frontend_Model отвечает за сравнение товаров,
- * реализует шаблон проектирования «Наблюдатель»
+ * реализует шаблон проектирования «Наблюдатель», взаимодействует
+ * с базой данных, общедоступная часть сайта
  */
 class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
@@ -369,7 +370,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `params` `g` ON `f`.`param_id` = `g`.`id`
                   WHERE
                       `a`.`active` = 1 AND
-                      `b`.`group` = :group_id AND
+                      `e`.`id` = :group_id AND
                       `b`.`visible` = 1
                   GROUP BY
                       1, 2
@@ -625,13 +626,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 $ids[] = $item['id'];
             }
             $query = "DELETE FROM `compare` WHERE `id` IN (" . implode(',', $ids) . ")";
-            $this->database->execute(
-                $query,
-                array(
-                    'visitor_id' => $this->visitorId,
-                    'group_id'   => $this->groupId
-                )
-            );
+            $this->database->execute($query);
         }
         // обновляем cookie
         setcookie('compare_group', $this->groupId, time() + 31536000, '/');
@@ -672,7 +667,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
     }
-
 
     // Получаем рекомендации для пользователя на основе отложенных для сравнения товаров
     public function getRecommendations() {
