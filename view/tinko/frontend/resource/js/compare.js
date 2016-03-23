@@ -19,7 +19,6 @@ $(document).ready(function() {
         target: '#side-compare > .side-content',
         beforeSubmit: function(formData, jqForm, options) {
             // добавляем overlay для правой колонки
-            ndx = $(this).parent().index()
             $('<div></div>')
                 .prependTo('#side-compare > .side-content')
                 .addClass('overlay')
@@ -30,9 +29,20 @@ $(document).ready(function() {
                     left : $('#side-compare > .side-content').offset().left
                 });
             // удаляем товар из сравнения
-            jqForm.parent().parent().hide(500, function() {
-                // удаляем товар со страницы
+            var index = jqForm.closest('td').index() + 1;
+            var column = $('#compare-products table tr td:nth-child(' + index + ')');
+            column.hide(500, function() {
+                // удаляем коллонку таблицы сравнения
                 $(this).remove();
+                // если эта клолнка с товаром была последняя
+                if ($('#compare-products table tr td .product-table-item').length === 0) {
+                    $('#compare-products > div.table-responsive').hide(500, function() {
+                        $(this).remove(); // удаляем таблицу сравнения
+                        $('#compare-products > div:first-child > h2').remove();
+                        $('#compare-products > a').remove();
+                        $('#compare-products').append('<p>Нет товаров для сравнения</p>');
+                    });
+                };
                 // показываем окно с сообщением
                 $('<div>Товар удален из сравнения</div>')
                     .prependTo('body')
@@ -42,10 +52,6 @@ $(document).ready(function() {
                     .fadeIn(300, function() {
                         $(this).delay(1000).fadeOut(300, function() {
                             $(this).remove();
-                            if ($('#compare-products > .product-list-line > div').length == 0) {
-                                $('#compare-products > div:first-child > h2').remove();
-                                $('div.product-list-line').html('<p>Нет товаров для сравнения</p>');
-                            };
                         });
                     });
             });
