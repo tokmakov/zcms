@@ -256,21 +256,22 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // плательщик и получатель не различаются
             $form['buyer_payer_different'] = 0;
             // контактное лицо
-            $form['payer_name']            = $form['buyer_name'];
-            $form['payer_surname']         = $form['buyer_surname'];
-            $form['payer_phone']           = $form['buyer_phone'];
-            $form['payer_email']           = $form['buyer_email'];
+            $form['payer_name']            = '';
+            $form['payer_surname']         = '';
+            $form['payer_patronymic']      = '';
+            $form['payer_phone']           = '';
+            $form['payer_email']           = '';
             // юридическое лицо
-            $form['payer_company']         = $form['buyer_company'];
-            $form['payer_company_name']    = $form['buyer_company_name'];
-            $form['payer_company_ceo']     = $form['buyer_company_ceo'];
-            $form['payer_company_address'] = $form['buyer_company_address'];
-            $form['payer_company_inn']     = $form['buyer_company_inn'];
-            $form['payer_company_kpp']     = $form['buyer_company_kpp'];
-            $form['payer_bank_name']       = $form['buyer_bank_name'];
-            $form['payer_bank_bik']        = $form['buyer_bank_bik'];
-            $form['payer_settl_acc']       = $form['buyer_settl_acc'];
-            $form['payer_corr_acc']        = $form['buyer_corr_acc'];
+            $form['payer_company']         = 0;
+            $form['payer_company_name']    = '';
+            $form['payer_company_ceo']     = '';
+            $form['payer_company_address'] = '';
+            $form['payer_company_inn']     = '';
+            $form['payer_company_kpp']     = '';
+            $form['payer_bank_name']       = '';
+            $form['payer_bank_bik']        = '';
+            $form['payer_settl_acc']       = '';
+            $form['payer_corr_acc']        = '';
         }
         // комментарий к заказу
         $form['comment'] = trim(utf8_substr(strip_tags($_POST['comment']), 0, 250));
@@ -430,11 +431,12 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // создать профиль получателя?
-        if ($this->authUser && isset($_POST['make_buyer_profile'])) {
+        if (/*$this->authUser && isset($_POST['make_buyer_profile'])*/true) {
             $data = array(
                 'title'            => 'Профиль получателя',
                 'name'             => $form['buyer_name'],
                 'surname'          => $form['buyer_surname'],
+                'patronymic'       => $form['buyer_patronymic'],
                 'phone'            => $form['buyer_phone'],
                 'email'            => $form['buyer_email'],
                 'shipping'         => $form['shipping'],
@@ -456,11 +458,12 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->userFrontendModel->addProfile($data);
         }
         // создать профиль плательщика?
-        if ($this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])) {
+        if (/*$this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])*/true) {
             $data = array(
                 'title'            => 'Профиль плательщика',
                 'name'             => $form['payer_name'],
                 'surname'          => $form['payer_surname'],
+                'patronymic'       => $form['payer_patronymic'],
                 'phone'            => $form['payer_phone'],
                 'email'            => $form['payer_email'],
                 'shipping'         => 1,
