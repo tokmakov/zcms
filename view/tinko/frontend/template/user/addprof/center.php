@@ -1,7 +1,8 @@
 <?php
 /**
  * Форма для добавления нового профиля пользователя,
- * файл view/example/backend/template/catalog/addprof/center.php
+ * файл view/example/backend/template/catalog/addprof/center.php,
+ * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки

@@ -508,6 +508,7 @@ abstract class Frontend_Controller extends Base_Controller {
         } finally {
             $this->cache->unlockValue($key);
         }
+
         // возвращаем результат
         return $html;
 

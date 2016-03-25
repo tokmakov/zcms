@@ -47,7 +47,7 @@ defined('ZCMS') or die('Access denied');
             <li><a href="<?php echo $userIndexUrl; ?>">Личный кабинет</a></li>
             <li><a href="<?php echo $userEditUrl; ?>">Личные данные</a></li>
             <li><a href="<?php echo $userProfilesUrl; ?>">Ваши профили</a></li>
-            <li><a href="<?php echo $userOrdersUrl; ?>">История заказов</a></li>
+            <li><a href="<?php echo $userOrdersUrl; ?>">Ваши заявки</a></li>
             <li><a href="<?php echo $userLogoutUrl; ?>">Выйти</a></li>
         </ul>
     <?php else: ?>
@@ -92,7 +92,7 @@ defined('ZCMS') or die('Access denied');
             </table>
             <ul id="goto-basket-checkout">
                 <li><a href="<?php echo $basketURL; ?>">Перейти в корзину</a></li>
-                <li><a href="<?php echo $checkoutURL; ?>">Оформить заказ</a></li>
+                <li><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></li>
             </ul>
         <?php else: ?>
             <p class="empty-list-right">Ваша корзина пуста</p>

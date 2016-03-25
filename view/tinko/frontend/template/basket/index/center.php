@@ -71,7 +71,7 @@ defined('ZCMS') or die('Access denied');
                 руб.
             </span>
         </div>
-        <p><a href="<?php echo $checkoutUrl; ?>">Оформить заказ</a></p>
+        <p><a href="<?php echo $checkoutUrl; ?>">Оформить заявку</a></p>
     </form>
 <?php else: ?>
     <p>Ваша корзина пуста</p>

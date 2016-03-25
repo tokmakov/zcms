@@ -10,8 +10,9 @@
  *
  * $id - уникальный идентификатор профиля
  * $title - название профиля
- * $name - имя контактного лица
  * $surname - фамилия контактного лица
+ * $name - имя контактного лица
+ * $patronymic - отчество контактного лица
  * $email - e-mail контактного лица
  * $phone - телефон контактного лица
  * $shipping - самовывоз со склада?
@@ -69,8 +70,9 @@ defined('ZCMS') or die('Access denied');
 
 <?php
     $title            = htmlspecialchars($title);            // название профиля
-    $name             = htmlspecialchars($name);             // имя контактного лица
     $surname          = htmlspecialchars($surname);          // фамилия контактного лица
+    $name             = htmlspecialchars($name);             // имя контактного лица
+    $patronymic       = htmlspecialchars($patronymic);       // отчество контактного лица
     $phone            = htmlspecialchars($phone);            // телефон контактного лица
     $email            = htmlspecialchars($email);            // e-mail контактного лица
     $shipping_address = htmlspecialchars($shipping_address); // адрес доставки
@@ -86,8 +88,9 @@ defined('ZCMS') or die('Access denied');
 
     if (isset($savedFormData)) {
         $title            = htmlspecialchars($savedFormData['title']);
-        $name             = htmlspecialchars($savedFormData['name']);
         $surname          = htmlspecialchars($savedFormData['surname']);
+        $name             = htmlspecialchars($savedFormData['name']);
+        $patronymic       = htmlspecialchars($savedFormData['patronymic']);
         $email            = htmlspecialchars($savedFormData['email']);
         $phone            = htmlspecialchars($savedFormData['phone']);
         $shipping         = $savedFormData['shipping'];

@@ -47,7 +47,7 @@ class Error extends Base {
         }
 
         // сообщение об ошибке для посетителей сайта
-        $message = $this->config->error->message;
+        $message = $this->config->message->error;
         // сообщение об ошибке для администратора (разработчика) сайта
         if ($this->config->error->debug) {
             $message = nl2br(htmlspecialchars($this->errorInfo));

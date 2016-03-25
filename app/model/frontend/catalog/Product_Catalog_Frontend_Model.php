@@ -74,8 +74,12 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`title`";
         $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
         // ссылки на файлы документации
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->doc) {
+            $host = $this->config->cdn->url;
+        }
         foreach ($product['docs'] as $key => $value) {
-            $product['docs'][$key]['url'] = $this->config->site->url . 'files/catalog/docs/' . $value['file'];
+            $product['docs'][$key]['url'] = $host . 'files/catalog/docs/' . $value['file'];
         }
 
         // добавляем информацию о сертификатах
@@ -93,19 +97,23 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // ссылки на файлы сертификатов: у товара может быть несколько сертификатов, а каждый
         // сертификат может иметь несколько файлов (т.е. содержать несколько страниц)
         $certs = array();
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->cert) {
+            $host = $this->config->cdn->url;
+        }
         foreach ($temp as $key => $value) {
             if ( ! is_file('files/catalog/cert/' . $value['file'])) {
                 continue;
             }
             $certs[$key]['title'] = $value['title'];
             $certs[$key]['count'] = $value['count'];
-            $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $value['file'];
+            $certs[$key]['files'][] = $host . 'files/catalog/cert/' . $value['file'];
             if ($value['count'] > 1) {
                 $page = 1;
                 while ($page < $value['count']) {
                     $file = str_replace('.jpg', $page.'.jpg', $value['file']);
                     if (is_file('files/catalog/cert/' . $file)) {
-                        $certs[$key]['files'][] = $this->config->site->url . 'files/catalog/cert/' . $file;
+                        $certs[$key]['files'][] = $host . 'files/catalog/cert/' . $file;
                     }
                     $page++;
                 }
@@ -213,6 +221,10 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         
         // добавляем в массив товаров информацию об URL товаров, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) {
+            $host = $this->config->cdn->url;
+        }
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -220,9 +232,9 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
             // URL ссылки на фото товара
             if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
             } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
             }
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');

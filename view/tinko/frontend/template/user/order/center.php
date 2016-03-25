@@ -23,7 +23,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Заказ № <?php echo $order['order_id']; ?></h1>
+<h1>Заявка № <?php echo $order['order_id']; ?></h1>
 
 <div id="user-order">
     <p>
@@ -48,7 +48,7 @@ defined('ZCMS') or die('Access denied');
            </tr>
         <?php endforeach; ?>
         <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
-            <tr><td colspan="5" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+            <tr><td colspan="5" class="note-user-price">Цены и стоимость указаны с учетом скидки</td></tr>
         <?php endif; ?>
     </table>
 
@@ -116,4 +116,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/user/order/center.php -->
-

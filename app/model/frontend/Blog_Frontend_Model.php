@@ -10,9 +10,9 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех новостей; результаты работы кэшируются
+     * Возвращает массив всех записей (постов) блога; результаты работы кэшируются
      */
-    public function getAllPosts($start = 0) {
+    public function getAllPosts($start) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
             return $this->allPosts($start);
@@ -29,7 +29,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех новостей
+     * Возвращает массив всех записей (постов) блога
      */
     protected function allPosts($start = 0) {
         $query = "SELECT
@@ -45,13 +45,17 @@ class Blog_Frontend_Model extends Frontend_Model {
                       `a`.`added` DESC
                   LIMIT " . $start . ", " . $this->config->pager->frontend->blog->perpage;
         $posts = $this->database->fetchAll($query);
-        // добавляем в массив новостей информацию об URL поста, картинки, категории
+        // добавляем в массив постов блога информацию об URL поста, картинки, категории
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->blog) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach($posts as $key => $value) {
             $posts[$key]['url']['post'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
             if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $posts[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $posts[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
             $posts[$key]['url']['category'] = $this->getURL('frontend/blog/category/id/' . $value['ctg_id']);
         }
@@ -59,7 +63,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает общее количество новостей (во всех категориях);
+     * Возвращает общее количество записей (постов) блога (во всех категориях);
      * результат работы кэшируется
      */
     public function getCountAllPosts() {
@@ -79,7 +83,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает общее количество новостей (во всех категориях)
+     * Возвращает общее количество записей (постов) блога (во всех категориях)
      */
     protected function countAllPosts() {
         $query = "SELECT COUNT(*) FROM `blog_posts` WHERE 1";
@@ -87,7 +91,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив новостей категории с уникальным идентификатором $id;
+     * Возвращает массив записай (постов) категории с уникальным идентификатором $id;
      * результат работы кэшируется
      */
     public function getCategoryPosts($id, $start) {
@@ -107,7 +111,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив новостей категории с уникальным идентификатором $id
+     * Возвращает массив записей (постов) категории с уникальным идентификатором $id
      */
     protected function categoryPosts($id, $start) {
         $query = "SELECT
@@ -124,12 +128,16 @@ class Blog_Frontend_Model extends Frontend_Model {
                   LIMIT " . $start . ", " . $this->config->pager->frontend->blog->perpage;
         $posts = $this->database->fetchAll($query, array('id' => $id));
         // добавляем в массив постов блога информацию об URL поста, картинки
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->blog) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach($posts as $key => $value) {
             $posts[$key]['url']['post'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
             if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $posts[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $posts[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
         }
         return $posts;
@@ -189,7 +197,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает информацию о новости с уникальным идентификатором $id
+     * Возвращает информацию о записи блога с уникальным идентификатором $id
      */
     protected function post($id) {
         $query = "SELECT
@@ -207,7 +215,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех категорий новостей; результат работы кэшируется
+     * Возвращает массив всех категорий блога; результат работы кэшируется
      */
     public function getCategories() {
         // если не включено кэширование данных
@@ -226,7 +234,7 @@ class Blog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив всех категорий новостей
+     * Возвращает массив всех категорий блога
      */
     protected function categories() {
         $query = "SELECT

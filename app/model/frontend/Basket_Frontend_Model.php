@@ -804,6 +804,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                   LIMIT " . $limit;
         $products = $this->database->fetchAll($query);
         // добавляем в массив товаров информацию об URL товаров, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -811,9 +815,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
             // URL ссылки на фото товара
             if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
             } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
             }
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');

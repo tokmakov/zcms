@@ -58,6 +58,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $query = $query . ' LIMIT ' . $start . ', ' . $this->config->pager->frontend->products->perpage;
         $result = $this->database->fetchAll($query, array(), $this->enableDataCache);
         // добавляем в массив результатов поиска информацию об URL товаров и фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) {
+            $host = $this->config->cdn->url;
+        }
         foreach($result as $key => $value) {
             if ($ajax) { // для поиска в шапке сайта
                 $result[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -83,9 +87,9 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $result[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
                 // URL ссылки на фото товара
                 if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                    $result[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                    $result[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
                 } else {
-                    $result[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                    $result[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
                 }
                 // атрибут action тега form для добавления товара в корзину
                 $result[$key]['action']['basket'] = $this->getURL('frontend/basket/addprd');

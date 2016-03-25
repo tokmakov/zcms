@@ -114,6 +114,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             'offices'          => $offices,
             // если true, заказ размещен
             'success'          => $success,
+            // сообщение об успешном размещении заказа
+            'message'          => $this->config->message->checkout,
         );
         if ($success) { // заказ размещен, большинство переменных в шаблоне не нужны
             unset(
@@ -431,7 +433,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // создать профиль получателя?
-        if (/*$this->authUser && isset($_POST['make_buyer_profile'])*/true) {
+        if ($this->authUser && isset($_POST['make_buyer_profile'])) {
             $data = array(
                 'title'            => 'Профиль получателя',
                 'name'             => $form['buyer_name'],
@@ -458,7 +460,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->userFrontendModel->addProfile($data);
         }
         // создать профиль плательщика?
-        if (/*$this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])*/true) {
+        if ($this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])) {
             $data = array(
                 'title'            => 'Профиль плательщика',
                 'name'             => $form['payer_name'],
@@ -489,7 +491,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         $result = $this->basketFrontendModel->createOrder($form);
 
         if ( ! $result) {
-            $form['errorMessage'] = array('Произошла ошибка при добавлении заказа, попробуйте еще раз');
+            $form['errorMessage'] = array('Произошла ошибка при добавлении заявки, попробуйте еще раз');
             $this->setSessionData('checkoutOrderForm', $form);
             return false;
         }

@@ -239,6 +239,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $products = $this->database->fetchAll($query);
 
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) {
+            $host = $this->config->cdn->url;
+        }
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -246,9 +250,9 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
             // URL ссылки на фото товара
             if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
             } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
             }
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action']['basket'] = $this->getURL('frontend/basket/addprd');
@@ -494,7 +498,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     }
                 }
             }
-            if (!empty($second)) {
+            if ( ! empty($second)) {
                 $second[0]['bound'] = true;
             }
             $groups = array_merge($first, $second);

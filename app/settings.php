@@ -17,7 +17,7 @@ $settings = array(
         'default'   => array( // значения по умолчанию для title, мета-тегов keywords и description
             'title'       => 'Торговый Дом ТИНКО. Технические средства безопасности',
             'keywords'    => 'поставки оборудования, купить, цена, охранно-пожарная сигнализация, охранное телевидение, системы контроля доступа, оповещение, кабель, провод, пожаротушение',
-            'description' => 'Торговый Дом ТИНКО. Технические средства безопасности. Комплексные поставки оборудования: охранно-пожарная сигнализация, системы видеонаблюдения, системы контроля доступа, средства пожаротушения.',
+            'description' => 'Торговый Дом ТИНКО. Технические средства безопасности. Комплексные поставки оборудования: охранно-пожарная сигнализация, охранное телевидение, системы контроля доступа, средства пожаротушения.',
         ),
         'article'   => array( // значения по умолчанию для статей
             'title'       => 'Статьи. Журнал «Грани безопасности». Торговый Дом ТИНКО',
@@ -79,6 +79,19 @@ $settings = array(
             'port' => 11211,
         ),
     ),
+    'cdn' => array(                              // Content Delivery Network
+        'enable' => array(
+            'js'     => false,                   // js-файлы
+            'css'    => false,                   // css-файлы
+            'img'    => false,                   // фото товаров
+            'doc'    => false,                   // файлы документации
+            'cert'   => false,                   // файлы сертификатов
+            'blog'   => false,                   // thumbnails постов блога
+            'banner' => false,                   // баннеры справа
+            'slider' => false,                   // слайдер на главной
+        ),
+        'url'    => 'http://cdn.tinko.info/',
+    ),
     'sef' => $routing,                           // см. файл routing.php
     'email' => array(
         'admin' => 'tokmakov.e@mail.ru',         // e-mail администратора сайта
@@ -89,14 +102,14 @@ $settings = array(
         'debug'    => true,                      // должен быть true на этапе разработки
         'write'    => true,                      // записывать сообщения об ошибках в журнал?
         'file'     => 'error.log.txt',           // файл журнала ошибок
-        'sendmail' => false,                     // отправлять сообщения об ошибках на почту?
-        // общее сообщение об ошибке, которое должно отображаться
-        // вместо подробной информации (если debug равно false)
-        'message'  => 'Произошла ошибка, сообщение об ошибке отправлено администратору.',
+        'sendmail' => false,                     // отправлять сообщения об ошибках на почту администратору?
     ),
     'message' => array( // информационные сообщения для пользователей
+        // общее сообщение об ошибке, которое должно отображаться
+        // вместо подробной информации (если debug равно false)
         'error'    => 'Произошла ошибка, сообщение об ошибке отправлено администратору.',
-        'checkout' => 'Ваш заказ успешно создан, наш менеджер свяжется с Вами в ближайшем будущем.',
+        // сообщение об успешном размещении заказа
+        'checkout' => 'Заявка на оборудование создана, наш менеджер свяжется с Вами в ближайшем будущем.',
     ),
     'css' => array(                              // CSS файлы, подключаемые к странице
         'frontend'            => array(          // общедоступная часть сайта
@@ -205,7 +218,7 @@ $settings = array(
              * )
              */
         ),
-        'backend' => array( // административная часть сайта
+        'backend' => array(                      // административная часть сайта
             'base'      => array(
                 'reset.css',
                 'common.css',
@@ -272,7 +285,7 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'compare'    => array(              // сравнение товаров
+            'compare'    => array(               // сравнение товаров
                 'compare.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
@@ -300,26 +313,26 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js'
             ),
-            'page-39'         => array(         // для страницы «О компании»
+            'page-39'         => array(          // для страницы «О компании»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'page-41'         => array(         // для страницы «Доставка»
+            'page-41'         => array(          // для страницы «Доставка»
                 'tabs.js',
                 'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
                 'page/offices-map-route.js',
                 'page/delivery-map.js',
             ),
-            'page-51'         => array(         // для страницы «Партнеры»
+            'page-51'         => array(          // для страницы «Партнеры»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
-            'page-52'         => array(         // для страницы «Библиотека»
+            'page-52'         => array(          // для страницы «Библиотека»
                 'page/library.js',
             ),
-            'page-55'         => array(         // для страницы «Новый сайт»
+            'page-55'         => array(          // для страницы «Новый сайт»
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
@@ -339,7 +352,7 @@ $settings = array(
              * ),
              */
         ),
-        'backend' => array( // административная часть сайта
+        'backend' => array(                      // административная часть сайта
             'base'      => array(
                 'jquery-2.1.1.min.js',
                 'common.js',

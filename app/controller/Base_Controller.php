@@ -11,7 +11,7 @@ abstract class Base_Controller extends Base {
      *    контроллера, который должен формировать страницу.
      * 2. Роутер нашел класс контроллера, но контроллеру были переданы некорректные
      *    параметры. В этом случае контроллер устанавливает значение переменной
-     *    $this->notFoundRecord = true и завершает работу (см. метод request()).
+     *    Some_Controller::notFoundRecord = true и завершает работу (см. метод request()).
      *    Вместо него начинает работать контроллер Index_Notfound_Frontend_Controller или
      *    Index_Notfound_Backend_Controller (см. файл index.php).
      */
@@ -191,7 +191,7 @@ abstract class Base_Controller extends Base {
      */
     public function sendHeaders() {
         if ($this->notFound) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
         }
         header('Content-Type: text/html; charset=utf-8');
         header('Content-Length: ' . $this->getContentLength());
@@ -344,10 +344,14 @@ abstract class Base_Controller extends Base {
         if ($this->backend) {
             $backfront = 'backend';
         }
-
+        
         /*
          * подключаемые css файлы
          */
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->css) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         if (isset($this->config->css->$backfront->$name)) {
             $temp = $this->config->css->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
@@ -361,7 +365,7 @@ abstract class Base_Controller extends Base {
                     if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
                     }
-                    $this->cssFiles[] = $this->config->site->url . $fileName;
+                    $this->cssFiles[] = $host . $fileName;
                 }
             } else { // один файл
                 if ('http' == substr($temp, 0, 4)) { // если это внешний файл
@@ -371,7 +375,7 @@ abstract class Base_Controller extends Base {
                     if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
                     }
-                    $this->cssFiles[] = $this->config->site->url . $fileName;
+                    $this->cssFiles[] = $host . $fileName;
                 }
             }
         }
@@ -379,6 +383,10 @@ abstract class Base_Controller extends Base {
         /*
          * подключаемые js файлы
          */
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->js) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         if (isset($this->config->js->$backfront->$name)) {
             $temp = $this->config->js->$backfront->$name;
             if (is_object($temp)) { // несколько файлов
@@ -392,7 +400,7 @@ abstract class Base_Controller extends Base {
                     if ( ! is_file($fileName)) {
                         throw new Exception('Файл ' . $fileName . ' не найден');
                     }
-                    $this->jsFiles[] = $this->config->site->url . $fileName;
+                    $this->jsFiles[] = $host . $fileName;
                 }
             } else { // один файл
                 // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
@@ -404,7 +412,7 @@ abstract class Base_Controller extends Base {
                 if ( ! is_file($fileName)) {
                     throw new Exception('Файл ' . $fileName . ' не найден');
                 }
-                $this->jsFiles[] = $this->config->site->url . $fileName;
+                $this->jsFiles[] = $host . $fileName;
             }
         }
 

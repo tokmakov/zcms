@@ -53,7 +53,7 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
             'name'        => $index['name'],
             // текст главной страницы в формате html
             'text'        => $index['body'],
-            // массив баннеров
+            // массив баннеров слайдера
             'banners'     => $banners,
             // массив лидеров продаж
             'hitProducts' => $hitProducts,

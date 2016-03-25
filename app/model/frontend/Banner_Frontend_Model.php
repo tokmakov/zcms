@@ -40,10 +40,15 @@ class Banner_Frontend_Model extends Frontend_Model {
                   WHERE
                       `visible` = 1
                   ORDER BY
-                        `sortorder`";
+                      `sortorder`";
         $banners = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок на файлы баннеров
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->banner) {
+            $host = $this->config->cdn->url;
+        }
         foreach ($banners as $key => $value) {
-            $banners[$key]['image'] = $this->config->site->url . 'files/banner/' . $value['id'] . '.jpg';
+            $banners[$key]['image'] = $host . 'files/banner/' . $value['id'] . '.jpg';
         }
         return $banners;
     }

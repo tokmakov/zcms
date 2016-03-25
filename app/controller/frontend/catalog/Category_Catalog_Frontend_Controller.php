@@ -18,8 +18,8 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
          * Category_Catalog_Frontend_Controller
          */
@@ -52,7 +52,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // переопределяем переменную, которая будет передана в шаблон left.php,
-        // чтобы раскрыть ветку текущей категории
+        // чтобы раскрыть ветку текущей категории меню каталога в левой колонке
         $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu($this->params['id']);
 
     }

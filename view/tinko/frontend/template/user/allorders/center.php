@@ -114,9 +114,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>История заказов</h1>
+<h1>Ваши заявки</h1>
 <?php if (empty($orders)): ?>
-    <p>Нет заказов.</p>
+    <p>У Вас еще нет заявок.</p>
     <?php return; ?>
 <?php endif; ?>
 
@@ -149,14 +149,14 @@ defined('ZCMS') or die('Access denied');
                 </tr>
             <?php endforeach; ?>
             <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
-                <tr><td colspan="5" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+                <tr><td colspan="5" class="note-user-price">Цены и стоимость указаны с учетом скидки</td></tr>
             <?php endif; ?>
             </table>
             <div>
                 <div>
                     <form action="<?php echo $order['action']; ?>" method="post">
                         <input type="hidden" name="page" value="<?php echo $page; ?>" />
-                        <input type="submit" name="submit" value="Повторить заказ" />
+                        <input type="submit" name="submit" value="Повторить заявку" />
                     </form>
                 </div>
                 <div>

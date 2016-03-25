@@ -58,7 +58,7 @@ class Index_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив всех баннеров для главной (стартовой) страницы сайта
+     * Функция возвращает массив всех баннеров слайдера для главной (стартовой) страницы сайта
      */
     private function getAllBanners() {
         $query = "SELECT
@@ -69,7 +69,16 @@ class Index_Frontend_Model extends Frontend_Model {
                       `visible` = 1
                   ORDER BY
                       `sortorder`";
-        return $this->database->fetchAll($query);
+        $banners = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок на файлы баннеров
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->slider) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
+        foreach ($banners as $key => $value) {
+            $banners[$key]['image'] = $host . 'files/index/slider/' . $value['id'] . '.jpg';
+        }
+        return $banners;
     }
     
     /**
@@ -91,12 +100,16 @@ class Index_Frontend_Model extends Frontend_Model {
                       3";
         $news = $this->database->fetchAll($query);
         // добавляем в массив новостей информацию об URL новости, картинки
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->blog) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach($news as $key => $value) {
             $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
             if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;
@@ -122,12 +135,16 @@ class Index_Frontend_Model extends Frontend_Model {
                       3";
         $news = $this->database->fetchAll($query);
         // добавляем в массив новостей информацию об URL новости, картинки
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->blog) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach($news as $key => $value) {
             $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
             if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/' . $value['id'] . '.jpg';
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
             } else {
-                $news[$key]['url']['image'] = $this->config->site->url . 'files/blog/thumb/default.jpg';
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;
@@ -158,14 +175,18 @@ class Index_Frontend_Model extends Frontend_Model {
         $products = $this->database->fetchAll($query);
 
         // добавляем в массив товаров информацию об URL товаров, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
             // URL ссылки на фото товара
             if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
             } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
             }
         }
 
@@ -197,14 +218,18 @@ class Index_Frontend_Model extends Frontend_Model {
         $products = $this->database->fetchAll($query);
 
         // добавляем в массив товаров информацию об URL товаров, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
             $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
             // URL ссылки на фото товара
             if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
             } else {
-                $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
             }
         }
 
