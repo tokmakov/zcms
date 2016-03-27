@@ -94,3 +94,17 @@
 #5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
 #6 {main}
 
+27.03.2016 14:52:47
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''0', '10'' at line 18
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 189
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(189): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(245): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(165): Category_Catalog_Frontend_Model->categoryProducts(3, 0, 0, 0, 0, Array, 0, 0)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(260): Category_Catalog_Frontend_Model->getCategoryProducts(3, 0, 0, 0, 0, Array, 0, 0)
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Category_Catalog_Frontend_Controller.php(48): Category_Catalog_Frontend_Controller->getCategory()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Category_Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#8 {main}
+

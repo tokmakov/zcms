@@ -271,8 +271,15 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                   WHERE
                       `a`.`group` = :id AND `a`.`visible` = 1" . $tmp . "
                   ORDER BY " . $temp . "
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
-        $products = $this->database->fetchAll($query, array('id' => $id));
+                  LIMIT :start, :limit";
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'id'    => $id,
+                'start' => $start,
+                'limit' => $this->config->pager->frontend->products->perpage
+            )
+        );
 
         // добавляем в массив URL ссылок на товары и фото
         $host = $this->config->site->url;

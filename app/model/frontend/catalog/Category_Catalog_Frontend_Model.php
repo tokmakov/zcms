@@ -235,8 +235,14 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))" . $tmp . "
                       AND `a`.`visible` = 1
                   ORDER BY " . $order . "
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
-        $products = $this->database->fetchAll($query);
+                  LIMIT :start, :limit";
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'start' => $start,
+                'limit' => $this->config->pager->frontend->products->perpage
+            )
+        );
 
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         $host = $this->config->site->url;

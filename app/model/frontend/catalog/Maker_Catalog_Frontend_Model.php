@@ -11,6 +11,23 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * public function getMakers()
      * protected function makers()
      * public function getMaker(...)
+     * public function getMakerSearchResult(...)
+     * protected function makerSearchResult(...)
+     * public function getMakerProducts(...)
+     * protected function makerProducts(...)
+     * public function getCountMakerProducts(...)
+     * public function getMakerGroups(...)
+     * protected function makerGroups(...)
+     * public function getMakerGroupParams(...)
+     * protected function makerGroupParams(...)
+     * public function getCountMakerHit(...)
+     * protected function countMakerHit(...)
+     * public function getCountMakerNew(...)
+     * protected function countMakerNew(...)
+     * public function getMakerURL(...)
+     * protected function makerURL(...)
+     * public function getMakerSortOrders(...)
+     * protected function makerSortOrders(...)
      */
 
     public function __construct() {
@@ -98,6 +115,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `makers` `a`
                       INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `b`.`group` = `d`.`id`
                   WHERE
                       `b`.`visible` = 1
                   GROUP BY
@@ -118,6 +136,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `makers` `a`
                       INNER JOIN `products` `b` ON `a`.`id` = `b`.`maker`
                       INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `b`.`group` = `d`.`id`
                   WHERE
                       `a`.`id` IN (" . $ids . ") AND
                       `b`.`visible` = 1
@@ -270,8 +289,15 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $tmp . "
                   ORDER BY " . $temp . "
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
-        $products = $this->database->fetchAll($query, array('id' => $id));
+                  LIMIT :start, :limit";
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'id'    => $id,
+                'start' => $start,
+                'limit' => $this->config->pager->frontend->products->perpage
+            )
+        );
 
         // добавляем в массив URL ссылок на товары и фото
         $host = $this->config->site->url;
@@ -611,6 +637,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `groups` `c` ON `a`.`group` = `c`.`id`
                   WHERE
                       `a`.`maker` = :maker AND `a`.`visible` = 1";
         if ($group) { // фильтр по функциональной группе

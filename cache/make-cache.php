@@ -32,7 +32,6 @@ $database = Database::getInstance();
 
 // очищаем кэш
 $cache->clearCache();
-die();
 
 // все страницы сайта
 $query = "SELECT `id` FROM `pages` WHERE 1 ORDER BY `id`";
@@ -57,7 +56,7 @@ foreach($pages as $page) {
 }
 
 // все товары каталога
-$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 500";
+$query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id` LIMIT 100";
 $products = $database->fetchAll($query, array());
 foreach($products as $product) {
     // экземпляр класса роутера
@@ -79,7 +78,7 @@ foreach($products as $product) {
 }
 
 // все категории каталога
-$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id` LIMIT 500";
+$query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id` LIMIT 100";
 $categories = $database->fetchAll($query, array());
 foreach($categories as $category) {
     // экземпляр класса роутера
@@ -101,7 +100,7 @@ foreach($categories as $category) {
 }
 
 // все производители каталога
-$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id` LIMIT 500";
+$query = "SELECT `id` FROM `makers` WHERE 1 ORDER BY `id` LIMIT 100";
 $makers = $database->fetchAll($query);
 foreach($makers as $maker) {
     // экземпляр класса роутера

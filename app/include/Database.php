@@ -19,6 +19,11 @@ class Database {
      * настройки приложения, экземпляр класса Config
      */
     private $config;
+    
+    /**
+     * включена балансировка нагрузки между master и slave?
+     */
+    private $balancing;
 
     /**
      * для хранения экземпляра класса, отвечающего за кэширование
@@ -44,6 +49,8 @@ class Database {
     private function __construct() {
         // настройки приложения, экземпляр класса Config
         $this->config = Config::getInstance();
+        // включена балансировка нагрузки
+        $this->balancing = $this->config->database->balancing;
         // экземпляр класса, отвечающего за кэширование
         $this->cache = Cache::getInstance();
         // создаем новый экземпляр класса PDO
@@ -54,6 +61,7 @@ class Database {
             array(
                 PDO::ATTR_PERSISTENT => $this->config->database->pcon,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
             )
         );
@@ -136,6 +144,10 @@ class Database {
      *  Метод-обертка для PDOStatement::execute()
      */
     public function execute($query, $params = array()) {
+        // включена балансировка нагрузки?
+        if ($this->balancing) {
+            $query = '/*' . MYSQLND_MS_MASTER_SWITCH . '*/ ' . $query;
+        }
         // подготавливаем запрос к выполнению
         $statementHandler = $this->pdo->prepare($query);
         // выполняем запрос
@@ -145,10 +157,10 @@ class Database {
     /**
      *  Метод-обертка для PDOStatement::fetchAll()
      */
-    public function fetchAll($query, $params = array(), $cache = false) {
+    public function fetchAll($query, $params = array(), $cache = false, $slave = false) {
         // если кэширование запрещено
         if ( ! $cache) {
-            return $this->pdoFetchAll($query, $params);
+            return $this->pdoFetchAll($query, $params, $slave);
         }
 
         // уникальный ключ доступа к кэшу
@@ -162,7 +174,15 @@ class Database {
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetchAll($query, $params = array()) {
+    private function pdoFetchAll($query, $params = array(), $slave) {
+        // включена балансировка нагрузки?
+        if ($this->balancing) {
+            if ($slave) { // выполняем запрос на slave-сервере
+                $query = '/*' . MYSQLND_MS_SLAVE_SWITCH . '*/ ' . $query;
+            } else { // выполняем запрос на master-сервере
+                $query = '/*' . MYSQLND_MS_MASTER_SWITCH . '*/ ' . $query;
+            }
+        }
         // подготавливаем запрос к выполнению
         $statementHandler = $this->pdo->prepare($query);
         // выполняем запрос
@@ -176,10 +196,10 @@ class Database {
     /**
      * Метод-обертка для PDOStatement::fetch()
      */
-    public function fetch($query, $params = array(), $cache = false) {
+    public function fetch($query, $params = array(), $cache = false, $slave = false) {
         // если кэширование запрещено
         if (!$cache) {
-            return $this->pdoFetch($query, $params);
+            return $this->pdoFetch($query, $params, $slave);
         }
 
         // уникальный ключ доступа к кэшу
@@ -193,7 +213,15 @@ class Database {
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetch($query, $params = array()) {
+    private function pdoFetch($query, $params = array(), $slave) {
+        // включена балансировка нагрузки?
+        if ($this->balancing) {
+            if ($slave) { // выполняем запрос на slave-сервере
+                $query = '/*' . MYSQLND_MS_SLAVE_SWITCH . '*/ ' . $query;
+            } else { // выполняем запрос на master-сервере
+                $query = '/*' . MYSQLND_MS_MASTER_SWITCH . '*/ ' . $query;
+            }
+        }
         // подготавливаем запрос к выполнению
         $statementHandler = $this->pdo->prepare($query);
         // выполняем запрос
@@ -207,10 +235,10 @@ class Database {
     /**
      *  Метод возвращает значение первого столбца из строки
      */
-    public function fetchOne($query, $params = array(), $cache = false) {
+    public function fetchOne($query, $params = array(), $cache = false, $slave = false) {
         // если кэширование запрещено
         if ( ! $cache) {
-            return $this->pdoFetchOne($query, $params);
+            return $this->pdoFetchOne($query, $params, $slave);
         }
 
         // уникальный ключ доступа к кэшу
@@ -224,7 +252,15 @@ class Database {
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetchOne($query, $params = array()) {
+    private function pdoFetchOne($query, $params = array(), $slave) {
+        // включена балансировка нагрузки?
+        if ($this->balancing) {
+            if ($slave) { // выполняем запрос на slave-сервере
+                $query = '/*' . MYSQLND_MS_SLAVE_SWITCH . '*/ ' . $query;
+            } else { // выполняем запрос на master-сервере
+                $query = '/*' . MYSQLND_MS_MASTER_SWITCH . '*/ ' . $query;
+            }
+        }
         // подготавливаем запрос к выполнению
         $statementHandler = $this->pdo->prepare($query);
         // выполняем запрос

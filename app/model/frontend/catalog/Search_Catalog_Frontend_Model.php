@@ -56,7 +56,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         
         $query = $query . ' LIMIT ' . $start . ', ' . $this->config->pager->frontend->products->perpage;
-        $result = $this->database->fetchAll($query, array(), $this->enableDataCache);
+        $result = $this->database->fetchAll($query, array(), $this->enableDataCache, true);
         // добавляем в массив результатов поиска информацию об URL товаров и фото
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->img) {
@@ -135,7 +135,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (empty($query)) {
             return 0;
         }
-        return $this->database->fetchOne($query, array(), $this->enableDataCache);
+        return $this->database->fetchOne($query, array(), $this->enableDataCache, true);
     }
 
     /**

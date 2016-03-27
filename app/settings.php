@@ -56,11 +56,12 @@ $settings = array(
         ),
     ),
     'database' => array(                         // соединение с базой данных
-        'pcon' => false,                         // постоянное соединение
-        'host' => 'localhost',
-        'user' => 'root',
-        'pass' => 'wbmstr',
-        'name' => 'zcms2',
+        'pcon'      => false,                    // постоянное соединение
+        'host'      => 'localhost',
+        'user'      => 'root',
+        'pass'      => 'wbmstr',
+        'name'      => 'zcms2',
+        'balancing' => false,                    // включена балансировка нагрузки между master и slave?
     ),
     'cache' => array(
         'enable' => array(
@@ -81,16 +82,16 @@ $settings = array(
     ),
     'cdn' => array(                              // Content Delivery Network
         'enable' => array(
-            'js'     => false,                   // js-файлы
-            'css'    => false,                   // css-файлы
-            'img'    => false,                   // фото товаров
-            'doc'    => false,                   // файлы документации
-            'cert'   => false,                   // файлы сертификатов
-            'blog'   => false,                   // thumbnails постов блога
-            'banner' => false,                   // баннеры справа
-            'slider' => false,                   // слайдер на главной
+            'js'     => true,                   // js-файлы
+            'css'    => true,                   // css-файлы
+            'img'    => true,                   // фото товаров
+            'doc'    => true,                   // файлы документации
+            'cert'   => true,                   // файлы сертификатов
+            'blog'   => true,                   // thumbnails постов блога
+            'banner' => true,                   // баннеры справа
+            'slider' => true,                   // слайдер на главной
         ),
-        'url'    => 'http://cdn.tinko.info/',
+        'url'    => 'http://www.tinko.info/',
     ),
     'sef' => $routing,                           // см. файл routing.php
     'email' => array(
