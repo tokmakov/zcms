@@ -131,7 +131,7 @@ class Database {
          */
         $this->cache->lockValue($key);
         try {
-            $data = $this->$function($arguments[0], $arguments[1]);
+            $data = $this->$function($arguments[0], $arguments[1], $arguments[2]);
             $this->cache->setValue($key, $data);
         } finally {
             $this->cache->unlockValue($key);
@@ -168,13 +168,12 @@ class Database {
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
-        $arguments = func_get_args();
-        array_pop($arguments);
+        $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetchAll($query, $params = array(), $slave) {
+    private function pdoFetchAll($query, $params, $slave) {
         // включена балансировка нагрузки?
         if ($this->balancing) {
             if ($slave) { // выполняем запрос на slave-сервере
@@ -207,13 +206,12 @@ class Database {
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
-        $arguments = func_get_args();
-        array_pop($arguments);
+        $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetch($query, $params = array(), $slave) {
+    private function pdoFetch($query, $params, $slave) {
         // включена балансировка нагрузки?
         if ($this->balancing) {
             if ($slave) { // выполняем запрос на slave-сервере
@@ -246,13 +244,12 @@ class Database {
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
-        $arguments = func_get_args();
-        array_pop($arguments);
+        $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
 
-    private function pdoFetchOne($query, $params = array(), $slave) {
+    private function pdoFetchOne($query, $params, $slave) {
         // включена балансировка нагрузки?
         if ($this->balancing) {
             if ($slave) { // выполняем запрос на slave-сервере
