@@ -518,7 +518,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция формирует и отправляет письма о заказе покупателю и администратору
      */
     private function sendOrderMail($orderId, $details, $products, $user_amount) {
-        $html = '<h2>Заказ № '.$orderId.'</h2>' . PHP_EOL;
+        $html = '<h2>Заявка № '.$orderId.'</h2>' . PHP_EOL;
         $html = $html . '<table border="1" cellspacing="0" cellpadding="4">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
         $html = $html . '<th>Код</th><th>Наименование</th><th>Кол.</th><th>Цена</th><th>Стоим.</th>' . PHP_EOL;
@@ -615,7 +615,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $email = $details['buyer_email'];
         }
 
-        $subject = '=?utf-8?b?'.base64_encode('Заказ № '.$orderId).'?=';
+        $subject = '=?utf-8?b?'.base64_encode('Заявка № '.$orderId).'?=';
         $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
         // определяем, кому будем отправлять копии письма    
