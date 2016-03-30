@@ -834,6 +834,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         if (false === $result) {
             return null;
         }
+        $details = array();
+        if ( ! empty($result['details'])) {
+            $details = unserialize($result['details']);
+        }
         $order = array_merge(
             array(
                 'order_id' => $id,
@@ -843,7 +847,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 'time' => $result['time'],
                 'status' => $result['status']
             ),
-            unserialize($result['details'])
+            $details
         );
         // добавляем информацию о списке товаров заказа
         $query = "SELECT

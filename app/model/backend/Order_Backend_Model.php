@@ -65,6 +65,10 @@ class Order_Backend_Model extends Backend_Model {
         if (false === $result) {
             return null;
         }
+        $details = array();
+        if ( ! empty($result['details'])) {
+            $details = unserialize($result['details']);
+        }
         $order = array_merge(
             array(
                 'order_id'        => $id,
@@ -77,7 +81,7 @@ class Order_Backend_Model extends Backend_Model {
                 'time'            => $result['time'],
                 'status'          => $result['status']
             ),
-            unserialize($result['details'])
+            $details
         );
         $query = "SELECT
                       `product_id`, `code` AS `code`, `name`,

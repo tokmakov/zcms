@@ -150,9 +150,9 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // фамилия контактного лица получателя
         $form['buyer_surname']    = trim(utf8_substr(strip_tags($_POST['buyer_surname']), 0, 32));
         // имя контактного лица получателя
-        $form['buyer_name']       = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 16));
+        $form['buyer_name']       = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 32));
         // отчество контактного лица получателя
-        $form['buyer_patronymic'] = trim(utf8_substr(strip_tags($_POST['buyer_patronymic']), 0, 16));
+        $form['buyer_patronymic'] = trim(utf8_substr(strip_tags($_POST['buyer_patronymic']), 0, 32));
         // телефон контактного лица получателя
         $form['buyer_phone']      = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 32));
         // e-mail контактного лица получателя
@@ -213,9 +213,9 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // имя контактного лица плательщика
             $form['payer_name']       = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
             // фамилия контактного лица плательщика
-            $form['payer_surname']    = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 16));
+            $form['payer_surname']    = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 32));
             // отчество контактного лица получателя
-            $form['payer_patronymic'] = trim(utf8_substr(strip_tags($_POST['payer_patronymic']), 0, 16));
+            $form['payer_patronymic'] = trim(utf8_substr(strip_tags($_POST['payer_patronymic']), 0, 32));
             // телефон контактного лица плательщика
             $form['payer_phone']      = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 32));
             // e-mail контактного лица плательщика

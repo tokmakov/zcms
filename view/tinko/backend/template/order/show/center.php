@@ -7,6 +7,67 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $order - подробная информация о заказе
+ *
+ * $order = Array (
+ *   [order_id] => 47
+ *   [amount] => 62592.40000
+ *   [user_amount] => 44984.95000
+ *   [date] => 25.02.2016
+ *   [time] => 11:23:17
+ *   [status] => 0
+ *   [buyer_surname] => Токмаков
+ *   [buyer_name] => Евгений
+ *   [buyer_patronymic] => Юрьевич
+ *   [buyer_email] => tokmakov.e@mail.ru
+ *   [buyer_phone] =>
+ *   [shipping] => 0
+ *   [buyer_shipping_address] => г. Москва, проезд Перова Поля 3-й, д 8
+ *   [buyer_shipping_city] => Москва
+ *   [buyer_shipping_index] => 111141
+ *   [buyer_company] => 1
+ *   [buyer_company_name] => ООО "ТД ТИНКО"
+ *   [buyer_company_ceo] => Клещенок Геннадий Степанович
+ *   [buyer_company_address] => г Москва, ул Щепкина, д 47 стр 1
+ *   [buyer_company_inn] => 7702680818
+ *   [buyer_company_kpp] => 770201001
+ *   [buyer_bank_name] => БАНК ВТБ (ПАО)
+ *   [buyer_bank_bik] => 044525187
+ *   [buyer_settl_acc] => 40702810500260000795
+ *   [buyer_corr_acc] => 30101810700000000187
+ *   [buyer_payer_different] => 1
+ *   [payer_name] => Алексей
+ *   [payer_surname] => Миронов
+ *   [payer_patronymic] => Михайлович
+ *   [payer_email] => mironov.m@mail.ru
+ *   [payer_phone] =>
+ *   [payer_company] => 1
+ *   [payer_company_name] => ЗАО "ГОРИЗОНТ"
+ *   [payer_company_ceo] => Егельский Сергей Михайлович
+ *   [payer_company_address] => г Москва, ул Нелидовская, д 16
+ *   [payer_company_inn] => 7733511746
+ *   [payer_company_kpp] => 773301001
+ *   [payer_bank_name] => ПАО СБЕРБАНК
+ *   [payer_bank_bik] => 044525225
+ *   [payer_settl_acc] => 40702810500260000795
+ *   [payer_corr_acc] => 30101810400000000225
+ *   [comment] => Комментарий к заказу
+ *   [products] => Array (
+ *     [0] => Array (
+ *       [product_id] => 205151
+ *       [code] => 205151
+ *       [name] => ИПР 513-10
+ *       [title] => Извещатель пожарный ручной
+ *       [price] => 206.60000
+ *       [user_price] => 178.64000
+ *       [quantity] => 1
+ *       [cost] => 206.60000
+ *       [user_cost] => 178.64000
+ *     )
+ *     [1] => Array (
+ *       ..........
+ *     )
+ *   )
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -62,6 +123,8 @@ defined('ZCMS') or die('Access denied');
     </tr>
 </table>
 
+<?php if (empty($order['buyer_surname'])) return; /* Этот код потом удалить, только для заказов из Magento */ ?>
+
 <h2>Получатель</h2>
 <ul>
     <li>Фамилия: <?php echo $order['buyer_surname']; ?></li>
@@ -95,7 +158,6 @@ defined('ZCMS') or die('Access denied');
         <li>Корреспондентский счет: <?php echo $order['buyer_corr_acc']; ?></li>
     </ul>
 <?php endif; ?>
-
 
 <?php if ($order['buyer_payer_different']): ?>
     <h2>Плательщик</h2>

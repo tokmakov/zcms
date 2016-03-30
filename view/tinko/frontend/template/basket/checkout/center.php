@@ -224,8 +224,8 @@ defined('ZCMS') or die('Access denied');
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
                 <div>
-                    <input type="text" name="buyer_name" maxlength="16" value="<?php echo $buyer_name; ?>" placeholder="имя" />
-                    <input type="text" name="buyer_patronymic" maxlength="16" value="<?php echo $buyer_patronymic; ?>" placeholder="отчество" />
+                    <input type="text" name="buyer_name" maxlength="32" value="<?php echo $buyer_name; ?>" placeholder="имя" />
+                    <input type="text" name="buyer_patronymic" maxlength="32" value="<?php echo $buyer_patronymic; ?>" placeholder="отчество" />
                 </div>
             </div>
             <div>
@@ -361,8 +361,8 @@ defined('ZCMS') or die('Access denied');
             <div>
                 <div>Имя <span class="form-field-required">*</span></div>
                 <div>
-                    <input type="text" name="payer_name" maxlength="16" value="<?php echo $payer_name; ?>" placeholder="имя" />
-                    <input type="text" name="payer_patronymic" maxlength="16" value="<?php echo $payer_patronymic; ?>" placeholder="отчество" />
+                    <input type="text" name="payer_name" maxlength="32" value="<?php echo $payer_name; ?>" placeholder="имя" />
+                    <input type="text" name="payer_patronymic" maxlength="32" value="<?php echo $payer_patronymic; ?>" placeholder="отчество" />
                 </div>
             </div>
             <div>

@@ -92,8 +92,8 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
          * обрабатываем данные, полученные из формы
          */
         $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 16));       // имя пользователя
-        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 16)); // отчество пользователя
+        $data['name']       = trim(utf8_substr($_POST['name'], 0, 32));       // имя пользователя
+        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
         $data['email']      = trim(utf8_substr($_POST['email'], 0, 32));      // электронная почта
         $data['password']   = trim(utf8_substr($_POST['password'], 0, 32));   // пароль
         $confirm            = trim(utf8_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
