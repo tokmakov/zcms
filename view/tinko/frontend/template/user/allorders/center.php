@@ -19,6 +19,7 @@
  *     [time] => 16:44:13
  *     [status] => 0
  *     [url] => /user/order/38
+ *     [repeat] => true
  *     [action] => /user/repeat/38
  *     [products] => Array (
  *       [0] => Array (
@@ -55,6 +56,7 @@
  *     [time] => 16:25:12
  *     [status] => 0
  *     [url] => /user/order/34
+ *     [repeat] => true
  *     [action] => /user/repeat/34
  *     [products] => Array (
  *       [0] => Array (
@@ -148,16 +150,18 @@ defined('ZCMS') or die('Access denied');
                     <td><?php echo number_format($product['user_cost'], 2, '.', ''); ?></td>
                 </tr>
             <?php endforeach; ?>
-            <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
+            <?php if (($order['amount'] - $order['user_amount']) > 1): ?>
                 <tr><td colspan="5" class="note-user-price">Цены и стоимость указаны с учетом скидки</td></tr>
             <?php endif; ?>
             </table>
             <div>
                 <div>
-                    <form action="<?php echo $order['action']; ?>" method="post">
-                        <input type="hidden" name="page" value="<?php echo $page; ?>" />
-                        <input type="submit" name="submit" value="Повторить заявку" />
-                    </form>
+                    <?php if ($order['repeat']): ?>
+                        <form action="<?php echo $order['action']; ?>" method="post">
+                            <input type="hidden" name="page" value="<?php echo $page; ?>" />
+                            <input type="submit" name="submit" value="Повторить заявку" />
+                        </form>
+                    <?php endif; ?>
                 </div>
                 <div>
                     <a href="<?php echo $order['url']; ?>">Подробнее</a>

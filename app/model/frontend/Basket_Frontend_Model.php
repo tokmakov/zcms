@@ -30,12 +30,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if (0 == $quantity) {
             return;
         }
-        if ($quantity > 100000) {
-            $quantity = 100000;
+        if ($quantity > 16000000) {
+            $quantity = 16000000;
         }
         // такой товар уже есть в корзине?
         $query = "SELECT
-                      1
+                      `quantity`
                   FROM
                       `baskets`
                   WHERE
@@ -44,9 +44,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             'visitor_id' => $this->visitorId,
             'product_id' => $productId,
         );
-        $res = $this->database->fetchOne($query, $data);
-        $data['quantity'] = (int)$quantity;
-        if (false === $res) { // если такого товара еще нет в корзине, добавляем его
+        $result = $this->database->fetchOne($query, $data);
+        $data['quantity'] = $quantity;
+        if (false === $result) { // если такого товара еще нет в корзине, добавляем его
             $query = "INSERT INTO `baskets`
                       (
                           `visitor_id`,
@@ -62,10 +62,14 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           NOW() - INTERVAL ".$delay." SECOND
                       )";
         } else { // если такой товар уже есть в корзине, обновляем количество и дату
+            $data['quantity'] = $data['quantity'] + $result;
+            if ($data['quantity'] > 16000000) {
+                $data['quantity'] = 16000000;
+            }
             $query = "UPDATE
                           `baskets`
                       SET
-                          `quantity` = `quantity` + :quantity,
+                          `quantity` = :quantity,
                           `added` = NOW() - INTERVAL ".$delay." SECOND
                       WHERE
                           `visitor_id` = :visitor_id AND `product_id` = :product_id";
@@ -102,8 +106,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = (int)$key;
             $value = (int)$value;
             if ($value) { // если количество товара не равно нулю
-                if ($value > 100000) {
-                    $value = 100000;
+                if ($value > 16000000) {
+                    $value = 16000000;
                 }
                 $query = "UPDATE
                               `baskets`

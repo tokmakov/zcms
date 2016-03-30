@@ -68,7 +68,7 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>E-mail <span class="form-field-required">*</span></div>
-        <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
+        <div><input type="text" name="email" maxlength="64" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
     </div>
     <div>
         <div>Пароль <span class="form-field-required">*</span></div>

@@ -154,9 +154,9 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // отчество контактного лица получателя
         $form['buyer_patronymic'] = trim(utf8_substr(strip_tags($_POST['buyer_patronymic']), 0, 32));
         // телефон контактного лица получателя
-        $form['buyer_phone']      = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 32));
+        $form['buyer_phone']      = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 64));
         // e-mail контактного лица получателя
-        $form['buyer_email']      = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 32));
+        $form['buyer_email']      = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 64));
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $form['shipping']               = 1;
@@ -217,9 +217,9 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // отчество контактного лица получателя
             $form['payer_patronymic'] = trim(utf8_substr(strip_tags($_POST['payer_patronymic']), 0, 32));
             // телефон контактного лица плательщика
-            $form['payer_phone']      = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 32));
+            $form['payer_phone']      = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 64));
             // e-mail контактного лица плательщика
-            $form['payer_email']      = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 32));
+            $form['payer_email']      = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 64));
 
             if (isset($_POST['payer_company'])) { // плательщик - юридическое лицо?
                 // плательщик - юридическое лицо

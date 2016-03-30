@@ -761,10 +761,19 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `user_id` = :user_id
                   ORDER BY
                       `added` DESC
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->orders->perpage;
-        $orders = $this->database->fetchAll($query, array('user_id' => $this->userId));
+                  LIMIT
+                      :start, :limit";
+        $orders = $this->database->fetchAll(
+            $query,
+            array(
+                'user_id' => $this->userId,
+                'start'   => $start,
+                'limit'   => $this->config->pager->frontend->orders->perpage
+            )
+        );
         // добавляем в массив информацию о товарах для каждого заказа
         foreach ($orders as $key => $value) {
+            $orders[$key]['repeat'] = false;
             $query = "SELECT
                           `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                           `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
@@ -772,15 +781,16 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                           !ISNULL(`b`.`id`) AS `exists`
                       FROM
                           `orders_prds` `a` LEFT JOIN `products` `b`
-                          ON `a`.`product_id` = `b`.`id`
+                          ON `a`.`product_id` = `b`.`id` AND `b`.`visible` = 1
                       WHERE
-                          `a`.`order_id` = :order_id  AND `b`.`visible` = 1
+                          `a`.`order_id` = :order_id
                       ORDER BY
                           `a`.`id`";
             $orders[$key]['products'] = $this->database->fetchAll($query, array('order_id' => $value['order_id']));
             foreach ($orders[$key]['products'] as $k => $v) {
                 if ($v['exists']) { // если товар еще не удален из каталога
                     $orders[$key]['products'][$k]['url'] = $this->getURL('frontend/catalog/product/id/' . $v['id']);
+                    $orders[$key]['repeat'] = true;
                 }
             }
             // URL ссылки для просмотра подробной информации о заказе

@@ -162,12 +162,12 @@ defined('ZCMS') or die('Access denied');
         <div>
             <div>Телефон <span class="form-field-required">*</span></div>
             <div>
-                <input type="text" name="phone" maxlength="32" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" />
+                <input type="text" name="phone" maxlength="64" value="<?php echo $phone; ?>" placeholder="+7 (495) 123-45-67" />
             </div>
         </div>
         <div>
             <div>E-mail <span class="form-field-required">*</span></div>
-            <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
+            <div><input type="text" name="email" maxlength="64" value="<?php echo $email; ?>" placeholder="e-mail" /></div>
         </div>
     </div>
 

@@ -230,11 +230,11 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Телефон <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_phone" maxlength="32" value="<?php echo $buyer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+                <div><input type="text" name="buyer_phone" maxlength="64" value="<?php echo $buyer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_email" maxlength="32" value="<?php echo $buyer_email; ?>" placeholder="e-mail" /></div>
+                <div><input type="text" name="buyer_email" maxlength="64" value="<?php echo $buyer_email; ?>" placeholder="e-mail" /></div>
             </div>
         </fieldset>
 
@@ -367,11 +367,11 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div>
                 <div>Телефон <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_phone" maxlength="32" value="<?php echo $payer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+                <div><input type="text" name="payer_phone" maxlength="64" value="<?php echo $payer_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
             </div>
             <div>
                 <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_email" maxlength="32" value="<?php echo $payer_email; ?>" placeholder="e-mail" /></div>
+                <div><input type="text" name="payer_email" maxlength="64" value="<?php echo $payer_email; ?>" placeholder="e-mail" /></div>
             </div>
         </fieldset>
 

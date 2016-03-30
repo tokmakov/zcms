@@ -65,13 +65,13 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Имя, Отчество</div>
         <div>
-            <input type="text" name="name" maxlength="16" value="<?php echo $name; ?>" placeholder="имя" />
-            <input type="text" name="patronymic" maxlength="16" value="<?php echo $patronymic; ?>" placeholder="отчество" />
+            <input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" placeholder="имя" />
+            <input type="text" name="patronymic" maxlength="32" value="<?php echo $patronymic; ?>" placeholder="отчество" />
         </div>
     </div>
     <div>
         <div>E-mail</div>
-        <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
+        <div><input type="text" name="email" maxlength="64" value="<?php echo $email; ?>" /></div>
     </div>
     <div>
         <div>Тип пользователя</div>

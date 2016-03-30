@@ -82,7 +82,7 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             // стоимость товаров в корзине с учетом скидки
             'userAmount'          => $userAmount,
             // URL ссылки на страницу оформления заказа
-            'checkoutUrl'         => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
+            'checkoutURL'         => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,
             // массив единиц измерения товара

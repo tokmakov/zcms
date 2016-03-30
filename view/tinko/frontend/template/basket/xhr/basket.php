@@ -68,9 +68,9 @@ defined('ZCMS') or die('Access denied');
                 <tr>
                     <td><?php echo $item['code']; ?></td>
                     <td><a href="<?php echo $item['url']['product']; ?>"><?php echo $item['name']; ?></a></td>
-                    <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" size="3" /></td>
+                    <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" /></td>
                     <td><?php echo number_format($item['user_price'], 2, '.', ''); ?></td>
-                    <td><?php echo number_format($item['user_cost'], 2, '.', ''); ?></td>
+                    <td><?php echo $item['user_cost'] > 1000000 ? round(($item['user_cost']/1000000),1).' млн.' : number_format($item['user_cost'], 2, '.', ''); ?></td>
                     <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-times"></i></a></td>
                 </tr>
             <?php endforeach; ?>
@@ -82,13 +82,13 @@ defined('ZCMS') or die('Access denied');
             <span><input type="submit" name="submit" value="Пересчитать" /></span>
             <span>
                 <?php if ($type > 1): ?>
-                    <strong>&nbsp;<?php echo number_format($amount, 2, '.', ' '); ?>&nbsp;</strong>
+                    <strong>&nbsp;<?php echo $amount > 1000000 ? round(($amount/1000000),1).' млн.' : number_format($amount, 2, '.', ' '); ?>&nbsp;</strong>
                 <?php endif; ?>
-                <strong><?php echo number_format($userAmount, 2, '.', ' '); ?></strong>
+                <strong><?php echo $userAmount > 1000000 ? round(($userAmount/1000000),1).' млн.' : number_format($userAmount, 2, '.', ' '); ?></strong>
                 руб.
             </span>
         </div>
-        <p><a href="<?php echo $checkoutURL; ?>">Оформить заказ</a></p>
+        <p><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></p>
     </form>
 <?php else: ?>
     <p>Ваша корзина пуста</p>

@@ -115,7 +115,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['email']    = trim(utf8_substr($_POST['email'], 0, 32));    // электронная почта
+        $data['email']    = trim(utf8_substr($_POST['email'], 0, 64));    // электронная почта
         $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
         $data['remember'] = false;
         if (isset($_POST['remember'])) {

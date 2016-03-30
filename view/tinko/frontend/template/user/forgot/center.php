@@ -51,7 +51,7 @@ defined('ZCMS') or die('Access denied');
 <form action="<?php echo $action; ?>" method="post" id="new-password">
     <div>
         <div>Ваш e-mail</div>
-        <div><input type="text" name="email" maxlength="32" value="<?php echo $email; ?>" /></div>
+        <div><input type="text" name="email" maxlength="64" value="<?php echo $email; ?>" /></div>
     </div>
     <div>
         <div></div>
