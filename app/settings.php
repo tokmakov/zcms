@@ -246,6 +246,7 @@ $settings = array(
             'menu'      => 'menu.css',
             'order'     => 'order.css',
             'page'      => 'page.css',
+            'partner'   => 'partner.css',
             'rating'    => 'rating.css',
             'sale'      => 'sale.css',
             'solutions' => array (

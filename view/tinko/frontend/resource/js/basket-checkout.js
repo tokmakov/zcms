@@ -110,13 +110,10 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_email"]').val(data.email);
             // телефон контактного лица получателя
             $('#checkout-order input[name="buyer_phone"]').val(data.phone);
-            if (data.company === 1) { // получатель - юридическое лицо?
+            if (data.company == 1) { // получатель - юридическое лицо?
                 if ( ! $('#checkout-order input[name="buyer_company"]').prop('checked')) {
-                    alert('OK1');
                     $('#checkout-order input[name="buyer_company"]').prop('checked', true).change();
-                    alert('OK2');
                 }
-                alert('OK3');
                 $('#checkout-order input[name="buyer_company_name"]').val(data.company_name);
                 $('#checkout-order input[name="buyer_company_ceo"]').val(data.company_ceo);
                 $('#checkout-order input[name="buyer_company_address"]').val(data.company_address);
@@ -127,7 +124,7 @@ $(document).ready(function() {
                 $('#checkout-order input[name="buyer_settl_acc"]').val(data.settl_acc);
                 $('#checkout-order input[name="buyer_corr_acc"]').val(data.corr_acc);
             }
-            if (data.shipping === 0) { // доставка по адресу (не самовывоз)
+            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
                 if ($('#checkout-order input[name="shipping"]').prop('checked')) {
                     $('#checkout-order input[name="shipping"]').prop('checked', false).change();
                 }
@@ -174,7 +171,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="payer_email"]').val(data.email);
             // телефон контактного лица плательщика
             $('#checkout-order input[name="payer_phone"]').val(data.phone);
-            if (data.company === 1) { // плательщик - юридическое лицо?
+            if (data.company == 1) { // плательщик - юридическое лицо?
                 if ( ! $('#checkout-order input[name="payer_company"]').prop('checked')) {
                     $('#checkout-order input[name="payer_company"]').prop('checked', true).change();
                 }

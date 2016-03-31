@@ -86,7 +86,7 @@ body > .wrapper {
     }
     #menu > ul > li {
         float: left;
-        width: 14.2857143%;
+        width: 12.5%;
     }
         #menu > ul > li > a {
             display: block;
@@ -97,7 +97,7 @@ body > .wrapper {
             color: #fff;
             padding: 5px 10px;
         }
-        #menu > ul > li:first-child > a, #menu > ul > li:nth-child(8) > a {
+        #menu > ul > li:first-child > a, #menu > ul > li:nth-child(9) > a {
             border-left: 1px solid #4f5254;
         }
         #menu > ul > li > a:hover {

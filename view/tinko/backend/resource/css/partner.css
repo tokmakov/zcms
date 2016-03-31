@@ -1,0 +1,57 @@
+/* форма для добавления/редактирования партнера */
+#add-edit-partner {
+    overflow: hidden;
+}
+    #add-edit-partner > div {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    #add-edit-partner > div > div:first-child {
+        float: left;
+        width: 30%;
+        margin-top: 5px;
+    }
+    #add-edit-partner > div > div:last-child {
+        float: left;
+        width: 70%;
+    }
+        #add-edit-partner > div > div:last-child > input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 3px;
+        }
+            #add-edit-partner > div > div:last-child > input[name="date"],
+            #add-edit-partner > div > div:last-child > input[name="time"] {
+                width: 80px;
+            }
+
+/* список всех партнеров */
+#all-partners {
+    overflow: hidden;
+}
+    #all-partners > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+        #all-partners > ul > li {
+            overflow: hidden;
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+            #all-partners > ul > li > div:first-child {
+                float: left;
+                width: 70%;
+            }
+                #all-partners > ul > li > div:first-child > span {
+                    color: #969696;
+                    font-size: 14px;
+                }
+            #all-partners > ul > li > div:last-child {
+                float: right;
+                width: 30%;
+                text-align: right;
+            }
+                #all-partners > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }

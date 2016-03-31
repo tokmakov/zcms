@@ -301,7 +301,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
         if (empty($form['buyer_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
-        } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $form['buyer_email'])) {
+        } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,6}$#i', $form['buyer_email'])) {
             $errorMessage[] = 'Поле «E-mail контактного лица получателя» должно соответствовать формату somebody@mail.ru';
         }
         if ( ! $form['shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
@@ -376,7 +376,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             }
             if (empty($form['payer_email'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица плательщика»';
-            } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $form['payer_email'])) {
+            } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,6}$#i', $form['payer_email'])) {
                 $errorMessage[] = 'Поле «E-mail контактного лица плательщика» должно соответствовать формату somebody@mail.ru';
             }
             // если плательщик - юридическое лицо

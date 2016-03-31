@@ -27,6 +27,8 @@ class Xhr_Profile_User_Frontend_Controller extends User_Frontend_Controller {
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
             die();
+        } else {
+            $this->params['id'] = (int)$this->params['id'];
         }
 
         $profile = $this->userFrontendModel->getProfile($this->params['id']);

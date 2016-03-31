@@ -99,6 +99,7 @@ class Editbnr_Start_Backend_Controller extends Start_Backend_Controller {
         $data['name']    = trim(utf8_substr($_POST['name'], 0, 100));     // наименование баннера
         $data['url']     = trim(utf8_substr($_POST['url'], 0, 250));      // URL ссылки с баннера
         $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст баннера
+        $data['alttext'] = str_replace('"', '', $data['alttext']);
 
         $data['visible'] = 0;
         if (isset($_POST['visible'])) {

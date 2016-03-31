@@ -212,7 +212,7 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         }
         if (empty($data['email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица»';
-        } elseif ( ! preg_match('#^[0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
+        } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z][0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
             $errorMessage[] = 'Поле «E-mail» должно соответствовать формату somebody@mail.ru';
         }
         if ( ! $data['shipping']) {

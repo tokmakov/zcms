@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Edit_Banner_Backend_Controller для редактирования баннера на главной, формирует
- * страницу с формой для редактирования баннера, обновляет запись в таблице БД banners,
- * работает с моделью Banner_Backend_Model, административная часть сайта
+ * Класс Edit_Banner_Backend_Controller для редактирования баннера в правой колонке,
+ * формирует страницу с формой для редактирования баннера, обновляет запись в таблице
+ * БД banners, работает с моделью Banner_Backend_Model, административная часть сайта
  */
 class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
 
@@ -18,9 +18,9 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу Banner_Backend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Edit_Banner_Backend_Controller
          */
         parent::input();
@@ -99,6 +99,7 @@ class Edit_Banner_Backend_Controller extends Banner_Backend_Controller {
         $data['name']    = trim(utf8_substr($_POST['name'], 0, 100));     // наименование баннера
         $data['url']     = trim(utf8_substr($_POST['url'], 0, 250));      // URL ссылки с баннера
         $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст баннера
+        $data['alttext'] = str_replace('"', '', $data['alttext']);
 
         $data['visible'] = 0;
         if (isset($_POST['visible'])) {
