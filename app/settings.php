@@ -49,6 +49,11 @@ $settings = array(
             'keywords'    => 'рейтинг, продажи, оборудование, технические средства безопасности, ОПС, видеонаблюдение, СКУД, оповещение, кабель, провод, пожаротушение',
             'description' => 'Рейтинг продаж. Торговый Дом ТИНКО. Технические средства безопасности. Охранно-пожарная сигнализация, системы видеонаблюдения, системы контроля доступа, средства пожаротушения.',
         ),
+        'partner'    => array( // значения по умолчанию для партнерских сертификатов
+            'title'       => 'Партнерские сертификаты. Торговый Дом ТИНКО',
+            'keywords'    => 'сертификат, партнер, бренд, оборудование, технические средства безопасности, ОПС, видеонаблюдение, СКУД, оповещение, кабель, провод, пожаротушение',
+            'description' => 'Партнерские сертификаты. Торговый Дом ТИНКО. Технические средства безопасности. Охранно-пожарная сигнализация, системы видеонаблюдения, системы контроля доступа, средства пожаротушения.',
+        ),
         'page'      => array( // значения по умолчанию для страниц
             'title'       => 'Средства безопасности. Торговый Дом ТИНКО',
             'keywords'    => 'технические средства безопасности, оборудование, ОПС, видеонаблюдение, СКУД, оповещение, кабель, провод, пожаротушение',
@@ -135,6 +140,10 @@ $settings = array(
                 'responsive-table.css',
                 'fancybox/jquery.fancybox.css',
             ),
+            'partner'         => array(          // партнерские сертификаты
+                'partner.css',
+                'fancybox/jquery.fancybox.css',
+            ),
             'rating'          => 'rating.css',   // рейтинг продаж
             'sale'            => 'sale.css',     // распродажа
             'user'            => array(          // личный кабинет
@@ -183,6 +192,9 @@ $settings = array(
             ),
             'page-55'         => array(          // для страницы «Новый сайт»
                 'fancybox/jquery.fancybox.css',
+            ),
+            'page-56'         => array(          // для страницы «В помощь покупателю»
+                'page/for-buyer.css',
             ),
             /*
              * ПРИМЕР ПОДКЛЮЧЕНИЯ ФАЙЛОВ, НЕ УДАЛЯТЬ!
@@ -249,12 +261,14 @@ $settings = array(
             'partner'   => 'partner.css',
             'rating'    => 'rating.css',
             'sale'      => 'sale.css',
+            'sitemap'   => 'sitemap.css',
             'solutions' => array (
                 'solutions.css',
                 'tabs.css',
             ),
             'start'     => 'start.css',
             'user'      => 'user.css',
+            'vacancy'   => 'vacancy.css',
         ),
     ),
     'js' => array(                               // js-файлы, подключаемые к странице
@@ -293,9 +307,13 @@ $settings = array(
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
             ),
+            'partner'    => array(               // партнеры компании
+                'fancybox/jquery.mousewheel-3.0.6.pack.js',
+                'fancybox/jquery.fancybox.pack.js',
+                'lightbox.js',
+            ),
             'rating'     => 'rating.js',         // рейтинг лидеров продаж
             'sale'       => 'sale.js',           // распродажа
-            'sitemap'    => 'sitemap.js',        // карта сайта
             'solutions'  => array(               // типовые решения
                 'solutions.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
@@ -372,14 +390,16 @@ $settings = array(
                 'jquery.multi-select.js',
                 'filter.js',
             ),
-            'menu'      => 'add-edit-menu-item.js',
+            'menu'      => 'menu.js',
             'page'      => array(
                 'insert-at-caret.js',
                 'page.js',
             ),
             'rating'    => 'rating.js',
+            'sitemap'   => 'sitemap.js',
             'solutions' => 'solutions.js',
             'user'      => 'user.js',
+            'vacancy'   => 'vacancy.js',
         ),
     ),
     'pager' => array(                            // постраничная навигация

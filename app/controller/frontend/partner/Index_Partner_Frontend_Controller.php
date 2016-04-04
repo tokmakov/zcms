@@ -3,7 +3,7 @@
  * Класс Index_Partner_Frontend_Controller формирует список партнеров компании,
  * получает данные от модели Partner_Frontend_Model, общедоступная часть сайта
  */
-class Index_Partner_Frontend_Controller extends Frontend_Controller {
+class Index_Partner_Frontend_Controller extends Partner_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -27,16 +27,7 @@ class Index_Partner_Frontend_Controller extends Frontend_Controller {
         $this->title = 'Партнерские сертификаты. ' . $this->title;
 
         // формируем хлебные крошки
-        $breadcrumbs = array(
-            array(
-                'name' => 'Главная',
-                'url'  => $this->partnerFrontendModel->getURL('frontend/index/index')
-            ),
-            array(
-                'name' => 'О компании',
-                'url'  => $this->partnerFrontendModel->getURL('frontend/page/index/id/39')
-            ),
-        );
+        $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/partner/index');
 
         // получаем от модели массив всех партнеров компании
         $partners = $this->partnerFrontendModel->getAllPartners();

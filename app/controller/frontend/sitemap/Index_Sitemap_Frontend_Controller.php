@@ -35,27 +35,17 @@ class Index_Sitemap_Frontend_Controller extends Frontend_Controller {
             ),
         );
 
-        // получаем от модели массив всех страниц верхнего уровня и их детей
-        $pages = $this->pageFrontendModel->getAllPages();
-
-        // получаем от модели массив категорий типовых решений
-        $solutionsCategories = $this->solutionsFrontendModel->getCategories();
-
-        // получаем от модели массив категорий новостей
-        $newsCategories = $this->blogFrontendModel->getCategories();
-
-        // получаем от модели массив корневых категорий и их детей
-        $root = $this->sitemapFrontendModel->getRootAndChilds();
+        // получаем от модели массив всех элементов карты сайта в виде дерева
+        $sitemap = $this->sitemapFrontendModel->getSitemap();
 
         /*
          * переменные, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs'         => $breadcrumbs,         // хлебные крошки
-            'pages'               => $pages,               // массив страниц сайта
-            'solutionsCategories' => $solutionsCategories, // массив категорий типовых решений
-            'newsCategories'      => $newsCategories,      // массив категорий новостей
-            'root'                => $root,                // массив категорий каталога
+            // хлебные крошки
+            'breadcrumbs' => $breadcrumbs,
+            // массив всех элементов карты сайта в виде дерева
+            'sitemap'     => $sitemap,
         );
 
     }

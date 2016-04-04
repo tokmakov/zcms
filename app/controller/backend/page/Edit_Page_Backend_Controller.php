@@ -137,7 +137,7 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
         // родитель страницы
         $data['parent'] = $this->pageBackendModel->getPageParent($this->params['id']);
         if (ctype_digit($_POST['parent'])) {
-            $data['parent'] = $_POST['parent']; // новый родитель
+            $data['parent'] = (int)$_POST['parent']; // новый родитель
         }
 
         // были допущены ошибки при заполнении формы?

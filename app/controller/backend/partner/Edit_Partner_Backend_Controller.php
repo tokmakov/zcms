@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Edit_Partner_Backend_Controller для редактирования партнера на главной, формирует
- * страницу с формой для редактирования партнера, обновляет запись в таблице БД partners,
- * работает с моделью Partner_Backend_Model, административная часть сайта
+ * Класс Edit_Partner_Backend_Controller для редактирования партнера, формирует страницу
+ * с формой для редактирования партнера, обновляет запись в таблице БД partners, работает
+ * с моделью Partner_Backend_Model, административная часть сайта
  */
 class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
 
@@ -57,6 +57,8 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+        
+        $image = $this->config->site->url . 'files/partner/images/' . $this->params['id'] . '.jpg';
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -70,10 +72,12 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
             'id'          => $this->params['id'],
             // наименование партнера
             'name'        => $partner['name'],
+            // файл изображения сертификата
+            'image'       => $image,
             // alt текст сертификата партнера
             'alttext'     => $partner['alttext'],
             // показывать сертификат партнера?
-            'visible'     => $partner['visible'],
+            'expire'      => $partner['expire'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
@@ -98,9 +102,11 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
         $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст сертификата партнера
         $data['alttext'] = str_replace('"', '', $data['alttext']);
 
-        $data['visible'] = 0;
-        if (isset($_POST['visible'])) {
-            $data['visible'] = 1;
+        $year   = date('Y') + 1;
+        $data['expire'] = date('d') . '.' . date('m') . '.' . $year;
+        $_POST['expire']  = trim ($_POST['expire']);
+        if (preg_match('~\d{2}\.\d{2}\.\d{2}~', $_POST['expire'])) {
+            $data['expire'] = $_POST['expire'];
         }
 
         // были допущены ошибки при заполнении формы?
@@ -113,7 +119,7 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('editPartnerForm', $data);
             return false;

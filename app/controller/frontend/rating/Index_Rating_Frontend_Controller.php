@@ -28,12 +28,7 @@ class Index_Rating_Frontend_Controller extends Frontend_Controller {
         $this->title = 'Рейтинг. ' . $this->title;
 
         // формируем хлебные крошки
-        $breadcrumbs = array(
-            array(
-                'name' => 'Главная',
-                'url'  => $this->ratingFrontendModel->getURL('frontend/index/index')
-            ),
-        );
+        $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/rating/index');
 
         // получаем от модели массив всех категорий и товаров рейтинга
         $rating = $this->ratingFrontendModel->getRating();

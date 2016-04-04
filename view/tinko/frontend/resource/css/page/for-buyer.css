@@ -1,0 +1,19 @@
+/* В помощь покупателю */
+#for-buyer > h2 {
+    margin: 25px 0 5px 0;
+}
+#for-buyer > h2:first-child {
+    margin-top: 20px;
+}
+#for-buyer > p {
+    margin: 5px 0 6px 0;
+}
+#for-buyer > a {
+    display: inline-block;
+    background: #395985;
+    color: #fff;
+    padding: 5px 15px;
+}
+    #for-buyer > a:hover {
+        text-decoration: none;
+    }

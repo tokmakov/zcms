@@ -30,7 +30,7 @@ class Index_Menu_Backend_Controller extends Menu_Backend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+                'url'  => $this->menuBackendModel->getURL('backend/index/index')
             ),
         );
 

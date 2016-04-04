@@ -774,25 +774,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'user/profile/$1',
 
         /*
-         * статьи
-         */
-        // список всех статей
-        '~^frontend/article/index$~i' =>
-        'articles',
-        // список всех статей, постраничная навигация
-        '~^frontend/article/index/page/(\d+)$~i' =>
-        'articles/page/$1',
-        // отдельная статья
-        '~^frontend/article/item/id/(\d+)$~i' =>
-        'articles/item/$1',
-        // список статей выбранной категории
-        '~^frontend/article/category/id/(\d+)$~i' =>
-        'articles/category/$1',
-        // список статей выбранной категории, постраничная навигация
-        '~^frontend/article/category/id/(\d+)/page/(\d+)$~i' =>
-        'articles/category/$1/page/$2',
-
-        /*
          * блог
          */
         // главная страница блога
@@ -832,6 +813,25 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^frontend/solutions/basket/id/(\d+)$~i' =>
         'solutions/basket/$1',
+        
+        /*
+         * статьи
+         */
+        // список всех статей
+        '~^frontend/article/index$~i' =>
+        'articles',
+        // список всех статей, постраничная навигация
+        '~^frontend/article/index/page/(\d+)$~i' =>
+        'articles/page/$1',
+        // отдельная статья
+        '~^frontend/article/item/id/(\d+)$~i' =>
+        'articles/item/$1',
+        // список статей выбранной категории
+        '~^frontend/article/category/id/(\d+)$~i' =>
+        'articles/category/$1',
+        // список статей выбранной категории, постраничная навигация
+        '~^frontend/article/category/id/(\d+)/page/(\d+)$~i' =>
+        'articles/category/$1/page/$2',
 
         /*
          * распродажа
@@ -844,6 +844,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/rating/index$~i' =>
         'rating',
+    
+        /*
+         * партнеры компании
+         */
+        '~^frontend/partner/index$~i' =>
+        'partners',
 
         /*
          * карта сайта
@@ -1868,25 +1874,6 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'frontend/user/profile/id/$1',
 
         /*
-         * статьи
-         */
-        // список всех статей
-        '~^articles$~i' =>
-        'frontend/article/index',
-        // список всех статей, постраничная навигация
-        '~^articles/page/(\d+)$~i' =>
-        'frontend/article/index/page/$1',
-        // отдельная статья
-        '~^articles/item/(\d+)$~i' =>
-        'frontend/article/item/id/$1',
-        // список статей выбранной категории
-        '~^articles/category/(\d+)$~i' =>
-        'frontend/article/category/id/$1',
-        // список статей выбранной категории, постраничная навигация
-        '~^articles/category/(\d+)/page/(\d+)$~i' =>
-        'frontend/article/category/id/$1/page/$2',
-
-        /*
          * блога
          */
         // главная страница блога
@@ -1926,6 +1913,25 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^solutions/basket/(\d+)$~i' =>
         'frontend/solutions/basket/id/$1',
+        
+        /*
+         * статьи
+         */
+        // список всех статей
+        '~^articles$~i' =>
+        'frontend/article/index',
+        // список всех статей, постраничная навигация
+        '~^articles/page/(\d+)$~i' =>
+        'frontend/article/index/page/$1',
+        // отдельная статья
+        '~^articles/item/(\d+)$~i' =>
+        'frontend/article/item/id/$1',
+        // список статей выбранной категории
+        '~^articles/category/(\d+)$~i' =>
+        'frontend/article/category/id/$1',
+        // список статей выбранной категории, постраничная навигация
+        '~^articles/category/(\d+)/page/(\d+)$~i' =>
+        'frontend/article/category/id/$1/page/$2',
 
         /*
          * распродажа
@@ -1938,6 +1944,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^rating$~i' =>
         'frontend/rating/index$1',
+        
+        /*
+         * партнеры компании
+         */
+        '~^partners$~i' =>
+        'frontend/partner/index$1',
 
         /*
          * карта сайта

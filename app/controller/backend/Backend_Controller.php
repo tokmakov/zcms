@@ -82,6 +82,11 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с товарами со скидкой
      */
     protected $saleBackendModel;
+    
+    /**
+     * экземпляр класса модели для работы с картой сайта
+     */
+    protected $sitemapBackendModel;
 
     /**
      * экземпляр класса модели для работы с типовыми решениями
@@ -98,6 +103,11 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с пользователями
      */
     protected $userBackendModel;
+    
+    /**
+     * экземпляр класса модели для работы с вакансиями
+     */
+    protected $vacancyBackendModel;
 
 
     public function __construct($params = null) {
@@ -159,6 +169,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с товарами со скидкой
         $this->saleBackendModel =
             isset($this->register->saleBackendModel) ? $this->register->saleBackendModel : new Sale_Backend_Model();
+            
+        // экземпляр класса модели для работы с картой сайта
+        $this->sitemapBackendModel =
+            isset($this->register->sitemapBackendModel) ? $this->register->sitemapBackendModel : new Sitemap_Backend_Model();
 
         // экземпляр класса модели для работы с типовыми решениями
         $this->solutionsBackendModel =
@@ -171,6 +185,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с пользователями
         $this->userBackendModel =
             isset($this->register->userBackendModel) ? $this->register->userBackendModel : new User_Backend_Model();
+            
+        // экземпляр класса модели для работы с вакансиями
+        $this->vacancyBackendModel =
+            isset($this->register->vacancyBackendModel) ? $this->register->vacancyBackendModel : new Vacancy_Backend_Model();
 
         // администратор сайта авторизован?
         $this->authAdmin = $this->adminBackendModel->isAuthAdmin();

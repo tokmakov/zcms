@@ -2,11 +2,12 @@
 /**
  * Форма для добавления партнера компании,
  * файл view/example/backend/template/partner/add/center.php,
- * адиминистративная часть сайта
+ * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
+ * $expire - срок действия сертификата
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки,
  * мы должны снова предъявить форму, заполненную уже отредактированными данными и вывести
  * сообщение об ошибках.
@@ -18,7 +19,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/partner/add/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -41,12 +42,12 @@ defined('ZCMS') or die('Access denied');
 <?php
     $name    = '';
     $alttext = '';
-    $visible = 1;
+    $expire  = htmlspecialchars($expire);
 
     if (isset($savedFormData)) {
         $name    = htmlspecialchars($savedFormData['name']);
         $alttext = htmlspecialchars($savedFormData['alttext']);
-        $visible = $savedFormData['visible'];
+        $expire  = $savedFormData['expire'];
     }
 ?>
 
@@ -64,8 +65,8 @@ defined('ZCMS') or die('Access denied');
         <div><input type="file" name="image" /></div>
     </div>
     <div>
-        <div></div>
-        <div><input type="checkbox" name="visible" value="1"<?php echo ($visible) ? ' checked="checked"' : ''; ?> /> показывать</div>
+        <div>Действителен до</div>
+        <div><input type="text" name="expire" value="<?php echo $expire; ?>" /></div>
     </div>
     <div>
         <div></div>

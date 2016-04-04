@@ -8,9 +8,9 @@
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
  * $id - уникальный идентификатор партнера
- * $name - наименование баннера
+ * $name - наименование партнера
  * $alttext - alt текст сертификата партнера
- * $visible - показывать партнера?
+ * $expire - срок действия сертификата
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже отредактированными данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
@@ -21,7 +21,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/partner/edit/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -44,16 +44,16 @@ defined('ZCMS') or die('Access denied');
 <?php
     $name    = htmlspecialchars($name);
     $alttext = htmlspecialchars($alttext);
+    $expire  = htmlspecialchars($expire);
 
     if (isset($savedFormData)) {
         $name    = htmlspecialchars($savedFormData['name']);
         $alttext = htmlspecialchars($savedFormData['alttext']);
-        $visible = $savedFormData['visible'];
+        $expire  = htmlspecialchars($savedFormData['expire']);
     }
 ?>
 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="add-edit-partner">
-<div>
     <div>
         <div>Наименование</div>
         <div><input type="text" name="name" maxlength="100" value="<?php echo $name; ?>" /></div>
@@ -63,24 +63,20 @@ defined('ZCMS') or die('Access denied');
         <div><input type="text" name="alttext" maxlength="100" value="<?php echo $alttext; ?>" /></div>
     </div>
     <div>
-        <div>Изображение</div>
+        <div>Сертификат</div>
         <div>
             <input type="file" name="image" />
-            <?php if (is_file('files/partner/thumbs/' . $id . '.jpg')): ?>
-                <input type="checkbox" name="remove_image" value="1" /> удалить
-                <a href="/files/partner/images/<?php echo $id; ?>.jpg" class="zoom">изображение</a>
-            <?php endif; ?>
+            <a href="<?php echo $image; ?>" class="zoom">сертификат</a>
         </div>
     </div>
     <div>
-        <div></div>
-        <div><input type="checkbox" name="visible" value="1"<?php echo ($visible) ? ' checked="checked"' : ''; ?> /> показывать</div>
+        <div>Действителен до</div>
+        <div><input type="text" name="expire" value="<?php echo $expire; ?>" /></div>
     </div>
     <div>
         <div></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>
     </div>
-</div>
 </form>
 
 <!-- Конец шаблона view/example/backend/template/partner/edit/center.php -->

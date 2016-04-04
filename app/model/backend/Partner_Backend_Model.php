@@ -14,8 +14,8 @@ class Partner_Backend_Model extends Backend_Model {
      */
     public function getAllPartners() {
         $query = "SELECT
-                      `id`, `name`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
-                      `visible`, `sortorder`
+                      `id`, `name`, DATE_FORMAT(`expire`, '%d.%m.%Y') AS `expire`,
+                      (NOW() > `expire`) AS `expired`, `sortorder`
                   FROM
                       `partners`
                   WHERE
@@ -38,9 +38,10 @@ class Partner_Backend_Model extends Backend_Model {
     /**
      * Возвращает информацию о партнере с уникальным идентификатором $id
      */
-    public function getpartner($id) {
+    public function getPartner($id) {
         $query = "SELECT
-                      `id`, `name`, `alttext`, `added`, `visible`, `sortorder`
+                      `id`, `name`, `alttext`, DATE_FORMAT(`expire`, '%d.%m.%Y') AS `expire`,
+                      (NOW() > `expire`) AS `expired`
                   FROM
                       `partners`
                   WHERE
@@ -62,21 +63,22 @@ class Partner_Backend_Model extends Backend_Model {
                   WHERE
                       1";
         $data['sortorder'] = $this->database->fetchOne($query, array()) + 1;
+        
+        $tmp           = explode( '.', $data['expire'] );
+        $data['expire'] = $tmp[2].'-'.$tmp[1].'-'.$tmp[0];
 
         $query = "INSERT INTO `partners`
                   (
                       `name`,
                       `alttext`,
-                      `added`,
-                      `visible`,
+                      `expire`,
                       `sortorder`
                   )
                   VALUES
                   (
                       :name,
                       :alttext,
-                      NOW(),
-                      :visible,
+                      :expire,
                       :sortorder
                   )";
         $this->database->execute($query, $data);
@@ -91,13 +93,16 @@ class Partner_Backend_Model extends Backend_Model {
      * Функция обновляет партнера (запись в таблице partners базы данных)
      */
     public function updatePartner($data) {
+        
+        $tmp           = explode( '.', $data['expire'] );
+        $data['expire'] = $tmp[2].'-'.$tmp[1].'-'.$tmp[0];
 
         $query = "UPDATE
                       `partners`
                   SET
                       `name`    = :name,
                       `alttext` = :alttext,
-                      `visible` = :visible
+                      `expire`  = :expire
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
@@ -113,18 +118,8 @@ class Partner_Backend_Model extends Backend_Model {
      */
     private function uploadImage($id) {
 
-        // удаляем изображение, загруженное ранее
-        if (isset($_POST['remove_image'])) {
-            if (is_file('files/partner/thumbs/' . $id . '.jpg')) {
-                unlink('files/partner/thumbs/' . $id . '.jpg');
-            }
-            if (is_file('files/partner/images/' . $id . '.jpg')) {
-                unlink('files/partner/images/' . $id . '.jpg');
-            }
-        }
-
         // проверяем, пришел ли файл изображения
-        if (!empty($_FILES['image']['name'])) {
+        if ( ! empty($_FILES['image']['name'])) {
             // проверяем, что при загрузке не произошло ошибок
             if ($_FILES['image']['error'] == 0) {
                 // если файл загружен успешно, то проверяем - изображение?
@@ -134,17 +129,19 @@ class Partner_Backend_Model extends Backend_Model {
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
                         'files/partner/thumbs/'. $id . '.jpg',
-                        161,
-                        0,
-                        'jpg'
+                        200,
+                        200,
+                        'jpg',
+                        array(245,245,245)
                     );
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
                         'files/partner/images/'. $id . '.jpg',
                         1000,
-                        0,
-                        'jpg'
+                        1000,
+                        'jpg',
+                        array(245,245,245)
                     );
                 }
             }

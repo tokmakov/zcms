@@ -1,32 +1,23 @@
 /* карта сайта */
-#sitemap > h2 {
-    margin: 15px 0;
+#sitemap ul li {
+    margin: 4px 0;
     color: #395985;
-    font-weight: normal;
-    font-size: 19px;
 }
-#sitemap > ul {
-    margin: 15px 0 15px 20px;
-    list-style-type: square;
+#sitemap > ul > li {
+    list-style-type: none;
+    margin: 15px 0;
 }
-    #sitemap ul li {
-        margin: 3px 0;
-    }
-    #sitemap > ul > li > ul {
-        margin-left: 20px;
-        list-style-type: circle;
-    }
-    #sitemap > ul > li > ul > li > ul {
-        margin-left: 20px;
-        list-style-type: disc;
-    }
-   
-#sitemap > ul#catalog-tree > li {
-    margin: 5px 0;
-} 
-    #sitemap > ul#catalog-tree > li > span {
-        cursor: pointer;
+    #sitemap > ul > li > a {
         color: #395985;
-        border-bottom: 1px dashed #395985;
+        font-size: 18px;
     }
+#sitemap > ul > li > ul {
+    margin-left: 30px;
+    list-style-type: disc;
+}
+#sitemap > ul > li > ul > li > ul {
+    margin-left: 25px;
+    list-style-type: circle;
+}
+
 

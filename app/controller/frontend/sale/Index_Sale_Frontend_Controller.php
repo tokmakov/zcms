@@ -28,12 +28,7 @@ class Index_Sale_Frontend_Controller extends Frontend_Controller {
         $this->title = 'Распродажа. ' . $this->title;
 
         // формируем хлебные крошки
-        $breadcrumbs = array(
-            array(
-                'name' => 'Главная',
-                'url'  => $this->saleFrontendModel->getURL('frontend/index/index')
-            ),
-        );
+        $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/sale/index');
 
         // получаем от модели массив всех товаров по сниженным ценам
         $sale = $this->saleFrontendModel->getAllProducts();

@@ -261,13 +261,8 @@ class Menu_Backend_Model extends Backend_Model {
                   FROM
                       `menu`
                   WHERE
-                      `parent` = :id OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = :id)";
-        $res = $this->database->fetchAll($query, array('id' => $id));
-        $ids = array();
-        foreach ($res as $item) {
-            $ids[] = $item['id'];
-        }
-        return $ids;
+                      `parent` = :parent1 OR `parent` IN (SELECT `id` FROM `menu` WHERE `parent` = :parent2)";
+        return $this->database->fetchAll($query, array('parent1' => $id, 'parent2' => $id));
     }
 
     /**

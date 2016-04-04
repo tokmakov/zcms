@@ -10,13 +10,13 @@ class Sitemap_Frontend_Model extends Frontend_Model {
     }
     
     /**
-     * Функция возвращает массив корневых категорий и их детей в виде дерева;
+     * Функция возвращает массив всех элементов карты сайта в виде дерева;
      * результат работы кэшируется
      */
-    public function getRootAndChilds() {
+    public function getSitemap() {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->rootAndChilds();
+            return $this->sitemap();
         }
 
         // уникальный ключ доступа к кэшу
@@ -30,27 +30,86 @@ class Sitemap_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив корневых категорий и их детей в виде дерева
+     * Функция возвращает массив всех элементов карты сайта в виде дерева
      */
-    protected function rootAndChilds() {
-        // получаем корневые категории и их детей
+    protected function sitemap() {
+        // получаем все элементы карты сайта
         $query = "SELECT
-                      `id`, `name`, `parent`
+                      `id`, `capurl`, `name`, `parent`
                   FROM
-                      `categories`
+                      `sitemap`
                   WHERE
-                      `parent` = 0 OR `parent` IN
-                      (SELECT `id` FROM `categories` WHERE `parent` = 0)
+                      1
                   ORDER BY
                       `sortorder`";
-        $root = $this->database->fetchAll($query, array());
-        // добавляем в массив информацию об URL категорий
-        foreach($root as $key => $value) {
-            $root[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+        $data = $this->database->fetchAll($query);
+        // добавляем в массив URL ссылок на строницы
+        foreach($data as $key => $value) {
+            $data[$key]['url'] =  $this->getURL($value['capurl']);
         }
         // строим дерево
-        $tree = $this->makeTree($root);
+        $tree = $this->makeTree($data);
         return $tree;
+    }
+    
+    /**
+     * Функция возвращает хлебные крошки: путь от главной страницы до конкретного
+     * элемента карты сайта
+     */
+    public function getBreadcrumbs($capurl) {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->breadcrumbs($capurl);
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-capurl-' . $capurl;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+    
+    /**
+     * Функция возвращает хлебные крошки: путь от главной страницы до конкретного
+     * элемента карты сайта; результат работы кэшируется
+     */
+    public function breadcrumbs($capurl) {
+        
+        $query = "SELECT
+                      `parent`
+                  FROM
+                      `sitemap`
+                  WHERE
+                      `capurl` = :capurl";
+        $parent = $this->database->fetchOne($query, array('capurl' => $capurl));
+        $path = array();
+        if ($parent) {
+            $query = "SELECT
+                          `id`, `capurl`, `name`, `parent`
+                      FROM
+                          `sitemap`
+                      WHERE
+                          `id` = :id";
+            $result = $this->database->fetch($query, array('id' => $parent));
+            $path[] = array('url' => $this->getURL($result['capurl']), 'name' => $result['name']);
+            if ($result['parent']) {
+                $query = "SELECT
+                              `id`, `capurl`, `name`, `parent`
+                          FROM
+                              `sitemap`
+                          WHERE
+                              `id` = :id";
+                $res = $this->database->fetch($query, array('id' => $result['parent']));
+                $path[] = array('url' => $this->getURL($res['capurl']), 'name' => $res['name']);
+            }
+        }
+        $path[] = array('url' => $this->getURL('frontend/index/index'), 'name' => 'Главная');
+        $path = array_reverse($path);
+        return $path;
+        
     }
 
 }

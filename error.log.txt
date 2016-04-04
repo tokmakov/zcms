@@ -1,0 +1,138 @@
+02.04.2016 11:36:35
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Page_Backend_Model.php(259): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(162): Page_Backend_Model->getAllChildPages(51)
+#4 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(38): Edit_Page_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Page_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 11:45:42
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Page_Backend_Model.php(259): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(162): Page_Backend_Model->getAllChildPages(51)
+#4 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(38): Edit_Page_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Page_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 11:51:25
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Page_Backend_Model.php(259): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(162): Page_Backend_Model->getAllChildPages(51)
+#4 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(38): Edit_Page_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Page_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 11:52:03
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Page_Backend_Model.php(259): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(162): Page_Backend_Model->getAllChildPages(52)
+#4 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(38): Edit_Page_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Page_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 11:54:57
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Page_Backend_Model.php(259): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(162): Page_Backend_Model->getAllChildPages(39)
+#4 D:\work\localhost2\www\app\controller\backend\page\Edit_Page_Backend_Controller.php(38): Edit_Page_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Page_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 12:07:34
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Menu_Backend_Model.php(265): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\controller\backend\menu\Edititem_Menu_Backend_Controller.php(143): Menu_Backend_Model->getAllChildItems(12)
+#4 D:\work\localhost2\www\app\controller\backend\menu\Edititem_Menu_Backend_Controller.php(38): Edititem_Menu_Backend_Controller->validateForm()
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edititem_Menu_Backend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+02.04.2016 14:21:58
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 154
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\model\backend\Partner_Backend_Model.php(105): Database->execute('UPDATE\r\n       ...', Array)
+#2 D:\work\localhost2\www\app\controller\backend\partner\Edit_Partner_Backend_Controller.php(128): Partner_Backend_Model->updatePartner(Array)
+#3 D:\work\localhost2\www\app\controller\backend\partner\Edit_Partner_Backend_Controller.php(38): Edit_Partner_Backend_Controller->validateForm()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Edit_Partner_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+04.04.2016 11:05:30
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для 
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('')
+#1 D:\work\localhost2\www\app\model\frontend\Sitemap_Frontend_Model.php(97): Frontend_Model->getURL(NULL)
+#2 D:\work\localhost2\www\app\model\frontend\Sitemap_Frontend_Model.php(62): Sitemap_Frontend_Model->breadcrumbs('frontend/partne...')
+#3 D:\work\localhost2\www\app\controller\frontend\partner\Index_Partner_Frontend_Controller.php(30): Sitemap_Frontend_Model->getBreadcrumbs('frontend/partne...')
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Partner_Frontend_Controller->input()
+#5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+04.04.2016 15:05:46
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.vacancies' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 186
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(186): PDO->prepare('SELECT\r\n       ...')
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\backend\Vacancy_Backend_Model.php(24): Database->fetchAll('SELECT\r\n       ...')
+#3 D:\work\localhost2\www\app\controller\backend\vacancy\Index_Vacancy_Backend_Controller.php(38): Vacancy_Backend_Model->getAllVacancies()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Vacancy_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+04.04.2016 16:53:23
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 154
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\model\backend\Vacancy_Backend_Model.php(79): Database->execute('INSERT INTO `va...', Array)
+#2 D:\work\localhost2\www\app\controller\backend\vacancy\Add_Vacancy_Backend_Controller.php(163): Vacancy_Backend_Model->addVacancy(Array)
+#3 D:\work\localhost2\www\app\controller\backend\vacancy\Add_Vacancy_Backend_Controller.php(30): Add_Vacancy_Backend_Controller->validateForm()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Add_Vacancy_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+04.04.2016 16:54:41
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 154
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\model\backend\Vacancy_Backend_Model.php(81): Database->execute('INSERT INTO `va...', Array)
+#2 D:\work\localhost2\www\app\controller\backend\vacancy\Add_Vacancy_Backend_Controller.php(163): Vacancy_Backend_Model->addVacancy(Array)
+#3 D:\work\localhost2\www\app\controller\backend\vacancy\Add_Vacancy_Backend_Controller.php(30): Add_Vacancy_Backend_Controller->validateForm()
+#4 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Add_Vacancy_Backend_Controller->input()
+#5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+

@@ -100,7 +100,7 @@ defined('ZCMS') or die('Access denied');
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($newsCategories)): ?>
+                <?php if (!empty($blogCategories)): ?>
                     <optgroup label="blog">
                         <option value="frontend/blog/index">Блог</option>
                         <?php foreach($blogCategories as $category) : ?>

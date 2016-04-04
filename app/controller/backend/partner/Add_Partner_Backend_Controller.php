@@ -42,6 +42,10 @@ class Add_Partner_Backend_Controller extends Partner_Backend_Controller {
             array('url' => $this->partnerBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
             array('url' => $this->partnerBackendModel->getURL('backend/partner/index'), 'name' => 'Партнеры'),
         );
+        
+        // срок действия сертификата по умолчанию: один год
+        $year   = date('Y') + 1;
+        $expire = date('d') . '.' . date('m') . '.' . $year;
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -51,6 +55,8 @@ class Add_Partner_Backend_Controller extends Partner_Backend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->partnerBackendModel->getURL('backend/partner/add'),
+            // срок действия сертификата
+            'expire'      => $expire,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
@@ -74,10 +80,12 @@ class Add_Partner_Backend_Controller extends Partner_Backend_Controller {
         $data['name']    = trim(utf8_substr($_POST['name'], 0, 100));     // наименование партнера
         $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст фото сертификата партнера
         $data['alttext'] = str_replace('"', '', $data['alttext']);
-
-        $data['visible'] = 0;
-        if (isset($_POST['visible'])) {
-            $data['visible'] = 1;
+        
+        $year   = date('Y') + 1;
+        $data['expire'] = date('d') . '.' . date('m') . '.' . $year;
+        $_POST['expire']  = trim ($_POST['expire']);
+        if (preg_match('~\d{2}\.\d{2}\.\d{2}~', $_POST['expire'])) {
+            $data['expire'] = $_POST['expire'];
         }
 
         // были допущены ошибки при заполнении формы?

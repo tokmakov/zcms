@@ -48,7 +48,7 @@ class Index_Page_Frontend_Controller extends Frontend_Controller {
         }
 
         // получаем от модели хлебные крошки
-        $breadcrumbs = $this->pageFrontendModel->getPagePath($this->params['id']);
+        $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/page/index/id/' . $this->params['id']);
 
         /*
          * переменные, которые будут переданы в шаблон center.php

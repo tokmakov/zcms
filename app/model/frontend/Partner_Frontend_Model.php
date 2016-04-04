@@ -10,7 +10,7 @@ class Partner_Frontend_Model extends Frontend_Model {
     }
     
     /**
-     * Возвращает массив всех партнеров компании
+     * Функция возвращает массив всех партнеров компании
      */
     public function getAllPartners() {
         $query = "SELECT
@@ -18,7 +18,7 @@ class Partner_Frontend_Model extends Frontend_Model {
                   FROM
                       `partners`
                   WHERE
-                      `visible` = 1
+                      1
                   ORDER BY
                       `sortorder`";
         $partners = $this->database->fetchAll($query);

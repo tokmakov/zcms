@@ -5,6 +5,8 @@
     #add-edit-partner > div {
         overflow: hidden;
         margin-bottom: 10px;
+        padding: 7px 10px;
+        background: #fafafa;
     }
     #add-edit-partner > div > div:first-child {
         float: left;
@@ -20,8 +22,7 @@
             box-sizing: border-box;
             padding: 3px;
         }
-            #add-edit-partner > div > div:last-child > input[name="date"],
-            #add-edit-partner > div > div:last-child > input[name="time"] {
+            #add-edit-partner > div > div:last-child > input[name="expire"] {
                 width: 80px;
             }
 
