@@ -15,7 +15,7 @@
  * $pages - массив всех страниц сайта
  * $catalogCategories - массив категорий каталога верхнего уровня
  * $blogCategories - массив категорий блога
- * $solutionsCategories - массив категорий типовых решений
+ * $solutionCategories - массив категорий типовых решений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже отредактированными данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
@@ -73,7 +73,7 @@ defined('ZCMS') or die('Access denied');
         <div>
             <select id="menu-item">
                 <option value="0">Выберите</option>
-                <?php if (!empty($pages)): ?>
+                <?php if ( ! empty($pages)): ?>
                     <optgroup label="Страницы">
                     <?php foreach($pages as $page) : ?>
                         <option value="frontend/page/index/id/<?php echo $page['id']; ?>"><?php echo $page['name']; ?></option>
@@ -91,7 +91,7 @@ defined('ZCMS') or die('Access denied');
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($catalogCategories)): ?>
+                <?php if ( ! empty($catalogCategories)): ?>
                     <optgroup label="Каталог">
                         <option value="frontend/catalog/index">Каталог</option>
                         <?php foreach($catalogCategories as $category) : ?>
@@ -100,7 +100,7 @@ defined('ZCMS') or die('Access denied');
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($blogCategories)): ?>
+                <?php if ( ! empty($blogCategories)): ?>
                     <optgroup label="blog">
                         <option value="frontend/blog/index">Блог</option>
                         <?php foreach($blogCategories as $category) : ?>
@@ -109,11 +109,11 @@ defined('ZCMS') or die('Access denied');
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($solutionsCategories)): ?>
+                <?php if ( ! empty($solutionCategories)): ?>
                     <optgroup label="Типовые решения">
-                        <option value="frontend/solutions/index">Типовые решения</option>
+                        <option value="frontend/solution/index">Типовые решения</option>
                         <?php foreach($solutionsCategories as $category) : ?>
-                            <option value="frontend/solutions/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
+                            <option value="frontend/solution/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>

@@ -1,0 +1,14 @@
+#vacancies h2 {
+    color: #395985;
+    font-weight: normal;
+    margin: 25px 0 10px 0;
+    font-size: 19px;
+}
+#vacancies p {
+    color: #395985;
+    margin: 10px 0 5px 0;
+    font-size: 15px;
+}
+#vacancies ul {
+    margin: 5px 0 10px 25px;
+}

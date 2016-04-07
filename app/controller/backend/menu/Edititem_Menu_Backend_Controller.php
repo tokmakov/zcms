@@ -71,34 +71,34 @@ class Edititem_Menu_Backend_Controller extends Menu_Backend_Controller {
         $blogCategories = $this->menuBackendModel->getBlogCategories();
 
         // получаем массив всех категорий типовых решений
-        $solutionsCategories = $this->menuBackendModel->getSolutionsCategories();
+        $solutionCategories = $this->menuBackendModel->getSolutionCategories();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs'       => $breadcrumbs,
+            'breadcrumbs'        => $breadcrumbs,
             // атрибут action тега form
-            'action'            => $this->menuBackendModel->getURL('backend/menu/edititem/id/' . $this->params['id']),
+            'action'             => $this->menuBackendModel->getURL('backend/menu/edititem/id/' . $this->params['id']),
             // уникальный идентификатор пункта меню
-            'id'                => $this->params['id'],
+            'id'                 => $this->params['id'],
             // наименование пункта меню
-            'name'              => $menuItem['name'],
+            'name'               => $menuItem['name'],
             // URL пункта меню
-            'url'               => $menuItem['url'],
+            'url'                => $menuItem['url'],
             // родитель пункта меню
-            'parent'            => $menuItem['parent'],
+            'parent'             => $menuItem['parent'],
             // массив всех пунктов меню для возможности выбора родителя
-            'menuItems'         => $menuItems,
+            'menuItems'          => $menuItems,
             // массив всех страниц сайта
-            'pages'             => $pages,
+            'pages'              => $pages,
             // массив категорий каталога верхнего уровня
-            'catalogCategories' => $catalogCategories,
+            'catalogCategories'  => $catalogCategories,
             // массив категорий блога
-            'blogCategories'    => $blogCategories,
+            'blogCategories'     => $blogCategories,
             // массив категорий типовых решений
-            'solutionsCategories' => $solutionsCategories,
+            'solutionCategories' => $solutionCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные данные
         // формы и массив сообщений об ошибках

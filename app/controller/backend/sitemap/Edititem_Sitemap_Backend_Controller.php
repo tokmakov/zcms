@@ -77,34 +77,34 @@ class Edititem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
         $blogCategories = $this->sitemapBackendModel->getBlogCategories();
 
         // получаем массив всех категорий типовых решений
-        $solutionsCategories = $this->sitemapBackendModel->getSolutionsCategories();
+        $solutionCategories = $this->sitemapBackendModel->getSolutionCategories();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs'       => $breadcrumbs,
+            'breadcrumbs'        => $breadcrumbs,
             // атрибут action тега form
-            'action'            => $this->sitemapBackendModel->getURL('backend/sitemap/edititem/id/' . $this->params['id']),
+            'action'             => $this->sitemapBackendModel->getURL('backend/sitemap/edititem/id/' . $this->params['id']),
             // уникальный идентификатор элемента карты сайта
-            'id'                => $this->params['id'],
+            'id'                 => $this->params['id'],
             // наименование элемента карты сайта
-            'name'              => $sitemapItem['name'],
+            'name'               => $sitemapItem['name'],
             // CAP URL элемента карты сайта
-            'capurl'            => $sitemapItem['capurl'],
+            'capurl'             => $sitemapItem['capurl'],
             // родитель элемента карты сайта
-            'parent'            => $sitemapItem['parent'],
+            'parent'             => $sitemapItem['parent'],
             // массив всех элементов карты сайта для возможности выбора родителя
-            'sitemapItems'      => $sitemapItems,
+            'sitemapItems'       => $sitemapItems,
             // массив всех страниц сайта
-            'pages'             => $pages,
+            'pages'              => $pages,
             // массив категорий каталога верхнего уровня
-            'catalogCategories' => $catalogCategories,
+            'catalogCategories'  => $catalogCategories,
             // массив категорий блога
-            'blogCategories'    => $blogCategories,
+            'blogCategories'     => $blogCategories,
             // массив категорий типовых решений
-            'solutionsCategories' => $solutionsCategories,
+            'solutionCategories' => $solutionCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные данные
         // формы и массив сообщений об ошибках

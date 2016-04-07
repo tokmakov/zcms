@@ -106,7 +106,7 @@ abstract class Frontend_Controller extends Base_Controller {
     /**
      * экземпляр класса модели для работы с типовыми решениями
      */
-    protected $solutionsFrontendModel;
+    protected $solutionFrontendModel;
 
     /**
      * экземпляр класса модели для работы с пользователями
@@ -196,8 +196,8 @@ abstract class Frontend_Controller extends Base_Controller {
             isset($this->register->sitemapFrontendModel) ? $this->register->sitemapFrontendModel : new Sitemap_Frontend_Model();
 
         // экземпляр класса модели для работы с типовыми решениями
-        $this->solutionsFrontendModel =
-            isset($this->register->solutionsFrontendModel) ? $this->register->solutionsFrontendModel : new Solutions_Frontend_Model();
+        $this->solutionFrontendModel =
+            isset($this->register->solutionFrontendModel) ? $this->register->solutionFrontendModel : new Solution_Frontend_Model();
 
         // экземпляр класса модели для работы с пользователями
         $this->userFrontendModel =

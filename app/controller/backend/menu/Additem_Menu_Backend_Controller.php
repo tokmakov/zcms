@@ -56,7 +56,7 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
         $blogCategories = $this->menuBackendModel->getBlogCategories();
 
         // получаем массив всех категорий типовых решений
-        $solutionsCategories = $this->menuBackendModel->getSolutionsCategories();
+        $solutionCategories = $this->menuBackendModel->getSolutionCategories();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -75,7 +75,7 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
             // массив категорий блога
             'blogCategories'      => $blogCategories,
             // массив категорий типовых решений
-            'solutionsCategories' => $solutionsCategories,
+            'solutionCategories'  => $solutionCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addMenuItemForm')) {

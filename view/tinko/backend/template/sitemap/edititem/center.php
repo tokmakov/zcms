@@ -15,7 +15,7 @@
  * $pages - массив всех страниц сайта
  * $catalogCategories - массив категорий каталога верхнего уровня
  * $blogCategories - массив категорий блога
- * $solutionsCategories - массив категорий типовых решений
+ * $solutionCategories - массив категорий типовых решений
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
  * снова предъявить форму, заполненную уже отредактированными данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
@@ -108,11 +108,11 @@ defined('ZCMS') or die('Access denied');
                     </optgroup>
                 <?php endif; ?>
 
-                <?php if (!empty($solutionsCategories)): ?>
+                <?php if (!empty($solutionCategories)): ?>
                     <optgroup label="Типовые решения">
-                        <option value="frontend/solutions/index">Типовые решения</option>
-                        <?php foreach($solutionsCategories as $category) : ?>
-                            <option value="frontend/solutions/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
+                        <option value="frontend/solution/index">Типовые решения</option>
+                        <?php foreach($solutionCategories as $category) : ?>
+                            <option value="frontend/solution/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
@@ -121,6 +121,7 @@ defined('ZCMS') or die('Access denied');
                     <option value="frontend/sale/index">Распродажа</option>
                     <option value="frontend/rating/index">Рейтинг</option>
                     <option value="frontend/partner/index">Партнеры</option>
+                    <option value="frontend/vacancy/index">Вакансии</option>
                 </optgroup>
             </select>
         </div>

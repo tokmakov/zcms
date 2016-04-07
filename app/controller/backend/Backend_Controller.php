@@ -91,7 +91,7 @@ abstract class Backend_Controller extends Base_Controller {
     /**
      * экземпляр класса модели для работы с типовыми решениями
      */
-    protected $solutionsBackendModel;
+    protected $solutionBackendModel;
 
     /**
      * экземпляр класса модели для работы с главной страницей
@@ -175,8 +175,8 @@ abstract class Backend_Controller extends Base_Controller {
             isset($this->register->sitemapBackendModel) ? $this->register->sitemapBackendModel : new Sitemap_Backend_Model();
 
         // экземпляр класса модели для работы с типовыми решениями
-        $this->solutionsBackendModel =
-            isset($this->register->solutionsBackendModel) ? $this->register->solutionsBackendModel : new Solutions_Backend_Model();
+        $this->solutionBackendModel =
+            isset($this->register->solutionBackendModel) ? $this->register->solutionBackendModel : new Solution_Backend_Model();
 
         // экземпляр класса модели для работы с витриной
         $this->startBackendModel =
@@ -260,8 +260,12 @@ abstract class Backend_Controller extends Base_Controller {
                 'url'  => $this->partnerBackendModel->getURL('backend/partner/index')
             ),
             array(
+                'name' => 'Вакансии',
+                'url'  => $this->vacancyBackendModel->getURL('backend/vacancy/index')
+            ),
+            array(
                 'name' => 'Решения',
-                'url'  => $this->solutionsBackendModel->getURL('backend/solutions/index')
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/index')
             ),
             array(
                 'name' => 'Блог',
@@ -286,7 +290,11 @@ abstract class Backend_Controller extends Base_Controller {
             array(
                 'name' => 'Статьи',
                 'url'  => $this->articleBackendModel->getURL('backend/article/index')
-             ),
+            ),
+            array(
+                'name' => 'Карта',
+                'url'  => $this->sitemapBackendModel->getURL('backend/sitemap/index')
+            ),
             array(
                 'name' => 'Кэш',
                 'url' => $this->cacheBackendModel->getURL('backend/cache/index')

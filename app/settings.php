@@ -34,7 +34,7 @@ $settings = array(
             'keywords'    => 'каталог, оборудование, купить, цена, доставка, ОПС, видеонаблюдение, СКУД, домофон, оповещение, кабель, провод, пожаротушение',
             'description' => 'Каталог оборудования: охранно-пожарная сигнализация, охранное телевидение, контроль доступа, домофоны, средства оповещения, кабели и провода, системы пожаротушения.',
         ),
-        'solutions' => array( // значения по умолчанию для типовых решений
+        'solution' => array( // значения по умолчанию для типовых решений
             'title'       => 'Типовые решения. Торговый Дом ТИНКО',
             'keywords'    => 'типовые решения, проект, оборудование, комплект, технические средства безопасности, ОПС, видеонаблюдение, СКУД, оповещение, кабель, провод, пожаротушение',
             'description' => 'Типовые решения. Торговый Дом ТИНКО. Технические средства безопасности. Охранно-пожарная сигнализация, системы видеонаблюдения, системы контроля доступа, средства пожаротушения.',
@@ -130,12 +130,18 @@ $settings = array(
                 'tabs.css',
             ),
             'article'         => 'article.css',  // статьи
+            'basket-index'    => 'basket-index.css', // покупательская корзина
+            'basket-checkout' => array(          // оформление заказа
+                'basket-checkout.css',
+                'https://dadata.ru/static/css/lib/suggestions-16.1.css',
+                'suggestions.css',
+            ),
             'blog'            => array(          // блог
                 'blog.css',
                 'fancybox/jquery.fancybox.css',
             ),
             'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
-            'compare'   => array(         // сравнение товаров
+            'compare'   => array(                // сравнение товаров
                 'compare.css', 
                 'responsive-table.css',
                 'fancybox/jquery.fancybox.css',
@@ -146,22 +152,17 @@ $settings = array(
             ),
             'rating'          => 'rating.css',   // рейтинг продаж
             'sale'            => 'sale.css',     // распродажа
+            'solution'       => array(          // типовые решения
+                'solution.css',
+                'fancybox/jquery.fancybox.css',
+            ),
+            'sitemap'         => 'sitemap.css',  // карта сайта
             'user'            => array(          // личный кабинет
                 'user.css',
                 'https://dadata.ru/static/css/lib/suggestions-16.1.css',
                 'suggestions.css',
             ),
-            'solutions'       => array(          // типовые решения
-                'solutions.css',
-                'fancybox/jquery.fancybox.css',
-            ),
-            'basket-index'    => 'basket-index.css', // покупательская корзина
-            'basket-checkout' => array(              // оформление заказа
-                'basket-checkout.css',
-                'https://dadata.ru/static/css/lib/suggestions-16.1.css',
-                'suggestions.css',
-            ),
-            'sitemap'         => 'sitemap.css',  // карта сайта
+            'vacancy'         => 'vacancy.css',
             'page-40'         => array(          // для страницы «Контакты»
                 'tabs.css',
                 'page/contacts.css',
@@ -262,8 +263,8 @@ $settings = array(
             'rating'    => 'rating.css',
             'sale'      => 'sale.css',
             'sitemap'   => 'sitemap.css',
-            'solutions' => array (
-                'solutions.css',
+            'solution' => array (
+                'solution.css',
                 'tabs.css',
             ),
             'start'     => 'start.css',
@@ -314,8 +315,8 @@ $settings = array(
             ),
             'rating'     => 'rating.js',         // рейтинг лидеров продаж
             'sale'       => 'sale.js',           // распродажа
-            'solutions'  => array(               // типовые решения
-                'solutions.js',
+            'solution'  => array(               // типовые решения
+                'solution.js',
                 'fancybox/jquery.mousewheel-3.0.6.pack.js',
                 'fancybox/jquery.fancybox.pack.js',
                 'lightbox.js',
@@ -397,7 +398,7 @@ $settings = array(
             ),
             'rating'    => 'rating.js',
             'sitemap'   => 'sitemap.js',
-            'solutions' => 'solutions.js',
+            'solution'  => 'solution.js',
             'user'      => 'user.js',
             'vacancy'   => 'vacancy.js',
         ),
@@ -420,7 +421,7 @@ $settings = array(
                 'perpage'   => 5,                // заказов на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
             ),
-            'solutions' => array(
+            'solution'  => array(
                 'perpage'   => 5,                // типовых решений на страницу
                 'leftright' => 2,                // кол-во ссылок слева и справа
             ),

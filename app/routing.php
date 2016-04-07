@@ -796,22 +796,22 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          * типовые решения
          */
         // главная страница типовых решений
-        '~^frontend/solutions/index$~i' =>
+        '~^frontend/solution/index$~i' =>
         'solutions',
         // главная страница типовых решений, постраничная навигация
-        '~^frontend/solutions/index/page/(\d+)$~i' =>
+        '~^frontend/solution/index/page/(\d+)$~i' =>
         'solutions/page/$1',
         // отдельное типовое решение
-        '~^frontend/solutions/item/id/(\d+)$~i' =>
+        '~^frontend/solution/item/id/(\d+)$~i' =>
         'solutions/item/$1',
         // список типовых решений выбранной категории
-        '~^frontend/solutions/category/id/(\d+)$~i' =>
+        '~^frontend/solution/category/id/(\d+)$~i' =>
         'solutions/category/$1',
         // список типовых решений выбранной категории, постраничная навигация
-        '~^frontend/solutions/category/id/(\d+)/page/(\d+)$~i' =>
+        '~^frontend/solution/category/id/(\d+)/page/(\d+)$~i' =>
         'solutions/category/$1/page/$2',
         // добавление товаров типового решения в корзину
-        '~^frontend/solutions/basket/id/(\d+)$~i' =>
+        '~^frontend/solution/basket/id/(\d+)$~i' =>
         'solutions/basket/$1',
         
         /*
@@ -850,6 +850,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/partner/index$~i' =>
         'partners',
+
+        /*
+         * вакансии компании
+         */
+        '~^frontend/vacancy/index$~i' =>
+        'vacancies',
 
         /*
          * карта сайта
@@ -1897,22 +1903,22 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         // главная страница типовых решений
         '~^solutions$~i' =>
-        'frontend/solutions/index',
+        'frontend/solution/index',
         // главная страница типовых решений, постраничная навигация
         '~^solutions/page/(\d+)$~i' =>
-        'frontend/solutions/index/page/$1',
+        'frontend/solution/index/page/$1',
         // отдельное типовое решение
         '~^solutions/item/(\d+)$~i' =>
-        'frontend/solutions/item/id/$1',
+        'frontend/solution/item/id/$1',
         // список типовых решений выбранной категории
         '~^solutions/category/(\d+)$~i' =>
-        'frontend/solutions/category/id/$1',
+        'frontend/solution/category/id/$1',
         // список типовых решений выбранной категории, постраничная навигация
         '~^solutions/category/(\d+)/page/(\d+)$~i' =>
-        'frontend/solutions/category/id/$1/page/$2',
+        'frontend/solution/category/id/$1/page/$2',
         // добавление товаров типового решения в корзину
         '~^solutions/basket/(\d+)$~i' =>
-        'frontend/solutions/basket/id/$1',
+        'frontend/solution/basket/id/$1',
         
         /*
          * статьи
@@ -1950,6 +1956,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^partners$~i' =>
         'frontend/partner/index$1',
+
+        /*
+         * партнеры компании
+         */
+        '~^vacancies$~i' =>
+        'frontend/vacancy/index$1',
 
         /*
          * карта сайта

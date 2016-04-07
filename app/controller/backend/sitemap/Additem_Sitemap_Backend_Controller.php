@@ -63,7 +63,7 @@ class Additem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
         $blogCategories = $this->sitemapBackendModel->getBlogCategories();
 
         // получаем массив всех категорий типовых решений
-        $solutionsCategories = $this->sitemapBackendModel->getSolutionsCategories();
+        $solutionCategories = $this->sitemapBackendModel->getSolutionCategories();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -82,7 +82,7 @@ class Additem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
             // массив категорий блога
             'blogCategories'      => $blogCategories,
             // массив категорий типовых решений
-            'solutionsCategories' => $solutionsCategories,
+            'solutionCategories'  => $solutionCategories,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addSitemapItemForm')) {

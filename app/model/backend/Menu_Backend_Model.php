@@ -129,7 +129,7 @@ class Menu_Backend_Model extends Backend_Model {
      * Возвращает массив категорий типовых решений, для контроллеров,
      * отвечающих за добавление/редактирование пункта меню
      */
-    public function getSolutionsCategories() {
+    public function getSolutionCategories() {
         $query = "SELECT
                       `id`, `name`
                   FROM

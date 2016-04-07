@@ -136,3 +136,187 @@
 #5 D:\work\localhost2\www\index.php(43): Base_Controller->request()
 #6 {main}
 
+05.04.2016 13:41:42
+Код: 0, текст: Файл view/tinko/backend/resource/js/sitemap.js не найден
+Файл: C:\work\localhost2\www\app\controller\Base_Controller.php, строка: 413
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\Base_Controller.php(288): Base_Controller->setCssJsFiles('sitemap')
+#1 C:\work\localhost2\www\app\controller\Base_Controller.php(103): Base_Controller->setCssJsTemplateFiles()
+#2 C:\work\localhost2\www\app\controller\backend\Backend_Controller.php(216): Base_Controller->input()
+#3 C:\work\localhost2\www\app\controller\backend\sitemap\Sitemap_Backend_Controller.php(25): Backend_Controller->input()
+#4 C:\work\localhost2\www\app\controller\backend\sitemap\Index_Sitemap_Backend_Controller.php(25): Sitemap_Backend_Controller->input()
+#5 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Sitemap_Backend_Controller->input()
+#6 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+05.04.2016 16:42:25
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/solutions/index
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/soluti...')
+#1 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(47): Frontend_Model->getURL('frontend/soluti...')
+#2 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(18): Menu_Frontend_Model->menu()
+#3 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(265): Menu_Frontend_Model->getMenu()
+#4 C:\work\localhost2\www\app\controller\frontend\solution\Solution_Frontend_Controller.php(25): Frontend_Controller->input()
+#5 C:\work\localhost2\www\app\controller\frontend\solution\Item_Solution_Frontend_Controller.php(25): Solution_Frontend_Controller->input()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Item_Solution_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#8 {main}
+
+05.04.2016 16:42:31
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/solutions/index
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/soluti...')
+#1 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(47): Frontend_Model->getURL('frontend/soluti...')
+#2 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(18): Menu_Frontend_Model->menu()
+#3 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(265): Menu_Frontend_Model->getMenu()
+#4 C:\work\localhost2\www\app\controller\frontend\solution\Solution_Frontend_Controller.php(25): Frontend_Controller->input()
+#5 C:\work\localhost2\www\app\controller\frontend\solution\Item_Solution_Frontend_Controller.php(25): Solution_Frontend_Controller->input()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Item_Solution_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#8 {main}
+
+05.04.2016 16:42:35
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/solutions/index
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/soluti...')
+#1 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(47): Frontend_Model->getURL('frontend/soluti...')
+#2 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(18): Menu_Frontend_Model->menu()
+#3 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(265): Menu_Frontend_Model->getMenu()
+#4 C:\work\localhost2\www\app\controller\frontend\notfound\Index_Notfound_Frontend_Controller.php(31): Frontend_Controller->input()
+#5 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Notfound_Frontend_Controller->input()
+#6 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+05.04.2016 16:42:40
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/solutions/index
+Файл: C:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Frontend_Model.php(112): Frontend_Model->URL('frontend/soluti...')
+#1 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(47): Frontend_Model->getURL('frontend/soluti...')
+#2 C:\work\localhost2\www\app\model\frontend\Menu_Frontend_Model.php(18): Menu_Frontend_Model->menu()
+#3 C:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(265): Menu_Frontend_Model->getMenu()
+#4 C:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(23): Frontend_Controller->input()
+#5 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#6 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+
+05.04.2016 16:44:13
+Код: 0, текст: Объект с ключом Config::data[solution] не существует
+Файл: C:\work\localhost2\www\app\include\Config.php, строка: 55
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\controller\frontend\solution\Solution_Frontend_Controller.php(27): Config->__get('solution')
+#1 C:\work\localhost2\www\app\controller\frontend\solution\Index_Solution_Frontend_Controller.php(26): Solution_Frontend_Controller->input()
+#2 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Solution_Frontend_Controller->input()
+#3 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#4 {main}
+
+05.04.2016 16:47:02
+Код: 0, текст: Объект с ключом Config::data[solutions] не существует
+Файл: C:\work\localhost2\www\app\include\Config.php, строка: 55
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\model\frontend\Solution_Frontend_Model.php(48): Config->__get('solutions')
+#1 C:\work\localhost2\www\app\model\frontend\Solution_Frontend_Model.php(19): Solution_Frontend_Model->allSolutions(0)
+#2 C:\work\localhost2\www\app\controller\frontend\solution\Index_Solution_Frontend_Controller.php(66): Solution_Frontend_Model->getAllSolutions(0)
+#3 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Solution_Frontend_Controller->input()
+#4 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#5 {main}
+
+07.04.2016 14:57:45
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 154
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(944): Database->execute('UPDATE\r\n       ...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\solutions\Editprd_Solution_Backend_Controller.php(208): Solution_Backend_Model->updateSolutionProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Editprd_Solution_Backend_Controller.php(38): Editprd_Solution_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Editprd_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:31:04
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 226
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(226): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(201): Database->pdoFetch('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1096): Database->fetch('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Prdup_Solution_Backend_Controller.php(26): Solution_Backend_Model->moveProductUp(154)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Prdup_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:32:17
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 226
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(226): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(201): Database->pdoFetch('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1096): Database->fetch('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Prdup_Solution_Backend_Controller.php(26): Solution_Backend_Model->moveProductUp(153)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Prdup_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:32:28
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 226
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(226): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(201): Database->pdoFetch('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1096): Database->fetch('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Prdup_Solution_Backend_Controller.php(26): Solution_Backend_Model->moveProductUp(153)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Prdup_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:32:36
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 226
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(226): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(201): Database->pdoFetch('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1096): Database->fetch('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Prdup_Solution_Backend_Controller.php(26): Solution_Backend_Model->moveProductUp(146)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Prdup_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:33:51
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 226
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(226): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(201): Database->pdoFetch('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1096): Database->fetch('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Prdup_Solution_Backend_Controller.php(26): Solution_Backend_Model->moveProductUp(146)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Prdup_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 15:58:53
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 154
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(898): Database->execute('INSERT INTO `so...', Array)
+#2 C:\work\localhost2\www\app\controller\backend\solutions\Addprd_Solution_Backend_Controller.php(178): Solution_Backend_Model->addSolutionProduct(Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Addprd_Solution_Backend_Controller.php(38): Addprd_Solution_Backend_Controller->validateForm()
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Addprd_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+
+07.04.2016 16:02:23
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 188
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(188): PDOStatement->execute(Array)
+#1 C:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(1058): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\controller\backend\solutions\Rmvprd_Solution_Backend_Controller.php(28): Solution_Backend_Model->removeSolutionProduct(319)
+#4 C:\work\localhost2\www\app\controller\Base_Controller.php(140): Rmvprd_Solution_Backend_Controller->input()
+#5 C:\work\localhost2\www\index.php(43): Base_Controller->request()
+#6 {main}
+

@@ -126,7 +126,7 @@ class Sitemap_Backend_Model extends Backend_Model {
      * Возвращает массив категорий типовых решений, для контроллеров,
      * отвечающих за добавление/редактирование элемента карты сайта
      */
-    public function getSolutionsCategories() {
+    public function getSolutionCategories() {
         $query = "SELECT
                       `id`, `name`
                   FROM
