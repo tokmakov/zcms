@@ -148,16 +148,31 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (utf8_strlen($search) < 2) {
             return '';
         }
-        // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)
-        if (preg_match('#[a-zA-Zа-яА-ЯёЁ]{2,}\d{2,}#u', $search)) {
-            preg_match_all('#[a-zA-Zа-яА-ЯёЁ]{2,}\d{2,}#u', $search, $temp1);
-            $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]{2,})(\d{2,})#u', '$1 $2', $search );
+        // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200)
+        if (preg_match('#[a-zA-Zа-яА-ЯёЁ]{2,}\d+#u', $search)) {
+            preg_match_all('#[a-zA-Zа-яА-ЯёЁ]{2,}\d+#u', $search, $temp1);
+            $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]{2,})(\d+)#u', '$1 $2', $search);
         }
-        if (preg_match('#\d{2,}[a-zA-Zа-яА-ЯёЁ]{2,}#u', $search)) {
-            preg_match_all('#\d{2,}[a-zA-Zа-яА-ЯёЁ]{2,}#u', $search, $temp2);
-            $search = preg_replace( '#(\d{2,})([a-zA-Zа-яА-ЯёЁ]{2,})#u', '$1 $2', $search );
+        if (preg_match('#[a-zA-Zа-яА-ЯёЁ]+\d{2,}#u', $search)) {
+            preg_match_all('#[a-zA-Zа-яА-ЯёЁ]+\d{2,}#u', $search, $temp2);
+            $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]+)(\d{2,})#u', '$1 $2', $search);
         }
-        $matches = array_merge(isset($temp1[0]) ? $temp1[0] : array(), isset($temp2[0]) ? $temp2[0] : array());
+        if (preg_match('#\d{2,}[a-zA-Zа-яА-ЯёЁ]+#u', $search)) {
+            preg_match_all('#\d{2,}[a-zA-Zа-яА-ЯёЁ]+#u', $search, $temp3);
+            $search = preg_replace('#(\d{2,})([a-zA-Zа-яА-ЯёЁ]+)#u', '$1 $2', $search);
+        }
+        if (preg_match('#\d+[a-zA-Zа-яА-ЯёЁ]{2,}#u', $search)) {
+            preg_match_all('#\d+[a-zA-Zа-яА-ЯёЁ]{2,}#u', $search, $temp4);
+            $search = preg_replace('#(\d+)([a-zA-Zа-яА-ЯёЁ]{2,})#u', '$1 $2', $search);
+        }
+        // этот массив будет использован чуть ниже: если в результатах поиска
+        // будут не только ABC и 123 по отдельности, но и ABC123 целиком
+        $matches = array_merge(
+            isset($temp1[0]) ? $temp1[0] : array(),
+            isset($temp2[0]) ? $temp2[0] : array(),
+            isset($temp3[0]) ? $temp3[0] : array(),
+            isset($temp4[0]) ? $temp4[0] : array()
+        );
 
         $words = explode(' ', $search);
         $query = "SELECT
@@ -205,7 +220,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         for ($i = 1; $i < count($words); $i++) {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i-1].".?".$words[$i]."', 0.1, 0 )";
         }
-        // если мы разделяли строку ABC123 на ABC и 123
+        // если мы разделяли строку ABC123 на ABC и 123, и при этом `name` содержит
+        // ABC123 целиком, мы учитываем это, увеличивая релевантность этого товара
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
                 $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.1, 0 )";
@@ -245,7 +261,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." + IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1].".?".$words[$i]."', 0.1, 0 )";
             $query = $query." - IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1].".?".$words[$i]."' AND LOWER(`a`.`name`) REGEXP '".$words[$i-1].".?".$words[$i]."', 0.1, 0  )";
         }
-        // если мы разделяли строку ABC123 на ABC и 123
+        // если мы разделяли строку ABC123 на ABC и 123, и при этом `title` содержит
+        // ABC123 целиком, мы учитываем это, увеличивая релевантность этого товара
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
                 $query = $query." + IF( `a`.`title` LIKE '%".$item."%', 0.1, 0 )";
@@ -285,8 +302,6 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $prd_code = 1.0; // коэффициент веса для `code`
         $codes = array();
         foreach($words as $word) {
-            if (preg_match('#^\d{4}$#', $word)) $codes[] = '00'.$word;
-            if (preg_match('#^\d{5}$#', $word)) $codes[] = '0'.$word;
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
         if (count($codes) > 0) {
@@ -316,11 +331,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         for ($i = 0; $i < count($words); $i++) {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
-        if (count($codes) > 0) {
-            $query = $query." OR `a`.`code`='".$codes[0]."'";
-            for ($i = 1; $i < count( $codes ); $i++) {
-              $query = $query." OR `a`.`code`='".$codes[$i]."'";
-            }
+        for ($i = 0; $i < count( $codes ); $i++) {
+            $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
         $query = $query." ORDER BY `relevance` DESC, LENGTH(`a`.`name`), `a`.`name`";
