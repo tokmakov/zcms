@@ -34,13 +34,8 @@ abstract class Frontend_Controller extends Base_Controller {
 
 
     /*
-     * Все модели, которые нужны для работы
+     * Модели, которые нужны для работы всех страниц сайта
      */
-
-    /**
-     * экземпляр класса модели для работы со статьями
-     */
-    protected $articleFrontendModel;
 
     /**
      * экземпляр класса модели для работы с баннерами
@@ -51,11 +46,6 @@ abstract class Frontend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с корзиной
      */
     protected $basketFrontendModel;
-
-    /**
-     * экземпляр класса модели для работы с блогом
-     */
-    protected $blogFrontendModel;
 
     /**
      * экземпляры классов моделей для работы с каталогом товаров
@@ -92,11 +82,6 @@ abstract class Frontend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с рейтингом продаж
      */
     protected $ratingFrontendModel;
-
-    /**
-     * экземпляр класса модели для работы с товарами по сниженным ценам
-     */
-    protected $saleFrontendModel;
 
     /**
      * экземпляр класса модели для работы с картой сайта
@@ -136,20 +121,12 @@ abstract class Frontend_Controller extends Base_Controller {
          */
 
         // экземпляр класса модели для работы с баннерами
-        $this->articleFrontendModel =
-            isset($this->register->articleFrontendModel) ? $this->register->articleFrontendModel : new Article_Frontend_Model();
-
-        // экземпляр класса модели для работы с баннерами
         $this->bannerFrontendModel =
             isset($this->register->bannerFrontendModel) ? $this->register->bannerFrontendModel : new Banner_Frontend_Model();
 
         // экземпляр класса модели для работы с корзиной
         $this->basketFrontendModel =
             isset($this->register->basketFrontendModel) ? $this->register->basketFrontendModel : new Basket_Frontend_Model();
-
-        // экземпляр класса модели для работы с блогом
-        $this->blogFrontendModel =
-            isset($this->register->blogFrontendModel) ? $this->register->blogFrontendModel : new Blog_Frontend_Model();
 
         // экземпляры классов моделей для работы с каталогом товаров
         $this->indexCatalogFrontendModel =
@@ -182,14 +159,6 @@ abstract class Frontend_Controller extends Base_Controller {
         // экземпляр класса модели для работы со страницами сайта
         $this->pageFrontendModel =
             isset($this->register->pageFrontendModel) ? $this->register->pageFrontendModel : new Page_Frontend_Model();
-            
-        // экземпляр класса модели для работы с рейтингом продаж
-        $this->ratingFrontendModel =
-            isset($this->register->ratingFrontendModel) ? $this->register->ratingFrontendModel : new Rating_Frontend_Model();
-
-        // экземпляр класса модели для работы со страницами сайта
-        $this->saleFrontendModel =
-            isset($this->register->saleFrontendModel) ? $this->register->saleFrontendModel : new Sale_Frontend_Model();
 
         // экземпляр класса модели для работы с картой сайта
         $this->sitemapFrontendModel =

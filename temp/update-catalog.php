@@ -13,11 +13,10 @@ chdir('..');
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
-// правила маршрутизации
-require 'app/routing.php';
 // настройки приложения
-require 'app/settings.php';
-Config::init($settings);
+require 'app/config/config.php';
+Config::init($config);
+unset($config);
 // реестр, для хранения всех объектов приложения
 $register = Register::getInstance();
 // сохраняем в реестре настройки, чтобы везде иметь к ним доступ

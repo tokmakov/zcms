@@ -13,16 +13,15 @@ chdir('..');
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
-// правила маршрутизации
-require 'app/routing.php';
 // настройки приложения
-require 'app/settings.php';
-Config::init($settings);
-$config = Config::getInstance();
+require 'app/config/config.php';
+Config::init($config);
+unset($config);
+
 /*
  * отмечаем, что приложение запущено из командной строки с целью формирования кэша
  */
-$config->cache->make = true;
+Config::getInstance()->cache->make = true;
 // реестр
 $register = Register::getInstance();
 // кэширование данных

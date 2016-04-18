@@ -19,12 +19,11 @@ session_start();
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
-// правила маршрутизации
-require 'app/routing.php';
 // настройки приложения
-require 'app/settings.php';
+require 'app/config/config.php';
 // инициализация настроек
-Config::init($settings);
+Config::init($config);
+unset($config);
 
 try {
     // экземпляр класса роутера

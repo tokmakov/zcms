@@ -1,0 +1,13 @@
+15.04.2016 15:09:56
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') + 0.5*( IF( `c`.`name` LIKE '%ш%', 0.1, 0 ) - IF( (`c`.`name` LIKE '%ш%' AND' at line 17
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 186
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(186): PDO->prepare('SELECT\r\n       ...')
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, true)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Search_Catalog_Frontend_Model.php(59): Database->fetchAll('SELECT\r\n       ...', Array, false, true)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Search_Catalog_Frontend_Model.php(29): Search_Catalog_Frontend_Model->searchResults('\xD0\xA82', 0, false)
+#4 D:\work\localhost2\www\app\controller\frontend\catalog\Search_Catalog_Frontend_Controller.php(100): Search_Catalog_Frontend_Model->getSearchResults('\xD0\xA82', 0, false)
+#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Search_Catalog_Frontend_Controller->input()
+#6 D:\work\localhost2\www\index.php(43): Base_Controller->request()
+#7 {main}
+

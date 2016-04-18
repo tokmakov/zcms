@@ -4,7 +4,7 @@
  * ценам, получает данные от модели Sale_Frontend_Model, общедоступная часть
  * сайта
  */
-class Index_Sale_Frontend_Controller extends Frontend_Controller {
+class Index_Sale_Frontend_Controller extends Sale_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -17,15 +17,13 @@ class Index_Sale_Frontend_Controller extends Frontend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
-         * установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * сначала обращаемся к родительскому классу Sale_Frontend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Index_Sale_Frontend_Controller
          */
         parent::input();
-        
-        $this->title = 'Распродажа. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/sale/index');

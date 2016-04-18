@@ -1,12 +1,12 @@
 <?php
 /**
- * Абстрактный класс Article_Frontend_Controller, родительский для всех
- * контроллеров, работающих со статьями, общедоступная часть сайта
+ * Абстрактный класс Rating_Frontend_Controller, родительский для всех
+ * контроллеров, работающих с рейтингом продаж, общедоступная часть сайта
  */
-abstract class Article_Frontend_Controller extends Frontend_Controller {
+abstract class Rating_Frontend_Controller extends Frontend_Controller {
     
     /**
-     * экземпляр класса модели для работы со статьями
+     * экземпляр класса модели для работы с рей
      */
     protected $articleFrontendModel;
 
@@ -16,7 +16,7 @@ abstract class Article_Frontend_Controller extends Frontend_Controller {
 
     /**
      * Функция получает от моделей и из настроек данные, необходимые для
-     * работы всех потомков класса Article_Frontend_Controller
+     * работы всех потомков класса Rating_Frontend_Controller
      */
     protected function input() {
 
@@ -25,18 +25,18 @@ abstract class Article_Frontend_Controller extends Frontend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы всех
-         * потомков Article_Frontend_Controller
+         * потомков Rating_Frontend_Controller
          */
         parent::input();
         
-        // экземпляр класса модели для работы со статьями
-        $this->articleFrontendModel =
-            isset($this->register->articleFrontendModel) ? $this->register->articleFrontendModel : new Article_Frontend_Model();
+        // экземпляр класса модели для работы с рейтингом продаж
+        $this->ratingFrontendModel =
+            isset($this->register->ratingFrontendModel) ? $this->register->ratingFrontendModel : new Rating_Frontend_Model();
 
         // получаем из настроек значения для мета-тегов
-        $this->title = $this->config->meta->article->title;
-        $this->keywords = $this->config->meta->article->keywords;
-        $this->description = $this->config->meta->article->description;
+        $this->title = $this->config->meta->rating->title;
+        $this->keywords = $this->config->meta->rating->keywords;
+        $this->description = $this->config->meta->rating->description;
 
     }
 

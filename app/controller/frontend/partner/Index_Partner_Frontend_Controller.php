@@ -23,8 +23,6 @@ class Index_Partner_Frontend_Controller extends Partner_Frontend_Controller {
          * Index_Partner_Frontend_Controller
          */
         parent::input();
-        
-        $this->title = 'Партнерские сертификаты. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/partner/index');

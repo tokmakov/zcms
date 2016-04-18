@@ -6,7 +6,7 @@ set_include_path($includePath);
 function getIncludePath($dir, &$includePath) {
     $files = scandir($dir);
     foreach ($files as $file) {
-        if ($file == '.' || $file == '..') {
+        if ($file == '.' || $file == '..' || $file == 'config') {
             continue;
         }
         if (is_dir($dir . '/' . $file)) {

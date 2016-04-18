@@ -4,7 +4,7 @@
  * рейтинга продаж, получает данные от модели Rating_Frontend_Model,
  * общедоступная часть сайта
  */
-class Index_Rating_Frontend_Controller extends Frontend_Controller {
+class Index_Rating_Frontend_Controller extends Rating_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -17,15 +17,13 @@ class Index_Rating_Frontend_Controller extends Frontend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
-         * установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Rating_Frontend_Controller
+         * сначала обращаемся к родительскому классу Rating_Frontend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Index_Rating_Frontend_Controller
          */
         parent::input();
-        
-        $this->title = 'Рейтинг. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/rating/index');
