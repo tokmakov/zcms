@@ -1,6 +1,7 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
+// см. файл app/config/config.php
 $cdn = array(                           // Content Delivery Network
     'enable' => array(
         'js'     => false,              // js-файлы

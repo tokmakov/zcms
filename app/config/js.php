@@ -1,8 +1,9 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
-$js = array(                                 // js-файлы, подключаемые к странице
-    'frontend' => array(                     // общедоступная часть сайта
+// см. файл app/config/config.php
+$js = array(                                     // js-файлы, подключаемые к странице
+    'frontend' => array(                         // общедоступная часть сайта
         'base'            => array(
             'jquery-2.1.1.min.js',
             'jquery.cookie.js',
@@ -10,52 +11,52 @@ $js = array(                                 // js-файлы, подключа�
             'center.js',
             'common.js',
         ),
-        'index'           => array(          // главная страница сайта
+        'index'           => array(              // главная страница сайта
             'jquery.bxslider.min.js',
             'index.js',
             'tabs.js',
         ),
-        'basket-index'    => 'basket-index.js',    // корзина
-        'basket-checkout' => array(          // оформление заказа
+        'basket-index'    => 'basket-index.js',  // корзина
+        'basket-checkout' => array(              // оформление заказа
             'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
             'basket-checkout.js',
         ),
-        'blog' => array(                     // блог
+        'blog' => array(                         // блог
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'catalog' => array(                  // каталог товаров
+        'catalog' => array(                      // каталог товаров
             'reload.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'compare'    => array(               // сравнение товаров
+        'compare'    => array(                   // сравнение товаров
             'compare.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'partner'    => array(               // партнеры компании
+        'partner'    => array(                   // партнеры компании
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'rating'     => 'rating.js',         // рейтинг лидеров продаж
-        'sale'       => 'sale.js',           // распродажа
-        'solution'  => array(               // типовые решения
+        'rating'     => 'rating.js',             // рейтинг лидеров продаж
+        'sale'       => 'sale.js',               // распродажа
+        'solution'  => array(                    // типовые решения
             'solution.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'user'            => array(          // личный кабинет
+        'user'            => array(              // личный кабинет
             'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
             'user.js',
         ), 
-        'wished'          => 'wished.js',    // избранное (отложенные товары)
-        'page-40'         => array(          // для страницы «Контакты»
+        'wished'          => 'wished.js',        // избранное (отложенные товары)
+        'page-40'         => array(              // для страницы «Контакты»
             'tabs.js',
             'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
             'page/offices-map.js',
@@ -63,26 +64,26 @@ $js = array(                                 // js-файлы, подключа�
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js'
         ),
-        'page-39'         => array(          // для страницы «О компании»
+        'page-39'         => array(              // для страницы «О компании»
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'page-41'         => array(          // для страницы «Доставка»
+        'page-41'         => array(              // для страницы «Доставка»
             'tabs.js',
             'http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU',
             'page/offices-map-route.js',
             'page/delivery-map.js',
         ),
-        'page-51'         => array(          // для страницы «Партнеры»
+        'page-51'         => array(              // для страницы «Партнеры»
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'page-52'         => array(          // для страницы «Библиотека»
+        'page-52'         => array(              // для страницы «Библиотека»
             'page/library.js',
         ),
-        'page-55'         => array(          // для страницы «Новый сайт»
+        'page-55'         => array(              // для страницы «Новый сайт»
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
@@ -102,7 +103,7 @@ $js = array(                                 // js-файлы, подключа�
          * ),
          */
     ),
-    'backend' => array(                      // административная часть сайта
+    'backend' => array(                          // административная часть сайта
         'base'      => array(
             'jquery-2.1.1.min.js',
             'common.js',

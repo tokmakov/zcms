@@ -1,6 +1,7 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
+// см. файл app/config/config.php
 $cache = array(
     'enable' => array(
         'data' => false,                     // кэширование данных разрешено?
