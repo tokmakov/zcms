@@ -16,13 +16,96 @@
  * $action - атрибут action тега form для добавления товаров в корзину
  *
  * $units = Array (
- *   0 => 'руб',
- *   1 => 'руб/шт',
- *   2 => 'руб/компл',
- *   3 => 'руб/упак',
- *   4 => 'руб/метр',
- *   5 => 'руб/пара'
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара'
  * );
+ * 
+ * $products = Array (
+ *   [0] => Array (
+ *     [id] => 3
+ *     [name] => Объектовое оборудование
+ *     [amount] => 11027.25
+ *     [products] => Array (
+ *       [0] => Array (
+ *         [id] => 225676
+ *         [code] => 225676
+ *         [name] => RS-200TP-RB
+ *         [title] => Прибор объектовый со встроенным радиопередатчиком
+ *         [shortdescr] => Объект.радиоканал.прибор системы Риф Стринг-200 433.92МГц...
+ *         [price] => 5510.00
+ *         [unit] => 1
+ *         [count] => 1
+ *         [cost] => 5510.00
+ *         [note] => 0
+ *         [sortorder] => 1
+ *         [empty] => 0
+ *         [url] => http://www.host.ru/catalog/product/225676
+ *       )
+ *       [1] => Array (
+ *         [id] => 224210
+ *         [code] => 224210
+ *         [name] => Риф-КТМ-N
+ *         [title] => Клавиатура кодовая
+ *         [shortdescr] => Клавиатура без подсветки, питание по шлейфу ТМ, I-потр. до 400 мкА...
+ *         [price] => 1240.00
+ *         [unit] => 1
+ *         [count] => 1
+ *         [cost] => 1240.00
+ *         [note] => 0
+ *         [sortorder] => 2
+ *         [empty] => 0
+ *         [url] => http://www.host.ru/catalog/product/224210
+ *       )
+ *       [2] => Array (
+ *         ..........
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 4
+ *     [name] => Пультовое оборудование
+ *     [amount] => 21132.81
+ *     [products] => Array (
+ *       [0] => Array (
+ *         [id] => 206633
+ *         [code] => 206633
+ *         [name] => RS-200PN
+ *         [title] => Пульт централизованного наблюдения
+ *         [shortdescr] => ПЦН, 300 объектов, работа с передатчиками систем RR-701, RS-200...
+ *         [price] => 16000.00
+ *         [unit] => 1
+ *         [count] => 1
+ *         [cost] => 16000.00
+ *         [note] => 0
+ *         [sortorder] => 1
+ *         [empty] => 0
+ *         [url] => http://www.host.ru/catalog/product/206633
+ *       )
+ *       [1] => Array (
+ *         [id] => 20124
+ *         [code] => 020124
+ *         [name] => RS-200RD
+ *         [title] => Устройство радиоприемное
+ *         [shortdescr] => Приемник внешний для ПЦН RS-200P и внешней антенны...
+ *         [price] => 2970.00
+ *         [unit] => 1
+ *         [count] => 1
+ *         [cost] => 2970.00
+ *         [note] => 0
+ *         [sortorder] => 2
+ *         [empty] => 0
+ *         [url] => http://www.host.ru/catalog/product/20124
+ *       )
+ *       [2] => Array (
+ *         ..........
+ *       )
+ *     )
+ *   )
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -69,14 +152,16 @@ defined('ZCMS') or die('Access denied');
                 <th>Наименование</th>
                 <th>Кол.</th>
                 <th>Цена</th>
-                <th>Стоим.</th>
                 <th>Ед.изм.</th>
+                <th>Стоим.</th>
             </tr>
             <?php $amount = 0.0; ?>
             <?php foreach($products as $value) : ?>
-                <tr>
-                    <th colspan="7"><?php echo $value['name']; ?></th>
-                </tr>
+                <?php if (isset($products[1])): /* если групп товаров в типовом решении больше одной */ ?>
+                    <tr>
+                        <th colspan="7"><?php echo $value['name']; ?></th>
+                    </tr>
+                <?php endif; ?>
                 <?php foreach ($value['products'] as $item): ?>
                     <tr>
                         <td><?php echo $item['sortorder']; ?></td>
@@ -94,8 +179,8 @@ defined('ZCMS') or die('Access denied');
                         </td>
                         <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
                         <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                        <td><?php echo $units[$item['unit']]; ?></td>
                         <td><i class="fa fa-rub"></i>/<?php echo $units[$item['unit']]; ?></td>
+                        <td><?php echo number_format($item['cost'], 2, '.', ''); ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>

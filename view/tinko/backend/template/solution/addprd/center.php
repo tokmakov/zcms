@@ -41,7 +41,6 @@ defined('ZCMS') or die('Access denied');
 
 <?php
     $group      = 1;
-    $heading    = '';
     $code       = '';
     $name       = '';
     $title      = '';
@@ -52,7 +51,6 @@ defined('ZCMS') or die('Access denied');
     $note       = 0;
 
     if (isset($savedFormData)) {
-        $heading    = htmlspecialchars($savedFormData['heading']);
         $code       = htmlspecialchars($savedFormData['code']);
         $name       = htmlspecialchars($savedFormData['name']);
         $title      = htmlspecialchars($savedFormData['title']);
@@ -66,10 +64,6 @@ defined('ZCMS') or die('Access denied');
 
 <form action="<?php echo $action; ?>" method="post">
 <div id="add-edit-product">
-    <div>
-        <div>Заголовок</div>
-        <div><input type="text" name="heading" maxlength="250" value="<?php echo $heading; ?>" /></div>
-    </div>
     <div>
         <div>Код (артикул)</div>
         <div><input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" /> <span id="load-by-code">Загрузить товар</span></div>

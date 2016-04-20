@@ -561,7 +561,6 @@ class Solution_Backend_Model extends Backend_Model {
 
     /**
      * Функция обновляет типовое решение
-     * TODO: а файлы?
      */
     public function updateSolution($data) {
 
@@ -602,7 +601,6 @@ class Solution_Backend_Model extends Backend_Model {
                       CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
                       `a`.`unit` AS `unit`,
                       `a`.`count` AS `count`,
-                      `a`.`heading` AS `heading`,
                       `a`.`note` AS `note`,
                       `a`.`sortorder` AS `sortorder`,
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
@@ -645,7 +643,6 @@ class Solution_Backend_Model extends Backend_Model {
                 'unit'      => $value['unit'],
                 'count'     => $value['count'],
                 'cost'      => $cost,
-                'heading'   => $value['heading'],
                 'note'      => $value['note'],
                 'sortorder' => $value['sortorder'],
                 'empty'     => $value['empty'],
@@ -812,7 +809,7 @@ class Solution_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция возвращает идентификатор категории для типового решения
+     * Функция возвращает идентификатор категории типового решения
      * с уникальным идентификатором $id
      */
     public function getSolutionCategory($id) {
@@ -886,7 +883,6 @@ class Solution_Backend_Model extends Backend_Model {
                       `count`,
                       `price`,
                       `unit`,
-                      `heading`,
                       `note`,
                       `sortorder`
                   )
@@ -902,7 +898,6 @@ class Solution_Backend_Model extends Backend_Model {
                       :count,
                       :price,
                       :unit,
-                      :heading,
                       :note,
                       :sortorder
                   )";
@@ -917,7 +912,7 @@ class Solution_Backend_Model extends Backend_Model {
     public function getSolutionProduct($id) {
         $query = "SELECT
                       `group`, `code`, `name`, `title`, `shortdescr`,
-                      `count`, `price`, `unit`, `heading`, `note`
+                      `count`, `price`, `unit`, `note`
                   FROM
                       `solutions_products`
                   WHERE
@@ -926,7 +921,7 @@ class Solution_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет товар
+     * Функция обновляет товар типового решения
      */
     public function updateSolutionProduct($data) {
 
@@ -1024,7 +1019,6 @@ class Solution_Backend_Model extends Backend_Model {
                       `count`      = :count,
                       `price`      = :price,
                       `unit`       = :unit,
-                      `heading`    = :heading,
                       `note`       = :note
                   WHERE
                       `id` = :id";

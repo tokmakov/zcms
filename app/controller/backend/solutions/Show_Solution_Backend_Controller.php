@@ -35,7 +35,7 @@ class Show_Solution_Backend_Controller extends Solution_Backend_Controller {
 
         // получаем от модели информацию о типовом решении
         $name = $this->solutionBackendModel->getSolutionName($this->params['id']);
-        // если запрошеннОе типовое решение не найдено в БД
+        // если запрошенное типовое решение не найдено в БД
         if (empty($name)) {
             $this->notFoundRecord = true;
             return;
@@ -43,6 +43,10 @@ class Show_Solution_Backend_Controller extends Solution_Backend_Controller {
 
         $this->title = $name . '. ' . $this->title;
 
+        // получаем от модели идентификатор и наименование категории типового решения
+        $category = $this->solutionBackendModel->getSolutionCategory($this->params['id']);
+        $categoryName = $this->solutionBackendModel->getCategoryName($category);
+        
         // формируем хлебные крошки
         $breadcrumbs = array(
             array(
@@ -55,7 +59,11 @@ class Show_Solution_Backend_Controller extends Solution_Backend_Controller {
             ),
             array(
                 'name' => 'Категории',
-                'url' => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+            ),
+            array(
+                'name' => $categoryName,
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/category/id/' . $category)
             ),
         );
 

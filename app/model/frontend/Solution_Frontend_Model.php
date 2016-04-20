@@ -263,7 +263,6 @@ class Solution_Frontend_Model extends Frontend_Model {
                       CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
                       `a`.`unit` AS `unit`,
                       `a`.`count` AS `count`,
-                      `a`.`heading` AS `heading`,
                       `a`.`note` AS `note`,
                       `a`.`sortorder` AS `sortorder`,
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
@@ -307,11 +306,10 @@ class Solution_Frontend_Model extends Frontend_Model {
                 'unit'       => $value['unit'],
                 'count'      => $value['count'],
                 'cost'       => $cost,
-                'heading'    => $value['heading'],
                 'note'       => $value['note'],
                 'sortorder'  => $value['sortorder'],
                 'empty'      => $value['empty'],
-                'url'        => $this->getURL('frontend/catalog/product/id/' . $value['id'])
+                'url'        => $value['empty'] ? null : $this->getURL('frontend/catalog/product/id/' . $value['id'])
             );
         }
         $products[$counter]['amount'] = $amount;

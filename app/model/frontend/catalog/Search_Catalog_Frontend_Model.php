@@ -77,8 +77,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     $result[$key]['ctg_name'],
                     $result[$key]['mkr_id'],
                     $result[$key]['mkr_id'],
-                    $result[$key]['ctg_name'],
-                    $result[$key]['relevance']
+                    $result[$key]['ctg_name']
+                    /*$result[$key]['relevance']*/
                 );
             } else { // для страницы поиска
                 // URL ссылки на страницу товара
@@ -142,6 +142,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает SQL-запрос для поиска по каталогу
      */
     protected function getSearchQuery($search) {
+
         if (empty($search)) {
             return '';
         }
@@ -149,8 +150,15 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return '';
         }
         // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200)
-        $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]+)(\d+)#u', '$1 $2', $search);
-        $search = preg_replace('#(\d+)([a-zA-Zа-яА-ЯёЁ]+)#u', '$1 $2', $search);
+        if (preg_match('#[a-zA-Zа-яА-ЯёЁ]+\d+#u', $search)) {
+            preg_match_all('#[a-zA-Zа-яА-ЯёЁ]+\d+#u', $search, $temp1);
+            $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]+)(\d+)#u', '$1 $2', $search);
+        }
+        if (preg_match('#\d+[a-zA-Zа-яА-ЯёЁ]+#u', $search)) {
+            preg_match_all('#\d+[a-zA-Zа-яА-ЯёЁ]+#u', $search, $temp2);
+            $search = preg_replace('#(\d+)([a-zA-Zа-яА-ЯёЁ]+)#u', '$1 $2', $search);
+        }
+        $matches = array_merge(isset($temp1[0]) ? $temp1[0] : array(), isset($temp2[0]) ? $temp2[0] : array());
 
         $words = explode(' ', $search);
         $query = "SELECT
@@ -173,6 +181,9 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', 0.1, 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."', 0.05, 0 )";
 
+        /*
+         * Расчет релевантности для торгового наименования, например «ИП-212»
+         */
         $prd_name = 1.0; // коэффициент веса для `name`
         $length = utf8_strlen($words[0]);
         $weight = 0.5;
@@ -196,10 +207,19 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         // если слова расположены рядом и в нужном порядке
         for ($i = 1; $i < count($words); $i++) {
-            $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i-1]."[-[:blank:]]*".$words[$i]."', 0.1, 0 )";
+            $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i-1]."[^a-zA-Zа-яА-ЯёЁ]?".$words[$i]."', 0.1, 0 )";
+        }
+        // если мы разделяли строку ABC123 на ABC и 123
+        if ( ! empty($matches)) {
+            foreach ($matches as $item) {
+                $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.05, 0 )";
+            }
         }
         $query = $query." )";
 
+        /*
+         * Расчет релевантности для функционального наименования, например «Извещатель пожарный дымовой»
+         */
         $prd_title = 0.5; // коэффициент веса для `title`
         $length = utf8_strlen($words[0]);
         $weight = 0.5;
@@ -229,11 +249,20 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         // если слова расположены рядом и в нужном порядке
         for ($i = 1; $i < count($words); $i++) {
-            $query = $query." + IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1]."[-[:blank:]]*".$words[$i]."', 0.1, 0 )";
-            $query = $query." - IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1]."[-[:blank:]]*".$words[$i]."' AND LOWER(`a`.`name`) REGEXP '".$words[$i-1]."[-[:blank:]]*".$words[$i]."', 0.1, 0 )";
+            $query = $query." + IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1]."[^a-zA-Zа-яА-ЯёЁ]?".$words[$i]."', 0.1, 0 )";
+            $query = $query." - IF( LOWER(`a`.`title`) REGEXP '".$words[$i-1]."[^a-zA-Zа-яА-ЯёЁ]?".$words[$i]."' AND LOWER(`a`.`name`) REGEXP '".$words[$i-1]."[^a-zA-Zа-яА-ЯёЁ]?".$words[$i]."', 0.1, 0 )";
+        }
+        // если мы разделяли строку ABC123 на ABC и 123
+        if ( ! empty($matches)) {
+            foreach ($matches as $item) {
+                $query = $query." + IF( `a`.`title` LIKE '%".$item."%', 0.05, 0 )";
+            }
         }
         $query = $query." )";
 
+        /*
+         * Расчет релевантности для наименования производителя, например «Аргус-Спектр»
+         */
         $prd_maker = 0.5; // коэффициент веса для `mkr_name`
         $length = utf8_strlen($words[0]);
         $weight = 0.5;
@@ -262,7 +291,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." - IF( (LOWER(`c`.`name`) REGEXP '".$words[$i]."[[:>:]]' AND LOWER(`a`.`name`) REGEXP '".$words[$i]."[[:>:]]') OR (LOWER(`c`.`name`) REGEXP '".$words[$i]."[[:>:]]' AND LOWER(`a`.`title`) REGEXP '".$words[$i]."[[:>:]]'), 0.05, 0 )";
         }
         $query = $query." )";
-
+        
+        /*
+         * Расчет релевантности для артикула (кода) товара, например «001001»
+         */
         $prd_code = 1.0; // коэффициент веса для `code`
         $codes = array();
         foreach($words as $word) {
@@ -285,23 +317,32 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                               INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                           WHERE (";
 
+        /*
+         * Условие WHERE SQL-запроса
+         */
         $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
-        for ($i = 1; $i < count($words); $i++) {
+        $count = count($words);
+        for ($i = 1; $i < $count; $i++) {
             $query = $query." OR `a`.`name` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($words); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`title` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($words); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count( $codes ); $i++) {
+        for ($i = 0; $i < count($codes); $i++) {
             $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
+        
+        /*
+         * Сортировка результатов SQL-запроса
+         */
         $query = $query." ORDER BY `relevance` DESC, CHAR_LENGTH(`a`.`name`), `a`.`name`";
 
         return $query;
+
     }
 
     /**
@@ -315,8 +356,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return '';
         }
         // небольшок хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)
-        $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]{2,})(\d{2,})#u', '$1 $2', $search );
-        $search = preg_replace( '#(\d{2,})([a-zA-Zа-яА-ЯёЁ]{2,})#u', '$1 $2', $search );
+        $search = preg_replace('#([a-zA-Zа-яА-ЯёЁ]+)(\d+)#u', '$1 $2', $search);
+        $search = preg_replace('#(\d+)([a-zA-Zа-яА-ЯёЁ]+)#u', '$1 $2', $search);
 
         $words = explode(' ', $search);
         $query = "SELECT
@@ -325,29 +366,26 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
                   WHERE (";
 
         $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
-        for ($i = 1; $i < count($words); $i++) {
+        $count = count($words);
+        for ($i = 1; $i < $count; $i++) {
             $query = $query." OR `a`.`name` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($words); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`title` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($words); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
         $codes = array();
-        foreach ($words as $word) {
-            if (preg_match('#^\d{4}$#', $word)) $codes[] = '00'.$word;
-            if (preg_match('#^\d{5}$#', $word)) $codes[] = '0'.$word;
+        foreach($words as $word) {
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
-        if (count($codes) > 0) {
-            $query = $query." OR `a`.`code`='".$codes[0]."'";
-            for ($i = 1; $i < count($codes); $i++) {
-                $query = $query." OR `a`.`code`='".$codes[$i]."'";
-            }
+        for ($i = 0; $i < count($codes); $i++) {
+            $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
 

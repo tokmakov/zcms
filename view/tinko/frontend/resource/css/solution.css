@@ -198,11 +198,11 @@
         #item-solutions table tr th[colspan], #item-solutions table tr th:nth-child(3) {
             text-align: left;
         }
-        #item-solutions table tr td:nth-child(5), #item-solutions table tr td:nth-child(6) {
+        #item-solutions table tr td:nth-child(5), #item-solutions table tr td:nth-child(7) {
             text-align: right;
         }
         #item-solutions table tr td:nth-child(1), #item-solutions table tr td:nth-child(2),
-        #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(7) {
+        #item-solutions table tr td:nth-child(4), #item-solutions table tr td:nth-child(6) {
             text-align: center;
         }
 

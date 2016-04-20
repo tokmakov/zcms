@@ -178,10 +178,11 @@
             #add-edit-product > div > div:last-child > textarea {
                 height: 150px;
             }
-            #add-edit-product > div:nth-child(2) > div:last-child > input[type="text"] {
+            /* загрузить информацию о товаре */
+            #add-edit-product > div:first-child > div:last-child > input[type="text"] {
                 width: 20%;
             }
-            #add-edit-product > div:nth-child(2) > div:last-child > span {
+            #add-edit-product > div:first-child > div:last-child > span {
                 text-decoration: underline;
                 cursor: pointer;
             }

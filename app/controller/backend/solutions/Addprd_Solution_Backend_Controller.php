@@ -108,8 +108,6 @@ class Addprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             $data['group'] = (int)$_POST['group'];
         }
 
-        // заголовок
-        $data['heading']    = trim(utf8_substr($_POST['heading'], 0, 100));
         // торговое наименование
         $data['name']       = trim(utf8_substr($_POST['name'], 0, 250));
         // функциональное наименование
