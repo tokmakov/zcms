@@ -77,8 +77,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     $result[$key]['ctg_name'],
                     $result[$key]['mkr_id'],
                     $result[$key]['mkr_id'],
-                    $result[$key]['ctg_name']
-                    /*$result[$key]['relevance']*/
+                    $result[$key]['ctg_name'],
+                    $result[$key]['relevance']
                 );
             } else { // для страницы поиска
                 // URL ссылки на страницу товара
