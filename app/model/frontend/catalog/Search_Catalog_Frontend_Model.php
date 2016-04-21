@@ -179,7 +179,13 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `c`.`id` AS `mkr_id`,
                       `c`.`name` AS `mkr_name`";
 
-        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', 0.1, 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."', 0.05, 0 )";
+        $length = utf8_strlen($words[0]);
+        $weight = 0.3;
+        if ($length < 3) {
+            $weight = 0.1 * $length;
+        }
+        $half = 0.5 * $weight;
+        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."', ".$half.", 0 )";
 
         /*
          * Расчет релевантности для торгового наименования, например «ИП-212»
@@ -212,7 +218,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // если мы разделяли строку ABC123 на ABC и 123
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
-                $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.05, 0 )";
+                $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.1, 0 )";
             }
         }
         $query = $query." )";
@@ -255,7 +261,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // если мы разделяли строку ABC123 на ABC и 123
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
-                $query = $query." + IF( `a`.`title` LIKE '%".$item."%', 0.05, 0 )";
+                $query = $query." + IF( `a`.`title` LIKE '%".$item."%', 0.1, 0 )";
             }
         }
         $query = $query." )";
