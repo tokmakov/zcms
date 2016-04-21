@@ -179,13 +179,12 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `c`.`id` AS `mkr_id`,
                       `c`.`name` AS `mkr_name`";
 
-        $length = utf8_strlen($words[0]);
-        $weight = 0.3;
-        if ($length < 3) {
-            $weight = 0.1 * $length;
+        // если первое слово поискового запроса совпадает с первым
+        // словом торгового/функционального наименования
+        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', 0.1, 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."', 0.05, 0 )";
+        if (isset($words[1])) {
+            $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[^a-zA-Zа-яА-ЯёЁ]?".$words[1]."', 0.1, 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."[^a-zA-Zа-яА-ЯёЁ]?".$words[1]."', 0.05, 0 )";
         }
-        $half = 0.5 * $weight;
-        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 ) + IF( LOWER(`a`.`title`) REGEXP '^".$words[0]."', ".$half.", 0 )";
 
         /*
          * Расчет релевантности для торгового наименования, например «ИП-212»
