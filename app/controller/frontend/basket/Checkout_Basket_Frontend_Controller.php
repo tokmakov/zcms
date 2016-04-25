@@ -34,7 +34,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if ($this->validateForm()) { // заказ был создан, отмечаем этот факт
+            if ($this->validateForm()) { // заказ был создан успешно, отмечаем этот факт
                 $this->setSessionData('successCheckoutOrder', true);
             }
             // перенаправляем пользователя опять на страницу оформления заказа,

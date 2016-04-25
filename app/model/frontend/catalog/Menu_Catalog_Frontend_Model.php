@@ -99,7 +99,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает дочерние категории категории с уникальным идентификатором $id
      */
-    public function categoryChilds($id) {
+    protected function categoryChilds($id) {
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`,
                       (SELECT COUNT(*) FROM `categories` `b` WHERE `a`.`id` = `b`.`parent`) AS `count`

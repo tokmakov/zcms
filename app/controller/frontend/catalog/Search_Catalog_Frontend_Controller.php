@@ -28,6 +28,11 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
+                /*
+                 * если строка поиска содержит «/» (слэш), например «ABC-123/45»,
+                 * то $_SERVER['REQUEST_URI'] = /catalog/search/query/ABC-123/45,
+                 * роутер не сможет правильно разобрать $_SERVER['REQUEST_URI']
+                 */
                 $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
                 $this->redirect($this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($_POST['query'])));
             } else {
@@ -65,8 +70,6 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             return;
         }
 
-        $this->params['query'] = str_replace('|', '/', $this->params['query']);
-
         /*
          * постраничная навигация
          */
@@ -76,10 +79,10 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во результатов поиска
         $totalProducts = $this->searchCatalogFrontendModel->getCountSearchResults($this->params['query']);
-        // URL этой страницы
+        // базовый URL страницы поиска
         $thisPageUrl = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
         $temp = new Pager(
-            $thisPageUrl,                                       // URL этой страницы
+            $thisPageUrl,                                       // базовый URL страницы поиска
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во результатов поиска
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
@@ -95,6 +98,11 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
+        
+        /*
+         * см. причины такой замены в комментариях выше, в начале метода
+         */ 
+        $this->params['query'] = str_replace('|', '/', $this->params['query']);
 
         // получаем от модели массив результатов поиска
         $results = $this->searchCatalogFrontendModel->getSearchResults($this->params['query'], $start, false);
