@@ -8,6 +8,7 @@
         box-sizing: border-box;
         margin-right: 2.5%;
         margin-bottom: 2.5%;
+        position: relative;
     }
     #partners > a:nth-child(4n) {
         margin-right: 0;
@@ -17,4 +18,17 @@
             padding: 9px;
             box-sizing: border-box;
             width: 100%;
+        }
+        #partners > a > span {
+            display: block;
+            position: absolute;
+            background: #d1d1d1;
+            color: #fff;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 16px;
+            font-size: 11px;
+            right: 0;
+            top: 0;
         }

@@ -47,6 +47,12 @@
                 #all-partners > ul > li > div:first-child > span {
                     color: #969696;
                     font-size: 14px;
+                    padding-right: 10px;
+                    display: inline-block;
+                }
+                #all-partners > ul > li > div:first-child > span:first-child {
+                    color: #323232;
+                    min-width: 20px;
                 }
             #all-partners > ul > li > div:last-child {
                 float: right;

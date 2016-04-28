@@ -14,18 +14,18 @@ class Partner_Frontend_Model extends Frontend_Model {
      */
     public function getAllPartners() {
         $query = "SELECT
-                      `id`, `name`, `alttext`
+                      `id`, `name`, `image`, `alttext`, `sortorder`
                   FROM
                       `partners`
                   WHERE
-                      1
+                      `image` <> ''
                   ORDER BY
                       `sortorder`";
         $partners = $this->database->fetchAll($query);
         // добавляем в массив URL картинки сертификата
         foreach($partners as $key => $value) {
-            $partners[$key]['url']['image'] = $this->config->site->url . 'files/partner/images/' . $value['id'] . '.jpg';
-            $partners[$key]['url']['thumb'] = $this->config->site->url . 'files/partner/thumbs/' . $value['id'] . '.jpg';
+            $partners[$key]['url']['image'] = $this->config->site->url . 'files/partner/images/' . $value['image'] . '.jpg';
+            $partners[$key]['url']['thumb'] = $this->config->site->url . 'files/partner/thumbs/' . $value['image'] . '.jpg';
         }
         return $partners;
     }

@@ -53,12 +53,12 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
         // получаем от модели информацию о партнере
         $partner = $this->partnerBackendModel->getPartner($this->params['id']);
         // если запрошенный партнер не найден в БД
-        if (empty($partner )) {
+        if (empty($partner)) {
             $this->notFoundRecord = true;
             return;
         }
         
-        $image = $this->config->site->url . 'files/partner/images/' . $this->params['id'] . '.jpg';
+        $image = $this->config->site->url . 'files/partner/images/' . $partner['image'] . '.jpg';
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -102,7 +102,7 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
         $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст сертификата партнера
         $data['alttext'] = str_replace('"', '', $data['alttext']);
 
-        $year   = date('Y') + 1;
+        $year = date('Y') + 1;
         $data['expire'] = date('d') . '.' . date('m') . '.' . $year;
         $_POST['expire']  = trim ($_POST['expire']);
         if (preg_match('~\d{2}\.\d{2}\.\d{2}~', $_POST['expire'])) {

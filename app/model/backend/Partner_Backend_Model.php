@@ -40,7 +40,7 @@ class Partner_Backend_Model extends Backend_Model {
      */
     public function getPartner($id) {
         $query = "SELECT
-                      `id`, `name`, `alttext`, DATE_FORMAT(`expire`, '%d.%m.%Y') AS `expire`,
+                      `id`, `name`, `image`, `alttext`, DATE_FORMAT(`expire`, '%d.%m.%Y') AS `expire`,
                       (NOW() > `expire`) AS `expired`
                   FROM
                       `partners`
@@ -70,6 +70,7 @@ class Partner_Backend_Model extends Backend_Model {
         $query = "INSERT INTO `partners`
                   (
                       `name`,
+                      `image`,
                       `alttext`,
                       `expire`,
                       `sortorder`
@@ -77,6 +78,7 @@ class Partner_Backend_Model extends Backend_Model {
                   VALUES
                   (
                       :name,
+                      '',
                       :alttext,
                       :expire,
                       :sortorder
@@ -120,15 +122,44 @@ class Partner_Backend_Model extends Backend_Model {
 
         // проверяем, пришел ли файл изображения
         if ( ! empty($_FILES['image']['name'])) {
+            // сначала удаляем старые файлы
+            $query = "SELECT
+                          `image`
+                      FROM
+                          `partners`
+                      WHERE
+                          `id` = :id";
+            $image = $this->database->fetchOne($query, array('id' => $id));
+            if ( ! empty($image)) {
+                if (is_file('files/partner/thumbs/'. $image . '.jpg')) {
+                    unlink('files/partner/thumbs/'. $image . '.jpg');
+                }
+                if (is_file('files/partner/images/'. $image . '.jpg')) {
+                    unlink('files/partner/images/'. $image . '.jpg');
+                }
+                $query = "UPDATE
+                              `partners`
+                          SET
+                              `image` = ''
+                          WHERE
+                              `id` = :id";
+                $this->database->execute(
+                    $query,
+                    array(
+                        'id' => $id
+                    )
+                );
+            }
             // проверяем, что при загрузке не произошло ошибок
             if ($_FILES['image']['error'] == 0) {
                 // если файл загружен успешно, то проверяем - изображение?
                 $mimetypes = array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png');
                 if (in_array($_FILES['image']['type'], $mimetypes)) {
+                    $image = md5(uniqid(rand(), true));
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        'files/partner/thumbs/'. $id . '.jpg',
+                        'files/partner/thumbs/'. $image . '.jpg',
                         200,
                         200,
                         'jpg',
@@ -137,11 +168,24 @@ class Partner_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        'files/partner/images/'. $id . '.jpg',
+                        'files/partner/images/'. $image . '.jpg',
                         1000,
                         1000,
                         'jpg',
                         array(245,245,245)
+                    );
+                    $query = "UPDATE
+                                  `partners`
+                              SET
+                                  `image` = :image
+                              WHERE
+                                  `id` = :id";
+                    $this->database->execute(
+                        $query,
+                        array(
+                            'image' => $image,
+                            'id' => $id
+                        )
                     );
                 }
             }
@@ -270,16 +314,25 @@ class Partner_Backend_Model extends Backend_Model {
      * Функция удаляет партнера с уникальным идентификатором $id
      */
     public function removePartner($id) {
+        // удаляем файлы изображения
+        $query = "SELECT
+                          `image`
+                      FROM
+                          `partners`
+                      WHERE
+                          `id` = :id";
+        $image = $this->database->fetchOne($query, array('id' => $id));
+        if ( ! empty($image)) {
+            if (is_file('files/partner/thumbs/'. $image . '.jpg')) {
+                unlink('files/partner/thumbs/'. $image . '.jpg');
+            }
+            if (is_file('files/partner/images/'. $image . '.jpg')) {
+                unlink('files/partner/images/'. $image . '.jpg');
+            }
+        }
         // удаляем запись в таблице `partners` БД
         $query = "DELETE FROM `partners` WHERE `id` = :id";
         $this->database->execute($query, array('id' => $id));
-        // удаляем файлы изображения
-        if (is_file('files/partner/thumbs/' . $id . '.jpg')) {
-            unlink('files/partner/thumbs/' . $id . '.jpg');
-        }
-        if (is_file('files/partner/images/' . $id . '.jpg')) {
-            unlink('files/partner/images/' . $id . '.jpg');
-        }
         // обновляем порядок следования партнеров
         $query = "SELECT
                       `id`

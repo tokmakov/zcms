@@ -32,7 +32,7 @@ defined('ZCMS') or die('Access denied');
         <ul>
             <?php foreach($partners as $item) : ?>
                 <li>
-                    <div><span<?php echo $item['expired'] ? ' class="selected"' : ''; ?>><?php echo $item['expire']; ?></span> <?php echo $item['name']; ?></div>
+                    <div><span><?php echo $item['sortorder']; ?></span> <span<?php echo $item['expired'] ? ' class="selected"' : ''; ?>><?php echo $item['expire']; ?></span> <?php echo $item['name']; ?></div>
                     <div>
                         <a href="<?php echo $item['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
                         <a href="<?php echo $item['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>

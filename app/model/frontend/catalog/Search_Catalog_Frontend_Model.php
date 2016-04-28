@@ -184,7 +184,12 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `c`.`name` AS `mkr_name`";
 
         // если первое слово поискового запроса совпадает с первым словом торгового наименования
-        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', 0.15, 0 )";
+        $weight = 0.05;
+        if (utf8_strlen($words[0]) > 1) {
+            $weight = 0.1;
+        }
+        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 )";
+        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[[:>:]]', 0.05, 0 )";
         $start = 1;
         if (isset($words[1])) { // если совпадают первое и второе слово
             $start = 2;
