@@ -45,15 +45,19 @@ class MCache {
      * проектирования «Одиночка»
      */
     private function __construct() {
+        // установлено расширение php для работы с сервером Memcached?
+        if ( ! class_exists('Memcache', false)) {
+            throw new Exception('Расширение Memcache не установлено');
+        }
+        // создаем соединение с сервером Memcached
+        $this->memcache = new Memcache();
+        if ( ! @$this->memcache->connect(Config::getInstance()->cache->mem->host, Config::getInstance()->cache->mem->port)) {
+            throw new Exception('Не удалось подключиться к серверу Memcached');
+        }
         // время жизни кэша в секундах
         $this->cacheTime = Config::getInstance()->cache->mem->time;
         // максимальное время блокировки на чтение в секундах
         $this->maxLockTime = Config::getInstance()->cache->mem->lock;
-        // создаем соединение с сервером Memcached
-        $this->memcache = new Memcache();
-        if (!$this->memcache->connect(Config::getInstance()->cache->mem->host, Config::getInstance()->cache->mem->port)) {
-            throw new Exception('Не удалось подключиться к сереверу Memcached');
-        }
     }
 
     /**
@@ -72,7 +76,6 @@ class MCache {
         if ('{%b:f%}' === $value) {
             return false;
         }
-// file_put_contents('get-cache.txt', $key . ' ' . $md5key . '.txt' . PHP_EOL, FILE_APPEND);
         return $value;
     }
 

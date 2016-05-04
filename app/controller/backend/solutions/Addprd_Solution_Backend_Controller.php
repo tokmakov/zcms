@@ -45,6 +45,13 @@ class Addprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         }
 
         $this->title = 'Добавить товар. ' . $this->title;
+        
+        // получаем от модели идентификатор и наименование категории типового решения
+        $category = $this->solutionBackendModel->getSolutionCategory($this->params['parent']);
+        $categoryName = $this->solutionBackendModel->getCategoryName($category);
+        
+        // получаем от модели наименование типового решения
+        $solutionName = $this->solutionBackendModel->getSolutionName($this->params['parent']);
 
         // формируем хлебные крошки
         $breadcrumbs = array(
@@ -58,7 +65,15 @@ class Addprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             ),
             array(
                 'name' => 'Категории',
-                'url' => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+            ),
+            array(
+                'name' => $categoryName,
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/category/id/' . $category)
+            ),
+            array(
+                'name' => $solutionName,
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/show/id/' . $this->params['parent'])
             ),
         );
 
@@ -106,6 +121,12 @@ class Addprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         $data['group'] = 1;
         if (ctype_digit($_POST['group']) && $_POST['group'] > 1) {
             $data['group'] = (int)$_POST['group'];
+        }
+        
+        // должен быть обязательно в комплекте?
+        $data['require'] = 0;
+        if (isset($_POST['require'])) {
+            $data['require'] = 1;
         }
 
         // торговое наименование

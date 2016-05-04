@@ -41,11 +41,26 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
                 $this->redirect($this->solutionBackendModel->getURL('backend/solution/show/id/' . $solution_id));
             } else { // при заполнении формы были допущены ошибки
                 // перенаправляем администратора на страницу с формой для исправления ошибок
-                $this->redirect($this->solutionBackendModel->getURL('backend/solution/addprd/id/' . $this->params['id']));
+                $this->redirect($this->solutionBackendModel->getURL('backend/solution/editprd/id/' . $this->params['id']));
             }
         }
 
         $this->title = 'Редактирование товара. ' . $this->title;
+        
+        // получаем от модели информацию о товаре
+        $product = $this->solutionBackendModel->getSolutionProduct($this->params['id']);
+        // если запрошенный товар не найден в БД
+        if (empty($product)) {
+            $this->notFoundRecord = true;
+            return;
+        }
+        
+        // получаем от модели идентификатор и наименование категории типового решения
+        $category = $this->solutionBackendModel->getSolutionCategory($product['parent']);
+        $categoryName = $this->solutionBackendModel->getCategoryName($category);
+        
+        // получаем от модели наименование типового решения
+        $solutionName = $this->solutionBackendModel->getSolutionName($product['parent']);
 
         // формируем хлебные крошки
         $breadcrumbs = array(
@@ -59,17 +74,17 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             ),
             array(
                 'name' => 'Категории',
-                'url' => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/allctgs')
+            ),
+            array(
+                'name' => $categoryName,
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/category/id/' . $category)
+            ),
+            array(
+                'name' => $solutionName,
+                'url'  => $this->solutionBackendModel->getURL('backend/solution/show/id/' . $product['parent'])
             ),
         );
-
-        // получаем от модели информацию о товаре
-        $product = $this->solutionBackendModel->getSolutionProduct($this->params['id']);
-        // если запрошенный товар не найден в БД
-        if (empty($product)) {
-            $this->notFoundRecord = true;
-            return;
-        }
 
         // единицы измерения для возможности выбора
         $units = $this->solutionBackendModel->getUnits();
@@ -87,6 +102,8 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             'action'      => $this->solutionBackendModel->getURL('backend/solution/editprd/id/' . $this->params['id']),
             // группа (тип) товара
             'group'       => $product['group'],
+            // должен быть обязательно в комплекте?
+            'require'     => $product['require'],
             // группы (типы) товаров
             'groups'      => $groups,
             // код (артикул) товара
@@ -100,7 +117,7 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             // цена
             'price'       => $product['price'],
             // единица измерения
-            'unit'       => $product['unit'],
+            'unit'        => $product['unit'],
             // единицы измерения для возможности выбора
             'units'       => $units,
             // количество
@@ -133,6 +150,12 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         $data['group'] = 1;
         if (ctype_digit($_POST['group']) && $_POST['group'] > 1) {
             $data['group'] = (int)$_POST['group'];
+        }
+        
+        // должен быть обязательно в комплекте?
+        $data['require'] = 0;
+        if (isset($_POST['require'])) {
+            $data['require'] = 1;
         }
 
         // торговое наименование

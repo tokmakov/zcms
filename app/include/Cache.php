@@ -47,10 +47,12 @@ class Cache {
         // экземпляр класса кэша с использованием файлов
         $this->instanceFileCache = FCache::getInstance();
         // кэширование с использованием демона Memcached возможно?
-        $this->enableMemCache = class_exists('Memcache', false) ? true : false;
-        if ($this->enableMemCache) {
+        try {
             // экземпляр класса кэша с использованием демона Memcached
             $this->instanceMemCache = MCache::getInstance();
+            $this->enableMemCache = true;
+        } catch (Exception $e) {
+            $this->enableMemCache = false;
         }
     }
 

@@ -1,0 +1,14 @@
+28.04.2016 20:31:12
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.wished' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 186
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(186): PDO->prepare('SELECT\r\n       ...')
+#1 D:\work\localhost2\www\app\include\Database.php(163): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(207): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(171): Wished_Frontend_Model->sideWishedProducts()
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(272): Wished_Frontend_Model->getSideWishedProducts()
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(23): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(42): Base_Controller->request()
+#8 {main}
+

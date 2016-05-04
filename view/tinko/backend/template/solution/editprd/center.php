@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * $require - должен быть обязательно в комплекте?
  * $code - код (артикул) товара
  * $name - торговое наименование изделия
  * $title - функциональное наименование изделия
@@ -53,6 +54,7 @@ defined('ZCMS') or die('Access denied');
     $title      = htmlspecialchars($title);
     $shortdescr = htmlspecialchars($shortdescr);
     if (isset($savedFormData)) {
+        $group      = $savedFormData['group'];
         $code       = htmlspecialchars($savedFormData['code']);
         $name       = htmlspecialchars($savedFormData['name']);
         $title      = htmlspecialchars($savedFormData['title']);
@@ -68,7 +70,11 @@ defined('ZCMS') or die('Access denied');
 <div id="add-edit-product">
     <div>
         <div>Код (артикул)</div>
-        <div><input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" /> <span id="load-by-code">Загрузить товар</span></div>
+        <div>
+            <input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" />
+            <span id="load-by-code">загрузить товар</span>
+            <input type="checkbox" name="require"<?php echo $require ? ' checked="checked"' : ''; ?> value="1" /> обязательно должен быть
+        </div>
     </div>
     <div>
         <div>Торговое наименование</div>

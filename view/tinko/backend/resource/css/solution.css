@@ -175,16 +175,23 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
+            #add-edit-product input[type="checkbox"] {
+                position: relative;
+                top: 3px;
+            }
             #add-edit-product > div > div:last-child > textarea {
                 height: 150px;
             }
-            /* загрузить информацию о товаре */
             #add-edit-product > div:first-child > div:last-child > input[type="text"] {
                 width: 20%;
             }
+            /* загрузить информацию о товаре */
             #add-edit-product > div:first-child > div:last-child > span {
                 text-decoration: underline;
                 cursor: pointer;
+            }
+            #add-edit-product > div:first-child > div:last-child > input[type="checkbox"] {
+                margin-left: 50px;
             }
             #add-edit-product > div#price-count-note > div:last-child > span {
                 float: left;

@@ -41,6 +41,7 @@ defined('ZCMS') or die('Access denied');
 
 <?php
     $group      = 1;
+    $require    = 1;
     $code       = '';
     $name       = '';
     $title      = '';
@@ -51,12 +52,13 @@ defined('ZCMS') or die('Access denied');
     $note       = 0;
 
     if (isset($savedFormData)) {
+        $group      = $savedFormData['group'];
         $code       = htmlspecialchars($savedFormData['code']);
         $name       = htmlspecialchars($savedFormData['name']);
         $title      = htmlspecialchars($savedFormData['title']);
         $shortdescr = htmlspecialchars($savedFormData['shortdescr']);
         $price      = $savedFormData['price'];
-        $unit       = $savedFormData['units'];
+        $unit       = $savedFormData['unit'];
         $count      = $savedFormData['count'];
         $note       = $savedFormData['note'];
     }
@@ -66,7 +68,11 @@ defined('ZCMS') or die('Access denied');
 <div id="add-edit-product">
     <div>
         <div>Код (артикул)</div>
-        <div><input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" /> <span id="load-by-code">Загрузить товар</span></div>
+        <div>
+            <input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" />
+            <span id="load-by-code">загрузить товар</span>
+            <input type="checkbox" name="require"<?php echo $require ? ' checked="checked"' : ''; ?> value="1" /> обязательно должен быть
+        </div>
     </div>
     <div>
         <div>Торговое наименование</div>

@@ -875,6 +875,7 @@ class Solution_Backend_Model extends Backend_Model {
                   (
                       `parent`,
                       `group`,
+                      `require`,
                       `product_id`,
                       `code`,
                       `name`,
@@ -890,6 +891,7 @@ class Solution_Backend_Model extends Backend_Model {
                   (
                       :parent,
                       :group,
+                      :require,
                       :product_id,
                       :code,
                       :name,
@@ -911,8 +913,8 @@ class Solution_Backend_Model extends Backend_Model {
      */
     public function getSolutionProduct($id) {
         $query = "SELECT
-                      `group`, `code`, `name`, `title`, `shortdescr`,
-                      `count`, `price`, `unit`, `note`
+                      `parent`, `group`, `require`, `code`, `name`, `title`,
+                      `shortdescr`, `count`, `price`, `unit`, `note`
                   FROM
                       `solutions_products`
                   WHERE
@@ -1011,6 +1013,7 @@ class Solution_Backend_Model extends Backend_Model {
         $query = "UPDATE
                       `solutions_products`
                   SET
+                      `require`    = :require,
                       `product_id` = :product_id,
                       `code`       = :code,
                       `name`       = :name,
