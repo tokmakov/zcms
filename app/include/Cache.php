@@ -46,9 +46,8 @@ class Cache {
     private function __construct() {
         // экземпляр класса кэша с использованием файлов
         $this->instanceFileCache = FCache::getInstance();
-        // кэширование с использованием демона Memcached возможно?
+        // экземпляр класса кэша с использованием демона Memcached
         try {
-            // экземпляр класса кэша с использованием демона Memcached
             $this->instanceMemCache = MCache::getInstance();
             $this->enableMemCache = true;
         } catch (Exception $e) {
