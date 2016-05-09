@@ -23,6 +23,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * protected function countCategoryHit(...)
      * public function getCountCategoryNew(...)
      * protected function countCategoryNew(...)
+     * public function getCategoryURL(...)
+     * protected function categoryURL(...)
+     * public function getCategorySortOrders(...)
+     * protected function categorySortOrders(...)
      */
 
     public function __construct() {
@@ -82,9 +86,11 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `sortorder`";
         $childCategories = $this->database->fetchAll($query, array('id' => $id));
 
-        // для каждой дочерней категории получаем количество товаров в ней и в ее
-        // потомках с учетом фильтров по функциональной группе, производителю, по
-        // по лидерам продаж, по новинкам, параметрам подбора
+        /*
+         * для каждой дочерней категории получаем количество товаров в ней и в ее
+         * потомках с учетом фильтров по функциональной группе, производителю, по
+         * по лидерам продаж, по новинкам, параметрам подбора
+         */
         foreach ($childCategories as $key => $value) {
             $childs = $this->getAllChildIds($value['id']);
             $childs[] = $value['id'];
@@ -748,9 +754,11 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`maker` = " . $maker;
         }
         if ( ! $hit) {
-            // надо выяснить, сколько товаров будет найдено, если отметить
-            // галочку «Лидер продаж»; на данный момент checkbox не отмечен,
-            // но если пользователь его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если отметить
+             * галочку «Лидер продаж»; на данный момент checkbox не отмечен,
+             * но если пользователь его отметит - сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
@@ -820,9 +828,11 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ( ! $new) {
-            // надо выяснить, сколько товаров будет найдено, если отметить
-            // галочку «Новинка»; на данный момент checkbox не отмечен, но
-            // если пользователь его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если отметить
+             * галочку «Новинка»; на данный момент checkbox не отмечен, но
+             * если пользователь его отметит - сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора

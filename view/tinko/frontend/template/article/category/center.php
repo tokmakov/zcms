@@ -93,7 +93,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/article/category/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -103,7 +103,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1><?php echo $name; ?></h1>
 
-<?php if (!empty($articles)): // список статей ?>
+<?php if ( ! empty($articles)): // список статей ?>
     <div id="articles-list">
     <?php foreach($articles as $item): ?>
         <div>

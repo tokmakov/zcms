@@ -115,13 +115,13 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // включен фильтр по лидерам продаж?
         $hit = 0;
-        if (isset($this->params['hit']) && $this->params['hit'] == 1) {
+        if (isset($this->params['hit']) && 1 == $this->params['hit']) {
             $hit = 1;
         }
 
         // включен фильтр по новинкам?
         $new = 0;
-        if (isset($this->params['new']) && $this->params['new'] == 1) {
+        if (isset($this->params['new']) && 1 == $this->params['new']) {
             $new = 1;
         }
 
@@ -141,62 +141,62 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // получаем от модели массив дочерних категорий
         $childCategories = $this->categoryCatalogFrontendModel->getChildCategories(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param,              // массив параметров подбора
+            $sort                // сортировка
         );
 
         // получаем от модели массив функциональных групп
         $groups = $this->categoryCatalogFrontendModel->getCategoryGroups(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         // получаем от модели массив производителей
         $makers = $this->categoryCatalogFrontendModel->getCategoryMakers(
-            $this->params['id'],
-            $group,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         // получаем от модели массив всех параметров подбора
         $params = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         // получаем от модели количество лидеров продаж
         $countHit = $this->categoryCatalogFrontendModel->getCountCategoryHit(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         // получаем от модели количество новинок
         $countNew = $this->categoryCatalogFrontendModel->getCountCategoryNew(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         /*
@@ -208,25 +208,25 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // общее кол-во товаров категории
         $totalProducts = $this->categoryCatalogFrontendModel->getCountCategoryProducts(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
         $pager = null; // постраничная навигация
-        $start = 0; // стартовая позиция
+        $start = 0;    // стартовая позиция для SQL-запроса
         if ($totalProducts > $this->config->pager->frontend->products->perpage) { // постраничная навигация нужна?
             // URL этой страницы
             $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
-                $this->params['id'],
-                $group,
-                $maker,
-                $hit,
-                $new,
-                $param,
-                $sort
+                $this->params['id'], // уникальный идентификатор категории
+                $group,              // идентификатор функциональной группы или ноль
+                $maker,              // идентификатор производителя или ноль
+                $hit,                // включен или нет фильтр по лидерам продаж
+                $new,                // включен или нет фильтр по новинкам
+                $param,              // массив параметров подбора
+                $sort                // сортировка
             );
             $temp = new Pager(
                 $thisPageURL,                                       // URL этой страницы
@@ -249,14 +249,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // получаем от модели массив товаров категории
         $products = $this->categoryCatalogFrontendModel->getCategoryProducts(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param,
-            $sort,
-            $start
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param,              // массив параметров подбора
+            $sort,               // сортировка
+            $start               // стартовая позиция для SQL-запроса
         );
 
         // единицы измерения товара
@@ -264,12 +264,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // ссылки для сортировки товаров по цене, наменованию, коду
         $sortorders = $this->categoryCatalogFrontendModel->getCategorySortOrders(
-            $this->params['id'],
-            $group,
-            $maker,
-            $hit,
-            $new,
-            $param
+            $this->params['id'], // уникальный идентификатор категории
+            $group,              // идентификатор функциональной группы или ноль
+            $maker,              // идентификатор производителя или ноль
+            $hit,                // включен или нет фильтр по лидерам продаж
+            $new,                // включен или нет фильтр по новинкам
+            $param               // массив параметров подбора
         );
 
         // атрибут action тега form

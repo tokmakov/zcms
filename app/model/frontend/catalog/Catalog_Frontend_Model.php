@@ -154,7 +154,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         for ($i = 1; $i < $count; $i++) {
             $products = array_intersect($products, $ids[$i]);
         }
-        if (count($products) == 0) {
+        if (0 == count($products)) {
             return array();
         }
 
@@ -187,7 +187,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
     
     /**
      * Функция проверяет корректность идентификаторов параметров и значений;
-     * если параметры и значения коррекные, возвращает true, иначе false;
+     * если параметры и значения коррекные, возвращает true, иначе false
      */
     protected function checkParams($param) {
 

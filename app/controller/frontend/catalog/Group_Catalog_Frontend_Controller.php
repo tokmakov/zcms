@@ -12,7 +12,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * со списком всех товаров выбранного производителя
+     * со списком всех товаров выбранной функциональной группы
      */
     protected function input() {
 
@@ -92,13 +92,13 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         
         // включен фильтр по лидерам продаж?
         $hit = 0;
-        if (isset($this->params['hit']) && $this->params['hit'] == 1) {
+        if (isset($this->params['hit']) && 1 == $this->params['hit']) {
             $hit = 1;
         }
 
         // включен фильтр по новинкам?
         $new = 0;
-        if (isset($this->params['new']) && $this->params['new'] == 1) {
+        if (isset($this->params['new']) && 1 == $this->params['new']) {
             $new = 1;
         }
 

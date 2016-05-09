@@ -18,7 +18,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/article/addctg/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -28,7 +28,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Новая категория</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
