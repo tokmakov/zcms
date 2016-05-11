@@ -316,11 +316,11 @@ class Partner_Backend_Model extends Backend_Model {
     public function removePartner($id) {
         // удаляем файлы изображения
         $query = "SELECT
-                          `image`
-                      FROM
-                          `partners`
-                      WHERE
-                          `id` = :id";
+                      `image`
+                  FROM
+                      `partners`
+                  WHERE
+                      `id` = :id";
         $image = $this->database->fetchOne($query, array('id' => $id));
         if ( ! empty($image)) {
             if (is_file('files/partner/thumbs/'. $image . '.jpg')) {

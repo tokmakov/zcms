@@ -12,7 +12,7 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы с
-     * формой для добавления брэнда; в данном случае никаких данных получать не нужно
+     * формой для добавления бренда
      */
     protected function input() {
 
@@ -38,9 +38,24 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->brandBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->brandBackendModel->getURL('backend/brand/index'), 'name' => 'Бренды'),
+            array(
+                'name' => 'Главная',
+                'url'  => $this->brandBackendModel->getURL('backend/index/index')
+            ),
+            array(
+                'name' => 'Бренды',
+                'url'  => $this->brandBackendModel->getURL('backend/brand/index') 
+            ),
         );
+        
+        // все буквы, для возможности выбора
+        $letters = array(
+            'A-Z' => $this->brandBackendModel->getLatinLetters(),
+            'А-Я' => $this->brandBackendModel->getCyrillicLetters()
+        );
+        
+        // все производители, для возможности выбора
+        $makers = $this->brandBackendModel->getAllMakers();
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -50,6 +65,10 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
             'action'      => $this->brandBackendModel->getURL('backend/brand/add'),
+            // все буквы, для возможности выбора
+            'letters'     => $letters,
+            // все производители, для возможности выбора
+            'makers'      => $makers,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
@@ -70,12 +89,36 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']   = trim(utf8_substr($_POST['name'], 0, 100)); // наименование бренда
-        $data['letter'] = $_POST['letter'];                          // первая буква бренда
+         
+        // наименование бренда
+        $data['name'] = trim(utf8_substr($_POST['name'], 0, 32));
+
+        // первая буква бренда
+        $data['letter'] = '';
+        if (
+            isset($_POST['letter'])
+            &&
+            (
+                in_array($_POST['letter'], $this->brandBackendModel->getLatinLetters())
+                ||
+                in_array($_POST['letter'], $this->brandBackendModel->getCyrillicLetters())
+            )
+        ) {
+            $data['letter'] = $_POST['letter'];
+        }
+        
+        // популярный бренд?
+        $data['popular'] = false;
+        if (isset($_POST['popular'])) {
+            $data['popular'] = true;
+        }
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование»';
+        }
+        if (empty($data['letter'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Буква»';
         }
 
         /*

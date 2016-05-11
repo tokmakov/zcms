@@ -33,6 +33,9 @@ class Index_Brand_Backend_Controller extends Brand_Backend_Controller {
                 'url'  => $this->brandBackendModel->getURL('backend/index/index')
             ),
         );
+        
+        // получаем массив популярных брендов
+        $brands = $this->brandBackendModel->getPopularBrands();
 
         // получаем массив всех брендов
         $brands = $this->brandBackendModel->getAllBrands();
@@ -43,6 +46,8 @@ class Index_Brand_Backend_Controller extends Brand_Backend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
+            // массив популярных брендов
+            'popular'     => $popular,
             // массив всех брендов
             'brands'      => $brands,
             // URL страницы с формой для добавления бренда
