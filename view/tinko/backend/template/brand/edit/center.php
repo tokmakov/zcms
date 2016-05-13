@@ -1,17 +1,20 @@
 <?php
 /**
- * Форма для редактирования товара рейтинга продаж,
- * файл view/example/backend/template/rating/editprd/center.php,
+ * Форма для редактирования бренда,
+ * файл view/example/backend/template/brand/edit/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
- * $code - код (артикул) товара
- * $name - наименование товара
- * $title - функциональное наименование изделия
- * $category - родительская категория товара
- * $categories - массив всех категорий
+ * $id - уникальный идентификатор бренда
+ * $name - наименование бренда
+ * $letter - первая буква бренда
+ * $maker - идентификатор производителя
+ * $popular - популярный бренд?
+ * $image - URL файла изображения
+ * $letters - все буквы, для возможности выбора
+ * $makers - все производители, для возможности выбора
  *
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
@@ -22,7 +25,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/backend/template/rating/editprd/center.php -->
+<!-- Начало шаблона view/example/backend/template/brand/edit/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -32,9 +35,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Редактирование товара</h1>
+<h1>Редактирование бренда</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
@@ -45,50 +48,57 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $code  = htmlspecialchars($code);
-    $name  = htmlspecialchars($name);
-    $title = htmlspecialchars($title);
+    $name = htmlspecialchars($name);
 
     if (isset($savedFormData)) {
-        $code     = htmlspecialchars($savedFormData['code']);
-        $name     = htmlspecialchars($savedFormData['name']);
-        $title    = htmlspecialchars($savedFormData['title']);
-        $category = $savedFormData['category'];
+        $name    = htmlspecialchars($savedFormData['name']);
+        $letter  = $savedFormData['letter'];
+        $maker   = $savedFormData['maker'];
+        $popular = $savedFormData['popular'];
     }
 ?>
 
-<form action="<?php echo $action; ?>" method="post" id="add-edit-product">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="add-edit-brand">
     <div>
-        <div>Код (артикул)</div>
-        <div><input type="text" name="code" maxlength="16" value="<?php echo $code; ?>" /> <span id="load-by-code">Загрузить товар</span></div>
+        <div>Наименование</div>
+        <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
     </div>
     <div>
-        <div>Торговое наименование</div>
+        <div>Буква, производитель</div>
         <div>
-            <input type="text" name="name" maxlength="100" value="<?php echo $name; ?>" />
+            <select name="letter">
+                <option value="">Выберите</option>
+                <optgroup label="Латиница A-Z">
+                <?php foreach ($letters['A-Z'] as $item): ?>
+                    <option value="<?php echo $item; ?>"<?php echo ($item == $letter) ? ' selected="selected"' : ''; ?>><?php echo $item; ?></option>
+                <?php endforeach; ?>
+                </optgroup>
+                <optgroup label="Кириллица А-Я">
+                <?php foreach ($letters['А-Я'] as $item): ?>
+                    <option value="<?php echo $item; ?>"<?php echo ($item == $letter) ? ' selected="selected"' : ''; ?>><?php echo $item; ?></option>
+                <?php endforeach; ?>
+                </optgroup>
+            </select>
+            
+            <select name="maker">
+                <option value="0">Выберите</option>
+                <?php foreach ($makers as $item): ?>
+                    <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?>>
+                        <?php echo htmlspecialchars($item['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <input type="checkbox" name="popular" value="1"<?php echo $popular ? ' checked="checked"' : ''; ?> /> популярный
         </div>
     </div>
     <div>
-        <div>Функциональное наименование</div>
-        <div><input type="text" name="title" maxlength="200" value="<?php echo $title; ?>" /></div>
-    </div>
-    <div>
-        <div>Категория</div>
+        <div>Изображение</div>
         <div>
-            <select name="category">
-            <option value="0">Выберите</option>
-            <?php if (!empty($categories)): ?>
-                <?php foreach ($categories as $item): ?>
-                    <optgroup label="<?php echo htmlspecialchars($item['name']); ?>">
-                    <?php if (isset($item['childs'])): ?>
-                        <?php foreach($item['childs'] as $child): ?>
-                            <option value="<?php echo $child['id']; ?>"<?php if ($child['id'] == $category) echo 'selected="selected"'; ?>><?php echo $child['name']; ?></option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    </optgroup>
-                <?php endforeach; ?>
+            <input type="file" name="image" />
+            <?php if (!empty($image)): ?>
+                <a href="<?php echo $image; ?>" class="zoom">изображение</a>
             <?php endif; ?>
-            </select>
         </div>
     </div>
     <div>
@@ -97,4 +107,4 @@ defined('ZCMS') or die('Access denied');
     </div>
 </form>
 
-<!-- Конец шаблона view/example/backend/template/rating/editprd/center.php -->
+<!-- Конец шаблона view/example/backend/template/brand/edit/center.php -->

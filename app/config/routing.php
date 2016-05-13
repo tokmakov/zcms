@@ -853,6 +853,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/partner/index$~i' =>
         'partners',
+        
+        /*
+         * бренды
+         */
+        '~^frontend/brand/index$~i' =>
+        'brands',
 
         /*
          * вакансии компании
@@ -1959,9 +1965,15 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^partners$~i' =>
         'frontend/partner/index$1',
+        
+        /*
+         * бренды
+         */
+        '~^brands$~i' =>
+        'frontend/brand/index$1',
 
         /*
-         * партнеры компании
+         * вакансии компании
          */
         '~^vacancies$~i' =>
         'frontend/vacancy/index$1',

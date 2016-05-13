@@ -47,11 +47,13 @@ class Cache {
         // экземпляр класса кэша с использованием файлов
         $this->instanceFileCache = FCache::getInstance();
         // экземпляр класса кэша с использованием демона Memcached
-        try {
-            $this->instanceMemCache = MCache::getInstance();
-            $this->enableMemCache = true;
-        } catch (Exception $e) {
-            $this->enableMemCache = false;
+        if (Config::getInstance()->cache->mem->enable) {
+            try {
+                $this->instanceMemCache = MCache::getInstance();
+                $this->enableMemCache = true;
+            } catch (Exception $e) {
+                $this->enableMemCache = false;
+            }
         }
     }
 

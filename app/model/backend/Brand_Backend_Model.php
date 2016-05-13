@@ -25,13 +25,13 @@ class Brand_Backend_Model extends Backend_Model {
      */
     public function getPopularBrands() {
         $query = "SELECT
-                      `id`, `name`, `sortorder`
+                      `id`, `name`, `popular` AS `sortorder`
                   FROM
                       `brands`
                   WHERE
-                      1
+                      `popular` <> 0
                   ORDER BY
-                      `sortorder`";
+                      `popular`";
         $brands = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($brands as $key => $value) {
@@ -49,49 +49,73 @@ class Brand_Backend_Model extends Backend_Model {
      * Возвращает массив брендов A-Z
      */
     private function getLatinBrands() {
+
         $query = "SELECT
-                      `id`, `name`, `sortorder`
+                      `id`, `name`, `letter`, `sortorder`
                   FROM
                       `brands`
                   WHERE
                       `letter` REGEXP '[A-Z]'
                   ORDER BY
                       `letter`, `sortorder`";
-        $brands = $this->database->fetchAll($query);
-        // добавляем в массив URL ссылок для редактирования и удаления
-        foreach($brands as $key => $value) {
-            $brands[$key]['url'] = array(
-                'up'     => $this->getURL('backend/brand/moveup/id/' . $value['id']),
-                'down'   => $this->getURL('backend/brand/movedown/id/' . $value['id']),
-                'edit'   => $this->getURL('backend/brand/edit/id/' . $value['id']),
-                'remove' => $this->getURL('backend/brand/remove/id/' . $value['id'])
+        $items = $this->database->fetchAll($query);
+        
+        $brands = array();
+        $letter = '';
+        foreach ($items as $item) {
+            if ($letter != $item['letter']) {
+                $letter = $item['letter'];
+            }
+            $brands[$letter][] = array(
+                'id'        => $item['id'],
+                'name'      => $item['name'],
+                'sortorder' => $item['sortorder'],
+                'url'       => array(
+                    'up'     => $this->getURL('backend/brand/moveup/id/' . $item['id']),
+                    'down'   => $this->getURL('backend/brand/movedown/id/' . $item['id']),
+                    'edit'   => $this->getURL('backend/brand/edit/id/' . $item['id']),
+                    'remove' => $this->getURL('backend/brand/remove/id/' . $item['id'])   
+                )
             );
         }
+
         return $brands;
     }
     
     /**
-     * Возвращает массив брендов A-Z
+     * Возвращает массив брендов А-Я
      */
     private function getCyrillicBrands() {
+
         $query = "SELECT
-                      `id`, `name`, `sortorder`
+                      `id`, `name`, `letter`, `sortorder`
                   FROM
                       `brands`
                   WHERE
                       `letter` REGEXP '[А-Я]'
                   ORDER BY
                       `letter`, `sortorder`";
-        $brands = $this->database->fetchAll($query);
-        // добавляем в массив URL ссылок для редактирования и удаления
-        foreach($brands as $key => $value) {
-            $brands[$key]['url'] = array(
-                'up'     => $this->getURL('backend/brand/moveup/id/' . $value['id']),
-                'down'   => $this->getURL('backend/brand/movedown/id/' . $value['id']),
-                'edit'   => $this->getURL('backend/brand/edit/id/' . $value['id']),
-                'remove' => $this->getURL('backend/brand/remove/id/' . $value['id'])
+        $items = $this->database->fetchAll($query);
+        
+        $brands = array();
+        $letter = '';
+        foreach ($items as $item) {
+            if ($letter != $item['letter']) {
+                $letter = $item['letter'];
+            }
+            $brands[$letter][] = array(
+                'id'        => $item['id'],
+                'name'      => $item['name'],
+                'sortorder' => $item['sortorder'],
+                'url'       => array(
+                    'up'     => $this->getURL('backend/brand/moveup/id/' . $item['id']),
+                    'down'   => $this->getURL('backend/brand/movedown/id/' . $item['id']),
+                    'edit'   => $this->getURL('backend/brand/edit/id/' . $item['id']),
+                    'remove' => $this->getURL('backend/brand/remove/id/' . $item['id'])   
+                )
             );
         }
+        
         return $brands;
     }
     
@@ -187,7 +211,7 @@ class Brand_Backend_Model extends Backend_Model {
      */
     public function getBrand($id) {
         $query = "SELECT
-                      `id`, `name`, `letter`, `popular`, `image`
+                      `id`, `name`, `letter`, `maker`, `popular`, `image`
                   FROM
                       `brands`
                   WHERE
@@ -255,7 +279,8 @@ class Brand_Backend_Model extends Backend_Model {
                   (
                       `name`,
                       `letter`,
-                      `image`
+                      `maker`,
+                      `image`,
                       `popular`,
                       `sortorder`
                   )
@@ -263,6 +288,7 @@ class Brand_Backend_Model extends Backend_Model {
                   (
                       :name,
                       :letter,
+                      :maker,
                       '',
                       :popular,
                       :sortorder
@@ -333,7 +359,7 @@ class Brand_Backend_Model extends Backend_Model {
                       FROM
                           `brands`
                       WHERE
-                          `popular` = 1";
+                          `popular` <> 0";
             $popular = $this->database->fetchOne($query) + 1;
             $query = "UPDATE
                           `brands`
@@ -410,11 +436,12 @@ class Brand_Backend_Model extends Backend_Model {
         // с буквой разобрались, эти данные больше не нужны
         unset($data['letter']);
 
-        // осталось только обновить наименование и загрузить изображение
+        // осталось только обновить наименование и производителя
         $query = "UPDATE
                       `brands`
                   SET
-                      `name` = :name
+                      `name`  = :name,
+                      `maker` = :maker
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
@@ -631,6 +658,10 @@ class Brand_Backend_Model extends Backend_Model {
      * Функция опускает популярный бренд вниз в списке
      */
     public function movePopularDown($id) {
+        /*
+         * поле `popular` таблицы `brands` не только указывает на популярность бренда,
+         * но и задает порядок сортировки популярных брендов
+         */
         $id_item_down = $id;
         // порядок следования популярного бренда, который опускается вниз
         $query = "SELECT
@@ -647,9 +678,9 @@ class Brand_Backend_Model extends Backend_Model {
                   FROM
                       `brands`
                   WHERE
-                      `popular` <> 0 AND `sortorder` > :order_down
+                      `popular` <> 0 AND `popular` > :order_down
                   ORDER BY
-                      `sortorder`
+                      `popular`
                   LIMIT
                       1";
         $res = $this->database->fetch(
@@ -658,11 +689,11 @@ class Brand_Backend_Model extends Backend_Model {
                 'order_down' => $order_down
             )
         );
-        // если запрос вернул false, значит популярный бренд и так самый последний
-        // в списке, ничего делать не надо
+        // если запрос вернул false, значит популярный бренд и так
+        // самый последний в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_up = $res['id'];
-            $order_up = $res['sortorder'];
+            $order_up = $res['popular'];
             // меняем местами популярные бренды
             $query = "UPDATE
                           `brands`
@@ -697,10 +728,14 @@ class Brand_Backend_Model extends Backend_Model {
      * Функция поднимает популярный бренд вверх в списке
      */
     public function movePopularUp($id) {
+        /*
+         * поле `popular` таблицы `brands` не только указывает на популярность бренда,
+         * но и задает порядок сортировки популярных брендов
+         */
         $id_item_up = $id;
         // порядок следования популярного бренда, который поднимается вверх
         $query = "SELECT
-                      `letter`, `sortorder`
+                      `popular`
                   FROM
                       `brands`
                   WHERE
@@ -709,13 +744,13 @@ class Brand_Backend_Model extends Backend_Model {
         // порядок следования и id популярного бренда, который находится выше и будет опущен вниз,
         // поменявшись местами с популярным брендом, который поднимается вверх
         $query = "SELECT
-                      `id`, `sortorder`
+                      `id`, `popular`
                   FROM
                       `brands`
                   WHERE
-                      `popular` <> 0 AND `sortorder` < :order_up
+                      `popular` <> 0 AND `popular` < :order_up
                   ORDER BY
-                      `sortorder` DESC
+                      `popular` DESC
                   LIMIT
                       1";
         $res = $this->database->fetch(
@@ -724,16 +759,16 @@ class Brand_Backend_Model extends Backend_Model {
                 'order_up' => $order_up
             )
         );
-        // если запрос вернул false, значит бренд и так самый первый
-        // в списке, ничего делать не надо
+        // если запрос вернул false, значит популярный бренд и так
+        // самый первый в списке, ничего делать не надо
         if (is_array($res)) {
             $id_item_down = $res['id'];
-            $order_down = $res['sortorder'];
+            $order_down = $res['popular'];
             // меняем местами популярные бренды
             $query = "UPDATE
                           `brands`
                       SET
-                          `sortorder` = :order_down
+                          `popular` = :order_down
                       WHERE
                           `id` = :id_item_up";
             $this->database->execute(
@@ -746,7 +781,7 @@ class Brand_Backend_Model extends Backend_Model {
             $query = "UPDATE
                           `brands`
                       SET
-                          `sortorder` = :order_up
+                          `popular` = :order_up
                       WHERE
                           `id` = :id_item_down";
             $this->database->execute(
@@ -791,7 +826,7 @@ class Brand_Backend_Model extends Backend_Model {
         $query = "SELECT
                       `id`
                   FROM
-                      `partners`
+                      `brands`
                   WHERE
                       `letter` = :letter
                   ORDER BY

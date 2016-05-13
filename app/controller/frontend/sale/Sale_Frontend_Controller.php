@@ -26,7 +26,7 @@ abstract class Sale_Frontend_Controller extends Frontend_Controller {
          */
         parent::__construct($params);
         
-        // экземпляр класса модели для работы товарами по сниженным ценам
+        // экземпляр класса модели для работы с товарами по сниженным ценам
         $this->saleFrontendModel =
             isset($this->register->saleFrontendModel) ? $this->register->saleFrontendModel : new Sale_Frontend_Model();
            

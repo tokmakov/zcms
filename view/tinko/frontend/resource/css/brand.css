@@ -1,0 +1,80 @@
+/* бренды */
+#all-brands {
+    
+}
+    #all-brands > div {
+        padding: 10px 0 5px 0;
+        margin-bottom: 25px;
+        border-top: 1px solid #d1d1d1;
+        border-bottom: 1px solid #d1d1d1;
+    }
+        #all-brands > div > div:first-child {
+            margin-bottom: 15px;
+        }
+            #all-brands > div > div > a, #all-brands > div > div > span {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                color: #fff;
+                font-size: 20px;
+                line-height: 30px;
+                text-align: center;
+                border-radius: 15px;
+                margin-bottom: 5px;
+            }
+            #all-brands > div > div > a {
+                background: #395985;
+            }
+            #all-brands > div > div > a:hover {
+                text-decoration: none;
+            }
+            #all-brands > div > div > span {
+                background: #969696;
+            }
+    #all-brands > section:not(:last-child) {
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        border-bottom: 2px dashed #5390cc;
+    }
+        #all-brands > section > div:not(:last-child) {
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #5390cc;
+        }
+            #all-brands > section > div > span { /* буква */
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background: #395985;
+                color: #fff;
+                font-size: 20px;
+                line-height: 30px;
+                text-align: center;
+                border-radius: 15px;
+                margin-bottom: 10px;
+            }
+            #all-brands > section > div > ul {
+                list-style: none;
+                overflow: hidden;
+            }
+                #all-brands > section > div > ul > li { /* отдельный бренд */
+                    float: left;
+                }
+                #all-brands > section > div > ul > li > a {
+                    display: block;
+                    width: 120px;
+                    height: 90px;
+                    overflow: hidden;
+                    margin: 0 8px 8px 0;
+                    padding: 5px;
+                    text-align: center;
+                    border: 1px solid #d1d1d1;
+                }
+                    #all-brands > section > div > ul > li > a > span {
+                        width: 120px;
+                        height: 30px;
+                        display: table-cell;
+                        vertical-align: middle;
+                    }
+        
+

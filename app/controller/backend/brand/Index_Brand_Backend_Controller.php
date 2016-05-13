@@ -35,7 +35,7 @@ class Index_Brand_Backend_Controller extends Brand_Backend_Controller {
         );
         
         // получаем массив популярных брендов
-        $brands = $this->brandBackendModel->getPopularBrands();
+        $popular = $this->brandBackendModel->getPopularBrands();
 
         // получаем массив всех брендов
         $brands = $this->brandBackendModel->getAllBrands();

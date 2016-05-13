@@ -29,6 +29,11 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с блогом
      */
     protected $blogBackendModel;
+    
+    /**
+     * экземпляр класса модели для работы с брендами
+     */
+    protected $brandBackendModel;
 
     /**
      * экземпляр класса модели для работы с кэшем, класс-пустышка,
@@ -129,6 +134,10 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с блогом
         $this->blogBackendModel =
             isset($this->register->blogBackendModel) ? $this->register->blogBackendModel : new Blog_Backend_Model();
+            
+        // экземпляр класса модели для работы с брендами
+        $this->brandBackendModel =
+            isset($this->register->brandBackendModel) ? $this->register->brandBackendModel : new Brand_Backend_Model();
 
         // экземпляр класса модели для работы с кэшем, класс-пустышка
         $this->cacheBackendModel =
@@ -268,6 +277,10 @@ abstract class Backend_Controller extends Base_Controller {
                 'url'  => $this->solutionBackendModel->getURL('backend/solution/index')
             ),
             array(
+                'name' => 'Бренды',
+                'url'  => $this->brandBackendModel->getURL('backend/brand/index')
+            ),
+            array(
                 'name' => 'Блог',
                 'url'  => $this->blogBackendModel->getURL('backend/blog/index')
             ),
@@ -295,10 +308,12 @@ abstract class Backend_Controller extends Base_Controller {
                 'name' => 'Карта',
                 'url'  => $this->sitemapBackendModel->getURL('backend/sitemap/index')
             ),
+            /*
             array(
                 'name' => 'Кэш',
                 'url' => $this->cacheBackendModel->getURL('backend/cache/index')
             ),
+            */
         );
 
         $this->headerVars = array(

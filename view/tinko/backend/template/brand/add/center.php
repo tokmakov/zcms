@@ -7,6 +7,8 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - содержимое атрибута action тега form
+ * $letters - все буквы, для возможности выбора
+ * $makers - все производители, для возможности выбора
  *
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
@@ -19,7 +21,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/brand/add/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -40,18 +42,20 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $name   = '';
-    $letter = '';
-    $maker  = 0;
+    $name    = '';
+    $letter  = '';
+    $maker   = 0;
+    $popular = 0;
 
     if (isset($savedFormData)) {
-        $name   = htmlspecialchars($savedFormData['name']);
-        $letter = $savedFormData['letter'];
-        $maker  = $savedFormData['maker'];
+        $name    = htmlspecialchars($savedFormData['name']);
+        $letter  = $savedFormData['letter'];
+        $maker   = $savedFormData['maker'];
+        $popular = $savedFormData['popular'];
     }
 ?>
 
-<form action="<?php echo $action; ?>" method="post" id="add-edit-brand">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="add-edit-brand">
     <div>
         <div>Наименование</div>
         <div><input type="text" name="name" maxlength="32" value="<?php echo $name; ?>" /></div>
@@ -59,7 +63,30 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Буква, производитель</div>
         <div>
+            <select name="letter">
+                <option value="">Выберите</option>
+                <optgroup label="Латиница A-Z">
+                <?php foreach ($letters['A-Z'] as $item): ?>
+                    <option value="<?php echo $item; ?>"<?php echo ($item == $letter) ? ' selected="selected"' : ''; ?>><?php echo $item; ?></option>
+                <?php endforeach; ?>
+                </optgroup>
+                <optgroup label="Кириллица А-Я">
+                <?php foreach ($letters['А-Я'] as $item): ?>
+                    <option value="<?php echo $item; ?>"<?php echo ($item == $letter) ? ' selected="selected"' : ''; ?>><?php echo $item; ?></option>
+                <?php endforeach; ?>
+                </optgroup>
+            </select>
             
+            <select name="maker">
+                <option value="0">Выберите</option>
+                <?php foreach ($makers as $item): ?>
+                    <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $maker) ? ' selected="selected"' : ''; ?>>
+                        <?php echo htmlspecialchars($item['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <input type="checkbox" name="popular" value="1"<?php echo $popular ? ' checked="checked"' : ''; ?> /> популярный
         </div>
     </div>
     <div>

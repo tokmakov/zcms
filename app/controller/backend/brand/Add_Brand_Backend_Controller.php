@@ -95,16 +95,14 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
 
         // первая буква бренда
         $data['letter'] = '';
-        if (
-            isset($_POST['letter'])
-            &&
-            (
-                in_array($_POST['letter'], $this->brandBackendModel->getLatinLetters())
-                ||
-                in_array($_POST['letter'], $this->brandBackendModel->getCyrillicLetters())
-            )
-        ) {
+        if (isset($_POST['letter'])) {
             $data['letter'] = $_POST['letter'];
+        }
+        
+        // производитель
+        $data['maker'] = 0;
+        if (isset($_POST['maker']) && ctype_digit($_POST['maker'])) {
+            $data['maker'] = (int)$_POST['maker'];
         }
         
         // популярный бренд?
@@ -119,6 +117,9 @@ class Add_Brand_Backend_Controller extends Brand_Backend_Controller {
         }
         if (empty($data['letter'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Буква»';
+        }
+        if (empty($data['maker'])) {
+            $errorMessage[] = 'Не заполнено обязательное поле «Производитель»';
         }
 
         /*
