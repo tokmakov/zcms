@@ -27,11 +27,13 @@ class Index_Brand_Frontend_Controller extends Brand_Frontend_Controller {
         // формируем хлебные крошки
         $breadcrumbs = $this->sitemapFrontendModel->getBreadcrumbs('frontend/brand/index');
         
-        // получаем от модели английский алфавит
-        $latin = $this->brandFrontendModel->getLatinLetters();
-        
-        // получаем от модели русский алфавит
-        $cyrillic = $this->brandFrontendModel->getCyrillicLetters();
+        // получаем от модели алфавит
+        $alphabet = array(
+            // английский
+            'A-Z' => $this->brandFrontendModel->getLatinLetters(),
+            // русский
+            'А-Я' => $this->brandFrontendModel->getCyrillicLetters()
+        );
 
         // получаем от модели массив популярных брендов
         $popular = $this->brandFrontendModel->getPopularBrands();
@@ -45,10 +47,8 @@ class Index_Brand_Frontend_Controller extends Brand_Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
-            // английский алфавит
-            'latin'       => $latin,
-            // русский алфавит
-            'cyrillic'    => $cyrillic,
+            // алфавит
+            'alphabet'    => $alphabet,
             // массив популярных брендов
             'popular'     => $popular,
             // массив всех брендов

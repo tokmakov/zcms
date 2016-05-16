@@ -2,7 +2,7 @@
 /**
  * Класс Login_Admin_Backend_Controller формирует страницу с формой для
  * авторизации администратора сайта или перенаправляет на главную страницу
- * административной части сайта, получает данные от модели Admin_Backend_Model,
+ * панели управления сайта, получает данные от модели Admin_Backend_Model,
  * административная часть сайта
  */
 class Login_Admin_Backend_Controller extends Admin_Backend_Controller {
@@ -47,7 +47,8 @@ class Login_Admin_Backend_Controller extends Admin_Backend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'action' => $this->adminBackendModel->getURL('backend/admin/login') // атрибут action тега form
+            // атрибут action тега form
+            'action' => $this->adminBackendModel->getURL('backend/admin/login')
         );
 
     }

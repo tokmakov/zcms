@@ -229,7 +229,7 @@ abstract class Backend_Controller extends Base_Controller {
          * для формирования страниц административной части сайта, потом
          * переопределяем их значения в дочерних классах, если необходимо
          */
-        $this->title = 'Интерфейс администратора';
+        $this->title = 'Панель управления';
 
         /*
          * переменные, которые будет переданы в шаблон главного меню, файл
@@ -332,9 +332,9 @@ abstract class Backend_Controller extends Base_Controller {
         $this->headContent = $this->render(
             $this->headTemplateFile,
             array(
-                'title' => $this->title,
+                'title'    => $this->title,
                 'cssFiles' => $this->cssFiles,
-                'jsFiles' => $this->jsFiles,
+                'jsFiles'  => $this->jsFiles,
             )
         );
 
@@ -344,7 +344,7 @@ abstract class Backend_Controller extends Base_Controller {
             $this->headerVars
         );
 
-        // получаем html-код меню
+        // получаем html-код главного меню
         $this->menuContent = $this->render(
             $this->menuTemplateFile,
             array('menu' => $this->menuVars)
@@ -362,8 +362,10 @@ abstract class Backend_Controller extends Base_Controller {
             $this->footerVars
         );
 
-        // html-код отдельных частей страницы получен, теперь формируем
-        // всю страницу целиком, обращаясь к Base_Controller::output()
+        /*
+         * html-код отдельных частей страницы получен, теперь формируем
+         * всю страницу целиком, обращаясь к Base_Controller::output()
+         */
         parent::output();
 
     }

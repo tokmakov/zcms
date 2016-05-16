@@ -9,6 +9,70 @@
  * $addBrandURL - URL страницы с формой для добавления бренда
  * $popular - массив популярных брендов
  * $brands - массив всех брендов
+ * 
+ * $popular = Array (
+ *   [0] => Array (
+ *     [id] => 14
+ *     [name] => Болид
+ *     [sortorder] => 1
+ *     [url] => Array (
+ *       [up] => http://www.host.ru/backend/brand/popularup/id/14
+ *       [down] => http://www.host.ru/backend/brand/populardown/id/14
+ *       [edit] => http://www.host.ru/backend/brand/edit/id/14
+ *       [remove] => http://www.host.ru/backend/brand/remove/id/14
+ *     )
+ *   )
+ *   [1] => Array (
+ *     ..........
+ *   )
+ *   ..........
+ * )
+ * 
+ * $brands = Array (
+ *   [A-Z] => Array (
+ *     [A] => Array (
+ *       [0] => Array (
+ *         [id] => 24
+ *         [name] => Abloy
+ *         [sortorder] => 1
+ *         [url] => Array (
+ *           [up] => http://www.host.ru/backend/brand/moveup/id/24
+ *           [down] => http://www.host.ru/backend/brand/movedown/id/24
+ *           [edit] => http://www.host.ru/backend/brand/edit/id/24
+ *           [remove] => http://www.host.ru/backend/brand/remove/id/24
+ *         )
+ *       )
+ *       [1] => Array (
+ *         ..........
+ *       )
+ *       ..........
+ *     )
+ *     [B] => Array (
+ *       [0] => Array (
+ *         [id] => 35
+ *         [name] => Beward
+ *         [sortorder] => 1
+ *         [url] => Array (
+ *           [up] => http://www.host.ru/backend/brand/moveup/id/35
+ *           [down] => http://www.host.ru/backend/brand/movedown/id/35
+ *           [edit] => http://www.host.ru/backend/brand/edit/id/35
+ *           [remove] => http://www.host.ru/backend/brand/remove/id/35
+ *         )
+ *       )
+ *       [1] => Array (
+ *         ..........
+ *       )
+ *       ..........
+ *     )
+ *     ..........
+ *     [Z] => Array (
+ *       ..........
+ *     )
+ *   )
+ *   [А-Я] => Array (
+ *     ..........
+ *   )
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -16,7 +80,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/brand/index/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
