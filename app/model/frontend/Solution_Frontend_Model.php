@@ -256,6 +256,7 @@ class Solution_Frontend_Model extends Frontend_Model {
                       `b`.`id` AS `id`,
                       `c`.`id` AS `group_id`,
                       `c`.`name` AS `group_name`,
+                      `a`.`require` AS `require`,
                       `a`.`code` AS `code`,
                       `a`.`name` AS `name`,
                       `a`.`title` AS `title`,
@@ -263,7 +264,7 @@ class Solution_Frontend_Model extends Frontend_Model {
                       CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
                       `a`.`unit` AS `unit`,
                       `a`.`count` AS `count`,
-                      `a`.`note` AS `note`,
+                      `a`.`changeable` AS `changeable`,
                       `a`.`sortorder` AS `sortorder`,
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
                 FROM
@@ -276,6 +277,10 @@ class Solution_Frontend_Model extends Frontend_Model {
                     `c`.`sortorder`, `a`.`sortorder`";
         $result = $this->database->fetchAll($query, array('parent' => $id));
 
+        if (empty($result)) {
+            return array();
+        }
+        
         $products = array();
         $group_id = 0;
         $counter = -1;
@@ -285,7 +290,6 @@ class Solution_Frontend_Model extends Frontend_Model {
                 $counter++;
                 $group_id = $value['group_id'];
                 $products[$counter] = array(
-                    'id'     => $value['group_id'],
                     'name'   => $value['group_name'],
                     'amount' => $amount,
                 );
@@ -298,6 +302,7 @@ class Solution_Frontend_Model extends Frontend_Model {
             $amount = $amount + $cost;
             $products[$counter]['products'][] = array(
                 'id'         => $value['id'],
+                'require'    => $value['require'],
                 'code'       => $value['code'],
                 'name'       => $value['name'],
                 'title'      => $value['title'],
@@ -306,7 +311,7 @@ class Solution_Frontend_Model extends Frontend_Model {
                 'unit'       => $value['unit'],
                 'count'      => $value['count'],
                 'cost'       => $cost,
-                'note'       => $value['note'],
+                'changeable' => $value['changeable'],
                 'sortorder'  => $value['sortorder'],
                 'empty'      => $value['empty'],
                 'url'        => $value['empty'] ? null : $this->getURL('frontend/catalog/product/id/' . $value['id'])

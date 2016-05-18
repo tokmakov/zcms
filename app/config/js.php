@@ -21,18 +21,19 @@ $js = array(                                     // js-файлы, подклю�
             'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
             'basket-checkout.js',
         ),
-        'blog' => array(                         // блог
+        'blog'            => array(              // блог
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'catalog' => array(                      // каталог товаров
+        'brand'           => 'brand.js',         // бренды
+        'catalog'         => array(              // каталог товаров
             'reload.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'compare'    => array(                   // сравнение товаров
+        'compare'         => array(              // сравнение товаров
             'compare.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',

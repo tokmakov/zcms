@@ -68,7 +68,7 @@ class Show_Solution_Backend_Controller extends Solution_Backend_Controller {
         );
 
         // получаем от модели массив товаров выбранного типового решения
-        $products = $this->solutionBackendModel->getSolutionProducts($this->params['id']);
+        $complect = $this->solutionBackendModel->getSolutionProducts($this->params['id']);
 
         // единицы измерения
         $units = $this->solutionBackendModel->getUnits();
@@ -84,7 +84,7 @@ class Show_Solution_Backend_Controller extends Solution_Backend_Controller {
             // наименование типового решения
             'name'        => $name,
             // массив товаров выбранного типового решения
-            'products'    => $products,
+            'complect'    => $complect,
             // единицы измерения
             'units'       => $units,
             // URL страницы с формой для добавления товара

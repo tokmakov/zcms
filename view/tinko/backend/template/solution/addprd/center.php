@@ -49,7 +49,7 @@ defined('ZCMS') or die('Access denied');
     $price      = 0.0;
     $unit       = 0;
     $count      = 1;
-    $note       = 0;
+    $changeable = 0;
 
     if (isset($savedFormData)) {
         $group      = $savedFormData['group'];
@@ -60,7 +60,7 @@ defined('ZCMS') or die('Access denied');
         $price      = $savedFormData['price'];
         $unit       = $savedFormData['unit'];
         $count      = $savedFormData['count'];
-        $note       = $savedFormData['note'];
+        $changeable = $savedFormData['changeable'];
     }
 ?>
 
@@ -111,7 +111,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
             </span>
             <span>кол. <input type="text" name="count" value="<?php echo $count; ?>" /></span>
-            <span><input type="checkbox" name="note"<?php echo $note ? ' checked="checked"' : ''; ?> value="1" /> сноска</span>
+            <span><input type="checkbox" name="changeable"<?php echo $changeable ? ' checked="checked"' : ''; ?> value="1" /> изменяемое кол-во?</span>
         </div>
     </div>
     <div>

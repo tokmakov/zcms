@@ -487,6 +487,7 @@ class Solution_Backend_Model extends Backend_Model {
                       (
                           `parent`,
                           `group`,
+                          `require`,
                           `product_id`,
                           `code`,
                           `name`,
@@ -495,12 +496,12 @@ class Solution_Backend_Model extends Backend_Model {
                           `count`,
                           `price`,
                           `unit`,
-                          `heading`,
-                          `note`,
+                          `changeable`,
                           `sortorder`
                       )
                       SELECT
                           :parent,
+                          1,
                           1,
                           `id`,
                           `code`,
@@ -510,7 +511,6 @@ class Solution_Backend_Model extends Backend_Model {
                           1,
                           `price`,
                           `unit`,
-                          '',
                           0,
                           :sortorder
                       FROM
@@ -595,13 +595,14 @@ class Solution_Backend_Model extends Backend_Model {
                       `a`.`id` AS `id`,
                       `c`.`id` AS `group_id`,
                       `c`.`name` AS `group_name`,
+                      `a`.`require` AS `require`,
                       `a`.`code` AS `code`,
                       `a`.`name` AS `name`,
                       `a`.`title` AS `title`,
                       CASE WHEN `b`.`price` IS NULL THEN `a`.`price` ELSE `b`.`price` END AS `price`,
                       `a`.`unit` AS `unit`,
                       `a`.`count` AS `count`,
-                      `a`.`note` AS `note`,
+                      `a`.`changeable` AS `changeable`,
                       `a`.`sortorder` AS `sortorder`,
                       CASE WHEN `b`.`id` IS NULL THEN 1 ELSE 0 END AS `empty`
                 FROM
@@ -613,6 +614,10 @@ class Solution_Backend_Model extends Backend_Model {
                 ORDER BY
                     `c`.`sortorder`, `a`.`sortorder`";
         $result = $this->database->fetchAll($query, array('parent' => $id));
+        
+        if (empty($result)) {
+            return array();
+        }
 
         $products = array();
         $group_id = 0;
@@ -623,7 +628,6 @@ class Solution_Backend_Model extends Backend_Model {
                 $counter++;
                 $group_id = $value['group_id'];
                 $products[$counter] = array(
-                    'id'     => $value['group_id'],
                     'name'   => $value['group_name'],
                     'amount' => $amount,
                 );
@@ -635,18 +639,19 @@ class Solution_Backend_Model extends Backend_Model {
             $cost = $value['price'] * $value['count'];
             $amount = $amount + $cost;
             $products[$counter]['products'][] = array(
-                'id'        => $value['id'],
-                'code'      => $value['code'],
-                'name'      => $value['name'],
-                'title'     => $value['title'],
-                'price'     => $value['price'],
-                'unit'      => $value['unit'],
-                'count'     => $value['count'],
-                'cost'      => $cost,
-                'note'      => $value['note'],
-                'sortorder' => $value['sortorder'],
-                'empty'     => $value['empty'],
-                'url'       => array(
+                'id'         => $value['id'],
+                'require'    => $value['require'],
+                'code'       => $value['code'],
+                'name'       => $value['name'],
+                'title'      => $value['title'],
+                'price'      => $value['price'],
+                'unit'       => $value['unit'],
+                'count'      => $value['count'],
+                'cost'       => $cost,
+                'changeable' => $value['changeable'],
+                'sortorder'  => $value['sortorder'],
+                'empty'      => $value['empty'],
+                'url'        => array(
                     'up'     => $this->getURL('backend/solution/prdup/id/' . $value['id']),
                     'down'   => $this->getURL('backend/solution/prddown/id/' . $value['id']),
                     'edit'   => $this->getURL('backend/solution/editprd/id/' . $value['id']),
@@ -884,7 +889,7 @@ class Solution_Backend_Model extends Backend_Model {
                       `count`,
                       `price`,
                       `unit`,
-                      `note`,
+                      `changeable`,
                       `sortorder`
                   )
                   VALUES
@@ -900,7 +905,7 @@ class Solution_Backend_Model extends Backend_Model {
                       :count,
                       :price,
                       :unit,
-                      :note,
+                      :changeable,
                       :sortorder
                   )";
         $this->database->execute($query, $data);
@@ -914,7 +919,7 @@ class Solution_Backend_Model extends Backend_Model {
     public function getSolutionProduct($id) {
         $query = "SELECT
                       `parent`, `group`, `require`, `code`, `name`, `title`,
-                      `shortdescr`, `count`, `price`, `unit`, `note`
+                      `shortdescr`, `count`, `price`, `unit`, `changeable`
                   FROM
                       `solutions_products`
                   WHERE
@@ -1022,7 +1027,7 @@ class Solution_Backend_Model extends Backend_Model {
                       `count`      = :count,
                       `price`      = :price,
                       `unit`       = :unit,
-                      `note`       = :note
+                      `changeable` = :changeable
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);

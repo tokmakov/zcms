@@ -65,7 +65,7 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
         );
 
         // получаем от модели массив товаров типового решения
-        $products = $this->solutionFrontendModel->getSolutionProducts($this->params['id']);
+        $complect = $this->solutionFrontendModel->getSolutionProducts($this->params['id']);
 
         // единицы измерения
         $units = $this->solutionFrontendModel->getUnits();
@@ -85,7 +85,7 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
             // URL ссылки на файл изображения
             'imgURL'      => $solution['url']['img'],
             // массив товаров типового решения
-            'products'    => $products,
+            'complect'    => $complect,
             // единицы измерения
             'units'       => $units,
             // основное содержание типового решения

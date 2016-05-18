@@ -6,7 +6,7 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
- * $products - массив товаров выбранного типового решения
+ * $complect - массив товаров выбранного типового решения
  * $units - единицы измерения
  * $addPrdUrl - URL страницы с формой для добавления товара
  * 
@@ -19,7 +19,7 @@
  *   5 => 'пара'
  * );
  * 
- * $products = Array (
+ * $complect = Array (
  *   [0] => Array (
  *     [id] => 3
  *     [name] => Объектовое оборудование
@@ -27,6 +27,7 @@
  *     [products] => Array (
  *       [0] => Array (
  *         [id] => 61
+ *         [require] = 1
  *         [code] => 225676
  *         [name] => RS-200TP-RB
  *         [title] => Прибор объектовый со встроенным радиопередатчиком
@@ -34,7 +35,7 @@
  *         [unit] => 1
  *         [count] => 1
  *         [cost] => 5510.00
- *         [note] => 0
+ *         [changeable] => 0
  *         [sortorder] => 1
  *         [empty] => 0
  *         [url] => Array (
@@ -46,6 +47,7 @@
  *       )
  *       [1] => Array (
  *         [id] => 62
+ *         [require] = 0
  *         [code] => 224210
  *         [name] => Риф-КТМ-N
  *         [title] => Клавиатура кодовая
@@ -53,7 +55,7 @@
  *         [unit] => 1
  *         [count] => 1
  *         [cost] => 1240.00
- *         [note] => 0
+ *         [changeable] => 0
  *         [sortorder] => 2
  *         [empty] => 0
  *         [url] => Array (
@@ -75,6 +77,7 @@
  *     [products] => Array (
  *       [0] => Array (
  *         [id] => 68
+ *         [require] = 1
  *         [code] => 206633
  *         [name] => RS-200PN
  *         [title] => Пульт централизованного наблюдения
@@ -94,6 +97,7 @@
  *       )
  *       [1] => Array (
  *         [id] => 69
+ *         [require] = 1
  *         [code] => 020124
  *         [name] => RS-200RD
  *         [title] => Устройство радиоприемное
@@ -124,7 +128,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/solutions/show/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -136,7 +140,7 @@ defined('ZCMS') or die('Access denied');
 
 <p><a href="<?php echo $addPrdUrl; ?>">Добавить товар</a></p>
 
-<?php if (!empty($products)): ?>
+<?php if ( ! empty($complect)): ?>
     <table class="data-table">
         <tr>
             <th>№</th>
@@ -151,24 +155,28 @@ defined('ZCMS') or die('Access denied');
             <th>Удл.</th>
         </tr>
         <?php $amount = 0.0; ?>
-        <?php foreach($products as $value) : ?>
-            <tr>
-                <th colspan="10"><?php echo $value['name']; ?></th>
-            </tr>
-            <?php foreach ($value['products'] as $item): ?>
+        <?php foreach($complect as $value) : ?>
+            <?php if (isset($complect[1])): /* если групп товаров в типовом решении больше одной */ ?>
                 <tr>
-                    <td><?php echo $item['sortorder']; ?></td>
-                    <td<?php echo $item['empty'] ? ' class="selected"' : ''; ?>><?php echo $item['code']; ?></td>
-                    <td><?php echo $item['name']; ?></td>
-                    <td><?php echo $item['count']; ?><?php echo $item['note'] ? '*' : ''; ?></td>
-                    <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
-                    <td><?php echo $units[$item['unit']]; ?></td>
-                    <td><a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a></td>
-                    <td><a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a></td>
-                    <td><a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a></td>
-                    <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a></td>
+                    <th colspan="10"><?php echo $value['name']; ?></th>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
+            <?php if ( ! empty($value['products'])): ?>
+                <?php foreach ($value['products'] as $item): ?>
+                    <tr>
+                        <td><?php echo $item['sortorder']; ?></td>
+                        <td<?php echo $item['empty'] ? ' class="selected"' : ''; ?>><?php echo $item['code']; ?></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo $item['count']; ?><?php echo $item['changeable'] ? '*' : ''; ?></td>
+                        <td><?php echo number_format($item['price'], 2, '.', ''); ?></td>
+                        <td><?php echo $units[$item['unit']]; ?></td>
+                        <td><a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a></td>
+                        <td><a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a></td>
+                        <td><a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a></td>
+                        <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <tr>
                 <td colspan="10" style="text-align: right;">Итого: <?php echo number_format($value['amount'], 2, '.', ''); ?></td>
             </tr>
@@ -179,7 +187,7 @@ defined('ZCMS') or die('Access denied');
         <p>Итого за весь комплект: <strong><?php echo number_format($amount, 2, '.', ''); ?></strong> руб.</p>
     <?php endif; ?>
 <?php else: ?>
-    <p>Нет товаров</p>
+    <p>Нет товаров в типовом решении</p>
 <?php endif; ?>
 
 <!-- Конец шаблона шаблона view/example/backend/template/solutions/show/center.php -->

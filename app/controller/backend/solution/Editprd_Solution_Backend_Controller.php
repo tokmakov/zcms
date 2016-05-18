@@ -122,8 +122,8 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             'units'       => $units,
             // количество
             'count'       => $product['count'],
-            // сноска
-            'note'        => $product['note'],
+            // изменяемое количество?
+            'changeable'  => $product['changeable'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('editSolutionProductForm')) {
@@ -192,10 +192,10 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             $data['count'] = (int)$count;
         }
 
-        // сноска
-        $data['note'] = 0;
-        if (isset($_POST['note'])) {
-            $data['note'] = 1;
+        // изменяемое количество?
+        $data['changeable'] = 0;
+        if (isset($_POST['changeable'])) {
+            $data['changeable'] = 1;
         }
 
         // были допущены ошибки при заполнении формы?

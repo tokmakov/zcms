@@ -97,14 +97,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<h1>Бренды</h1>
+<h1 id="top-page">Бренды</h1>
 
 <div id="all-brands">
     <div>
         <div>
         <?php foreach ($alphabet['A-Z'] as $char): /* ангийский алфавит */ ?>
             <?php if (isset($brands['A-Z'][$char])): ?>
-                <a href="#char-<?php echo $char; ?>"><?php echo $char; ?></a>
+                <a href="#char-<?php echo $char; ?>" class="scroll"><?php echo $char; ?></a>
             <?php else: ?>
                 <span><?php echo $char; ?></span>
             <?php endif; ?>
@@ -113,7 +113,7 @@ defined('ZCMS') or die('Access denied');
         <div>
         <?php foreach ($alphabet['А-Я'] as $char): /* русский алфавит */ ?>
             <?php if (isset($brands['А-Я'][$char])): ?>
-                <a href="#char-<?php echo $char; ?>"><?php echo $char; ?></a>
+                <a href="#char-<?php echo $char; ?>" class="scroll"><?php echo $char; ?></a>
             <?php else: ?>
                 <span><?php echo $char; ?></span>
             <?php endif; ?>
@@ -153,6 +153,7 @@ defined('ZCMS') or die('Access denied');
                     </li>
                 <?php endforeach; ?>
                 </ul>
+                <a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>
             </div>
         <?php endforeach; ?>
         </section>
@@ -173,6 +174,7 @@ defined('ZCMS') or die('Access denied');
                     </li>
                 <?php endforeach; ?>
                 </ul>
+                <a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>
             </div>
         <?php endforeach; ?>
         </section>

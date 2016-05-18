@@ -36,6 +36,9 @@
         margin-bottom: 20px;
         border-bottom: 2px dashed #5390cc;
     }
+        #all-brands > section > div {
+            position: relative;
+        }
         #all-brands > section > div:not(:last-child) {
             padding-bottom: 15px;
             margin-bottom: 20px;
@@ -76,5 +79,19 @@
                         display: table-cell;
                         vertical-align: middle;
                     }
+            #all-brands > section > div > a { /* стрелка вверх */
+                display: block;
+                position: absolute;
+                right: 0;
+                top: 0px;
+                font-size: 30px;
+                color: #d1d1d1;
+            }
+                #all-brands > section > div > a > i {
+                    vertical-align: top;
+                }
+            #all-brands > section > div > a:hover {
+                text-decoration: none;   
+            }
         
 

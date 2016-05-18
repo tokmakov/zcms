@@ -16,7 +16,7 @@
  * $unit - единица измерения
  * $units - единицы измерения для возможности выбора
  * $count - количество
- * $note - сноска
+ * $changeable - изменяемое количество?
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были
  * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
  * данными и вывести сообщение об ошибках.
@@ -62,7 +62,7 @@ defined('ZCMS') or die('Access denied');
         $price      = $savedFormData['price'];
         $unit       = $savedFormData['unit'];
         $count      = $savedFormData['count'];
-        $note       = $savedFormData['note'];
+        $changeable = $savedFormData['changeable'];
     }
 ?>
 
@@ -113,7 +113,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
             </span>
             <span>кол. <input type="text" name="count" value="<?php echo $count; ?>" /></span>
-            <span><input type="checkbox" name="note"<?php echo $note ? ' checked="checked"' : ''; ?> value="1" /> сноска</span>
+            <span><input type="checkbox" name="changeable"<?php echo $changeable ? ' checked="checked"' : ''; ?> value="1" /> изменяемое кол-во?</span>
         </div>
     </div>
     <div>

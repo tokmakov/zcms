@@ -76,7 +76,7 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
             'image'       => $image,
             // alt текст сертификата партнера
             'alttext'     => $partner['alttext'],
-            // показывать сертификат партнера?
+            // срок действия сертификата
             'expire'      => $partner['expire'],
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
