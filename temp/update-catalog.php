@@ -30,15 +30,17 @@ if (is_file('temp/errors.txt')) {
     unlink('temp/errors.txt');
 }
 
+clearTmpTables($register);
 parseXML($register);
 updateTempTables($register);
 checkImages($register);
+checkFiles($register);
 updateWorkTables($register);
 
-function parseXML($register) {
-    
-    echo 'PARSE XML' . PHP_EOL;
-    
+function clearTmpTables($register) {
+
+    echo 'CLEAR TMP TABLES' . PHP_EOL;
+
     $register->database->execute('TRUNCATE TABLE `tmp_categories`');
     $register->database->execute('TRUNCATE TABLE `tmp_products`');
     $register->database->execute('TRUNCATE TABLE `tmp_makers`');
@@ -52,7 +54,11 @@ function parseXML($register) {
     $register->database->execute('TRUNCATE TABLE `tmp_certs`');
     $register->database->execute('TRUNCATE TABLE `tmp_cert_prod`');
 
-    $register->database->execute('TRUNCATE TABLE `temp_related`');
+}
+
+function parseXML($register) {
+    
+    echo 'PARSE XML' . PHP_EOL;
     
     $xml = simplexml_load_file('temp/example.xml');
     
@@ -280,6 +286,8 @@ function parseXML($register) {
             $data['unit'] = 2; // компл.
         } elseif ($product->unit == '650d0173-30d1-11da-bf68-0011d802924c') {
             $data['unit'] = 3; // упак.
+        } elseif ($product->unit == '538654c7-e8b9-11e4-9419-001dd8b71c11') {
+            $data['unit'] = 3; // уп.
         } elseif ($product->unit == '650d0166-30d1-11da-bf68-0011d802924c') {
             $km = true;
             $data['unit'] = 4; // км.
@@ -327,42 +335,22 @@ function parseXML($register) {
         // доп.информация
         $data['padding'] = trim($product->padding);
 
+        /*
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name . '.jpg';
         $data['image'] = '';
         if (is_file('files/catalog/src/imgs/'.$name)) {
             $data['image'] = $name;
         }
+        */
         // ЭТОТ КОД ПОТОМ УДАЛИТЬ
-        /*
         $name = strtoupper(md5($data['code']));
-        $name = $name[0] . '/' . $name[1] . '/' . $name;
-        $image = false;
+        $name = $name[0] . '/' . $name[1] . '/' . $name . '.jpg';
         $data['image'] = '';
-        if (is_file('files/catalog/src/temp/'.$data['code'].'.jpeg')) {
-            $name = $name . '.jpg';
-            //copy('files/catalog/src/temp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
-            $image = true;
-        }
         if (is_file('files/catalog/src/temp/'.$data['code'].'.jpg')) {
-            $name = $name . '.jpg'; // потому как все файлы теперь jpg
-            //copy('files/catalog/src/temp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
-            $image = true;
-        }
-        if (is_file('files/catalog/src/temp/'.$data['code'].'.png')) {
-            $name = $name . '.jpg'; // потому как все файлы теперь jpg
-            //copy('files/catalog/src/temp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
-            $image = true;
-        }
-        if (is_file('files/catalog/src/temp/'.$data['code'].'.gif')) {
-            $name = $name . '.jpg'; // потому как все файлы теперь jpg
-            //copy('files/catalog/src/temp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
-            $image = true;
-        }
-        if ($image) {
+            copy('files/catalog/src/temp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
             $data['image'] = $name;
         }
-        */
         // фото
         /*
         $data['image'] = '';
@@ -812,7 +800,7 @@ function updateTempTables($register) {
             }
             $data['image'] = $image;
         }
-          
+
         $data['hit'] = $product['hit'];
         $data['new'] = $product['new'];
         $data['code'] = $product['code'];
@@ -1518,6 +1506,92 @@ function updateTempTables($register) {
     }
 }
 
+function checkImages($register) {
+    $query = "SELECT `id`, `code`, `image` FROM `temp_products` WHERE `image` <> ''";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (is_file('files/catalog/imgs/big/' . $item['image'])) {
+            continue;
+        }
+        file_put_contents('temp/errors.txt', 'Изображение '.$item['image'].' для товара '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+    }
+}
+
+function checkFiles($register) {
+    $query = "SELECT `id`, `filename`, `code` FROM `temp_docs` WHERE 1";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (is_file('files/catalog/docs/' . $item['filename'])) {
+            continue;
+        }
+        file_put_contents('temp/errors.txt', 'Файл документации '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        $query = "DELETE FROM `temp_docs` WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+        $query = "DELETE FROM `temp_doc_prd` WHERE `doc_id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+    }
+}
+
+function removeOldImages($register) {
+    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+    foreach ($dirs as $dir1) {
+        foreach($dirs as $dir2) {
+            $dir = 'files/catalog/imgs/small/' . $dir1 . '/' . $dir2;
+            if (is_dir($dir)) {
+                $files = scandir($dir);
+                foreach ($files as $file) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $image = $dir1 . '/' . $dir2 . '/' . $file;
+                    $query = "SELECT 1 FROM `temp_products` WHERE `image` = :image";
+                    $result = $register->database->fetchOne($query, array('image' => $image));
+                    if (false === $result) {
+                        /*
+                        unlink('files/catalog/imgs/small/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
+                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        }
+                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
+                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        }
+                        */
+                        file_put_contents('temp/remove.txt', 'Удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
+        }
+    }
+}
+
+function removeOldFiles($register) {
+    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+    foreach ($dirs as $dir1) {
+        foreach($dirs as $dir2) {
+            $dir = 'files/catalog/docs/' . $dir1 . '/' . $dir2;
+            if (is_dir($dir)) {
+                $files = scandir($dir);
+                foreach ($files as $file) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $filename = $dir1 . '/' . $dir2 . '/' . $file;
+                    $query = "SELECT 1 FROM `temp_docs` WHERE `filename` = :filename";
+                    $result = $register->database->fetchOne($query, array('filename' => $filename));
+                    if (false === $result) {
+                        /*
+                        unlink('files/catalog/docs/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        */
+                        file_put_contents('temp/remove.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
+        }
+    }
+}
+
 function updateWorkTables($register) {
 
     echo 'UPDATE WORK TABLES'. PHP_EOL;
@@ -1764,6 +1838,9 @@ function updateWorkTables($register) {
                   )";
         $register->database->execute($query, $row);
     }
+    // удаляем записи для функциональных групп, товаров которых нет в таблице groups
+    $query = "DELETE FROM `group_param_value` WHERE `group_id` NOT IN (SELECT  `id` FROM  `groups` WHERE 1)";
+    $register->database->execute($query);
     
     /*
      * ПРИВЯЗКА ПАРАМЕТРОВ И ЗНАЧЕНИЙ К ТОВАРУ
@@ -1787,6 +1864,19 @@ function updateWorkTables($register) {
                   )";
         $register->database->execute($query, $row);
     }
+    // удаляем записи для товаров, которых нет в таблице products
+    $query = "DELETE FROM `product_param_value` WHERE `product_id` NOT IN (SELECT  `id` FROM  `products` WHERE 1)";
+    $register->database->execute($query);
+    // удаляем параметры, которые не привязаны ни к одному товару
+    $query = "DELETE FROM `params` WHERE `id` NOT IN (SELECT  `param_id` FROM `product_param_value` WHERE 1)";
+    $register->database->execute($query);
+    $query = "DELETE FROM `group_param_value` WHERE `param_id` NOT IN (SELECT `id` FROM `params` WHERE 1)";
+    $register->database->execute($query);
+    // удаляем значения параметров, которые не привязаны ни к одному товару
+    $query = "DELETE FROM `values` WHERE `id` NOT IN (SELECT `value_id` FROM `product_param_value` WHERE 1)";
+    $register->database->execute($query);
+    $query = "DELETE FROM `group_param_value` WHERE `value_id` NOT IN (SELECT `id` FROM `values` WHERE 1)";
+    $register->database->execute($query);
     
     /*
      * ФАЙЛЫ ДОКУМЕНТАЦИИ
@@ -1886,92 +1976,6 @@ function updateWorkTables($register) {
 
 }
 
-function checkImages($register) {
-    $query = "SELECT `id`, `code`, `image` FROM `temp_products` WHERE `image` <> ''";
-    $items = $register->database->fetchAll($query);
-    foreach ($items as $item) {
-        if (is_file('files/catalog/imgs/big/' . $item['image'])) {
-            continue;
-        }
-        file_put_contents('temp/errors.txt', 'Файл '.$item['image'].' для товара '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
-        $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
-        $register->database->execute($query, array('id' => $item['id']));
-    }
-}
-
-function checkFiles($register) {
-    $query = "SELECT `id`, `filename`, `code` FROM `temp_docs` WHERE 1";
-    $items = $register->database->fetchAll($query);
-    foreach ($items as $item) {
-        if (is_file('files/catalog/docs/' . $item['filename'])) {
-            continue;
-        }
-        file_put_contents('temp/errors.txt', 'Файл документации '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
-        $query = "DELETE FROM `temp_docs` WHERE `id` = :id";
-        $register->database->execute($query, array('id' => $item['id']));
-        $query = "DELETE FROM `temp_doc_prd` WHERE `doc_id` = :id";
-        $register->database->execute($query, array('id' => $item['id']));
-    }
-}
-
-function removeOldImages($register) {
-    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
-    foreach ($dirs as $dir1) {
-        foreach($dirs as $dir2) {
-            $dir = 'files/catalog/imgs/small/' . $dir1 . '/' . $dir2;
-            if (is_dir($dir)) {
-                $files = scandir($dir);
-                foreach ($files as $file) {
-                    if ($file == '.' || $file == '..') {
-                        continue;
-                    }
-                    $image = $dir1 . '/' . $dir2 . '/' . $file;
-                    $query = "SELECT 1 FROM `temp_products` WHERE `image` = :image";
-                    $result = $register->database->fetchOne($query, array('image' => $image));
-                    if (false === $result) {
-                        /*
-                        unlink('files/catalog/imgs/small/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
-                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        }
-                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
-                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        }
-                        */
-                        file_put_contents('temp/remove.txt', 'Удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);
-                    }
-                }
-            }
-        }
-    }
-}
-
-function removeOldFiles() {
-    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
-    foreach ($dirs as $dir1) {
-        foreach($dirs as $dir2) {
-            $dir = 'files/catalog/docs/' . $dir1 . '/' . $dir2;
-            if (is_dir($dir)) {
-                $files = scandir($dir);
-                foreach ($files as $file) {
-                    if ($file == '.' || $file == '..') {
-                        continue;
-                    }
-                    $filename = $dir1 . '/' . $dir2 . '/' . $file;
-                    $query = "SELECT 1 FROM `temp_docs` WHERE `filename` = :filename";
-                    $result = $register->database->fetchOne($query, array('filename' => $filename));
-                    if (false === $result) {
-                        /*
-                        unlink('files/catalog/docs/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        */
-                        file_put_contents('temp/remove.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
-                    }
-                }
-            }
-        }
-    }
-}
-
 function updateMeta($register) {
     $query = "SELECT `a`.`id` AS `id`, `a`.`category` AS `category`, `a`.`name` AS `name`, `a`.`title` AS `title`, `b`.`name` AS `maker` FROM `temp_products` `a` INNER JOIN `temp_makers` `b` ON `a`.`maker`=`b`.`id` WHERE `a`.`keywords` = ''";
     $products = $register->database->fetchAll($query);
@@ -1996,7 +2000,14 @@ function updateMeta($register) {
         $keywords = str_replace(')', ' ', $keywords);
         $keywords = preg_replace('~\s+~', ' ', $keywords);
         $query = "UPDATE `temp_products` SET `keywords` = :keywords, `description` = :description WHERE `id` = :id";
-        $register->database->execute($query, array('id' => $product['id']));
+        $register->database->execute(
+            $query,
+            array(
+                'keywords' => $keywords,
+                'description' => $description,
+                'id' => $product['id']
+            )
+        );
     }
 }
 
