@@ -32,3 +32,26 @@
             right: 0;
             top: 0;
         }
+        
+@media screen and (max-width: 600px) {
+    #partners > a {
+        width: 31.66666%;
+    }
+    #partners > a:nth-child(4n) {
+        margin-right: 2.5%;
+    }
+    #partners > a:nth-child(3n) {
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 400px) {
+    #partners > a {
+        width: 48.75%;
+    }
+    #partners > a:nth-child(3n) {
+        margin-right: 2.5%;
+    }
+    #partners > a:nth-child(2n) {
+        margin-right: 0;
+    }
+}

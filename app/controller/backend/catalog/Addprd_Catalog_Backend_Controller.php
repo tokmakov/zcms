@@ -139,13 +139,13 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $techdataName = array();
         foreach ($_POST['techdata_name'] as $name) {
             $tmp = trim(utf8_substr($name, 0, 250));
-            $tmp = preg_replace('~\s+~', ' ', $tmp);
+            $tmp = preg_replace('~\s+~u', ' ', $tmp);
             $techdataName[] = $tmp;
         }
         $techdataValue = array();
         foreach ($_POST['techdata_value'] as $value) {
             $tmp = trim(utf8_substr($value, 0, 250));
-            $tmp = preg_replace('~\s+~', ' ', $tmp);
+            $tmp = preg_replace('~\s+~u', ' ', $tmp);
             $techdataValue[] = $tmp;
         }
         $techdataNameValue = array();

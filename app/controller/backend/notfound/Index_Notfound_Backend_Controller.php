@@ -36,7 +36,7 @@ class Index_Notfound_Backend_Controller extends Backend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+                'url'  => $this->notfoundBackendModel->getURL('backend/index/index')
             ),
         );
 
