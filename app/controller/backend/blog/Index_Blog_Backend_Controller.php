@@ -35,10 +35,12 @@ class Index_Blog_Backend_Controller extends Blog_Backend_Controller {
             ),
         );
 
-        // постраничная навигация
+        /*
+         * постраничная навигация
+         */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во постов
         $totalPosts = $this->blogBackendModel->getCountAllPosts();
@@ -48,7 +50,7 @@ class Index_Blog_Backend_Controller extends Blog_Backend_Controller {
             $thisPageUrl,                                  // URL этой страницы
             $page,                                         // текущая страница
             $totalPosts,                                   // общее кол-во постов
-            $this->config->pager->backend->blog->perpage,  // новостей на страницу
+            $this->config->pager->backend->blog->perpage,  // постов на страницу
             $this->config->pager->backend->blog->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();

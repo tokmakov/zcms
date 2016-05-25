@@ -40,7 +40,7 @@ class Index_Order_Backend_Controller extends Order_Backend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во заказов
         $totalOrders = $this->orderBackendModel->getCountOrders();

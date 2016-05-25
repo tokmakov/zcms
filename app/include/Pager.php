@@ -46,7 +46,10 @@ class Pager {
         $this->recordsPerPage = $recordsPerPage; // количество записей на одной странице
         $this->leftRightLinks = $leftRightLinks; // количество ссылок слева и справа
 
-        $this->totalPages = ceil($this->totalRecords/$this->recordsPerPage); // общее количество страниц
+        $this->totalPages = 1; // общее количество страниц 
+        if ($this->totalRecords) {
+            $this->totalPages = ceil($this->totalRecords/$this->recordsPerPage); 
+        }
     }
 
     /**
@@ -54,14 +57,14 @@ class Pager {
      */
     public function getNavigation() {
 
+        if ($this->currentPage > $this->totalPages) { // недопустимое значение $currentPage
+            return null;
+        }
         if ($this->totalRecords == 0) { // постраничная навигация не нужна
             return false;
         }
         if ($this->totalRecords <= $this->recordsPerPage) { // постраничная навигация не нужна
             return false;
-        }
-        if ($this->currentPage > $this->totalPages) { // недопустимое значение $currentPage
-            return null;
         }
 
         $result = array(); // массив элементов постраничной навигации

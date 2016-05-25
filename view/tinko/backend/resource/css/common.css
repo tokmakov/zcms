@@ -160,7 +160,7 @@ form input[type="submit"] {
 /* постраничная навигация */
 .pager {
     overflow: hidden;
-    margin-top: 20px;
+    margin: 20px 0 !important;
     padding: 0;
 }
     .pager li {

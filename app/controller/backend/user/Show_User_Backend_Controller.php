@@ -53,12 +53,12 @@ class Show_User_Backend_Controller extends User_Backend_Controller {
          */
         $page = 1;
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) {
-            $page = $this->params['page'];
+            $page = (int)$this->params['page'];
         }
         // общее кол-во заказов пользователя
         $totalOrders = $this->userBackendModel->getCountUserOrders($this->params['id']);
         // URL этой страницы
-        $thisPageUrl = $this->userBackendModel->getURL('backend/user/show');
+        $thisPageUrl = $this->userBackendModel->getURL('backend/user/show/id/' . $this->params['id']);
 
         $temp = new Pager(
             $thisPageUrl,                                    // URL этой страницы

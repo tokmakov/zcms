@@ -34,7 +34,7 @@
  *     [ctg_id] => 1
  *     [ctg_name] => Новости компании
  *     [url] => Array (
- *       [post] => http://www.host.ru/blog/item/6
+ *       [post] => http://www.host.ru/blog/post/6
  *       [image] => http://www.host.ru/files/blog/thumb/6.jpg
  *     )
  *   )

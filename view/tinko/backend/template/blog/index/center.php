@@ -18,7 +18,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/backend/template/blog/index/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -36,7 +36,7 @@ defined('ZCMS') or die('Access denied');
     
 <p><a href="<?php echo $addPostUrl; ?>">Добавить пост</a></p>
 
-<?php if (!empty($posts)): ?>
+<?php if ( ! empty($posts)): ?>
     <div id="all-blog-posts">
         <ul>
             <?php foreach($posts as $item) : ?>
@@ -52,7 +52,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
+<?php if ( ! empty($pager)): // постраничная навигация ?>
     <ul class="pager">
     <?php if (isset($pager['first'])): ?>
         <li>

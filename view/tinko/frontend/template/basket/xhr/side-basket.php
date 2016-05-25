@@ -17,9 +17,9 @@ defined('ZCMS') or die('Access denied');
 <?php if (!empty($sideBasketProducts)): /* покупательская корзина */ ?>
     <table>
         <tr>
-            <th width="20%">Код</th>
-            <th width="65%">Наименование</th>
-            <th width="15%">Кол.</th>
+            <th>Код</th>
+            <th>Наименование</th>
+            <th>Кол.</th>
         </tr>
         <?php foreach ($sideBasketProducts as $item): ?>
             <tr>
