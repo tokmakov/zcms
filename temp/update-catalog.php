@@ -345,10 +345,30 @@ function parseXML($register) {
         */
         // ЭТОТ КОД ПОТОМ УДАЛИТЬ
         $name = strtoupper(md5($data['code']));
-        $name = $name[0] . '/' . $name[1] . '/' . $name . '.jpg';
+        $name = $name[0] . '/' . $name[1] . '/' . $name;
+        $image = false;
         $data['image'] = '';
-        if (is_file('files/catalog/src/temp/'.$data['code'].'.jpg')) {
-            copy('files/catalog/src/temp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
+        if (is_file('files/catalog/src/tmp/'.$data['code'].'.jpeg')) {
+            $name = $name . '.jpeg';
+            copy('files/catalog/src/tmp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if (is_file('files/catalog/src/tmp/'.$data['code'].'.jpg')) {
+            $name = $name . '.jpg';
+            copy('files/catalog/src/tmp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if (is_file('files/catalog/src/tmp/'.$data['code'].'.png')) {
+            $name = $name . '.png';
+            copy('files/catalog/src/tmp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if (is_file('files/catalog/src/tmp/'.$data['code'].'.gif')) {
+            $name = $name . '.gif';
+            copy('files/catalog/src/tmp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
+            $image = true;
+        }
+        if ($image) {
             $data['image'] = $name;
         }
         // фото
@@ -670,14 +690,14 @@ function updateTempTables($register) {
                   )
                   VALUES
                   (
-                      :name,
-                      :name,
+                      :name1,
+                      :name2,
                       '',
                       '',
                       '',
                       :code
                   )";
-        $register->database->execute($query, array('name' => trim($maker['name']), 'code' => $maker['code'])); 
+        $register->database->execute($query, array('name1' => trim($maker['name']), 'name2' => trim($maker['name']), 'code' => $maker['code'])); 
     }
     // теперь таблицы tmp_makers и temp_makers содержат одинаковое
     // количество записей; обновляем все записи таблицы temp_makers
@@ -687,11 +707,11 @@ function updateTempTables($register) {
         $query = "UPDATE
                       `temp_makers`
                   SET
-                      `name` = :name,
-                      `altname` = :name
+                      `name` = :name1,
+                      `altname` = :name2
                   WHERE
                       `code` = :code";
-        $register->database->execute($query, array('name' => $maker['name'], 'code' => $maker['code'])); 
+        $register->database->execute($query, array('name1' => $maker['name'], 'name2' => $maker['name'] 'code' => $maker['code'])); 
     }
     
     /*
@@ -1989,7 +2009,7 @@ function updateMeta($register) {
         $description = $description.'. '.$root.'.';
         if (strlen($description) < 188) $description = $description.' Каталог оборудования систем безопасности. Торговый Дом ТИНКО.';
         $keywords = $product['name'];
-        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($prd['title']);
+        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($product['title']);
         $keywords = $keywords.' '.$product['maker'];
         $keywords = $keywords.' цена купить';
         $keywords = $keywords.' '.lcfirst($root);
