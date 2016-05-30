@@ -202,4 +202,5 @@ defined('ZCMS') or die('Access denied');
     <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
 <!-- Конец шаблона view/example/frontend/template/right.php -->

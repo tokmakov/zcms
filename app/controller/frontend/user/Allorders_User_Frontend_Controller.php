@@ -48,13 +48,13 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
         // общее кол-во заказов пользователя
         $totalOrders = $this->userFrontendModel->getCountAllOrders();
         // URL этой страницы
-        $thisPageUrl = $this->userFrontendModel->getURL('frontend/user/allorders');
+        $thisPageURL = $this->userFrontendModel->getURL('frontend/user/allorders');
         $temp = new Pager(
-            $thisPageUrl,                                             // URL этой страницы
+            $thisPageURL,                                             // URL этой страницы
             $page,                                                    // текущая страница
             $totalOrders,                                             // общее кол-во заказов
-            Config::getInstance()->pager->frontend->orders->perpage,  // кол-во заказов на странице
-            Config::getInstance()->pager->frontend->orders->leftright // кол-во ссылок слева и справа
+            $this->config->pager->frontend->orders->perpage,          // кол-во заказов на странице
+            $this->config->pager->frontend->orders->leftright         // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
         if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)

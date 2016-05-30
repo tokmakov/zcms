@@ -173,6 +173,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         return $this->user;
+
     }
 
     /**

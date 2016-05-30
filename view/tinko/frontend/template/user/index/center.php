@@ -21,7 +21,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/user/index/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;

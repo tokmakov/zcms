@@ -89,7 +89,7 @@ defined('ZCMS') or die('Access denied');
 <div id="user-order">
     <p>
         <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
-        <span>Итого: <strong><?php echo number_format($order['amount'], 2, '.', ' '); ?></strong> руб.</span>
+        <span>Итого: <strong><?php echo number_format($order['user_amount'], 2, '.', ' '); ?></strong> руб.</span>
     </p>
     <table>
         <tr>
@@ -104,8 +104,8 @@ defined('ZCMS') or die('Access denied');
                <td><?php echo $product['code']; ?></td>
                <td><?php echo $product['name']; ?></td>
                <td><?php echo $product['quantity']; ?></td>
-               <td><?php echo number_format($product['price'], 2, '.', ''); ?></td>
-               <td><?php echo number_format($product['cost'], 2, '.', ''); ?></td>
+               <td><?php echo number_format($product['user_price'], 2, '.', ''); ?></td>
+               <td><?php echo number_format($product['user_cost'], 2, '.', ''); ?></td>
            </tr>
         <?php endforeach; ?>
         <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>

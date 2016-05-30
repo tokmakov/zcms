@@ -87,20 +87,6 @@
  *   )
  * )
  *
- * $pager = Array (
- *     [first] => 1
- *     [prev] => 2
- *     [current] => 3
- *     [next] => 4
- *     [last] => 5
- *     [left] => Array (
- *         [0] => 2
- *     )
- *     [right] => Array (
- *         [0] => 4
- *     )
- * )
- *
  */
 
 defined('ZCMS') or die('Access denied');
