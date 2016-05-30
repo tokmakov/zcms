@@ -36,6 +36,7 @@ updateTempTables($register);
 checkImages($register);
 checkFiles($register);
 updateWorkTables($register);
+clearTmpTables($register);
 
 function clearTmpTables($register) {
 
@@ -335,14 +336,22 @@ function parseXML($register) {
         // доп.информация
         $data['padding'] = trim($product->padding);
 
-        /*
         $name = strtoupper(md5($data['code']));
-        $name = $name[0] . '/' . $name[1] . '/' . $name . '.jpg';
+        $name = $name[0] . '/' . $name[1] . '/' . $name;
         $data['image'] = '';
-        if (is_file('files/catalog/src/imgs/'.$name)) {
-            $data['image'] = $name;
+        if (is_file('files/catalog/src/imgs/'.$name.'.jpeg')) {
+            $data['image'] = $name.'.jpeg';
         }
-        */
+        if (is_file('files/catalog/src/imgs/'.$name.'.jpg')) {
+            $data['image'] = $name.'.jpg';
+        }
+        if (is_file('files/catalog/src/imgs/'.$name.'.png')) {
+            $data['image'] = $name.'.png';
+        }
+        if (is_file('files/catalog/src/imgs/'.$name.'.gif')) {
+            $data['image'] = $name.'.gif';
+        }
+        /*
         // ЭТОТ КОД ПОТОМ УДАЛИТЬ
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name;
@@ -371,6 +380,7 @@ function parseXML($register) {
         if ($image) {
             $data['image'] = $name;
         }
+        */
         // фото
         /*
         $data['image'] = '';
@@ -711,7 +721,7 @@ function updateTempTables($register) {
                       `altname` = :name2
                   WHERE
                       `code` = :code";
-        $register->database->execute($query, array('name1' => $maker['name'], 'name2' => $maker['name'] 'code' => $maker['code'])); 
+        $register->database->execute($query, array('name1' => $maker['name'], 'name2' => $maker['name'], 'code' => $maker['code'])); 
     }
     
     /*
@@ -1220,15 +1230,17 @@ function updateTempTables($register) {
                       :group_id,
                       :param_id,
                       :value_id,
-                      :concat_code
-                  )";
+                      :concat_code_1
+                  )
+                  ON DUPLICATE KEY UPDATE `concat_code` = :concat_code_2";
         $register->database->execute(
             $query,
             array(
                 'group_id' => $group_id,
                 'param_id' => $param_id,
                 'value_id' => $value_id,
-                'concat_code' => $row['concat_code']
+                'concat_code_1' => $row['concat_code'],
+                'concat_code_2' => $row['concat_code']
             )
         ); 
     }
