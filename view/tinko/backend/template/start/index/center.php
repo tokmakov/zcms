@@ -28,18 +28,18 @@ defined('ZCMS') or die('Access denied');
 
 <p><a href="<?php echo $editStartUrl; ?>">Редактировать витрину</a></p>
 
+<h2>Слайдер</h2>
 <?php if (!empty($banners)): ?>
-    <h2>Баннеры</h2>
     <div id="all-banners">
         <ul>
             <?php foreach($banners as $item) : ?>
                 <li>
                     <div><span><?php echo $item['date']; ?></span> <?php echo $item['name']; ?></div>
                     <div>
-                        <a href="<?php echo $item['url']['up']; ?>" title="Вверх">Вверх</a>
-                        <a href="<?php echo $item['url']['down']; ?>" title="Вниз">Вниз</a>
-                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
+                        <a href="<?php echo $item['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                        <a href="<?php echo $item['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
             <?php endforeach; ?>
