@@ -357,25 +357,35 @@ class Page_Backend_Model extends Backend_Model {
     public function removePage($id) {
         // нельзя удалить страницу, у которой есть дочерние страницы
         $query = "SELECT 1 FROM `pages` WHERE `parent` = :id LIMIT 1";
-        $res = $this->database->fetchOne($query, array('id' => $id));
-        if (false === $res) {
-            // получаем идентификатор родителя удаляемой страницы
-            $query = "SELECT `parent` FROM `pages` WHERE `id` = :id";
-            $parent = $this->database->fetchOne($query, array('id' => $id));
-            // удаляем страницу
-            $query = "DELETE FROM `pages` WHERE `id` = :id";
-            $this->database->execute($query, array('id' => $id));
-            // изменяем порядок сортировки страниц, которые с удаленной на одном уровне
-            $query = "SELECT `id` FROM `pages` WHERE `parent` = :parent ORDER BY `sortorder`";
-            $childs = $this->database->fetchAll($query, array('parent' => $parent));
-            if (count($childs) > 0) {
-                $sortorder = 1;
-                foreach ($childs as $child) {
-                    $query = "UPDATE `pages` SET `sortorder` = :sortorder WHERE `id` = :id";
-                    $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
-                    $sortorder++;
-                }
+        if ($this->database->fetchOne($query, array('id' => $id))) {
+            return;
+        }
+        // получаем идентификатор родителя удаляемой страницы
+        $query = "SELECT `parent` FROM `pages` WHERE `id` = :id";
+        $parent = $this->database->fetchOne($query, array('id' => $id));
+        // удаляем страницу
+        $query = "DELETE FROM `pages` WHERE `id` = :id";
+        $this->database->execute($query, array('id' => $id));
+        // изменяем порядок сортировки страниц, которые с удаленной на одном уровне
+        $query = "SELECT `id` FROM `pages` WHERE `parent` = :parent ORDER BY `sortorder`";
+        $childs = $this->database->fetchAll($query, array('parent' => $parent));
+        if (count($childs) > 0) {
+            $sortorder = 1;
+            foreach ($childs as $child) {
+                $query = "UPDATE `pages` SET `sortorder` = :sortorder WHERE `id` = :id";
+                $this->database->execute($query, array('sortorder' => $sortorder, 'id' => $child['id']));
+                $sortorder++;
             }
+        }
+        // удаляем файлы
+        $dir = 'files/page/' . $id;
+        if (is_dir($dir)) {
+            $files = scandir($dir);
+            foreach ($files as $file) {
+                if ($file == '.' || $file == '..') continue;
+                unlink($dir . '/' . $file);
+            }
+            rmdir($dir);
         }
     }
 }
