@@ -46,17 +46,21 @@ class Exchange_Frontend_Model extends Frontend_Model {
         if (false === $result) {
             return null;
         }
+        if ( ! empty($result['details'])) {
+            $result['details'] = unserialize($result['details']);
+        } else {
+            $result['details'] = array();
+        }
         $order = array_merge(
             array(
                 'order_id'     => $id,
                 'user_id'      => $result['user_id'],
                 'user_name'    => $result['user_name'],
-                'user_name'    => $result['user_name'],
                 'user_surname' => $result['user_surname'],
                 'user_email'   => $result['user_email'],
                 'status'       => $result['status']
             ),
-            unserialize($result['details'])
+            $result['details']
         );
         // добавляем информацию о списке товаров заказа
         $query = "SELECT

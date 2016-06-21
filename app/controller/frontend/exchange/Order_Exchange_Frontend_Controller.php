@@ -154,21 +154,26 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         $buyer = $dom->createElement('buyer');
         $root->appendChild($buyer);
         // создаем узел <name>, имя контактного лица получателя
+        $order['buyer_name'] = isset($order['buyer_name']) ? $order['buyer_name'] : '';
         $name = $dom->createElement('name', $order['buyer_name']);
         $buyer->appendChild($name);
         // создаем узел <surname>, фамилия контактного лица получателя
+        $order['buyer_surname'] = isset($order['buyer_surname']) ? $order['buyer_surname'] : '';
         $surname = $dom->createElement('surname', $order['buyer_surname']);
         $buyer->appendChild($surname);
         // создаем узел <email>, e-mail контактного лица получателя
+        $order['buyer_email'] = isset($order['buyer_email']) ? $order['buyer_email'] : '';
         $email = $dom->createElement('email', $order['buyer_email']);
         $buyer->appendChild($email);
         // создаем узел <phone>, телефон контактного лица получателя
+        $order['buyer_phone'] = isset($order['buyer_phone']) ? $order['buyer_phone'] : '';
         $phone = $dom->createElement('phone', $order['buyer_phone']);
         $buyer->appendChild($phone);
         // создаем узел <shipping>, способ доставки
         $shipping = $dom->createElement('shipping');
         $buyer->appendChild($shipping);
         // устанавливаем атрибут office для узла <shipping>
+        $order['shipping'] = isset($order['shipping']) ? $order['shipping'] : 1;
         $shipping->setAttribute('office', $order['shipping']);
         $buyer->appendChild($shipping);
         if ( ! $order['shipping']) { // доставка по адресу
@@ -185,6 +190,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         // создаем узел <company>
         $company = $dom->createElement('company');
         $buyer->appendChild($company);
+        $order['buyer_company'] = isset($order['buyer_company']) ? $order['buyer_company'] : 0;
         if ($order['buyer_company']) { // если получатель - юридическое лицо
             // создаем узел <name>, название компании-получателя
             $name = $dom->createElement('name', $order['buyer_company_name']);
@@ -220,6 +226,8 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         // создаем узел <payer>
         $payer = $dom->createElement('payer');
         $root->appendChild($payer);
+        $order['buyer_payer_different']
+            = isset($order['buyer_payer_different']) ? $order['buyer_payer_different'] : 0;
         if ($order['buyer_payer_different']) { // получатель и плательщик различаются
             // создаем узел <name>, имя контактного лица плательщика
             $name = $dom->createElement('name', $order['payer_name']);
