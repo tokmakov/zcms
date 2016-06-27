@@ -128,6 +128,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         foreach ($temp as $value) {
             $ids[] = $value['id'];
         }
+        if (empty($ids)) {
+            return array();
+        }
         $ids = implode(',', $ids);
         
         $query = "SELECT

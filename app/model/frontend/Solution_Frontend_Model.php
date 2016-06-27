@@ -162,7 +162,7 @@ class Solution_Frontend_Model extends Frontend_Model {
             $solutions[$key]['url'] = $this->getURL('frontend/solution/item/id/' . $value['id']);
         }
 
-        return $solutions ;
+        return $solutions;
 
     }
 
