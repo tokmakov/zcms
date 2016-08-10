@@ -1,7 +1,7 @@
 <?php
 /**
  * Главная страница типовых решений, список всех категорий + список всех типовых
- * решений, файл view/example/frontend/template/solutions/index/center.php,
+ * решений, файл view/example/frontend/template/solution/index/center.php,
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -10,26 +10,12 @@
  * $solutions - массив всех типовых решений
  * $pager - постраничная навигация
  *
- * $pager = Array (
- *     [first] => 1
- *     [prev] => 2
- *     [current] => 3
- *     [next] => 4
- *     [last] => 5
- *     [left] => Array (
- *         [0] => 2
- *     )
- *     [right] => Array (
- *         [0] => 4
- *     )
- * )
- *
  */
 
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/solutions/index/center.php -->
+<!-- Начало шаблона view/example/frontend/template/solution/index/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -126,6 +112,6 @@ defined('ZCMS') or die('Access denied');
     </ul>
 <?php endif; ?>
 
-<!-- Конец шаблона view/example/frontend/template/solutions/index/center.php -->
+<!-- Конец шаблона view/example/frontend/template/solution/index/center.php -->
 
 

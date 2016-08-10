@@ -34,7 +34,7 @@ defined('ZCMS') or die('Access denied');
     </table>
     <ul id="goto-basket-checkout">
         <li><a href="<?php echo $basketUrl; ?>">Перейти в корзину</a></li>
-        <li><a href="<?php echo $checkoutUrl; ?>">Оформить заказ</a></li>
+        <li><a href="<?php echo $checkoutUrl; ?>">Оформить заявку</a></li>
     </ul>
 <?php else: ?>
     <p class="empty-list-right">Ваша корзина пуста</p>

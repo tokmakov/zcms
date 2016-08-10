@@ -388,7 +388,15 @@ class Blog_Backend_Model extends Backend_Model {
      * Функция добавляет новую категорию блога
      */
     public function addCategory($data) {
-        // TODO: установить порядок сортировки
+        // порядок сортировки
+        $query = "SELECT
+                      IFNULL(MAX(`sortorder`), 0)
+                  FROM
+                      `blog_categories`
+                  WHERE
+                      1";
+        $data['sortorder'] = $this->database->fetchOne($query) + 1;
+        // добавляем новую категорию блога
         $query = "INSERT INTO `blog_categories`
                   (
                       `name`,

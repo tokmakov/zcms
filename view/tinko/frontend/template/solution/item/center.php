@@ -1,7 +1,7 @@
 <?php
 /**
  * Страница отдельного типового решения,
- * файл view/example/frontend/template/solutions/item/center.php,
+ * файл view/example/frontend/template/solution/item/center.php,
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -113,7 +113,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/solutions/item/center.php -->
+<!-- Начало шаблона view/example/frontend/template/solution/item/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -201,4 +201,4 @@ defined('ZCMS') or die('Access denied');
 
 </div>
 
-<!-- Конец шаблона view/example/frontend/template/solutions/item/center.php -->
+<!-- Конец шаблона view/example/frontend/template/solution/item/center.php -->

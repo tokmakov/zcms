@@ -43,7 +43,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->redirect($this->basketFrontendModel->getURL('frontend/basket/checkout'));
         }
 
-        $this->title = 'Оформление заказа. ' . $this->title;
+        $this->title = 'Оформление заявки. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(

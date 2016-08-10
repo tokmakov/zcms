@@ -256,7 +256,12 @@ class Page_Backend_Model extends Backend_Model {
                       `pages`
                   WHERE
                       `parent` = :parent1 OR `parent` IN (SELECT `id` FROM `pages` WHERE `parent` = :parent2)";
-        return $this->database->fetchAll($query, array('parent1' => $id, 'parent2' => $id));
+        $items = $this->database->fetchAll($query, array('parent1' => $id, 'parent2' => $id));
+        $ids = array();
+        foreach ($items as $item) {
+            $ids[] = $item['id'];
+        }
+        return $ids;
     }
 
     /**

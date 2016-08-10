@@ -630,8 +630,13 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             foreach ($temp as $item) {
                 $ids[] = $item['id'];
             }
-            $query = "DELETE FROM `compare` WHERE `id` IN (" . implode(',', $ids) . ")";
-            $this->database->execute($query);
+            $query = "UPDATE
+                          `compare`
+                      SET
+                          `active` = 0
+                      WHERE
+                          `id` NOT IN (" . implode(',', $ids) . ") AND `visitor_id` = :visitor_id";
+            $this->database->execute($query, array('visitor_id' => $this->visitorId));
         }
         // обновляем cookie
         setcookie('compare_group', $this->groupId, time() + 31536000, '/');

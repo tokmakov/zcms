@@ -181,7 +181,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
             $address = $dom->createElement('address', $order['buyer_shipping_address']);
             $shipping->appendChild($address);
             // создаем узел <city>, город доставки
-            $city = $dom->createElement('address', $order['buyer_shipping_city']);
+            $city = $dom->createElement('city', $order['buyer_shipping_city']);
             $shipping->appendChild($city);
             // создаем узел <index>, почтовый индекс
             $index = $dom->createElement('index', $order['buyer_shipping_index']);
@@ -258,7 +258,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
                 $inn = $dom->createElement('inn', $order['payer_company_inn']);
                 $company->appendChild($inn);
                 // создаем узел <kpp>, КПП компании-плательщика
-                $kpp = $dom->createElement('inn', $order['payer_company_kpp']);
+                $kpp = $dom->createElement('kpp', $order['payer_company_kpp']);
                 $company->appendChild($kpp);
                 // создаем узел <bank>, название банка компании-плательщика
                 $bank = $dom->createElement('bank', $order['payer_bank_name']);
