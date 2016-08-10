@@ -476,7 +476,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция удаляет товар из списка отложенных для сравнения товаров
+     * Функция «удаляет» товар из списка отложенных для сравнения товаров
      */
     public function removeFromCompare($productId) {
         $query = "UPDATE
@@ -512,7 +512,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция удаляет все товары из списка сравнения
+     * Функция «удаляет» все товары из списка сравнения пользователя
      */
     public function clearCompareList() {
         $query = "UPDATE
@@ -626,7 +626,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 'group_id'   => $this->groupId
             )
         );
-        if ( ! empty($temp)) {
+        if ( ! empty($temp)) { // «удаляем» товары из «старого» сравнения
             foreach ($temp as $item) {
                 $ids[] = $item['id'];
             }
@@ -635,7 +635,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       SET
                           `active` = 0
                       WHERE
-                          `id` NOT IN (" . implode(',', $ids) . ") AND `visitor_id` = :visitor_id";
+                          `id` IN (" . implode(',', $ids) . ") AND `visitor_id` = :visitor_id";
             $this->database->execute($query, array('visitor_id' => $this->visitorId));
         }
         // обновляем cookie
