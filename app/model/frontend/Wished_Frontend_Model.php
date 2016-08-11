@@ -305,8 +305,10 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
 
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
+            // кэш (ещё) не авторизованного посетителя
             $key = __CLASS__ . '-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
+            // кэш (уже) авторизованного пользователя
             $key = __CLASS__ . '-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
         }

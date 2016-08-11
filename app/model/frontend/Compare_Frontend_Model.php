@@ -587,11 +587,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
+            // кэш (ещё) не авторизованного посетителя
             $key = __CLASS__ . '-group-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
-            
+            // кэш (уже) авторизованного пользователя
             $key = __CLASS__ . '-group-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
