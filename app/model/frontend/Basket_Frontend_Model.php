@@ -655,8 +655,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     public function update(SplSubject $userFrontendModel) {
 
         $newVisitorId = $userFrontendModel->getVisitorId();
+        $oldVisitorId = $this->visitorId;
 
-        if ($newVisitorId == $this->visitorId) {
+        if ($newVisitorId == $oldVisitorId) {
             return;
         }
 
@@ -669,16 +670,21 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $this->database->execute(
             $query,
             array(
-                'old_visitor_id' => $this->visitorId,
+                'old_visitor_id' => $oldVisitorId,
                 'new_visitor_id' => $newVisitorId
             )
         );
 
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+            $key = __CLASS__ . '-products-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
+            $key = __CLASS__ . '-amount-visitor-' . $oldVisitorId;
+            $this->cache->removeValue($key);
+            
+            $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-amount-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
         }
 
