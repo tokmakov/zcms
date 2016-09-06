@@ -18,9 +18,9 @@ class Forgot_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Forgot_User_Frontend_Controller
          */
         parent::input();
@@ -66,9 +66,9 @@ class Forgot_User_Frontend_Controller extends User_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/forgot'),
+            'action'      => $this->userFrontendModel->getURL('frontend/user/forgot'),
             // восстановление пароля прошло успешно?
-            'success' => $success,
+            'success'     => $success,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('forgotPasswordForm')) {
@@ -106,7 +106,7 @@ class Forgot_User_Frontend_Controller extends User_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('forgotPasswordForm', $data);
             return false;

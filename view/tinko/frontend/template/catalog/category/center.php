@@ -340,7 +340,7 @@ for ($i = 0; $i <= 6; $i++) {
                             <option value="0">Выберите</option>
                             <?php foreach ($groups as $item): ?>
                                 <?php if (isset($item['bound'])): ?>
-                                <?php $bound = true; ?>
+                                    <?php $bound = true; ?>
                                     <optgroup label="Разное">
                                 <?php endif; ?>
                                 <option value="<?php echo $item['id']; ?>"<?php echo ($item['id'] == $group) ? ' selected="selected"' : ''; ?><?php echo (!$item['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($item['name']) . ' ► ' . $item['count']; ?> шт.</option>

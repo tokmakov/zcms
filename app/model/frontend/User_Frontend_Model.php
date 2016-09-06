@@ -4,7 +4,7 @@
  * авторизация, добавление/редактирование профилей, история заказов), взаимодействует
  * с базой данных, общедоступная часть сайта. Реализует шаблон проектирования
  * «Наблюдатель», чтобы извещать классы Basket_Frontend_Model, Wished_Frontend_Model,
- * Compared_Frontend_Model и Viewed_Frontend_Model о моменте авторизации посетителя.
+ * Compare_Frontend_Model и Viewed_Frontend_Model о моменте авторизации посетителя.
  * Это нужно, чтобы синхронизировать эти четыре списка для (еще) не авторизованного
  * посетителя и (уже) авторизованного пользователя.
  */
@@ -321,9 +321,12 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $this->userId = $res;
         $this->user = $this->getUser();
 
-        // записываем в cookie уникальный идентификатор пользователя, вместо временного
-        // идентификатора посетителя; учитываем, что посетителя может быть два аккаунта
-        $query = "SELECT `visitor_id` FROM `users` WHERE `visitor_id` = :visitor_id AND `id` <> :user_id";
+        /*
+         * записываем в cookie уникальный идентификатор пользователя, вместо временного
+         * идентификатора посетителя; учитываем, что у посетителя может быть два аккаунта
+         * или что он мог войти под чужой учетной записью
+         */
+        $query = "SELECT 1 FROM `users` WHERE `visitor_id` = :visitor_id AND `id` <> :user_id";
         $res = $this->database->fetchOne(
             $query,
             array(
@@ -334,10 +337,17 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $this->visitorId = $this->user['visitor_id'];
         $time = 86400 * $this->config->user->cookie;
         setcookie('visitor', $this->visitorId, time() + $time, '/');
+        /*
+         * если запрос что-то вернул, значит у посетителя два или более аккаунтов или он
+         * вошел под чужой учетной записью; в этом случае мы не объединяем корзины и т.п.
+         * чтобы не создавать «мешанину» из двух аккаунтов
+         */
         if (false === $res) { 
-            // известить наблюдателей о событии авторизации посетителя, чтобы они
-            // синхронизировали корзины, отложенные товары, товары для сравнения и
-            // просмотренные товары; реализация шаблона проектирования «Наблюдатель»
+            /*
+             * известить наблюдателей о событии авторизации посетителя, чтобы они
+             * синхронизировали корзины, отложенные товары, товары для сравнения и
+             * просмотренные товары; реализация шаблона проектирования «Наблюдатель»
+             */
             $this->notify();
         }
 
@@ -728,18 +738,25 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `email` = :email";
         $this->database->execute($query, array('password' => $md5, 'email' => $email));
 
-        // отправляем новый пароль по почте
+        /*
+         * отправляем новый пароль по почте
+         */
         $subject = '=?utf-8?B?' . base64_encode('Новый пароль') . '?=';
-        $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
-        $headers = $headers.'Date: ' . date('r') . "\r\n";
-        $headers = $headers.'Content-type: text/plain; charset="utf-8"' . "\r\n";
-        $headers = $headers.'Content-Transfer-Encoding: base64';
+        
+        $name = $this->config->site->name;
+        $site = $this->config->email->site;
+        $headers = 'From: =?utf-8?b?' . base64_encode($name) . '?= <' . $site . '>' . "\r\n";
+        $headers .= 'Date: ' . date('r') . "\r\n";
+        $headers .= 'Content-type: text/plain; charset="utf-8"' . "\r\n";
+        $headers .= 'Content-Transfer-Encoding: base64';
+        
         $message = 'Добрый день!' . "\r\n\r\n";
         $message .= 'Ваш новый пароль: ' . $password . "\r\n\r\n";
         $message .= $this->config->site->name . "\r\n";
         $message .= 'Телефон: ' . $this->config->site->phone . "\r\n";
         $message .= 'Почта: ' . $this->config->site->email;
         $message = chunk_split(base64_encode($message));
+        
         mail($email, $subject, $message, $headers);
 
     }
@@ -749,7 +766,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function getAllOrders($start = 0) {
 
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             throw new Exception('Попытка получить заказы не авторизованного пользователя');
         }
 

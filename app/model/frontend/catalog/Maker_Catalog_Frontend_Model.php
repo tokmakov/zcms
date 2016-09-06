@@ -402,6 +402,12 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`name`, COUNT(*) DESC";
         $groups = $this->database->fetchAll($query, array('maker' => $id));
 
+        /*
+         * Небольшой хак, чтобы визуально представить список функциональных групп более наглядно:
+         * фактически, в виде двух списков. Первый список — функциональные группы, содержащие более
+         * одного товара, второй список — функциональные группы, содержащие только один товар.
+         * Разделение на два списка происходит, только если функциональных групп больше 15 шт.
+         */
         if (count($groups) > 15) {
             $bound = false;
             foreach ($groups as $value)  {
@@ -411,8 +417,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 }
             }
             if ($bound) {
-                $first = array();
-                $second = array();
+                $first = array();  // функциональные группы производителя, содержащие более одного товара
+                $second = array(); // функциональные группы производителя, содержащие только один товар
                 foreach ($groups as $value)  {
                     if ($value['count'] > 1) {
                         $first[] = $value;

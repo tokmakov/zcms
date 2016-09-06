@@ -241,7 +241,8 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       (`a`.`category` IN (" . $childs . ") OR `a`.`category2` IN (" . $childs . "))" . $tmp . "
                       AND `a`.`visible` = 1
                   ORDER BY " . $order . "
-                  LIMIT :start, :limit";
+                  LIMIT
+                      :start, :limit";
         $products = $this->database->fetchAll(
             $query,
             array(
@@ -398,9 +399,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return $makers;
         }
 
-        // теперь подсчитываем количество товаров для каждого производителя с
-        // учетом фильтров по функциональной группе, лидерам продаж, новинкам
-        // и по параметрам
+        /*
+         * теперь подсчитываем количество товаров для каждого производителя с учетом
+         * фильтров по функциональной группе, лидерам продаж, новинкам и по параметрам
+         */
         foreach ($makers as $key => $value) {
             $query = "SELECT
                           COUNT(*)
@@ -491,6 +493,12 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`name`, COUNT(*) DESC";
         $groups = $this->database->fetchAll($query);
 
+        /*
+         * Небольшой хак, чтобы визуально представить список функциональных групп более наглядно:
+         * фактически, в виде двух списков. Первый список — функциональные группы, содержащие более
+         * одного товара, второй список — функциональные группы, содержащие только один товар.
+         * Разделение на два списка происходит, только если функциональных групп больше 15 шт.
+         */
         if (count($groups) > 15) {
             $bound = false;
             foreach ($groups as $value)  {
@@ -500,8 +508,8 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 }
             }
             if ($bound) {
-                $first = array();
-                $second = array();
+                $first = array();  // функциональные группы категории, содержащие более одного товара
+                $second = array(); // функциональные группы категории, содержащие только один товар
                 foreach ($groups as $value)  {
                     if ($value['count'] > 1) {
                         $first[] = $value;
@@ -632,9 +640,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `f`.`name`, `g`.`name`";
         $result = $this->database->fetchAll($query);
 
-        // теперь подсчитываем количество товаров для каждого параметра и каждого
-        // значения параметра с учетом фильтров по производителю, лидерам продаж,
-        // новинкам и по параметрам
+        /*
+         * теперь подсчитываем количество товаров для каждого параметра и каждого значения параметра
+         * с учетом фильтров по производителю, лидерам продаж, новинкам и по параметрам
+         */
         foreach ($result as $key => $value)  {
             $query = "SELECT
                           COUNT(*)
@@ -757,7 +766,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             /*
              * надо выяснить, сколько товаров будет найдено, если отметить
              * галочку «Лидер продаж»; на данный момент checkbox не отмечен,
-             * но если пользователь его отметит - сколько будет найдено товаров?
+             * но если пользователь его отметит — сколько будет найдено товаров?
              */
             $query = $query . " AND `a`.`hit` > 0";
         }
@@ -831,7 +840,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             /*
              * надо выяснить, сколько товаров будет найдено, если отметить
              * галочку «Новинка»; на данный момент checkbox не отмечен, но
-             * если пользователь его отметит - сколько будет найдено товаров?
+             * если пользователь его отметит — сколько будет найдено товаров?
              */
             $query = $query . " AND `a`.`new` > 0";
         }
