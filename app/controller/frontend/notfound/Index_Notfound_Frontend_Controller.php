@@ -26,7 +26,7 @@ class Index_Notfound_Frontend_Controller extends Frontend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Notfound_Frontend_Controller
+         * Index_Notfound_Frontend_Controller
          */
         parent::input();
 

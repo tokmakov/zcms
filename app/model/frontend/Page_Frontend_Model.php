@@ -45,6 +45,9 @@ class Page_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает путь до страницы с уникальным идентификатором $id;
      * результат работы кэшируется
+     * ВАЖНО! Этот метод был нужен для формирования хлебных крошек, сейчас
+     * не используется и будет скоро уделён. Хлебные крошки формирует метод
+     * Sitemap_Frontend_Model::getBreadcrumbs()
      */
     public function getPagePath($id) {
         // если не включено кэширование данных
@@ -64,6 +67,7 @@ class Page_Frontend_Model extends Frontend_Model {
 
     /**
      * Функция возвращает путь до страницы с уникальным идентификатором $id
+     * ВАЖНО! См. комментарий к методу Page_Frontend_Model::getPagePath()
      */
     protected function pagePath($id) {
         $query = "SELECT
@@ -102,6 +106,8 @@ class Page_Frontend_Model extends Frontend_Model {
     /**
      * Функция возвращает массив всех страниц сайта в виде дерева;
      * результат работы кэшируется
+     * ВАЖНО! Этот метод был нужен для формирования карты сайта, сейчас
+     * не используется и будет скоро уделён
      */
     public function getAllPages() {
         // если не включено кэширование данных
@@ -121,6 +127,7 @@ class Page_Frontend_Model extends Frontend_Model {
 
     /**
      * Функция возвращает массив всех страниц сайта в виде дерева
+     * ВАЖНО! См. комментарий к методу Page_Frontend_Model::getAllPages()
      */
     protected function allPages() {
         // получаем все страницы

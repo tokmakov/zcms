@@ -10,19 +10,8 @@ abstract class Brand_Frontend_Controller extends Frontend_Controller {
      */
     protected $brandFrontendModel;
 
-    /**
-     * Функция получает от моделей и из настроек данные, необходимые для
-     * работы всех потомков класса Brand_Frontend_Controller
-     */
     public function __construct($params = null) {
-        
-        /*
-         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
-         * установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы всех
-         * потомков Brand_Frontend_Controller
-         */
+
         parent::__construct($params);
         
         // экземпляр класса модели для работы с брендами
