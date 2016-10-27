@@ -101,7 +101,7 @@ class Blog_Backend_Model extends Backend_Model {
     /**
      * Возвращает массив файлов за последние $count месяцев
      */
-    public function getFoldersAndFiles($count = 3) {
+    public function getFoldersAndFiles($count = 5) {
         $year = date('Y');
         $month = date('n');
         while ($count) {

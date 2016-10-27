@@ -49,7 +49,7 @@ class Database {
     private function __construct() {
         // настройки приложения, экземпляр класса Config
         $this->config = Config::getInstance();
-        // включена балансировка нагрузки
+        // включена балансировка нагрузки?
         $this->balancing = $this->config->database->balancing;
         // экземпляр класса, отвечающего за кэширование
         $this->cache = Cache::getInstance();

@@ -290,7 +290,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         // удаляем старые товары
-        if (rand(1, 100) == 50) {
+        if (rand(1, 100) === 50) {
             $this->removeOldCompare();
         }
 

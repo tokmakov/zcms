@@ -1,10 +1,13 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
-// см. файл app/config/config.php
-$js = array(                                     // js-файлы, подключаемые к странице
+/*
+ * JS файлы, подключаемые к странице;
+ * см. файл app/config/config.php
+ */
+$js = array(                                     
     'frontend' => array(                         // общедоступная часть сайта
-        'base'            => array(
+        'base'            => array(              // js-файлы, подключаемые ко всем страницам
             'jquery-2.1.1.min.js',
             'jquery.cookie.js',
             'jquery.form.min.js',
