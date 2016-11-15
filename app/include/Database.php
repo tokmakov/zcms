@@ -155,7 +155,9 @@ class Database {
     }
 
     /**
-     *  Метод-обертка для PDOStatement::fetchAll()
+     *  Метод-обертка для PDOStatement::fetchAll(); результат работы кэшируется
+     * (если включено кэширование); если включена балансировка нагрузки MySQL,
+     * запросы отправляются на master или slave сервер
      */
     public function fetchAll($query, $params = array(), $cache = false, $slave = false) {
         // если кэширование запрещено
@@ -173,6 +175,10 @@ class Database {
         return $this->getCachedData($key, $function, $arguments);
     }
 
+    /**
+     * Метод-обертка для PDOStatement::fetchAll(); если включена балансировка
+     * нагрузки MySQL, запросы отправляются на master или slave сервер
+     */
     private function pdoFetchAll($query, $params, $slave) {
         // включена балансировка нагрузки?
         if ($this->balancing) {
@@ -193,11 +199,13 @@ class Database {
     }
 
     /**
-     * Метод-обертка для PDOStatement::fetch()
+     * Метод-обертка для PDOStatement::fetch(); результат работы кэшируется
+     * (если включено кэширование); если включена балансировка нагрузки MySQL,
+     * запросы отправляются на master или slave сервер
      */
     public function fetch($query, $params = array(), $cache = false, $slave = false) {
         // если кэширование запрещено
-        if (!$cache) {
+        if ( ! $cache) {
             return $this->pdoFetch($query, $params, $slave);
         }
 
@@ -211,6 +219,10 @@ class Database {
         return $this->getCachedData($key, $function, $arguments);
     }
 
+    /**
+     * Метод-обертка для PDOStatement::fetch(); если включена балансировка
+     * нагрузки MySQL, запросы отправляются на master или slave сервер
+     */
     private function pdoFetch($query, $params, $slave) {
         // включена балансировка нагрузки?
         if ($this->balancing) {

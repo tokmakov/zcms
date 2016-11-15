@@ -241,7 +241,7 @@ abstract class Base_Controller extends Base {
          *         ),
          *         'index' => 'jquery.slider.css', // только для главной страницы, формируемой Index_Index_Frontend_Controller
          *         'page' => 'page.css',           // для страниц, которые формирует Index_Page_Frontend_Controller
-         *         'catalog' => 'catalog.css',     // для страниц, которые все формируют дочерние классы Catalog_Frontend_Controller
+         *         'catalog' => 'catalog.css',     // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
          *         'catalog-product' => array (    // только для страниц, которые формирует Product_Catalog_Frontend_Controller
          *             'product.css',
          *             'jquery.lightbox.css',
@@ -255,10 +255,10 @@ abstract class Base_Controller extends Base {
          * Здесь важно понимать, что у некоторых абстактных классов есть только один дочерний класс,
          * например: Page_Frontend_Controller и Index_Page_Frontend_Controller. А у других абстрактных
          * классов есть несколько дочерних классов, например у Catalog_Frontend_Controller:
-         * 1. Index_Catalog_Frontend_Controller
-         * 2. Product_Catalog_Frontend_Controller
-         * 3. Category_Catalog_Frontend_Controller
-         * 4. Maker_Catalog_Frontend_Controller
+         * 1. Index_Catalog_Frontend_Controller (главная страница каталога)
+         * 2. Product_Catalog_Frontend_Controller (страница товара каталога)
+         * 3. Category_Catalog_Frontend_Controller (страница категории каталога)
+         * 4. Maker_Catalog_Frontend_Controller (страница производителя каталога)
          *
          * Запись вида
          *   'catalog' => 'catalog.css', // для всех страниц каталога
@@ -299,8 +299,10 @@ abstract class Base_Controller extends Base {
         /*
          * Eсли для контроллера Index_Page_Frontend_Controller существует файл
          * view/example/frontend/template/page/wrapper.php, то будет использован
-         * именно он, а не view/example/frontend/template/wrapper.php. Аналогично
-         * для файлов header.php, menu.php, center.php, left.php и т.д.
+         * именно он, а не view/example/frontend/template/wrapper.php.
+         * Если существует view/example/frontend/template/page/index/wrapper.php, то
+         * будет использован он, а не view/example/frontend/template/page/wrapper.php.
+         * Аналогично для файлов header.php, menu.php, center.php, left.php и т.д.
          *
          * Т.е. шаблоны по умолчанию, расположенные в папке view/example/frontend/template,
          * переопределяются шаблонами, расположенными глубже в иерархии директорий.
@@ -325,6 +327,13 @@ abstract class Base_Controller extends Base {
                 $templatePath = $templatePath . '/' . $action;
                 // путь к файлам шаблонов текущей страницы (переопределяем файлы родительского шаблона)
                 $this->setTemplateFiles($templatePath);
+                // если некая сущность (страница, товар, новость) имеет уникальный
+                // идентификатор, для нее может быть задан индивидуальный шаблон, например
+                // view/example/frontend/template/catalog/product/12345/center.php
+                if (isset($this->params['id']) && is_dir($templatePath . '/' . $this->params['id'])) {
+                     $templatePath = $templatePath . '/' . $this->params['id'];
+                     $this->setTemplateFiles($templatePath);
+                }
             }
         }
 
