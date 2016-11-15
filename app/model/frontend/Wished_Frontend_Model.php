@@ -124,8 +124,16 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
                       `visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC
-                  LIMIT " . $start . ", " . $this->config->pager->frontend->products->perpage;
-        $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+                  LIMIT
+                      :start, :limit";
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'start'      => $start,
+                'limit'      => $this->config->pager->frontend->products->perpage,
+            )
+        );
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->img) {
@@ -154,7 +162,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         // удаляем старые товары
-        if (rand(1, 100) == 50) {
+        if (rand(1, 100) === 50) {
             $this->removeOldWished();
         }
 

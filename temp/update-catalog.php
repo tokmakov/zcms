@@ -1586,8 +1586,8 @@ function removeOldImages($register) {
                         if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
                             unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
                         }
-                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
-                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        if (is_file('files/catalog/imgs/big/' . $dir1 . '/' . $dir2 . '/' . $file)) {
+                            unlink('files/catalog/imgs/big/' . $dir1 . '/' . $dir2 . '/' . $file);
                         }
                         */
                         file_put_contents('temp/remove.txt', 'Удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);

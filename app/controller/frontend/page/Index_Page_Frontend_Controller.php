@@ -3,7 +3,7 @@
  * Класс Index_Page_Frontend_Controller формирует отдельную страницу сайта, получает
  * данные от модели Page_Frontend_Model, общедоступная часть сайта
  */
-class Index_Page_Frontend_Controller extends Frontend_Controller {
+class Index_Page_Frontend_Controller extends Page_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -19,7 +19,7 @@ class Index_Page_Frontend_Controller extends Frontend_Controller {
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
-         * Page_Frontend_Controller
+         * Index_Page_Frontend_Controller
          */
         parent::input();
 

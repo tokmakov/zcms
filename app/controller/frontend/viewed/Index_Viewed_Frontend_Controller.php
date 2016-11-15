@@ -4,12 +4,10 @@
  * посетителем товаров, получает данные от модели Viewed_Frontend_Model, общедоступная часть
  * сайта
  */
-class Index_Viewed_Frontend_Controller extends Frontend_Controller {
-
+class Index_Viewed_Frontend_Controller extends Viewed_Frontend_Controller {
+    
     public function __construct($params = null) {
         parent::__construct($params);
-        // запрещаем индексацию роботами поисковых систем
-        $this->robots = false;
     }
 
     /**
@@ -19,10 +17,11 @@ class Index_Viewed_Frontend_Controller extends Frontend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
-         * установить значения по умолчанию для всех переменных, необходимых для
-         * формирования списка просмотренных товаров, потом переопределяем их
-         * значения, если необходимо
+         * сначала обращаемся к родительскому классу Viewed_Frontend_Controller,
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
+         * Index_Viewed_Frontend_Controller
          */
         parent::input();
 

@@ -71,7 +71,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             if ($this->authUser) {
                 $this->visitorId = $this->user['visitor_id'];
             } else {
-                $this->visitorId = md5(uniqid(rand(), true));
+                $this->visitorId = md5(uniqid(mt_rand(), true));
             }
             setcookie('visitor', $this->visitorId, time() + $time, '/');
         }
@@ -359,8 +359,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
              * комментариях к методу autoLogin()
              */
 
-            $token1 = md5(uniqid(rand(), true));
-            $token2 = md5(uniqid(rand(), true));
+            $token1 = md5(uniqid(mt_rand(), true));
+            $token2 = md5(uniqid(mt_rand(), true));
 
             // добавляем запись в таблицу БД remember
             $query = "INSERT INTO `remember`
@@ -391,7 +391,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             setcookie('remember', $token1 . $token2, time() + $time, '/');
 
             // удаляем старые записи в таблице БД remember
-            if (rand(1, 100) == 50) {
+            if (mt_rand(1, 100) === 50) {
                 $query = "DELETE FROM `remember` WHERE `updated` < NOW() - INTERVAL :days DAY";
                 $this->database->execute($query, array('days' => $this->config->user->cookie));
             }
@@ -497,7 +497,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $this->user = $this->getUser();
 
             // обновляем запись в таблице БД remember
-            $token1 = md5(uniqid(rand(), true)); // новое значение token1
+            $token1 = md5(uniqid(mt_rand(), true)); // новое значение token1
             $query = "UPDATE
                           `remember`
                       SET

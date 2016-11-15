@@ -1,8 +1,11 @@
 <?php
 defined('ZCMS') or die('Access denied');
 
-// см. файл app/config/config.php
-$css = array(                                // CSS файлы, подключаемые к странице
+/*
+ * CSS файлы, подключаемые к странице;
+ * см. файл app/config/config.php
+ */
+$css = array(                                
     'frontend'            => array(          // общедоступная часть сайта
         'base'            => array(          // CSS-файлы, подключаемые ко всем страницам
             'reset.css',

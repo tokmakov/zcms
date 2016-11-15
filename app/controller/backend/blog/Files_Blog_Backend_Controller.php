@@ -48,7 +48,7 @@ class Files_Blog_Backend_Controller extends Blog_Backend_Controller {
         );
 
         // получаем от модели массив массив директорий и файлов
-        $folders = $this->blogBackendModel->getFoldersAndFiles(5);
+        $folders = $this->blogBackendModel->getFoldersAndFiles(12);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

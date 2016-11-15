@@ -54,7 +54,7 @@ class Config implements Countable, Iterator {
         if ( ! isset($this->data[$key])) {
             throw new Exception('Объект с ключом '.__CLASS__.'::data['.$key.'] не существует');
         }
-        // если массив, то создаём ещё один экземпляр класса параметров, инициализируем
+        // если массив, то создаём ещё один экземпляр класса конфигурации, инициализируем
         // его данными этого массива, ставим на его место в массиве данных и возвращаем
         if (is_array($this->data[$key])) {
             return $this->data[$key] = new self($this->data[$key]);

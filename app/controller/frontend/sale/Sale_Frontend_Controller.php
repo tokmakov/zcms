@@ -11,12 +11,22 @@ abstract class Sale_Frontend_Controller extends Frontend_Controller {
      */
     protected $saleFrontendModel;
 
+    public function __construct($params = null) {
+
+        parent::__construct($params);
+        
+        // экземпляр класса модели для работы с товарами по сниженным ценам
+        $this->saleFrontendModel =
+            isset($this->register->saleFrontendModel) ? $this->register->saleFrontendModel : new Sale_Frontend_Model();
+
+    }
+    
     /**
-     * Функция получает от моделей и из настроек данные, необходимые для
+     * Функция получает из настроек и от моделей данные, необходимые для
      * работы всех потомков класса Sale_Frontend_Controller
      */
-    public function __construct($params = null) {
-        
+    protected function input() {
+
         /*
          * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
          * установить значения переменных, которые нужны для работы всех его
@@ -24,17 +34,13 @@ abstract class Sale_Frontend_Controller extends Frontend_Controller {
          * устанавливаем значения перменных, которые нужны для работы всех
          * потомков Sale_Frontend_Controller
          */
-        parent::__construct($params);
-        
-        // экземпляр класса модели для работы с товарами по сниженным ценам
-        $this->saleFrontendModel =
-            isset($this->register->saleFrontendModel) ? $this->register->saleFrontendModel : new Sale_Frontend_Model();
-           
+        parent::input();
+
         // получаем из настроек значения для мета-тегов 
         $this->title = $this->config->meta->sale->title;
         $this->keywords = $this->config->meta->sale->keywords;
         $this->description = $this->config->meta->sale->description;
-
+        
     }
 
 }

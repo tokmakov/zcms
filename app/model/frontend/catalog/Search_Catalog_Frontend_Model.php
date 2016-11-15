@@ -76,8 +76,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     $result[$key]['ctg_id'],
                     $result[$key]['ctg_name'],
                     $result[$key]['mkr_id'],
-                    $result[$key]['mkr_id'],
-                    $result[$key]['ctg_name'],
+                    $result[$key]['mkr_name'],
                     $result[$key]['relevance']
                 );
             } else { // для страницы поиска
@@ -227,7 +226,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // если мы разделяли строку ABC123 на ABC и 123
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
-                $query = $query." + IF( LOWER(`a`.`name`) LIKE '%".$item."%', 0.1, 0 )";
+                $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.1, 0 )";
                 $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$item."', 0.05, 0 )";
                 $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$item."[[:>:]]', 0.05, 0 )";
             }
