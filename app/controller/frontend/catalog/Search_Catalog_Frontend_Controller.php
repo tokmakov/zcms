@@ -80,7 +80,8 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // общее кол-во результатов поиска
         $totalProducts = $this->searchCatalogFrontendModel->getCountSearchResults($this->params['query']);
         // базовый URL страницы поиска
-        $thisPageUrl = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
+        $thisPageUrl =
+            $this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
         $temp = new Pager(
             $thisPageUrl,                                       // базовый URL страницы поиска
             $page,                                              // текущая страница
@@ -98,10 +99,10 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
-        
+
         /*
          * см. причины такой замены в комментариях выше, в начале метода
-         */ 
+         */
         $this->params['query'] = str_replace('|', '/', $this->params['query']);
 
         // получаем от модели массив результатов поиска

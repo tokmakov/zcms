@@ -10,7 +10,7 @@ class Router {
      * для хранения единственного экземпляра данного класса
      */
     private static $instance;
-    
+
     /**
      * запрос с использованием XmlHttpRequest?
      */
@@ -35,7 +35,7 @@ class Router {
      * массив параметров, которые будут переданы контроллеру
      */
     private $params = array();
-    
+
     /**
      * идет работа с админкой?
      */
@@ -45,17 +45,17 @@ class Router {
      * настройки приложения, экземпляр класса Config
      */
     private $config;
-    
+
     /**
      * для хранения всех объектов приложения, экземпляр класса Register
      */
     private $register;
-    
+
     /**
      * для хранения экземпляра класса Cache
      */
     private $cache;
-    
+
     /**
      * для хранения экземпляра класса базы данных Database
      */
@@ -78,7 +78,7 @@ class Router {
      * проектирования «Одиночка».
      */
     private function __construct($class, $params) {
-        
+
         // все объекты приложения, экземпляр класса Register
         $this->register = Register::getInstance();
         // настройки приложения, экземпляр класса Config
@@ -116,7 +116,7 @@ class Router {
             $this->params = $params;
             return;
         }
-        
+
         // запрос с использованием XmlHttpRequest?
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             $this->xhr = true;
@@ -174,7 +174,7 @@ class Router {
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
             return;
         }
-        
+
         if ($this->xhr) {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }
@@ -239,7 +239,7 @@ class Router {
         $this->controllerClassName = 'Index_Notfound_'.$frontback.'_Controller';
         $this->params = array();
     }
-    
+
     private function getURL($path) {
         // если не включено кэширование данных
         if ( ! $this->config->cache->enable->data) {
@@ -259,7 +259,7 @@ class Router {
 
         /*
          * данных в кэше нет, но другой процесс поставил блокировку и в этот
-         * момент получает данные отRender::URL(), чтобы записать их в кэш,
+         * момент получает данные от Router::URL(), чтобы записать их в кэш,
          * нам надо их только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
@@ -269,7 +269,7 @@ class Router {
             } catch (Exception $e) {
                 /*
                  * другой процесс поставил блокировку, попытался получить данные от
-                 * Render::URL() и записать их в кэш; если по каким-то причинам это
+                 * Router::URL() и записать их в кэш; если по каким-то причинам это
                  * не получилось сделать, мы здесь будем пытаться читать из кэша
                  * значение, которого не существует или оно устарело
                  */
@@ -316,7 +316,7 @@ class Router {
         foreach ($pages as $page) {
             if ($path === $page['sefurl']) {
                 return 'frontend/page/index/id/' . $page['id'];
-            }  
+            }
         }
         return false;
     }
