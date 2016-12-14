@@ -345,7 +345,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $query = $query."`a`.`name` LIKE '%".$words[0]."%'";
         $count = count($words);
         for ($i = 1; $i < $count; $i++) {
-            $query = $query." AND `a`.`name` LIKE '%".$words[$i]."%'";
+            $query = $query." OR `a`.`name` LIKE '%".$words[$i]."%'";
         }
         for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`title` LIKE '%".$words[$i]."%'";
