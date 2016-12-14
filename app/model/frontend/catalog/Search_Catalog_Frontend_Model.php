@@ -41,8 +41,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает результаты поиска по каталогу; результат работы
-     * кэшируется
+     * Функция возвращает результаты поиска по каталогу; вызывается из
+     * self::getSearchResults()
      */
     protected function searchResults($search, $start, $ajax) {
 
@@ -123,7 +123,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает количество результатов поиска по каталогу
+     * Функция возвращает количество результатов поиска по каталогу;
+     * вызывается из self::getCountSearchResults()
      */
     protected function countSearchResults($search) {
         $search = $this->cleanSearchString($search);
@@ -168,6 +169,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * Релевантность товара поисковому запросу рассчитывается по формуле:
          * relevance = nameRelevance + titleWeight*titleRelevance +
          *             makerWeight*makerRelevance + codeRelevance
+         * Учитываются торговое наименование, функциональное наименование, наименование
+         * производителя и код (артикул) товара. При этом торговое наименование и код
+         * (коэффициент веса 1.0) имеют приоритет перед функциональным наименованием и
+         * наименованием производителя (коэффициент веса 0.8).
          */
         $titleWeight = 0.8;
         $makerWeight = 0.8;
@@ -211,8 +216,14 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[0]."', 0.05, 0 )";
         $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
         if (preg_match('#^[a-zа-яё]{2,}$#u', $words[0])) {
+            // если слово поискового запроса встречается и в торговом и в функциональном наименовании,
+            // не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете релевантности
+            // функционального наименования) — учитываем
             $w = $titleWeight * $weight;
             $query = $query." - IF( `a`.`name` LIKE '%".$words[0]."%' AND `a`.`title` LIKE '%".$words[0]."%', ".$w.", 0 )";
+            // если слово поискового запроса встречается и в торговом наименовании и в наименовании
+            // производителя, не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете
+            // релевантности наименования производителя) — учитываем
             $w = $makerWeight * $weight;
             $query = $query." - IF( `a`.`name` LIKE '%".$words[0]."%' AND `c`.`name` LIKE '%".$words[0]."%', ".$w.", 0 )";
         }
@@ -228,8 +239,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[$i]."', 0.05, 0 )";
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i]."[[:>:]]', 0.05, 0 )";
             if (preg_match('#^[a-zа-яё]{2,}$#u', $words[$i])) {
+                // см. комментарии выше, перед циклом
                 $w = $titleWeight * $weight;
                 $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `a`.`title` LIKE '%".$words[$i]."%', ".$w.", 0 )";
+                // см. комментарии выше, перед циклом
                 $w = $makerWeight * $weight;
                 $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `c`.`name` LIKE '%".$words[$i]."%', ".$w.", 0 )";
             }
@@ -288,6 +301,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $weight = 0.1 * $length;
             }
             $query = $query." + ".$makerWeight."*( IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[0]."', ".$weight.", 0 )";
+            $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[0]."', 0.1, 0 )";
             // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
             // как и для первого слова
             for ($i = 1; $i < count($longs); $i++) {
@@ -296,7 +310,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 if ($length < 5) {
                     $weight = 0.1 * $length;
                 }
-                $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[$i]."', ".$weight.", 0 )";
+                $query = $query." + IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[$i]."', 0.1, 0 )";
             }
             $query = $query." )";
         }
