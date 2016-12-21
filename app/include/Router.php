@@ -296,13 +296,21 @@ class Router {
     }
 
     private function URL($path) {
+        /*
+         * Сначала проверяем — существует ли в настройках правило преобразования
+         * SEF->CAP, т.е. Search Engines Friendly => Controller/Action/Params; эти
+         * правила описаны в файле app/config/routing.php
+         */
         $sef2cap = $this->config->sef->sef2cap;
         foreach ($sef2cap as $key => $value) {
             if (preg_match($key, $path)) {
                 return preg_replace($key, $value, $path);
             }
         }
-        // получаем все страницы
+        /*
+         * Если правило преобразования не найдено, пробуем найти $path среди
+         * ЧПУ (SEF) страниц сайта, созданных администратором через админку
+         */
         if ( ! preg_match('#^[a-z][-_0-9a-z]#i', $path)) {
             return false;
         }

@@ -207,29 +207,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[^0-9a-zа-яё]?".$words[1]."', " . $weight . ", 0 )";
         }
 
-        $length = utf8_strlen($words[0]);
-        $weight = 0.5;
-        if ($length < 5) {
-            $weight = 0.1 * $length;
-        }
-        $query = $query." + IF( `a`.`name` LIKE '%".$words[0]."%', ".$weight.", 0 )";
-        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[0]."', 0.05, 0 )";
-        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
-        if (preg_match('#^[a-zа-яё]{2,}$#u', $words[0])) {
-            // если слово поискового запроса встречается и в торговом и в функциональном наименовании,
-            // не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете релевантности
-            // функционального наименования) — учитываем
-            $w = $titleWeight * $weight;
-            $query = $query." - IF( `a`.`name` LIKE '%".$words[0]."%' AND `a`.`title` LIKE '%".$words[0]."%', ".$w.", 0 )";
-            // если слово поискового запроса встречается и в торговом наименовании и в наименовании
-            // производителя, не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете
-            // релевантности наименования производителя) — учитываем
-            $w = $makerWeight * $weight;
-            $query = $query." - IF( `a`.`name` LIKE '%".$words[0]."%' AND `c`.`name` LIKE '%".$words[0]."%', ".$w.", 0 )";
-        }
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
-        // запроса, как и для первого слова
-        for ($i = 1; $i < count($words); $i++) {
+        // учитываем каждое слово поискового запроса на основе его длины, т.е. если совпало короткое
+        // слово (длиной 1-2 символа), то его взнос в релевантность невелика (0.1—0.2); если совпало
+        // длинное слово (длиной 3-4 символа), то его взнос в релевантность гораздо выше (0.3—0.4)
+        for ($i = 0; $i < count($words); $i++) {
             $length = utf8_strlen($words[$i]);
             $weight = 0.5;
             if ($length < 5) {
@@ -239,10 +220,14 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[$i]."', 0.05, 0 )";
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i]."[[:>:]]', 0.05, 0 )";
             if (preg_match('#^[a-zа-яё]{2,}$#u', $words[$i])) {
-                // см. комментарии выше, перед циклом
+                // если слово поискового запроса встречается и в торговом и в функциональном наименовании,
+                // не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете релевантности
+                // функционального наименования) — учитываем
                 $w = $titleWeight * $weight;
                 $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `a`.`title` LIKE '%".$words[$i]."%', ".$w.", 0 )";
-                // см. комментарии выше, перед циклом
+                // если слово поискового запроса встречается и в торговом наименовании и в наименовании
+                // производителя, не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете
+                // релевантности наименования производителя) — учитываем
                 $w = $makerWeight * $weight;
                 $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `c`.`name` LIKE '%".$words[$i]."%', ".$w.", 0 )";
             }
@@ -274,7 +259,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($length < 5) {
                 $weight = 0.1 * $length;
             }
-            $query = $query." + ".$titleWeight."*( IF( LOWER(`a`.`title`) REGEXP '%".$longs[0]."%', ".$weight.", 0 )";
+            $query = $query." + ".$titleWeight."*( IF( `a`.`title` LIKE '%".$longs[0]."%', ".$weight.", 0 )";
             $query = $query." + IF( LOWER(`a`.`title`) REGEXP '[[:<:]]".$longs[0]."', 0.1, 0 )";
             // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
             // запроса, как и для первого слова
@@ -300,7 +285,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($length < 5) {
                 $weight = 0.1 * $length;
             }
-            $query = $query." + ".$makerWeight."*( IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[0]."', ".$weight.", 0 )";
+            $query = $query." + ".$makerWeight."*( IF( `c`.`name` LIKE '%".$longs[0]."%', ".$weight.", 0 )";
             $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[0]."', 0.1, 0 )";
             // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
             // как и для первого слова
@@ -323,11 +308,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         foreach($words as $word) {
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
-        if (count($codes) > 0) {
-            $query = $query." + IF( `a`.`code`='".$codes[0]."', 1.0, 0 )";
-            for ($i = 1; $i < count($codes); $i++) {
-                $query = $query." + IF( `a`.`code`='".$codes[$i]."', 1.0, 0 )";
-            }
+        for ($i = 0; $i < count($codes); $i++) {
+            $query = $query." + IF( `a`.`code`='".$codes[$i]."', 1.0, 0 )";
         }
 
         $query = $query." AS `relevance`";
@@ -353,7 +335,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($codes); $i++) {
+        $count = count($codes);
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
@@ -406,7 +389,8 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         foreach($words as $word) {
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
-        for ($i = 0; $i < count($codes); $i++) {
+        $count = count($codes);
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
