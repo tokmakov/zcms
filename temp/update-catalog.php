@@ -37,6 +37,11 @@ checkImages($register);
 checkFiles($register);
 updateWorkTables($register);
 clearTmpTables($register);
+// если включена балансировка нагрузки, даем немного времени для
+// репликации данных master->slave
+if ($register->config->database->balancing) {
+    sleep(120);
+}
 
 function clearTmpTables($register) {
 
@@ -58,11 +63,11 @@ function clearTmpTables($register) {
 }
 
 function parseXML($register) {
-    
+
     echo 'PARSE XML' . PHP_EOL;
-    
+
     $xml = simplexml_load_file('temp/example.xml');
-    
+
     // категории
     foreach ($xml->categories->category as $category) {
         $data = array();
@@ -87,7 +92,7 @@ function parseXML($register) {
                    )";
         $register->database->execute($query, $data);
     }
-    
+
     // производители
     foreach ($xml->makers->maker as $maker) {
         $data = array();
@@ -106,7 +111,7 @@ function parseXML($register) {
                   )";
         $register->database->execute($query, $data);
     }
-    
+
     // параметры подбора
     foreach ($xml->params->names->name as $name) {
         $data = array();
@@ -147,7 +152,7 @@ function parseXML($register) {
                   )";
         $register->database->execute($query, $data);
     }
-    
+
     // функциональные группы
     foreach ($xml->groups->group as $group) {
         $data = array();
@@ -189,7 +194,7 @@ function parseXML($register) {
               $register->database->execute($query, $dt);
         }
     }
-    
+
     // файлы документации
     foreach ($xml->docs->doc as $doc) {
         $data = array();
@@ -219,7 +224,7 @@ function parseXML($register) {
                   )";
         $register->database->execute($query, $data);
     }
-    
+
     // сертификаты
     foreach ($xml->certs->cert as $cert) {
         $data = array();
@@ -248,14 +253,14 @@ function parseXML($register) {
                   )";
         $register->database->execute($query, $data);
     }
-    
+
     // товары
     foreach ($xml->products->product as $product) {
         $data = array();
         $data['code'] = $product['code'];
         $data['id'] = (int)$product['code'];
         echo 'product ' . $data['code'] . PHP_EOL;
-        
+
         // родительская категория
         $parents = explode(',', $product['category']);
         $data['category'] = $parents[0];
@@ -273,7 +278,7 @@ function parseXML($register) {
         $data['new'] = (int)$product['new'];
         // порядок сортировки внутри родительской категории
         $data['sortorder'] = (int)$product['sortorder'];
-        
+
         // торговое наименование
         $data['name'] = trim($product->name);
         // функциональное наименование
@@ -295,7 +300,7 @@ function parseXML($register) {
         } elseif ($product->unit == '650d0165-30d1-11da-bf68-0011d802924c') {
             $data['unit'] = 4; // метр
         } elseif ($product->unit == '650d0171-30d1-11da-bf68-0011d802924c') {
-           $data['unit'] = 5; // пара 
+           $data['unit'] = 5; // пара
         }
         // цена
         $data['price']  = (float)$product->price;
@@ -389,7 +394,7 @@ function parseXML($register) {
             $data['image'] = $temp[0] . '/' . $temp[1] . '/' . $temp;
         }
         */
-        
+
         // параметры подбора
         foreach ($product->params->param as $param) {
             // TODO: возникают дубли
@@ -424,7 +429,7 @@ function parseXML($register) {
                 )
             );
         }
-        
+
         // файлы документации
         foreach ($product->docs->doc as $doc) {
             $concat_code = md5($data['id'] . $doc['id']);
@@ -456,7 +461,7 @@ function parseXML($register) {
                 )
             );
         }
-        
+
         // сертификаты
         foreach ($product->certs->cert as $cert) {
             $concat_code = md5($data['id'] . $cert['id']);
@@ -488,7 +493,7 @@ function parseXML($register) {
                 )
             );
         }
-        
+
         // связанные товары
         foreach ($product->linked->prd as $item) {
             $query = "INSERT INTO `temp_related`
@@ -508,7 +513,7 @@ function parseXML($register) {
                 array('id1' => $data['id'], 'id2' => (int)$item['code'], 'count' => (int)$item['count'])
             );
         }
-        
+
         $data['keywords'] = '';
         $data['description'] = '';
         // TODO: возникают дубли
@@ -589,9 +594,9 @@ function parseXML($register) {
 }
 
 function updateTempTables($register) {
-    
+
     echo 'UPDATE TEMP TABLES'. PHP_EOL;
-    
+
     /*
      * КАТЕГОРИИ
      */
@@ -628,7 +633,7 @@ function updateTempTables($register) {
         $data['name'] = trim($category['name']);
         $data['sortorder'] = $category['sortorder'];
         $data['code'] = $category['code'];
-        $register->database->execute($query, $data);   
+        $register->database->execute($query, $data);
     }
     // теперь таблицы tmp_categories и temp_categories содержат одинаковое
     // количество записей; обновляем все записи в таблице temp_categories
@@ -677,7 +682,7 @@ function updateTempTables($register) {
     $register->database->execute($query, array('name' => 'Контроль и управление доступом', 'id' => 651));
     $query = "UPDATE `temp_categories` SET `name` = :name WHERE `id` = :id";
     $register->database->execute($query, array('name' => 'Системы оповещения', 'id' => 883));
-    
+
     /*
      * ПРОИЗВОДИТЕЛИ
      */
@@ -707,7 +712,7 @@ function updateTempTables($register) {
                       '',
                       :code
                   )";
-        $register->database->execute($query, array('name1' => trim($maker['name']), 'name2' => trim($maker['name']), 'code' => $maker['code'])); 
+        $register->database->execute($query, array('name1' => trim($maker['name']), 'name2' => trim($maker['name']), 'code' => $maker['code']));
     }
     // теперь таблицы tmp_makers и temp_makers содержат одинаковое
     // количество записей; обновляем все записи таблицы temp_makers
@@ -721,9 +726,9 @@ function updateTempTables($register) {
                       `altname` = :name2
                   WHERE
                       `code` = :code";
-        $register->database->execute($query, array('name1' => $maker['name'], 'name2' => $maker['name'], 'code' => $maker['code'])); 
+        $register->database->execute($query, array('name1' => $maker['name'], 'name2' => $maker['name'], 'code' => $maker['code']));
     }
-    
+
     /*
      * ФУНКЦИОНАЛЬНЫЕ ГРУППЫ
      */
@@ -745,7 +750,7 @@ function updateTempTables($register) {
                       :name,
                       :code
                   )";
-        $register->database->execute($query, array('name' => $group['name'], 'code' => $group['code'])); 
+        $register->database->execute($query, array('name' => $group['name'], 'code' => $group['code']));
     }
     // теперь таблицы tmp_groups и temp_groups содержат одинаковое
     // количество записей; обновляем все записи таблицы temp_groups
@@ -758,9 +763,9 @@ function updateTempTables($register) {
                        `name` = :name
                    WHERE
                        `code` = :code";
-         $register->database->execute($query, array('name' => $group['name'], 'code' => $group['code'])); 
+         $register->database->execute($query, array('name' => $group['name'], 'code' => $group['code']));
     }
-    
+
     /*
      * ТОВАРЫ
      */
@@ -795,7 +800,7 @@ function updateTempTables($register) {
         $data['group'] = 0;
         // уникальный идентификатор производителя
         $data['maker'] = 0;
-        
+
         $data['image'] = '';
         if (!empty($product['image'])) {
             $image = strtolower(substr($product['image'], 0, 36)) . '.jpg';
@@ -854,7 +859,7 @@ function updateTempTables($register) {
         $data['price7'] = $product['price7'];
         $data['unit'] = $product['unit'];
         $data['sortorder'] = $product['sortorder'];
-        
+
         $query = "INSERT INTO `temp_products`
                   (
                       `id`,
@@ -963,7 +968,7 @@ function updateTempTables($register) {
         } else {
             $data['maker'] = $temp;
         }
-        
+
         $data['hit'] = $product['hit'];
         $data['new'] = $product['new'];
         $data['code'] = $product['code'];
@@ -985,7 +990,7 @@ function updateTempTables($register) {
         $data['price7'] = $product['price7'];
         $data['unit'] = $product['unit'];
         $data['sortorder'] = $product['sortorder'];
-        
+
         $query = "UPDATE
                       `temp_products`
                   SET
@@ -1016,7 +1021,7 @@ function updateTempTables($register) {
                       `sortorder` = :sortorder
                   WHERE
                       `id` = :id";
-        $register->database->execute($query, $data); 
+        $register->database->execute($query, $data);
     }
     // если у каких-то товаров изменились фото
     $query = "SELECT
@@ -1096,9 +1101,9 @@ function updateTempTables($register) {
             }
 
         }
-        
+
     }
-    
+
     // порядок сортировки товаров внутри родительской категории
     $query = "SELECT `id` FROM `temp_categories` WHERE `id` IN (SELECT `category` FROM `temp_products` WHERE 1)";
     $categories = $register->database->fetchAll($query);
@@ -1112,7 +1117,7 @@ function updateTempTables($register) {
             $sortorder++;
         }
     }
-    
+
     /*
      * ПАРАМЕТРЫ ПОДБОРА
      */
@@ -1134,7 +1139,7 @@ function updateTempTables($register) {
                       :name,
                       :code
                   )";
-        $register->database->execute($query, array('name' => $param['name'], 'code' => $param['code'])); 
+        $register->database->execute($query, array('name' => $param['name'], 'code' => $param['code']));
     }
     // теперь таблицы tmp_params и temp_params содержат одинаковое
     // количество записей; обновляем все записи таблицы temp_params
@@ -1145,9 +1150,9 @@ function updateTempTables($register) {
                       `name` = :name
                   WHERE
                       `code` = :code";
-         $register->database->execute($query, array('name' => $param['name'], 'code' => $param['code'])); 
+         $register->database->execute($query, array('name' => $param['name'], 'code' => $param['code']));
     }
-    
+
     /*
      * ЗНАЧЕНИЯ ПАРАМЕТРОВ ПОДБОРА
      */
@@ -1169,7 +1174,7 @@ function updateTempTables($register) {
                       :name,
                       :code
                   )";
-        $register->database->execute($query, array('name' => $value['name'], 'code' => $value['code'])); 
+        $register->database->execute($query, array('name' => $value['name'], 'code' => $value['code']));
     }
     // теперь таблицы tmp_values и temp_values содержат одинаковое
     // количество записей; обновляем все записи таблицы temp_values
@@ -1180,9 +1185,9 @@ function updateTempTables($register) {
                       `name` = :name
                   WHERE
                       `code` = :code";
-         $register->database->execute($query, array('name' => $value['name'], 'code' => $value['code'])); 
+         $register->database->execute($query, array('name' => $value['name'], 'code' => $value['code']));
     }
-    
+
     /*
      * ПРИВЯЗКА ПАРАМЕТРОВ И ДОПУСТИМЫХ ЗНАЧЕНИЙ К ГРУППЕ
      */
@@ -1242,9 +1247,9 @@ function updateTempTables($register) {
                 'concat_code_1' => $row['concat_code'],
                 'concat_code_2' => $row['concat_code']
             )
-        ); 
+        );
     }
-    
+
     /*
      * ПРИВЯЗКА ПАРАМЕТРОВ И ЗНАЧЕНИЙ К ТОВАРУ
      */
@@ -1294,9 +1299,9 @@ function updateTempTables($register) {
                 'value_id' => $value_id,
                 'concat_code' => $row['concat_code']
             )
-        ); 
+        );
     }
-    
+
     /*
      * ФАЙЛЫ ДОКУМЕНТАЦИИ
      */
@@ -1352,7 +1357,7 @@ function updateTempTables($register) {
                 'md5' => $md5,
                 'code' => $doc['code']
             )
-        ); 
+        );
     }
     // теперь таблицы tmp_docs и tmp_docs содержат одинаковое количество записей
     $query = "SELECT * FROM `tmp_docs` WHERE 1";
@@ -1364,9 +1369,9 @@ function updateTempTables($register) {
                        `title` = :title
                    WHERE
                        `code` = :code";
-         $register->database->execute($query, array('title' => $doc['title'], 'code' => $doc['code'])); 
+         $register->database->execute($query, array('title' => $doc['title'], 'code' => $doc['code']));
     }
-    
+
     /*
      * СЕРТИФИКАТЫ
      */
@@ -1454,9 +1459,9 @@ function updateTempTables($register) {
                        `title` = :title
                    WHERE
                        `code` = :code";
-         $register->database->execute($query, array('title' => $cert['title'], 'code' => $cert['code'])); 
+         $register->database->execute($query, array('title' => $cert['title'], 'code' => $cert['code']));
     }
-    
+
     /*
      * ПРИВЯЗКА ФАЙЛОВ ДОКУМЕНТАЦИИ К ТОВАРАМ
      */
@@ -1494,7 +1499,7 @@ function updateTempTables($register) {
                 'doc_id' => $doc_id,
                 'concat_code' => $row['concat_code']
             )
-        ); 
+        );
     }
 
     /*
@@ -1534,7 +1539,7 @@ function updateTempTables($register) {
                 'cert_id' => $cert_id,
                 'concat_code' => $row['concat_code']
             )
-        ); 
+        );
     }
 }
 
@@ -1627,7 +1632,9 @@ function removeOldFiles($register) {
 function updateWorkTables($register) {
 
     echo 'UPDATE WORK TABLES'. PHP_EOL;
-    
+
+    // TODO: переделать так, чтобы не очищать таблицы, а обновлять; это нужно для
+    // для более быстрой репликации, если для базы данных включена репликация
     $register->database->execute('TRUNCATE TABLE `categories`');
     $register->database->execute('TRUNCATE TABLE `products`');
     $register->database->execute('TRUNCATE TABLE `makers`');
@@ -1640,7 +1647,7 @@ function updateWorkTables($register) {
     $register->database->execute('TRUNCATE TABLE `doc_prd`');
     $register->database->execute('TRUNCATE TABLE `certs`');
     $register->database->execute('TRUNCATE TABLE `cert_prod`');
-    
+
     /*
      * КАТЕГОРИИ
      */
@@ -1669,9 +1676,9 @@ function updateWorkTables($register) {
                       :sortorder,
                       :globalsort
                   )";
-        $register->database->execute($query, $category);   
+        $register->database->execute($query, $category);
     }
-    
+
     /*
      * ПРОИЗВОДИТЕЛИ
      */
@@ -1698,9 +1705,9 @@ function updateWorkTables($register) {
                       :description,
                       :body
                   )";
-        $register->database->execute($query, $maker);   
+        $register->database->execute($query, $maker);
     }
-    
+
     /*
      * ФУНКЦИОНАЛЬНЫЕ ГРУППЫ
      */
@@ -1719,9 +1726,9 @@ function updateWorkTables($register) {
                       :id,
                       :name
                   )";
-        $register->database->execute($query, $group);   
+        $register->database->execute($query, $group);
     }
-    
+
     /*
      * ПАРАМЕТРЫ ПОДБОРА
      */
@@ -1740,9 +1747,9 @@ function updateWorkTables($register) {
                       :id,
                       :name
                   )";
-        $register->database->execute($query, $param);   
+        $register->database->execute($query, $param);
     }
-    
+
     /*
      * ЗНАЧЕНИЯ ПАРАМЕТРОВ ПОДБОРА
      */
@@ -1761,9 +1768,9 @@ function updateWorkTables($register) {
                       :id,
                       :name
                   )";
-        $register->database->execute($query, $value);   
+        $register->database->execute($query, $value);
     }
-    
+
     /*
      * ТОВАРЫ
      */
@@ -1839,7 +1846,7 @@ function updateWorkTables($register) {
                       :updated,
                       :visible
                   )";
-        $register->database->execute($query, $product); 
+        $register->database->execute($query, $product);
     }
     // удаляем функциональные группы, товаров которых нет в таблице products
     $query = "DELETE FROM `groups` WHERE `id` NOT IN (SELECT  `group` FROM  `products` WHERE 1)";
@@ -1873,7 +1880,7 @@ function updateWorkTables($register) {
     // удаляем записи для функциональных групп, товаров которых нет в таблице groups
     $query = "DELETE FROM `group_param_value` WHERE `group_id` NOT IN (SELECT  `id` FROM  `groups` WHERE 1)";
     $register->database->execute($query);
-    
+
     /*
      * ПРИВЯЗКА ПАРАМЕТРОВ И ЗНАЧЕНИЙ К ТОВАРУ
      */
@@ -1909,7 +1916,7 @@ function updateWorkTables($register) {
     $register->database->execute($query);
     $query = "DELETE FROM `group_param_value` WHERE `value_id` NOT IN (SELECT `id` FROM `values` WHERE 1)";
     $register->database->execute($query);
-    
+
     /*
      * ФАЙЛЫ ДОКУМЕНТАЦИИ
      */
@@ -1936,9 +1943,9 @@ function updateWorkTables($register) {
                       :md5,
                       :uploaded
                   )";
-        $register->database->execute($query, $doc); 
+        $register->database->execute($query, $doc);
     }
-    
+
     /*
      * ПРИВЯЗКА ФАЙЛОВ ДОКУМЕНТАЦИИ К ТОВАРАМ
      */
@@ -1957,9 +1964,9 @@ function updateWorkTables($register) {
                       :prd_id,
                       :doc_id
                   )";
-        $register->database->execute($query, $row); 
+        $register->database->execute($query, $row);
     }
-    
+
     /*
      * СЕРТИФИКАТЫ
      */
@@ -1982,9 +1989,9 @@ function updateWorkTables($register) {
                       :filename,
                       :count
                   )";
-        $register->database->execute($query, $cert); 
+        $register->database->execute($query, $cert);
     }
-    
+
     /*
      * ПРИВЯЗКА СЕРТИФИКАТОВ К ТОВАРАМ
      */
@@ -2003,7 +2010,7 @@ function updateWorkTables($register) {
                       :prod_id,
                       :cert_id
                   )";
-        $register->database->execute($query, $row); 
+        $register->database->execute($query, $row);
     }
 
 }
@@ -2044,7 +2051,7 @@ function updateMeta($register) {
 }
 
 function getRootCategory($id, $register) {
-    
+
 }
 
 function updateSortOrderAllCategories($id, $sortorder, $level) {
