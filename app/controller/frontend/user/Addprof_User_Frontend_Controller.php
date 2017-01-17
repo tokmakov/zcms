@@ -56,7 +56,7 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
                 'url'  => $this->userFrontendModel->getURL('frontend/user/allprof')
             ),
         );
-        
+
         // если пользователь авторизован, получаем информацию о нем
         $surname    = ''; // фамилия контактного лица по умолчанию
         $name       = ''; // имя контактного лица по-умолчанию
@@ -112,12 +112,12 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['title']      = trim(utf8_substr(strip_tags($_POST['title']), 0, 32));      // название профиля
-        $data['surname']    = trim(utf8_substr(strip_tags($_POST['surname']), 0, 32));    // фамилия контактного лица
-        $data['name']       = trim(utf8_substr(strip_tags($_POST['name']), 0, 32));       // имя контактного лица
-        $data['patronymic'] = trim(utf8_substr(strip_tags($_POST['patronymic']), 0, 32)); // отчество контактного лица
-        $data['phone']      = trim(utf8_substr(strip_tags($_POST['phone']), 0, 64));      // телефон контактного лица
-        $data['email']      = trim(utf8_substr(strip_tags($_POST['email']), 0, 64));      // e-mail контактного лица
+        $data['title']      = trim(iconv_substr(strip_tags($_POST['title']), 0, 32));      // название профиля
+        $data['surname']    = trim(iconv_substr(strip_tags($_POST['surname']), 0, 32));    // фамилия контактного лица
+        $data['name']       = trim(iconv_substr(strip_tags($_POST['name']), 0, 32));       // имя контактного лица
+        $data['patronymic'] = trim(iconv_substr(strip_tags($_POST['patronymic']), 0, 32)); // отчество контактного лица
+        $data['phone']      = trim(iconv_substr(strip_tags($_POST['phone']), 0, 64));      // телефон контактного лица
+        $data['email']      = trim(iconv_substr(strip_tags($_POST['email']), 0, 64));      // e-mail контактного лица
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $data['shipping']         = 1;
@@ -129,9 +129,9 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
             $data['shipping_index']   = '';
         } else { // доставка по адресу
             $data['shipping']         = 0;
-            $data['shipping_address'] = trim(utf8_substr(strip_tags($_POST['shipping_address']), 0, 250)); // адрес доставки
-            $data['shipping_city']    = trim(utf8_substr(strip_tags($_POST['shipping_city']), 0, 32));     // город доставки
-            $data['shipping_index']   = trim(utf8_substr(strip_tags($_POST['shipping_index']), 0, 6));     // почтовый индекс
+            $data['shipping_address'] = trim(iconv_substr(strip_tags($_POST['shipping_address']), 0, 250)); // адрес доставки
+            $data['shipping_city']    = trim(iconv_substr(strip_tags($_POST['shipping_city']), 0, 32));     // город доставки
+            $data['shipping_index']   = trim(iconv_substr(strip_tags($_POST['shipping_index']), 0, 6));     // почтовый индекс
         }
 
         $data['company']         = 0;
@@ -144,18 +144,18 @@ class Addprof_User_Frontend_Controller extends User_Frontend_Controller {
         $data['bank_bik']        = '';
         $data['settl_acc']       = '';
         $data['corr_acc']        = '';
- 
+
         if (isset($_POST['company'])) { // юридическое лицо?
             $data['company']         = 1;
-            $data['company_name']    = trim(utf8_substr(strip_tags($_POST['company_name']), 0, 64));     // название компании
-            $data['company_ceo']     = trim(utf8_substr(strip_tags($_POST['company_ceo']), 0, 64));      // генеральный директор
-            $data['company_address'] = trim(utf8_substr(strip_tags($_POST['company_address']), 0, 250)); // юридический адрес
-            $data['company_inn']     = trim(utf8_substr(strip_tags($_POST['company_inn']), 0, 12));      // ИНН компании
-            $data['company_kpp']     = trim(utf8_substr(strip_tags($_POST['company_kpp']), 0, 9));       // КПП компании
-            $data['bank_name']       = trim(utf8_substr(strip_tags($_POST['bank_name']), 0, 64));        // название банка
-            $data['bank_bik']        = trim(utf8_substr(strip_tags($_POST['bank_bik']), 0, 9));          // БИК банка
-            $data['settl_acc']       = trim(utf8_substr(strip_tags($_POST['settl_acc']), 0, 20));        // номер расчетного счета в банке
-            $data['corr_acc']        = trim(utf8_substr(strip_tags($_POST['corr_acc']), 0, 20));         // номер корреспондентского счета
+            $data['company_name']    = trim(iconv_substr(strip_tags($_POST['company_name']), 0, 64));     // название компании
+            $data['company_ceo']     = trim(iconv_substr(strip_tags($_POST['company_ceo']), 0, 64));      // генеральный директор
+            $data['company_address'] = trim(iconv_substr(strip_tags($_POST['company_address']), 0, 250)); // юридический адрес
+            $data['company_inn']     = trim(iconv_substr(strip_tags($_POST['company_inn']), 0, 12));      // ИНН компании
+            $data['company_kpp']     = trim(iconv_substr(strip_tags($_POST['company_kpp']), 0, 9));       // КПП компании
+            $data['bank_name']       = trim(iconv_substr(strip_tags($_POST['bank_name']), 0, 64));        // название банка
+            $data['bank_bik']        = trim(iconv_substr(strip_tags($_POST['bank_bik']), 0, 9));          // БИК банка
+            $data['settl_acc']       = trim(iconv_substr(strip_tags($_POST['settl_acc']), 0, 20));        // номер расчетного счета в банке
+            $data['corr_acc']        = trim(iconv_substr(strip_tags($_POST['corr_acc']), 0, 20));         // номер корреспондентского счета
         }
 
         // были допущены ошибки при заполнении формы?

@@ -521,7 +521,7 @@ class Catalog_Backend_Model extends Backend_Model {
         $this->uploadDocFiles($data['id']);
 
     }
-    
+
     /**
      * Функция возвращает массив всех функциональных групп для
      * возможности выбора при добавлении/редактировании товара
@@ -732,7 +732,7 @@ class Catalog_Backend_Model extends Backend_Model {
                 if ( ! ctype_digit($_POST['update_doc_ids'][$i])) {
                     continue;
                 }
-                $title = trim(utf8_substr($_POST['update_doc_titles'][$i], 0, 120));
+                $title = trim(iconv_substr($_POST['update_doc_titles'][$i], 0, 120));
                 if (empty($title)) {
                     continue;
                 }
@@ -814,7 +814,7 @@ class Catalog_Backend_Model extends Backend_Model {
             if ( ! in_array($_FILES['add_doc_files']['type'][$i], $mimeTypes) ) { // недопустимый mime-тип файла
                 continue;
             }
-            $title = trim(utf8_substr($_POST['add_doc_titles'][$i], 0, 120));
+            $title = trim(iconv_substr($_POST['add_doc_titles'][$i], 0, 120));
             // сумма md5 загружаемого файла; нам надо проверить - есть уже такой файл?
             $md5 = md5_file($_FILES['add_doc_files']['tmp_name'][$i]);
             $query = "SELECT

@@ -195,7 +195,9 @@ defined('ZCMS') or die('Access denied');
     </div>
 </div>
 
-<?php if (!empty($banners)): ?>
+<?php
+if (!empty($banners)):
+?>
     <div id="side-banner">
     <?php foreach ($banners as $banner): ?>
         <a href="<?php echo $banner['url']; ?>"><img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['alttext']; ?>" /></a>

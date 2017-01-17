@@ -96,8 +96,8 @@ class Additem_Menu_Backend_Controller extends Menu_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100)); // наименование пункта меню
-        $data['url']  = trim(utf8_substr($_POST['url'], 0, 100));  // URL пункта меню
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100)); // наименование пункта меню
+        $data['url']  = trim(iconv_substr($_POST['url'], 0, 100));  // URL пункта меню
 
         // родитель
         $data['parent'] = 0;

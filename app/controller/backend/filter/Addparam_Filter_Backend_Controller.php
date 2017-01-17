@@ -75,7 +75,7 @@ class Addparam_Filter_Backend_Controller extends Filter_Backend_Controller {
          * обрабатываем данные, полученные из формы
          */
         // наименование параметра
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {

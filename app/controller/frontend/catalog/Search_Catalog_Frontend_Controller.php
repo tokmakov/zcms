@@ -38,7 +38,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                  * роутер не сможет правильно разобрать $_SERVER['REQUEST_URI'];
                  * см. файл app/include/Router.php
                  */
-                $query = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
+                $query = trim(iconv_substr(str_replace('/', '|', $_POST['query']), 0, 64));
                 $temp = 'frontend/catalog/search/query/' . rawurlencode($query);
                 $this->redirect($this->searchCatalogFrontendModel->getURL($temp));
             } else {

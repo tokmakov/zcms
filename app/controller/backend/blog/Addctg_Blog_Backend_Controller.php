@@ -84,12 +84,12 @@ class Addctg_Blog_Backend_Controller extends Blog_Backend_Controller {
          */
 
         // наименование категории
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250));
         // мета-тег keywords
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         // мета-тег description
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
 
         // порядок сортировки

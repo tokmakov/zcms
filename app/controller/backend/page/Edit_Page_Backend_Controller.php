@@ -125,12 +125,12 @@ class Edit_Page_Backend_Controller extends Page_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['sefurl']      = trim(utf8_substr($_POST['sefurl'], 0, 100));      // ЧПУ (SEF) страницы
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));        // заголовок h1
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));       // meta-тег title
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));    // meta-тег keywords
+        $data['sefurl']      = trim(iconv_substr($_POST['sefurl'], 0, 100));      // ЧПУ (SEF) страницы
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250));        // заголовок h1
+        $data['title']       = trim(iconv_substr($_POST['title'], 0, 250));       // meta-тег title
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));    // meta-тег keywords
         $data['keywords']    = str_replace('"', '', $data['keywords']);
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // meta-тег description
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250)); // meta-тег description
         $data['description'] = str_replace('"', '', $data['description']);
         $data['body']        = trim($_POST['body']); // содержание странцы
 

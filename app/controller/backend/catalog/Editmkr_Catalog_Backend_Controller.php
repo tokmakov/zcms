@@ -15,7 +15,7 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
      * с формой для редактирования производителя
      */
     protected function input() {
-        
+
         /*
          * сначала обращаемся к родительскому классу Catalog_Backend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех
@@ -52,11 +52,11 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             ),
             array(
                 'name' => 'Каталог',
-                'url'  => $this->catalogBackendModel->getURL('backend/catalog/index')  
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/index')
             ),
             array(
                 'name' => 'Производители',
-                'url'  => $this->catalogBackendModel->getURL('backend/catalog/allmkrs') 
+                'url'  => $this->catalogBackendModel->getURL('backend/catalog/allmkrs')
             ),
         );
 
@@ -108,11 +108,11 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 64)); // наименование
-        $data['altname']     = trim(utf8_substr($_POST['altname'], 0, 64)); // альтернативное наименование
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 64)); // наименование
+        $data['altname']     = trim(iconv_substr($_POST['altname'], 0, 64)); // альтернативное наименование
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
         $data['keywords']    = str_replace('"', '', $data['keywords']);
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // мета-тег description
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250)); // мета-тег description
         $data['description'] = str_replace('"', '', $data['description']);
         $data['body']        = trim($_POST['body']); // описание производителя
 

@@ -24,11 +24,11 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * Groups_Catalog_Frontend_Controller
          */
         parent::input();
-        
+
         // если данные формы были отправлены: поиск функционала
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
-                $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
+                $_POST['query'] = trim(iconv_substr(str_replace('/', '|', $_POST['query']), 0, 64));
                 $this->redirect($this->groupCatalogFrontendModel->getURL('frontend/catalog/groups/query/' . rawurlencode($_POST['query'])));
             } else {
                 $this->redirect($this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'));

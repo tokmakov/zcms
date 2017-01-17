@@ -156,7 +156,7 @@ class Editgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
          */
 
         // наименование группы
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));
         // параметры, привязанные к группе
         $data['linked_params'] = array();
         if (isset($_POST['params_values']) && is_array($_POST['params_values'])) {
@@ -224,7 +224,7 @@ class Editgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
          */
 
         // наименование группы
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));
         // параметры, привязанные к группе
         $data['linked_params'] = array();
         // идентификаторы параметров, уже привязанных к группе: чтобы не привязывать их повторно

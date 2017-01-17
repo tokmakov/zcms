@@ -22,7 +22,7 @@ class Xhr_Comment_Wished_Frontend_Controller extends Wished_Frontend_Controller 
 
         $comment = '';
         if (isset($_POST['comment'])) {
-            $comment = trim(utf8_substr($_POST['comment'], 0, 250));
+            $comment = trim(iconv_substr($_POST['comment'], 0, 250));
         }
 
         // добавляем комментарий

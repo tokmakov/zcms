@@ -81,7 +81,7 @@ if ( mysql_num_rows( $res ) > 0 ) {
         if ( !empty($row['thumbnail']) ) {
             $temp = unserialize($row['thumbnail']);
             if ( is_array( $temp ) ) {
-                $path = utf8_substr($temp['file'], 0, 8);
+                $path = iconv_substr($temp['file'], 0, 8);
                 $thumbnail = 'http://www.tinko.ru/blog/wp-content/uploads/'.$temp['file'];
                 $mimeType = '';
                 $ext = substr($temp['file'], strrpos($temp['file'], '.') + 1);

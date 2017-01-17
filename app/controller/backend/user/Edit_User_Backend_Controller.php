@@ -105,14 +105,14 @@ class Edit_User_Backend_Controller extends User_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 32));       // имя пользователя
-        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
+        $data['surname']    = trim(iconv_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(iconv_substr($_POST['name'], 0, 32));       // имя пользователя
+        $data['patronymic'] = trim(iconv_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
         $data['change']     = false;
         if (isset($_POST['change'])) { // изменить пароль?
             $data['change']   = true;
-            $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
-            $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
+            $data['password'] = trim(iconv_substr($_POST['password'], 0, 32)); // пароль
+            $confirm          = trim(iconv_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
         }
 
         $data['type'] = (int)$_POST['type']; // тип пользователя

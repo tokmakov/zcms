@@ -59,7 +59,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $result = $this->database->fetchAll($query, array(), $this->enableDataCache, true);
         // добавляем в массив результатов поиска информацию об URL товаров и фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network для фотографий товаров
             $host = $this->config->cdn->url;
         }
         foreach($result as $key => $value) {
@@ -146,7 +146,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (empty($search)) {
             return '';
         }
-        if (utf8_strlen($search) < 2) {
+        if (iconv_strlen($search) < 2) {
             return '';
         }
         // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200);
@@ -201,7 +201,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // если первое слово поискового запроса совпадает с первым словом торгового наименования
         $weight = 0.05;
-        if (utf8_strlen($words[0]) > 1) $weight = 0.1;
+        if (iconv_strlen($words[0]) > 1) $weight = 0.1;
         $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 )";
         if (isset($words[1])) { // если совпадают первое и второе слово
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[^0-9a-zа-яё]?".$words[1]."', " . $weight . ", 0 )";
@@ -213,7 +213,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // гораздо выше (0.4—0.5); это позволяет немного уменьшить искажения от случайных совпадений
         // коротких слов
         for ($i = 0; $i < count($words); $i++) {
-            $length = utf8_strlen($words[$i]);
+            $length = iconv_strlen($words[$i]);
             $weight = 0.5;
             if ($length < 5) {
                 $weight = 0.1 * $length;
@@ -258,22 +258,17 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ( ! empty($longs)) {
             // учитываем каждое слово поискового запроса на основе его длины, по аналогии с расчетом
             // релевантности для торгового наименования изделия
-            $length = utf8_strlen($longs[0]);
-            $weight = 0.5;
-            if ($length < 5) {
-                $weight = 0.1 * $length;
-            }
-            $query = $query." + ".$titleWeight."*( IF( `a`.`title` LIKE '%".$longs[0]."%', ".$weight.", 0 )";
-            $query = $query." + IF( LOWER(`a`.`title`) REGEXP '[[:<:]]".$longs[0]."', 0.1, 0 )";
-            // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
-            // запроса, как и для первого слова
-            for ($i = 1; $i < count($longs); $i++) {
-                $length = utf8_strlen($longs[$i]);
+            for ($i = 0; $i < count($longs); $i++) {
+                $length = iconv_strlen($longs[$i]);
                 $weight = 0.5;
                 if ($length < 5) {
                     $weight = 0.1 * $length;
                 }
-                $query = $query." + IF( `a`.`title` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                if ($i === 0) {
+                    $query = $query." + ".$titleWeight."*( IF( `a`.`title` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                } else {
+                    $query = $query." + IF( `a`.`title` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                }
                 $query = $query." + IF( LOWER(`a`.`title`) REGEXP '[[:<:]]".$longs[$i]."', 0.1, 0 )";
             }
             $query = $query." )";
@@ -286,22 +281,17 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ( ! empty($longs)) {
             // учитываем каждое слово поискового запроса на основе его длины, по аналогии с расчетом
             // релевантности для торгового наименования изделия
-            $length = utf8_strlen($longs[0]);
-            $weight = 0.5;
-            if ($length < 5) {
-                $weight = 0.1 * $length;
-            }
-            $query = $query." + ".$makerWeight."*( IF( `c`.`name` LIKE '%".$longs[0]."%', ".$weight.", 0 )";
-            $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[0]."', 0.1, 0 )";
-            // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
-            // как и для первого слова
-            for ($i = 1; $i < count($longs); $i++) {
-                $length = utf8_strlen($longs[$i]);
+            for ($i = 0; $i < count($longs); $i++) {
+                $length = iconv_strlen($longs[$i]);
                 $weight = 0.5;
                 if ($length < 5) {
                     $weight = 0.1 * $length;
                 }
-                $query = $query." + IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                if ($i === 0) {
+                    $query = $query." + ".$makerWeight."*( IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                } else {
+                    $query = $query." + IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                }
                 $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[$i]."', 0.1, 0 )";
             }
             $query = $query." )";
@@ -363,7 +353,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (empty($search)) {
             return '';
         }
-        if (utf8_strlen($search) < 2) {
+        if (iconv_strlen($search) < 2) {
             return '';
         }
         // небольшок хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)

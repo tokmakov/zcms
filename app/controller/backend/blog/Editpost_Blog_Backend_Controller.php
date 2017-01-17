@@ -41,7 +41,7 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
                 $this->redirect($this->blogBackendModel->getURL('backend/blog/index'));
             }
         }
-        
+
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
             /*
@@ -70,7 +70,7 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
             }
             if (isset($_POST['upload'])) { // нажата вторая кнопка
                 $this->uploadFiles();
-                $this->redirect($this->blogBackendModel->getURL('backend/blog/editpost/id/' . $this->params['id']));  
+                $this->redirect($this->blogBackendModel->getURL('backend/blog/editpost/id/' . $this->params['id']));
             }
         }
 
@@ -98,7 +98,7 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
         // получаем от модели массив категорий, для возможности выбора
         $categories = $this->blogBackendModel->getCategories();
-        
+
         // получаем от модели массив массив директорий и файлов
         $folders = $this->blogBackendModel->getFoldersAndFiles();
 
@@ -161,14 +161,14 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
          */
 
         // заголовок поста
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250));
         // анонс поста
-        $data['excerpt']     = trim(utf8_substr($_POST['excerpt'], 0, 1000));
+        $data['excerpt']     = trim(iconv_substr($_POST['excerpt'], 0, 1000));
         // мета-тег keywords
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         // мета-тег description
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
         // содержание поста
         $data['body']        = trim($_POST['body']);
@@ -216,7 +216,7 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
         return true;
 
     }
-    
+
     /**
      * Функция загружает на сервер выбранные администратором файлы и сохраняет в
      * сессии введенные данные, чтобы администратору не пришлось заполнять поля
@@ -227,16 +227,16 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
         /*
          * сохраняем введенные данные в сессии
          */
-        
+
         // заголовок поста
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250));
         // анонс поста
-        $data['excerpt']     = trim(utf8_substr($_POST['excerpt'], 0, 1000));
+        $data['excerpt']     = trim(iconv_substr($_POST['excerpt'], 0, 1000));
         // мета-тег keywords
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         // мета-тег description
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
         // содержание поста
         $data['body']        = trim($_POST['body']);
@@ -250,9 +250,9 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
         if (ctype_digit($_POST['category'])) {
             $data['category'] = (int)$_POST['category'];
         }
-        
+
         $this->setSessionData('uploadBlogPostForm', $data);
-        
+
         /*
          *обращаемся к модели для загрузки файлов
          */

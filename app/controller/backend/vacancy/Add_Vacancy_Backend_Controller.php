@@ -41,7 +41,7 @@ class Add_Vacancy_Backend_Controller extends Vacancy_Backend_Controller {
             array('url' => $this->vacancyBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
             array('url' => $this->vacancyBackendModel->getURL('backend/vacancy/index'), 'name' => 'Вакансии'),
         );
-        
+
         $details = array(
             array(
                 'name'  => 'Требования',
@@ -67,7 +67,7 @@ class Add_Vacancy_Backend_Controller extends Vacancy_Backend_Controller {
             'action'      => $this->vacancyBackendModel->getURL('backend/vacancy/add'),
             // подробная информация о вакансии
             'details'     => $details,
-            
+
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные
         // данные формы и массив сообщений об ошибках
@@ -88,25 +88,25 @@ class Add_Vacancy_Backend_Controller extends Vacancy_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));     // название вакансии
-        
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));     // название вакансии
+
         $data['visible'] = 0;
         if (isset($_POST['visible'])) {
             $data['visible'] = 1;
         }
-        
+
         // подробная информация о вакансии
         $details = array();
         $error = 0;
         if (isset($_POST['names']) && is_array($_POST['names'])) {
             $count = 0;
             foreach ($_POST['names'] as $key => $name) {
-                $name = trim(utf8_substr($name, 0, 100));
+                $name = trim(iconv_substr($name, 0, 100));
                 $items = array();
                 if (isset($_POST['items'][$key]) && is_array($_POST['items'][$key])) {
                     foreach ($_POST['items'][$key] as $item) {
                         if (empty($item)) continue;
-                        $items[] = trim(utf8_substr($item, 0, 100));
+                        $items[] = trim(iconv_substr($item, 0, 100));
                     }
                 }
                 if ( (empty($name) && !empty($items)) || (!empty($name) && empty($items))) {
@@ -122,7 +122,7 @@ class Add_Vacancy_Backend_Controller extends Vacancy_Backend_Controller {
                 $count++;
             }
         }
-        
+
         if (empty($details)) {
             $details = array(
                 array(

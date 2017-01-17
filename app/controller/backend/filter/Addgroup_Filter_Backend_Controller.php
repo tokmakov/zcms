@@ -124,8 +124,8 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
          */
 
         // наименование группы
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
-        
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));
+
         // параметры, привязанные к группе
         $data['linked_params'] = array();
         if (isset($_POST['params_values']) && is_array($_POST['params_values'])) {
@@ -156,7 +156,7 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
             $this->setSessionData('addFilterGroupForm', $data);
             return false;
         }
-        
+
         // параметры, привязанные к группе
         unset($data['linked_params']);
         $data['params_values'] = array();
@@ -177,7 +177,7 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
         return true;
 
     }
-    
+
     /**
      * Функция временно «привязывает» к функциональной группе выбранные параметры
      * и сохраняет в сессии все введенные данные, чтобы администратору не пришлось
@@ -188,9 +188,9 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
         /*
          * сохраняем введенные данные в сессии
          */
-        
+
         // наименование группы
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 100));
         // параметры, привязанные к группе
         $data['linked_params'] = array();
         // идентификаторы параметров, уже привязанных к группе: чтобы не привязывать их повторно
@@ -218,7 +218,7 @@ class Addgroup_Filter_Backend_Controller extends Filter_Backend_Controller {
                 $data['linked_params'][] = array('id' => $id, 'name' => $name, 'ids' => array());
             }
         }
-        
+
         $this->setSessionData('newFilterGroupParams', $data);
 
     }

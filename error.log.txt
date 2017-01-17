@@ -1,0 +1,10 @@
+14.01.2017 12:18:02
+Код: 0, текст: Не найден файл шаблона view/tinko/frontend/template/head.php для контроллера Index_Index_Frontend_Controller
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 181
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(425): Base_Controller->render('view/tinko/fron...', Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(358): Frontend_Controller->render('view/tinko/fron...', Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(155): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(42): Base_Controller->request()
+#4 {main}
+

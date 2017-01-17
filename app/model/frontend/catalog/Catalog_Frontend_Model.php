@@ -4,7 +4,7 @@
  * с каталогом товаров, общедоступная часть сайта
  */
 abstract class Catalog_Frontend_Model extends Frontend_Model {
-    
+
     /*
      * protected function getAllChildIds(...)
      * protected function allChildIds(...)
@@ -81,7 +81,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         }
         return $ids;
     }
-    
+
     /**
      * Вспомогательная функция, возвращает массив идентификаторов товаров,
      * которые входят в функциональную группу $group и  подходят под параметры
@@ -184,7 +184,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         return $this->getCachedData($key, $function, $arguments);
 
     }
-    
+
     /**
      * Функция проверяет корректность идентификаторов параметров и значений;
      * если параметры и значения коррекные, возвращает true, иначе false
@@ -196,11 +196,11 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         $count = count($param);
-        
+
         $params = implode(',', array_keys($param));
         $query = "SELECT COUNT(*) FROM `params` WHERE `id` IN (" . $params . ")";
         $count1 = $this->database->fetchOne($query);
-        
+
         $values = implode(',', $param);
         $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $values . ")";
         $count2 = $this->database->fetchOne($query);
@@ -310,7 +310,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * от всякого мусора
      */
     protected function cleanSearchString($search) {
-        $search = utf8_substr($search, 0, 64);
+        $search = iconv_substr($search, 0, 64);
         // удаляем все, кроме букв и цифр
         $search = preg_replace('#[^0-9a-zA-ZА-Яа-яёЁ]#u', ' ', $search);
         // сжимаем двойные пробелы

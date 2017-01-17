@@ -1,8 +1,9 @@
 <?php
 /**
- * Класс Edit_User_Frontend_Controller для редактирования личных данных (имя, пароль),
- * формирует страницу с формой для редактирования, обновляет запись в таблице БД
- * users, работает с моделью User_Frontend_Model, общедоступная часть сайта
+ * Класс Edit_User_Frontend_Controller для редактирования личных данных (фамилия,
+ * имя, пароль), формирует страницу с формой для редактирования, обновляет запись
+ * в таблице БД users, работает с моделью User_Frontend_Model, общедоступная часть
+ * сайта
  */
 class Edit_User_Frontend_Controller extends User_Frontend_Controller {
 
@@ -18,21 +19,21 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * сначала обращаемся к родительскому классу User_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
+         * чтобы установить значения переменных, которые нужны для работы всех
+         * его потомков, потом переопределяем эти переменные (если необходимо)
+         * и устанавливаем значения перменных, которые нужны для работы только
          * Edit_User_Frontend_Controller
          */
         parent::input();
 
         // если пользователь не авторизован, перенаправляем его на страницу авторизации
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
         }
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->ValidateForm()) { // если при заполнении формы были допущены ошибки
+            if ( ! $this->ValidateForm()) { // если при заполнении формы были допущены ошибки
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/edit'));
             } else { // ошибок не было, перенаправляем на главную страницу личного кабинета
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/index'));
@@ -43,8 +44,14 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
 
         // формируем хлебные крошки
         $breadcrumbs = array(
-            array('url' => $this->userFrontendModel->getURL('frontend/index/index'), 'name' => 'Главная'),
-            array('url' => $this->userFrontendModel->getURL('frontend/user/index'), 'name' => 'Личный кабинет')
+            array(
+                'name' => 'Главная',
+                'url'  => $this->userFrontendModel->getURL('frontend/index/index')
+            ),
+            array(
+                'name' => 'Личный кабинет',
+                'url'  => $this->userFrontendModel->getURL('frontend/user/index')
+            )
         );
 
         /*
@@ -62,6 +69,7 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
             // отчество пользователя
             'patronymic'  => $this->user['patronymic'],
         );
+
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
         if ($this->issetSessionData('editUserForm')) {
@@ -83,14 +91,14 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 32));       // имя пользователя
-        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
+        $data['surname']    = trim(iconv_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(iconv_substr($_POST['name'], 0, 32));       // имя пользователя
+        $data['patronymic'] = trim(iconv_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
         $data['change']     = false;
         if (isset($_POST['change'])) { // изменить пароль?
             $data['change']   = true;
-            $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
-            $confirm          = trim(utf8_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
+            $data['password'] = trim(iconv_substr($_POST['password'], 0, 32)); // пароль
+            $confirm          = trim(iconv_substr($_POST['confirm'], 0, 32));  // подтверждение пароля
         }
 
         // были допущены ошибки при заполнении формы?
@@ -126,7 +134,7 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('editUserForm', $data);
             return false;
@@ -141,5 +149,7 @@ class Edit_User_Frontend_Controller extends User_Frontend_Controller {
         $this->userFrontendModel->updateUser($data);
 
         return true;
+
     }
+
 }

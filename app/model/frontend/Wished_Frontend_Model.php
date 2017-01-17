@@ -1,7 +1,8 @@
 <?php
 /**
- * Класс Wished_Frontend_Model отвечает за список отложенных товаров,
- * реализует шаблон проектирования «Наблюдатель»
+ * Класс Wished_Frontend_Model отвечает за список отложенных товаров, взаимодействует с
+ * базой данных, реализует шаблон проектирования «Наблюдатель», общедоступная часть сайта;
+ * см. описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
  */
 class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
 
@@ -286,7 +287,8 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция объединяет списки отложенных товаров (ещё) не авторизованного
      * посетителя и (уже) авторизованного пользователя сразу после авторизации,
-     * реализация шаблона проектирования «Наблюдатель»
+     * реализация шаблона проектирования «Наблюдатель»; см. описание интерфейса
+     * SplObserver http://php.net/manual/ru/class.splobserver.php
      */
     public function update(SplSubject $userFrontendModel) {
 

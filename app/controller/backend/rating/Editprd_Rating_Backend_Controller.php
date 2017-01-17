@@ -5,7 +5,7 @@
  * таблице БД rating_products, работает с моделью Rating_Backend_Model
  */
 class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
-    
+
     /**
      * идентификатор категории верхнего уровня, в которую вернется администратор
      * после успешного обновления товара и редиректа
@@ -31,7 +31,7 @@ class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
          * Editprd_Rating_Backend_Controller
          */
         parent::input();
-        
+
         // если не передан id товара или id товара не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -66,7 +66,7 @@ class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
                 'url'  => $this->ratingBackendModel->getURL('backend/rating/index'),
             )
         );
-        
+
         // получаем от модели информацию о товаре
         $product = $this->ratingBackendModel->getProduct($this->params['id']);
         // если запрошенный товар не найден в БД
@@ -118,11 +118,11 @@ class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
          */
 
         // код (артикул) товара
-        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));
+        $data['code']        = trim(iconv_substr($_POST['code'], 0, 16));
         // торговое наименование изделия
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 100));
         // функциональное наименование изделия
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 200));
+        $data['title']       = trim(iconv_substr($_POST['title'], 0, 200));
 
         // родительская категория
         $data['category'] = 0;
@@ -151,11 +151,11 @@ class Editprd_Rating_Backend_Controller extends Rating_Backend_Controller {
             $this->setSessionData('editRatingProductForm', $data);
             return false;
         }
-        
+
         // идентификатор категории верхнего уровня, в которую
         // вернется администратор после редиректа
         $this->return = $this->ratingBackendModel->getCategoryParent($data['category']);
-        
+
         $data['id'] = $this->params['id']; // уникальный идентификатор товара
 
         // обращаемся к модели для обновления товара

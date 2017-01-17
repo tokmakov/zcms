@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Addctg_Rating_Backend_Controller для добавления новой категории товаров 
+ * Класс Addctg_Rating_Backend_Controller для добавления новой категории товаров
  * рейтинга, формирует страницу с формой для добавления категории, добавляет запись
  * в таблицу БД rating_categories, работает с моделью Rating_Backend_Model
  */
@@ -49,7 +49,7 @@ class Addctg_Rating_Backend_Controller extends Rating_Backend_Controller {
                 'url'  => $this->ratingBackendModel->getURL('backend/rating/index'),
             )
         );
-        
+
         // получаем от модели массив категорий верхнего уровня, для возможности выбора родителя
         $categories = $this->ratingBackendModel->getRootCategories();
 
@@ -83,9 +83,9 @@ class Addctg_Rating_Backend_Controller extends Rating_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-         
+
         // наименование категории
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 250));
         // родительская категория
         $data['parent'] = 0;
         if (ctype_digit($_POST['parent'])) {

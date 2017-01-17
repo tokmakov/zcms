@@ -25,7 +25,8 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          */
         parent::input();
 
-        // если данные формы были отправлены
+        // если данные формы были отправлены, т.е. покупатель изменил количество
+        // отдельных товарных позиций в корзине и нажал кнопку «Пересчитать»
         if ($this->isPostMethod()) {
             // обращаемся к модели, чтобы обновить корзину
             $this->basketFrontendModel->updateBasket();

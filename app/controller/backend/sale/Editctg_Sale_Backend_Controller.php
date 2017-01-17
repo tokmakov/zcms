@@ -95,7 +95,7 @@ class Editctg_Sale_Backend_Controller extends Sale_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 250)); // наименование категории
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 250)); // наименование категории
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {

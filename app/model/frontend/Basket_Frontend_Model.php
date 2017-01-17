@@ -1,7 +1,9 @@
 <?php
 /**
- * Класс Basket_Frontend_Model отвечает за корзину покупателя, реализует шаблон
- * проектирования «Наблюдатель», общедоступная часть сайта
+ * Класс Basket_Frontend_Model отвечает за корзину покупателя, взаимодействует с
+ * базой данных, реализует шаблон проектирования «Наблюдатель», реализует шаблон
+ * проектирования «Наблюдатель», общедоступная часть сайта; см. описание интерфейса
+ * SplObserver http://php.net/manual/ru/class.splobserver.php
  */
 class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
@@ -611,7 +613,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . 'Телефон: ' . $this->config->site->phone . '<br/>';
         $html = $html . 'Почта: <a href="mailto:' . $this->config->site->email . '">' . $this->config->site->email . '</a>';
         $html = $html . '</p>';
-        
+
         // если пользователь авторизован, отправляем письмо на адрес, указанный при регистрации
         if ($this->register->userFrontendModel->isAuthUser()) {
             $email = $this->register->userFrontendModel->getUserEmail();
@@ -622,7 +624,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $subject = '=?utf-8?b?'.base64_encode('Заявка № '.$orderId).'?=';
         $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
-        // определяем, кому будем отправлять копии письма    
+        // определяем, кому будем отправлять копии письма
         $carbonCopy = array();
         // если пользователь авторизован, и адреса пользователя (сайта) и получателя (заказа)
         // не совпадают, отправляем копию письма получателю заказа
@@ -641,16 +643,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $headers = $headers . 'Date: ' . date('r') . "\r\n";
         $headers = $headers . 'Content-type: text/html; charset="utf-8"' . "\r\n";
         $headers = $headers . 'Content-Transfer-Encoding: base64';
-        
+
         $message = chunk_split(base64_encode($html));
-        
+
         mail($email, $subject, $message, $headers);
     }
 
     /**
      * Функция объединяет корзины (ещё) не авторизованного посетителя и (уже)
      * авторизованного пользователя сразу после авторизации, реализация шаблона
-     * проектирования «Наблюдатель»
+     * проектирования «Наблюдатель»; см. описание интерфейса SplObserver здесь
+     * http://php.net/manual/ru/class.splobserver.php
      */
     public function update(SplSubject $userFrontendModel) {
 
@@ -776,7 +779,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if (is_array($ids)) { // рекомендации для массива товаров
             $temp = implode(',', $ids);
             if (count($ids) > 1) {
-                $limit = 20; 
+                $limit = 20;
             }
         } else { // рекомендации для одного товара
             $temp = $ids;

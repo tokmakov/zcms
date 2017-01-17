@@ -60,7 +60,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'url'  => $this->basketFrontendModel->getURL('frontend/basket/index')
             ),
         );
-        
+
         // если пользователь авторизован, получаем информацию о нем
         $surname    = ''; // фамилия контактного лица по умолчанию
         $name       = ''; // имя контактного лица по-умолчанию
@@ -95,27 +95,27 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          */
         $this->centerVars = array(
             // хлебные крошки
-            'breadcrumbs'      => $breadcrumbs,
+            'breadcrumbs'        => $breadcrumbs,
             // атрибут action тега form
-            'action'           => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
+            'action'             => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
             // пользователь авторизован?
-            'authUser'         => $this->authUser,
+            'authUser'           => $this->authUser,
             // фамилия контактного лица получателя
-            'buyer_name'       => $name,
+            'buyer_name'         => $name,
             // имя контактного лица получателя
-            'buyer_surname'    => $surname,
+            'buyer_surname'      => $surname,
             // отчество контактного лица получателя
-            'buyer_patronymic' => $patronymic,
+            'buyer_patronymic'   => $patronymic,
             // e-mail контактного лица получателя
-            'buyer_email'      => $email,
+            'buyer_email'        => $email,
             // массив профилей пользователя
-            'profiles'         => $profiles,
+            'profiles'           => $profiles,
             // массив офисов для самовывоза
-            'offices'          => $offices,
+            'offices'            => $offices,
             // если true, заказ размещен
-            'success'          => $success,
+            'success'            => $success,
             // сообщение об успешном размещении заказа
-            'message'          => $this->config->message->checkout,
+            'message'            => $this->config->message->checkout,
         );
         if ($success) { // заказ размещен, большинство переменных в шаблоне не нужны
             unset(
@@ -148,15 +148,15 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          */
 
         // фамилия контактного лица получателя
-        $form['buyer_surname']    = trim(utf8_substr(strip_tags($_POST['buyer_surname']), 0, 32));
+        $form['buyer_surname']    = trim(iconv_substr(strip_tags($_POST['buyer_surname']), 0, 32));
         // имя контактного лица получателя
-        $form['buyer_name']       = trim(utf8_substr(strip_tags($_POST['buyer_name']), 0, 32));
+        $form['buyer_name']       = trim(iconv_substr(strip_tags($_POST['buyer_name']), 0, 32));
         // отчество контактного лица получателя
-        $form['buyer_patronymic'] = trim(utf8_substr(strip_tags($_POST['buyer_patronymic']), 0, 32));
+        $form['buyer_patronymic'] = trim(iconv_substr(strip_tags($_POST['buyer_patronymic']), 0, 32));
         // телефон контактного лица получателя
-        $form['buyer_phone']      = trim(utf8_substr(strip_tags($_POST['buyer_phone']), 0, 64));
+        $form['buyer_phone']      = trim(iconv_substr(strip_tags($_POST['buyer_phone']), 0, 64));
         // e-mail контактного лица получателя
-        $form['buyer_email']      = trim(utf8_substr(strip_tags($_POST['buyer_email']), 0, 64));
+        $form['buyer_email']      = trim(iconv_substr(strip_tags($_POST['buyer_email']), 0, 64));
 
         if (isset($_POST['shipping'])) { // самовывоз со склада
             $form['shipping']               = 1;
@@ -168,32 +168,32 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['buyer_shipping_index']   = ''; // почтовый индекс
         } else { // доставка по адресу
             $form['shipping']               = 0;
-            $form['buyer_shipping_address'] = trim(utf8_substr(strip_tags($_POST['buyer_shipping_address']), 0, 250));
-            $form['buyer_shipping_city']    = trim(utf8_substr(strip_tags($_POST['buyer_shipping_city']), 0, 32));
-            $form['buyer_shipping_index']   = trim(utf8_substr(strip_tags($_POST['buyer_shipping_index']), 0, 6));
+            $form['buyer_shipping_address'] = trim(iconv_substr(strip_tags($_POST['buyer_shipping_address']), 0, 250));
+            $form['buyer_shipping_city']    = trim(iconv_substr(strip_tags($_POST['buyer_shipping_city']), 0, 32));
+            $form['buyer_shipping_index']   = trim(iconv_substr(strip_tags($_POST['buyer_shipping_index']), 0, 6));
         }
 
         if (isset($_POST['buyer_company'])) { // получатель - юридическое лицо?
             // получатель - юридическое лицо
             $form['buyer_company']         = 1;
             // название компании получателя
-            $form['buyer_company_name']    = trim(utf8_substr(strip_tags($_POST['buyer_company_name']), 0, 64));
+            $form['buyer_company_name']    = trim(iconv_substr(strip_tags($_POST['buyer_company_name']), 0, 64));
             // генеральный директор компании получателя
-            $form['buyer_company_ceo']     = trim(utf8_substr(strip_tags($_POST['buyer_company_ceo']), 0, 64));
+            $form['buyer_company_ceo']     = trim(iconv_substr(strip_tags($_POST['buyer_company_ceo']), 0, 64));
             // название компании получателя
-            $form['buyer_company_address'] = trim(utf8_substr(strip_tags($_POST['buyer_company_address']), 0, 250));
+            $form['buyer_company_address'] = trim(iconv_substr(strip_tags($_POST['buyer_company_address']), 0, 250));
             // ИНН компании получателя
-            $form['buyer_company_inn']     = trim(utf8_substr(strip_tags($_POST['buyer_company_inn']), 0, 12));
+            $form['buyer_company_inn']     = trim(iconv_substr(strip_tags($_POST['buyer_company_inn']), 0, 12));
             // КПП компании получателя
-            $form['buyer_company_kpp']     = trim(utf8_substr(strip_tags($_POST['buyer_company_kpp']), 0, 9));
+            $form['buyer_company_kpp']     = trim(iconv_substr(strip_tags($_POST['buyer_company_kpp']), 0, 9));
             // название банка компании получателя
-            $form['buyer_bank_name']       = trim(utf8_substr(strip_tags($_POST['buyer_bank_name']), 0, 64));
+            $form['buyer_bank_name']       = trim(iconv_substr(strip_tags($_POST['buyer_bank_name']), 0, 64));
             // БИК банка компании получателя
-            $form['buyer_bank_bik']        = trim(utf8_substr(strip_tags($_POST['buyer_bank_bik']), 0, 9));
+            $form['buyer_bank_bik']        = trim(iconv_substr(strip_tags($_POST['buyer_bank_bik']), 0, 9));
             // номер расчетного счета в банке компании получателя
-            $form['buyer_settl_acc']       = trim(utf8_substr(strip_tags($_POST['buyer_settl_acc']), 0, 20));
+            $form['buyer_settl_acc']       = trim(iconv_substr(strip_tags($_POST['buyer_settl_acc']), 0, 20));
             // номер корреспондентского счета банка компании получателя
-            $form['buyer_corr_acc']        = trim(utf8_substr(strip_tags($_POST['buyer_corr_acc']), 0, 20));
+            $form['buyer_corr_acc']        = trim(iconv_substr(strip_tags($_POST['buyer_corr_acc']), 0, 20));
         } else {
             $form['buyer_company']         = 0;  // получатель - не юридическое лицо
             $form['buyer_company_name']    = ''; // название компании получателя
@@ -207,41 +207,48 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['buyer_corr_acc']        = ''; // номер корреспондентского счета банка компании получателя
         }
 
+        // создать профиль получателя на основе введенных данных? (только
+        // для авторизованного пользователя, у которого еще нет профилей)
+        $form['make_buyer_profile'] = 0;
+        if (isset($_POST['make_buyer_profile'])) {
+            $form['make_buyer_profile'] = 1;
+        }
+
         if (isset($_POST['buyer_payer_different'])) { // получатель и плательщик различаются?
             // получатель и плательщик различаются
             $form['buyer_payer_different'] = 1;
             // имя контактного лица плательщика
-            $form['payer_name']       = trim(utf8_substr(strip_tags($_POST['payer_name']), 0, 32));
+            $form['payer_name']       = trim(iconv_substr(strip_tags($_POST['payer_name']), 0, 32));
             // фамилия контактного лица плательщика
-            $form['payer_surname']    = trim(utf8_substr(strip_tags($_POST['payer_surname']), 0, 32));
+            $form['payer_surname']    = trim(iconv_substr(strip_tags($_POST['payer_surname']), 0, 32));
             // отчество контактного лица получателя
-            $form['payer_patronymic'] = trim(utf8_substr(strip_tags($_POST['payer_patronymic']), 0, 32));
+            $form['payer_patronymic'] = trim(iconv_substr(strip_tags($_POST['payer_patronymic']), 0, 32));
             // телефон контактного лица плательщика
-            $form['payer_phone']      = trim(utf8_substr(strip_tags($_POST['payer_phone']), 0, 64));
+            $form['payer_phone']      = trim(iconv_substr(strip_tags($_POST['payer_phone']), 0, 64));
             // e-mail контактного лица плательщика
-            $form['payer_email']      = trim(utf8_substr(strip_tags($_POST['payer_email']), 0, 64));
+            $form['payer_email']      = trim(iconv_substr(strip_tags($_POST['payer_email']), 0, 64));
 
             if (isset($_POST['payer_company'])) { // плательщик - юридическое лицо?
                 // плательщик - юридическое лицо
                 $form['payer_company']         = 1;
                 // название компании плательщика
-                $form['payer_company_name']    = trim(utf8_substr(strip_tags($_POST['payer_company_name']), 0, 64));
+                $form['payer_company_name']    = trim(iconv_substr(strip_tags($_POST['payer_company_name']), 0, 64));
                 // генеральный директор компании плательщика
-                $form['payer_company_ceo']     = trim(utf8_substr(strip_tags($_POST['payer_company_ceo']), 0, 64));
+                $form['payer_company_ceo']     = trim(iconv_substr(strip_tags($_POST['payer_company_ceo']), 0, 64));
                 // юридический адрес компании плательщика
-                $form['payer_company_address'] = trim(utf8_substr(strip_tags($_POST['payer_company_address']), 0, 250));
+                $form['payer_company_address'] = trim(iconv_substr(strip_tags($_POST['payer_company_address']), 0, 250));
                 // ИНН компании плательщика
-                $form['payer_company_inn']     = trim(utf8_substr(strip_tags($_POST['payer_company_inn']), 0, 12));
+                $form['payer_company_inn']     = trim(iconv_substr(strip_tags($_POST['payer_company_inn']), 0, 12));
                 // КПП компании плательщика
-                $form['payer_company_kpp']     = trim(utf8_substr(strip_tags($_POST['payer_company_kpp']), 0, 9));
+                $form['payer_company_kpp']     = trim(iconv_substr(strip_tags($_POST['payer_company_kpp']), 0, 9));
                 // название банка компании плательщика
-                $form['payer_bank_name']       = trim(utf8_substr(strip_tags($_POST['payer_bank_name']), 0, 64));
+                $form['payer_bank_name']       = trim(iconv_substr(strip_tags($_POST['payer_bank_name']), 0, 64));
                 // БИК банка компании плательщика
-                $form['payer_bank_bik']        = trim(utf8_substr(strip_tags($_POST['payer_bank_bik']), 0, 9));
+                $form['payer_bank_bik']        = trim(iconv_substr(strip_tags($_POST['payer_bank_bik']), 0, 9));
                 // номер расчетного счета в банке компании плательщика
-                $form['payer_settl_acc']       = trim(utf8_substr(strip_tags($_POST['payer_settl_acc']), 0, 20));
+                $form['payer_settl_acc']       = trim(iconv_substr(strip_tags($_POST['payer_settl_acc']), 0, 20));
                 // номер корреспондентского счета банка компании плательщика
-                $form['payer_corr_acc']        = trim(utf8_substr(strip_tags($_POST['payer_corr_acc']), 0, 20));
+                $form['payer_corr_acc']        = trim(iconv_substr(strip_tags($_POST['payer_corr_acc']), 0, 20));
             } else {
                 $form['payer_company']         = 0;  // плательщик - не юридическое лицо
                 $form['payer_company_name']    = ''; // название компании плательщика
@@ -275,8 +282,16 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $form['payer_settl_acc']       = '';
             $form['payer_corr_acc']        = '';
         }
+
+        // создать профиль плательщика на основе введенных данных? (только
+        // для авторизованного пользователя, у которого еще нет профилей)
+        $form['make_payer_profile'] = 0;
+        if (isset($_POST['make_payer_profile'])) {
+            $form['make_payer_profile'] = 1;
+        }
+
         // комментарий к заказу
-        $form['comment'] = trim(utf8_substr(strip_tags($_POST['comment']), 0, 250));
+        $form['comment'] = trim(iconv_substr(strip_tags($_POST['comment']), 0, 250));
 
         /*
          * были допущены ошибки при заполнении формы?
@@ -433,7 +448,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         // создать профиль получателя?
-        if ($this->authUser && isset($_POST['make_buyer_profile'])) {
+        if ($this->authUser && $form['make_buyer_profile']) {
             $data = array(
                 'title'            => 'Профиль получателя',
                 'name'             => $form['buyer_name'],
@@ -460,7 +475,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->userFrontendModel->addProfile($data);
         }
         // создать профиль плательщика?
-        if ($this->authUser && $form['buyer_payer_different'] && isset($_POST['make_payer_profile'])) {
+        if ($this->authUser && $form['make_payer_profile'] && $form['buyer_payer_different']) {
             $data = array(
                 'title'            => 'Профиль плательщика',
                 'name'             => $form['payer_name'],
