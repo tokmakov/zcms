@@ -350,6 +350,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает SQL-запрос для получения кол-ва результатов поиска по каталогу
      */
     protected function getCountSearchQuery($search) {
+
         if (empty($search)) {
             return '';
         }
@@ -392,6 +393,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $query = $query.") AND `a`.`visible` = 1";
 
         return $query;
+
     }
 
 }

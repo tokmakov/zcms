@@ -316,8 +316,25 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         // сжимаем двойные пробелы
         $search = preg_replace('#\s+#u', ' ', $search);
         $search = trim($search);
-        $search = utf8_strtolower($search);
+        $search = $this->stringToLower($search);
         return $search;
+    }
+
+    /**
+     * Вспмогательная функция, преобразует строку в нижний регистр
+     */
+    protected function stringToLower($string) {
+        $upper = array(
+            'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т',
+            'У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я','A','B','C','D','E','F','G',
+            'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+        );
+        $lower = array(
+            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т',
+            'у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я','a','b','c','d','e','f','g',
+            'h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+        );
+        return str_replace($upper, $lower, $string);
     }
 
 }

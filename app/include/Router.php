@@ -123,10 +123,10 @@ class Router {
         }
 
         /*
-         * Для того, что бы через виртуальные адреса controller/action/params
+         * Для того, чтобы через виртуальные адреса controller/action/params
          * можно было также передавать параметры через QUERY_STRING, необходимо
          * получить из $_SERVER['REQUEST_URI'] только компонент пути. Данные,
-         * переданные через QUERY_STRING, также как и раньше будут содержаться
+         * переданные через QUERY_STRING, также как и раньше, будут содержаться
          * в суперглобальных массивах $_GET и $_REQUEST.
          */
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // строка frontend/catalog/category/id/17
@@ -167,7 +167,8 @@ class Router {
         // получаем имя класса контроллера
         $frontback = ($this->backend) ? 'Backend' : 'Frontend';
         // составляем имя класса из четырех частей, разделенных символом подчеркивания
-        $this->controllerClassName = ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
+        $this->controllerClassName =
+            ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
         if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
             $this->controller = 'notfound';
             $this->action = 'index';
@@ -202,14 +203,16 @@ class Router {
     }
 
     /**
-     * Возвращает название контроллера
+     * Возвращает название контроллера, например Catalog для
+     * класса контроллера Category_Catalog_Frontend_Controller
      */
     public function getController() {
         return $this->controller;
     }
 
     /**
-     * Возвращает название действия (экшен)
+     * Возвращает название действия, например Category для
+     * класса контроллера Category_Catalog_Frontend_Controller
      */
     public function getAction() {
         return $this->action;
