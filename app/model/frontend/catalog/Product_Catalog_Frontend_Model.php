@@ -4,26 +4,36 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getProduct(...)
      * protected function product(...)
+     * public function getLikedProducts(...)
+     * protected function likedProducts(...)
      */
 
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Возвращает информацию о товаре с уникальным идентификатором $id;
      * результат работы кэшируется
      */
     public function getProduct($id) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->product($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -32,12 +42,14 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
      * Возвращает информацию о товаре с уникальным идентификатором $id
      */
     protected function product($id) {
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                       `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
@@ -98,7 +110,7 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // сертификат может иметь несколько файлов (т.е. содержать несколько страниц)
         $certs = array();
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->cert) {
+        if ($this->config->cdn->enable->cert) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach ($temp as $key => $value) {
@@ -122,19 +134,27 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $product['certs'] = $certs;
 
         return $product;
+
     }
-    
+
     /**
      * Функция возвращает массив товаров похожих товаров для товара с уникальным
      * идентификатором $id; результат работы кэшируется
      */
     public function getLikedProducts($id, $group, $category, $title) {
-        
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запросов к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->likedProducts($id, $group, $category, $title);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будут выполнены запросы к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -143,14 +163,15 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
-        
+
     }
-    
+
     /**
      * Функция возвращает массив товаров похожих товаров для товара с уникальным
      * идентификатором $id
      */
     protected function likedProducts($id, $group, $category, $title) {
+
         $query = "SELECT
                       `id`, `title`
                   FROM
@@ -180,18 +201,18 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $result = $tmp;
             }
         }
-        
+
         while (count($result) > 9) {
             array_pop($result);
         }
-        
+
         $ids = array();
         foreach ($result as $item) {
             $ids[] = $item['id'];
         }
-        
+
         $ids = implode(',', $ids);
-        
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
                       `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
@@ -206,23 +227,23 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`id` IN (".$ids.") AND `a`.`id` <> :product_id AND `a`.`visible` = 1
                   ORDER BY
                       `a`.`price` DESC";
-        $result = $this->database->fetchAll($query, array('product_id' => $id)); 
-        
+        $result = $this->database->fetchAll($query, array('product_id' => $id));
+
         $count = count($result);
-        
+
         if ($count == 0) {
             return array();
         }
-        
+
         if ($count > 8) { // четыре самых дорогих и четыре самых дешевых
             $products = array_merge(array_slice($result, 0, 4), array_slice($result, -4));
         } else {
             $products = $result;
         }
-        
+
         // добавляем в массив товаров информацию об URL товаров, фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach ($products as $key => $value) {
@@ -239,7 +260,9 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
         }
+
         return $products;
+
     }
 
 }

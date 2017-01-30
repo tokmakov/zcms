@@ -150,7 +150,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return '';
         }
         // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200);
-        // сохраняем в $matches подстроки типа ABC123 до их разделения на ABC и 123
+        // сохраняем в $matches строки (слова) типа ABC123 до их разделения на ABC и 123
         if (preg_match('#[a-zа-яё]+\d+#u', $search)) {
             preg_match_all('#[a-zа-яё]+\d+#u', $search, $temp1);
             $search = preg_replace('#([a-zа-яё]+)(\d+)#u', '$1 $2', $search);

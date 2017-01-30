@@ -9,8 +9,6 @@ define('ZCMS', true);
 
 chdir('..');
 
-// поддержка кодировки UTF-8
-require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
 // настройки приложения

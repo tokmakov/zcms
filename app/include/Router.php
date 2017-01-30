@@ -323,6 +323,7 @@ class Router {
                       `pages`
                   WHERE
                       1";
+        // TODO: подумать о кэшировании!
         $pages = $this->database->fetchAll($query);
         foreach ($pages as $page) {
             if ($path === $page['sefurl']) {

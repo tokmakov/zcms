@@ -160,11 +160,19 @@ class Database {
      * запросы отправляются на master или slave сервер
      */
     public function fetchAll($query, $params = array(), $cache = false, $slave = false) {
-        // если кэширование запрещено
+
+        /*
+         * если кэширование запрещено, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $cache) {
             return $this->pdoFetchAll($query, $params, $slave);
         }
 
+        /*
+         * если кэширование разрешено, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-' . md5($query . serialize($params));
         // имя этой функции (метода)
@@ -173,6 +181,7 @@ class Database {
         $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -204,11 +213,19 @@ class Database {
      * запросы отправляются на master или slave сервер
      */
     public function fetch($query, $params = array(), $cache = false, $slave = false) {
-        // если кэширование запрещено
+
+        /*
+         * если кэширование запрещено, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $cache) {
             return $this->pdoFetch($query, $params, $slave);
         }
 
+        /*
+         * если кэширование разрешено, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-' . md5($query . serialize($params));
         // имя этой функции (метода)
@@ -217,6 +234,7 @@ class Database {
         $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -224,6 +242,7 @@ class Database {
      * нагрузки MySQL, запросы отправляются на master или slave сервер
      */
     private function pdoFetch($query, $params, $slave) {
+
         // включена балансировка нагрузки?
         if ($this->balancing) {
             if ($slave) { // выполняем запрос на slave-сервере
@@ -240,17 +259,26 @@ class Database {
         $result = $statementHandler->fetch(PDO::FETCH_ASSOC);
         // возвращаем результат запроса
         return $result;
+
     }
 
     /**
      *  Метод возвращает значение первого столбца из строки
      */
     public function fetchOne($query, $params = array(), $cache = false, $slave = false) {
-        // если кэширование запрещено
+
+        /*
+         * если кэширование запрещено, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $cache) {
             return $this->pdoFetchOne($query, $params, $slave);
         }
 
+        /*
+         * если кэширование разрешено, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-' . md5($query . serialize($params));
         // имя этой функции (метода)
@@ -259,9 +287,11 @@ class Database {
         $arguments = array($query, $params, $slave);
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     private function pdoFetchOne($query, $params, $slave) {
+
         // включена балансировка нагрузки?
         if ($this->balancing) {
             if ($slave) { // выполняем запрос на slave-сервере
@@ -281,6 +311,7 @@ class Database {
             return false;
         }
         return $result[0];
+
     }
 
     public function lastInsertId() {
