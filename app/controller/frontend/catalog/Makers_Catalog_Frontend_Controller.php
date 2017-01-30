@@ -28,7 +28,7 @@ class Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // если данные формы были отправлены: поиск производителя
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
-                $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
+                $_POST['query'] = trim(iconv_substr(str_replace('/', '|', $_POST['query']), 0, 64));
                 $this->redirect($this->makerCatalogFrontendModel->getURL('frontend/catalog/makers/query/' . rawurlencode($_POST['query'])));
             } else {
                 $this->redirect($this->makerCatalogFrontendModel->getURL('frontend/catalog/makers'));

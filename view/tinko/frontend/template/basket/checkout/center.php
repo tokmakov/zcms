@@ -13,7 +13,6 @@
  * buyer_email - e-mail контактного лица получателя
  * $profiles - массив профилей зарегистрированного и авторизованного пользователя
  * $offices - список офисов для самовывоза товара со склада
- * $success - если true, заказ размещен
  * $message - сообщение об успешном размещении заказа
  * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены
  * ошибки, мы должны снова предъявить форму, заполненную уже введенными данными и
@@ -21,7 +20,8 @@
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
  *
  * $success - признак успешного размещения заказа (если $success=true,то будут доступны
- * только две переменные: $success и $breadcrumbs, потому как остальные просто не нужны)
+ * только три переменные: $success, $breadcrumbs и $message, потому как остальные просто
+ * не нужны)
  *
  * $offices = Array (
  *   [1] => Центральный офис
@@ -64,7 +64,7 @@ defined('ZCMS') or die('Access denied');
 <?php
     $buyer_phone            = ''; // телефон контактного лица получателя
 
-    $shipping               = 1;  // самовывоз?
+    $shipping               = 1;  // самовывоз? (0 - нет; 1,2,3,4 - да)
     $buyer_shipping_address = ''; // адрес доставки получателя
     $buyer_shipping_city    = ''; // город доставки получателя
     $buyer_shipping_index   = ''; // почтовый индекс получателя
@@ -78,7 +78,13 @@ defined('ZCMS') or die('Access denied');
     $buyer_bank_name        = ''; // название банка компании получателя
     $buyer_bank_bik         = ''; // БИК банка компании получателя
     $buyer_settl_acc        = ''; // расчетный счет компании получателя
-    $buyer_corr_acc         = ''; // корре. счет банка компании получателя
+    $buyer_corr_acc         = ''; // корр. счет банка компании получателя
+
+    // если пользователь авторизован, но у него еще нет профилей —
+    // предлагаем создать профили получателя и плательщика на
+    // основе введенных данных
+    $make_buyer_profile     = 1;  // создать профиль получателя на основе введенных данных?
+    $make_payer_profile     = 1;  // создать профиль плательщика на основе введенных данных?
 
     $buyer_payer_different  = 0;  // плательщик и получатель различаются?
 
@@ -124,25 +130,29 @@ defined('ZCMS') or die('Access denied');
         $buyer_settl_acc        = htmlspecialchars($savedFormData['buyer_settl_acc']);
         $buyer_corr_acc         = htmlspecialchars($savedFormData['buyer_corr_acc']);
 
+        $make_buyer_profile     = $savedFormData['make_buyer_profile'];
+
         $buyer_payer_different  = $savedFormData['buyer_payer_different'];
 
-        $payer_surname              = htmlspecialchars($savedFormData['payer_surname']);
-        $payer_name                 = htmlspecialchars($savedFormData['payer_name']);
-        $payer_patronymic           = htmlspecialchars($savedFormData['payer_patronymic']);
-        $payer_email                = htmlspecialchars($savedFormData['payer_email']);
-        $payer_phone                = htmlspecialchars($savedFormData['payer_phone']);
-        $payer_company              = $savedFormData['payer_company'];
-        $payer_company_name         = htmlspecialchars($savedFormData['payer_company_name']);
-        $payer_company_ceo          = htmlspecialchars($savedFormData['payer_company_ceo']);
-        $payer_company_address      = htmlspecialchars($savedFormData['payer_company_address']);
-        $payer_company_inn          = htmlspecialchars($savedFormData['payer_company_inn']);
-        $payer_company_kpp          = htmlspecialchars($savedFormData['payer_company_kpp']);
-        $payer_bank_name            = htmlspecialchars($savedFormData['payer_bank_name']);
-        $payer_bank_bik             = htmlspecialchars($savedFormData['payer_bank_bik']);
-        $payer_settl_acc            = htmlspecialchars($savedFormData['payer_settl_acc']);
-        $payer_corr_acc             = htmlspecialchars($savedFormData['payer_corr_acc']);
+        $payer_surname          = htmlspecialchars($savedFormData['payer_surname']);
+        $payer_name             = htmlspecialchars($savedFormData['payer_name']);
+        $payer_patronymic       = htmlspecialchars($savedFormData['payer_patronymic']);
+        $payer_email            = htmlspecialchars($savedFormData['payer_email']);
+        $payer_phone            = htmlspecialchars($savedFormData['payer_phone']);
+        $payer_company          = $savedFormData['payer_company'];
+        $payer_company_name     = htmlspecialchars($savedFormData['payer_company_name']);
+        $payer_company_ceo      = htmlspecialchars($savedFormData['payer_company_ceo']);
+        $payer_company_address  = htmlspecialchars($savedFormData['payer_company_address']);
+        $payer_company_inn      = htmlspecialchars($savedFormData['payer_company_inn']);
+        $payer_company_kpp      = htmlspecialchars($savedFormData['payer_company_kpp']);
+        $payer_bank_name        = htmlspecialchars($savedFormData['payer_bank_name']);
+        $payer_bank_bik         = htmlspecialchars($savedFormData['payer_bank_bik']);
+        $payer_settl_acc        = htmlspecialchars($savedFormData['payer_settl_acc']);
+        $payer_corr_acc         = htmlspecialchars($savedFormData['payer_corr_acc']);
 
-        $comment                    = htmlspecialchars($savedFormData['comment']);
+        $make_payer_profile     = $savedFormData['make_payer_profile'];
+
+        $comment                = htmlspecialchars($savedFormData['comment']);
     }
 ?>
 
@@ -152,7 +162,7 @@ defined('ZCMS') or die('Access denied');
 
         <h2>Получатель</h2>
 
-        <?php if ($authUser && !empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
+        <?php if ( ! empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
             <div id="buyer-profile">
                 <div>
                     <div>Профиль получателя</div>
@@ -269,7 +279,7 @@ defined('ZCMS') or die('Access denied');
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
                 <label>
-                    <input type="checkbox" name="make_buyer_profile" checked="checked" value="1" />
+                    <input type="checkbox" name="make_buyer_profile"<?php if ($make_buyer_profile) echo ' checked="checked"'; ?> value="1" />
                     <span>Создать профиль получателя</span>
                 </label>
                 <span class="make_profile_help">?</span>
@@ -289,7 +299,7 @@ defined('ZCMS') or die('Access denied');
 
         <h2>Плательщик</h2>
 
-        <?php if ($authUser && !empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
+        <?php if ( ! empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
             <div id="payer-profile">
                 <div>
                     <div>Профиль плательщика</div>
@@ -378,7 +388,7 @@ defined('ZCMS') or die('Access denied');
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
                 <label>
-                    <input type="checkbox" name="make_payer_profile" checked="checked" value="1" />
+                    <input type="checkbox" name="make_payer_profile"<?php if ($make_payer_profile) echo ' checked="checked"'; ?> value="1" />
                     <span>Создать профиль плательщика</span>
                 </label>
                 <span class="make_profile_help">?</span>

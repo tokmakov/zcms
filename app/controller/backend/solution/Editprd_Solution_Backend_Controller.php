@@ -46,7 +46,7 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         }
 
         $this->title = 'Редактирование товара. ' . $this->title;
-        
+
         // получаем от модели информацию о товаре
         $product = $this->solutionBackendModel->getSolutionProduct($this->params['id']);
         // если запрошенный товар не найден в БД
@@ -54,11 +54,11 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
             $this->notFoundRecord = true;
             return;
         }
-        
+
         // получаем от модели идентификатор и наименование категории типового решения
         $category = $this->solutionBackendModel->getSolutionCategory($product['parent']);
         $categoryName = $this->solutionBackendModel->getCategoryName($category);
-        
+
         // получаем от модели наименование типового решения
         $solutionName = $this->solutionBackendModel->getSolutionName($product['parent']);
 
@@ -151,7 +151,7 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         if (ctype_digit($_POST['group']) && $_POST['group'] > 1) {
             $data['group'] = (int)$_POST['group'];
         }
-        
+
         // должен быть обязательно в комплекте?
         $data['require'] = 0;
         if (isset($_POST['require'])) {
@@ -159,11 +159,11 @@ class Editprd_Solution_Backend_Controller extends Solution_Backend_Controller {
         }
 
         // торговое наименование
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name']       = trim(iconv_substr($_POST['name'], 0, 250));
         // функциональное наименование
-        $data['title']      = trim(utf8_substr($_POST['title'], 0, 250));
+        $data['title']      = trim(iconv_substr($_POST['title'], 0, 250));
         // краткое описание
-        $data['shortdescr'] = trim(utf8_substr($_POST['shortdescr'], 0, 2000));
+        $data['shortdescr'] = trim(iconv_substr($_POST['shortdescr'], 0, 2000));
 
         // код (артикул)
         $data['code'] = '';

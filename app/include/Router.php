@@ -10,7 +10,7 @@ class Router {
      * для хранения единственного экземпляра данного класса
      */
     private static $instance;
-    
+
     /**
      * запрос с использованием XmlHttpRequest?
      */
@@ -35,7 +35,7 @@ class Router {
      * массив параметров, которые будут переданы контроллеру
      */
     private $params = array();
-    
+
     /**
      * идет работа с админкой?
      */
@@ -45,17 +45,17 @@ class Router {
      * настройки приложения, экземпляр класса Config
      */
     private $config;
-    
+
     /**
      * для хранения всех объектов приложения, экземпляр класса Register
      */
     private $register;
-    
+
     /**
      * для хранения экземпляра класса Cache
      */
     private $cache;
-    
+
     /**
      * для хранения экземпляра класса базы данных Database
      */
@@ -78,7 +78,7 @@ class Router {
      * проектирования «Одиночка».
      */
     private function __construct($class, $params) {
-        
+
         // все объекты приложения, экземпляр класса Register
         $this->register = Register::getInstance();
         // настройки приложения, экземпляр класса Config
@@ -116,17 +116,17 @@ class Router {
             $this->params = $params;
             return;
         }
-        
+
         // запрос с использованием XmlHttpRequest?
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             $this->xhr = true;
         }
 
         /*
-         * Для того, что бы через виртуальные адреса controller/action/params
+         * Для того, чтобы через виртуальные адреса controller/action/params
          * можно было также передавать параметры через QUERY_STRING, необходимо
          * получить из $_SERVER['REQUEST_URI'] только компонент пути. Данные,
-         * переданные через QUERY_STRING, также как и раньше будут содержаться
+         * переданные через QUERY_STRING, также как и раньше, будут содержаться
          * в суперглобальных массивах $_GET и $_REQUEST.
          */
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // строка frontend/catalog/category/id/17
@@ -167,14 +167,15 @@ class Router {
         // получаем имя класса контроллера
         $frontback = ($this->backend) ? 'Backend' : 'Frontend';
         // составляем имя класса из четырех частей, разделенных символом подчеркивания
-        $this->controllerClassName = ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
+        $this->controllerClassName =
+            ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
         if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
             $this->controller = 'notfound';
             $this->action = 'index';
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
             return;
         }
-        
+
         if ($this->xhr) {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }
@@ -202,14 +203,16 @@ class Router {
     }
 
     /**
-     * Возвращает название контроллера
+     * Возвращает название контроллера, например Catalog для
+     * класса контроллера Category_Catalog_Frontend_Controller
      */
     public function getController() {
         return $this->controller;
     }
 
     /**
-     * Возвращает название действия (экшен)
+     * Возвращает название действия, например Category для
+     * класса контроллера Category_Catalog_Frontend_Controller
      */
     public function getAction() {
         return $this->action;
@@ -239,7 +242,7 @@ class Router {
         $this->controllerClassName = 'Index_Notfound_'.$frontback.'_Controller';
         $this->params = array();
     }
-    
+
     private function getURL($path) {
         // если не включено кэширование данных
         if ( ! $this->config->cache->enable->data) {
@@ -259,7 +262,7 @@ class Router {
 
         /*
          * данных в кэше нет, но другой процесс поставил блокировку и в этот
-         * момент получает данные отRender::URL(), чтобы записать их в кэш,
+         * момент получает данные от Router::URL(), чтобы записать их в кэш,
          * нам надо их только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
@@ -269,7 +272,7 @@ class Router {
             } catch (Exception $e) {
                 /*
                  * другой процесс поставил блокировку, попытался получить данные от
-                 * Render::URL() и записать их в кэш; если по каким-то причинам это
+                 * Router::URL() и записать их в кэш; если по каким-то причинам это
                  * не получилось сделать, мы здесь будем пытаться читать из кэша
                  * значение, которого не существует или оно устарело
                  */
@@ -296,13 +299,21 @@ class Router {
     }
 
     private function URL($path) {
+        /*
+         * Сначала проверяем — существует ли в настройках правило преобразования
+         * SEF->CAP, т.е. Search Engines Friendly => Controller/Action/Params; эти
+         * правила описаны в файле app/config/routing.php
+         */
         $sef2cap = $this->config->sef->sef2cap;
         foreach ($sef2cap as $key => $value) {
             if (preg_match($key, $path)) {
                 return preg_replace($key, $value, $path);
             }
         }
-        // получаем все страницы
+        /*
+         * Если правило преобразования не найдено, пробуем найти $path среди
+         * ЧПУ (SEF) страниц сайта, созданных администратором через админку
+         */
         if ( ! preg_match('#^[a-z][-_0-9a-z]#i', $path)) {
             return false;
         }
@@ -312,11 +323,12 @@ class Router {
                       `pages`
                   WHERE
                       1";
+        // TODO: подумать о кэшировании!
         $pages = $this->database->fetchAll($query);
         foreach ($pages as $page) {
             if ($path === $page['sefurl']) {
                 return 'frontend/page/index/id/' . $page['id'];
-            }  
+            }
         }
         return false;
     }

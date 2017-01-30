@@ -4,10 +4,10 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getAllGroups()
-     * protected function allGroups() 
+     * protected function allGroups()
      * public function getGroups(...)
      * protected function groups(...)
      * public function getGroupSearchResult(...)
@@ -23,17 +23,24 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает массив всех функциональных групп; результат работы кэшируется
      */
     public function getAllGroups() {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allGroups();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__;
         // имя этой функции (метода)
@@ -71,17 +78,24 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $groups;
 
     }
-    
+
     /**
      * Функция возвращает массив функциональных групп для правой колонки; результат работы кэшируется
      */
     public function getGroups($limit) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->groups($limit);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-limit-' . $limit;
         // имя этой функции (метода)
@@ -118,7 +132,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $ids[] = $value['id'];
         }
         $ids = implode(',', $ids);
-        
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
                   FROM
@@ -150,10 +164,18 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getGroupSearchResult($query) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->groupSearchResult($query);
         }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-query-' . md5($query);
         // имя этой функции (метода)
@@ -164,11 +186,12 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $this->getCachedData($key, $function, $arguments);
 
     }
-    
+
     /**
      * Функция возвращает результаты поиска функциональной группы
      */
     protected function groupSearchResult($query) {
+
         $query = $this->cleanSearchString($query);
         if (empty($query)) {
             return array();
@@ -191,27 +214,35 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $result[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
         }
         return $result;
+
     }
 
     /**
-     * Функция возвращает наименование функциональной группы
+     * Функция возвращает наименование функциональной группы; результат работы кэшируется
      */
     public function getGroupName($id) {
         $query = "SELECT `name` FROM `groups` WHERE `id` = :id";
         return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
     }
-    
+
     /**
      * Функция возвращает массив товаров функциональной группы с уникальным
      * идентификатором $id; результат работы кэшируется
      */
     public function getGroupProducts($id, $maker, $hit, $new, $param, $sort, $start) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->groupProducts($id, $maker, $hit, $new, $param, $sort, $start);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
             . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
@@ -350,11 +381,18 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getGroupMakers($id, $hit, $new, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->groupMakers($id, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit. '-new-'
             . $new . '-param-' . md5(serialize($param));
@@ -429,18 +467,25 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $makers;
 
     }
-    
+
     /**
      * Функция возвращает массив параметров подбора для товаров функциональной
      * группы с уникальным идентификатором $id; результат работы кэшируется
      */
     public function getGroupParams($id, $maker, $hit, $new, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->groupParams($id, $maker, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
             . '-param-' . md5(serialize($param));
@@ -562,7 +607,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $params;
 
     }
-    
+
     /**
      * Функция возвращает количество лидеров продаж для функциональной группы с уникальным
      * идентификатором $id с учетом фильтров по производителю, новинкам и параметрам.
@@ -570,11 +615,18 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getCountGroupHit($id, $maker, $hit, $new, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->countGroupHit($id, $maker, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -605,9 +657,11 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`maker` = " . $maker;
         }
         if ( ! $hit) {
-            // надо выяснить, сколько товаров будет найдено, если поставить
-            // галочку «Лидер продаж»; на данный момент checkbox не отмечен, но
-            // если пользователь его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если поставить
+             * галочку «Лидер продаж»; на данный момент checkbox не отмечен, но
+             * если пользователь его отметит — сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
@@ -631,11 +685,18 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getCountGroupNew($id, $maker, $hit, $new, $param = array()) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->countGroupNew($id, $maker, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -649,8 +710,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает количество новинок для функциональной группы с уникальным
-     * идентификатором $id с учетом фильтров по производителю, лидерам продаж и параметрам
+     * Функция возвращает количество новинок для функциональной группы с
+     * уникальным идентификатором $id, с учетом фильтров по производителю,
+     * лидерам продаж и параметрам
      */
     protected function countGroupNew($id, $maker, $hit, $new, $param) {
 
@@ -669,9 +731,11 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ( ! $new) {
-            // надо выяснить, сколько товаров будет найдено, если поставить галочку
-            // «Новинка»; на данный момент checkbox не отмечен, но если пользователь
-            // его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если поставить галочку
+             * «Новинка»; на данный момент checkbox не отмечен, но если пользователь
+             * его отметит — сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($param)) { // фильтр по параметрам подбора
@@ -682,9 +746,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
         return $this->database->fetchOne($query, array('id' => $id));
-        
+
     }
-    
+
     /**
      * Функция возвращает ЧПУ для страницы функциональной группы с уникальным
      * идентификатором $id, с учетом фильтров и сортировки; результат работы

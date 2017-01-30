@@ -42,7 +42,7 @@ class Add_Partner_Backend_Controller extends Partner_Backend_Controller {
             array('url' => $this->partnerBackendModel->getURL('backend/index/index'), 'name' => 'Главная'),
             array('url' => $this->partnerBackendModel->getURL('backend/partner/index'), 'name' => 'Партнеры'),
         );
-        
+
         // срок действия сертификата по умолчанию: один год
         $year   = date('Y') + 1;
         $expire = date('d') . '.' . date('m') . '.' . $year;
@@ -77,10 +77,10 @@ class Add_Partner_Backend_Controller extends Partner_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']    = trim(utf8_substr($_POST['name'], 0, 100));     // наименование партнера
-        $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст фото сертификата партнера
+        $data['name']    = trim(iconv_substr($_POST['name'], 0, 100));     // наименование партнера
+        $data['alttext'] = trim(iconv_substr($_POST['alttext'], 0, 100));  // alt текст фото сертификата партнера
         $data['alttext'] = str_replace('"', '', $data['alttext']);
-        
+
         $year   = date('Y') + 1;
         $data['expire'] = date('d') . '.' . date('m') . '.' . $year;
         $_POST['expire']  = trim ($_POST['expire']);

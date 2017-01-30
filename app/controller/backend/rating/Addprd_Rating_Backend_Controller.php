@@ -5,7 +5,7 @@
  * БД rating_products, работает с моделью Rating_Backend_Model
  */
 class Addprd_Rating_Backend_Controller extends Rating_Backend_Controller {
-    
+
     /**
      * идентификатор категории верхнего уровня, в которую вернется администратор
      * после успешного добавления товара и редиректа
@@ -94,11 +94,11 @@ class Addprd_Rating_Backend_Controller extends Rating_Backend_Controller {
          */
 
         // код (артикул) товара
-        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));
+        $data['code']        = trim(iconv_substr($_POST['code'], 0, 16));
         // торговое наименование изделия
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 100));
         // функциональное наименование изделия
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 200));
+        $data['title']       = trim(iconv_substr($_POST['title'], 0, 200));
 
         // родительская категория
         $data['category'] = 0;
@@ -127,7 +127,7 @@ class Addprd_Rating_Backend_Controller extends Rating_Backend_Controller {
             $this->setSessionData('addRatingProductForm', $data);
             return false;
         }
-        
+
         // идентификатор категории верхнего уровня, в которую
         // вернется администратор после редиректа
         $this->return = $this->ratingBackendModel->getCategoryParent($data['category']);

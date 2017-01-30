@@ -4,7 +4,7 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getSearchResults(...)
      * protected function searchResults(...)
@@ -17,7 +17,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает результаты поиска по каталогу; результат работы
      * кэшируется
@@ -41,11 +41,11 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает результаты поиска по каталогу; результат работы
-     * кэшируется
+     * Функция возвращает результаты поиска по каталогу; вызывается из
+     * self::getSearchResults()
      */
     protected function searchResults($search, $start, $ajax) {
-        
+
         $search = $this->cleanSearchString($search);
         if (empty($search)) {
             return array();
@@ -54,12 +54,12 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (empty($query)) {
             return array();
         }
-        
+
         $query = $query . ' LIMIT ' . $start . ', ' . $this->config->pager->frontend->products->perpage;
         $result = $this->database->fetchAll($query, array(), $this->enableDataCache, true);
         // добавляем в массив результатов поиска информацию об URL товаров и фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network для фотографий товаров
             $host = $this->config->cdn->url;
         }
         foreach($result as $key => $value) {
@@ -121,9 +121,10 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
-    
+
     /**
-     * Функция возвращает количество результатов поиска по каталогу
+     * Функция возвращает количество результатов поиска по каталогу;
+     * вызывается из self::getCountSearchResults()
      */
     protected function countSearchResults($search) {
         $search = $this->cleanSearchString($search);
@@ -145,11 +146,11 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (empty($search)) {
             return '';
         }
-        if (utf8_strlen($search) < 2) {
+        if (iconv_strlen($search) < 2) {
             return '';
         }
         // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200);
-        // сохраняем в $matches подстроки типа ABC123 до их разделения на ABC и 123
+        // сохраняем в $matches строки (слова) типа ABC123 до их разделения на ABC и 123
         if (preg_match('#[a-zа-яё]+\d+#u', $search)) {
             preg_match_all('#[a-zа-яё]+\d+#u', $search, $temp1);
             $search = preg_replace('#([a-zа-яё]+)(\d+)#u', '$1 $2', $search);
@@ -160,8 +161,21 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         }
         $matches = array_merge(
             isset($temp1[0]) ? $temp1[0] : array(),
-            isset($temp2[0]) ? $temp2[0] : array()  
+            isset($temp2[0]) ? $temp2[0] : array()
         );
+
+        /*
+         * Коэффициенты веса для функционального наименования и наименования производителя.
+         * Релевантность товара поисковому запросу рассчитывается по формуле:
+         * relevance = nameRelevance + titleWeight*titleRelevance +
+         *             makerWeight*makerRelevance + codeRelevance
+         * Учитываются торговое наименование, функциональное наименование, наименование
+         * производителя и код (артикул) товара. При этом торговое наименование и код
+         * (коэффициент веса 1.0) имеют приоритет перед функциональным наименованием и
+         * наименованием производителя (коэффициент веса 0.8).
+         */
+        $titleWeight = 0.8;
+        $makerWeight = 0.8;
 
         $words = explode(' ', $search);
         $query = "SELECT
@@ -182,35 +196,24 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `c`.`id` AS `mkr_id`,
                       `c`.`name` AS `mkr_name`";
 
-        // если первое слово поискового запроса совпадает с первым словом торгового наименования
-        $weight = 0.05;
-        if (utf8_strlen($words[0]) > 1) {
-            $weight = 0.1;
-        }
-        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 )";
-        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[[:>:]]', 0.05, 0 )";
-        $start = 1;
-        if (isset($words[1])) { // если совпадают первое и второе слово
-            $start = 2;
-            $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[^0-9a-zа-яё]?".$words[1]."', 0.1, 0 )";
-        }
-
         /*
          * Расчет релевантности для торгового наименования, например «ИП-212»
          */
-        $prd_name = 1.0; // коэффициент веса для `name`
-        $length = utf8_strlen($words[0]);
-        $weight = 0.5;
-        if ($length < 5) {
-            $weight = 0.1 * $length;
+        // если первое слово поискового запроса совпадает с первым словом торгового наименования
+        $weight = 0.05;
+        if (iconv_strlen($words[0]) > 1) $weight = 0.1;
+        $query = $query.", IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."', ".$weight.", 0 )";
+        if (isset($words[1])) { // если совпадают первое и второе слово
+            $query = $query." + IF( LOWER(`a`.`name`) REGEXP '^".$words[0]."[^0-9a-zа-яё]?".$words[1]."', " . $weight . ", 0 )";
         }
-        $query = $query." + ".$prd_name."*( IF( `a`.`name` LIKE '%".$words[0]."%', ".$weight.", 0 )";
-        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[0]."', 0.05, 0 )";
-        $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[0]."[[:>:]]', 0.05, 0 )";
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
-        // запроса, как и для первого слова
-        for ($i = 1; $i < count($words); $i++) {
-            $length = utf8_strlen($words[$i]);
+
+        // учитываем каждое слово поискового запроса на основе его длины, т.е. если совпало короткое
+        // слово (длиной 1-2 символа), то взнос в релевантность такого совпадения невелика (0.1—0.2);
+        // если совпало длинное слово (длиной 4-5 символов), то взнос в релевантность такого совпадения
+        // гораздо выше (0.4—0.5); это позволяет немного уменьшить искажения от случайных совпадений
+        // коротких слов
+        for ($i = 0; $i < count($words); $i++) {
+            $length = iconv_strlen($words[$i]);
             $weight = 0.5;
             if ($length < 5) {
                 $weight = 0.1 * $length;
@@ -218,83 +221,91 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query." + IF( `a`.`name` LIKE '%".$words[$i]."%', ".$weight.", 0 )";
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$words[$i]."', 0.05, 0 )";
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i]."[[:>:]]', 0.05, 0 )";
+            if (preg_match('#^[a-zа-яё]{2,}$#u', $words[$i])) {
+                // если слово поискового запроса встречается и в торговом и в функциональном наименовании,
+                // не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете релевантности
+                // функционального наименования) — учитываем
+                $w = $titleWeight * $weight;
+                $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `a`.`title` LIKE '%".$words[$i]."%', ".$w.", 0 )";
+                // если слово поискового запроса встречается и в торговом наименовании и в наименовании
+                // производителя, не учитываем его два раза; т.е. здесь не учитываем, а ниже (при расчете
+                // релевантности наименования производителя) — учитываем
+                $w = $makerWeight * $weight;
+                $query = $query." - IF( `a`.`name` LIKE '%".$words[$i]."%' AND `c`.`name` LIKE '%".$words[$i]."%', ".$w.", 0 )";
+            }
         }
         // если слова расположены рядом и в нужном порядке
-        for ($i = $start; $i < count($words); $i++) { // если $start = 2, порядок первого и второго уже учтен
+        for ($i = 1; $i < count($words); $i++) {
             $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$words[$i-1]."[^0-9a-zа-яё]?".$words[$i]."', 0.1, 0 )";
         }
         // если мы разделяли строку ABC123 на ABC и 123
         if ( ! empty($matches)) {
             foreach ($matches as $item) {
                 $query = $query." + IF( `a`.`name` LIKE '%".$item."%', 0.1, 0 )";
-                $query = $query." + IF( LOWER(`a`.`name`) REGEXP '[[:<:]]".$item."', 0.05, 0 )";
-                $query = $query." + IF( LOWER(`a`.`name`) REGEXP '".$item."[[:>:]]', 0.05, 0 )";
             }
         }
-        $query = $query." )";
 
         /*
          * Расчет релевантности для функционального наименования, например «Извещатель пожарный дымовой»
          */
-        $prd_title = 0.5; // коэффициент веса для `title`
-        $length = utf8_strlen($words[0]);
-        $weight = 0.5;
-        if ($length < 5) {
-            $weight = 0.1 * $length;
-        }
-        $query = $query." + ".$prd_title."*( IF( `a`.`title` LIKE '%".$words[0]."%', ".$weight.", 0 )";
-        $query = $query." - IF( `a`.`title` LIKE '%".$words[0]."%' AND `a`.`name` LIKE '%".$words[0]."%', ".$weight.", 0 )";
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового
-        // запроса, как и для первого слова
-        for ($i = 1; $i < count($words); $i++) {
-            $length = utf8_strlen($words[$i]);
-            $weight = 0.5;
-            if ($length < 5) {
-                $weight = 0.1 * $length;
+        // рассчитываем релевантность, только если слово достаточно длинное
+        $longs = array();
+        foreach ($words as $word) {
+            if (preg_match('#^[a-zа-яё]{2,}$#u', $word)) {
+                $longs[] = $word;
             }
-            $query = $query." + IF( `a`.`title` LIKE '%".$words[$i]."%', ".$weight.", 0 )";
-            $query = $query." - IF( `a`.`title` LIKE '%".$words[$i]."%' AND `a`.`name` LIKE '%".$words[$i]."%', ".$weight.", 0 )";
         }
-        $query = $query." )";
+        if ( ! empty($longs)) {
+            // учитываем каждое слово поискового запроса на основе его длины, по аналогии с расчетом
+            // релевантности для торгового наименования изделия
+            for ($i = 0; $i < count($longs); $i++) {
+                $length = iconv_strlen($longs[$i]);
+                $weight = 0.5;
+                if ($length < 5) {
+                    $weight = 0.1 * $length;
+                }
+                if ($i === 0) {
+                    $query = $query." + ".$titleWeight."*( IF( `a`.`title` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                } else {
+                    $query = $query." + IF( `a`.`title` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                }
+                $query = $query." + IF( LOWER(`a`.`title`) REGEXP '[[:<:]]".$longs[$i]."', 0.1, 0 )";
+            }
+            $query = $query." )";
+        }
 
         /*
          * Расчет релевантности для наименования производителя, например «Аргус-Спектр»
          */
-        $prd_maker = 0.7; // коэффициент веса для `mkr_name`
-        $length = utf8_strlen($words[0]);
-        $weight = 0.5;
-        if ($length < 5) {
-            $weight = 0.1 * $length;
-        }
-        $query = $query." + ".$prd_maker."*( IF( `c`.`name` LIKE '%".$words[0]."%', ".$weight.", 0 )";
-        $query = $query." - IF( (`c`.`name` LIKE '%".$words[0]."%' AND `a`.`name` LIKE '%".$words[0]."%') OR (`c`.`name` LIKE '%".$words[0]."%' AND `a`.`title` LIKE '%".$words[0]."%'), ".$weight.", 0 )";
-        // здесь просто выполняются действия для второго, третьего и т.п. слов поискового запроса,
-        // как и для первого слова
-        for ($i = 1; $i < count($words); $i++) {
-            $length = utf8_strlen($words[$i]);
-            $weight = 0.5;
-            if ($length < 5) {
-                $weight = 0.1 * $length;
+        // рассчитываем релевантность, только если слово достаточно длинное
+        if ( ! empty($longs)) {
+            // учитываем каждое слово поискового запроса на основе его длины, по аналогии с расчетом
+            // релевантности для торгового наименования изделия
+            for ($i = 0; $i < count($longs); $i++) {
+                $length = iconv_strlen($longs[$i]);
+                $weight = 0.5;
+                if ($length < 5) {
+                    $weight = 0.1 * $length;
+                }
+                if ($i === 0) {
+                    $query = $query." + ".$makerWeight."*( IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                } else {
+                    $query = $query." + IF( `c`.`name` LIKE '%".$longs[$i]."%', ".$weight.", 0 )";
+                }
+                $query = $query." + IF( LOWER(`c`.`name`) REGEXP '[[:<:]]".$longs[$i]."', 0.1, 0 )";
             }
-            $query = $query." + IF( `c`.`name` LIKE '%".$words[$i]."%', ".$weight.", 0 )";
-            $query = $query." - IF( (`c`.`name` LIKE '%".$words[$i]."%' AND `a`.`name` LIKE '%".$words[$i]."%') OR (`c`.`name` LIKE '%".$words[$i]."%' AND `a`.`title` LIKE '%".$words[$i]."%'), ".$weight.", 0 )";
+            $query = $query." )";
         }
-        $query = $query." )";
-        
+
         /*
          * Расчет релевантности для артикула (кода) товара, например «001001»
          */
-        $prd_code = 1.0; // коэффициент веса для `code`
         $codes = array();
         foreach($words as $word) {
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
-        if (count($codes) > 0) {
-            $query = $query." + " . $prd_code . "*( IF( `a`.`code`='".$codes[0]."', 1.0, 0 )";
-            for ($i = 1; $i < count($codes); $i++) {
-                $query = $query." + IF( `a`.`code`='".$codes[$i]."', 1.0, 0 )";
-            }
-            $query = $query." )";
+        for ($i = 0; $i < count($codes); $i++) {
+            $query = $query." + IF( `a`.`code`='".$codes[$i]."', 1.0, 0 )";
         }
 
         $query = $query." AS `relevance`";
@@ -320,11 +331,12 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `c`.`name` LIKE '%".$words[$i]."%'";
         }
-        for ($i = 0; $i < count($codes); $i++) {
+        $count = count($codes);
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
-        
+
         /*
          * Сортировка результатов SQL-запроса
          */
@@ -338,10 +350,11 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает SQL-запрос для получения кол-ва результатов поиска по каталогу
      */
     protected function getCountSearchQuery($search) {
+
         if (empty($search)) {
             return '';
         }
-        if (utf8_strlen($search) < 2) {
+        if (iconv_strlen($search) < 2) {
             return '';
         }
         // небольшок хак: разделяем строку ABC123 на ABC и 123 (пример LG100 или NEC200)
@@ -373,12 +386,14 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         foreach($words as $word) {
             if (preg_match('#^\d{6}$#', $word)) $codes[] = $word;
         }
-        for ($i = 0; $i < count($codes); $i++) {
+        $count = count($codes);
+        for ($i = 0; $i < $count; $i++) {
             $query = $query." OR `a`.`code`='".$codes[$i]."'";
         }
         $query = $query.") AND `a`.`visible` = 1";
 
         return $query;
+
     }
 
 }

@@ -90,7 +90,7 @@ class Forgot_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['email']    = trim(utf8_substr($_POST['email'], 0, 64)); // электронная почта
+        $data['email']    = trim(iconv_substr($_POST['email'], 0, 64)); // электронная почта
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['email'])) {

@@ -56,9 +56,9 @@ class Login_Admin_Backend_Controller extends Admin_Backend_Controller {
     protected function loginAdmin() {
 
         // обрабатываем данные, полученные из формы
-        $name     = trim(utf8_substr($_POST['name'], 0, 32)); // имя
+        $name     = trim(iconv_substr($_POST['name'], 0, 32)); // имя
         $name     = preg_replace('~[^-_a-z0-9]~i', '', $name);
-        $password = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
+        $password = trim(iconv_substr($_POST['password'], 0, 32)); // пароль
         $password = preg_replace('~[^-_a-z0-9]~i', '', $password);
 
         // обращаемся к модели для авторизации администратора

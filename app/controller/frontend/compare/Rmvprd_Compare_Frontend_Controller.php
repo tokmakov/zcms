@@ -127,7 +127,7 @@ class Rmvprd_Compare_Frontend_Controller extends Compare_Frontend_Controller {
             }
         } elseif ($_POST['return'] == 'search') { // перенаправляем на страницу результатов поиска по каталогу
             if ( ! empty($_POST['query'])) {
-                $query = rawurlencode(utf8_substr($_POST['query'], 0, 64));
+                $query = rawurlencode(iconv_substr($_POST['query'], 0, 64));
                 $url = 'frontend/catalog/search/query/' . $query;
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];

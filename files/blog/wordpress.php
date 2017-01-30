@@ -6,15 +6,17 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 define('ZCMS', true);
 chdir('../..');
+
 // поддержка кодировки UTF-8
 require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
-// правила маршрутизации
-require 'app/routing.php';
 // настройки приложения
-require 'app/settings.php';
-Config::init($settings);
+require 'app/config/config.php';
+// инициализация настроек
+Config::init($config);
+unset($config);
+
 // реестр, для хранения всех объектов приложения
 $register = Register::getInstance();
 // сохраняем в реестре настройки, чтобы везде иметь к ним доступ; доступ к
@@ -104,22 +106,22 @@ foreach ($posts as $post) {
                 }
                 copy('files/blog/source/'.$value, 'files/blog/'.$value);
             } else {
-                echo $post['id'].' '.preg_replace('~[а-яА-Я]~u', '<b>$0</b>', $value).'<br/>';
+				echo 'post=' . $post['id'] . ', no file ' . $value . PHP_EOL;
+                // echo 'post=' . $post['id'].', no file '.preg_replace('~[а-яА-Я]~u', '*', $value) . PHP_EOL;
             }
         }
     }
     $content = str_replace('http://www.tinko.ru/blog/wp-content/uploads/', '/blog/wp-content/uploads/', $content);
     $content = str_replace('/blog/wp-content/uploads/', '/files/blog/', $content);
     $content = str_replace('class="instab"', 'class="data-table"', $content);
-    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/p-(\d{6})\.html">.+?</a>\s*</p>~u', '', $content);
-    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/catalogsearch/result/[^"]+">.+?</a>\s*</p>~u', '', $content);
-    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/catalogsearch/result/[^"]+">.+?</a>\s*</p>~u', '', $content);
+    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/p-(\d{6})\.html"( target="_blank")?>(<strong>)?.+?(</strong>)?</a>\s*</p>~u', '', $content);
+    $content = preg_replace('~<p>\s*<a href="(http://www.tinko.ru)?/catalogsearch/[^"]+"( target="_blank")?>(<strong>)?.+?(</strong>)?</a>\s*</p>~u', '', $content);
     
     $query = "UPDATE `blog_posts` SET `body` = :content WHERE `id` = :id";
     $register->database->execute($query, array('content' => $content, 'id' => $post['id']));
 }
 
-require 'files/blog/wp_posts.php';
+require 'files/blog/thumb.php';
 foreach ($wp_posts as $post) {
     if (empty($post['thumbnail'])) {
         echo 'No thumbnail for ' . $post['id'] . '<br/>';

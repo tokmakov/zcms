@@ -1,13 +1,108 @@
-18.05.2016 12:16:25
-Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'heading' in 'field list'
-Файл: D:\work\localhost2\www\app\include\Database.php, строка: 154
+14.01.2017 12:18:02
+Код: 0, текст: Не найден файл шаблона view/tinko/frontend/template/head.php для контроллера Index_Index_Frontend_Controller
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 181
 Стек вызовов: 
-#0 D:\work\localhost2\www\app\include\Database.php(154): PDOStatement->execute(Array)
-#1 D:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(529): Database->execute('INSERT INTO `so...', Array)
-#2 D:\work\localhost2\www\app\model\backend\Solution_Backend_Model.php(425): Solution_Backend_Model->addProductsByCodes(41, Array)
-#3 D:\work\localhost2\www\app\controller\backend\solution\Addsltn_Solution_Backend_Controller.php(158): Solution_Backend_Model->addSolution(Array)
-#4 D:\work\localhost2\www\app\controller\backend\solution\Addsltn_Solution_Backend_Controller.php(37): Addsltn_Solution_Backend_Controller->validateForm()
-#5 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Addsltn_Solution_Backend_Controller->input()
-#6 D:\work\localhost2\www\index.php(42): Base_Controller->request()
-#7 {main}
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(425): Base_Controller->render('view/tinko/fron...', Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(358): Frontend_Controller->render('view/tinko/fron...', Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(155): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(42): Base_Controller->request()
+#4 {main}
+
+20.01.2017 19:53:35
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.wished' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 192
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(192): PDO->prepare('SELECT\r\n       ...')
+#1 D:\work\localhost2\www\app\include\Database.php(165): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(216): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(180): Wished_Frontend_Model->sideWishedProducts()
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(272): Wished_Frontend_Model->getSideWishedProducts()
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+20.01.2017 19:53:35
+Код: 42S02, текст: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'zcms2.wished' doesn't exist
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 192
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(192): PDO->prepare('SELECT\r\n       ...')
+#1 D:\work\localhost2\www\app\include\Database.php(165): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(216): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\Wished_Frontend_Model.php(180): Wished_Frontend_Model->sideWishedProducts()
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(272): Wished_Frontend_Model->getSideWishedProducts()
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+29.01.2017 18:15:01
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(203): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(169): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(141): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(103): Maker_Catalog_Frontend_Model->makers(10)
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(245): Maker_Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+29.01.2017 18:15:01
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(203): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(169): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(141): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(103): Maker_Catalog_Frontend_Model->makers(10)
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(245): Maker_Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+29.01.2017 18:15:01
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(203): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(169): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(141): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(103): Maker_Catalog_Frontend_Model->makers(10)
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(245): Maker_Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+29.01.2017 18:32:04
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(203): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(169): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(141): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(103): Maker_Catalog_Frontend_Model->makers(10)
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(245): Maker_Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+29.01.2017 18:33:22
+Код: HY093, текст: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+Файл: D:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\include\Database.php(203): PDOStatement->execute(Array)
+#1 D:\work\localhost2\www\app\include\Database.php(169): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(141): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Maker_Catalog_Frontend_Model.php(103): Maker_Catalog_Frontend_Model->makers(10)
+#4 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(245): Maker_Catalog_Frontend_Model->getMakers(10)
+#5 D:\work\localhost2\www\app\controller\frontend\index\Index_Index_Frontend_Controller.php(24): Frontend_Controller->input()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(140): Index_Index_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
 

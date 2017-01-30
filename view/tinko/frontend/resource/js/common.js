@@ -29,7 +29,7 @@ $(document).ready(function() {
         $('#top-search > form > input[name="query"]').val('');
         $('#top-search > div').empty();
     });
-    
+
     /*
      * Поиск функциональной группы
      */
@@ -637,7 +637,7 @@ function menuClickHandler(event) {
                     // других открытых веток нет, просто показываем подгруженные элементы
                     item.children('ul').slideDown('normal', function () {
                         item.removeClass('menu-loader').addClass('opened');
-                    }); 
+                    });
                 }
             }
         });

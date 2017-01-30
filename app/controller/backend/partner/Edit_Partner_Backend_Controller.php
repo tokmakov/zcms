@@ -57,7 +57,7 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
             $this->notFoundRecord = true;
             return;
         }
-        
+
         $image = $this->config->site->url . 'files/partner/images/' . $partner['image'] . '.jpg';
 
         /*
@@ -98,8 +98,8 @@ class Edit_Partner_Backend_Controller extends Partner_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']    = trim(utf8_substr($_POST['name'], 0, 100));     // наименование партнера
-        $data['alttext'] = trim(utf8_substr($_POST['alttext'], 0, 100));  // alt текст сертификата партнера
+        $data['name']    = trim(iconv_substr($_POST['name'], 0, 100));     // наименование партнера
+        $data['alttext'] = trim(iconv_substr($_POST['alttext'], 0, 100));  // alt текст сертификата партнера
         $data['alttext'] = str_replace('"', '', $data['alttext']);
 
         $year = date('Y') + 1;

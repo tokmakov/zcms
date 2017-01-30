@@ -25,17 +25,24 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         parent::input();
 
-        // если данные формы были отправлены
+        /*
+         * если данные формы были отправлены, перенаправляем пользователя на эту
+         * же страницу, только поисковый запрос (например «ABC-123») будет частью
+         * URL страницы: www.server.com/catalog/search/query/ABC-123
+         */
         if ($this->isPostMethod()) {
             if ( ! empty($_POST['query'])) {
                 /*
                  * если строка поиска содержит «/» (слэш), например «ABC-123/45»,
                  * то $_SERVER['REQUEST_URI'] = /catalog/search/query/ABC-123/45,
-                 * роутер не сможет правильно разобрать $_SERVER['REQUEST_URI']
+                 * роутер не сможет правильно разобрать $_SERVER['REQUEST_URI'];
+                 * см. файл app/include/Router.php
                  */
-                $_POST['query'] = trim(utf8_substr(str_replace('/', '|', $_POST['query']), 0, 64));
-                $this->redirect($this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($_POST['query'])));
+                $query = trim(iconv_substr(str_replace('/', '|', $_POST['query']), 0, 64));
+                $temp = 'frontend/catalog/search/query/' . rawurlencode($query);
+                $this->redirect($this->searchCatalogFrontendModel->getURL($temp));
             } else {
+                // пустой поисковый запрос, просто показываем страницу поиска по каталогу
                 $this->redirect($this->searchCatalogFrontendModel->getURL('frontend/catalog/search'));
             }
         }
@@ -63,6 +70,9 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $view = 'grid';
         }
 
+        /*
+         * массив переменных, которые будут переданы в шаблон center.php, если поисковый запрос пустой
+         */
         if (empty($this->params['query'])) {
             $this->centerVars['action'] = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search');
             $this->centerVars['breadcrumbs'] = $breadcrumbs;
@@ -80,7 +90,9 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         // общее кол-во результатов поиска
         $totalProducts = $this->searchCatalogFrontendModel->getCountSearchResults($this->params['query']);
         // базовый URL страницы поиска
-        $thisPageUrl = $this->searchCatalogFrontendModel->getURL('frontend/catalog/search/query/' . rawurlencode($this->params['query']));
+        $thisPageUrl = $this->searchCatalogFrontendModel->getURL(
+            'frontend/catalog/search/query/' . rawurlencode($this->params['query'])
+        );
         $temp = new Pager(
             $thisPageUrl,                                       // базовый URL страницы поиска
             $page,                                              // текущая страница
@@ -98,14 +110,18 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
-        
+
         /*
          * см. причины такой замены в комментариях выше, в начале метода
-         */ 
+         */
         $this->params['query'] = str_replace('|', '/', $this->params['query']);
 
         // получаем от модели массив результатов поиска
-        $results = $this->searchCatalogFrontendModel->getSearchResults($this->params['query'], $start, false);
+        $results = $this->searchCatalogFrontendModel->getSearchResults(
+            $this->params['query'],
+            $start,
+            false
+        );
 
         // единицы измерения товара
         $units = $this->searchCatalogFrontendModel->getUnits();

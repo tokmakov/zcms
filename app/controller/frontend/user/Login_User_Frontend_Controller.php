@@ -8,7 +8,20 @@
 class Login_User_Frontend_Controller extends User_Frontend_Controller {
 
     public function __construct($params = null) {
+
         parent::__construct($params);
+
+        /*
+         * Реализация шаблона проектирования «Наблюдатель», см. описание классов
+         * 1. User_Frontend_Model
+         * 2. Basket_Frontend_Model
+         * 3. Wished_Frontend_Model
+         * 4. Compare_Frontend_Model
+         * 5. Viewed_Frontend_Model
+         * и описание интерфейсов
+         * 1. SplSubject http://php.net/manual/ru/class.splsubject.php
+         * 2. SplObserver http://php.net/manual/ru/class.splobserver.php
+         */
 
         // добавляем наблюдателя за событием авторизации пользователя,
         // чтобы сразу после авторизации объеденить корзины (еще) не
@@ -29,6 +42,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         // сразу после авторизации объеденить списки просмотренных товаров
         // (еще) не авторизованного пользователя и (уже) авторизованного
         $this->userFrontendModel->attach($this->viewedFrontendModel);
+
     }
 
     /**
@@ -56,11 +70,12 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
             if ($this->validateForm()) { // авторизация прошла успешено
-                // перенаправляем пользователя на главную страницу личного кабинета
+                // перенаправляем пользователя на главную страницу
+                // личного кабинета
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/index'));
             } else { // при заполнении формы были допущены ошибки или неверный логин/пароль
-                // перенаправляем пользователя опять на страницу с формой авторизации,
-                // для исправления ошибок
+                // перенаправляем пользователя опять на страницу с
+                // формой авторизации для исправления ошибок
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
             }
         }
@@ -92,6 +107,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
             // URL ссылки для восстановления пароля
             'forgotPasswordUrl' => $this->userFrontendModel->getURL('frontend/user/forgot'),
         );
+
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
         if ($this->issetSessionData('loginUserForm')) {
@@ -115,8 +131,8 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['email']    = trim(utf8_substr($_POST['email'], 0, 64));    // электронная почта
-        $data['password'] = trim(utf8_substr($_POST['password'], 0, 32)); // пароль
+        $data['email']    = trim(iconv_substr($_POST['email'], 0, 64));    // электронная почта
+        $data['password'] = trim(iconv_substr($_POST['password'], 0, 32)); // пароль
         $data['remember'] = false;
         if (isset($_POST['remember'])) {
             $data['remember'] = true;
@@ -155,6 +171,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         }
 
         return true;
+
     }
 
 }

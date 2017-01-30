@@ -6,7 +6,8 @@
  * «Наблюдатель», чтобы извещать классы Basket_Frontend_Model, Wished_Frontend_Model,
  * Compare_Frontend_Model и Viewed_Frontend_Model о моменте авторизации посетителя.
  * Это нужно, чтобы синхронизировать эти четыре списка для (еще) не авторизованного
- * посетителя и (уже) авторизованного пользователя.
+ * посетителя и (уже) авторизованного пользователя. См. описание интерфейса SplSubject
+ * http://php.net/manual/ru/class.splsubject.php
  */
 class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
@@ -50,7 +51,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $this->userId = $_SESSION['zcmsAuthUser'];
             $this->user = $this->getUser();
         }
-        
+
         // устанавливаем уникальный идентификатор посетителя сайта
         $this->setVisitorId();
 
@@ -342,7 +343,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
          * вошел под чужой учетной записью; в этом случае мы не объединяем корзины и т.п.
          * чтобы не создавать «мешанину» из двух аккаунтов
          */
-        if (false === $res) { 
+        if (false === $res) {
             /*
              * известить наблюдателей о событии авторизации посетителя, чтобы они
              * синхронизировали корзины, отложенные товары, товары для сравнения и
@@ -742,21 +743,21 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
          * отправляем новый пароль по почте
          */
         $subject = '=?utf-8?B?' . base64_encode('Новый пароль') . '?=';
-        
+
         $name = $this->config->site->name;
         $site = $this->config->email->site;
         $headers = 'From: =?utf-8?b?' . base64_encode($name) . '?= <' . $site . '>' . "\r\n";
         $headers .= 'Date: ' . date('r') . "\r\n";
         $headers .= 'Content-type: text/plain; charset="utf-8"' . "\r\n";
         $headers .= 'Content-Transfer-Encoding: base64';
-        
+
         $message = 'Добрый день!' . "\r\n\r\n";
         $message .= 'Ваш новый пароль: ' . $password . "\r\n\r\n";
         $message .= $this->config->site->name . "\r\n";
         $message .= 'Телефон: ' . $this->config->site->phone . "\r\n";
         $message .= 'Почта: ' . $this->config->site->email;
         $message = chunk_split(base64_encode($message));
-        
+
         mail($email, $subject, $message, $headers);
 
     }

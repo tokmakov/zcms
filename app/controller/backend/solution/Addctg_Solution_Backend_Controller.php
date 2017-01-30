@@ -75,15 +75,15 @@ class Addctg_Solution_Backend_Controller extends Solution_Backend_Controller {
          * обрабатываем данные, полученные из формы
          */
         // наименование категории
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 100));
         // мета-тег keywords
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         // мета-тег description
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
         // краткое описание категории
-        $data['excerpt']     = trim(utf8_substr($_POST['excerpt'], 0, 1000));
+        $data['excerpt']     = trim(iconv_substr($_POST['excerpt'], 0, 1000));
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {

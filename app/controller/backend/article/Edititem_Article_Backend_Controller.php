@@ -129,11 +129,11 @@ class Edititem_Article_Backend_Controller extends Article_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250)); // заголовок статьи
-        $data['excerpt']     = trim(utf8_substr($_POST['excerpt'], 0, 1000)); // анонс статьи
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250)); // заголовок статьи
+        $data['excerpt']     = trim(iconv_substr($_POST['excerpt'], 0, 1000)); // анонс статьи
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250)); // мета-тег keywords
         $data['keywords']    = str_replace('"', '', $data['keywords']);
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250)); // мета-тег description
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250)); // мета-тег description
         $data['description'] = str_replace('"', '', $data['description']);
         $data['body']        = trim($_POST['body']); // содержание статьи
         $data['date']        = $_POST['date']; // дата

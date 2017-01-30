@@ -52,7 +52,7 @@ class Edit_Brand_Backend_Controller extends Brand_Backend_Controller {
             ),
             array(
                 'name' => 'Бренды',
-                'url'  => $this->brandBackendModel->getURL('backend/brand/index') 
+                'url'  => $this->brandBackendModel->getURL('backend/brand/index')
             ),
         );
 
@@ -63,18 +63,18 @@ class Edit_Brand_Backend_Controller extends Brand_Backend_Controller {
             $this->notFoundRecord = true;
             return;
         }
-        
+
         $image = '';
         if ( ! empty($brand['image'])) {
             $image = $this->config->site->url . 'files/brand/' . $brand['image'] . '.jpg';
         }
-        
+
         // все буквы, для возможности выбора
         $letters = array(
             'A-Z' => $this->brandBackendModel->getLatinLetters(),
             'А-Я' => $this->brandBackendModel->getCyrillicLetters()
         );
-        
+
         // все производители, для возможности выбора
         $makers = $this->brandBackendModel->getAllMakers();
 
@@ -122,22 +122,22 @@ class Edit_Brand_Backend_Controller extends Brand_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-         
+
         // наименование бренда
-        $data['name']   = trim(utf8_substr($_POST['name'], 0, 32));
-        
+        $data['name']   = trim(iconv_substr($_POST['name'], 0, 32));
+
         // первая буква бренда
         $data['letter'] = '';
         if (isset($_POST['letter'])) {
             $data['letter'] = $_POST['letter'];
         }
-        
+
         // производитель
         $data['maker'] = 0;
         if (isset($_POST['maker']) && ctype_digit($_POST['maker'])) {
             $data['maker'] = (int)$_POST['maker'];
         }
-        
+
         // популярный бренд?
         $data['popular'] = false;
         if (isset($_POST['popular'])) {

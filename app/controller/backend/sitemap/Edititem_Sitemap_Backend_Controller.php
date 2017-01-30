@@ -126,8 +126,8 @@ class Edititem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['name']   = trim(utf8_substr($_POST['name'], 0, 100)); // наименование элемента карты сайта
-        $data['capurl'] = trim(utf8_substr($_POST['capurl'], 0, 100));  // CAP URL элемента карты сайта
+        $data['name']   = trim(iconv_substr($_POST['name'], 0, 100)); // наименование элемента карты сайта
+        $data['capurl'] = trim(iconv_substr($_POST['capurl'], 0, 100));  // CAP URL элемента карты сайта
 
         // родитель
         $data['parent'] = $this->sitemapBackendModel->getSitemapItemParent($this->params['id']);

@@ -25,7 +25,7 @@ abstract class Base_Controller extends Base {
      * или пользователь ошибся при вводе URL страницы.
      */
     protected $notFoundRecord = false;
-    
+
     /**
      * запрос с использованием XmlHttpRequest?
      */
@@ -97,7 +97,7 @@ abstract class Base_Controller extends Base {
          * задать пути к файлам шаблонов и пути к подключаемым css и js файлам;
          * если запрос с использованием XmlHttpRequest, пути к файлам шаблонов
          * задавать не нужно и css, js файлы подключать не надо, потому как
-         * страница не будет формироваться
+         * страница целиком не будет формироваться
          */
         if ( ! $this->xhr) {
             $this->setCssJsTemplateFiles();
@@ -178,7 +178,7 @@ abstract class Base_Controller extends Base {
      */
     protected function render($template, $params = array()) {
         if ( ! is_file($template)) {
-            throw new Exception('Не найден файл шаблона ' . $template);
+            throw new Exception('Не найден файл шаблона ' . $template . ', контроллер ' . get_class($this));
         }
         extract($params);
         ob_start();
@@ -232,22 +232,22 @@ abstract class Base_Controller extends Base {
          * например для абстрактного класса Catalog_Frontend_Controller. Наконец, подключаются файлы,
          * заданные для этого класса, например, Product_Catalog_Frontend_Controller
          *
-         * Пример подключения CSS-файлов (см. файл app/settings.php):
-         * 'css' => array (                         // CSS файлы, подключаемые к странице
-         *     'frontend' => array (                // общедоступная часть сайта
-         *         'base' => array (                // css-файлы, подключаемые ко всем страницам сайта
+         * Пример подключения CSS-файлов (см. файлы app/config/css.php и app/config/js.php):
+         * 'css' => array(                         // CSS файлы, подключаемые к странице
+         *     'frontend' => array(                // общедоступная часть сайта
+         *         'base' => array(                // css-файлы, подключаемые ко всем страницам сайта
          *             'reset.css',
          *             'common.css',
          *         ),
          *         'index' => 'jquery.slider.css', // только для главной страницы, формируемой Index_Index_Frontend_Controller
          *         'page' => 'page.css',           // для страниц, которые формирует Index_Page_Frontend_Controller
          *         'catalog' => 'catalog.css',     // для страниц, которые формируют дочерние классы Catalog_Frontend_Controller
-         *         'catalog-product' => array (    // только для страниц, которые формирует Product_Catalog_Frontend_Controller
+         *         'catalog-product' => array(     // только для страниц, которые формирует Product_Catalog_Frontend_Controller
          *             'product.css',
          *             'jquery.lightbox.css',
          *         ),
          *     ),
-         *     'backend' => array (                // административная часть сайта
+         *     'backend' => array(                 // административная часть сайта
          *         ..........
          *     ),
          * )
@@ -353,7 +353,7 @@ abstract class Base_Controller extends Base {
         if ($this->backend) {
             $backfront = 'backend';
         }
-        
+
         /*
          * подключаемые css файлы
          */
@@ -363,7 +363,7 @@ abstract class Base_Controller extends Base {
         }
         if (isset($this->config->css->$backfront->$name)) {
             $temp = $this->config->css->$backfront->$name;
-            if (is_object($temp)) { // несколько файлов
+            if (is_object($temp)) { // подключаем несколько файлов
                 foreach ($temp as $file) {
                     // если это внешний файл
                     if ('http' == substr($file, 0, 4)) {
@@ -376,7 +376,7 @@ abstract class Base_Controller extends Base {
                     }
                     $this->cssFiles[] = $host . $fileName;
                 }
-            } else { // один файл
+            } else { // подключаем один файл
                 if ('http' == substr($temp, 0, 4)) { // если это внешний файл
                     $this->cssFiles[] = $temp;
                 } else {
@@ -398,7 +398,7 @@ abstract class Base_Controller extends Base {
         }
         if (isset($this->config->js->$backfront->$name)) {
             $temp = $this->config->js->$backfront->$name;
-            if (is_object($temp)) { // несколько файлов
+            if (is_object($temp)) { // подключаем несколько файлов
                 foreach ($temp as $file) {
                     // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
                     if ('http' == substr($file, 0, 4)) {
@@ -411,7 +411,7 @@ abstract class Base_Controller extends Base {
                     }
                     $this->jsFiles[] = $host . $fileName;
                 }
-            } else { // один файл
+            } else { // подключаем один файл
                 // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
                 if ('http' == substr($temp, 0, 4)) {
                     $this->jsFiles[] = $temp;

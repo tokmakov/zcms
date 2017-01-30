@@ -82,12 +82,12 @@ class Add_User_Backend_Controller extends User_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 32));       // имя пользователя
-        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
-        $data['email']      = trim(utf8_substr($_POST['email'], 0, 64));      // электронная почта
-        $data['password']   = trim(utf8_substr($_POST['password'], 0, 32));   // пароль
-        $confirm            = trim(utf8_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
+        $data['surname']    = trim(iconv_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(iconv_substr($_POST['name'], 0, 32));       // имя пользователя
+        $data['patronymic'] = trim(iconv_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
+        $data['email']      = trim(iconv_substr($_POST['email'], 0, 64));      // электронная почта
+        $data['password']   = trim(iconv_substr($_POST['password'], 0, 32));   // пароль
+        $confirm            = trim(iconv_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
 
         $data['type'] = (int)$_POST['type']; // тип пользователя
 

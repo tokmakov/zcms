@@ -4,7 +4,7 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getAllMakers(...)
      * protected function allMakers(...)
@@ -33,17 +33,24 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает массив всех производителей; результат работы кэшируется
      */
     public function getAllMakers() {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allMakers();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__;
         // имя этой функции (метода)
@@ -82,17 +89,24 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $makers;
 
     }
-    
+
     /**
-     * Функция возвращает массив производителей для правой колонки; результат работы кэшируется
+     * Функция возвращает массив производителей для левой колонки; результат работы кэшируется
      */
     public function getMakers($limit) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makers($limit);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-limit-' . $limit;
         // имя этой функции (метода)
@@ -105,7 +119,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив производителей для правой колонки
+     * Функция возвращает массив производителей для левой колонки
      */
     protected function makers($limit) {
 
@@ -122,8 +136,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`id`
                   ORDER BY
                       COUNT(*) DESC
-                  LIMIT " . $limit;
-        $temp = $this->database->fetchAll($query);
+                  LIMIT
+                      :limit";
+        $temp = $this->database->fetchAll($query, array('limit' => $limit));
         $ids = array();
         foreach ($temp as $value) {
             $ids[] = $value['id'];
@@ -132,7 +147,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return array();
         }
         $ids = implode(',', $ids);
-        
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
                   FROM
@@ -171,17 +186,25 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `id` = :id";
         return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
     }
-    
+
     /**
      * Функция возвращает результаты поиска производителя; результат работы
      * кэшируется
      */
     public function getMakerSearchResult($query) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makerSearchResult($query);
         }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-query-' . md5($query);
         // имя этой функции (метода)
@@ -229,11 +252,18 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getMakerProducts($id, $group, $hit, $new, $param, $sort, $start) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makerProducts($id, $group, $hit, $new, $param, $sort, $start);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
@@ -291,8 +321,10 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       INNER JOIN `groups` `c` ON `a`.`group` = `c`.`id`
                   WHERE
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $tmp . "
-                  ORDER BY " . $temp . "
-                  LIMIT :start, :limit";
+                  ORDER BY
+                      " . $temp . "
+                  LIMIT
+                      :start, :limit";
         $products = $this->database->fetchAll(
             $query,
             array(
@@ -304,7 +336,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив URL ссылок на товары и фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($products as $key => $value) {
@@ -331,7 +363,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * $id; результат работы кэшируется
      */
     public function getCountMakerProducts($id, $group, $hit, $new, $param) {
-        
+
         $temp = '';
         if ($group) { // фильтр по функциональной группе
             $temp = $temp . " AND `a`.`group` = " . $group;
@@ -359,17 +391,25 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`maker` = :id AND `a`.`visible` = 1" . $temp;
         return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
     }
-    
+
     /**
      * Функция возвращает массив функциональных групп для производителя с
      * уникальным идентификатором $id; результат работы кэшируется
      */
     public function getMakerGroups($id, $group, $hit, $new, $param) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makerGroups($id, $group, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -379,8 +419,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
-    
+
     /**
      * Функция возвращает массив функциональных групп для производителя с
      * уникальным идентификатором $id
@@ -427,7 +468,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     }
                 }
             }
-            if (!empty($second)) {
+            if ( ! empty($second)) {
                 $second[0]['bound'] = true;
             }
             $groups = array_merge($first, $second);
@@ -436,7 +477,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (0 == $group && 0 == $hit && 0 == $new) {
             return $groups;
         }
-        
+
         if ($group && empty($param) && 0 == $hit && 0 == $new) {
             return $groups;
         }
@@ -461,7 +502,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $query = $query . " AND `b`.`new` > 0";
             }
             /*
-             * если выбрана функциональная группа, то на количество товаров в ней 
+             * если выбрана функциональная группа, то на количество товаров в ней
              * влияют выбранные параметры подбора; но они влияют только на количество
              * товаров выбранной функциональной группы, потому как для других
              * функциональных групп параметры подбора будет совсем другими
@@ -479,22 +520,36 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     }
                 }
             }
-            $groups[$key]['count'] = $this->database->fetchOne($query, array('maker' => $id, 'group' => $value['id']));
+            $groups[$key]['count'] = $this->database->fetchOne(
+                $query,
+                array(
+                    'maker' => $id,
+                    'group' => $value['id']
+                )
+            );
         }
 
         return $groups;
     }
-    
+
     /**
      * Возвращает массив параметров подбора для выбранной функциональной группы
      * и выбранного производителя $id; результат работы кэшируется
      */
     public function getMakerGroupParams($id, $group, $hit, $new, $param) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makerGroupParams($id, $group, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -572,7 +627,12 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                     $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne(
                         $query,
-                        array('group' => $group, 'maker' => $id, 'param_id' => $value['param_id'], 'value_id' => $value['value_id'])
+                        array(
+                            'group' => $group,
+                            'maker' => $id,
+                            'param_id' => $value['param_id'],
+                            'value_id' => $value['value_id']
+                        )
                     );
                 } else {
                     $result[$key]['count'] = 0;
@@ -580,7 +640,12 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             } else {
                 $result[$key]['count'] = $this->database->fetchOne(
                     $query,
-                    array('group' => $group, 'maker' => $id, 'param_id' => $value['param_id'], 'value_id' => $value['value_id'])
+                    array(
+                        'group' => $group,
+                        'maker' => $id,
+                        'param_id' => $value['param_id'],
+                        'value_id' => $value['value_id']
+                    )
                 );
             }
         }
@@ -609,7 +674,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $params;
 
     }
-    
+
     /**
      * Функция возвращает количество лидеров продаж для производителя с уникальным
      * идентификатором $id с учетом фильтров по функциональной группе, новинкам и
@@ -617,11 +682,18 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getCountMakerHit($id, $group, $hit, $new, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->countMakerHit($id, $group, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -679,11 +751,18 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     public function getCountMakerNew($id, $group, $hit, $new, $param = array()) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->countMakerNew($id, $group, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                . '-param-' . md5(serialize($param));
@@ -731,9 +810,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
         }
         return $this->database->fetchOne($query, array('maker' => $id));
-        
+
     }
-    
+
     /**
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя; результат работы кэшируется
@@ -756,7 +835,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $this->getCachedData($key, $function, $arguments);
 
     }
-    
+
     /**
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя
@@ -786,18 +865,25 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $this->getURL($url);
 
     }
-    
+
     /**
      * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
      * наименованию, коду (артикулу); результат работы кэшируется
      */
     public function getMakerSortOrders($id, $group, $hit, $new, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->makerSortOrders($id, $group, $hit, $new, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
                 . '-param-' . md5(serialize($param));
@@ -811,8 +897,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
-     * наименованию, коду (артикулу)
+     * Функция возвращает массив ссылок для сортировки товаров производителя с уникальным
+     * идентификатором $id по цене, наименованию, коду (артикулу)
      */
     protected function makerSortOrders($id, $group, $hit, $new, $param) {
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Compare_Frontend_Model отвечает за сравнение товаров,
- * реализует шаблон проектирования «Наблюдатель», взаимодействует
- * с базой данных, общедоступная часть сайта
+ * Класс Compare_Frontend_Model отвечает за сравнение товаров, взаимодействует с базой
+ * данных, реализует шаблон проектирования «Наблюдатель», общедоступная часть сайта;
+ * см. описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
  */
 class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
@@ -42,12 +42,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция добавляет товар в список сравнения
      */
     public function addToCompare($productId) {
-        
+
         // можно добавить к сравнению только 5 товаров
         if ($this->getCompareCount() > 4) {
             return false;
         }
-        
+
         // удаляем кэш, потому как после добавления товара он будет не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
@@ -55,7 +55,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
-        
+
         // данные для выполнения SQL-запросов
         $data = array(
             'visitor_id' => $this->visitorId,
@@ -67,7 +67,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         if (false === $newProductGroupId) {
             return false;
         }
-        
+
         /*
          * список сравнения пуст, можем добавлять любой товар
          */
@@ -92,16 +92,16 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             setcookie('compare_group', $this->groupId, time() + 31536000, '/');
             return true;
         }
-        
+
         /*
          * уже есть товары в списке сравнения, нужны дополнительные проверки
          */
-         
+
         // можно добавить только товар, принадлежащий к той же функциональной
         // группе, что и другие товары в списке сравнения
         if ($this->groupId !== $newProductGroupId) {
             return false;
-        }            
+        }
         // такой товар уже есть в списке сравнения?
         $query = "SELECT
                       1
@@ -145,7 +145,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         return true;
 
     }
-    
+
     /**
      * Функция возвращает количество товаров в списке сравнения
      */
@@ -296,7 +296,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
         return $products;
     }
-    
+
     /**
      * Функция возвращает наименование функциональной группы
      */
@@ -312,16 +312,16 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `id` = :group_id";
         return $this->database->fetchOne($query, array('group_id' => $this->groupId));
     }
-    
+
     /**
      * Функция возвращает массив параметров, привязанных к группе
      */
     public function getGroupParams() {
-        
+
         if (0 === $this->groupId) {
             return array();
         }
-        
+
         // получаем массив товаров, отложенных для сравнения
         $query = "SELECT
                       `b`.`id` AS `id`, `b`.`code` AS `code`, `b`.`title` AS `title`,
@@ -360,7 +360,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             }
             $shortdescr[] = $product['shortdescr'];
         }
-        
+
         // получаем массив параметров подбора для функциональной группы
         $query = "SELECT
                       `g`.`id` AS `id`, `g`.`name` AS `name`
@@ -420,7 +420,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                 }
             }
         }
-        
+
         return array_merge(array($title, $code, $maker, $techdata, $shortdescr), $params);
 
     }
@@ -560,7 +560,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция объединяет списки отложенных для сравнения товаров (ещё) не
      * авторизованного посетителя и (уже) авторизованного пользователя сразу
-     * после авторизации, реализация шаблона проектирования «Наблюдатель»
+     * после авторизации, реализация шаблона проектирования «Наблюдатель»; см.
+     * описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
      */
     public function update(SplSubject $userFrontendModel) {
 
@@ -600,7 +601,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         $this->visitorId = $newVisitorId;
-        
+
         $this->groupId = $this->getCompareGroup();
 
         // если список сравнения и после объединения пустой,
@@ -610,7 +611,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             setcookie('compare_group', '', time() - 86400, '/');
             return;
         }
-        
+
         // в объединенном списке сравнения есть товары, но в нем
         // могут быть товары из разных функциональных групп
         $query = "SELECT

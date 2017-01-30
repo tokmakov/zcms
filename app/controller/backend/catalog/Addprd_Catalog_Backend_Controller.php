@@ -110,19 +110,19 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
          */
 
         // наименование изделия
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 250));
         // функциональное наименование изделия
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 250));
+        $data['title']       = trim(iconv_substr($_POST['title'], 0, 250));
         // мета-тег keywords
-        $data['keywords']    = trim(utf8_substr($_POST['keywords'], 0, 250));
+        $data['keywords']    = trim(iconv_substr($_POST['keywords'], 0, 250));
         $data['keywords']    = str_replace('"', '', $data['keywords']);
         // мета-тег description
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 250));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 250));
         $data['description'] = str_replace('"', '', $data['description']);
         // код (артикул) товара
-        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));
+        $data['code']        = trim(iconv_substr($_POST['code'], 0, 16));
         // краткое описание
-        $data['shortdescr']  = trim(utf8_substr($_POST['shortdescr'], 0, 2000));
+        $data['shortdescr']  = trim(iconv_substr($_POST['shortdescr'], 0, 2000));
         // назначение изделия
         $data['purpose']     = trim($_POST['purpose']);
         // особенности изделия
@@ -138,13 +138,13 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $data['techdata'] = '';
         $techdataName = array();
         foreach ($_POST['techdata_name'] as $name) {
-            $tmp = trim(utf8_substr($name, 0, 250));
+            $tmp = trim(iconv_substr($name, 0, 250));
             $tmp = preg_replace('~\s+~u', ' ', $tmp);
             $techdataName[] = $tmp;
         }
         $techdataValue = array();
         foreach ($_POST['techdata_value'] as $value) {
-            $tmp = trim(utf8_substr($value, 0, 250));
+            $tmp = trim(iconv_substr($value, 0, 250));
             $tmp = preg_replace('~\s+~u', ' ', $tmp);
             $techdataValue[] = $tmp;
         }

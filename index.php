@@ -15,8 +15,6 @@ if (is_file('cron/update.txt')) {
 
 session_start();
 
-// поддержка кодировки UTF-8
-require 'app/include/utf8.php';
 // автоматическая загрузка классов
 require 'app/include/autoload.php';
 // настройки приложения

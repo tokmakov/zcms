@@ -133,13 +133,13 @@ class Editprd_Sale_Backend_Controller extends Sale_Backend_Controller {
          */
 
         // наименование изделия
-        $data['name']        = trim(utf8_substr($_POST['name'], 0, 100));
+        $data['name']        = trim(iconv_substr($_POST['name'], 0, 100));
         // функциональное наименование изделия
-        $data['title']       = trim(utf8_substr($_POST['title'], 0, 200));
+        $data['title']       = trim(iconv_substr($_POST['title'], 0, 200));
         // код (артикул) товара
-        $data['code']        = trim(utf8_substr($_POST['code'], 0, 16));
+        $data['code']        = trim(iconv_substr($_POST['code'], 0, 16));
         // краткое описание
-        $data['description'] = trim(utf8_substr($_POST['description'], 0, 1000));
+        $data['description'] = trim(iconv_substr($_POST['description'], 0, 1000));
 
         // цена
         $data['price1'] = 0.0;

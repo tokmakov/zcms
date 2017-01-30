@@ -53,7 +53,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
                 'url'  => $this->userFrontendModel->getURL('frontend/user/index'),
             )
         );
-        
+
         // проверка на робота
         $number1 = rand(1, 5);
         $number2 = rand(1, 4);
@@ -91,13 +91,13 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-        $data['surname']    = trim(utf8_substr($_POST['surname'], 0, 32));    // фамилия пользователя
-        $data['name']       = trim(utf8_substr($_POST['name'], 0, 32));       // имя пользователя
-        $data['patronymic'] = trim(utf8_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
-        $data['email']      = trim(utf8_substr($_POST['email'], 0, 64));      // электронная почта
-        $data['password']   = trim(utf8_substr($_POST['password'], 0, 32));   // пароль
-        $confirm            = trim(utf8_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
-        
+        $data['surname']    = trim(iconv_substr($_POST['surname'], 0, 32));    // фамилия пользователя
+        $data['name']       = trim(iconv_substr($_POST['name'], 0, 32));       // имя пользователя
+        $data['patronymic'] = trim(iconv_substr($_POST['patronymic'], 0, 32)); // отчество пользователя
+        $data['email']      = trim(iconv_substr($_POST['email'], 0, 64));      // электронная почта
+        $data['password']   = trim(iconv_substr($_POST['password'], 0, 32));   // пароль
+        $confirm            = trim(iconv_substr($_POST['confirm'], 0, 32));    // подтверждение пароля
+
         $answer = 0; // проверка на робота
         if (isset($_POST['answer']) && in_array($_POST['answer'], array(1,2,3,4,5,6,7,8,9))) {
             $answer = (int)$_POST['answer'];
@@ -140,7 +140,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
         } elseif ($answer != $this->getSessionData('checkRobot')) {
             $errorMessage[] = 'Неправильный ответ на вопрос';
         }
-        
+
         if ($this->issetSessionData('checkRobot')) {
             $this->unsetSessionData('checkRobot');
         }

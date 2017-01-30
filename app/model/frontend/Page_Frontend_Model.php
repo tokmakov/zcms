@@ -14,11 +14,19 @@ class Page_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getPage($id) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->page($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -27,6 +35,7 @@ class Page_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -50,11 +59,19 @@ class Page_Frontend_Model extends Frontend_Model {
      * Sitemap_Frontend_Model::getBreadcrumbs()
      */
     public function getPagePath($id) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запросов к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->pagePath($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будут выполнены запросы к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -63,6 +80,7 @@ class Page_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -70,6 +88,7 @@ class Page_Frontend_Model extends Frontend_Model {
      * ВАЖНО! См. комментарий к методу Page_Frontend_Model::getPagePath()
      */
     protected function pagePath($id) {
+
         $query = "SELECT
                       `parent`
                   FROM
@@ -100,7 +119,9 @@ class Page_Frontend_Model extends Frontend_Model {
         }
         $path[] = array('url' => $this->getURL('frontend/index/index'), 'name' => 'Главная');
         $path = array_reverse($path);
+
         return $path;
+
     }
 
     /**
@@ -110,11 +131,19 @@ class Page_Frontend_Model extends Frontend_Model {
      * не используется и будет скоро уделён
      */
     public function getAllPages() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allPages();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()';
         // имя этой функции (метода)
@@ -123,6 +152,7 @@ class Page_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -130,6 +160,7 @@ class Page_Frontend_Model extends Frontend_Model {
      * ВАЖНО! См. комментарий к методу Page_Frontend_Model::getAllPages()
      */
     protected function allPages() {
+
         // получаем все страницы
         $query = "SELECT
                       `id`, `name`, `parent`
@@ -146,13 +177,17 @@ class Page_Frontend_Model extends Frontend_Model {
         }
         // строим дерево
         $tree = $this->makeTree($pages);
+
         return $tree;
+
     }
 
     /**
-     * Функция возвращает массив SEF URL всех страниц сайта
+     * Функция возвращает массив SEF URL всех страниц сайта; результат работы кэшируется
+     * на уровне базы данных
      */
     protected function getAllPagesSEF() {
+
         // получаем все страницы
         $query = "SELECT
                       `id`, `sefurl`
@@ -160,7 +195,8 @@ class Page_Frontend_Model extends Frontend_Model {
                       `pages`
                   WHERE
                       1";
-        return $this->database->fetchAll($query);
+        return $this->database->fetchAll($query, array(), $this->enableDataCache);
+
     }
 
 }

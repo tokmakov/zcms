@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Editctg_Rating_Backend_Controller для редактирования категории товаров 
+ * Класс Editctg_Rating_Backend_Controller для редактирования категории товаров
  * рейтинга, формирует страницу с формой для редактирования категории, обновляет
  * запись в таблице БД rating_categories, работает с моделью Rating_Backend_Model
  */
@@ -24,7 +24,7 @@ class Editctg_Rating_Backend_Controller extends Rating_Backend_Controller {
          * Editctg_Rating_Backend_Controller
          */
         parent::input();
-        
+
         // если не передан id категории или id категории не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -57,7 +57,7 @@ class Editctg_Rating_Backend_Controller extends Rating_Backend_Controller {
                 'url'  => $this->ratingBackendModel->getURL('backend/rating/index'),
             )
         );
-        
+
         // получаем от модели информацию о категории
         $category = $this->ratingBackendModel->getCategory($this->params['id']);
         // если запрошенная категория не найдена в БД
@@ -65,7 +65,7 @@ class Editctg_Rating_Backend_Controller extends Rating_Backend_Controller {
             $this->notFoundRecord = true;
             return;
         }
-        
+
         // получаем от модели массив категорий верхнего уровня, для возможности выбора родителя
         $categories = $this->ratingBackendModel->getRootCategories();
 
@@ -103,9 +103,9 @@ class Editctg_Rating_Backend_Controller extends Rating_Backend_Controller {
         /*
          * обрабатываем данные, полученные из формы
          */
-         
+
         // наименование категории
-        $data['name'] = trim(utf8_substr($_POST['name'], 0, 250));
+        $data['name'] = trim(iconv_substr($_POST['name'], 0, 250));
         // родительская категория
         $data['parent'] = 0;
         if (ctype_digit($_POST['parent'])) {
@@ -127,7 +127,7 @@ class Editctg_Rating_Backend_Controller extends Rating_Backend_Controller {
             $this->setSessionData('editRatingCategoryForm', $data);
             return false;
         }
-        
+
         $data['id'] = $this->params['id']; // уникальный идентификатор категории
 
         // обращаемся к модели для обновления категории

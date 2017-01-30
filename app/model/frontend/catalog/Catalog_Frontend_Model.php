@@ -1,10 +1,10 @@
 <?php
 /**
- * Абстрактный класс Catalog_Frontend_Model, родительский для всех моделей, работающих
- * с каталогом товаров, общедоступная часть сайта
+ * Абстрактный класс Catalog_Frontend_Model, родительский для всех моделей,
+ * работающих с каталогом товаров, общедоступная часть сайта
  */
 abstract class Catalog_Frontend_Model extends Frontend_Model {
-    
+
     /*
      * protected function getAllChildIds(...)
      * protected function allChildIds(...)
@@ -24,15 +24,23 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
-     * Возвращает массив идентификаторов всех потомков категории $id, т.е.
+     * Функция возвращает массив идентификаторов всех потомков категории $id, т.е.
      * дочерние, дочерние дочерних и так далее; результат работы кэшируется
      */
     protected function getAllChildIds($id) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запросов к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allChildIds($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будут выполнены запросы к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -41,13 +49,15 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
-     * Возвращает массив идентификаторов всех потомков категории $id, т.е.
+     * Функция возвращает массив идентификаторов всех потомков категории $id, т.е.
      * дочерние, дочерние дочерних и так далее
      */
     protected function allChildIds($id) {
+
         $childs = array();
         $ids = $this->childIds($id);
         foreach ($ids as $item) {
@@ -58,14 +68,16 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
             }
         }
         return $childs;
+
     }
 
 
     /**
-     * Возвращает массив идентификаторов дочерних категорий (прямых потомков)
+     * Функция возвращает массив идентификаторов дочерних категорий (прямых потомков)
      * категории с уникальным идентификатором $id
      */
     protected function childIds($id) {
+
         $query = "SELECT
                       `id`
                   FROM
@@ -74,14 +86,19 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
                       `parent` = :id
                   ORDER BY
                       `sortorder`";
-        $res = $this->database->fetchAll($query, array('id' => $id), $this->enableDataCache);
+        $result = $this->database->fetchAll(
+            $query,
+            array('id' => $id),
+            $this->enableDataCache
+        );
         $ids = array();
-        foreach ($res as $item) {
+        foreach ($result as $item) {
             $ids[] = $item['id'];
         }
         return $ids;
+
     }
-    
+
     /**
      * Вспомогательная функция, возвращает массив идентификаторов товаров,
      * которые входят в функциональную группу $group и  подходят под параметры
@@ -89,11 +106,18 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      */
     protected function getProductsByParam($group, $param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->productsByParam($group, $param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-group-' . $group . '-param-' . md5(serialize($param));
         // имя этой функции (метода)
@@ -169,11 +193,18 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      */
     public function getCheckParams($param) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->checkParams($param);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-param-' . md5(serialize($param));
         // имя этой функции (метода)
@@ -184,7 +215,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         return $this->getCachedData($key, $function, $arguments);
 
     }
-    
+
     /**
      * Функция проверяет корректность идентификаторов параметров и значений;
      * если параметры и значения коррекные, возвращает true, иначе false
@@ -196,11 +227,11 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         }
 
         $count = count($param);
-        
+
         $params = implode(',', array_keys($param));
         $query = "SELECT COUNT(*) FROM `params` WHERE `id` IN (" . $params . ")";
         $count1 = $this->database->fetchOne($query);
-        
+
         $values = implode(',', $param);
         $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $values . ")";
         $count2 = $this->database->fetchOne($query);
@@ -215,11 +246,18 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      */
     public function getCategoryPath($id) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->categoryPath($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -251,6 +289,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         $path[] = array('name' => 'Каталог', 'url' => $this->getURL('frontend/catalog/index'));
         $path[] = array('name' => 'Главная', 'url' => $this->getURL('frontend/index/index'));
         $path = array_reverse($path);
+
         return $path;
 
     }
@@ -261,11 +300,18 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      */
     protected function getAllCategoryParents($id = 0) {
 
-        // если не включено кэширование данных
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allCategoryParents($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -301,6 +347,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
             $current = $res;
         }
         $path = array_reverse($path);
+
         return $path;
 
     }
@@ -310,14 +357,31 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * от всякого мусора
      */
     protected function cleanSearchString($search) {
-        $search = utf8_substr($search, 0, 64);
+        $search = iconv_substr($search, 0, 64);
         // удаляем все, кроме букв и цифр
         $search = preg_replace('#[^0-9a-zA-ZА-Яа-яёЁ]#u', ' ', $search);
         // сжимаем двойные пробелы
         $search = preg_replace('#\s+#u', ' ', $search);
         $search = trim($search);
-        $search = utf8_strtolower($search);
+        $search = $this->stringToLower($search);
         return $search;
+    }
+
+    /**
+     * Вспомогательная функция, преобразует строку в нижний регистр
+     */
+    protected function stringToLower($string) {
+        $upper = array(
+            'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т',
+            'У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я','A','B','C','D','E','F','G',
+            'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+        );
+        $lower = array(
+            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т',
+            'у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я','a','b','c','d','e','f','g',
+            'h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+        );
+        return str_replace($upper, $lower, $string);
     }
 
 }

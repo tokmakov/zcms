@@ -139,7 +139,7 @@ body > .wrapper {
                 height: 60px;
                 font-size: 45px;
                 letter-spacing: 1px;
-                color: #f5f5f5;                
+                color: #f5f5f5;
             }
                 #header #top-logo > div > strong > span {
                     font-size: 70px;
@@ -720,14 +720,14 @@ div.attention {
             }
 
 /* страница с формой поиска по каталогу */
-#center-search-form > form {
+form#center-search-form {
     overflow: hidden;
 }
-    #center-search-form > form input {
+    form#center-search-form input {
         float: left;
         box-sizing: border-box;
     }
-    #center-search-form > form input[name="query"] {
+    form#center-search-form input[name="query"] {
         font-size: 14px;
         line-height: 14px;
         padding: 7px;
@@ -735,7 +735,7 @@ div.attention {
         height: 31px;
         border: 1px solid #395985;
     }
-    #center-search-form > form input[type="submit"] {
+    form#center-search-form input[type="submit"] {
         background: #395985 url(../img/search.png) center center no-repeat;
         width: 31px;
         height: 31px;
@@ -743,8 +743,8 @@ div.attention {
         margin-left: -31px;
         cursor: pointer;
     }
-    #center-search-form > p {
-        margin: 15px 0;
+    form#center-search-form + p { /* По Вашему запросу ничего не найдено */
+        margin-top: 20px;
     }
 
 /* постраничная навигация */
@@ -1140,7 +1140,7 @@ div.attention {
                         .product-list-line > div > .product-list-techdata > div:last-child > table tr:last-child td {
                             border-bottom: none;
                         }
-                        
+
 /* клон блока изображения товара, для добавления в корзину */
 .image-clone {
     position: absolute;
@@ -1153,7 +1153,7 @@ div.attention {
         position: relative;
         padding: 9px;
     }
-    
+
 /* список товаров, табличный вид (плитка) */
 .product-list-grid {
     overflow: hidden;
@@ -1375,11 +1375,11 @@ div.attention {
                     color: #fff;
                     width: 77%;
                 }
-    
+
         .product-list-grid > div > .product-list-descr { /* краткое описание */
             display: none;
         }
-        
+
         /* комментарий для отложенных товаров */
         .product-list-grid > div > .product-list-comment {
             padding-top: 10px;
@@ -1939,7 +1939,7 @@ div.attention {
                     vertical-align: middle;
                 }
             #product-item .product-item-main .product-item-info > div:first-child > span:last-child {
-                
+
             }
                 #product-item .product-item-main .product-item-info > div:first-child > span:last-child > span {
                     display: inline-block;
@@ -2278,7 +2278,7 @@ div.attention {
                     top: 0;
                     right: 0;
                 }
-                
+
     #all-groups > p {
         clear: both;
         padding: 15px;
@@ -2295,7 +2295,7 @@ div.attention {
         #all-groups > p > a:hover {
             text-decoration: none;
         }
-    
+
     #all-groups > form {
         margin: 15px;
         position: relative;
@@ -2324,7 +2324,7 @@ div.attention {
             right: 0;
             cursor: pointer;
         }
-        
+
     #all-groups > form > div {
         position: absolute;
         top: 35px;
@@ -2369,7 +2369,7 @@ div.attention {
             #all-groups > form > div > div > div:last-child {
                 border-bottom: none;
             }
-        
+
     #all-groups > ol {
         margin: 0 15px 15px 15px;
         list-style: none;
@@ -2380,7 +2380,7 @@ div.attention {
     #all-groups > ol > li:first-child {
         padding-bottom: 3px;
     }
-    
+
 /*
  * ЛЕВАЯ КОЛОНКА
  */
@@ -2579,7 +2579,7 @@ div.attention {
         #side-makers > .side-content > p > a:hover {
             text-decoration: none;
         }
-        
+
 /* список функциональных групп в правой колонке */
 #side-groups {
 
@@ -2605,7 +2605,7 @@ div.attention {
             }
                 #side-groups > .side-content > ul > li > span > a {
                     /*padding-left: 5px;*/
-                    
+
                     display: table-cell;
                     height: 28px;
                     vertical-align: middle;
