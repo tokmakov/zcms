@@ -27,7 +27,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // если корзина пуста, здесь делать нечего, за исключением того
         // случая, когда заказ только что был размещен
-        if ($this->basketFrontendModel->isEmptyBasket() && (!$this->issetSessionData('successCheckoutOrder'))) {
+        if ( (!$this->basketFrontendModel->getBasketCount()) && (!$this->issetSessionData('successCheckoutOrder'))) {
             // перенаправляем пользователя на страницу корзины
             $this->redirect($this->basketFrontendModel->getURL('frontend/basket/index'));
         }

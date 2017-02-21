@@ -451,7 +451,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         /*
          * У пользователя в cookie с именем remember сохраняются token1 и token2,
-         * мы сверяем их с теми, что предоставлены в таблице БД remember. Если они
+         * мы сверяем их с теми, что представлены в таблице БД remember. Если они
          * совпадают, то авторизация успешна. Пользователь получает новый token1
          * с предыдущим token2. Если token2 совпадают, а token1 не совпадают, то
          * удаляем все записи в таблице remember со значением token2:
@@ -796,7 +796,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $query = "SELECT
                           `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                           `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
-                          `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
+                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
                           !ISNULL(`b`.`id`) AS `exists`
                       FROM
                           `orders_prds` `a` LEFT JOIN `products` `b`
@@ -881,7 +881,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         // добавляем информацию о списке товаров заказа
         $query = "SELECT
                       `product_id`, `code`, `name`, `title`, `price`,
-                      `user_price`, `quantity`, `cost`, `user_cost`
+                      `user_price`, `unit`, `quantity`, `cost`, `user_cost`
                   FROM
                       `orders_prds`
                   WHERE

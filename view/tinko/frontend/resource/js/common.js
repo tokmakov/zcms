@@ -221,8 +221,25 @@ $(document).ready(function() {
         select.find('option:selected').prop('selected', false);
         select.change();
     });
+
+    /*
+     * Отслеживаем события нажатия кнопок «Назад» и «Вперед» в браузере
+     */
+    window.addEventListener('popstate', function(e) {
+        // TODO: не загружать страницу целиком, а только отправлять данные формы
+        // фильтров; данные формы сохранять в queryString и передавать первым
+        // аргументом history.pushState({'query': queryString}, null, url)
+        window.location.replace(document.location);
+    });
 });
 
+/*
+ * Функция отвечает за
+ * 1. Добавление товара в корзину
+ * 2. Добавление товара в избранное
+ * 3. Добавление товара к сравнению
+ * с использованием XmlHttpRequest
+ */
 function addBasketHandler() {
 
     /*
@@ -250,10 +267,10 @@ function addBasketHandler() {
             var imageHeight = Math.round(image.height());
             // определяем координаты корзины: либо в правой колонке, либо в шапке сайта
             var basket;
-            if ($('#side-basket > .side-heading').is(':visible')) {
-                basket = $('#side-basket > .side-heading > span > i');
+            if ($('#top-menu').is(':visible')) {
+                basket = $('#top-menu > a:nth-child(1) > i');
             } else {
-                basket = $('#top-menu > a:nth-child(1) > i') ;
+                basket = $('#side-basket > .side-heading > span > i');
             }
             var basketTop = basket.offset().top + 11;
             var basketLeft = basket.offset().left + 9;
@@ -277,6 +294,10 @@ function addBasketHandler() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки в шапке
+                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товар добавлен в корзину</div>')
                             .prependTo('body')
@@ -322,10 +343,10 @@ function addBasketHandler() {
             var imageHeight = Math.round(image.height());
             // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
             var wished;
-            if ($('#side-wished > .side-heading').is(':visible')) {
-                wished = $('#side-wished > .side-heading > span > i');
+            if ($('#top-menu').is(':visible')) {
+                wished = $('#top-menu > a:nth-child(3) > i');
             } else {
-                wished = $('#top-menu > a:nth-child(3) > i') ;
+                wished = $('#side-wished > .side-heading > span > i');
             }
             var wishedTop = wished.offset().top + 11;
             var wishedLeft = wished.offset().left + 9;
@@ -349,6 +370,10 @@ function addBasketHandler() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки
+                        if ( ! $('#top-menu > a:nth-child(3) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(3) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товар добавлен в избранное</div>')
                             .prependTo('body')
@@ -460,15 +485,28 @@ function addBasketHandler() {
 
 }
 
+/*
+ * Функция обрабытывает события применения фильтров: выбор функциональной группы,
+ * производителя, параметров подбора, отбор новинок и лидеров продаж
+ */
 function filterSelectHandler() {
+
+    /*
+     * Отслеживаем событие выбора функциональной группы, чтобы установить значение
+     * скрытого поля input[name="change"]. Это поле передется на сервер  и сообщает
+     * о том, что была выбрана новая функциональная группа. А это означает, что надо
+     * показать новый набор параметров подбора, потому как у каждой функциональной
+     * группы свой набор параметров.
+     */
     if ($(this).attr('name') == 'group') {
         $('#catalog-filter form input[name="change"]').val('1');
     } else {
         $('#catalog-filter form input[name="change"]').val('0');
     }
+
     $('#catalog-filter form').ajaxSubmit({
         dataType:  'json',
-        beforeSubmit: function() {
+        beforeSubmit: function(arr) {
             /*
              * перед отправкой формы добавляем оверлей для трех блоков
              */
@@ -521,27 +559,35 @@ function filterSelectHandler() {
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();
-            // добавляем хэш
-            addFilterHash();
+            /*
+             * добавляем запись в window.history, чтобы работали кнопки «Назад»
+             * и «Вперед» в браузере
+             */
+            pushHistoryState();
         }
     });
 }
 
-function addFilterHash() {
-    var hash = '';
+/*
+ * Функция добавляет записи в window.history, когда пользователь применяет фильтры:
+ * выбор функциональной группы, производителя, параметров подбора, отбор новинок и
+ * лидеров продаж, чтобы работали кнопки «Назад» и «Вперед» в браузере
+ */
+function pushHistoryState(fields) {
+    var url = '';
     var group = $('#catalog-filter form select[name="group"]').val();
     if (group !== '0' && group !== undefined) {
-        hash = '/group/' + group;
+        url = '/group/' + group;
     }
     var maker = $('#catalog-filter form select[name="maker"]').val();
     if (maker !== '0' && maker !== undefined) {
-        hash = hash + '/maker/' + maker;
+        url = url + '/maker/' + maker;
     }
     if ($('#catalog-filter form input[name="hit"]').prop('checked')) {
-        hash = hash + '/hit/1';
+        url = url + '/hit/1';
     }
     if ($('#catalog-filter form input[name="new"]').prop('checked')) {
-        hash = hash + '/new/1';
+        url = url + '/new/1';
     }
     var paramSelect = $('#catalog-filter form select[name^="param"]');
     var param = [];
@@ -555,39 +601,34 @@ function addFilterHash() {
         });
     }
     if (param.length > 0) {
-        hash = hash + '/param/' + param.join('-');
+        url = url + '/param/' + param.join('-');
     }
-    if (hash !== '') { // ссылка для сброса фильтра
+    if (url !== '') { // ссылка для сброса фильтра
         $('#catalog-filter > div:first-child > span:first-child > a').show();
     } else {
         $('#catalog-filter > div:first-child > span:first-child > a').hide();
     }
     var sortInput = $('#catalog-filter form input[name="sort"]');
     if (sortInput.length > 0 && sortInput.val() !== '0') {
-        hash = hash + '/sort/' + sortInput.val();
+        url = url + '/sort/' + sortInput.val();
     }
-    if (hash === '') {
-        var pathname;
-        if (/^\/catalog\/category\/[0-9]+\/(group|maker|hit|new)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/category\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
-        if (/^\/catalog\/group\/[0-9]+\/(maker|hit|new|param)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/group\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
-        if (/^\/catalog\/maker\/[0-9]+\/(group|hit|new)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/maker\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
+    var pathname = window.location.pathname;
+    if (/^\/catalog\/category\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/category\/[0-9]+).*$/i, '$1') + url;
     }
-    if (hash !== '') {
-        window.location.hash = '#!' + hash;
-    } else {
-        history.pushState('', document.title, window.location.pathname);
+    if (/^\/catalog\/group\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/group\/[0-9]+).*$/i, '$1') + url;
     }
+    if (/^\/catalog\/maker\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/maker\/[0-9]+).*$/i, '$1') + url;
+    }
+    // добавляем запись в window.history
+    history.pushState(null, null, pathname);
 }
 
+/*
+ * Функция обрабатывет клики по иконкам «+» и «-» в меню каталога, левая колонка
+ */
 function menuClickHandler(event) {
     event.stopPropagation();
     var id = $(this).data('id');
@@ -663,6 +704,9 @@ function menuClickHandler(event) {
     });
 }
 
+/*
+ * Функция отвечает за удаление товаров из сравнения в правой колонке
+ */
 function removeSideCompareHandler() {
     /*
      * Удаление товара из сравнения в правой колонке

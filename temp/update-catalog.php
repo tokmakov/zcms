@@ -33,6 +33,10 @@ parseXML($register);
 updateTempTables($register);
 checkImages($register);
 checkFiles($register);
+checkCerts($register);
+removeOldImages($register);
+removeOldFiles($register);
+removeOldCerts($register);
 updateWorkTables($register);
 clearTmpTables($register);
 // если включена балансировка нагрузки, даем немного времени для
@@ -354,41 +358,62 @@ function parseXML($register) {
         if (is_file('files/catalog/src/imgs/'.$name.'.gif')) {
             $data['image'] = $name.'.gif';
         }
-        /*
-        // ЭТОТ КОД ПОТОМ УДАЛИТЬ
+
+        // ЭТОТ КОД ПОТОМ УДАЛИТЬ! Он работает, когда надо первый раз скопировать все файлы из
+        // files/catalog/src/tmp (где они хранятся в виде 001001.jpg, 001003.png) в папку
+        // files/catalog/src/imgs, где они уже будут рпзложены по подпапкам 0, 1, 2, ..., E, F:
+        // A/B/AB1F2BB8D42F087E0842CFED213CEBFD.jpg
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name;
         $image = false;
         $data['image'] = '';
         if (is_file('files/catalog/src/tmp/'.$data['code'].'.jpeg')) {
             $name = $name . '.jpeg';
-            copy('files/catalog/src/tmp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
+            if (!is_file('files/catalog/src/imgs/'.$name)) {
+                copy('files/catalog/src/tmp/'.$data['code'].'.jpeg', 'files/catalog/src/imgs/'.$name);
+            }
             $image = true;
         }
         if (is_file('files/catalog/src/tmp/'.$data['code'].'.jpg')) {
             $name = $name . '.jpg';
-            copy('files/catalog/src/tmp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
+            if (!is_file('files/catalog/src/imgs/'.$name)) {
+                copy('files/catalog/src/tmp/'.$data['code'].'.jpg', 'files/catalog/src/imgs/'.$name);
+            }
             $image = true;
         }
         if (is_file('files/catalog/src/tmp/'.$data['code'].'.png')) {
             $name = $name . '.png';
-            copy('files/catalog/src/tmp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
+            if (!is_file('files/catalog/src/imgs/'.$name)) {
+                copy('files/catalog/src/tmp/'.$data['code'].'.png', 'files/catalog/src/imgs/'.$name);
+            }
             $image = true;
         }
         if (is_file('files/catalog/src/tmp/'.$data['code'].'.gif')) {
             $name = $name . '.gif';
-            copy('files/catalog/src/tmp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
+            if (!is_file('files/catalog/src/imgs/'.$name)) {
+                copy('files/catalog/src/tmp/'.$data['code'].'.gif', 'files/catalog/src/imgs/'.$name);
+            }
             $image = true;
         }
         if ($image) {
             $data['image'] = $name;
         }
-        */
+
         // фото
         /*
+        // Я здесь исхожу из предпосылки, что файлы изображений будут храниться в папке на сервере
+        // ТИНКО, эта папка будет синхонизироваться с папкой на сервере files/catalog/src/imgs. Если
+        // файл изображения товара был изменен в 1С, у него будет новое имя. При работе этого скрипта
+        // файлы из папки files/catalog/src/imgs обрабатываются (изменяется размер) и копируются в
+        // папки files/catalog/imgs/big, files/catalog/imgs/medium, files/catalog/imgs/small.
+        // ВАЖНО! Имя файла, получаемое из 1С, должно быть AB1F2BB8D42F087E0842CFED213CEBFD.jpeg, т.е.
+        // 1. AB1F2BB8D42F087E0842CFED213CEBFD - 32 символа
+        // 2. точка
+        // 3. jpeg, jpg, png, gif
         $data['image'] = '';
         if (!empty($product->image)) {
             $temp = $product->image;
+            // теперь имя файла будет A/B/AB1F2BB8D42F087E0842CFED213CEBFD.jpeg
             $data['image'] = $temp[0] . '/' . $temp[1] . '/' . $temp;
         }
         */
@@ -1021,7 +1046,8 @@ function updateTempTables($register) {
                       `id` = :id";
         $register->database->execute($query, $data);
     }
-    // если у каких-то товаров изменились фото
+    // если у каких-то товаров изменились фото; я здесь исхожу из предположения, что при изменении
+    // фотографии товара в 1С, изменяется имя файла изображения
     $query = "SELECT
                   `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`image` AS `new`, `b`.`image` AS `old`
               FROM
@@ -1304,23 +1330,30 @@ function updateTempTables($register) {
      * ФАЙЛЫ ДОКУМЕНТАЦИИ
      */
     echo 'update temp table docs'. PHP_EOL;
-    // удаляем те записи о файлах документации, которых уже нет в 1С
+    /*
+     * удаляем информацию о файлах документации, которых уже нет в 1С
+     */
     $query = "SELECT * FROM `temp_docs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_docs` WHERE 1)";
     $items = $register->database->fetchAll($query);
+    // удаляем сами файлы документации
     foreach ($items as $item) {
         if (!is_file('files/catalog/docs/'.$item['filename'])) {
             continue;
         }
         unlink('files/catalog/docs/'.$item['filename']);
     }
+    // удаляем записи о файлах в таблице БД
     $query = "DELETE FROM `temp_docs` WHERE `code` NOT IN (SELECT `code` FROM `tmp_docs` WHERE 1)";
     $register->database->execute($query);
-    // добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+    /*
+     * добавляем новые записи: которые уже есть в 1С, но еще нет на сайте
+     */
     $query = "SELECT * FROM `tmp_docs` WHERE `code` NOT IN (SELECT `code` FROM `temp_docs` WHERE 1)";
     $docs = $register->database->fetchAll($query);
     foreach ($docs as $doc) {
         $src = 'files/catalog/src/docs/'.$doc['filename'];
         if (!is_file($src)) {
+            file_put_contents('temp/errors.txt', 'Файл документации '.$src.' не существует'.PHP_EOL, FILE_APPEND);
             $register->database->execute("DELETE FROM `tmp_docs` WHERE `code` = :code", array('code' => $doc['code']));
             $register->database->execute("DELETE FROM `tmp_doc_prd` WHERE `doc_code` = :code", array('code' => $doc['code']));
             continue;
@@ -1569,6 +1602,21 @@ function checkFiles($register) {
     }
 }
 
+function checkCerts($register) {
+    $query = "SELECT `id`, `filename`, `count`, `code` FROM `temp_certs` WHERE 1";
+    $items = $register->database->fetchAll($query);
+    foreach ($items as $item) {
+        if (is_file('files/catalog/cert/' . $item['filename'])) {
+            continue;
+        }
+        file_put_contents('temp/errors.txt', 'Файл сертифтката '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        $query = "DELETE FROM `temp_certs` WHERE `id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+        $query = "DELETE FROM `temp_cert_prod` WHERE `cert_id` = :id";
+        $register->database->execute($query, array('id' => $item['id']));
+    }
+}
+
 function removeOldImages($register) {
     $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
     foreach ($dirs as $dir1) {
@@ -1620,6 +1668,57 @@ function removeOldFiles($register) {
                         unlink('files/catalog/docs/' . $dir1 . '/' . $dir2 . '/' . $file);
                         */
                         file_put_contents('temp/remove.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
+        }
+    }
+}
+
+function removeOldCerts($register) {
+    $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+    foreach ($dirs as $dir1) {
+        foreach($dirs as $dir2) {
+            $dir = 'files/catalog/cert/' . $dir1 . '/' . $dir2;
+            if (is_dir($dir)) {
+                $files = scandir($dir);
+                foreach ($files as $file) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $filename = $dir1 . '/' . $dir2 . '/' . $file;
+                    // потому что в цикле мы удаляем вторую, третью и т.п. страницы сертификата;
+                    // в массиве, который мы перебираем, он еще есть, но на одной из предыдущих
+                    // итераций сам файл ужу был удален
+                    if (!is_file('files/catalog/cert/' . $filename)) { 
+                        continue;
+                    }
+                    if (strlen($file) > 36) {
+                        // если вдруг сохранилась вторая, третья и т.п. страницы сертификата, но не
+                        // сохранилась первая, удаляем эти страницы
+                        if (!is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . substr($file, 0, 32) . '.jpg')) {
+                            /*
+                            unlink('files/catalog/cert/' . $filename);
+                            */
+                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $filename . ' (нет первой страницы)' . PHP_EOL, FILE_APPEND); 
+                        }
+                        continue;
+                    }
+                    $query = "SELECT 1 FROM `temp_certs` WHERE `filename` = :filename";
+                    $result = $register->database->fetchOne($query, array('filename' => $filename));
+                    if (false === $result) {
+                        /*
+                        unlink('files/catalog/cert/' . $filename);
+                        */
+                        file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $filename . ', страница 1' .PHP_EOL, FILE_APPEND);
+                        // удаляем остальные страницы сертификата
+                        $i = 1;
+                        while(is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg')) {
+                            /*
+                            unlink('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg');
+                            */
+                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg'. ', страница ' . ($i+1) . PHP_EOL, FILE_APPEND); 
+                        }
                     }
                 }
             }

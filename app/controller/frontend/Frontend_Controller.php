@@ -77,7 +77,7 @@ abstract class Frontend_Controller extends Base_Controller {
      * экземпляр класса модели для работы со страницами сайта
      */
     protected $pageFrontendModel;
-    
+
     /**
      * экземпляр класса модели для работы с рейтингом продаж
      */
@@ -220,10 +220,16 @@ abstract class Frontend_Controller extends Base_Controller {
             'searchUrl'   => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
             // URL ссылки на страницу корзины
             'basketUrl'   => $this->basketFrontendModel->getURL('frontend/basket/index'),
+            // количество товаров в корзине
+            'basketCount' => $this->basketFrontendModel->getBasketCount(),
             // URL ссылки на страницу личного кабинета
             'userUrl'     => $this->userFrontendModel->getURL('frontend/user/index'),
+            // пользователь авторизован?
+            'authUser'    => $this->authUser,
             // URL ссылки на страницу отложенных товаров
             'wishedUrl'   => $this->wishedFrontendModel->getURL('frontend/wished/index'),
+            // количество отложенных товаров
+            'wishedCount' => $this->wishedFrontendModel->getWishedCount(),
             // URL ссылки на страницу сравнения товаров
             'compareUrl'  => $this->compareFrontendModel->getURL('frontend/compare/index'),
             // URL ссылки на страницу просмотренных товаров
@@ -243,7 +249,7 @@ abstract class Frontend_Controller extends Base_Controller {
 
         // список производителей (для левой колонки)
         $makers = $this->makerCatalogFrontendModel->getMakers(10);
-        
+
         // список функциональных групп (для левой колонки)
         $groups = $this->groupCatalogFrontendModel->getGroups(10);
 

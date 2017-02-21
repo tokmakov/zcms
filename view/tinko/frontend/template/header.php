@@ -7,8 +7,11 @@
  * $indexUrl - URL ссылки на главную страницу сайта
  * $searchUrl - URL ссылки на страницу поиска по каталогу товаров
  * $basketUrl - URL ссылки на страницу с корзиной
+ * $basketCount - количество товаров в корзине
  * $userUrl - URL ссылки на страницу личного кабинета
+ * $authUser - пользователь авторизован?
  * $wishedUrl - URL ссылки на страницу отложенных товаров
+ * $wishedCount - количество отложенных товаров
  * $compareUrl - URL ссылки на страницу сравнения товаров
  * $viewedUrl - URL ссылки на страницу просмотренных товаров
  */
@@ -42,15 +45,15 @@ defined('ZCMS') or die('Access denied');
 
 <div id="top-menu">
     <a href="<?php echo $basketUrl; ?>" title="Ваша корзина">
-        <i class="fa fa-shopping-basket"></i>&nbsp;
+        <i class="fa fa-shopping-basket<?php if ($basketCount) echo ' selected'; ?>"></i>&nbsp;
         <span>Ваша корзина</span><span>Корзина</span>
     </a>
     <a href="<?php echo $userUrl; ?>" title="Личный кабинет">
-        <i class="fa fa-user"></i>&nbsp;
+        <i class="fa fa-user<?php if ($authUser) echo ' selected'; ?>"></i>&nbsp;
         <span>Личный кабинет</span><span>Кабинет</span>
     </a>
     <a href="<?php echo $wishedUrl; ?>" title="Отложенные товары">
-        <i class="fa fa-star"></i>&nbsp;
+        <i class="fa fa-star<?php if ($wishedCount) echo ' selected'; ?>"></i>&nbsp;
         <span>Избранное</span><span>Избранное</span>
     </a>
     <a href="<?php echo $compareUrl; ?>" title="Сравнение товаров">

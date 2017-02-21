@@ -5,7 +5,7 @@ defined('ZCMS') or die('Access denied');
  * JS файлы, подключаемые к странице;
  * см. файл app/config/config.php
  */
-$js = array(                                     
+$js = array(
     'frontend' => array(                         // общедоступная часть сайта
         'base'            => array(              // js-файлы, подключаемые ко всем страницам
             'jquery-2.1.1.min.js',
@@ -31,7 +31,6 @@ $js = array(
         ),
         'brand'           => 'brand.js',         // бренды
         'catalog'         => array(              // каталог товаров
-            'reload.js',
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
@@ -58,7 +57,7 @@ $js = array(
         'user'            => array(              // личный кабинет
             'https://dadata.ru/static/js/lib/jquery.suggestions-16.1.min.js',
             'user.js',
-        ), 
+        ),
         'wished'          => 'wished.js',        // избранное (отложенные товары)
         'page-40'         => array(              // для страницы «Контакты»
             'tabs.js',
