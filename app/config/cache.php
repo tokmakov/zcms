@@ -24,7 +24,7 @@ defined('ZCMS') or die('Access denied');
 // см. файл app/config/config.php
 $cache = array(
     'enable' => array(
-        'data' => true,          // кэширование данных разрешено?
+        'data' => true,           // кэширование данных разрешено?
         'html' => false,          // кэширование шаблонов разрешено?
     ),
     'file'   => array(           // кэширование с использованием файлов

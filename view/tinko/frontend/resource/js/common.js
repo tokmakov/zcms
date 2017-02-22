@@ -226,10 +226,82 @@ $(document).ready(function() {
      * Отслеживаем события нажатия кнопок «Назад» и «Вперед» в браузере
      */
     window.addEventListener('popstate', function(e) {
-        // TODO: не загружать страницу целиком, а только отправлять данные формы
-        // фильтров; данные формы сохранять в queryString и передавать первым
-        // аргументом history.pushState({'query': queryString}, null, url)
-        window.location.replace(document.location);
+        $.ajax({
+            url: window.location,
+            beforeSend: function() {
+                /*
+                 * перед отправкой формы добавляем оверлей для трех блоков
+                 */
+                // первый блок: дочерние категории текущей категории
+                var childs = $('#category-childs > div:last-child');
+                if (childs.length > 0) {
+                    $('<div></div>')
+                        .prependTo(childs)
+                        .addClass('overlay')
+                        .height(childs.height())
+                        .width(childs.width());
+                }
+                // второй блок: фильтр по функционалу, производителю и параметрам
+                var filter = $('#catalog-filter > div:last-child');
+                $('<div></div>')
+                    .prependTo(filter)
+                    .addClass('overlay')
+                    .height(filter.height())
+                    .width(filter.width());
+                // третий блок: товары выбранной категории
+                var products = $('#catalog-products');
+                $('<div></div>')
+                    .prependTo(products)
+                    .addClass('products-overlay')
+                    .height(products.height())
+                    .width(products.width());
+            },
+            success: function(data) {
+                /*
+                 * получен ответ от сервера, вставляем содержимое трех блоков
+                 */
+                // удаляем три overlay
+                $('.overlay, .products-overlay').remove();
+                // первый блок: дочерние категории текущей категории
+                $('#category-childs > div:last-child').html(data.childs);
+                // второй блок: фильтр по функционалу, производителю и параметрам
+                $('#catalog-filter form > div:first-child').html(data.filter);
+                $('#catalog-filter form select option:selected:not(:first-child)').closest('select').css('border', '1px solid #ff6d00');
+                $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
+                // третий блок: товары выбранной категории
+                $('#catalog-products').html(data.products);
+
+                // ссылка для сброса фильтра
+                var showClearFilter = true;
+                if (/^\/catalog\/category\/[0-9]+$/i.test(window.location.pathname)) {
+                    showClearFilter = false;
+                }
+                if (/^\/catalog\/group\/[0-9]+$/i.test(window.location.pathname)) {
+                    showClearFilter = false;
+                }
+                if (/^\/catalog\/maker\/[0-9]+$/i.test(window.location.pathname)) {
+                    showClearFilter = false;
+                }
+                if (showClearFilter) {
+                    $('#catalog-filter > div:first-child > span:first-child > a').show();
+                } else {
+                    $('#catalog-filter > div:first-child > span:first-child > a').hide();
+                }
+
+                // обработчики событий для второго блока: выбор функциональной группы,
+                // производителя, параметров подбора, фильтр по нивинкам и лидерам продаж
+                $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
+                $('#catalog-filter form i').click(function() {
+                    var select = $(this).prev().children('select');
+                    select.find('option:selected').prop('selected', false);
+                    select.change();
+                });
+                // для третьего блока (товары после фильтрации) назначаем обработчики
+                // событий добавления товара в корзину, к сравнению, в избранное
+                addBasketHandler();
+            },
+            dataType: 'json'
+        });
     });
 });
 

@@ -13,10 +13,6 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
 
 
     public function __construct($params = null) {
-        if ( ! $this->isPostMethod()) {
-            header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-            die();
-        }
         parent::__construct($params);
     }
 
@@ -29,7 +25,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         } else {
             $this->params['id'] = (int)$this->params['id'];
         }
-        
+
         // получаем от модели информацию о производителе
         $maker = $this->makerCatalogFrontendModel->getMaker($this->params['id']);
         // если запрошенный производитель не найден в БД
@@ -42,6 +38,23 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         // новинкам, параметрам; сортировка
         list($group, $hit, $new, $param, $sort) = $this->processFormData();
 
+        /*
+         * Когда пользователь выбирает производителя, параметры подбора, включает
+         * фильтр по новинкам или лидерам продаж, данные отправляются методом POST
+         * по событию change элементов формы.
+         * Когда пользователь нажимает кнопки «Назад» и «Вперед» в браузере, данные
+         * отправляются методом GET по событию popstate, см. описание window.history.
+         */
+        if ($this->isPostMethod()) {
+            // если данные отправлены методом POST, получаем данные из формы: фильтр
+            // по функционалу, лидерам продаж, новинкам, параметрам и сортировка
+            list($group, $hit, $new, $param, $sort) = $this->processFormData();
+        } else {
+            // если данные отправлены методом GET, получаем данные из URL: фильтр
+            // по функционалу, лидерам продаж, новинкам, параметрам и сортировка
+            list($group, $hit, $new, $param, $sort) = $this->processUrlData();
+        }
+
         // получаем от модели массив функциональных групп
         $groups = $this->makerCatalogFrontendModel->getMakerGroups(
             $this->params['id'],
@@ -50,7 +63,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $new,
             $param
         );
-        
+
         // получаем от модели массив всех параметров подбора
         $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
@@ -182,12 +195,12 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
     }
 
     /**
-     * Вспомогательная функция, проводит первичную обработку данных формы
+     * Вспомогательная функция, получает необходимые данные из формы
      */
     private function processFormData() {
 
         $group = 0; // функционал
-        if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
+        if (isset($_POST['group']) && ctype_digit($_POST['group'])) {
             $group = (int)$_POST['group'];
         }
 
@@ -200,7 +213,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         if (isset($_POST['new'])) {
             $new = 1;
         }
-        
+
         $param = array(); // параметры подбора
         if ($group && isset($_POST['param'])) {
             foreach ($_POST['param'] as $key => $value) {
@@ -226,6 +239,52 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             && in_array($_POST['sort'], array(1,2,3,4,5,6))
         ) {
             $sort = (int)$_POST['sort'];
+        }
+
+        return array($group, $hit, $new, $param, $sort);
+
+    }
+
+    /**
+     * Вспомогательная функция, получает необходимые данные из URL
+     */
+    private function processUrlData() {
+
+        $group = 0; // функционал
+        if (isset($this->params['group']) && ctype_digit($this->params['group'])) {
+            $group = (int)$this->params['group'];
+        }
+        $hit = 0; // лидер продаж
+        if (isset($this->params['hit']) && 1 == $this->params['hit']) {
+            $hit = 1;
+        }
+        $new = 0; // новинка
+        if (isset($this->params['new']) && 1 == $this->params['new']) {
+            $new = 1;
+        }
+
+        $param = array(); // параметры подбора
+        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
+            $temp = explode('-', $this->params['param']);
+            foreach ($temp as $item) {
+                $tmp = explode('.', $item);
+                $key = (int)$tmp[0];
+                $value = (int)$tmp[1];
+                $param[$key] = $value;
+            }
+            // проверяем корректность переданных параметров и значений
+            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
+                header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+                die();
+            }
+        }
+
+        $sort = 0; // сортировка
+        if (isset($this->params['sort'])
+            && ctype_digit($this->params['sort'])
+            && in_array($this->params['sort'], array(1,2,3,4,5,6))
+        ) {
+            $sort = (int)$this->params['sort'];
         }
 
         return array($group, $hit, $new, $param, $sort);
