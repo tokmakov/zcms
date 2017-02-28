@@ -11,6 +11,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
      */
     private $output;
 
+
     public function __construct($params = null) {
         parent::__construct($params);
     }
@@ -107,6 +108,12 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         /*
          * постраничная навигация
          */
+        $page = 1;
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
+            $page = (int)$this->params['page'];
+        }
+        // общее кол-во товаров категории с учетом фильтров по функционалу, производителю,
+        // параметрам подбора, лидерам продаж и новинкам
         $totalProducts = $this->categoryCatalogFrontendModel->getCountCategoryProducts( // общее кол-во товаров
             $this->params['id'],
             $group,
@@ -115,32 +122,36 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $new,
             $param
         );
-        $pager = null;
-        if ($totalProducts > $this->config->pager->frontend->products->perpage) {
-            // URL этой страницы
-            $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
-                $this->params['id'],
-                $group,
-                $maker,
-                $hit,
-                $new,
-                $param,
-                $sort
-            );
-            $temp = new Pager(
-                $thisPageURL,                                       // URL этой страницы
-                1,                                                  // текущая страница
-                $totalProducts,                                     // общее кол-во товаров
-                $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
-                $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
-            );
-            $pager = $temp->getNavigation();
-            if (false === $pager) { // постраничная навигация не нужна
-                $pager = null;
-            }
+        // URL этой страницы
+        $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
+            $this->params['id'],
+            $group,
+            $maker,
+            $hit,
+            $new,
+            $param,
+            $sort
+        );
+        $temp = new Pager(
+            $thisPageURL,                                       // URL этой страницы
+            $page,                                              // текущая страница
+            $totalProducts,                                     // общее кол-во товаров
+            $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
+            $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
+        );
+        $pager = $temp->getNavigation();
+        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
+            $this->notFoundRecord = true;
+            return;
         }
+        if (false === $pager) { // постраничная навигация не нужна
+            $pager = null;
+        }
+        // стартовая позиция для SQL-запроса
+        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
-        // получаем от модели массив товаров категории
+        // получаем от модели массив товаров категории с учетом фильтров по функционалу,
+        // производителю, параметрам подбора, лидерам продаж и новинкам
         $products = $this->categoryCatalogFrontendModel->getCategoryProducts(
             $this->params['id'],
             $group,
@@ -149,13 +160,13 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $new,
             $param,
             $sort,
-            0
+            $start
         );
 
         // единицы измерения товара
         $units = $this->categoryCatalogFrontendModel->getUnits();
 
-        // ссылки для сортировки товаров по цене, наменованию, коду
+        // ссылки для сортировки товаров по цене, наименованию, коду
         $sortorders = $this->categoryCatalogFrontendModel->getCategorySortOrders(
             $this->params['id'],
             $group,
@@ -171,29 +182,30 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $view = 'grid';
         }
 
-        // формируем HTML результатов фильтрации товаров
+        // формируем HTML результатов фильтрации товаров, три html-блока:
+        // дочерние категории, подбор по параметрам, список товаров
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/category.php',
             array(
-                'id'          => $this->params['id'],       // id категории
-                'view'        => $view,                     // представление списка товаров
-                'childs'      => $childs,                   // массив дочерних категорий
-                'group'       => $group,                    // id выбранной функциональной группы или ноль
-                'maker'       => $maker,                    // id выбранного производителя или ноль
-                'hit'         => $hit,                      // показывать только лидеров продаж?
-                'countHit'    => $countHit,                 // количество лидеров продаж
-                'new'         => $new,                      // показывать только новинки?
-                'countNew'    => $countNew,                 // количество новинок
-                'param'       => $param,                    // массив выбранных параметров подбора
-                'groups'      => $groups,                   // массив функциональных групп
-                'makers'      => $makers,                   // массив производителей
-                'params'      => $params,                   // массив всех параметров подбора
-                'sort'        => $sort,                     // выбранная сортировка
-                'sortorders'  => $sortorders,               // массив вариантов сортировки
-                'units'       => $units,                    // массив единиц измерения товара
-                'products'    => $products,                 // массив товаров категории
-                'pager'       => $pager,                    // постраничная навигация
-                'page'        => 1,                         // текущая страница
+                'id'          => $this->params['id'], // уникальный идентификатор категории
+                'view'        => $view,               // представление списка товаров: линейный или плитка
+                'childs'      => $childs,             // массив дочерних категорий
+                'group'       => $group,              // id выбранной функциональной группы или ноль
+                'maker'       => $maker,              // id выбранного производителя или ноль
+                'hit'         => $hit,                // показывать только лидеров продаж?
+                'countHit'    => $countHit,           // количество лидеров продаж
+                'new'         => $new,                // показывать только новинки?
+                'countNew'    => $countNew,           // количество новинок
+                'param'       => $param,              // массив выбранных параметров подбора
+                'groups'      => $groups,             // массив функциональных групп выбранной категории
+                'makers'      => $makers,             // массив производителей выбранной категории
+                'params'      => $params,             // массив всех параметров подбора
+                'sort'        => $sort,               // выбранная сортировка или ноль
+                'sortorders'  => $sortorders,         // массив всех вариантов сортировки
+                'units'       => $units,              // массив единиц измерения товара
+                'products'    => $products,           // массив товаров категории с учетом фильтров
+                'pager'       => $pager,              // постраничная навигация
+                'page'        => $page,               // текущая страница
             )
         );
         $output = explode('¤', $output);

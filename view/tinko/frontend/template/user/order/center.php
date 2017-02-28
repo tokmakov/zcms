@@ -89,7 +89,7 @@ defined('ZCMS') or die('Access denied');
 <div id="user-order">
     <p>
         <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
-        <span>Итого: <strong><?php echo number_format($order['user_amount'], 2, '.', ' '); ?></strong> руб.</span>
+        <span>Итого: <strong><?php echo $order['user_amount'] > 1000000 ? round(($order['user_amount']/1000000),1).' млн.' : number_format($order['user_amount'], 2, '.', ' '); ?></strong> руб.</span>
     </p>
     <table>
         <tr>
@@ -105,7 +105,7 @@ defined('ZCMS') or die('Access denied');
                <td><?php echo $product['name']; ?></td>
                <td><?php echo $product['quantity']; ?></td>
                <td><?php echo number_format($product['user_price'], 2, '.', ''); ?></td>
-               <td><?php echo number_format($product['user_cost'], 2, '.', ''); ?></td>
+               <td><?php echo $product['user_cost'] > 1000000 ? round(($product['user_cost']/1000000),1).' млн.' : number_format($product['user_cost'], 2, '.', ''); ?></td>
            </tr>
         <?php endforeach; ?>
         <?php if (($order['amount'] - $order['user_amount']) > 0.01): ?>
@@ -113,7 +113,7 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </table>
 
-    <?php if (empty($order['buyer_surname'])): /* Этот код потом удалить, только для заказов из Magento */ ?>
+    <?php if (empty($order['buyer_surname'])): /* TODO: этот код потом удалить, только для заказов из Magento */ ?>
         </div>
         <?php return; ?>
     <?php endif; ?>

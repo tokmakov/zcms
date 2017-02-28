@@ -5,11 +5,12 @@
  * сайта
  */
 abstract class Partner_Frontend_Controller extends Frontend_Controller {
-    
+
     /**
      * экземпляр класса модели для работы с партнерами компании
      */
     protected $partnerFrontendModel;
+
 
     public function __construct($params = null) {
 
@@ -18,9 +19,9 @@ abstract class Partner_Frontend_Controller extends Frontend_Controller {
         // экземпляр класса модели для работы с партнерами компании
         $this->partnerFrontendModel =
             isset($this->register->partnerFrontendModel) ? $this->register->partnerFrontendModel : new Partner_Frontend_Model();
-            
+
     }
-    
+
     /**
      * Функция получает из настроек и от моделей данные, необходимые для
      * работы всех потомков класса Partner_Frontend_Controller
@@ -40,7 +41,7 @@ abstract class Partner_Frontend_Controller extends Frontend_Controller {
         $this->title = $this->config->meta->partner->title;
         $this->keywords = $this->config->meta->partner->keywords;
         $this->description = $this->config->meta->partner->description;
-        
+
     }
 
 }

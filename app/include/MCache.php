@@ -1,7 +1,8 @@
 <?php
 /**
- * Класс MCache для кэширования данных с использованием кеширующего
- * демона Memcached, реализует шаблон проектирования «Одиночка»
+ * Класс MCache для кэширования данных с использованием демона Memcached (http://memcached.org/),
+ * реализует шаблон проектирования «Одиночка»; для работы класса необходимо установить расширение
+ * memcache (http://php.net/manual/ru/book.memcache.php)
  */
 class MCache {
 
@@ -45,7 +46,7 @@ class MCache {
      * проектирования «Одиночка»
      */
     private function __construct() {
-        // установлено расширение php для работы с сервером Memcached?
+        // установлено php-расширение memcache для работы с сервером Memcached?
         if ( ! class_exists('Memcache', false)) {
             throw new Exception('Расширение Memcache не установлено');
         }
@@ -143,6 +144,7 @@ class MCache {
     public function clearCache() {
         $this->memcache->flush();
     }
-    
+
     private function __clone() {}
+
 }

@@ -9,7 +9,7 @@ $(document).ready(function() {
      * Поиск по каталогу в шапке сайта
      */
     $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
             $('#top-search > form').ajaxSubmit({
@@ -34,7 +34,7 @@ $(document).ready(function() {
      * Поиск функциональной группы
      */
     $('#all-groups > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#all-groups > form > div').html('<div class="ajax-group-loader"></div>');
             $('#all-groups > form > div > div').show();
             $('#all-groups > form').ajaxSubmit({
@@ -59,7 +59,7 @@ $(document).ready(function() {
      * Поиск производителя
      */
     $('#all-makers > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#all-makers > form > div').html('<div class="ajax-maker-loader"></div>');
             $('#all-makers > form > div > div').show();
             $('#all-makers > form').ajaxSubmit({
@@ -273,13 +273,7 @@ $(document).ready(function() {
 
                 // ссылка для сброса фильтра
                 var showClearFilter = true;
-                if (/^\/catalog\/category\/[0-9]+$/i.test(window.location.pathname)) {
-                    showClearFilter = false;
-                }
-                if (/^\/catalog\/group\/[0-9]+$/i.test(window.location.pathname)) {
-                    showClearFilter = false;
-                }
-                if (/^\/catalog\/maker\/[0-9]+$/i.test(window.location.pathname)) {
+                if (/^\/catalog\/(category|group|maker)\/[0-9]+$/i.test(window.location.pathname)) {
                     showClearFilter = false;
                 }
                 if (showClearFilter) {

@@ -94,8 +94,8 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = (int)$this->params['page'];
         }
-        // общее кол-во товаров производителя с учетом фильтров по функционалу,
-        // лидерам продаж и новинкам
+        // общее кол-во товаров функциональной группы с учетом фильтров по производителю,
+        // параметрам подбора, лидерам продаж и новинкам
         $totalProducts = $this->groupCatalogFrontendModel->getCountGroupProducts(
             $this->params['id'],
             $maker,
@@ -127,8 +127,11 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         if (false === $pager) { // постраничная навигация не нужна
             $pager = null;
         }
+        // стартовая позиция для SQL-запроса
+        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
-        // получаем от модели массив всех товаров функциональной группы
+        // получаем от модели массив всех товаров функциональной группы с учетом
+        // фильтров по производителю, параметрам подбора, лидерам продаж и новинкам
         $products = $this->groupCatalogFrontendModel->getGroupProducts(
             $this->params['id'],
             $maker,
@@ -136,13 +139,13 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $new,
             $param,
             $sort,
-            0
+            $start
         );
 
         // единицы измерения товара
         $units = $this->groupCatalogFrontendModel->getUnits();
 
-        // ссылки для сортировки товаров по цене, наменованию, коду
+        // ссылки для сортировки товаров по цене, наименованию, коду
         $sortorders = $this->groupCatalogFrontendModel->getGroupSortOrders(
             $this->params['id'],
             $maker,
@@ -161,8 +164,8 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/group.php',
             array(
-                'id'          => $this->params['id'], // id функциональной группы
-                'name'        => $maker['name'],      // название функциональной группы
+                'id'          => $this->params['id'], // уникальны идентификатор функциональной группы
+                'name'        => $maker['name'],      // название функциональной группы: линейный или плитка
                 'view'        => $view,               // представление списка товаров
                 'maker'       => $maker,              // id выбранного производителя или ноль
                 'makers'      => $makers,             // массив всех производителей
@@ -172,12 +175,12 @@ class Xhr_Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'countNew'    => $countNew,           // количество новинок
                 'param'       => $param,              // массив выбранных параметров подбора
                 'params'      => $params,             // массив всех параметров подбора
-                'sort'        => $sort,               // выбранная сортировка
+                'sort'        => $sort,               // выбранная сортировка или ноль
                 'sortorders'  => $sortorders,         // массив вариантов сортировки
                 'units'       => $units,              // массив единиц измерения товара
-                'products'    => $products,           // массив товаров категории
+                'products'    => $products,           // массив товаров функциональной группы с учетом фильтров
                 'pager'       => $pager,              // постраничная навигация
-                'page'        => 1,                   // текущая страница
+                'page'        => $page,               // текущая страница
             )
         );
         $output = explode('¤', $output);

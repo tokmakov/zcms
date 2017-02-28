@@ -34,10 +34,6 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             die();
         }
 
-        // обрабатываем данные формы: фильтр по функционалу, лидерам продаж,
-        // новинкам, параметрам; сортировка
-        list($group, $hit, $new, $param, $sort) = $this->processFormData();
-
         /*
          * Когда пользователь выбирает производителя, параметры подбора, включает
          * фильтр по новинкам или лидерам продаж, данные отправляются методом POST
@@ -94,7 +90,13 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         /*
          * постраничная навигация
          */
-        $totalProducts = $this->makerCatalogFrontendModel->getCountMakerProducts( // общее кол-во товаров
+        $page = 1;
+        if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
+            $page = (int)$this->params['page'];
+        }
+        // общее кол-во товаров производителя с учетом фильтров по функционалу,
+        // параметрам подбора, лидерам продаж и новинкам
+        $totalProducts = $this->makerCatalogFrontendModel->getCountMakerProducts(
             $this->params['id'],
             $group,
             $hit,
@@ -111,9 +113,9 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $sort
         );
         $temp = new Pager(
-            $thisPageURL,   // URL этой страницы
-            1,              // текущая страница
-            $totalProducts, // общее кол-во товаров
+            $thisPageURL,                                       // URL этой страницы
+            $page,                                              // текущая страница
+            $totalProducts,                                     // общее кол-во товаров
             $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
@@ -121,8 +123,11 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         if (false === $pager) { // постраничная навигация не нужна
             $pager = null;
         }
+        // стартовая позиция для SQL-запроса
+        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
 
-        // получаем от модели массив товаров производителя
+        // получаем от модели массив товаров производителя с учетом фильтров
+        // по функционалу, параметрам подбора, лидерам продаж и новинкам
         $products = $this->makerCatalogFrontendModel->getMakerProducts(
             $this->params['id'],
             $group,
@@ -130,13 +135,13 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $new,
             $param,
             $sort,
-            0
+            $start
         );
 
         // единицы измерения товара
         $units = $this->makerCatalogFrontendModel->getUnits();
 
-        // ссылки для сортировки товаров по цене, наменованию, коду
+        // ссылки для сортировки товаров по цене, наименованию, коду
         $sortorders = $this->makerCatalogFrontendModel->getMakerSortOrders(
             $this->params['id'],
             $group,
@@ -155,9 +160,9 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/maker.php',
             array(
-                'id'          => $this->params['id'], // id производителя
+                'id'          => $this->params['id'], // уникальный идентификатор производителя
                 'name'        => $maker['name'],      // название производителя
-                'view'        => $view,               // представление списка товаров
+                'view'        => $view,               // представление списка товаров: линейный или плитка
                 'group'       => $group,              // id выбранной функциональной группы или ноль
                 'hit'         => $hit,                // показывать только лидеров продаж?
                 'countHit'    => $countHit,           // количество лидеров продаж
@@ -166,12 +171,12 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'param'       => $param,              // массив выбранных параметров подбора
                 'groups'      => $groups,             // массив функциональных групп
                 'params'      => $params,             // массив всех параметров подбора
-                'sort'        => $sort,               // выбранная сортировка
+                'sort'        => $sort,               // выбранная сортировка или ноль
                 'sortorders'  => $sortorders,         // массив вариантов сортировки
                 'units'       => $units,              // массив единиц измерения товара
-                'products'    => $products,           // массив товаров категории
+                'products'    => $products,           // массив товаров производителя с учетом фильтров
                 'pager'       => $pager,              // постраничная навигация
-                'page'        => 1,                   // текущая страница
+                'page'        => $page,               // текущая страница
             )
         );
         $output = explode('¤', $output);

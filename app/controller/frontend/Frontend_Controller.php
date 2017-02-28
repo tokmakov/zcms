@@ -11,11 +11,6 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $robots = true;
 
     /**
-     * уникальный идентификатор посетителя сайта
-     */
-    protected $visitorId;
-
-    /**
      * пользователь авторизован?
      */
     protected $authUser = false;
@@ -79,19 +74,9 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $pageFrontendModel;
 
     /**
-     * экземпляр класса модели для работы с рейтингом продаж
-     */
-    protected $ratingFrontendModel;
-
-    /**
      * экземпляр класса модели для работы с картой сайта
      */
     protected $sitemapFrontendModel;
-
-    /**
-     * экземпляр класса модели для работы с типовыми решениями
-     */
-    protected $solutionFrontendModel;
 
     /**
      * экземпляр класса модели для работы с пользователями
@@ -164,10 +149,6 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->sitemapFrontendModel =
             isset($this->register->sitemapFrontendModel) ? $this->register->sitemapFrontendModel : new Sitemap_Frontend_Model();
 
-        // экземпляр класса модели для работы с типовыми решениями
-        $this->solutionFrontendModel =
-            isset($this->register->solutionFrontendModel) ? $this->register->solutionFrontendModel : new Solution_Frontend_Model();
-
         // экземпляр класса модели для работы с пользователями
         $this->userFrontendModel =
             isset($this->register->userFrontendModel) ? $this->register->userFrontendModel : new User_Frontend_Model();
@@ -209,6 +190,16 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->title       = $this->config->meta->default->title;
         $this->keywords    = $this->config->meta->default->keywords;
         $this->description = $this->config->meta->default->description;
+
+        /*
+         * массив переменных, которые будут переданы в шаблон head.php
+         */
+        // этот массив еще будет дополнен элементами, см. комментарий
+        // в методе Frontend_Controller::output()
+        $this->headVars = array(
+            'cssFiles'    => $this->cssFiles,
+            'jsFiles'     => $this->jsFiles,
+        );
 
         /*
          * массив переменных, которые будут переданы в шаблон header.php
@@ -351,16 +342,17 @@ abstract class Frontend_Controller extends Base_Controller {
         /*
          * получаем html-код тега <head>
          */
+        // переменные $this->title, $this->keywords, $this->description и $this->robots,
+        // которые будут переданы в шаблон head.php, могут быть изменены в методе input()
+        // дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
+        // а не в методе Frontend_Controller::input()
+        $this->headVars['title'] = $this->title;
+        $this->headVars['keywords'] = $this->keywords;
+        $this->headVars['description'] = $this->description;
+        $this->headVars['robots'] = $this->robots;
         $this->headContent = $this->render(
             $this->headTemplateFile,
-            array(
-                'title' => $this->title,
-                'keywords' => $this->keywords,
-                'description' => $this->description,
-                'cssFiles' => $this->cssFiles,
-                'jsFiles' => $this->jsFiles,
-                'robots' => $this->robots,
-            )
+            $this->headVars
         );
 
         /*

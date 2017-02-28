@@ -66,7 +66,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/reg'),
+            'action'      => $this->userFrontendModel->getURL('frontend/user/reg'),
             // проверка на робота
             'numbers'     => array($number1, $number2),
         );

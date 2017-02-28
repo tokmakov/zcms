@@ -136,8 +136,10 @@ class Database {
         } finally {
             $this->cache->unlockValue($key);
         }
+
         // возвращаем результат
         return $data;
+
     }
 
     /**

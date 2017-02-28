@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Router анализирует строку $_SERVER['REQUEST_URI'] и позволяет
- * определить, какой контроллер должен формировать страницу сайта;
- * реализует шаблон проектирования «Одиночка»
+ * Класс Router анализирует строку $_SERVER['REQUEST_URI'] и позволяет определить,
+ * какой контроллер должен быть вызван, чтобы сформировать страницу сайта; реализует
+ * шаблон проектирования «Одиночка»
  */
 class Router {
 
@@ -160,8 +160,10 @@ class Router {
         $this->action = strtolower($matches[3]);
 
         /*
-         * Имя класса состоит из четырех частей, разделенных символом подчеркивания,
-         * например, Index_Page_Frontend_Controller или Index_Page_Frontend_Controller
+         * Имя класса контроллера состоит из четырех частей, разделенных символом подчеркивания,
+         * например, Index_Page_Frontend_Controller или Category_Catalog_Frontend_Controller;
+         * исключение составляют контроллеры, обрабатывающие запросы с использованием объекта
+         * XmlHttpRequest, например Xhr_Category_Catalog_Frontend_Controller
          */
 
         // получаем имя класса контроллера
@@ -176,6 +178,7 @@ class Router {
             return;
         }
 
+        // контроллер обрабытывает запрос с использованием XmlHttpRequest?
         if ($this->xhr) {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }

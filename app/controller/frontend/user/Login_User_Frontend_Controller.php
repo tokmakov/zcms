@@ -1,8 +1,8 @@
 <?php
 /**
- * Класс Login_User_Frontend_Controller формирует страницу с формой для
- * авторизации пользователя (если он не авторизован) или перенаправляет на
- * страницу личного кабинета, получает данные от модели User_Frontend_Model,
+ * Класс Login_User_Frontend_Controller формирует страницу с формой для авторизации
+ * пользователя (если он не авторизован) или перенаправляет на страницу личного
+ * кабинета (если он уже авторизован), получает данные от модели User_Frontend_Model,
  * общедоступная часть сайта
  */
 class Login_User_Frontend_Controller extends User_Frontend_Controller {
@@ -13,14 +13,14 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
 
         /*
          * Реализация шаблона проектирования «Наблюдатель», см. описание классов
-         * 1. User_Frontend_Model
-         * 2. Basket_Frontend_Model
-         * 3. Wished_Frontend_Model
-         * 4. Compare_Frontend_Model
-         * 5. Viewed_Frontend_Model
+         *   1. User_Frontend_Model (файл app/model/fromtend/User_Frontend_Model.php)
+         *   2. Basket_Frontend_Model (файл app/model/fromtend/Basket_Frontend_Model.php)
+         *   3. Wished_Frontend_Model (файл app/model/fromtend/Wished_Frontend_Model.php)
+         *   4. Compare_Frontend_Model (файл app/model/fromtend/Compare_Frontend_Model.php)
+         *   5. Viewed_Frontend_Model (файл app/model/fromtend/Viewed_Frontend_Model.php)
          * и описание интерфейсов
-         * 1. SplSubject http://php.net/manual/ru/class.splsubject.php
-         * 2. SplObserver http://php.net/manual/ru/class.splobserver.php
+         *   1. SplSubject http://php.net/manual/ru/class.splsubject.php
+         *   2. SplObserver http://php.net/manual/ru/class.splobserver.php
          */
 
         // добавляем наблюдателя за событием авторизации пользователя,
@@ -62,7 +62,7 @@ class Login_User_Frontend_Controller extends User_Frontend_Controller {
         parent::input();
 
         // если пользователь уже авторизован, ему здесь делать нечего,
-        //  перенаправляем его на страницу личного кабинета
+        // перенаправляем его на страницу личного кабинета
         if ($this->authUser) {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/index'));
         }
