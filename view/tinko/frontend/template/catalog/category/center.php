@@ -1,7 +1,8 @@
 <?php
 /**
- * Категория каталога, список дочерних категорий + список товаров категории,
- * общедоступная часть сайта, файл view/example/frontend/template/catalog/category/center.php
+ * Категория каталога: дочерние категорий + фильтры + товары категории,
+ * файл view/example/frontend/template/catalog/category/center.php,
+ * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
@@ -267,7 +268,7 @@ for ($i = 0; $i <= 6; $i++) {
 
 <!-- Начало шаблона view/example/frontend/template/catalog/category/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
     <?php foreach ($breadcrumbs as $item): ?>
         <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -281,7 +282,7 @@ for ($i = 0; $i <= 6; $i++) {
 </span>
 <h1><?php echo $name; ?></h1>
 
-<?php if (!empty($childCategories)): // дочерние категории ?>
+<?php if ( ! empty($childCategories)): // дочерние категории ?>
     <div id="category-childs">
         <div>
             <span>Категории</span>
@@ -290,6 +291,9 @@ for ($i = 0; $i <= 6; $i++) {
         <div>
             <ul>
             <?php
+                // определяем, нужно ли выводить список в две колонки (два элемента <ul>, оба float: left)
+                // или достаточно одной; если дочерних категорий мало, выводим список в одну колонку, если
+                // дочерних категорий много, выводим в две колонки
                 $border = 0;
                 $divide = 0;
                 $count = count($childCategories);
@@ -375,7 +379,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
-                <?php if (!empty($params)): ?>
+                <?php if ( ! empty($params)): ?>
                     <?php foreach ($params as $item): ?>
                         <div>
                             <div>

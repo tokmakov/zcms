@@ -13,5 +13,5 @@ $cdn = array(                           // Content Delivery Network
         'banner' => false,              // баннеры справа
         'slider' => false,              // слайдер на главной
     ),
-    'url'    => 'http://cdn.host2.ru/',
+    'url'    => '//cdn.server.com/',
 );

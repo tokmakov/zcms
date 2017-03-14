@@ -2,8 +2,8 @@
 /**
  * Класс Xhr_Rmvprd_Basket_Frontend_Controller принимает запрос XmlHttpRequest, удаляет
  * товар из корзины (на странице корзины), работает с моделью Basket_Frontend_Model,
- * общедоступная часть сайта. Возвращает результат в формате JSON:
- * 1. HTML корзины в правой колонке,
+ * общедоступная часть сайта. Возвращает результат в формате JSON, три фрагмента html-кода
+ * 1. HTML корзины в правой колонке
  * 2. HTML корзины в центральной колонке
  * 3. HTML списка рекомендованных товаров
  */
@@ -54,7 +54,12 @@ class Xhr_Rmvprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
         $recommendedProducts = $this->basketFrontendModel->getRecommendedProducts($ids);
 
-        // получаем html-код товаров в корзине: для правой и центральной колонки
+        /*
+         * Получаем три фрагмента html-кода, разделенные символом ¤:
+         * 1. Таблица товаров в корзине, правая колонка
+         * 2. Таблица товаров в корзине, центральная колонка
+         * 3. Список рекомендованных товаров (с этими товарами покупают)
+         */
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/basket/xhr/basket.php',
             array(
@@ -84,8 +89,10 @@ class Xhr_Rmvprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'recommendedProducts' => $recommendedProducts,
             )
         );
+        // разделяем три фрагмента html-кода по символу ¤
         $output = explode('¤', $output);
         $result = array('side' => $output[0], 'center' => $output[1], 'upsell' => $output[2]);
+        // преобразуем массив в формат JSON
         $this->output = json_encode($result);
     }
 

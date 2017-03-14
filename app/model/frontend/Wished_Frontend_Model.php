@@ -66,7 +66,9 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
 
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-visitor-' . $this->visitorId;
+            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
 
@@ -137,7 +139,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         );
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($products as $key => $value) {
@@ -181,7 +183,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __CLASS__ . '-visitor-' . $this->visitorId;
+        $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -246,6 +248,39 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
+     * Функция возвращает количество отложенных товаров; результат работы
+     * кэшируется
+     */
+    public function getWishedCount() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->wishedCount();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    protected function wishedCount() {
+        $query = "SELECT
+                      COUNT(*)
+                  FROM
+                      `products` `a`
+                      INNER JOIN `wished` `b` ON `a`.`id` = `b`.`product_id`
+                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                  WHERE
+                      `visitor_id` = :visitor_id AND `a`.`visible` = 1";
+        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
+    }
+
+    /**
      * Функция удаляет товар из списка отложенных товаров
      */
     public function removeFromWished($productId) {
@@ -262,7 +297,9 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         );
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-visitor-' . $this->visitorId;
+            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
     }
@@ -316,10 +353,14 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             // кэш (ещё) не авторизованного посетителя
-            $key = __CLASS__ . '-visitor-' . $oldVisitorId;
+            $key = __CLASS__ . '-products-visitor-' . $oldVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
             // кэш (уже) авторизованного пользователя
-            $key = __CLASS__ . '-visitor-' . $newVisitorId;
+            $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
         }
 

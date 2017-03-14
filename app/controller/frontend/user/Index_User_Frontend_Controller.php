@@ -43,6 +43,10 @@ class Index_User_Frontend_Controller extends User_Frontend_Controller {
         // новый пользователь?
         $newUser = $this->userFrontendModel->isNewUser();
 
+        // получаем от модели ошибки, которые были допущены при создании профилей; эти
+        // ошибки возможны, потому что много пользователей импортировано из Magento
+        $errors = $this->userFrontendModel->getProfilesErrors();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -65,6 +69,8 @@ class Index_User_Frontend_Controller extends User_Frontend_Controller {
             'userLogoutUrl'   => $this->userFrontendModel->getURL('frontend/user/logout'),
             // новый пользователь?
             'newUser'         => $newUser,
+            // ошибки, которые были допущены при создании профилей
+            'errors'        => $errors,
         );
 
     }

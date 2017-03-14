@@ -1,4 +1,237 @@
 <?php
+/**
+ * Категория каталога: дочерние категории + фильтры + список товаров,
+ * файл view/example/frontend/template/catalog/xhr/category.php,
+ * общедоступная часть сайта
+ *
+ * Здесь три фрагмента html-кода, разделенные символом ¤:
+ * дочерние категории, подбор по параметрам, список товаров
+ *
+ * Переменные, которые приходят в шаблон:
+ * $id - уникальный идентификатор категории
+ * $view - представление списка товаров: линейный или плитка
+ * $childs - массив дочерних категорий
+ * $group - id выбранной функциональной группы или ноль
+ * $maker - id выбранного производителя или ноль
+ * $hit - показывать только лидеров продаж?
+ * $countHit - количество лидеров продаж
+ * $new - показывать только новинки?
+ * $countNew - количество новинок
+ * $param - массив выбранных параметров подбора
+ * $groups - массив функциональных групп выбранной категории
+ * $makers - массив производителей выбранной категории
+ * $params - массив всех параметров подбора
+ * $sort - выбранная сортировка или ноль
+ * $sortorders - массив всех вариантов сортировки
+ * $units - массив единиц измерения товара
+ * $products - массив товаров категории с учетом фильтров
+ * $pager - постраничная навигация
+ * $page - текущая страница
+ *
+ * $products = Array (
+ *   [0] => Array (
+ *     [id] => 37
+ *     [code] => 005014
+ *     [name] => ИП 212-43
+ *     [title] => Извещатель пожарный дымовой оптико-электронный автономный
+ *     [price] => 123.45
+ *     [price2] => 110.00
+ *     [price3] => 100.00
+ *     [shortdescr] => Дымовой автономный, сирена встроенная 90 дБ, питание 4 батарейки ААА (в комплекте)
+ *     [hit] = 1
+ *     [new] = 0
+ *     [ctg_id] => 2
+ *     [ctg_name] => Извещатели пожарные
+ *     [mkr_id] => 5
+ *     [mkr_name] => Болид
+ *     [grp_id] => 5
+ *     [grp_name] => Извещатели пожарные дымовые
+ *     [url] => Array (
+ *       [product] => http://www.host.ru/catalog/product/37
+ *       [maker] => http://www.host.ru/catalog/maker/5
+ *       [image] => http://www.host.ru/files/catalog/products/small/nophoto.jpg
+ *     )
+ *     [action] => Array (
+ *       [basket] => http://www.host.ru/basket/addprd
+ *       [wished] => http://www.host.ru/wished/addprd
+ *       [compare] => http://www.host.ru/compare/addprd
+ *     )
+ *   )
+ *   [1] => Array (
+ *     .....
+ *   )
+ *   [2] => Array (
+ *     .....
+ *   )
+ * )
+ *
+ * $groups = Array (
+ *   [0] => Array (
+ *     [id] => 11
+ *     [name] => Видеокамеры корпусные
+ *     [count] => 12
+ *   )
+ *   [1] => Array (
+ *     [id] => 23
+ *     [name] => Видеокамеры купольные
+ *     [count] => 14
+ *   )
+ *   [2] => Array (
+ *     .....
+ *   )
+ * )
+ *
+ * $params = Array (
+ *   [0] => Array (
+ *     [id] => 5
+ *     [name] => Напряжение питания
+ *     [selected] = true
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 7
+ *         [name] => 12 Вольт
+ *         [count] => 3
+ *         [selected] => false
+ *       )
+ *       [1] => Array (
+ *         [id] => 9
+ *         [name] => 24 Вольт
+ *         [count] => 5
+ *         [selected] => true
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 8
+ *     [name] => Встроенная ИК подсветка
+ *     [selected] => true
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 11
+ *         [name] => есть
+ *         [count] => 4
+ *         [selected] => true
+ *       )
+ *       [1] => Array (
+ *         [id] => 14
+ *         [name] => нет
+ *         [count] => 6
+ *         [selected] => false
+ *       )
+ *     )
+ *   )
+ *   [2] => Array (
+ *     .....
+ *   )
+ * )
+ *
+ * ключ элемента массива - id параметра (например, «Напряжение питания»)
+ * значение элемента массива - id значения (например, «12 Вольт»)
+ * $param = Array (
+ *   [5] => 7
+ *   [8] => 11
+ * )
+ *
+ * $makers = Array (
+ *   [0] => Array (
+ *     [id] => 380
+ *     [name] => EverFocus
+ *     [count] => 12
+ *   )
+ *   [1] => Array (
+ *     [id] => 384
+ *     [name] => MicroDigital
+ *     [count] => 14
+ *   )
+ *   [2] => Array (
+ *     .....
+ *   )
+ * )
+ *
+ * $sortorders = Array (
+ *   [0] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1
+ *     [name] => без сортировки
+ *   )
+ *   [1] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/1
+ *     [name] => цена, возр.
+ *   )
+ *   [2] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/2
+ *     [name] => цена, убыв.
+ *   )
+ *   [3] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/3
+ *     [name] => название, возр.
+ *   )
+ *   [4] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/4
+ *     [name] => название, убыв.
+ *   )
+ *   [5] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/5
+ *     [name] => код, возр.
+ *   )
+ *   [6] => Array (
+ *     [url] => http://www.host.ru/catalog/category/1/sort/6
+ *     [name] => код, убыв.
+ *   )
+ * )
+ *
+ * $units = Array (
+ *     0 => 'руб',
+ *     1 => 'руб/шт',
+ *     2 => 'руб/компл',
+ *     3 => 'руб/упак',
+ *     4 => 'руб/метр',
+ *     5 => 'руб/пара',
+ * )
+ *
+ * $pager = Array (
+ *   [first] => Array (
+ *     [num] => 1
+ *     [url] => http://www.host.ru/catalog/category/185
+ *   )
+ *   [prev] => Array (
+ *     [num] => 2
+ *     [url] => http://www.host.ru/catalog/category/185/page/2
+ *   )
+ *   [current] => Array (
+ *     [num] => 3
+ *     [url] => http://www.host.ru/catalog/category/185/page/3
+ *   )
+ *   [last] => Array (
+ *     [num] => 32
+ *     [url] => http://www.host.ru/catalog/category/185/page/32
+ *   )
+ *   [next] => Array (
+ *     [num] => 4
+ *     [url] => http://www.host.ru/catalog/category/185/page/4
+ *   )
+ *   [left] => Array (
+ *     [0] => Array (
+ *       [num] => 1
+ *       [url] => http://www.host.ru/catalog/category/185
+ *     )
+ *     [1] => Array (
+ *       [num] => 2
+ *       [url] => http://www.host.ru/catalog/category/185/page/2
+ *     )
+ *   )
+ *   [right] => Array (
+ *     [0] => Array (
+ *       [num] => 4
+ *       [url] => http://www.host.ru/catalog/category/185/page/4
+ *     )
+ *     [1] => Array (
+ *       [num] => 5
+ *       [url] => http://www.host.ru/catalog/category/185/page/5
+ *     )
+ *   )
+ * )
+ */
+
 defined('ZCMS') or die('Access denied');
 
 /*
@@ -32,6 +265,9 @@ for ($i = 0; $i <= 6; $i++) {
 
 <ul>
     <?php
+        // определяем, нужно ли выводить список в две колонки (два элемента <ul>, оба float: left)
+        // или достаточно одной; если дочерних категорий мало, выводим список в одну колонку, если
+        // дочерних категорий много, выводим в две колонки
         $border = 0;
         $divide = 0;
         $count = count($childs);
@@ -94,7 +330,7 @@ for ($i = 0; $i <= 6; $i++) {
         <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
     </div>
 </div>
-<?php if (!empty($params)): ?>
+<?php if ( ! empty($params)): ?>
     <?php foreach ($params as $item): ?>
         <div>
             <div>
@@ -129,7 +365,7 @@ for ($i = 0; $i <= 6; $i++) {
     </div>
 </div>
 ¤
-<?php if (!empty($products)): // товары категории ?>
+<?php if ( ! empty($products)): /* товары категории */ ?>
     <div id="sort-orders">
         <ul>
             <li>Сортировка</li>
@@ -282,7 +518,7 @@ for ($i = 0; $i <= 6; $i++) {
     <p>По вашему запросу ничего не найдено.</p>
 <?php endif; ?>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
+<?php if ( ! empty($pager)): // постраничная навигация ?>
     <ul class="pager">
     <?php if (isset($pager['first'])): ?>
         <li>

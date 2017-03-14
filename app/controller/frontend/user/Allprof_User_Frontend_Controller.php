@@ -27,7 +27,7 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
         parent::input();
 
         // если пользователь не авторизован, перенаправляем его на страницу авторизации
-        if (!$this->authUser) {
+        if ( ! $this->authUser) {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
         }
 
@@ -48,6 +48,10 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
         // получаем от модели массив профилей пользователя
         $profiles = $this->userFrontendModel->getAllProfiles();
 
+        // получаем от модели ошибки, которые были допущены при создании профилей; эти
+        // ошибки возможны, потому что много пользователей импортировано из Magento
+        $errors = $this->userFrontendModel->getProfilesErrors();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -56,6 +60,8 @@ class Allprof_User_Frontend_Controller extends User_Frontend_Controller {
             'breadcrumbs'   => $breadcrumbs,
             // массив профилей пользователя
             'profiles'      => $profiles,
+            // ошибки, которые были допущены при создании профилей
+            'errors'        => $errors,
             // URL ссылки для добавления нового профиля
             'addProfileUrl' => $this->userFrontendModel->getURL('frontend/user/addprof'),
         );

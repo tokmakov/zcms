@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $profiles - массив профилей пользователя
+ * $errors - ошибки, которые были допущены при создании профилей
  * $addProfileUrl - URL ссылки для добавления нового профиля
  */
 
@@ -15,7 +16,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/user/allprof/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -25,7 +26,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Ваши профили</h1>
 
-<?php if (!empty($profiles)): ?>
+<?php if ( ! empty($profiles)): ?>
     <div id="all-profiles">
         <ul>
         <?php foreach($profiles as $profile): ?>
@@ -39,6 +40,23 @@ defined('ZCMS') or die('Access denied');
         <?php endforeach; ?>
         </ul>
     </div>
+<?php endif; ?>
+
+<?php if ( ! empty($errors)): ?>
+    <?php foreach($errors as $error): ?>
+        <div class="attention">
+            <div>ВНИМАНИЕ</div>
+            <div>
+                <p>Профиль «<?php echo $error['title']; ?>» содержит ошибк<?php echo count($error['messages']) > 1 ? 'и' : 'у'; ?>:</p>
+                <ul>
+                <?php foreach($error['messages'] as $message): ?>
+                    <li><?php echo $message; ?></li>
+                <?php endforeach; ?>
+                </ul>
+                <p>Вы не сможете использовать этот профиль для оформления заявок.</p>
+            </div>
+        </div>
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <p id="add-new-prof"><a href="<?php echo $addProfileUrl; ?>">Создать профиль</a></p>

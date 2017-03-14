@@ -26,7 +26,7 @@ require 'app/config/pager.php';
 
 $config = array(
     'site' => array(
-        'url'   => 'http://www.host2.ru/',
+        'url'   => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
         'name'  => 'Торговый Дом ТИНКО',
         'phone' => '+7 (495) 708-42-13',
         'email' => 'tinko@tinko.ru',
@@ -64,7 +64,7 @@ $config = array(
     'cache'    => $cache,                        // см. файл app/config/cache.php
     'cdn'      => $cdn,                          // см. файл app/config/cdn.php
     'meta'     => $meta,                         // см. файл app/config/meta.php
-    'css'      => $css,                          // см. файл app/config/css.php 
+    'css'      => $css,                          // см. файл app/config/css.php
     'js'       => $js,                           // см. файл app/config/js.php
     'pager'    => $pager,                        // см. файл app/config/pager.php
 

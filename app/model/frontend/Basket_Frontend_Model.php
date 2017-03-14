@@ -84,6 +84,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
         }
     }
 
@@ -145,6 +147,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
         }
     }
 
@@ -168,6 +172,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
     }
@@ -350,25 +356,39 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает true, если коризина пуста и false, если в ней есть товары
+     * Функция возвращает количество товаров в корзине; результат
+     * работы кэшируется
      */
-    public function isEmptyBasket() {
+    public function getBasketCount() {
+        // если не включено кэширование данных
+        if ( ! $this->enableDataCache) {
+            return $this->basketCount();
+        }
+
+        // уникальный ключ доступа к кэшу
+        $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+    }
+
+    /**
+     * Функция возвращает количество товаров в корзине
+     */
+    protected function basketCount() {
         $query = "SELECT
-                      1
+                      COUNT(*)
                   FROM
                       `products` `a`
                       INNER JOIN `baskets` `b` ON `a`.`id` = `b`.`product_id`
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
-                  LIMIT
-                      1";
-        $res = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-        if (false === $res) {
-            return true;
-        }
-        return false;
+                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
+        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
 
     /**
@@ -385,6 +405,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
     }
@@ -464,6 +486,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                               `title`,
                               `price`,
                               `user_price`,
+                              `unit`,
                               `quantity`,
                               `cost`,
                               `user_cost`
@@ -477,12 +500,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                               :title,
                               :price,
                               :user_price,
+                              :unit,
                               :quantity,
                               :cost,
                               :user_cost
                           )";
                 unset(
-                    $product['unit'],
                     $product['shortdescr'],
                     $product['image'],
                     $product['ctg_id'],
@@ -685,10 +708,14 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $oldVisitorId;
             $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $oldVisitorId;
+            $this->cache->removeValue($key);
             // кэш (уже) авторизованного пользователя
             $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-amount-visitor-' . $newVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $newVisitorId;
             $this->cache->removeValue($key);
         }
 
@@ -793,7 +820,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             INNER JOIN `orders_prds` `b` ON `a`.`order_id`=`b`.`order_id`
             INNER JOIN `products` `c` ON `b`.`product_id`=`c`.`id`
         WHERE
-            `a`.`product_id`<>`b`.`product_id` AND `a`.`product_id` IN (1001, 1002)
+            `a`.`product_id`<>`b`.`product_id` AND
+            `a`.`product_id` IN (1001, 1002) AND
+            `b`.`product_id` NOT IN (1001, 1002)
         GROUP BY 1, 2, 3, 4
         HAVING COUNT(*)> 10
         ORDER BY COUNT(*) DESC

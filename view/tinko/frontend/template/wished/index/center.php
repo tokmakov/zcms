@@ -107,7 +107,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/wished/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -131,7 +131,7 @@ defined('ZCMS') or die('Access denied');
             </div>
             <div class="product-list-heading">
                 <h2><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h2>
-                <?php if (!empty($product['title'])): ?>
+                <?php if ( ! empty($product['title'])): ?>
                     <h3><?php echo $product['title']; ?></h3>
                 <?php endif; ?>
             </div>
@@ -210,7 +210,7 @@ defined('ZCMS') or die('Access denied');
     <p>Нет отложенных товаров</p>
 <?php endif; ?>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
+<?php if ( ! empty($pager)): // постраничная навигация ?>
     <ul class="pager">
     <?php if (isset($pager['first'])): ?>
         <li>
@@ -255,4 +255,3 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/wished/center.php -->
-

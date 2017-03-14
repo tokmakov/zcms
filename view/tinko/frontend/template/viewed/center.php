@@ -107,7 +107,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/viewed/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -121,7 +121,7 @@ defined('ZCMS') or die('Access denied');
 </span>
 <h1>Вы уже смотрели</h1>
 
-<?php if (!empty($viewedProducts)): // просмотренные товары ?>
+<?php if ( ! empty($viewedProducts)): // просмотренные товары ?>
     <div class="product-list-<?php echo $view; ?>">
     <?php foreach($viewedProducts as $product): ?>
         <div>
@@ -193,7 +193,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
+<?php if ( ! empty($pager)): // постраничная навигация ?>
     <ul class="pager">
     <?php if (isset($pager['first'])): ?>
         <li>

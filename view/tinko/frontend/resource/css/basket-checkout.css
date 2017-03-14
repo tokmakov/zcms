@@ -69,10 +69,14 @@
             padding: 8px;
             background: #f0f0f0;
         }
-        #checkout-order .make-profile, #checkout-order .make-profile { /* создать профиль */
+        #checkout-order .make-profile { /* создать профиль */
             margin-top: 15px;
             padding-top: 10px;
-            border-top: 1px dashed #d1d1d1;
+            border-top: 1px solid #d1d1d1;
+            margin-left: -15px;
+            margin-right: -15px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
         #checkout-order > #payer-order > fieldset#payer-company,
         #checkout-order > #buyer-order > fieldset#buyer-company,

@@ -39,7 +39,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Новый профиль</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>

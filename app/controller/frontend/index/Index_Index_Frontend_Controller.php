@@ -1,8 +1,9 @@
 <?php
 /**
- * Класс Index_Index_Frontend_Controller фомирует главную страницу общедоступной части сайта
+ * Класс Index_Index_Frontend_Controller фомирует главную страницу
+ * общедоступной части сайта
  */
-class Index_Index_Frontend_Controller extends Frontend_Controller {
+class Index_Index_Frontend_Controller extends Index_Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
@@ -34,7 +35,7 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
          */
         list($index, $banners, $companyNews, $generalNews, $hitProducts, $newProducts) =
             $this->indexFrontendModel->getAllIndexData();
-            
+
         $this->title = $index['title'];
         if ( ! empty($index['keywords'])) {
             $this->keywords = $index['keywords'];
@@ -42,7 +43,7 @@ class Index_Index_Frontend_Controller extends Frontend_Controller {
         if ( ! empty($index['description'])) {
             $this->description = $index['description'];
         }
-        
+
         // единицы измерения товара
         $units = $this->indexFrontendModel->getUnits();
 

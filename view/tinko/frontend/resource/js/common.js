@@ -9,7 +9,7 @@ $(document).ready(function() {
      * Поиск по каталогу в шапке сайта
      */
     $('#top-search > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#top-search > div').html('<div class="top-search-loader"></div>');
             $('#top-search > div > div').show();
             $('#top-search > form').ajaxSubmit({
@@ -34,7 +34,7 @@ $(document).ready(function() {
      * Поиск функциональной группы
      */
     $('#all-groups > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#all-groups > form > div').html('<div class="ajax-group-loader"></div>');
             $('#all-groups > form > div > div').show();
             $('#all-groups > form').ajaxSubmit({
@@ -59,7 +59,7 @@ $(document).ready(function() {
      * Поиск производителя
      */
     $('#all-makers > form > input[name="query"]').attr('autocomplete', 'off').keyup(function () {
-        if ($(this).val().length > 1) {
+        if ($(this).val().trim().length > 1) {
             $('#all-makers > form > div').html('<div class="ajax-maker-loader"></div>');
             $('#all-makers > form > div > div').show();
             $('#all-makers > form').ajaxSubmit({
@@ -221,8 +221,91 @@ $(document).ready(function() {
         select.find('option:selected').prop('selected', false);
         select.change();
     });
+
+    /*
+     * Отслеживаем события нажатия кнопок «Назад» и «Вперед» в браузере
+     */
+    window.addEventListener('popstate', function(e) {
+        $.ajax({
+            url: window.location,
+            beforeSend: function() {
+                /*
+                 * перед отправкой формы добавляем оверлей для трех блоков
+                 */
+                // первый блок: дочерние категории текущей категории
+                var childs = $('#category-childs > div:last-child');
+                if (childs.length > 0) {
+                    $('<div></div>')
+                        .prependTo(childs)
+                        .addClass('overlay')
+                        .height(childs.height())
+                        .width(childs.width());
+                }
+                // второй блок: фильтр по функционалу, производителю и параметрам
+                var filter = $('#catalog-filter > div:last-child');
+                $('<div></div>')
+                    .prependTo(filter)
+                    .addClass('overlay')
+                    .height(filter.height())
+                    .width(filter.width());
+                // третий блок: товары выбранной категории
+                var products = $('#catalog-products');
+                $('<div></div>')
+                    .prependTo(products)
+                    .addClass('products-overlay')
+                    .height(products.height())
+                    .width(products.width());
+            },
+            success: function(data) {
+                /*
+                 * получен ответ от сервера, вставляем содержимое трех блоков
+                 */
+                // удаляем три overlay
+                $('.overlay, .products-overlay').remove();
+                // первый блок: дочерние категории текущей категории
+                $('#category-childs > div:last-child').html(data.childs);
+                // второй блок: фильтр по функционалу, производителю и параметрам
+                $('#catalog-filter form > div:first-child').html(data.filter);
+                $('#catalog-filter form select option:selected:not(:first-child)').closest('select').css('border', '1px solid #ff6d00');
+                $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
+                // третий блок: товары выбранной категории
+                $('#catalog-products').html(data.products);
+
+                // ссылка для сброса фильтра
+                var showClearFilter = true;
+                if (/^\/catalog\/(category|group|maker)\/[0-9]+$/i.test(window.location.pathname)) {
+                    showClearFilter = false;
+                }
+                if (showClearFilter) {
+                    $('#catalog-filter > div:first-child > span:first-child > a').show();
+                } else {
+                    $('#catalog-filter > div:first-child > span:first-child > a').hide();
+                }
+
+                // обработчики событий для второго блока: выбор функциональной группы,
+                // производителя, параметров подбора, фильтр по нивинкам и лидерам продаж
+                $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
+                $('#catalog-filter form i').click(function() {
+                    var select = $(this).prev().children('select');
+                    select.find('option:selected').prop('selected', false);
+                    select.change();
+                });
+                // для третьего блока (товары после фильтрации) назначаем обработчики
+                // событий добавления товара в корзину, к сравнению, в избранное
+                addBasketHandler();
+            },
+            dataType: 'json'
+        });
+    });
 });
 
+/*
+ * Функция отвечает за
+ * 1. Добавление товара в корзину
+ * 2. Добавление товара в избранное
+ * 3. Добавление товара к сравнению
+ * с использованием XmlHttpRequest
+ */
 function addBasketHandler() {
 
     /*
@@ -250,10 +333,10 @@ function addBasketHandler() {
             var imageHeight = Math.round(image.height());
             // определяем координаты корзины: либо в правой колонке, либо в шапке сайта
             var basket;
-            if ($('#side-basket > .side-heading').is(':visible')) {
-                basket = $('#side-basket > .side-heading > span > i');
+            if ($('#top-menu').is(':visible')) {
+                basket = $('#top-menu > a:nth-child(1) > i');
             } else {
-                basket = $('#top-menu > a:nth-child(1) > i') ;
+                basket = $('#side-basket > .side-heading > span > i');
             }
             var basketTop = basket.offset().top + 11;
             var basketLeft = basket.offset().left + 9;
@@ -277,6 +360,10 @@ function addBasketHandler() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки в шапке
+                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товар добавлен в корзину</div>')
                             .prependTo('body')
@@ -322,10 +409,10 @@ function addBasketHandler() {
             var imageHeight = Math.round(image.height());
             // определяем координаты: либо блока в правой колонке, либо ссылки в шапке сайта
             var wished;
-            if ($('#side-wished > .side-heading').is(':visible')) {
-                wished = $('#side-wished > .side-heading > span > i');
+            if ($('#top-menu').is(':visible')) {
+                wished = $('#top-menu > a:nth-child(3) > i');
             } else {
-                wished = $('#top-menu > a:nth-child(3) > i') ;
+                wished = $('#side-wished > .side-heading > span > i');
             }
             var wishedTop = wished.offset().top + 11;
             var wishedLeft = wished.offset().left + 9;
@@ -349,6 +436,10 @@ function addBasketHandler() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки
+                        if ( ! $('#top-menu > a:nth-child(3) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(3) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товар добавлен в избранное</div>')
                             .prependTo('body')
@@ -460,15 +551,28 @@ function addBasketHandler() {
 
 }
 
+/*
+ * Функция обрабытывает события применения фильтров: выбор функциональной группы,
+ * производителя, параметров подбора, отбор новинок и лидеров продаж
+ */
 function filterSelectHandler() {
+
+    /*
+     * Отслеживаем событие выбора функциональной группы, чтобы установить значение
+     * скрытого поля input[name="change"]. Это поле передется на сервер  и сообщает
+     * о том, что была выбрана новая функциональная группа. А это означает, что надо
+     * показать новый набор параметров подбора, потому как у каждой функциональной
+     * группы свой набор параметров.
+     */
     if ($(this).attr('name') == 'group') {
         $('#catalog-filter form input[name="change"]').val('1');
     } else {
         $('#catalog-filter form input[name="change"]').val('0');
     }
+
     $('#catalog-filter form').ajaxSubmit({
         dataType:  'json',
-        beforeSubmit: function() {
+        beforeSubmit: function(arr) {
             /*
              * перед отправкой формы добавляем оверлей для трех блоков
              */
@@ -521,27 +625,35 @@ function filterSelectHandler() {
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();
-            // добавляем хэш
-            addFilterHash();
+            /*
+             * добавляем запись в window.history, чтобы работали кнопки «Назад»
+             * и «Вперед» в браузере
+             */
+            pushHistoryState();
         }
     });
 }
 
-function addFilterHash() {
-    var hash = '';
+/*
+ * Функция добавляет записи в window.history, когда пользователь применяет фильтры:
+ * выбор функциональной группы, производителя, параметров подбора, отбор новинок и
+ * лидеров продаж, чтобы работали кнопки «Назад» и «Вперед» в браузере
+ */
+function pushHistoryState(fields) {
+    var url = '';
     var group = $('#catalog-filter form select[name="group"]').val();
     if (group !== '0' && group !== undefined) {
-        hash = '/group/' + group;
+        url = '/group/' + group;
     }
     var maker = $('#catalog-filter form select[name="maker"]').val();
     if (maker !== '0' && maker !== undefined) {
-        hash = hash + '/maker/' + maker;
+        url = url + '/maker/' + maker;
     }
     if ($('#catalog-filter form input[name="hit"]').prop('checked')) {
-        hash = hash + '/hit/1';
+        url = url + '/hit/1';
     }
     if ($('#catalog-filter form input[name="new"]').prop('checked')) {
-        hash = hash + '/new/1';
+        url = url + '/new/1';
     }
     var paramSelect = $('#catalog-filter form select[name^="param"]');
     var param = [];
@@ -555,39 +667,34 @@ function addFilterHash() {
         });
     }
     if (param.length > 0) {
-        hash = hash + '/param/' + param.join('-');
+        url = url + '/param/' + param.join('-');
     }
-    if (hash !== '') { // ссылка для сброса фильтра
+    if (url !== '') { // ссылка для сброса фильтра
         $('#catalog-filter > div:first-child > span:first-child > a').show();
     } else {
         $('#catalog-filter > div:first-child > span:first-child > a').hide();
     }
     var sortInput = $('#catalog-filter form input[name="sort"]');
     if (sortInput.length > 0 && sortInput.val() !== '0') {
-        hash = hash + '/sort/' + sortInput.val();
+        url = url + '/sort/' + sortInput.val();
     }
-    if (hash === '') {
-        var pathname;
-        if (/^\/catalog\/category\/[0-9]+\/(group|maker|hit|new)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/category\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
-        if (/^\/catalog\/group\/[0-9]+\/(maker|hit|new|param)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/group\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
-        if (/^\/catalog\/maker\/[0-9]+\/(group|hit|new)/i.test(window.location.pathname)) {
-            pathname = window.location.pathname.replace(/^(\/catalog\/maker\/[0-9]+).+$/i, '$1');
-            window.location.replace(pathname);
-        }
+    var pathname = window.location.pathname;
+    if (/^\/catalog\/category\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/category\/[0-9]+).*$/i, '$1') + url;
     }
-    if (hash !== '') {
-        window.location.hash = '#!' + hash;
-    } else {
-        history.pushState('', document.title, window.location.pathname);
+    if (/^\/catalog\/group\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/group\/[0-9]+).*$/i, '$1') + url;
     }
+    if (/^\/catalog\/maker\/[0-9]+/i.test(window.location.pathname)) {
+        pathname = window.location.pathname.replace(/^(\/catalog\/maker\/[0-9]+).*$/i, '$1') + url;
+    }
+    // добавляем запись в window.history
+    history.pushState(null, null, pathname);
 }
 
+/*
+ * Функция обрабатывет клики по иконкам «+» и «-» в меню каталога, левая колонка
+ */
 function menuClickHandler(event) {
     event.stopPropagation();
     var id = $(this).data('id');
@@ -663,6 +770,9 @@ function menuClickHandler(event) {
     });
 }
 
+/*
+ * Функция отвечает за удаление товаров из сравнения в правой колонке
+ */
 function removeSideCompareHandler() {
     /*
      * Удаление товара из сравнения в правой колонке

@@ -227,6 +227,12 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $data['visitor_id'] = $this->visitorId;
         $this->database->execute($query, $data);
 
+        // сразу авторизуем пользователя
+        $this->authUser = true;
+        $_SESSION['zcmsAuthUser'] = $this->database->lastInsertId();
+        $this->userId = $_SESSION['zcmsAuthUser'];
+        $this->user = $this->getUser();
+
     }
 
     /**
@@ -451,7 +457,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         /*
          * У пользователя в cookie с именем remember сохраняются token1 и token2,
-         * мы сверяем их с теми, что предоставлены в таблице БД remember. Если они
+         * мы сверяем их с теми, что представлены в таблице БД remember. Если они
          * совпадают, то авторизация успешна. Пользователь получает новый token1
          * с предыдущим token2. Если token2 совпадают, а token1 не совпадают, то
          * удаляем все записи в таблице remember со значением token2:
@@ -716,6 +722,120 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     }
 
     /**
+     * Функция возвращает ошибки, которые были допущены при создании профилей; эти
+     * ошибки возможны, потому что много пользователей импортировано из Magento
+     */
+    public function getProfilesErrors() {
+
+        if ( ! $this->authUser) {
+            throw new Exception('Попытка получить ошибки профилей не авторизованного пользователя');
+        }
+
+        $errors = array();
+        $query = "SELECT
+                      *
+                  FROM
+                      `profiles`
+                  WHERE
+                      `user_id` = :user_id
+                  ORDER BY
+                      `id`";
+        $profiles = $this->database->fetchAll($query, array('user_id' => $this->userId));
+        if (empty($profiles)) {
+            return $errors;
+        }
+
+        foreach ($profiles as $profile) {
+            $messages = $this->getProfileErrors($profile);
+            if ( ! empty($messages)) {
+                $errors[] = array(
+                    'title' => empty($profile['title']) ? 'Без названия' : $profile['title'],
+                    'messages' => $messages
+                );
+            }
+        }
+
+        return $errors;
+
+    }
+
+    /**
+     * Функция возвращает ошибки, которые были допущены при создании профиля; эти
+     * ошибки возможны, потому что много пользователей импортировано из Magento
+     */
+    private function getProfileErrors($data) {
+
+        $errors = array();
+        if (empty($data['title'])) {
+            $errors[] = 'Не заполнено обязательное поле «Название профиля»';
+        }
+        if ($data['company']) { // для юридического лица
+            if (empty($data['company_name'])) {
+                $errors[] = 'Не заполнено обязательное поле «Название компании»';
+            }
+            if (empty($data['company_ceo'])) {
+                $errors[] = 'Не заполнено обязательное поле «Генеральный директор»';
+            }
+            if (empty($data['company_address'])) {
+                $errors[] = 'Не заполнено обязательное поле «Юридический адрес»';
+            }
+            if (empty($data['company_inn'])) {
+                $errors[] = 'Не заполнено обязательное поле «ИНН»';
+            } elseif ( ! preg_match('#^(\d{10}|\d{12})$#i', $data['company_inn'])) {
+                $errors[] = 'Поле «ИНН» должно содержать 10 или 12 цифр';
+            }
+            if ( ! empty($data['company_kpp'])) {
+                if ( ! preg_match('#^\d{9}$#i', $data['company_kpp'])) {
+                    $errors[] = 'Поле «КПП» должно содержать 9 цифр';
+                }
+            }
+            if (empty($data['bank_name'])) {
+                $errors[] = 'Не заполнено обязательное поле «Название банка»';
+            }
+            if (empty($data['bank_bik'])) {
+                $errors[] = 'Не заполнено обязательное поле «БИК банка»';
+            } elseif ( ! preg_match('#^\d{9}$#i', $data['bank_bik'])) {
+                $errors[] = 'Поле «БИК банка» должно содержать 9 цифр';
+            }
+            if (empty($data['settl_acc'])) {
+                $errors[] = 'Не заполнено обязательное поле «Расчетный счет»';
+            } elseif ( ! preg_match('#^\d{20}$#i', $data['settl_acc'])) {
+                $errors[] = 'Поле «Расчетный счет» должно содержать 20 цифр';
+            }
+            if (empty($data['corr_acc'])) {
+                $errors[] = 'Не заполнено обязательное поле «Корреспондентский счет»';
+            } elseif ( ! preg_match('#^\d{20}$#i', $data['corr_acc'])) {
+                $errors[] = 'Поле «Корреспондентский счет» должно содержать 20 цифр';
+            }
+        }
+        if (empty($data['surname'])) {
+            $errors[] = 'Не заполнено обязательное поле «Фамилия контактного лица»';
+        }
+        if (empty($data['name'])) {
+            $errors[] = 'Не заполнено обязательное поле «Имя контактного лица»';
+        }
+        if (empty($data['phone'])) {
+            $errors[] = 'Не заполнено обязательное поле «Телефон контактного лица»';
+        }
+        if (empty($data['email'])) {
+            $errors[] = 'Не заполнено обязательное поле «E-mail контактного лица»';
+        } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z][0-9a-z]*\.[a-z]{2,6}$#i', $data['email'])) {
+            $errors[] = 'Поле «E-mail» должно соответствовать формату somebody@mail.ru';
+        }
+        if ( ! $data['shipping']) {
+            if (empty($data['shipping_address'])) {
+                $errors[] = 'Не заполнено обязательное поле «Адрес доставки»';
+            }
+            if ( ! empty($data['shipping_index'])) {
+                if ( ! preg_match('#^\d{6}$#i', $data['shipping_index'])) {
+                    $errors[] = 'Поле «Почтовый индекс» должно содержать 6 цифр';
+                }
+            }
+        }
+        return $errors;
+    }
+
+    /**
      * Функция изменяет пароль и отправляет письмо с новым паролем на e-mail пользователя
      */
     public function newPassword($email) {
@@ -744,19 +864,21 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
          */
         $subject = '=?utf-8?B?' . base64_encode('Новый пароль') . '?=';
 
-        $name = $this->config->site->name;
-        $site = $this->config->email->site;
-        $headers = 'From: =?utf-8?b?' . base64_encode($name) . '?= <' . $site . '>' . "\r\n";
+        $name  = $this->config->site->name;
+        $mail  = $this->config->email->site;
+        $phone = $this->config->site->phone;
+
+        $headers  = 'From: =?utf-8?b?' . base64_encode($name) . '?= <' . $mail . '>' . "\r\n";
         $headers .= 'Date: ' . date('r') . "\r\n";
         $headers .= 'Content-type: text/plain; charset="utf-8"' . "\r\n";
         $headers .= 'Content-Transfer-Encoding: base64';
 
-        $message = 'Добрый день!' . "\r\n\r\n";
+        $message  = 'Добрый день!' . "\r\n\r\n";
         $message .= 'Ваш новый пароль: ' . $password . "\r\n\r\n";
-        $message .= $this->config->site->name . "\r\n";
-        $message .= 'Телефон: ' . $this->config->site->phone . "\r\n";
-        $message .= 'Почта: ' . $this->config->site->email;
-        $message = chunk_split(base64_encode($message));
+        $message .= $name . "\r\n";
+        $message .= 'Телефон: ' . $phone . "\r\n";
+        $message .= 'Почта: ' . $mail;
+        $message  = chunk_split(base64_encode($message));
 
         mail($email, $subject, $message, $headers);
 
@@ -796,7 +918,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $query = "SELECT
                           `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                           `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
-                          `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
+                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
                           !ISNULL(`b`.`id`) AS `exists`
                       FROM
                           `orders_prds` `a` LEFT JOIN `products` `b`
@@ -881,7 +1003,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         // добавляем информацию о списке товаров заказа
         $query = "SELECT
                       `product_id`, `code`, `name`, `title`, `price`,
-                      `user_price`, `quantity`, `cost`, `user_cost`
+                      `user_price`, `unit`, `quantity`, `cost`, `user_cost`
                   FROM
                       `orders_prds`
                   WHERE

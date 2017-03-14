@@ -36,7 +36,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
             if ( ! $this->validateForm()) { // если при заполнении формы были допущены ошибки
                 $this->redirect($this->userFrontendModel->getURL('frontend/user/reg'));
             } else { // ошибок не было, регистрация прошла успешно
-                $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
+                $this->redirect($this->userFrontendModel->getURL('frontend/user/index'));
             }
         }
 
@@ -66,7 +66,7 @@ class Reg_User_Frontend_Controller extends User_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs' => $breadcrumbs,
             // атрибут action тега form
-            'action' => $this->userFrontendModel->getURL('frontend/user/reg'),
+            'action'      => $this->userFrontendModel->getURL('frontend/user/reg'),
             // проверка на робота
             'numbers'     => array($number1, $number2),
         );

@@ -178,7 +178,9 @@ abstract class Base_Controller extends Base {
      */
     protected function render($template, $params = array()) {
         if ( ! is_file($template)) {
-            throw new Exception('Не найден файл шаблона ' . $template . ', контроллер ' . get_class($this));
+            throw new Exception(
+                'Не найден файл шаблона ' . $template . ', контроллер ' . get_class($this)
+            );
         }
         extract($params);
         ob_start();
@@ -365,8 +367,12 @@ abstract class Base_Controller extends Base {
             $temp = $this->config->css->$backfront->$name;
             if (is_object($temp)) { // подключаем несколько файлов
                 foreach ($temp as $file) {
-                    // если это внешний файл
-                    if ('http' == substr($file, 0, 4)) {
+                    /*
+                     * если это внешний файл, то ссылка на файл может быть либо с указанием протокола,
+                     * например http://dadata.ru/static/css/lib/suggestions-16.1.css, либо без указания
+                     * протокола, например //dadata.ru/static/css/lib/suggestions-16.1.css
+                     */
+                    if ('http' == substr($file, 0, 4) || '//' == substr($file, 0, 2)) {
                         $this->cssFiles[] = $file;
                         continue;
                     }
@@ -377,7 +383,11 @@ abstract class Base_Controller extends Base {
                     $this->cssFiles[] = $host . $fileName;
                 }
             } else { // подключаем один файл
-                if ('http' == substr($temp, 0, 4)) { // если это внешний файл
+                /*
+                 * если это внешний файл, то ссылка на файл может быть как с указанием, так и
+                 * без указания протокола; см. комментарий выше
+                 */
+                if ('http' == substr($temp, 0, 4) || '//' == substr($temp, 0, 2)) {
                     $this->cssFiles[] = $temp;
                 } else {
                     $fileName = $this->config->site->theme . '/' . $backfront . '/resource/css/' . $temp;
@@ -400,8 +410,12 @@ abstract class Base_Controller extends Base {
             $temp = $this->config->js->$backfront->$name;
             if (is_object($temp)) { // подключаем несколько файлов
                 foreach ($temp as $file) {
-                    // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
-                    if ('http' == substr($file, 0, 4)) {
+                    /*
+                     * если это внешний файл, то ссылка на файл может быть либо с указанием протокола,
+                     * например http://code.jquery.com/jquery-latest.min.js, либо без указания протокола,
+                     * например //code.jquery.com/jquery-latest.min.js
+                     */
+                    if ('http' == substr($file, 0, 4) || '//' == substr($file, 0, 2)) {
                         $this->jsFiles[] = $file;
                         continue;
                     }
@@ -412,8 +426,11 @@ abstract class Base_Controller extends Base {
                     $this->jsFiles[] = $host . $fileName;
                 }
             } else { // подключаем один файл
-                // если это внешний файл, например http://code.jquery.com/jquery-latest.min.js
-                if ('http' == substr($temp, 0, 4)) {
+                /*
+                 * если это внешний файл, то ссылка на файл может быть как с указанием, так и
+                 * без указания протокола; см. комментарий выше
+                 */
+                if ('http' == substr($temp, 0, 4) || '//' == substr($temp, 0, 2)) {
                     $this->jsFiles[] = $temp;
                     return;
                 }

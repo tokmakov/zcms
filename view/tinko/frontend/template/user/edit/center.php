@@ -9,8 +9,9 @@
  * $name - имя пользователя
  * $patronymic - отчество пользователя
  * $surname - фамилия пользователя
- * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
- * снова предъявить форму, заполненную уже введенными данными и вывести сообщение об ошибках.
+ * $savedFormData - сохраненные данные формы. Если при заполнении формы были
+ * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
+ * данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
  */
 
@@ -19,7 +20,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/user/edit/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -29,7 +30,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Личные данные</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>

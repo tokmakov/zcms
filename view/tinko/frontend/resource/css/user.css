@@ -19,7 +19,7 @@
 
     #index-user-center > h2 {
         font-size: 19px;
-        margin: 30px 0 5px 0;
+        margin: 20px 0 5px 0;
         color: #395985;
         font-weight: normal;
     }
@@ -431,7 +431,7 @@
     #add-new-prof a:hover {
         text-decoration: none;
     }
-    
+
 /* информация о профиле */
 #about-profile {
 
