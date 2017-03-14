@@ -53,21 +53,21 @@ defined('ZCMS') or die('Access denied');
                     <td><a href="<?php echo $item['url']['product']; ?>"><?php echo $item['name']; ?></a></td>
                     <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" /></td>
                     <td><?php echo number_format($item['user_price'], 2, '.', ''); ?></td>
-                    <td><?php echo $item['user_cost'] > 1000000 ? round(($item['user_cost']/1000000),1).' млн.' : number_format($item['user_cost'], 2, '.', ''); ?></td>
+                    <td><?php echo $item['user_cost'] > 1000000 ? number_format(round(($item['user_cost']/1000000),1), 1, '.', '').' млн' : number_format($item['user_cost'], 2, '.', ''); ?></td>
                     <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-times"></i></a></td>
                 </tr>
             <?php endforeach; ?>
             <?php if ($type > 1): ?>
-                <tr><td colspan="6" class="note-user-price">Цены и стоимость заказа указаны с учетом скидки</td></tr>
+                <tr><td colspan="6" class="note-user-price">Цены и стоимость заявки указаны с учетом скидки</td></tr>
             <?php endif; ?>
         </table>
         <div>
             <span><input type="submit" name="submit" value="Пересчитать" /></span>
             <span>
                 <?php if ($type > 1): ?>
-                    <strong>&nbsp;<?php echo $amount > 1000000 ? round(($amount/1000000),1).' млн.' : number_format($amount, 2, '.', ' '); ?>&nbsp;</strong>
+                    <strong>&nbsp;<?php echo $amount > 1000000 ? number_format(round(($amount/1000000),3), 3, '.', '').' млн.' : number_format($amount, 2, '.', ' '); ?>&nbsp;</strong>
                 <?php endif; ?>
-                <strong><?php echo $userAmount > 1000000 ? round(($userAmount/1000000),1).' млн.' : number_format($userAmount, 2, '.', ' '); ?></strong>
+                <strong><?php echo $userAmount > 1000000 ? number_format(round(($userAmount/1000000),3), 3, '.', '').' млн.' : number_format($userAmount, 2, '.', ' '); ?></strong>
                 руб.
             </span>
         </div>
@@ -93,7 +93,7 @@ defined('ZCMS') or die('Access denied');
                             <a href="<?php echo $product['url']['product']; ?>"><img src="<?php echo $product['url']['image']; ?>" alt="" /></a>
                         </div>
                         <div class="product-upsell-price">
-                            <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <?php echo $units[$product['unit']]; ?>
+                            <span><?php echo number_format($product['price'], 2, '.', ' '); ?></span> <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?>
                         </div>
                         <div class="product-upsell-basket">
                             <form action="<?php echo $product['action']; ?>" method="post" class="upsell-form">
@@ -110,5 +110,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/basket/index/center.php -->
-
-

@@ -7,7 +7,9 @@
 class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
-     * результат фильтрации товаров в формате JSON
+     * результат фильтрации товаров в формате JSON, три фрагмента html-кода:
+     * пустая строка, подбор по параметрам, список товаров производителя с
+     * учетом фильтров
      */
     private $output;
 
@@ -156,7 +158,10 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $view = 'grid';
         }
 
-        // формируем HTML результатов фильтрации товаров
+        /*
+         * Получаем три фрагмента html-кода, разделенные символом ¤:
+         * пустая строка, подбор по параметрам, список товаров
+         */
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/maker.php',
             array(
@@ -179,9 +184,11 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'page'        => $page,               // текущая страница
             )
         );
+        // разделяем три фрагмента html-кода по символу ¤
         $output = explode('¤', $output);
         // пусто, подбор по параметрам, список товаров
         $result = array('childs' => $output[0], 'filter' => $output[1], 'products' => $output[2]);
+        // преобразуем массив в формат JSON
         $this->output = json_encode($result);
 
     }

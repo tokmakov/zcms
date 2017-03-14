@@ -180,7 +180,6 @@ abstract class Base_Controller extends Base {
         if ( ! is_file($template)) {
             throw new Exception(
                 'Не найден файл шаблона ' . $template . ', контроллер ' . get_class($this)
-                . ', параметры ' . serialize($params) . ', REQUEST_URI=' . $_SERVER['REQUEST_URI']
             );
         }
         extract($params);

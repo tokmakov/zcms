@@ -7,7 +7,9 @@
 class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
-     * результат фильтрации товаров в формате JSON
+     * результат фильтрации товаров в формате JSON, три фрагмента html-кода:
+     * дочерние категории, подбор по параметрам, список товаров категории с
+     * учетом фильтров
      */
     private $output;
 
@@ -182,8 +184,10 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $view = 'grid';
         }
 
-        // формируем HTML результатов фильтрации товаров, три html-блока:
-        // дочерние категории, подбор по параметрам, список товаров
+        /*
+         * Получаем три фрагмента html-кода, разделенные символом ¤:
+         * дочерние категории, подбор по параметрам, список товаров
+         */
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/catalog/xhr/category.php',
             array(
@@ -208,9 +212,11 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
                 'page'        => $page,               // текущая страница
             )
         );
+        // разделяем три фрагмента html-кода по символу ¤
         $output = explode('¤', $output);
         // дочерние категории, подбор по параметрам, список товаров
         $result = array('childs' => $output[0], 'filter' => $output[1], 'products' => $output[2]);
+        // преобразуем массив в формат JSON
         $this->output = json_encode($result);
 
     }

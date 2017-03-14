@@ -1,8 +1,54 @@
 <?php
+/**
+ * Карточка товара в модальном окне,
+ * файл view/example/frontend/template/catalog/xhr/product.php,
+ * общедоступная часть сайта
+ *
+ * Переменные, которые приходят в шаблон:
+ * name - торговое наименование товара
+ * title - функциональное наименование товара
+ * code - код (артикул) товара
+ * price - розничная цена
+ * price2 - цена, мелкий опт
+ * price3 - оптовая цена
+ * unit - единица измерения
+ * units - массив единиц измерения товара
+ * $group - информация о функциональной группе
+ * $maker - информация о производителе
+ * $new - новый товар?
+ * $hit - лидер продаж?
+ * $shortdescr - краткое описание
+ * $image - фото товара
+ * $purpose - назначение изделия
+ * $techdata - технические характеристики
+ *
+ * $units = Array (
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара'
+ * );
+ *
+ * $group = Array (
+ *   [id] => 22
+ *   [name] => Извещатель охранный
+ *   [url] => http://www.host.ru/catalog/group/76
+ * )
+ *
+ * $maker = Array (
+ *   [id] => 22
+ *   [name] => РЗМКП
+ *   [url] => http://www.host.ru/catalog/maker/22
+ * )
+ *
+ */
+
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/catalog/xhr/center.php -->
+<!-- Начало шаблона view/example/frontend/template/catalog/xhr/product.php -->
 
 <div id="product">
 
@@ -59,9 +105,9 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
 
         <div class="product-descr"><?php echo $shortdescr; ?></div>
-        
+
     </div>
 
 </div>
 
-<!-- Конец шаблона view/example/frontend/template/catalog/xhr/center.php -->
+<!-- Конец шаблона view/example/frontend/template/catalog/xhr/product.php -->

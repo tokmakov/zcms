@@ -10,9 +10,9 @@
  *
  * $id - уникальный идентификатор профиля
  * $title - название профиля
- * $surname - фамилия контактного лица
  * $name - имя контактного лица
  * $patronymic - отчество контактного лица
+ * $surname - фамилия контактного лица
  * $email - e-mail контактного лица
  * $phone - телефон контактного лица
  * $shipping - самовывоз со склада?
@@ -58,7 +58,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Редактирование профиля</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>

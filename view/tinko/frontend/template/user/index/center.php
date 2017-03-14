@@ -14,6 +14,7 @@
  * $userViewedUrl - URL страницы со списком просмотренных товаров
  * $userLogoutUrl - ссылка для выхода из личного кабинета
  * $newUser - новый пользователь?
+ * $errors - ошибки, которые были допущены при создании профилей
  */
 
 defined('ZCMS') or die('Access denied');
@@ -47,6 +48,23 @@ defined('ZCMS') or die('Access denied');
         <p>Начните с <a href="<?php echo $userProfilesUrl; ?>">создания профиля</a>. Профиль упрощает процесс оформления заявки на оборудование. Один раз создав и заполнив профиль, Вы сможете много раз использовать его для оформления заявок. Можно создать несколько профилей, например, для доставки по разным адресам или для оплаты разными плательщиками.</p>
     <?php endif; ?>
 </div>
+
+<?php if ( ! empty($errors)): ?>
+    <?php foreach($errors as $error): ?>
+        <div class="attention">
+            <div>ВНИМАНИЕ</div>
+            <div>
+                <p>Профиль «<?php echo $error['title']; ?>» содержит ошибк<?php echo count($error['messages']) > 1 ? 'и' : 'у'; ?>:</p>
+                <ul>
+                <?php foreach($error['messages'] as $message): ?>
+                    <li><?php echo $message; ?></li>
+                <?php endforeach; ?>
+                </ul>
+                <p>Вы не сможете использовать этот профиль для оформления заявок.</p>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/user/index/center.php -->
 

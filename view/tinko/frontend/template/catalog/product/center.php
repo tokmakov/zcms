@@ -1,6 +1,7 @@
 <?php
 /**
- * Страница товара, файл view/example/frontend/template/catalog/product/center.php,
+ * Страница товара,
+ * файл view/example/frontend/template/catalog/product/center.php,
  * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -15,7 +16,7 @@
  * $price - цена
  * $unit - единица измерения
  * $units - массив единиц измерения товара
- * $maker - информация о функциональной группе
+ * $group - информация о функциональной группе
  * $maker - информация о производителе
  * $new - новый товар?
  * $hit - лидер продаж?
@@ -46,7 +47,7 @@
  *   [name] => РЗМКП
  *   [url] => http://www.host.ru/catalog/maker/22
  * )
- * 
+ *
  * $group = Array (
  *   [id] => 22
  *   [name] => Извещатель охранный
@@ -297,7 +298,7 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
         <?php endif ?>
-        
+
         <?php if (!empty($likedProducts)): // похожие товары ?>
             <div class="center-block">
                 <div><h3>Похожие товары</h3></div>

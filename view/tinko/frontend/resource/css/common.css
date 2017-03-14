@@ -516,7 +516,6 @@ div.attention {
     margin: 15px 0;
 }
     div.attention > div:first-child {
-        font-weight: bold;
         color: #e9751f;
         text-transform: uppercase
     }
@@ -526,7 +525,6 @@ div.attention {
         border-radius: 5px;
         padding: 10px;
         margin: 12px 0 15px 0;
-        font-style: italic;
     }
     div.attention > div:last-child::before {
         position: absolute;
@@ -544,6 +542,12 @@ div.attention {
         border: 10px solid transparent;
         border-bottom: 10px solid #fff;
     }
+        div.attention > div:last-child p {
+            margin: 5px 0;
+        }
+        div.attention > div:last-child ul {
+            margin: 5px 0 5px 20px;
+        }
         div.attention > div:last-child :first-child {
             margin-top: 0 !important;
         }

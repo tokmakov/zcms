@@ -69,6 +69,13 @@
  *     )
  *   )
  * )
+ *
+ * $offices = Array (
+ *   [1] => Центральный офис
+ *   [2] => Офис продаж «Сокол»
+ *   [3] => Офис продаж «Мещанский»
+ *   [4] => Офис продаж «Нагорный»
+ * )
  */
 
 defined('ZCMS') or die('Access denied');
@@ -76,7 +83,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/user/order/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;

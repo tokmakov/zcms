@@ -7,10 +7,11 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
- * $regUserUrl - URL ссылки на страницу регистрации
- * $forgotPasswordUrl - URL ссылки на страницу восстановления пароля
- * $savedFormData - сохраненные данные формы. Если при заполнении формы были допущены ошибки, мы должны
- * снова предъявить форму, заполненную уже введенными данными и вывести сообщение об ошибках.
+ * $regUserUrl - URL страницы регистрации
+ * $forgotPasswordUrl - URL страницы восстановления пароля
+ * $savedFormData - сохраненные данные формы. Если при заполнении формы были
+ * допущены ошибки, мы должны снова предъявить форму, заполненную уже введенными
+ * данными и вывести сообщение об ошибках.
  * $errorMessage - массив сообщений об ошибках, допущенных при заполнении формы
  */
 
@@ -29,7 +30,7 @@ defined('ZCMS') or die('Access denied');
 
 <h1>Войти в личный кабинет</h1>
 
-<?php if (!empty($errorMessage)): ?>
+<?php if ( ! empty($errorMessage)): ?>
     <div class="error-message">
         <ul>
         <?php foreach($errorMessage as $message): ?>
@@ -75,4 +76,3 @@ defined('ZCMS') or die('Access denied');
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/user/login/center.php -->
-
