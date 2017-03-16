@@ -127,6 +127,7 @@ defined('ZCMS') or die('Access denied');
 
 <h2>Получатель</h2>
 <ul>
+    <li>КОНТАКТНОЕ ЛИЦО</li>
     <li>Фамилия: <?php echo $order['buyer_surname']; ?></li>
     <li>Имя: <?php echo $order['buyer_name']; ?></li>
     <?php if ( ! empty($order['buyer_patronymic'])): ?>
@@ -138,15 +139,17 @@ defined('ZCMS') or die('Access denied');
 </ul>
 <ul>
 <?php if ( ! $order['shipping']): ?>
+    <li>ДОСТАВКА ПО АДРЕСУ</li>
     <li>Адрес доставки: <?php echo $order['buyer_shipping_address']; ?></li>
     <li>Город: <?php echo $order['buyer_shipping_city']; ?></li>
     <li>Почтовый индекс: <?php echo $order['buyer_shipping_index']; ?></li>
 <?php else: ?>
-    <li>Самовывоз со склада</li>
+    <li>САМОВЫВОЗ СО СКЛАДА</li>
 <?php endif; ?>
 </ul>
 <?php if ($order['buyer_company']): // получатель - юридические лицо? ?>
     <ul>
+        <li>ЮРИДИЧЕСКОЕ ЛИЦО</li>
         <li>Название компании: <?php echo $order['buyer_company_name']; ?></li>
         <li>Генеральный директор: <?php echo $order['buyer_company_ceo']; ?></li>
         <li>Юридический адрес: <?php echo $order['buyer_company_address']; ?></li>
@@ -162,6 +165,7 @@ defined('ZCMS') or die('Access denied');
 <?php if ($order['buyer_payer_different']): ?>
     <h2>Плательщик</h2>
     <ul>
+        <li>КОНТАКТНОЕ ЛИЦО</li>
         <li>Фамилия: <?php echo $order['payer_surname']; ?></li>
         <li>Имя: <?php echo $order['payer_name']; ?></li>
         <?php if ( ! empty($order['payer_patronymic'])): ?>
@@ -172,6 +176,7 @@ defined('ZCMS') or die('Access denied');
     </ul>
     <?php if ($order['payer_company']): // плательщик - юридическое лицо? ?>
         <ul>
+            <li>ЮРИДИЧЕСКОЕ ЛИЦО</li>
             <li>Название компании: <?php echo $order['payer_company_name']; ?></li>
             <li>Генеральный директор: <?php echo $order['payer_company_ceo']; ?></li>
             <li>Юридический адрес: <?php echo $order['payer_company_address']; ?></li>

@@ -473,6 +473,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             );
             // создаем профиль получателя
             $this->userFrontendModel->addProfile($data);
+            unset($form['make_buyer_profile']);
         }
         // создать профиль плательщика?
         if ($this->authUser && $form['make_payer_profile'] && $form['buyer_payer_different']) {
@@ -500,6 +501,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             );
             // создаем профиль плательщика
             $this->userFrontendModel->addProfile($data);
+            unset($form['make_payer_profile']);
         }
 
         // обращаемся к модели корзины для создания заказа

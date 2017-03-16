@@ -2389,7 +2389,7 @@ form#center-search-form {
  * ЛЕВАЯ КОЛОНКА
  */
 
-/* меню каталога */
+/* меню каталога в левой колонке */
 #left > div:first-child div.side-content {
     padding: 0;
 }
@@ -2527,7 +2527,7 @@ form#center-search-form {
                 }
 
 
-/* список производителей в правой колонке */
+/* список производителей в левой колонке */
 #side-makers {
 
 }
@@ -2537,7 +2537,7 @@ form#center-search-form {
         list-style: none;
     }
         #side-makers > .side-content > ul > li {
-            padding-right: 25px;
+            padding-right: 30px;
             border-bottom: 1px dashed #d1d1d1;
             position: relative;
             overflow: hidden;
@@ -2562,7 +2562,7 @@ form#center-search-form {
                     font-size: 13px;
                     line-height: 25px;
                     height: 25px;
-                    width: 25px;
+                    width: 30px;
                     text-align: center;
                     background: #f0f0f0;
                     top: 0;
@@ -2584,7 +2584,7 @@ form#center-search-form {
             text-decoration: none;
         }
 
-/* список функциональных групп в правой колонке */
+/* список функциональных групп в левой колонке */
 #side-groups {
 
 }
@@ -2594,7 +2594,7 @@ form#center-search-form {
         list-style: none;
     }
         #side-groups > .side-content > ul > li {
-            padding: 0 28px 0 5px;
+            padding: 0 30px 0 5px;
             border-bottom: 1px dashed #d1d1d1;
             height: 28px;
             overflow: hidden;
@@ -2608,8 +2608,6 @@ form#center-search-form {
                 width: 100%;
             }
                 #side-groups > .side-content > ul > li > span > a {
-                    /*padding-left: 5px;*/
-
                     display: table-cell;
                     height: 28px;
                     vertical-align: middle;
@@ -2622,7 +2620,7 @@ form#center-search-form {
                     font-size: 13px;
                     line-height: 28px;
                     height: 28px;
-                    width: 28px;
+                    width: 30px;
                     text-align: center;
                     background: #f0f0f0;
                     top: 0;

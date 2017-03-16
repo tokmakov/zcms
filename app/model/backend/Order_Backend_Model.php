@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Order_Backend_Model для работы с заказавми в магазине,
+ * Класс Order_Backend_Model для работы с заказами в магазине,
  * взаимодействует с базой данных, административная часть сайта
  */
 class Order_Backend_Model extends Backend_Model {
