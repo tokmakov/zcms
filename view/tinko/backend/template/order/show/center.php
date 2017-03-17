@@ -1,7 +1,7 @@
 <?php
 /**
  * Подробная информация об отдельном заказе в магазине,
- * файл view/example/frontend/template/order/show/center.php,
+ * файл view/example/backend/template/order/show/center.php,
  * административная часть сайта
  *
  * Переменные, которые приходят в шаблон:
@@ -58,6 +58,7 @@
  *       [name] => ИПР 513-10
  *       [title] => Извещатель пожарный ручной
  *       [price] => 206.60000
+ *       [unit] => 1
  *       [user_price] => 178.64000
  *       [quantity] => 1
  *       [cost] => 206.60000
@@ -73,7 +74,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<!-- Начало шаблона view/example/frontend/template/order/show/center.php -->
+<!-- Начало шаблона view/example/backend/template/order/show/center.php -->
 
 <?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
@@ -122,8 +123,6 @@ defined('ZCMS') or die('Access denied');
         <td><?php echo number_format($order['amount'], 2, '.', ''); ?></td>
     </tr>
 </table>
-
-<?php if (empty($order['buyer_surname'])) return; /* Этот код потом удалить, только для заказов из Magento */ ?>
 
 <h2>Получатель</h2>
 <ul>
@@ -191,4 +190,4 @@ defined('ZCMS') or die('Access denied');
 
 <?php endif; ?>
 
-<!-- Конец шаблона view/example/frontend/template/order/show/center.php -->
+<!-- Конец шаблона view/example/backend/template/order/show/center.php -->

@@ -85,7 +85,7 @@ class Order_Backend_Model extends Backend_Model {
         );
         $query = "SELECT
                       `product_id`, `code` AS `code`, `name`,
-                      `title`, `price`, `quantity`, `cost`
+                      `title`, `price`, `unit`, `quantity`, `cost`
                   FROM
                       `orders_prds`
                   WHERE
