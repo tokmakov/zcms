@@ -28,6 +28,11 @@ class FCache {
      */
     private $maxLockTime;
 
+    /**
+     * для доступа к настройкам приложения, экземпляр класса Config
+     */
+    protected $config;
+
 
     /**
      * Функция возвращает ссылку на экземпляр данного класса,
@@ -45,12 +50,15 @@ class FCache {
      * проектирования «Одиночка»
      */
     private function __construct() {
+        // настройки приложения, экземпляр класса Config
+        $this->config = Config::getInstance();
+
         // время жизни кэша в секундах
-        $this->cacheTime = Config::getInstance()->cache->file->time;
+        $this->cacheTime = $this->config->cache->file->time;
         // директория для хранения файлов кэша
-        $this->dir = Config::getInstance()->cache->file->dir;
+        $this->dir = $this->config->cache->file->dir;
         // максимальное время блокировки на чтение в секундах
-        $this->maxLockTime = Config::getInstance()->cache->file->lock;
+        $this->maxLockTime = $this->config->cache->file->lock;
     }
 
     /**
@@ -68,8 +76,6 @@ class FCache {
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         $temp = unserialize(file_get_contents($file));
         $value = $temp[1];
-
-// file_put_contents('get-cache.txt', $key . ' ' . $file . PHP_EOL, FILE_APPEND);
 
         return $value;
     }
@@ -89,8 +95,6 @@ class FCache {
         $name = md5($key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         file_put_contents($file, serialize($value), LOCK_EX);
-
-// file_put_contents('set-cache.txt', $key . ' ' . $file . PHP_EOL, FILE_APPEND);
     }
 
     /**

@@ -65,7 +65,7 @@ select::-ms-expand {
 }
 body > .wrapper {
     overflow: hidden;
-    padding-bottom: 60px;
+    padding-bottom: 150px;
 }
 #header {
     height: 80px;
@@ -94,7 +94,7 @@ body > .wrapper {
 }
 #footer {
     width: 100%;
-    height: 60px;
+    height: 150px;
     background: #2f3133;
     position: absolute;
     bottom: 0;
@@ -2953,39 +2953,72 @@ form#center-search-form {
 /*
  * ПОДВАЛ
  */
-#footer {
-    height: 60px;
+#footer { /* состоит из двух горизонтальных блоков */
+    height: 150px;
     overflow: hidden;
 }
-    #footer > div > div {
-        height: 60px;
-        display: table;
+    #footer > div.wrapper > ul { /* первый горизонтальный блок */
+        height: 109px;
+        border-bottom: 1px solid #646464;
+        overflow: hidden;
+        list-style: none;
     }
-        #footer > div > div:first-child {
+        #footer > div.wrapper > ul > li {
+            float: left;
+            width: 32%;
+        }
+        #footer > div.wrapper > ul > li:first-child {
+            width: 28%
+        }
+        #footer > div.wrapper > ul > li:last-child {
+            float: right;
+            width: 8%
+        }
+        #footer > div.wrapper > ul > li > a {
+            color: #8dc5fd;
+            font-size: 11px;
+            line-height: 14px;
+            display: block;
+        }
+        #footer > div.wrapper > ul > li > a:first-child,
+        #footer > div.wrapper > ul > li:last-child > a:nth-child(4) {
+            color: #d1d1d1;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+    #footer > div.wrapper > div { /* второй горизонтальный блок */
+        height: 40px;
+    }
+        #footer > div.wrapper > div > div {
+        height: 40px;
+        display: table;
+        }
+        #footer > div.wrapper > div > div:first-child {
             width: 65%;
             float: left;
             background: url(../img/logo.png) left center no-repeat;
-            background-size: auto 30px;
-            padding-left: 40px;
+            background-size: auto 25px;
+            padding-left: 35px;
             box-sizing: border-box;
         }
-        #footer > div > div:last-child {
+        #footer > div.wrapper > div > div:last-child {
             width: 30%;
             float: right;
         }
-            #footer > div > div > span {
+            #footer > div.wrapper > div > div > span {
                 display: table-cell;
-                height: 60px;
+                height: 40px;
                 width: 100%;
                 vertical-align: middle;
                 font-size: 11px;
                 line-height: 13px;
                 color: #d1d1d1;
             }
-                #footer > div > div:last-child > span {
+                #footer > div.wrapper > div > div:last-child > span {
                     text-align: right;
                 }
-                    #footer > div > div:last-child > span > a {
+                    #footer > div.wrapper > div > div:last-child > span > a {
                         font-size: 13px;
                         color: #d1d1d1;
                         text-decoration: underline;
@@ -3019,6 +3052,16 @@ form#center-search-form {
     #menu > ul > li > a {
         padding: 10px 20px;
     }
+    /* подвал */
+    #footer > div.wrapper > ul > li:last-child {
+        width: 10%;
+    }
+    #footer > div.wrapper > ul > li {
+        width: 31%;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 28%
+    }
 }
 
 @media screen and (max-width: 1155px) {
@@ -3047,6 +3090,16 @@ form#center-search-form {
     #menu > ul > li > a {
         padding: 10px;
     }
+    /* подвал */
+    #footer > div.wrapper > ul > li:last-child {
+        width: 12%;
+    }
+    #footer > div.wrapper > ul > li {
+        width: 30%;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 28%
+    }
 }
 
 @media screen and (max-width: 960px) {
@@ -3069,6 +3122,19 @@ form#center-search-form {
     /* главное меню: убираем НОВОСТИ */
     #menu > ul > li:nth-child(10) {
         display: none;
+    }
+    /* подвал */
+    #footer > div.wrapper > ul > li:last-child {
+        display: none;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 33%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 40%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        width: 27%;
     }
 }
 
@@ -3120,6 +3186,16 @@ form#center-search-form {
     #menu > ul > li:nth-child(1) {
         display: none;
     }
+    /* подвал */
+    #footer > div.wrapper > ul > li:first-child {
+        width: 33%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 36%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        width: 30%;
+    }
 }
 
 @media screen and (max-width: 730px) {
@@ -3152,6 +3228,16 @@ form#center-search-form {
     /* список всех функциональных групп */
     #all-groups > p > a {
         width: 40%;
+    }
+    /* подвал */
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        display: none;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 50%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 50%;
     }
 }
 
@@ -3336,6 +3422,13 @@ form#center-search-form {
     }
     .product-list-line > div > .product-list-basket > form:not(:first-child) {
         width: 50%;
+    }
+    /* подвал */
+    #footer > div.wrapper > ul > li:first-child {
+        width: 42%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 58%;
     }
 }
 

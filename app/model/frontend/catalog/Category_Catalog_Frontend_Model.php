@@ -172,9 +172,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($group) {
                 $url = $url . '/group/' . $group;
             } else {
-                // сразу включаем фильтр по функционалу, если у дочерней категории все товары
-                // принадлежат одной функциональной группе, чтобы стали доступны параметры подбора
-                $filter = $this->getOnlyCategoryGroup($value['id']);
+                // сразу включаем фильтр по функционалу, если у текущей дочерней категории
+                // все товары принадлежат одной функциональной группе, чтобы при переходе в
+                // эту категорию стали доступны параметры подбора
+                $filter = $this->getIsOnlyCategoryGroup($value['id']);
                 if ($filter) {
                     $url = $url . '/group/' . $filter;
                 }

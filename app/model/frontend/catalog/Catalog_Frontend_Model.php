@@ -246,14 +246,14 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * возвращает false; это позволяет сразу включить фильтр по функционалу, чтобы стали доступны
      * параметры подбора; результат работы кэшируется
      */
-    protected function getOnlyCategoryGroup($id) {
+    protected function getIsOnlyCategoryGroup($id) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->onlyCategoryGroup($id);
+            return $this->isOnlyCategoryGroup($id);
         }
 
         /*
@@ -277,7 +277,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * возвращает false; это позволяет сразу включить фильтр по функционалу, чтобы стали доступны
      * параметры подбора
      */
-    protected function onlyCategoryGroup($id) {
+    protected function isOnlyCategoryGroup($id) {
 
         // получаем список всех функциональных групп категории $id и ее потомков
         $childs = $this->getAllChildIds($id);

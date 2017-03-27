@@ -4,7 +4,7 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getCatalogMenu(...)
      * protected function catalogMenu(...)
@@ -15,7 +15,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает массив категорий каталога для построения навигационной
      * панели (дерево каталога + путь до текущей категории); результат работы
@@ -61,7 +61,15 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив информацию об URL категорий
         foreach ($categories as $key => $value) {
-            $categories[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+            $url = 'frontend/catalog/category/id/' . $value['id'];
+            // сразу включаем фильтр по функционалу, если у текущей категории все товары
+            // принадлежат одной функциональной группе, чтобы при переходе в эту категорию
+            // стали доступны параметры подбора
+            $filter = $this->getIsOnlyCategoryGroup($value['id']);
+            if ($filter) {
+                $url = $url . '/group/' . $filter;
+            }
+            $categories[$key]['url'] = $this->getURL($url);
             if (in_array($value['id'], $parents)) {
                 $categories[$key]['opened'] = true;
             }
@@ -75,7 +83,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         return $tree;
 
     }
-    
+
     /**
      * Функция возвращает дочерние категории категории с уникальным идентификатором $id,
      * результат работы кашируется
@@ -95,7 +103,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
-    
+
     /**
      * Функция возвращает дочерние категории категории с уникальным идентификатором $id
      */
@@ -112,7 +120,15 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $childs = $this->database->fetchAll($query, array('parent' => $id));
         // добавляем в массив информацию об URL категорий
         foreach($childs as $key => $value) {
-            $childs[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+            $url = 'frontend/catalog/category/id/' . $value['id'];
+            // сразу включаем фильтр по функционалу, если у текущей категории все товары
+            // принадлежат одной функциональной группе, чтобы при переходе в эту категорию
+            // стали доступны параметры подбора
+            $filter = $this->getIsOnlyCategoryGroup($value['id']);
+            if ($filter) {
+                $url = $url . '/group/' . $filter;
+            }
+            $childs[$key]['url'] = $this->getURL($url);
         }
         return $childs;
     }

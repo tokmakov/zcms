@@ -29,6 +29,11 @@ class MCache {
      */
     private $maxLockTime;
 
+    /**
+     * для доступа к настройкам приложения, экземпляр класса Config
+     */
+    protected $config;
+
 
     /**
      * Функция возвращает ссылку на экземпляр данного класса,
@@ -46,19 +51,24 @@ class MCache {
      * проектирования «Одиночка»
      */
     private function __construct() {
+        // настройки приложения, экземпляр класса Config
+        $this->config = Config::getInstance();
+
         // установлено php-расширение memcache для работы с сервером Memcached?
         if ( ! class_exists('Memcache', false)) {
             throw new Exception('Расширение Memcache не установлено');
         }
+
         // создаем соединение с сервером Memcached
         $this->memcache = new Memcache();
-        if ( ! @$this->memcache->connect(Config::getInstance()->cache->mem->host, Config::getInstance()->cache->mem->port)) {
+        if ( ! @$this->memcache->connect($this->config->cache->mem->host, $this->config->cache->mem->port)) {
             throw new Exception('Не удалось подключиться к серверу Memcached');
         }
+
         // время жизни кэша в секундах
-        $this->cacheTime = Config::getInstance()->cache->mem->time;
+        $this->cacheTime = $this->config->cache->mem->time;
         // максимальное время блокировки на чтение в секундах
-        $this->maxLockTime = Config::getInstance()->cache->mem->lock;
+        $this->maxLockTime = $this->config->cache->mem->lock;
     }
 
     /**
