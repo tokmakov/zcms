@@ -13,39 +13,39 @@ defined('ZCMS') or die('Access denied');
 
 <ul>
     <li>
-        <a href="/for-buyer">В помощь покупателю</a>
-        <a href="/delivery">Доставка и оплата</a>
-        <a href="/credit">Товарный кредит</a>
-        <a href="/support">Техническая поддержка</a>
-        <a href="/rating">Рейтинг продаж</a>
-        <a href="/sale">Распродажа</a>
-        <a href="/repair">Гарантийный ремонт</a>
+        <span><a href="/for-buyer">В помощь покупателю</a></span>
+        <span><a href="/delivery">Доставка и оплата</a></span>
+        <span><a href="/credit">Товарный кредит</a></span>
+        <span><a href="/support">Техническая поддержка</a></span>
+        <span><a href="/rating">Рейтинг продаж</a></span>
+        <span><a href="/sale">Распродажа</a></span>
+        <span><a href="/repair">Гарантийный ремонт</a></span>
     </li>
     <li>
-        <a href="/solutions">Типовые решения</a>
-        <a href="/solutions/category/1">Охранно-пожарная сигнализация</a>
-        <a href="/solutions/category/2">Охранное телевидение</a>
-        <a href="/solutions/category/3">Контроль и управление доступом</a>
-        <a href="/solutions/category/4">Домофоны</a>
-        <a href="/solutions/category/5">Оповещение и музыкальная трансляция</a>
-        <a href="/solutions/category/6">Системы пожаротушения</a>
+        <span><a href="/solutions">Типовые решения</a></span>
+        <span><a href="/solutions/category/1">Охранно-пожарная сигнализация</a></span>
+        <span><a href="/solutions/category/2">Охранное телевидение</a></span>
+        <span><a href="/solutions/category/3">Контроль и управление доступом</a></span>
+        <span><a href="/solutions/category/4">Домофоны</a></span>
+        <span><a href="/solutions/category/5">Оповещение и музыкальная трансляция</a></span>
+        <span><a href="/solutions/category/6">Системы пожаротушения</a></span>
     </li>
     <li>
-        <a href="/about">О компании</a>
-        <a href="/trading">ТД ТИНКО  — участник госзакупок</a>
-        <a href="/journal">Журнал «Грани Безопасности»</a>
-        <a href="/library">Библиотека технического специалиста</a>
-        <a href="/partners">Партнерские сертификаты</a>
-        <a href="/brands">Бренды</a>
-        <a href="/vacancies">Вакансии</a>
+        <span><a href="/about">О компании</a></span>
+        <span><a href="/trading">ТД ТИНКО  — участник госзакупок</a></span>
+        <span><a href="/journal">Журнал «Грани Безопасности»</a></span>
+        <span><a href="/library">Библиотека технического специалиста</a></span>
+        <span><a href="/partners">Партнерские сертификаты</a></span>
+        <span><a href="/brands">Бренды</a></span>
+        <span><a href="/vacancies">Вакансии</a></span>
     </li>
     <li>
-        <a href="/blog">Новости</a>
-        <a href="/blog/category/1">Новости компании</a>
-        <a href="/blog/category/2">События отрасли</a>
-        <a href="/contacts">Контакты</a>
-        <a href="tel:+74957084213">+7 (495) 708-42-13</a>
-        <a href="tel:+78002008465">+7 (800) 200-84-65</a>
+        <span><a href="/blog">Новости</a></span>
+        <span><a href="/blog/category/1">Новости компании</a></span>
+        <span><a href="/blog/category/2">События отрасли</a></span>
+        <span><a href="/contacts">Контакты</a></span>
+        <span><a href="tel:+74957084213">+7 (495) 708-42-13</a></span>
+        <span><a href="tel:+78002008465">+7 (800) 200-84-65</a></span>
 
     </li>
 </ul>
