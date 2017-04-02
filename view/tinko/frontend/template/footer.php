@@ -46,12 +46,25 @@ defined('ZCMS') or die('Access denied');
         <span><a href="/contacts">Контакты</a></span>
         <span><a href="tel:+74957084213">+7 (495) 708-42-13</a></span>
         <span><a href="tel:+78002008465">+7 (800) 200-84-65</a></span>
-
     </li>
 </ul>
 <div>
-    <div><span>2000—<?php echo date('Y'); ?> Торговый Дом ТИНКО<br/>Москва, 3-й проезд Перова поля, дом&nbsp;8</span></div>
-    <div><span><a href="<?php echo $siteMapUrl; ?>">Карта сайта</a></span></div>
+    <span>© 2001—<?php echo date('Y'); ?> ООО «ТД ТИНКО»</span>
+    <span>
+        <a href="#" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x" aria-hidden="true"></i>
+        </a>
+        <a href="#" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-facebook fa-stack-1x" aria-hidden="true"></i>
+        </a>
+        <a href="#" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-youtube fa-stack-1x" aria-hidden="true"></i>
+        </a>
+    </span>
+    <span><a href="<?php echo $siteMapUrl; ?>">Карта сайта</a></span>
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/footer.php -->

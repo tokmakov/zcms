@@ -2994,43 +2994,43 @@ form#center-search-form {
                     color: #d1d1d1;
                     font-size: 14px;
                 }
-
     #footer > div.wrapper > div { /* второй горизонтальный блок */
         height: 40px;
-    }
-        #footer > div.wrapper > div > div {
-        height: 40px;
         display: table;
+        width: 100%;
+    }
+        #footer > div.wrapper > div > span {
+            height: 40px;
+            display: table-cell;
+            vertical-align: middle;
+            width: 25%;
+            color: #d1d1d1;
         }
-        #footer > div.wrapper > div > div:first-child {
-            width: 65%;
-            float: left;
-            background: url(../img/logo.png) left center no-repeat;
-            background-size: auto 25px;
-            padding-left: 35px;
-            box-sizing: border-box;
+        #footer > div.wrapper > div > span:first-child { /* Coryright */
+            text-align: left;
+            width: 50%;
         }
-        #footer > div.wrapper > div > div:last-child {
-            width: 30%;
-            float: right;
+        #footer > div.wrapper > div > span:nth-child(2) { /* иконки соц.сетей */
+
         }
-            #footer > div.wrapper > div > div > span {
-                display: table-cell;
-                height: 40px;
-                width: 100%;
-                vertical-align: middle;
-                font-size: 11px;
-                line-height: 13px;
+            #footer > div.wrapper > div > span:nth-child(2) > a {
+
+            }
+                #footer > div.wrapper > div > span:nth-child(2) > a > i:first-child {
+                    color: #395985;
+                }
+                #footer > div.wrapper > div > span:nth-child(2) > a > i:last-child {
+                    color: #d1d1d1;
+                }
+            #footer > div.wrapper > div > span:nth-child(2) > a:nth-child(2) {
+                margin: 0 15px;
+            }
+        #footer > div.wrapper > div > span:last-child { /* карта сайта */
+            text-align: right;
+        }
+            #footer > div.wrapper > div > span:last-child > a {
                 color: #d1d1d1;
             }
-                #footer > div.wrapper > div > div:last-child > span {
-                    text-align: right;
-                }
-                    #footer > div.wrapper > div > div:last-child > span > a {
-                        font-size: 13px;
-                        color: #d1d1d1;
-                        text-decoration: underline;
-                    }
 
 @media screen and (max-width: 1285px) {
     /* основной контент: убираем правую колонку */
@@ -3346,6 +3346,16 @@ form#center-search-form {
     #all-groups > p > a {
         width: 50%;
     }
+    /* подвал */
+    #footer > div.wrapper > div > span:nth-child(2) {
+        display: none;
+    }
+    #footer > div.wrapper > div > span:first-child {
+        width: 70%;
+    }
+    #footer > div.wrapper > div > span:last-child {
+        width: 30%;
+    }
 }
 
 @media screen and (max-width: 510px) {
@@ -3422,10 +3432,10 @@ form#center-search-form {
     }
     /* подвал */
     #footer > div.wrapper > ul > li:first-child {
-        width: 42%;
+        width: 49%;
     }
     #footer > div.wrapper > ul > li:nth-child(2) {
-        width: 58%;
+        width: 51%;
     }
 }
 
@@ -3452,11 +3462,6 @@ form#center-search-form {
 }
 
 @media screen and (max-width: 374px) {
-    /* уменьшаем подвал */
-    #footer > div > div > span {
-        font-size: 10px;
-        line-height: 12px;
-    }
     /* список всех производителей */
     #all-makers > p > a {
         width: 100%;
