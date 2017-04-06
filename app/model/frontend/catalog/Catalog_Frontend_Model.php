@@ -12,6 +12,8 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * protected function getProductsByParam(...)
      * public function getCheckParams(...)
      * protected function checkParams(...)
+     * protected function getIsOnlyCategoryGroup(...)
+     * protected function isOnlyCategoryGroup(...)
      * public function getCategoryPath(...)
      * protected function categoryPath(...)
      * protected function getAllCategoryParents(...)
@@ -241,6 +243,68 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
     }
 
     /**
+     * Если категория с уникальным идентификатором $id (и ее потомки) содержит товары одной
+     * функциональной группы, функция возвращает идентификатор этой группы, в противнойм случае
+     * возвращает false; это позволяет сразу включить фильтр по функционалу, чтобы стали доступны
+     * параметры подбора; результат работы кэшируется
+     */
+    protected function getIsOnlyCategoryGroup($id) {
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
+        if ( ! $this->enableDataCache) {
+            return $this->isOnlyCategoryGroup($id);
+        }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Если категория с уникальным идентификатором $id (и ее потомки) содержит товары одной
+     * функциональной группы, функция возвращает идентификатор этой группы, в противнойм случае
+     * возвращает false; это позволяет сразу включить фильтр по функционалу, чтобы стали доступны
+     * параметры подбора
+     */
+    protected function isOnlyCategoryGroup($id) {
+
+        // получаем список всех функциональных групп категории $id и ее потомков
+        $childs = $this->getAllChildIds($id);
+        $childs[] = $id;
+        $childs = implode(',', $childs);
+
+        $query = "SELECT
+                      DISTINCT `a`.`id` AS `id`
+                  FROM
+                      `groups` `a`
+                      INNER JOIN `products` `b` ON `a`.`id` = `b`.`group`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                  WHERE
+                      (`b`.`category` IN (" . $childs . ") OR `b`.`category2` IN (" . $childs . "))
+                      AND `b`.`visible` = 1";
+        $result = $this->database->fetchAll($query);
+        if (count($result) == 1) {
+            return $result[0]['id'];
+        }
+        return false;
+
+    }
+
+    /**
      * Функция возвращает путь от корня каталога до категории с уникальным
      * идентификатором $id; результат работы кэшируется
      */
@@ -280,8 +344,16 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         while ($current) {
             $query = "SELECT `parent`, `name` FROM `categories` WHERE `id` = :current";
             $res = $this->database->fetch($query, array('current' => $current), $this->enableDataCache);
+            $url = 'frontend/catalog/category/id/' . $current;
+            // сразу включаем фильтр по функционалу, если у текущей категории
+            // все товары принадлежат одной функциональной группе, чтобы при
+            // переходе в эту категорию стали доступны параметры подбора
+            $filter = $this->getIsOnlyCategoryGroup($current);
+            if ($filter) {
+                $url = $url . '/group/' . $filter;
+            }
             $path[] = array(
-                'url' => $this->getURL('frontend/catalog/category/id/' . $current),
+                'url' => $this->getURL($url),
                 'name' => $res['name']
             );
             $current = $res['parent'];

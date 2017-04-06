@@ -4,7 +4,7 @@
  * взаимодействует с БД, общедоступная часть сайта
  */
 class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
-    
+
     /*
      * public function getRootCategories()
      * protected function rootCategories()
@@ -13,7 +13,7 @@ class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает корневые категории; результат работы кэшируется
      */
@@ -48,7 +48,15 @@ class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $root = $this->database->fetchAll($query);
         // добавляем в массив информацию об URL категорий
         foreach($root as $key => $value) {
-            $root[$key]['url'] = $this->getURL('frontend/catalog/category/id/' . $value['id']);
+            $url = 'frontend/catalog/category/id/' . $value['id'];
+            // сразу включаем фильтр по функционалу, если у текущей дочерней категории
+            // все товары принадлежат одной функциональной группе, чтобы при переходе в
+            // эту категорию стали доступны параметры подбора
+            $filter = $this->getIsOnlyCategoryGroup($value['id']);
+            if ($filter) {
+                $url = $url . '/group/' . $filter;
+            }
+            $root[$key]['url'] = $this->getURL($url);
         }
         return $root;
     }

@@ -65,7 +65,7 @@ select::-ms-expand {
 }
 body > .wrapper {
     overflow: hidden;
-    padding-bottom: 60px;
+    padding-bottom: 160px;
 }
 #header {
     height: 80px;
@@ -94,7 +94,7 @@ body > .wrapper {
 }
 #footer {
     width: 100%;
-    height: 60px;
+    height: 160px;
     background: #2f3133;
     position: absolute;
     bottom: 0;
@@ -2389,7 +2389,7 @@ form#center-search-form {
  * ЛЕВАЯ КОЛОНКА
  */
 
-/* меню каталога */
+/* меню каталога в левой колонке */
 #left > div:first-child div.side-content {
     padding: 0;
 }
@@ -2527,7 +2527,7 @@ form#center-search-form {
                 }
 
 
-/* список производителей в правой колонке */
+/* список производителей в левой колонке */
 #side-makers {
 
 }
@@ -2537,7 +2537,7 @@ form#center-search-form {
         list-style: none;
     }
         #side-makers > .side-content > ul > li {
-            padding-right: 25px;
+            padding-right: 30px;
             border-bottom: 1px dashed #d1d1d1;
             position: relative;
             overflow: hidden;
@@ -2562,7 +2562,7 @@ form#center-search-form {
                     font-size: 13px;
                     line-height: 25px;
                     height: 25px;
-                    width: 25px;
+                    width: 30px;
                     text-align: center;
                     background: #f0f0f0;
                     top: 0;
@@ -2584,7 +2584,7 @@ form#center-search-form {
             text-decoration: none;
         }
 
-/* список функциональных групп в правой колонке */
+/* список функциональных групп в левой колонке */
 #side-groups {
 
 }
@@ -2594,7 +2594,7 @@ form#center-search-form {
         list-style: none;
     }
         #side-groups > .side-content > ul > li {
-            padding: 0 28px 0 5px;
+            padding: 0 30px 0 5px;
             border-bottom: 1px dashed #d1d1d1;
             height: 28px;
             overflow: hidden;
@@ -2608,8 +2608,6 @@ form#center-search-form {
                 width: 100%;
             }
                 #side-groups > .side-content > ul > li > span > a {
-                    /*padding-left: 5px;*/
-
                     display: table-cell;
                     height: 28px;
                     vertical-align: middle;
@@ -2622,7 +2620,7 @@ form#center-search-form {
                     font-size: 13px;
                     line-height: 28px;
                     height: 28px;
-                    width: 28px;
+                    width: 30px;
                     text-align: center;
                     background: #f0f0f0;
                     top: 0;
@@ -2955,43 +2953,84 @@ form#center-search-form {
 /*
  * ПОДВАЛ
  */
-#footer {
-    height: 60px;
+#footer { /* состоит из двух горизонтальных блоков */
+    height: 160px;
     overflow: hidden;
 }
-    #footer > div > div {
-        height: 60px;
-        display: table;
+    #footer > div.wrapper > ul { /* первый горизонтальный блок */
+        height: 119px;
+        border-bottom: 1px solid #646464;
+        overflow: hidden;
+        list-style: none;
     }
-        #footer > div > div:first-child {
-            width: 65%;
+        #footer > div.wrapper > ul > li {
             float: left;
-            background: url(../img/logo.png) left center no-repeat;
-            background-size: auto 30px;
-            padding-left: 40px;
-            box-sizing: border-box;
+            width: 31%;
+            overflow: hidden;
         }
-        #footer > div > div:last-child {
-            width: 30%;
+        #footer > div.wrapper > ul > li:first-child {
+            width: 28%
+        }
+        #footer > div.wrapper > ul > li:last-child {
             float: right;
+            width: 10%
         }
-            #footer > div > div > span {
-                display: table-cell;
-                height: 60px;
-                width: 100%;
-                vertical-align: middle;
-                font-size: 11px;
-                line-height: 13px;
+        #footer > div.wrapper > ul > li > span {
+            display: block;
+            font-size: 12px;
+            line-height: 15px;
+        }
+            #footer > div.wrapper > ul > li > span > a {
+                color: #8dc5fd;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+            #footer > div.wrapper > ul > li > span:first-child,
+            #footer > div.wrapper > ul > li:last-child > span:nth-child(4) {
+                margin: 5px 0 3px 0;
+            }
+                #footer > div.wrapper > ul > li > span:first-child > a,
+                #footer > div.wrapper > ul > li:last-child > span:nth-child(4) > a {
+                    color: #d1d1d1;
+                    font-size: 14px;
+                }
+    #footer > div.wrapper > div { /* второй горизонтальный блок */
+        height: 40px;
+        display: table;
+        width: 100%;
+    }
+        #footer > div.wrapper > div > span {
+            height: 40px;
+            display: table-cell;
+            vertical-align: middle;
+            width: 25%;
+            color: #d1d1d1;
+        }
+        #footer > div.wrapper > div > span:first-child { /* Coryright */
+            text-align: left;
+            width: 50%;
+        }
+        #footer > div.wrapper > div > span:nth-child(2) { /* иконки соц.сетей */
+
+        }
+            #footer > div.wrapper > div > span:nth-child(2) > a {
+
+            }
+                #footer > div.wrapper > div > span:nth-child(2) > a > i:first-child {
+                    color: #395985;
+                }
+                #footer > div.wrapper > div > span:nth-child(2) > a > i:last-child {
+                    color: #d1d1d1;
+                }
+            #footer > div.wrapper > div > span:nth-child(2) > a:nth-child(2) {
+                margin: 0 15px;
+            }
+        #footer > div.wrapper > div > span:last-child { /* карта сайта */
+            text-align: right;
+        }
+            #footer > div.wrapper > div > span:last-child > a {
                 color: #d1d1d1;
             }
-                #footer > div > div:last-child > span {
-                    text-align: right;
-                }
-                    #footer > div > div:last-child > span > a {
-                        font-size: 13px;
-                        color: #d1d1d1;
-                        text-decoration: underline;
-                    }
 
 @media screen and (max-width: 1285px) {
     /* основной контент: убираем правую колонку */
@@ -3042,12 +3081,35 @@ form#center-search-form {
     #product-item .product-item-main .product-item-info > div:first-child > span:last-child > span:nth-child(2) {
         display: none;
     }
+    /* подвал */
+    #footer > div.wrapper > ul > li:last-child {
+        width: 11%;
+    }
+    #footer > div.wrapper > ul > li {
+        width: 30%;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 29%
+    }
 }
 
 @media screen and (max-width: 1045px) {
     /* уменьшаем главное меню */
     #menu > ul > li > a {
         padding: 10px;
+    }
+    /* подвал */
+    #footer > div.wrapper > ul > li:last-child {
+        display: none;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 32%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 38%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        width: 30%;
     }
 }
 
@@ -3122,6 +3184,15 @@ form#center-search-form {
     #menu > ul > li:nth-child(1) {
         display: none;
     }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 30%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 38%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        width: 32%;
+    }
 }
 
 @media screen and (max-width: 730px) {
@@ -3154,6 +3225,16 @@ form#center-search-form {
     /* список всех функциональных групп */
     #all-groups > p > a {
         width: 40%;
+    }
+    /* подвал */
+    #footer > div.wrapper > ul > li:nth-child(3) {
+        display: none;
+    }
+    #footer > div.wrapper > ul > li:first-child {
+        width: 50%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 50%;
     }
 }
 
@@ -3265,6 +3346,16 @@ form#center-search-form {
     #all-groups > p > a {
         width: 50%;
     }
+    /* подвал */
+    #footer > div.wrapper > div > span:nth-child(2) {
+        display: none;
+    }
+    #footer > div.wrapper > div > span:first-child {
+        width: 70%;
+    }
+    #footer > div.wrapper > div > span:last-child {
+        width: 30%;
+    }
 }
 
 @media screen and (max-width: 510px) {
@@ -3339,6 +3430,13 @@ form#center-search-form {
     .product-list-line > div > .product-list-basket > form:not(:first-child) {
         width: 50%;
     }
+    /* подвал */
+    #footer > div.wrapper > ul > li:first-child {
+        width: 49%;
+    }
+    #footer > div.wrapper > ul > li:nth-child(2) {
+        width: 51%;
+    }
 }
 
 @media screen and (max-width: 415px) {
@@ -3364,11 +3462,6 @@ form#center-search-form {
 }
 
 @media screen and (max-width: 374px) {
-    /* уменьшаем подвал */
-    #footer > div > div > span {
-        font-size: 10px;
-        line-height: 12px;
-    }
     /* список всех производителей */
     #all-makers > p > a {
         width: 100%;

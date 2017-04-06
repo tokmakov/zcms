@@ -171,6 +171,14 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $url = 'frontend/catalog/category/id/' . $value['id'];
             if ($group) {
                 $url = $url . '/group/' . $group;
+            } else {
+                // сразу включаем фильтр по функционалу, если у текущей дочерней категории
+                // все товары принадлежат одной функциональной группе, чтобы при переходе в
+                // эту категорию стали доступны параметры подбора
+                $filter = $this->getIsOnlyCategoryGroup($value['id']);
+                if ($filter) {
+                    $url = $url . '/group/' . $filter;
+                }
             }
             if ($maker) {
                 $url = $url . '/maker/' . $maker;
@@ -219,7 +227,8 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-maker-' . $maker. '-hit-' . $hit
-               . '-new-' . $new . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
+               . '-new-' . $new . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-'
+               . $start;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -412,7 +421,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
-         * запроса к базе данных
+         * запросов к базе данных
          */
         if ( ! $this->enableDataCache) {
             return $this->categoryMakers($id, $group, $hit, $new, $param);
@@ -420,7 +429,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         /*
          * включено кэширование данных, получаем данные из кэша; если данные
-         * в кэше не актуальны, будет выполнен запрос к базе данных
+         * в кэше не актуальны, будет выполнены запросы к базе данных
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit

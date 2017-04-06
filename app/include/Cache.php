@@ -32,6 +32,11 @@ class Cache {
      */
     private $instanceMemCache;
 
+    /**
+     * для доступа к настройкам приложения, экземпляр класса Config
+     */
+    protected $config;
+
 
     /**
      * Функция возвращает ссылку на экземпляр данного класса,
@@ -49,10 +54,13 @@ class Cache {
      * проектирования «Одиночка»
      */
     private function __construct() {
+        // настройки приложения, экземпляр класса Config
+        $this->config = Config::getInstance();
+
         // экземпляр класса кэша с использованием файлов
         $this->instanceFileCache = FCache::getInstance();
         // экземпляр класса кэша с использованием демона Memcached
-        if (Config::getInstance()->cache->mem->enable) {
+        if ($this->config->cache->mem->enable) {
             try {
                 $this->instanceMemCache = MCache::getInstance();
                 $this->enableMemCache = true;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс Order_Backend_Model для работы с заказавми в магазине,
+ * Класс Order_Backend_Model для работы с заказами в магазине,
  * взаимодействует с базой данных, административная часть сайта
  */
 class Order_Backend_Model extends Backend_Model {
@@ -85,7 +85,7 @@ class Order_Backend_Model extends Backend_Model {
         );
         $query = "SELECT
                       `product_id`, `code` AS `code`, `name`,
-                      `title`, `price`, `quantity`, `cost`
+                      `title`, `price`, `unit`, `quantity`, `cost`
                   FROM
                       `orders_prds`
                   WHERE

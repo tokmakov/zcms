@@ -132,6 +132,13 @@ class Router {
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // строка frontend/catalog/category/id/17
         $path = trim($path, '/');
         if ('index.php' == strtolower($path) || '' == $path) {
+            if ($this->xhr) {
+                $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
+                if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+                    $this->controller = 'notfound';
+                    $this->controllerClassName = 'Index_Notfound_Frontend_Controller';
+                }
+            }
             return;
         }
         // в админке путь всегда начинается с backend
@@ -141,6 +148,7 @@ class Router {
         // включена поддержка SEF (ЧПУ)?
         if ( (!$this->backend) && $this->config->sef->enable) {
             $path = $this->getURL($path);
+            // контроллер не найден
             if (false === $path) {
                 $this->controller = 'notfound';
                 $frontback = ($this->backend) ? 'Backend' : 'Frontend';
@@ -151,6 +159,7 @@ class Router {
         // из $path извлекаем имя контроллера и действие
         $pattern = '~^(frontend|backend)/([a-z][a-z0-9]*)/([a-z][a-z0-9]*)~i';
         if ( ! preg_match($pattern, $path, $matches)) {
+            // контроллер не найден
             $this->controller = 'notfound';
             $frontback = ($this->backend) ? 'Backend' : 'Frontend';
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
@@ -181,6 +190,12 @@ class Router {
         // контроллер обрабытывает запрос с использованием XmlHttpRequest?
         if ($this->xhr) {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
+        }
+        if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+            $this->controller = 'notfound';
+            $this->action = 'index';
+            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+            return;
         }
 
         // получаем параметры
