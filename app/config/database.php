@@ -7,6 +7,6 @@ $database = array(               // соединение с базой данн�
     'host'      => 'localhost',
     'user'      => 'root',
     'pass'      => 'wbmstr',
-    'name'      => 'zcms2',
+    'name'      => 'zcms',
     'balancing' => false,        // включена балансировка нагрузки между master и slave?
 );
