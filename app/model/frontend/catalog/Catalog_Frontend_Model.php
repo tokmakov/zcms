@@ -12,6 +12,8 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * protected function getProductsByParam(...)
      * public function getCheckParams(...)
      * protected function checkParams(...)
+     * protected function getIsOnlyCategoryGroup(...)
+     * protected function isOnlyCategoryGroup(...)
      * public function getCategoryPath(...)
      * protected function categoryPath(...)
      * protected function getAllCategoryParents(...)
@@ -342,8 +344,16 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
         while ($current) {
             $query = "SELECT `parent`, `name` FROM `categories` WHERE `id` = :current";
             $res = $this->database->fetch($query, array('current' => $current), $this->enableDataCache);
+            $url = 'frontend/catalog/category/id/' . $current;
+            // сразу включаем фильтр по функционалу, если у текущей категории
+            // все товары принадлежат одной функциональной группе, чтобы при
+            // переходе в эту категорию стали доступны параметры подбора
+            $filter = $this->getIsOnlyCategoryGroup($current);
+            if ($filter) {
+                $url = $url . '/group/' . $filter;
+            }
             $path[] = array(
-                'url' => $this->getURL('frontend/catalog/category/id/' . $current),
+                'url' => $this->getURL($url),
                 'name' => $res['name']
             );
             $current = $res['parent'];

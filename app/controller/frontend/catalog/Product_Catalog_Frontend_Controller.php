@@ -76,10 +76,10 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         $this->title = $product['name'] . ' ' . $product['title'];
-        if (!empty($product['keywords'])) {
+        if ( ! empty($product['keywords'])) {
             $this->keywords = $product['keywords'];
         }
-        if (!empty($product['description'])) {
+        if ( ! empty($product['description'])) {
             $this->description = $product['description'];
         }
 
@@ -114,7 +114,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // получаем от модели массив рекомендованных товаров
         $recommendedProducts = $this->basketFrontendModel->getRecommendedProducts($this->params['id']);
-        
+
         // получаем от модели массив похожих товаров
         $likedProducts = $this->productCatalogFrontendModel->getLikedProducts(
             $this->params['id'],
