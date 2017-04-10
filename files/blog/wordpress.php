@@ -121,6 +121,7 @@ foreach ($posts as $post) {
     $register->database->execute($query, array('content' => $content, 'id' => $post['id']));
 }
 
+// превьюшки
 require 'files/blog/thumb.php';
 foreach ($wp_posts as $post) {
     if (empty($post['thumbnail'])) {

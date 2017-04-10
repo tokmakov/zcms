@@ -172,9 +172,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($group) {
                 $url = $url . '/group/' . $group;
             } else {
-                // сразу включаем фильтр по функционалу, если у текущей дочерней категории
-                // все товары принадлежат одной функциональной группе, чтобы при переходе в
-                // эту категорию стали доступны параметры подбора
+                // сразу включаем фильтр по функционалу, если у текущей дочерней категории все
+                // товары принадлежат одной функциональной группе, чтобы при переходе в эту
+                // категорию сразу стали доступны параметры подбора (без выбора единственной
+                // функциональной группы из выпадающего списка)
                 $filter = $this->getIsOnlyCategoryGroup($value['id']);
                 if ($filter) {
                     $url = $url . '/group/' . $filter;
@@ -783,6 +784,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
         }
 
+        // приводим полученные данные к такому виду, чтобы с ними было удобно работать в шаблоне
         $params = array();
         $param_id = 0;
         $counter = -1;
@@ -989,7 +991,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает ЧПУ для категории с уникальным идентификатором $id с учетом
+     * Функция возвращает URL страницы категории с уникальным идентификатором $id с учетом
      * фильтров и сортировки товаров
      */
     protected function categoryURL($id, $group, $maker, $hit, $new, $param, $sort) {
