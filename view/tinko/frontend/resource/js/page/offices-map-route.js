@@ -25,7 +25,7 @@ function initOfficesMap() {
         address: '3-й проезд Перова поля, дом 8',
         phone: 'тел: (495) 708-42-13, факc: (495) 708-42-14',
         photo: '<img src="/files/page/41/office.jpg" alt="Центральный офис" />',
-        print: '<a href="/files/page/41/print.jpg" alt="Центральный офис" target="_blank" />Версия для печати</a>'
+        print: '<a href="/files/page/41/print.jpg" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -44,7 +44,7 @@ function initOfficesMap() {
         address: 'ул. Часовая, д. 24, стр. 2',
         phone: 'тел: (495) 708-42-13 доб. 401',
         photo: '<img src="/files/page/41/office1.jpg" alt="Офис продаж Сокол" />',
-        print: '<a href="/files/page/41/print1.jpg" alt="Офис продаж Сокол" target="_blank" />Версия для печати</a>'
+        print: '<a href="/files/page/41/print1.jpg" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -63,7 +63,7 @@ function initOfficesMap() {
         address: 'ул. Щепкина, д. 47',
         phone: 'тел: (495) 708-42-13 доб. 402',
         photo: '<img src="/files/page/41/office2.jpg" alt="Офис продаж Мещанский" />',
-        print: '<a href="/files/page/41/print2.jpg" alt="Офис продаж Мещанский" target="_blank" />Версия для печати</a>'
+        print: '<a href="/files/page/41/print2.jpg" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент
@@ -82,7 +82,7 @@ function initOfficesMap() {
         address: 'ул. Нагорная, д. 20, корп. 1',
         phone: 'тел: (495) 708-42-13 доб. 403',
         photo: '<img src="/files/page/41/office3.gif" alt="Офис продаж Нагорный" />',
-        print: '<a href="/files/page/41/print3.jpg" alt="Офис продаж Нагорный" target="_blank" />Версия для печати</a>'
+        print: '<a href="/files/page/41/print3.jpg" target="_blank" />Версия для печати</a>'
     }, {
         // Опции
         preset: 'twirl#redStretchyIcon' // иконка растягивается под контент

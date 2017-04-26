@@ -2,7 +2,9 @@
 #checkout-order {
 
 }
-    #checkout-order .company-checkbox-help, #checkout-order .make_profile_help {
+    #checkout-order .company-checkbox-help,
+    #checkout-order .make_profile_help,
+    #checkout-order .customer-checkbox-help {
         background: #395985;
         color: #fff;
         border-radius: 8px;

@@ -7,6 +7,8 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $action - атрибут action тега form
+ * authUser - пользователь авторизован?
+ * customer - не зарегистрированный пользователь уже делал заказы ранее?
  * buyer_name - фамилия контактного лица получателя
  * buyer_surname - имя контактного лица получателя
  * buyer_patronymic - отчество контактного лица получателя
@@ -157,6 +159,16 @@ defined('ZCMS') or die('Access denied');
 ?>
 
 <form action="<?php echo $action; ?>" method="post" id="checkout-order">
+
+    <?php if ($customer): ?>
+        <div id="customer">
+            <label>
+                <input type="checkbox" name="customer" value="1" />
+                <span>Копировать из последней заявки</span>
+            </label>
+            <span class="customer-checkbox-help">?</span>
+        </div>
+    <?php endif; ?>
 
     <div id="buyer-order">
 

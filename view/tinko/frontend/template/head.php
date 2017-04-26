@@ -21,13 +21,13 @@ defined('ZCMS') or die('Access denied');
 <meta name="keywords" content="<?php echo $keywords; ?>" />
 <meta name="description" content="<?php echo $description; ?>" />
 
-<?php if (!empty($cssFiles)): ?>
+<?php if ( ! empty($cssFiles)): ?>
 	<?php foreach($cssFiles as $cssFile): ?>
 		<link rel="stylesheet" href="<?php echo $cssFile; ?>" type="text/css" />
 	<?php endforeach; ?>
 <?php endif; ?>
 
-<?php if (!empty($jsFiles)): ?>
+<?php if ( ! empty($jsFiles)): ?>
 	<?php foreach($jsFiles as $jsFile): ?>
 		<script type="text/javascript" src="<?php echo $jsFile; ?>"></script>
 	<?php endforeach; ?>

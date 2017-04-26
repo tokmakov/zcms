@@ -50,6 +50,7 @@ abstract class Base_Model extends Base {
             3 => 'упак',
             4 => 'метр',
             5 => 'пара',
+            6 => 'кг'
         );
         return $units;
     }

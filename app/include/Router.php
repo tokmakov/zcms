@@ -135,6 +135,7 @@ class Router {
             if ($this->xhr) {
                 $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
                 if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+                    $this->xhr = false;
                     $this->controller = 'notfound';
                     $this->controllerClassName = 'Index_Notfound_Frontend_Controller';
                 }
@@ -150,6 +151,7 @@ class Router {
             $path = $this->getURL($path);
             // контроллер не найден
             if (false === $path) {
+                $this->xhr = false;
                 $this->controller = 'notfound';
                 $frontback = ($this->backend) ? 'Backend' : 'Frontend';
                 $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
@@ -158,8 +160,8 @@ class Router {
         }
         // из $path извлекаем имя контроллера и действие
         $pattern = '~^(frontend|backend)/([a-z][a-z0-9]*)/([a-z][a-z0-9]*)~i';
-        if ( ! preg_match($pattern, $path, $matches)) {
-            // контроллер не найден
+        if ( ! preg_match($pattern, $path, $matches)) { // контроллер не найден
+            $this->xhr = false;
             $this->controller = 'notfound';
             $frontback = ($this->backend) ? 'Backend' : 'Frontend';
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
@@ -181,17 +183,19 @@ class Router {
         $this->controllerClassName =
             ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
         if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+            $this->xhr = false;
             $this->controller = 'notfound';
             $this->action = 'index';
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
             return;
         }
 
-        // контроллер обрабытывает запрос с использованием XmlHttpRequest?
+        // контроллер обрабытывает запрос типа XmlHttpRequest?
         if ($this->xhr) {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }
         if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
+            $this->xhr = false;
             $this->controller = 'notfound';
             $this->action = 'index';
             $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
@@ -251,9 +255,17 @@ class Router {
     }
 
     /**
+     * Возвращает true, если запрос типа XmlHttpRequest
+     */
+    public function isXHR() {
+        return $this->xhr;
+    }
+
+    /**
      * Для случая NotFoundRecord (см. index.php и Base_Controller.php)
      */
     public function setNotFound() {
+        $this->xhr = false;
         $this->controller = 'notfound';
         $this->action = 'index';
         $frontback = ($this->backend) ? 'Backend' : 'Frontend';

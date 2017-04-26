@@ -8,7 +8,9 @@
 class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
     /**
-     * хранит уникальный идентификатор посетителя сайта
+     * уникальный идентификатор посетителя сайта, который сохраняется в cookie
+     * и нужен для работы покупательской корзины, списка отложенных товаров,
+     * списка товаров для сравнения и истории просмотренных товаров
      */
     private $visitorId;
 
@@ -443,6 +445,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // уникальный идентификатор авторизованного пользователя или ноль
         $data['user_id'] =
             $this->register->userFrontendModel->isAuthUser() ? $this->register->userFrontendModel->getUserId() : 0;
+        // уникальный идентификатор посетителя сайта
+        $data['visitor_id'] = $this->visitorId;
         // общая стоимость товаров в корзине
         $temp = $this->getTotalCost();
         // общая стоимость товаров в корзине без учета скидки
@@ -458,6 +462,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $query = "INSERT INTO `orders`
                       (
                           `user_id`,
+                          `visitor_id`,
                           `amount`,
                           `user_amount`,
                           `details`,
@@ -467,6 +472,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       VALUES
                       (
                           :user_id,
+                          :visitor_id,
                           :amount,
                           :user_amount,
                           :details,
@@ -669,7 +675,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $message = chunk_split(base64_encode($html));
 
-        mail($email, $subject, $message, $headers);
+        // mail($email, $subject, $message, $headers);
     }
 
     /**
