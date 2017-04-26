@@ -3,6 +3,9 @@ php_flag magic_quotes_gpc Off
 AddDefaultCharset utf-8
 DirectoryIndex index.php
 
+# START DDOS PROTECT
+# FINISH DDOS PROTECT
+
 RewriteEngine On
 
 RewriteCond %{HTTP_HOST} ^host2.ru
@@ -11,3 +14,9 @@ RewriteRule (.*) http://www.host2.ru/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php
+
+# <FilesMatch "\.(ttf|otf|eot|woff|woff2|svg)$">
+#   <IfModule mod_headers.c>
+#     Header set Access-Control-Allow-Origin "*"
+#   </IfModule>
+# </FilesMatch>

@@ -27,10 +27,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     private $user;
 
     /**
-     * уникальный идентификатор посетителя сайта, который сохраняется
-     * в cookie и нужен для работы покупательской корзины, сохранения
-     * списка отложенных товаров, списка товаров для сравнения и истории
-     * просмотренных товаров
+     * уникальный идентификатор посетителя сайта, который сохраняется в cookie
+     * и нужен для работы покупательской корзины, списка отложенных товаров,
+     * списка товаров для сравнения и истории просмотренных товаров
      */
     private $visitorId;
 
@@ -770,6 +769,15 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $errors[] = 'Не заполнено обязательное поле «Название профиля»';
         }
         if ($data['company']) { // для юридического лица
+
+            /*
+             * Для юридического лица обязательно для заполнения только одно поле — ИНН.
+             * Если нужна проверка заполнения других полей — раскомментировать все
+             * закомментированные строки метода и удалить строки, помеченные как «код
+             * на замену закомментированному»
+             */
+
+            /*
             if (empty($data['company_name'])) {
                 $errors[] = 'Не заполнено обязательное поле «Название компании»';
             }
@@ -779,6 +787,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             if (empty($data['company_address'])) {
                 $errors[] = 'Не заполнено обязательное поле «Юридический адрес»';
             }
+            */
+
             if (empty($data['company_inn'])) {
                 $errors[] = 'Не заполнено обязательное поле «ИНН»';
             } elseif ( ! preg_match('#^(\d{10}|\d{12})$#i', $data['company_inn'])) {
@@ -789,6 +799,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                     $errors[] = 'Поле «КПП» должно содержать 9 цифр';
                 }
             }
+
+            /*
             if (empty($data['bank_name'])) {
                 $errors[] = 'Не заполнено обязательное поле «Название банка»';
             }
@@ -807,6 +819,26 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             } elseif ( ! preg_match('#^\d{20}$#i', $data['corr_acc'])) {
                 $errors[] = 'Поле «Корреспондентский счет» должно содержать 20 цифр';
             }
+            */
+
+            // *** код на замену закомментированному, начало
+            if ( ! empty($data['bank_bik'])) {
+                if ( ! preg_match('#^\d{9}$#i', $data['bank_bik'])) {
+                    $errors[] = 'Поле «БИК банка» должно содержать 9 цифр';
+                }
+            }
+            if ( ! empty($data['settl_acc'])) {
+                if ( ! preg_match('#^\d{20}$#i', $data['settl_acc'])) {
+                    $errors[] = 'Поле «Расчетный счет» должно содержать 20 цифр';
+                }
+            }
+            if ( ! empty($data['corr_acc'])) {
+                if ( ! preg_match('#^\d{20}$#i', $data['corr_acc'])) {
+                    $errors[] = 'Поле «Корреспондентский счет» должно содержать 20 цифр';
+                }
+            }
+            // *** код на замену закомментированному, конец
+
         }
         if (empty($data['surname'])) {
             $errors[] = 'Не заполнено обязательное поле «Фамилия контактного лица»';
@@ -1047,6 +1079,34 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $basketFrontendModel->addToBasket($value['id'], $value['count'], $key);
         }
 
+    }
+
+    /*
+     * Функция возвращает информацию о последенм заказе пользователя не авторизованного
+     * и не зарегистрированного пользователя
+     */
+    public function getLastOrderData() {
+        if ($this->authUser) {
+            return array();
+        }
+        $query = "SELECT
+                      `details`
+                  FROM
+                      `orders`
+                  WHERE
+                      `visitor_id` = :visitor_id AND
+                      `details` <> ''AND
+                      `visitor_id` NOT IN
+                      (SELECT `visitor_id` FROM `users` WHERE 1)
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      1";
+        $result = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
+        if (false === $result) {
+            return array();
+        }
+        return unserialize($result);
     }
 
 }

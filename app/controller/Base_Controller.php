@@ -83,9 +83,7 @@ abstract class Base_Controller extends Base {
         // параметры, передававаемые контроллеру
         $this->params = $params;
         // запрос с использованием XmlHttpRequest?
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
-            $this->xhr = true;
-        }
+        $this->xhr = Router::getInstance()->isXHR();
     }
 
     /**

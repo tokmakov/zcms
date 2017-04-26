@@ -80,6 +80,19 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $profiles = $this->userFrontendModel->getUserProfiles();
         }
 
+        /*
+         * если пользователь не зарегистрирован на сайте, но уже делал заказы;
+         * эти информация нам нужна, чтобы облегчить пользователю заполнение
+         * формы при оформлении заказа; он может отметить checkbox «использовать
+         * данные последнего заказа», при этом будет выполнен XmlHttpRequest и
+         * форма будет заполнена полученными с сервера данными
+         */
+        $customer = false;
+        if ( ! $this->authUser) {
+            $customer = ! empty($this->userFrontendModel->getLastOrderData());
+        }
+
+
         // получаем от модели список офисов для самовывоза товара со склада
         $offices = $this->basketFrontendModel->getOffices();
 
@@ -100,6 +113,8 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             'action'             => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
             // пользователь авторизован?
             'authUser'           => $this->authUser,
+            // не зарегистрированный пользователь уже делал заказы ранее?
+            'customer'           => $customer,
             // фамилия контактного лица получателя
             'buyer_name'         => $name,
             // имя контактного лица получателя
@@ -316,7 +331,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
         if (empty($form['buyer_email'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица получателя»';
-        } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,6}$#i', $form['buyer_email'])) {
+        } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,}$#i', $form['buyer_email'])) {
             $errorMessage[] = 'Поле «E-mail контактного лица получателя» должно соответствовать формату somebody@mail.ru';
         }
         if ( ! $form['shipping']) { // если не самовывоз, должно быть заполнено поле «Адрес»
@@ -391,7 +406,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             }
             if (empty($form['payer_email'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «E-mail контактного лица плательщика»';
-            } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,6}$#i', $form['payer_email'])) {
+            } elseif ( ! preg_match('#^[_0-9a-z][-_.0-9a-z]*@[0-9a-z][-.0-9a-z]*[0-9a-z]\.[a-z]{2,}$#i', $form['payer_email'])) {
                 $errorMessage[] = 'Поле «E-mail контактного лица плательщика» должно соответствовать формату somebody@mail.ru';
             }
             // если плательщик - юридическое лицо

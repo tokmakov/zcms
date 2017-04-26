@@ -293,11 +293,11 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 91. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/category/id/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'catalog/category/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
-        
+
         // товары производителя
         '~^frontend/catalog/maker/id/(\d+)$~i' =>
         'catalog/maker/$1',
-        
+
         // 1. товары производителя, фильтр по функционалу
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)$~i' =>
         'catalog/maker/$1/group/$2',
@@ -399,10 +399,10 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/maker/$1/group/$2/hit/1/new/1/page/$3',
         // 34. товары производителя, фильтр по функционалу, лидеры продаж, фильтр по параметрам, сортировка
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
-        'catalog/maker/$1/group/$2/hit/1/param/$3/sort/$4', 
+        'catalog/maker/$1/group/$2/hit/1/param/$3/sort/$4',
         // 35. товары производителя, фильтр по функционалу, лидеры продаж, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
-        'catalog/maker/$1/group/$2/hit/1/param/$3/page/$4', 
+        'catalog/maker/$1/group/$2/hit/1/param/$3/page/$4',
         // 36. товары производителя, фильтр по функционалу, лидеры продаж, сортировка, постраничная навигация
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/maker/$1/group/$2/hit/1/sort/$3/page/$4',
@@ -423,7 +423,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/maker/$1/group/$2/hit/1/new/1/param/$3/sort/$4',
         // 42. товары производителя, фильтр по функционалу, лидеры продаж, новинки, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
-        'catalog/maker/$1/group/$2/hit/1/new/1/param/$3/page/$4', 
+        'catalog/maker/$1/group/$2/hit/1/new/1/param/$3/page/$4',
         // 43. товары производителя, фильтр по функционалу, лидеры продаж, новинки, сортировка, постраничная навигация
         '~^frontend/catalog/maker/id/(\d+)/group/(\d+)/hit/1/new/1/sort/(\d)/page/(\d+)$~i' =>
         'catalog/maker/$1/group/$2/hit/1/new/1/sort/$3/page/$4',
@@ -440,7 +440,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // товары функциональной группы
         '~^frontend/catalog/group/id/(\d+)$~i' =>
         'catalog/group/$1',
-        
+
         // 1. товары функциональной группы, фильтр по производителю
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)$~i' =>
         'catalog/group/$1/maker/$2',
@@ -458,7 +458,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/group/$1/sort/$2',
         // 6. товары функциональной группы, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/page/(\d+)$~i' =>
-        'catalog/group/$1/page/$2',    
+        'catalog/group/$1/page/$2',
         // 7. товары функциональной группы, фильтр по производителю, лидеры продаж
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1$~i' =>
         'catalog/group/$1/maker/$2/hit/1',
@@ -494,7 +494,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/group/$1/new/1/sort/$2',
         // 18. товары функциональной группы, новинки, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/new/1/page/(\d+)$~i' =>
-        'catalog/group/$1/new/1/page/$2',    
+        'catalog/group/$1/new/1/page/$2',
         // 19. товары функциональной группы, новинки, сортировка
         '~^frontend/catalog/group/id/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/group/$1/param/$2/sort/$3',
@@ -503,7 +503,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/group/$1/param/$2/page/$3',
         // 21. товары функциональной группы, сортировка, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/sort/(\d)/page/(\d+)$~i' =>
-        'catalog/group/$1/sort/$2/page/$3', 
+        'catalog/group/$1/sort/$2/page/$3',
         // 22. товары функциональной группы, фильтр по производителю, лидеры продаж, новинки
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/new/1$~i' =>
         'catalog/group/$1/maker/$2/hit/1/new/1',
@@ -563,7 +563,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/group/$1/new/1/sort/$2/page/$3',
         // 41. товары функциональной группы, новинки, фильтр по параметрам, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
-        'catalog/group/$1/param/$2/sort/$3/page/$4',            
+        'catalog/group/$1/param/$2/sort/$3/page/$4',
         // 42. товары функциональной группы, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
         'catalog/group/$1/maker/$2/hit/1/new/1/param/$3',
@@ -577,7 +577,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/group/$1/maker/$2/hit/1/param/$3/sort/$4',
         // 46. товары функциональной группы, фильтр по производителю, лидеры продаж, фильтр по параметрам, постраничная навигация
-        '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' => 
+        '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/page/(\d+)$~i' =>
         'catalog/group/$1/maker/$2/hit/1/param/$3/page/$4',
         // 47. товары функциональной группы, фильтр по производителю, лидеры продаж, сортировка, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/sort/(\d)/page/(\d+)$~i' =>
@@ -608,7 +608,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'catalog/group/$1/hit/1/param/$2/sort/$3/page/$4',
         // 56. товары функциональной группы, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^frontend/catalog/group/id/(\d+)/туц/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
-        'catalog/group/$1/new/1/param/$2/sort/$3/page/$4',      
+        'catalog/group/$1/new/1/param/$2/sort/$3/page/$4',
         // 57. товары функциональной группы, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка
         '~^frontend/catalog/group/id/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)$~i' =>
         'catalog/group/$1/maker/$2/hit/1/new/1/param/$3/sort/$4',
@@ -816,7 +816,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^frontend/solution/basket/id/(\d+)$~i' =>
         'solutions/basket/$1',
-        
+
         /*
          * статьи
          */
@@ -841,19 +841,19 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^frontend/sale/index$~i' =>
         'sale',
-        
+
         /*
          * рейтинг продаж
          */
         '~^frontend/rating/index$~i' =>
         'rating',
-    
+
         /*
          * партнеры компании
          */
         '~^frontend/partner/index$~i' =>
         'partners',
-        
+
         /*
          * бренды
          */
@@ -885,7 +885,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 
     /*
         КАТЕГОРИЯ КАТАЛОГА
-    
+
         1.  category/group
         2.  category/maker
         3.  category/hit
@@ -984,16 +984,16 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
 
         91. category/group/maker/hit/new/param/sort/page
     */
-     
+
     /*
         ТОВАРЫ ПРОИЗВОДИТЕЛЯ
-        
+
         1.  maker/group
         2.  maker/hit
         3.  maker/new
         4.  maker/sort
         5.  maker/page
-        
+
         6.  maker/group/hit
         7.  maker/group/new
         8.  maker/group/param
@@ -1005,7 +1005,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         14. maker/new/sort
         15. maker/new/page
         16. maker/sort/page
-        
+
         17. maker/group/hit/new
         18. maker/group/hit/param
         19. maker/group/hit/sort
@@ -1020,7 +1020,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         28. maker/hit/new/page
         29. maker/hit/sort/page
         30. maker/new/sort/page
-        
+
         31. maker/group/hit/new/param
         32. maker/group/hit/new/sort
         33. maker/group/hit/new/page
@@ -1031,7 +1031,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         38. maker/group/new/param/page
         39. maker/group/new/sort/page
         40. maker/hit/new/sort/page
-        
+
         41. maker/group/hit/new/param/sort
         42. maker/group/hit/new/param/page
         43. maker/group/hit/new/sort/page
@@ -1039,19 +1039,19 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         45. maker/group/new/param/sort/page
 
         46. maker/group/hit/new/param/sort/page
-        
+
     */
-    
+
     /*
         ТОВАРЫ ФУНКЦИОНАЛЬНОЙ ГРУППЫ
-        
+
         1.  group/maker
         2.  group/hit
         3.  group/new
         4.  group/param
         5.  group/sort
         6.  group/page
-        
+
         7.  group/maker/hit
         8.  group/maker/new
         9.  group/maker/param
@@ -1067,7 +1067,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         19. group/param/sort
         20. group/param/page
         21. group/sort/page
-        
+
         22. group/maker/hit/new
         23. group/maker/hit/param
         24. group/maker/hit/sort
@@ -1078,7 +1078,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         29. group/maker/param/sort
         30. group/maker/param/page
         31. group/maker/sort/page
-        
+
         32. group/hit/new/param
         33. group/hit/new/sort
         34. group/hit/new/page
@@ -1089,7 +1089,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         39. group/new/param/page
         40. group/new/sort/page
         41. group/param/sort/page
-        
+
         42. group/maker/hit/new/param
         43. group/maker/hit/new/sort
         44. group/maker/hit/new/page
@@ -1105,16 +1105,16 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         54. group/hit/new/sort/page
         55. group/hit/param/sort/page
         56. group/new/param/sort/page
-        
+
         57. group/maker/hit/new/param/sort
         58. group/maker/hit/new/param/page
         59. group/maker/hit/new/sort/page
         60. group/maker/hit/param/sort/page
         61. group/maker/new/param/sort/page
         62. group/hit/new/param/sort/page
-        
+
         63. group/maker/hit/new/param/sort/page
-        
+
     */
 
     'sef2cap' => array( // Search Engines Friendly => Controller/Action/Params
@@ -1405,11 +1405,11 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // 91. категория каталога, фильтр по функционалу, фильтр по производителю, лидеры продаж, новинки, фильтр по параметрам, сортировка, постраничная навигация
         '~^catalog/category/(\d+)/group/(\d+)/maker/(\d+)/hit/1/new/1/param/(\d+\.\d+(?:-\d+\.\d+)*)/sort/(\d)/page/(\d+)$~i' =>
         'frontend/catalog/category/id/$1/group/$2/maker/$3/hit/1/new/1/param/$4/sort/$5/page/$6',
-        
+
         // товары производителя
         '~^catalog/maker/(\d+)$~i' =>
         'frontend/catalog/maker/id/$1',
-        
+
         // 1. товары производителя, фильтр по функционалу
         '~^catalog/maker/(\d+)/group/(\d+)$~i' =>
         'frontend/catalog/maker/id/$1/group/$2',
@@ -1433,7 +1433,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         'frontend/catalog/maker/id/$1/group/$2/new/1',
         // 8. товары производителя, фильтр по функционалу, фильтр по параметрам
         '~^catalog/maker/(\d+)/group/(\d+)/param/(\d+\.\d+(?:-\d+\.\d+)*)$~i' =>
-        'frontend/catalog/maker/id/$1/group/$2/param/$3',   
+        'frontend/catalog/maker/id/$1/group/$2/param/$3',
         // 9. товары производителя, фильтр по функционалу, сортировка
         '~^catalog/maker/(\d+)/group/(\d+)/sort/(\d)$~i' =>
         'frontend/catalog/maker/id/$1/group/$2/sort/$3',
@@ -1552,7 +1552,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // товары функциональной группы
         '~^catalog/group/(\d+)$~i' =>
         'frontend/catalog/group/id/$1',
-        
+
         // 1. товары функциональной группы, фильтр по производителю
         '~^catalog/group/(\d+)/maker/(\d+)$~i' =>
         'frontend/catalog/group/id/$1/maker/$2',
@@ -1887,6 +1887,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // получение профиля для страницы оформления заказа
         '~^user/profile/(\d+)$~i' =>
         'frontend/user/profile/id/$1',
+        // получение данных последнего заказа для оформления нового заказа
+        '~^user/customer$~i' =>
+        'frontend/user/customer',
 
         /*
          * блога
@@ -1928,7 +1931,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // добавление товаров типового решения в корзину
         '~^solutions/basket/(\d+)$~i' =>
         'frontend/solution/basket/id/$1',
-        
+
         /*
          * статьи
          */
@@ -1953,19 +1956,19 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
          */
         '~^sale$~i' =>
         'frontend/sale/index$1',
-        
+
         /*
          * рейтинг продаж
          */
         '~^rating$~i' =>
         'frontend/rating/index$1',
-        
+
         /*
          * партнеры компании
          */
         '~^partners$~i' =>
         'frontend/partner/index$1',
-        
+
         /*
          * бренды
          */

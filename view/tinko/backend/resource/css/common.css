@@ -173,8 +173,9 @@ form input[type="submit"] {
     }
         .pager li a {
             display: block;
-            width: 26px;
+            width: auto;
             height: 26px;
+            min-width: 26px;
             text-align: center;
             background: #395985;
             font-size: 14px;
@@ -196,8 +197,9 @@ form input[type="submit"] {
         }
         .pager li span {
             display: block;
-            width: 26px;
+            width: auto;
             height: 26px;
+            min-width: 26px;
             text-align: center;
             background: #e9751f;
             font-size: 14px;

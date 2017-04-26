@@ -32,6 +32,20 @@ $(document).ready(function() {
         });
     });
 
+    // всплывающее окно с подсказкой о данных последнего заказа
+    $('#checkout-order .customer-checkbox-help').click(function() {
+        $('<div>Отметьте флажок, чтобы использовать для заполнения формы данные из последней заявки на оборудование.</div>')
+        .prependTo('body')
+        .hide()
+        .addClass('modal-window')
+        .center()
+        .fadeIn(500, function() {
+            $(this).delay(3500).fadeOut(500, function() {
+                $(this).remove();
+            });
+        });
+    });
+
     // если не отмечен checkbox «Плательщик и получатель различаются»,
     // скрываем часть формы, связанную с плательщиком
     if ( ! $('#checkout-order input[name="buyer_payer_different"]').prop('checked')) {
@@ -77,6 +91,122 @@ $(document).ready(function() {
     // скрываем/показываем часть формы, связанную с юр.лицом плательщика
     $('#checkout-order input[name="payer_company"]').change(function() {
         $('#checkout-order #payer-company').slideToggle();
+    });
+
+    /*
+     * при изменении состояния checkbox «Копировать из последней заявки»
+     */
+    $('#checkout-order input[name="customer"]').change(function() {
+
+        /*
+         * Возвращаем форму в исходное состояние
+         */
+
+        // возвращаем все поля формы, связанные с получателем, в исходное состояние
+        $('#checkout-order #buyer-order input[type="text"]').val('');
+        $('#checkout-order select[name="office"] option:selected').prop('selected', false);
+        if ($('#checkout-order input[name="buyer_company"]').prop('checked')) {
+            $('#checkout-order input[name="buyer_company"]').prop('checked', false).change();
+        }
+        if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
+            $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+        }
+        // возвращаем все поля формы, связанные с плательщиком, в исходное состояние
+        $('#checkout-order #payer-order input[type="text"]').val('');
+        if ($('#checkout-order input[name="payer_company"]').prop('checked')) {
+            $('#checkout-order input[name="payer_company"]').prop('checked', false).change();
+        }
+        // сбрасываем checkbox «Плательщик и получатель различаются», скрываем часть
+        // формы, связанную с плательщиком
+        if ($('#checkout-order input[name="buyer_payer_different"]').prop('checked')) {
+            $('#checkout-order input[name="buyer_payer_different"]').prop('checked', false).change();
+        }
+
+        // если checkbox был сброшен, больше ничего делать не надо
+        if ( ! $(this).prop('checked')) {
+            return;
+        }
+
+        /*
+         * Получаем с сервера данные и заполняем поля формы оформления заказа
+         */
+        $.get('/user/customer', function(data) {
+            if (data.buyer_name === undefined) {
+                return;
+            }
+            // фамилия контактного лица получателя
+            $('#checkout-order input[name="buyer_surname"]').val(data.buyer_surname);
+            // имя контактного лица получателя
+            $('#checkout-order input[name="buyer_name"]').val(data.buyer_name);
+            // отчество контактного лица получателя
+            $('#checkout-order input[name="buyer_patronymic"]').val(data.buyer_patronymic);
+            // e-mail контактного лица получателя
+            $('#checkout-order input[name="buyer_email"]').val(data.buyer_email);
+            // телефон контактного лица получателя
+            $('#checkout-order input[name="buyer_phone"]').val(data.buyer_phone);
+            if (data.buyer_company == 1) { // получатель - юридическое лицо?
+                $('#checkout-order input[name="buyer_company"]').prop('checked', true).change();
+
+                $('#checkout-order input[name="buyer_company_name"]').val(data.buyer_company_name);
+                $('#checkout-order input[name="buyer_company_ceo"]').val(data.buyer_company_ceo);
+                $('#checkout-order input[name="buyer_company_address"]').val(data.buyer_company_address);
+                $('#checkout-order input[name="buyer_company_inn"]').val(data.buyer_company_inn);
+                $('#checkout-order input[name="buyer_company_kpp"]').val(data.buyer_company_kpp);
+                $('#checkout-order input[name="buyer_bank_name"]').val(data.buyer_bank_name);
+                $('#checkout-order input[name="buyer_bank_bik"]').val(data.buyer_bank_bik);
+                $('#checkout-order input[name="buyer_settl_acc"]').val(data.buyer_settl_acc);
+                $('#checkout-order input[name="buyer_corr_acc"]').val(data.buyer_corr_acc);
+            }
+            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
+                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
+                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
+                }
+                $('#checkout-order input[name="buyer_shipping_address"]').val(data.buyer_shipping_address);
+                $('#checkout-order input[name="buyer_shipping_city"]').val(data.buyer_shipping_city);
+                $('#checkout-order input[name="buyer_shipping_index"]').val(data.buyer_shipping_index);
+            } else {
+                // из какого офиса забирать заказ?
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (data.shipping == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
+            }
+
+            if (data.buyer_payer_different == 1) { // получатель и плательщик различаются?
+                $('#checkout-order input[name="buyer_payer_different"]').prop('checked', true).change();
+
+
+                // фамилия контактного лица плательщика
+                $('#checkout-order input[name="payer_surname"]').val(data.payer_surname);
+                // имя контактного лица плательщика
+                $('#checkout-order input[name="payer_name"]').val(data.payer_name);
+                // отчество контактного лица плательщика
+                $('#checkout-order input[name="payer_patronymic"]').val(data.payer_patronymic);
+                // e-mail контактного лица плательщика
+                $('#checkout-order input[name="payer_email"]').val(data.payer_email);
+                // телефон контактного лица плательщика
+                $('#checkout-order input[name="payer_phone"]').val(data.payer_phone);
+                if (data.payer_company == 1) { // плательщик - юридическое лицо?
+                    $('#checkout-order input[name="payer_company"]').prop('checked', true).change();
+
+                    $('#checkout-order input[name="payer_company_name"]').val(data.payer_company_name);
+                    $('#checkout-order input[name="payer_company_ceo"]').val(data.payer_company_ceo);
+                    $('#checkout-order input[name="payer_company_address"]').val(data.payer_company_address);
+                    $('#checkout-order input[name="payer_company_inn"]').val(data.payer_company_inn);
+                    $('#checkout-order input[name="payer_company_kpp"]').val(data.payer_company_kpp);
+                    $('#checkout-order input[name="payer_bank_name"]').val(data.payer_bank_name);
+                    $('#checkout-order input[name="payer_bank_bik"]').val(data.payer_bank_bik);
+                    $('#checkout-order input[name="payer_settl_acc"]').val(data.payer_settl_acc);
+                    $('#checkout-order input[name="payer_corr_acc"]').val(data.payer_corr_acc);
+                }
+            }
+
+
+
+        }, 'json');
     });
 
     // если пользователь авторизован, подгружаем из профиля данные получателя
@@ -187,12 +317,12 @@ $(document).ready(function() {
             }
         }, 'json');
     });
-    
-    
+
+
     /*
-     * подсказки для юр.лица, банка, адреса доставки
+     * подсказки для юр.лица, банка, адреса доставки с использованием сервиса dadata.ru
      */
-    $('#checkout-order input[name="buyer_company_name"]').suggestions({ // юр.лицо получателя
+    $('#checkout-order input[name="buyer_company_name"]').suggestions({ // юр.лицо получателя, поиск по названию компании
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -212,7 +342,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_company_kpp"]').val(suggestion.data.kpp);
         }
     });
-    $('#checkout-order input[name="buyer_company_ceo"]').suggestions({ // юр.лицо
+    $('#checkout-order input[name="buyer_company_ceo"]').suggestions({ // юр.лицо, поиск по ФИО ген.директора
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -224,17 +354,17 @@ $(document).ready(function() {
             if (suggestion.data.type === 'LEGAL') { // юридическое лицо
                 $(this).val(suggestion.data.management.name);
             }
-            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниматель
                 $(this).val(suggestion.data.name.full);
             }
             $('#checkout-order input[name="buyer_company_name"]').val(suggestion.value);
             $('#checkout-order input[name="buyer_company_address"]').val(suggestion.data.address.value);
             $('#checkout-order input[name="buyer_company_inn"]').val(suggestion.data.inn);
             $('#checkout-order input[name="buyer_company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
-    $('#checkout-order input[name="buyer_company_inn"]').suggestions({ // юр.лицо получателя
+    $('#checkout-order input[name="buyer_company_inn"]').suggestions({ // юр.лицо получателя, поиск по ИНН компании
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -253,10 +383,10 @@ $(document).ready(function() {
             }
             $('#checkout-order input[name="buyer_company_address"]').val(suggestion.data.address.value);
             $('#checkout-order input[name="buyer_company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
-    $('#checkout-order input[name="buyer_bank_name"]').suggestions({ // банк получателя
+    $('#checkout-order input[name="buyer_bank_name"]').suggestions({ // банк получателя, поиск по названию банка
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
@@ -269,7 +399,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_corr_acc"]').val(suggestion.data.correspondent_account);
         }
     });
-    $('#checkout-order input[name="buyer_bank_bik"]').suggestions({ // банк получателя
+    $('#checkout-order input[name="buyer_bank_bik"]').suggestions({ // банк получателя, поиск по БИК банка
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
@@ -296,7 +426,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="buyer_shipping_index"]').val(suggestion.data.postal_code);
         }
     });
-    $('#checkout-order input[name="payer_company_name"]').suggestions({ // юр.лицо плательщика
+    $('#checkout-order input[name="payer_company_name"]').suggestions({ // юр.лицо плательщика, поиск по названию компании
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -316,7 +446,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="payer_company_kpp"]').val(suggestion.data.kpp);
         }
     });
-    $('#checkout-order input[name="payer_company_ceo"]').suggestions({ // юр.лицо
+    $('#checkout-order input[name="payer_company_ceo"]').suggestions({ // юр.лицо, поиск по ФИО ген.директора
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -328,17 +458,17 @@ $(document).ready(function() {
             if (suggestion.data.type === 'LEGAL') { // юридическое лицо
                 $(this).val(suggestion.data.management.name);
             }
-            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниматель
                 $(this).val(suggestion.data.name.full);
             }
             $('#checkout-order input[name="payer_company_name"]').val(suggestion.value);
             $('#checkout-order input[name="payer_company_address"]').val(suggestion.data.address.value);
             $('#checkout-order input[name="payer_company_inn"]').val(suggestion.data.inn);
             $('#checkout-order input[name="payer_company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
-    $('#checkout-order input[name="payer_company_inn"]').suggestions({ // юр.лицо получателя
+    $('#checkout-order input[name="payer_company_inn"]').suggestions({ // юр.лицо получателя, поиск по ИНН компании
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "PARTY",
@@ -352,15 +482,15 @@ $(document).ready(function() {
             if (suggestion.data.type === 'LEGAL') { // юр.лицо
                 $('#checkout-order input[name="payer_company_ceo"]').val(suggestion.data.management.name);
             }
-            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниметель
+            if (suggestion.data.type === 'INDIVIDUAL') { // индивидуальный предриниматель
                 $('#checkout-order input[name="payer_company_ceo"]').val(suggestion.data.name.full);
             }
             $('#checkout-order input[name="payer_company_address"]').val(suggestion.data.address.value);
             $('#checkout-order input[name="payer_company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
-    $('#checkout-order input[name="payer_bank_name"]').suggestions({ // банк получателя
+    $('#checkout-order input[name="payer_bank_name"]').suggestions({ // банк получателя, поиск по названию банка
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
@@ -373,7 +503,7 @@ $(document).ready(function() {
             $('#checkout-order input[name="payer_corr_acc"]').val(suggestion.data.correspondent_account);
         }
     });
-    $('#checkout-order input[name="payer_bank_bik"]').suggestions({ // банк получателя
+    $('#checkout-order input[name="payer_bank_bik"]').suggestions({ // банк получателя, поиск по БИК банка
         serviceUrl: "https://dadata.ru/api/v2",
         token: "14977cbf05ebd40c763abed4418ace516625be3e",
         type: "BANK",
