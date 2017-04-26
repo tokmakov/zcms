@@ -61,9 +61,9 @@ foreach ($xml->channel->item as $item) {
     $data = array(
         'id' => $post_id,
         'category' => $category,
-        'name' => $title,
-        'excerpt' => $excerpt,
-        'body' => $content,
+        'name' => trim($title),
+        'excerpt' => trim($excerpt),
+        'body' => trim($content),
         'added' => $post_date
     );
     $query = "INSERT INTO `blog_posts`
@@ -106,7 +106,7 @@ foreach ($posts as $post) {
                 }
                 copy('files/blog/source/'.$value, 'files/blog/'.$value);
             } else {
-				echo 'post=' . $post['id'] . ', no file ' . $value . PHP_EOL;
+                echo 'post=' . $post['id'] . ', no file ' . $value . PHP_EOL;
                 // echo 'post=' . $post['id'].', no file '.preg_replace('~[а-яА-Я]~u', '*', $value) . PHP_EOL;
             }
         }
