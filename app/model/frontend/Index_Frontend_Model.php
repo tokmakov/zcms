@@ -8,7 +8,7 @@ class Index_Frontend_Model extends Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Функция возвращает все данные для формирования главной страницы сайта;
      * результат работы кэшируется
@@ -26,9 +26,9 @@ class Index_Frontend_Model extends Frontend_Model {
         // арументы, переданные этой функции
         $arguments = func_get_args();
         // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);   
+        return $this->getCachedData($key, $function, $arguments);
     }
-    
+
     /**
      * Функция возвращает все данные для формирования главной страницы сайта
      */
@@ -80,12 +80,12 @@ class Index_Frontend_Model extends Frontend_Model {
         }
         return $banners;
     }
-    
+
     /**
      * Функция возвращает массив трех последних событий отрасли
      */
     private function getGeneralNews() {
-        
+
         $query = "SELECT
                       `id`, `name`, `excerpt`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
@@ -99,28 +99,35 @@ class Index_Frontend_Model extends Frontend_Model {
                   LIMIT
                       3";
         $news = $this->database->fetchAll($query);
-        // добавляем в массив новостей информацию об URL новости, картинки
+        /*
+         * добавляем в массив постов блога информацию об URL записи, картинки
+         */
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->blog) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($news as $key => $value) {
+            // URL записи (поста) блога
             $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
-            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
+            // директория, где лежит файл превьюшки
+            $temp = (string)$value['id'];
+            $folder = $temp[0];
+            // URL превьюшки записи (поста) блога
+            if (is_file('files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg';
             } else {
                 $news[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;
-        
+
     }
 
     /**
      * Функция возвращает массив трех последних новостей компании
      */
     private function getCompanyNews() {
-        
+
         $query = "SELECT
                       `id`, `name`, `excerpt`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
@@ -134,28 +141,35 @@ class Index_Frontend_Model extends Frontend_Model {
                   LIMIT
                       3";
         $news = $this->database->fetchAll($query);
-        // добавляем в массив новостей информацию об URL новости, картинки
+        /*
+         * добавляем в массив постов блога информацию об URL записи, картинки
+         */
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->blog) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($news as $key => $value) {
+            // URL записи (поста) блога
             $news[$key]['url']['item'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
-            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
+            // директория, где лежит файл превьюшки
+            $temp = (string)$value['id'];
+            $folder = $temp[0];
+            // URL превьюшки записи (поста) блога
+            if (is_file('files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg')) {
+                $news[$key]['url']['image'] = $host . 'files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg';
             } else {
                 $news[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
         }
         return $news;
-        
+
     }
 
     /**
      * Функция возвращает массив лидеров продаж для главной (стартовой) страницы сайта
      */
     private function getHitProducts() {
-        
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                       `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,
@@ -191,14 +205,14 @@ class Index_Frontend_Model extends Frontend_Model {
         }
 
         return $products;
-        
+
     }
 
     /**
      * Функция возвращает массив новых товаров для главной (стартовой) страницы сайта
      */
     public function getNewProducts() {
-        
+
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                       `a`.`title` AS `title`, `a`.`price` AS `price`,`a`.`unit` AS `unit`,

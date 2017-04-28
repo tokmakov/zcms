@@ -38,7 +38,7 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
             $this->params['id'] = (int)$this->params['id'];
         }
 
-        $this->title = 'Информация о заказе. ' . $this->title;
+        $this->title = 'Информация о заявке. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(
@@ -51,7 +51,7 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
                 'url'  => $this->userFrontendModel->getURL('frontend/user/index')
             ),
             array(
-                'name' => 'История заказов',
+                'name' => 'История заявок',
                 'url'  => $this->userFrontendModel->getURL('frontend/user/allorders')
             ),
         );
@@ -62,7 +62,7 @@ class Order_User_Frontend_Controller extends User_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
-        
+
         // получаем от модели список офисов для самовывоза товара со склада
         $offices = $this->userFrontendModel->getOffices();
 

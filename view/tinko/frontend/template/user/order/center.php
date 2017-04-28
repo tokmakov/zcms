@@ -53,22 +53,25 @@
  *   [payer_corr_acc] => 30101810400000000225
  *   [comment] => Комментарий к заказу
  *   [products] => Array (
- *     [0] => Array (
- *       [product_id] => 205151
- *       [code] => 205151
- *       [name] => ИПР 513-10
- *       [title] => Извещатель пожарный ручной
- *       [price] => 206.60000
- *       [user_price] => 178.64000
+ *     [0] => Array(
+ *       [id] => 2043
+ *       [code] => 002043
+ *       [name] => Стекло-3 (ИО 329-4)
+ *       [title] => Извещатель охранный поверхностный звуковой
+ *       [price] => 615.37000
+ *       [user_price] => 615.37000
  *       [unit] => 1
- *       [quantity] => 1
- *       [cost] => 206.60000
- *       [user_cost] => 178.64000
+ *       [quantity] => 2
+ *       [cost] => 1230.74000
+ *       [user_cost] => 1230.74000
+ *       [exists] => 1
+ *       [url] => //www.server.com/catalog/product/2043
  *     )
  *     [1] => Array (
  *       ..........
  *     )
  *   )
+ *   [repeat] => true
  * )
  *
  * $offices = Array (
@@ -109,7 +112,11 @@ defined('ZCMS') or die('Access denied');
         </tr>
         <?php foreach ($order['products'] as $product): ?>
            <tr>
-               <td><?php echo $product['code']; ?></td>
+                <?php if ($product['exists']): ?>
+                    <td><a href="<?php echo $product['url']; ?>"><?php echo $product['code']; ?></a></td>
+                <?php else: ?>
+                    <td><?php echo $product['code']; ?></td>
+                <?php endif; ?>
                <td><?php echo $product['name']; ?></td>
                <td><?php echo $product['quantity']; ?></td>
                <td><?php echo number_format($product['user_price'], 2, '.', ''); ?></td>

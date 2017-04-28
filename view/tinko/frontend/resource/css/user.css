@@ -467,9 +467,13 @@
             }
             #user-orders-list > div > p > span:first-child {
                 float: left;
+                width: 50%;
+                white-space: nowrap;
+                overflow: hidden;
             }
             #user-orders-list > div > p > span:last-child {
                 float: right;
+                width: 45%;
                 text-align: right;
             }
                 #user-orders-list > div > p > span:last-child > strong {

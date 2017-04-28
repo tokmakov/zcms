@@ -112,7 +112,7 @@ defined('ZCMS') or die('Access denied');
     <?php foreach($orders as $order): ?>
         <div>
             <p>
-                <span><?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
+                <span>№ <strong><?php echo $order['order_id']; ?></strong> от <?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
                 <span>Итого: <strong><?php echo $order['user_amount'] > 1000000 ? round(($order['user_amount']/1000000),1).' млн.' : number_format($order['user_amount'], 2, '.', ' '); ?></strong> руб.</span>
             </p>
             <table>

@@ -30,7 +30,7 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
             $this->redirect($this->userFrontendModel->getURL('frontend/user/login'));
         }
 
-        $this->title = 'История заказов. ' . $this->title;
+        $this->title = 'История заявок. ' . $this->title;
 
         // формируем хлебные крошки
         $breadcrumbs = array(

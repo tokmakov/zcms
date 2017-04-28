@@ -927,7 +927,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
         $query = "SELECT
                       `id` AS `order_id`, `amount`, `user_amount`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
-                      DATE_FORMAT(`added`, '%H:%i:%s') AS `time`, `status`
+                      DATE_FORMAT(`added`, '%H:%i') AS `time`, `status`
                   FROM
                       `orders`
                   WHERE
@@ -950,8 +950,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             $query = "SELECT
                           `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
                           `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
-                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`, `a`.`user_cost` AS `user_cost`,
-                          !ISNULL(`b`.`id`) AS `exists`
+                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`,
+                          `a`.`user_cost` AS `user_cost`, !ISNULL(`b`.`id`) AS `exists`
                       FROM
                           `orders_prds` `a` LEFT JOIN `products` `b`
                           ON `a`.`product_id` = `b`.`id` AND `b`.`visible` = 1
@@ -1004,7 +1004,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             throw new Exception('Попытка получить заказ не авторизованного пользователя');
         }
 
-        // общая информация о заказе (сумма, покупатель и плательщик, статус)
+        /*
+         * общая информация о заказе (сумма, покупатель и плательщик, статус)
+         */
         $query = "SELECT
                       `amount`, `user_amount`, `details`, `status`,
                       DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
@@ -1032,17 +1034,32 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             ),
             $details
         );
-        // добавляем информацию о списке товаров заказа
+
+        /*
+         * добавляем информацию о списке товаров заказа
+         */
         $query = "SELECT
-                      `product_id`, `code`, `name`, `title`, `price`,
-                      `user_price`, `unit`, `quantity`, `cost`, `user_cost`
+
+                          `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                          `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
+                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`,
+                          `a`.`user_cost` AS `user_cost`, !ISNULL(`b`.`id`) AS `exists`
                   FROM
-                      `orders_prds`
+                      `orders_prds` `a` LEFT JOIN `products` `b`
+                      ON `a`.`product_id` = `b`.`id` AND `b`.`visible` = 1
                   WHERE
-                      `order_id` = :order_id
+                      `a`.`order_id` = :order_id
                   ORDER BY
-                      `id`";
+                      `a`.`id`";
         $order['products'] = $this->database->fetchAll($query, array('order_id' => $id));
+        $order['repeat'] = false; // признак того, что пользователь может повторить заказ
+        foreach ($order['products'] as $k => $v) {
+            if ($v['exists']) { // если товар еще не удален из каталога
+                $order['products'][$k]['url'] = $this->getURL('frontend/catalog/product/id/' . $v['id']);
+                $order['repeat'] = true;
+            }
+        }
+
 
         return $order;
 

@@ -134,7 +134,7 @@ class Blog_Frontend_Model extends Frontend_Model {
                   LIMIT " . $start . ", " . $this->config->pager->frontend->blog->perpage;
         $posts = $this->database->fetchAll($query, array('id' => $id));
         /*
-         * добавляем в массив постов блога информацию об URL поста, картинки
+         * добавляем в массив постов блога информацию об URL записи (поста), картинки
          */
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->blog) { // Content Delivery Network
@@ -146,7 +146,7 @@ class Blog_Frontend_Model extends Frontend_Model {
             // директория, где лежит файл превьюшки
             $temp = (string)$value['id'];
             $folder = $temp[0];
-            // URL превьюшки записи
+            // URL превьюшки записи (поста) блога
             if (is_file('files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg')) {
                 $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg';
             } else {
