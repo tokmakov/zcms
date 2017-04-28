@@ -137,10 +137,15 @@ foreach ($wp_posts as $post) {
             echo 'No thumbnail for ' . $post['id'] . '<br/>';
             continue;
         }
+        $temp = (string)$post['id'];
+        $folder = $temp[0];
+        if ( ! is_dir('files/blog/thumb/'.$folder)) {
+            mkdir('files/blog/thumb/'.$folder);
+        }
         if ($width != 100 || $height != 100) {
-            resizeImage('files/blog/source/'.$file, 'files/blog/thumb/'.$post['id'].'.jpg', 100, 100);
+            resizeImage('files/blog/source/'.$file, 'files/blog/thumb/'.$folder.'/'.$post['id'].'.jpg', 100, 100);
         } else {
-            copy('files/blog/source/'.$file, 'files/blog/thumb/'.$post['id'].'.jpg');
+            copy('files/blog/source/'.$file, 'files/blog/thumb/'.$folder.'/'.$post['id'].'.jpg');
         }
     }
 }
