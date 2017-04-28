@@ -120,7 +120,7 @@ class Blog_Backend_Model extends Backend_Model {
         }
         return $files;
     }
-    
+
     /**
      * Функция возвращает массив файлов в папке $folder
      */
@@ -227,11 +227,20 @@ class Blog_Backend_Model extends Backend_Model {
      */
     private function uploadImage($id) {
 
+        // директория, куда будет загружен файл изображения
+        $temp = (string)$id;
+        $folfer = $temp[0];
+
         // удаляем изображение, загруженное ранее
         if (isset($_POST['remove_image'])) {
-            if (is_file('files/blog/thumb/' . $id . '.jpg')) {
-                unlink('files/blog/thumb/' . $id . '.jpg');
+            if (is_file('files/blog/thumb/' . $folfer . '/' . $id . '.jpg')) {
+                unlink('files/blog/thumb/' . $folfer . '/' . $id . '.jpg');
             }
+        }
+
+        // создаем директорию, если она еще не существует
+        if ( ! is_dir('files/blog/thumb/' . $folfer)) {
+            mkdir('files/blog/thumb/' . $folfer);
         }
 
         // проверяем, пришел ли файл изображения
@@ -244,7 +253,7 @@ class Blog_Backend_Model extends Backend_Model {
                     // изменяем размер изображения
                     $this->resizeImage(
                         $_FILES['image']['tmp_name'],
-                        'files/blog/thumb/' . $id . '.jpg',
+                        'files/blog/thumb/' . $folfer . '/' . $id . '.jpg',
                         100,
                         100,
                         'jpg'
@@ -254,7 +263,7 @@ class Blog_Backend_Model extends Backend_Model {
         }
 
     }
-    
+
     /**
      * Функция загружает файл для дальнейшей вставки его в запись (пост) блога
      */
@@ -263,7 +272,7 @@ class Blog_Backend_Model extends Backend_Model {
         if (empty($_FILES['files'])) {
             return;
         }
-        
+
         // создаем папку, если она еще не существует
         $year = date('Y');
         $folder = 'files/blog/' . $year;
@@ -324,8 +333,10 @@ class Blog_Backend_Model extends Backend_Model {
                       `id` = :id";
         $this->database->execute($query, array('id' => $id));
         // удаляем файл изображения
-        if (is_file('files/blog/thumb/' . $id . '.jpg')) {
-            unlink('files/blog/thumb/' . $id . '.jpg');
+        $temp = (string)$id;
+        $folfer = $temp[0];
+        if (is_file('files/blog/thumb/' . $folfer . '/' . $id . '.jpg')) {
+            unlink('files/blog/thumb/' . $folfer . '/' . $id . '.jpg');
         }
     }
 

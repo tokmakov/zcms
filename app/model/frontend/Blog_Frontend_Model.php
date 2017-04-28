@@ -51,12 +51,18 @@ class Blog_Frontend_Model extends Frontend_Model {
             $host = $this->config->cdn->url;
         }
         foreach($posts as $key => $value) {
+            // URL записи (поста) блога
             $posts[$key]['url']['post'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
-            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
+            // директория, где лежит файл превьюшки
+            $temp = (string)$value['id'];
+            $folder = $temp[0];
+            // URL превьюшки записи (поста)
+            if (is_file('files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg')) {
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg';
             } else {
                 $posts[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
+            // URL категории записи (поста)
             $posts[$key]['url']['category'] = $this->getURL('frontend/blog/category/id/' . $value['ctg_id']);
         }
         return $posts;
@@ -127,15 +133,22 @@ class Blog_Frontend_Model extends Frontend_Model {
                       `a`.`added` DESC
                   LIMIT " . $start . ", " . $this->config->pager->frontend->blog->perpage;
         $posts = $this->database->fetchAll($query, array('id' => $id));
-        // добавляем в массив постов блога информацию об URL поста, картинки
+        /*
+         * добавляем в массив постов блога информацию об URL поста, картинки
+         */
         $host = $this->config->site->url;
         if ($this->config->cdn->enable->blog) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($posts as $key => $value) {
+            // URL записи (поста) блога
             $posts[$key]['url']['post'] = $this->getURL('frontend/blog/post/id/' . $value['id']);
-            if (is_file('files/blog/thumb/' . $value['id'] . '.jpg')) {
-                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $value['id'] . '.jpg';
+            // директория, где лежит файл превьюшки
+            $temp = (string)$value['id'];
+            $folder = $temp[0];
+            // URL превьюшки записи
+            if (is_file('files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg')) {
+                $posts[$key]['url']['image'] = $host . 'files/blog/thumb/' . $folder . '/' . $value['id'] . '.jpg';
             } else {
                 $posts[$key]['url']['image'] = $host . 'files/blog/thumb/default.jpg';
             }
