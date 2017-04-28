@@ -1,9 +1,8 @@
 <?php
 /**
- * Класс Basket_Frontend_Model отвечает за корзину покупателя, взаимодействует с
- * базой данных, реализует шаблон проектирования «Наблюдатель», реализует шаблон
- * проектирования «Наблюдатель», общедоступная часть сайта; см. описание интерфейса
- * SplObserver http://php.net/manual/ru/class.splobserver.php
+ * Класс Basket_Frontend_Model отвечает за корзину покупателя, взаимодействует с базой
+ * данных, реализует шаблон проектирования «Наблюдатель», общедоступная часть сайта; см.
+ * описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
  */
 class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
