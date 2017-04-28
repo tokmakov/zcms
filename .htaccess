@@ -3,9 +3,6 @@ php_flag magic_quotes_gpc Off
 AddDefaultCharset utf-8
 DirectoryIndex index.php
 
-# START DDOS PROTECT
-# FINISH DDOS PROTECT
-
 RewriteEngine On
 
 RewriteCond %{HTTP_HOST} ^host2.ru
