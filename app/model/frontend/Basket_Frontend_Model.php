@@ -229,7 +229,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             // URL ссылки на страницу производителя
             $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
             // URL ссылки на фото товара
-            if ((!empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+            if ((!empty($value['image'])) && is_file('files/catalog/imgs/small/' . $value['image'])) {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/' . $value['image'];
             } else {
                 $products[$key]['url']['image'] = $this->config->site->url . 'files/catalog/imgs/small/nophoto.jpg';
