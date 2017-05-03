@@ -99,6 +99,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
      * для центральной колонки, полный вариант
      */
     public function getWishedProducts($start = 0) {
+
         $query = "SELECT
                       `a`.`id` AS `id`,
                       `a`.`code` AS `code`,
@@ -172,6 +173,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         return $products;
+
     }
 
     /**
@@ -179,11 +181,19 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
      * колонки, сокращенный вариант; результат работы кэшируется
      */
     public function getSideWishedProducts() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->sideWishedProducts();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -192,6 +202,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -254,11 +265,19 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
      * кэшируется
      */
     public function getWishedCount() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->wishedCount();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -267,6 +286,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     protected function wishedCount() {

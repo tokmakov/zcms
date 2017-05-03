@@ -149,9 +149,38 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
+     * Функция возвращает количество товаров в списке сравнения; результат
+     * работы кэшируется
+     */
+    public function getCompareCount() {
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
+        if ( ! $this->enableDataCache) {
+            return $this->compareCount();
+        }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
+        // уникальный ключ доступа к кэшу
+        $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
      * Функция возвращает количество товаров в списке сравнения
      */
-    private function getCompareCount() {
+    protected function compareCount() {
         $query = "SELECT
                       COUNT(*)
                   FROM
@@ -164,6 +193,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1";
         return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
+
+
 
     /**
      * Функция возвращает идентификатор функциональной группы товара $id
@@ -188,11 +219,19 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * функция возвращает ноль; результат работы кэшируется
      */
     private function getCompareGroup() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->compareGroup();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -201,6 +240,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -432,11 +472,19 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * правой колонки, сокращенный вариант; результат работы кэшируется
      */
     public function getSideCompareProducts() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->sideCompareProducts();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -445,6 +493,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -500,6 +549,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
         }
         // на случай, если это последний товар из списка сравнения
         $this->groupId = $this->getCompareGroup();
@@ -538,6 +589,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
     }

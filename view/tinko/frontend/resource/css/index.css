@@ -12,7 +12,7 @@
 
 /* вкладки: новинки и лидеры продаж */
 #new-hit-tabs {
-
+    margin-bottom: 20px;
 }
     #new-hit-tabs > ul {
         list-style: none;
@@ -112,12 +112,9 @@
             word-spacing: -1px;
         }
 
-#new-hit-tabs {
-    margin-bottom: 20px;
-}
 #hit-products > ul, #new-products > ul {
     overflow: hidden;
-}        
+}
     #hit-products > ul > li, #new-products > ul > li {
         float: left;
     }

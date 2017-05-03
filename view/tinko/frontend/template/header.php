@@ -13,6 +13,7 @@
  * $wishedUrl - URL ссылки на страницу отложенных товаров
  * $wishedCount - количество отложенных товаров
  * $compareUrl - URL ссылки на страницу сравнения товаров
+ * $compareCount - количество товаров в списке сравнения
  * $viewedUrl - URL ссылки на страницу просмотренных товаров
  */
 
@@ -57,7 +58,7 @@ defined('ZCMS') or die('Access denied');
         <span>Избранное</span><span>Избранное</span>
     </a>
     <a href="<?php echo $compareUrl; ?>" title="Сравнение товаров">
-        <i class="fa fa-balance-scale"></i>&nbsp;
+        <i class="fa fa-balance-scale<?php if ($compareCount) echo ' selected'; ?>"></i>&nbsp;
         <span>Сравнение товаров</span><span>Сравнение</span>
     </a>
     <a href="<?php echo $viewedUrl; ?>" title="Вы уже смотрели">

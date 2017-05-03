@@ -245,11 +245,19 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * сокращенный вариант; результат работы кэшируется
      */
     public function getSideBasketProducts() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->sideBasketProducts();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -258,6 +266,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -324,11 +333,19 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * для правой колонки, результат работы кэшируется
      */
     public function getSideTotalCost() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->sideTotalCost();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -337,6 +354,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -361,11 +379,19 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * работы кэшируется
      */
     public function getBasketCount() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->basketCount();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
         // имя этой функции (метода)
@@ -374,6 +400,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**

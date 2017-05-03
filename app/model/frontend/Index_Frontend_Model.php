@@ -14,11 +14,19 @@ class Index_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getAllIndexData() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запросов к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allIndexData();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнены запросы к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()';
         // имя этой функции (метода)
@@ -27,6 +35,7 @@ class Index_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**

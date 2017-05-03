@@ -39,7 +39,7 @@ $(document).ready(function() {
                 });
             });
     });
-    
+
     // подсказки для юр.лица, банка, адреса доставки
     $('#add-edit-profile input[name="company_name"]').suggestions({ // юр.лицо
         serviceUrl: "https://dadata.ru/api/v2",
@@ -80,7 +80,7 @@ $(document).ready(function() {
             $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
             $('#add-edit-profile input[name="company_inn"]').val(suggestion.data.inn);
             $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
     $('#add-edit-profile input[name="company_inn"]').suggestions({ // юр.лицо
@@ -102,7 +102,7 @@ $(document).ready(function() {
             }
             $('#add-edit-profile input[name="company_address"]').val(suggestion.data.address.value);
             $('#add-edit-profile input[name="company_kpp"]').val(suggestion.data.kpp);
-            
+
         }
     });
     $('#add-edit-profile input[name="bank_name"]').suggestions({ // банк
@@ -145,7 +145,7 @@ $(document).ready(function() {
             $('#add-edit-profile input[name="shipping_index"]').val(suggestion.data.postal_code);
         }
     });
-    
+
     // если не отмечен checkbox «Юридическое лицо», скрываем часть формы, связанную с юридическим лицом
     if ( ! $('#add-edit-profile input[name="company"]').prop('checked')) {
         $('#add-edit-profile > #company').hide();
@@ -180,7 +180,7 @@ $(document).ready(function() {
                 .addClass('overlay')
                 .height(sideBasketHeight)
                 .width(sideBasketWidth);
-                
+
             // определаем координаты кнопки «Повторить заказ»
             var button = jqForm.children('input[type="submit"]');
             var buttonTop = Math.round(button.offset().top);
@@ -217,6 +217,10 @@ $(document).ready(function() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки в шапке
+                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товары добавлены в корзину</div>')
                             .prependTo('body')

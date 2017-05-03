@@ -32,12 +32,17 @@ $(document).ready(function() {
             var index = jqForm.closest('td').index() + 1;
             var column = $('#compare-products table tr td:nth-child(' + index + ')');
             column.hide(500, function() {
-                // удаляем коллонку таблицы сравнения
+                // удаляем колонку таблицы сравнения
                 $(this).remove();
-                // если эта клолнка с товаром была последняя
+                // если эта колонка с товаром была последняя
                 if ($('#compare-products table tr td .product-table-item').length === 0) {
                     $('#compare-products > div.table-responsive').hide(500, function() {
-                        $(this).remove(); // удаляем таблицу сравнения
+                        // удаляем таблицу сравнения
+                        $(this).remove();
+                        // изменяем цвет иконки в шапке
+                        if ($('#top-menu > a:nth-child(4) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(4) > i').removeClass('selected');
+                        }
                         $('#compare-products > div:first-child > h2').remove();
                         $('#compare-products > a').remove();
                         $('#compare-products').append('<p>Нет товаров для сравнения</p>');

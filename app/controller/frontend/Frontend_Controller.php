@@ -206,25 +206,27 @@ abstract class Frontend_Controller extends Base_Controller {
          */
         $this->headerVars = array(
             // URL ссылки на главную страницу сайта
-            'indexUrl'    => $this->indexFrontendModel->getURL('frontend/index/index'),
+            'indexUrl'     => $this->indexFrontendModel->getURL('frontend/index/index'),
             // URL страницы поиска по каталогу товаров
-            'searchUrl'   => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
+            'searchUrl'    => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
             // URL ссылки на страницу корзины
-            'basketUrl'   => $this->basketFrontendModel->getURL('frontend/basket/index'),
+            'basketUrl'    => $this->basketFrontendModel->getURL('frontend/basket/index'),
             // количество товаров в корзине
-            'basketCount' => $this->basketFrontendModel->getBasketCount(),
+            'basketCount'  => $this->basketFrontendModel->getBasketCount(),
             // URL ссылки на страницу личного кабинета
-            'userUrl'     => $this->userFrontendModel->getURL('frontend/user/index'),
+            'userUrl'      => $this->userFrontendModel->getURL('frontend/user/index'),
             // пользователь авторизован?
-            'authUser'    => $this->authUser,
+            'authUser'     => $this->authUser,
             // URL ссылки на страницу отложенных товаров
-            'wishedUrl'   => $this->wishedFrontendModel->getURL('frontend/wished/index'),
+            'wishedUrl'    => $this->wishedFrontendModel->getURL('frontend/wished/index'),
             // количество отложенных товаров
-            'wishedCount' => $this->wishedFrontendModel->getWishedCount(),
+            'wishedCount'  => $this->wishedFrontendModel->getWishedCount(),
             // URL ссылки на страницу сравнения товаров
-            'compareUrl'  => $this->compareFrontendModel->getURL('frontend/compare/index'),
+            'compareUrl'   => $this->compareFrontendModel->getURL('frontend/compare/index'),
+            // количество товаров в списке сравнения
+            'compareCount' => $this->compareFrontendModel->getCompareCount(),
             // URL ссылки на страницу просмотренных товаров
-            'viewedUrl'   => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
+            'viewedUrl'    => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
         );
 
         // главное меню сайта

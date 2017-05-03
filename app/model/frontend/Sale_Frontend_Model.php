@@ -8,17 +8,25 @@ class Sale_Frontend_Model extends Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Возвращает массив всех товаров по сниженным ценам,
      * результат работы кэшируется
      */
     public function getAllProducts() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allProducts();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__;
         // имя этой функции (метода)
@@ -27,6 +35,7 @@ class Sale_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**

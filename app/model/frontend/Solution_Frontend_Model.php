@@ -14,11 +14,19 @@ class Solution_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getAllSolutions($start) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->allSolutions($start);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-start-' . $start;
         // имя этой функции (метода)
@@ -27,6 +35,7 @@ class Solution_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -79,11 +88,19 @@ class Solution_Frontend_Model extends Frontend_Model {
      * работы кэшируется
      */
     public function getCategories() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->categories();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()';
         // имя этой функции (метода)
@@ -92,6 +109,7 @@ class Solution_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -126,11 +144,19 @@ class Solution_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getCategorySolutions($id, $start = 0) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->categorySolutions($id, $start);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-start-' . $start;
         // имя этой функции (метода)
@@ -139,6 +165,7 @@ class Solution_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -199,6 +226,35 @@ class Solution_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getSolution($id) {
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
+        if ( ! $this->enableDataCache) {
+            return $this->solution($id);
+        }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Возвращает информацию о типовом решении с уникальным идентификатором $id,
+     * результат работы кэшируется
+     */
+    protected function solution($id) {
         $query = "SELECT
                       `a`.`name` AS `name`, `a`.`keywords` AS `keywords`,
                       `a`.`description` AS `description`, `a`.`excerpt` AS `excerpt`,
@@ -221,22 +277,30 @@ class Solution_Frontend_Model extends Frontend_Model {
         if (is_file('files/solution/' . $id . '.pdf')) {
             $solution['url']['pdf'] = $this->config->site->url . 'files/solution/' . $id . '.pdf';
         }
-        if (is_file('files/solution/' . $id . '.pdf')) {
+        if (is_file('files/solution/' . $id . '.jpg')) {
             $solution['url']['img'] = $this->config->site->url . 'files/solution/' . $id . '.jpg';
         }
         return $solution;
     }
 
     /**
-     * Функция возвращает массив товаров типового решения $id, результат
-     * работы кэшируется
+     * Функция возвращает массив товаров типового решения с уникальным
+     * идентификатором $id, результат работы кэшируется
      */
     public function getSolutionProducts($id) {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->solutionProducts($id);
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id;
         // имя этой функции (метода)
@@ -245,6 +309,7 @@ class Solution_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
 
     /**
@@ -280,7 +345,7 @@ class Solution_Frontend_Model extends Frontend_Model {
         if (empty($result)) {
             return array();
         }
-        
+
         $products = array();
         $group_id = 0;
         $counter = -1;

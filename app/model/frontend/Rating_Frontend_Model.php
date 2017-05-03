@@ -8,17 +8,25 @@ class Rating_Frontend_Model extends Frontend_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /**
      * Возвращает массив всех категорий и товаров рейтинга,
      * результат работы кэшируется
      */
     public function getRating() {
-        // если не включено кэширование данных
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
         if ( ! $this->enableDataCache) {
             return $this->rating();
         }
 
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__;
         // имя этой функции (метода)
@@ -27,8 +35,9 @@ class Rating_Frontend_Model extends Frontend_Model {
         $arguments = func_get_args();
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
+
     }
-    
+
     /**
      * Возвращает массив всех категорий и товаров рейтинга
      */
@@ -55,7 +64,7 @@ class Rating_Frontend_Model extends Frontend_Model {
         foreach ($rating as $key => $value) {
             $rating[$key]['childs'] = $this->getRootCategory($value['id']);
         }
-        
+
         return $rating;
     }
 
