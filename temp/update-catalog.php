@@ -298,11 +298,13 @@ function parseXML($register) {
             $data['unit'] = 3; // уп.
         } elseif ($product->unit == '650d0166-30d1-11da-bf68-0011d802924c') {
             $km = true;
-            $data['unit'] = 4; // км.
+            $data['unit'] = 7; // км.
         } elseif ($product->unit == '650d0165-30d1-11da-bf68-0011d802924c') {
             $data['unit'] = 4; // метр
         } elseif ($product->unit == '650d0171-30d1-11da-bf68-0011d802924c') {
-           $data['unit'] = 5; // пара
+            $data['unit'] = 5; // пара
+        } elseif ($product->unit == '29dd8075-30d1-11da-bf68-0011d802924c') {
+            $data['unit'] = 6; // кг
         }
         // цена
         $data['price']  = (float)$product->price;

@@ -74,8 +74,8 @@ defined('ZCMS') or die('Access denied');
                     <td><?php echo $item['code']; ?></td>
                     <td><a href="<?php echo $item['url']['product']; ?>"><?php echo $item['name']; ?></a></td>
                     <td><input type="text" name="ids[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>" /></td>
-                    <td><?php echo number_format($item['user_price'], 2, '.', ''); ?></td>
-                    <td><?php echo $item['user_cost'] > 1000000 ? number_format(round(($item['user_cost']/1000000),1), 1, '.', '').' млн' : number_format($item['user_cost'], 2, '.', ''); ?></td>
+                    <td><?php echo $item['user_price'] > 1000000 ? number_format(round(($item['user_price']/1000000),2), 2, '.', '').' млн' : number_format($item['user_price'], 2, '.', ''); ?></td>
+                    <td><?php echo $item['user_cost'] > 1000000 ? number_format(round(($item['user_cost']/1000000),2), 2, '.', '').' млн' : number_format($item['user_cost'], 2, '.', ''); ?></td>
                     <td><a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-times"></i></a></td>
                 </tr>
             <?php endforeach; ?>

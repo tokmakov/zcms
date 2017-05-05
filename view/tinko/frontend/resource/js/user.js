@@ -217,10 +217,6 @@ $(document).ready(function() {
                     function() {
                         // удаляем клона
                         $(this).remove();
-                        // изменяем цвет иконки в шапке
-                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
-                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
-                        }
                         // показываем окно с сообщением
                         $('<div>Товары добавлены в корзину</div>')
                             .prependTo('body')
@@ -232,6 +228,10 @@ $(document).ready(function() {
                                     $(this).remove();
                                 });
                             });
+                        // изменяем цвет иконки в шапке
+                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
+                        }
                     }
                 );
         },
