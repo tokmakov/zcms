@@ -309,17 +309,10 @@ $(document).ready(function() {
 });
 
 /*
- * Функция отвечает за
- * 1. Добавление товара в корзину
- * 2. Добавление товара в избранное
- * 3. Добавление товара к сравнению
- * с использованием XmlHttpRequest
+ * Функция отвечает за добавление товара в корзину с использованием XmlHttpRequest
  */
 function addBasketHandler() {
 
-    /*
-     * Добавление товара в корзину, ajax
-     */
     $('.add-basket-form').ajaxForm({
         target: '#side-basket > .side-content',
         beforeSubmit: function(formData, jqForm, options) {

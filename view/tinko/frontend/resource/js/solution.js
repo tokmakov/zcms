@@ -20,7 +20,7 @@ $(document).ready(function() {
                 .addClass('overlay')
                 .height(sideBasketHeight)
                 .width(sideBasketWidth);
-                
+
             // определаем координаты изображения заголовка для списка товаров типового решения
             var heading = jqForm.children('h2');
             var headingTop = Math.round(heading.offset().top);
@@ -58,6 +58,10 @@ $(document).ready(function() {
                     function() {
                         // удаляем клона
                         $(this).remove();
+                        // изменяем цвет иконки в шапке
+                        if ( ! $('#top-menu > a:nth-child(1) > i').hasClass('selected')) {
+                            $('#top-menu > a:nth-child(1) > i').addClass('selected');
+                        }
                         // показываем окно с сообщением
                         $('<div>Товары добавлены в корзину</div>')
                             .prependTo('body')
