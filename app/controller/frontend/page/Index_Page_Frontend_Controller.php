@@ -14,15 +14,6 @@ class Index_Page_Frontend_Controller extends Page_Frontend_Controller {
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
-         * установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Index_Page_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id страницы или id страницы не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -39,11 +30,20 @@ class Index_Page_Frontend_Controller extends Page_Frontend_Controller {
             return;
         }
 
+        /*
+         * сначала обращаемся к родительскому классу Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Index_Page_Frontend_Controller
+         */
+        parent::input();
+
         $this->title = $page['title'];
-        if (!empty($page['keywords'])) {
+        if ( ! empty($page['keywords'])) {
             $this->keywords    = $page['keywords'];
         }
-        if (!empty($page['description'])) {
+        if ( ! empty($page['description'])) {
             $this->description = $page['description'];
         }
 

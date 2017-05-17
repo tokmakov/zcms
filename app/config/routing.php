@@ -3,7 +3,7 @@ defined('ZCMS') or die('Access denied');
 
 // см. файл app/config/config.php
 $routing = array( // поддержка ЧПУ (SEF) для общедоступной части сайта
-    'enable'  => true,
+    'enable'  => false,
     'cap2sef' => array( // Controller/Action/Params => Search Engines Friendly
         /*
          * главная страница сайта

@@ -5,7 +5,7 @@ defined('ZCMS') or die('Access denied');
  * CSS файлы, подключаемые к странице;
  * см. файл app/config/config.php
  */
-$css = array(                                
+$css = array(
     'frontend'            => array(          // общедоступная часть сайта
         'base'            => array(          // CSS-файлы, подключаемые ко всем страницам
             'reset.css',
@@ -31,7 +31,7 @@ $css = array(
         'brand'           => 'brand.css',     // бренды
         'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
         'compare'   => array(                // сравнение товаров
-            'compare.css', 
+            'compare.css',
             'responsive-table.css',
             'fancybox/jquery.fancybox.css',
         ),

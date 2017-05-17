@@ -16,15 +16,6 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех
-         * его потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Group_Catalog_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id функциональной группы или id группы не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -48,6 +39,15 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+
+        /*
+         * обращаемся к родительскому классу Catalog_Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Group_Catalog_Frontend_Controller
+         */
+        parent::input();
 
         $this->title = $name . '. Все товары.';
 
@@ -89,7 +89,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 return;
             }
         }
-        
+
         // включен фильтр по лидерам продаж?
         $hit = 0;
         if (isset($this->params['hit']) && 1 == $this->params['hit']) {
@@ -110,12 +110,12 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $sort = (int)$this->params['sort'];
         }
-        
+
         // мета-тег robots
         if ($maker || $hit || $new || $sort) {
             $this->robots = false;
         }
-        
+
         // получаем от модели массив всех производителей
         $makers = $this->groupCatalogFrontendModel->getGroupMakers(
             $this->params['id'],
@@ -132,7 +132,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        
+
         // получаем от модели количество лидеров продаж
         $countHit = $this->groupCatalogFrontendModel->getCountGroupHit(
             $this->params['id'],
@@ -207,7 +207,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // единицы измерения товара
         $units = $this->groupCatalogFrontendModel->getUnits();
-        
+
         // ссылки для сортировки товаров по цене, наменованию, коду
         $sortorders = $this->groupCatalogFrontendModel->getGroupSortOrders(
             $this->params['id'],
@@ -216,7 +216,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        
+
         // атрибут action тега form
         $action = $this->groupCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $this->params['id']);
 

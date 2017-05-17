@@ -16,15 +16,6 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех
-         * его потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Maker_Catalog_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id производителя или id производителя не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -48,6 +39,15 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+
+        /*
+         * обращаемся к родительскому классу Catalog_Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Maker_Catalog_Frontend_Controller
+         */
+        parent::input();
 
         $this->title = $maker['name'] . '. Все товары производителя.';
 
@@ -73,13 +73,13 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 'url'  => $this->makerCatalogFrontendModel->getURL('frontend/catalog/makers')
             ),
         );
-        
+
         // включен фильтр по функциональной группе?
         $group = 0;
         if (isset($this->params['group']) && ctype_digit($this->params['group'])) {
             $group = (int)$this->params['group'];
         }
-        
+
         // включен фильтр по параметрам?
         $param = array();
         if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
@@ -96,7 +96,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 return;
             }
         }
-        
+
         // включен фильтр по лидерам продаж?
         $hit = 0;
         if (isset($this->params['hit']) && $this->params['hit'] == 1) {
@@ -117,12 +117,12 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         ) {
             $sort = (int)$this->params['sort'];
         }
-        
+
         // мета-тег robots
         if ($group || $hit || $new || $sort) {
             $this->robots = false;
         }
-        
+
         // получаем от модели массив функциональных групп
         $groups = $this->makerCatalogFrontendModel->getMakerGroups(
             $this->params['id'],
@@ -131,7 +131,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        
+
         // получаем от модели массив всех параметров подбора
         $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
@@ -140,7 +140,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        
+
         // получаем от модели количество лидеров продаж
         $countHit = $this->makerCatalogFrontendModel->getCountMakerHit(
             $this->params['id'],
@@ -215,7 +215,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // единицы измерения товара
         $units = $this->makerCatalogFrontendModel->getUnits();
-        
+
         // ссылки для сортировки товаров по цене, наменованию, коду
         $sortorders = $this->makerCatalogFrontendModel->getMakerSortOrders(
             $this->params['id'],
@@ -224,7 +224,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param
         );
-        
+
         // атрибут action тега form
         $action = $this->makerCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $this->params['id']);
 
@@ -269,8 +269,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'param'           => $param,
             // массив функциональных групп
             'groups'         => $groups,
-            // массив всех параметров подбора 
-            'params'         => $params,          
+            // массив всех параметров подбора
+            'params'         => $params,
             // массив товаров производителя
             'products'       => $products,
             // выбранная сортировка

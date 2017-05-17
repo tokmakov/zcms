@@ -8,21 +8,35 @@ abstract class Base_Controller extends Base {
      * Переменная равна true, если работает контроллер Index_Notfound_Frontend_Controller
      * или Index_Notfound_Backend_Controller. Это происходит:
      * 1. Если роутер, анализируя строку $_SERVER['REQUEST_URI'], не смог найти класс
-     *    контроллера, который должен формировать страницу.
-     * 2. Роутер нашел класс контроллера, но контроллеру были переданы некорректные
-     *    параметры. В этом случае контроллер устанавливает значение переменной
-     *    Some_Controller::notFoundRecord = true и завершает работу (см. метод request()).
-     *    Вместо него начинает работать контроллер Index_Notfound_Frontend_Controller или
-     *    Index_Notfound_Backend_Controller (см. файл index.php).
+     *    контроллера, который должен формировать страницу, см. файл index.php.
+     * 2. Роутер нашел класс контроллера, в файле index.php был создан экземпляр класса
+     *    контроллера, но контроллеру были переданы некорректные параметры. Пример:
+     *    frontend/page/index/id/12345, но страницы с уникальным id=12345 нет в таблице
+     *    pages базы данных. Это возможно, если страница (новость, товар) была удалена
+     *    или пользователь ошибся при вводе URL страницы. В этом случае происходит:
+     *    - вызов request() из файла index.php, метод определен в Base_Controller
+     *    - вызов input() из request(), определен в Base_Controller, преопределен в
+     *      Index_Page_Frontend_Controller
+     *    - метод input() в Index_Page_Frontend_Controller обращается к модели, если
+     *      запись в таблице БД не найдена, $notFoundRecord устанавливается в true и
+     *      происходит возврат
+     *    - метод request(), сразу после вызова input(), проверяет значение $notFoundRecord;
+     *      если true — происходит возврат
+     *    - в index.php, сразу после вызова request(), вызывается метод isNotFoundRecord(),
+     *      который определен в Base_Controller
+     *    - поскольку isNotFoundRecord() возвращает true, создается экземпляр класса роутера
+     *      Index_Notfound_Frontend_Controller или Index_Notfound_Backend_Controller, которые
+     *      сформируют страницу 404 Not Found
+     *    - в конструкторе Index_Notfound_Frontend_Controller, Index_Notfound_Backend_Controller
+     *      переменная $notFound устанавливается в true, что позволяет отправить заголовок при
+     *      вызове метода sendHeaders(), который определен в Base_Controller и вызывается из
+     *      index.php
      */
     protected $notFound = false;
 
     /**
-     * Переменная равна true, если какому-либо контроллеру, например
-     * Index_Page_Frontend_Controller, были переданы некорректные параметры. Пример:
-     * frontend/page/index/id/12345, но страницы с уникальным id=12345 нет в таблице
-     * pages базы данных. Это возможно, если страница (новость, товар) была удалена
-     * или пользователь ошибся при вводе URL страницы.
+     * Переменная равна true, если какому-либо контроллеру были переданы некорректные
+     * параметры, см. комментарий выше.
      */
     protected $notFoundRecord = false;
 
@@ -286,7 +300,7 @@ abstract class Base_Controller extends Base {
         // а точнее, для всех потомков суперкласса; это случай Catalog_Frontend_Controller или
         // Page_Frontend_Controller
         $this->setCssJsFiles($controller);
-        if (isset($this->params['id'])) {
+        if (isset($this->params['id'])) { // TODO: что вообще здесь происходит?
             $this->setCssJsFiles($controller . '-' . $this->params['id']);
         }
         // задать css и js файлы, которые подключаются только для этого класса; это случай

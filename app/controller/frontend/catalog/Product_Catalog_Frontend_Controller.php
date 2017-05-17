@@ -16,15 +16,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Catalog_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Product_Catalog_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id товара или id товара не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -74,6 +65,15 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+
+        /*
+         * обращаемся к родительскому классу Catalog_Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Product_Catalog_Frontend_Controller
+         */
+        parent::input();
 
         $this->title = $product['name'] . ' ' . $product['title'];
         if ( ! empty($product['keywords'])) {
