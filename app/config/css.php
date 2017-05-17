@@ -30,60 +30,60 @@ $css = array(
         ),
         'brand'           => 'brand.css',     // бренды
         'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
-        'compare'   => array(                // сравнение товаров
+        'compare'   => array(                 // сравнение товаров
             'compare.css',
             'responsive-table.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'partner'         => array(          // партнерские сертификаты
+        'partner'         => array(           // партнерские сертификаты
             'partner.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'rating'          => 'rating.css',   // рейтинг продаж
-        'sale'            => 'sale.css',     // распродажа
-        'solution'       => array(          // типовые решения
+        'rating'          => 'rating.css',    // рейтинг продаж
+        'sale'            => 'sale.css',      // распродажа
+        'solution'       => array(            // типовые решения
             'solution.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'sitemap'         => 'sitemap.css',  // карта сайта
-        'user'            => array(          // личный кабинет
+        'sitemap'         => 'sitemap.css',   // карта сайта
+        'user'            => array(           // личный кабинет
             'user.css',
             'https://dadata.ru/static/css/lib/suggestions-16.1.css',
             'suggestions.css',
         ),
         'vacancy'         => 'vacancy.css',
-        'page-40'         => array(          // для страницы «Контакты»
+        'page-40'         => array(           // для страницы «Контакты»
             'tabs.css',
             'page/contacts.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'page-39'          => array(         // для страницы «О компании»
+        'page-39'          => array(          // для страницы «О компании»
             'page/about.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'page-41'         => array(          // для страницы «Доставка»
+        'page-41'         => array(           // для страницы «Доставка»
             'tabs.css',
         ),
-        'page-49'         => array(          // для страницы «Консультанты»
+        'page-49'         => array(           // для страницы «Консультанты»
             'page/consultants.css',
         ),
-        'page-51'         => array(          // для страницы «Партнеры»
+        'page-51'         => array(           // для страницы «Партнеры»
             'page/partners.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'page-52'         => array(          // для страницы «Библиотека»
+        'page-52'         => array(           // для страницы «Библиотека»
             'page/library.css',
         ),
-        'page-53'         => array(          // для страницы «Госзакупки»
+        'page-53'         => array(           // для страницы «Госзакупки»
             'page/trading.css',
         ),
-        'page-54'         => array(          // для страницы «Грани безопасности»
+        'page-54'         => array(           // для страницы «Грани безопасности»
             'page/journal.css',
         ),
-        'page-55'         => array(          // для страницы «Новый сайт»
+        'page-55'         => array(           // для страницы «Новый сайт»
             'fancybox/jquery.fancybox.css',
         ),
-        'page-56'         => array(          // для страницы «В помощь покупателю»
+        'page-56'         => array(           // для страницы «В помощь покупателю»
             'page/for-buyer.css',
         ),
         /*
