@@ -16,15 +16,6 @@ class Category_Solution_Frontend_Controller extends Solution_Frontend_Controller
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Solution_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Category_Solution_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id категории или id категории не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -41,11 +32,20 @@ class Category_Solution_Frontend_Controller extends Solution_Frontend_Controller
             return;
         }
 
+        /*
+         * обращаемся к родительскому классу Solution_Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Category_Solution_Frontend_Controller
+         */
+        parent::input();
+
         $this->title = $category['name'];
-        if (!empty($category['keywords'])) {
+        if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
         }
-        if (!empty($category['description'])) {
+        if ( ! empty($category['description'])) {
             $this->description = $category['description'];
         }
 
@@ -74,9 +74,9 @@ class Category_Solution_Frontend_Controller extends Solution_Frontend_Controller
         $thisPageURL =
             $this->solutionFrontendModel->getURL('frontend/solution/category/id/' . $this->params['id']);
         $temp = new Pager(
-            $thisPageURL,                                        // URL этой страницы
-            $page,                                               // текущая страница
-            $totalSolutions,                                     // общее кол-во типовых решений в категории
+            $thisPageURL,                                       // URL этой страницы
+            $page,                                              // текущая страница
+            $totalSolutions,                                    // общее кол-во типовых решений в категории
             $this->config->pager->frontend->solution->perpage,  // типовых решений на страницу
             $this->config->pager->frontend->solution->leftright // кол-во ссылок слева и справа
         );

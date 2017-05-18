@@ -19,9 +19,9 @@ abstract class Base_Controller extends Base {
      *      Index_Page_Frontend_Controller
      *    - метод input() в Index_Page_Frontend_Controller обращается к модели, если
      *      запись в таблице БД не найдена, $notFoundRecord устанавливается в true и
-     *      происходит возврат
+     *      происходит возврат из метода
      *    - метод request(), сразу после вызова input(), проверяет значение $notFoundRecord;
-     *      если true — происходит возврат
+     *      если true — происходит возврат из метода
      *    - в index.php, сразу после вызова request(), вызывается метод isNotFoundRecord(),
      *      который определен в Base_Controller
      *    - поскольку isNotFoundRecord() возвращает true, создается экземпляр класса роутера
@@ -30,7 +30,7 @@ abstract class Base_Controller extends Base {
      *    - в конструкторе Index_Notfound_Frontend_Controller, Index_Notfound_Backend_Controller
      *      переменная $notFound устанавливается в true, что позволяет отправить заголовок при
      *      вызове метода sendHeaders(), который определен в Base_Controller и вызывается из
-     *      index.php
+     *      файла index.php
      */
     protected $notFound = false;
 
@@ -64,7 +64,33 @@ abstract class Base_Controller extends Base {
               $footerVars = array();
 
     /**
-     * html-код всей страницы
+     * HTML-код всей страницы, который формируется так:
+     * 1. из файла index.php вызывается метод контроллера request(), который реализован в
+     *    классе Base_Controller
+     * 2. метод request() вызывает последовательно методы input() и output()
+     * 3. метод input(), который реализован в Base_Controller и переопределен в дочерних
+     *    классах:
+     *    - получает от модели данные, необходимые для формирования страницы, и сохраняет
+     *      их в переменных $headVars, $headerVars, $menuVars,  $centerVars, $leftVars,
+     *      $rightVars, $footerVars
+     *    - получает имена файлов шаблонов отдельных частей страницы и сохраняет их в
+     *      переменных $headTemplateFile, $headerTemplateFile, $menuTemplateFile,
+     *      $centerTemplateFile, $leftTemplateFile, $rightTemplateFile, $footerTemplateFile
+     * 4. метод output(), который реализован в Base_Controller и переопределен в дочерних
+     *    классах, вызывает метод render(), передавая ему полученные от модели данные и
+     *    имена файлов шаблонов
+     *    $this->headContent = $this->render($this->headTemplateFile, $this->headVars);
+     *    $this->headerContent = $this->render($this->headerTemplateFile, $this->headerVars);
+     *    $this->menuContent = $this->render($this->menuTemplateFile, $this->menuVars);
+     *    ..........
+     *    и т.д.
+     * 5. метод render() «прогоняет» данные через шаблон, а сформированный html-код отдельных
+     *    частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent,
+     *    $centerContent, $leftContent, $rightContent, $footerContent
+     * 6. из метода output(), реализованного в классе Base_Controller, и переопределенного в
+     *    дочерних классах, в самом конце вызывается parent::output(), т.е. идет обращение к
+     *    Base_Controller::output(), где происходит окончательная сборка страницы из отдельных
+     *    частей html-кода, используя опять вызов метода render()
      */
     protected $pageContent;
 
@@ -118,9 +144,9 @@ abstract class Base_Controller extends Base {
 
     /**
      * Функция формирует html-код страницы целиком из отдельных частей страницы:
-     * дочерний класс в input() получает от модели данные, в output() формирует
-     * html-код отдельных частей, теперь здесь собираем отдельные части в единое
-     * целое
+     * дочерний класс в input() получает от модели данные, дочерний класс в output()
+     * формирует html-код отдельных частей, теперь здесь собираем отдельные части
+     * в единое целое
      */
     protected function output() {
         $this->pageContent = $this->render(

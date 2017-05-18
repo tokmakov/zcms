@@ -15,15 +15,6 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
      */
     protected function input() {
 
-        /*
-         * сначала обращаемся к родительскому классу Solution_Frontend_Controller,
-         * чтобы установить значения переменных, которые нужны для работы всех его
-         * потомков, потом переопределяем эти переменные (если необходимо) и
-         * устанавливаем значения перменных, которые нужны для работы только
-         * Item_Solution_Frontend_Controller
-         */
-        parent::input();
-
         // если не передан id типового решения или id типового решения не число
         if ( ! (isset($this->params['id']) && ctype_digit($this->params['id'])) ) {
             $this->notFoundRecord = true;
@@ -39,6 +30,15 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
             $this->notFoundRecord = true;
             return;
         }
+
+        /*
+         * обращаемся к родительскому классу Solution_Frontend_Controller, чтобы
+         * установить значения переменных, которые нужны для работы всех его
+         * потомков, потом переопределяем эти переменные (если необходимо) и
+         * устанавливаем значения перменных, которые нужны для работы только
+         * Item_Solution_Frontend_Controller
+         */
+        parent::input();
 
         $this->title = $solution['name'];
         if ( ! empty($solution['keywords'])) {
