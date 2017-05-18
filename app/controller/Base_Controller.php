@@ -79,9 +79,9 @@ abstract class Base_Controller extends Base {
      * 4. метод output(), который реализован в Base_Controller и переопределен в дочерних
      *    классах, вызывает метод render(), передавая ему полученные от модели данные и
      *    имена файлов шаблонов
-     *    $this->headContent = $this->render($this->headTemplateFile, $this->headVars);
+     *    $this->headContent   = $this->render($this->headTemplateFile, $this->headVars);
      *    $this->headerContent = $this->render($this->headerTemplateFile, $this->headerVars);
-     *    $this->menuContent = $this->render($this->menuTemplateFile, $this->menuVars);
+     *    $this->menuContent   = $this->render($this->menuTemplateFile, $this->menuVars);
      *    ..........
      *    и т.д.
      * 5. метод render() «прогоняет» данные через шаблон, а сформированный html-код отдельных
