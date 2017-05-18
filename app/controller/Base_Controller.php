@@ -87,10 +87,11 @@ abstract class Base_Controller extends Base {
      * 5. метод render() «прогоняет» данные через шаблон, а сформированный html-код отдельных
      *    частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent,
      *    $centerContent, $leftContent, $rightContent, $footerContent
-     * 6. из метода output(), реализованного в классе Base_Controller, и переопределенного в
-     *    дочерних классах, в самом конце вызывается parent::output(), т.е. идет обращение к
+     * 6. метод output(), который реализован в Base_Controller и переопределен в дочерних
+     *    классах, в самом конце вызывает parent::output(), т.е. идет обращение к методу
      *    Base_Controller::output(), где происходит окончательная сборка страницы из отдельных
-     *    частей html-кода, используя опять вызов метода render()
+     *    частей html-кода с помощью метода render()
+     *    $this->pageContent = $this->render($this->wrapperTemplateFile, array(...));
      */
     protected $pageContent;
 
