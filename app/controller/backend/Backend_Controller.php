@@ -29,7 +29,7 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с блогом
      */
     protected $blogBackendModel;
-    
+
     /**
      * экземпляр класса модели для работы с брендами
      */
@@ -77,7 +77,7 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с партнерами компании
      */
     protected $partnerBackendModel;
-    
+
     /**
      * экземпляр класса модели для работы со рейтингом продаж
      */
@@ -87,7 +87,7 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с товарами со скидкой
      */
     protected $saleBackendModel;
-    
+
     /**
      * экземпляр класса модели для работы с картой сайта
      */
@@ -108,7 +108,7 @@ abstract class Backend_Controller extends Base_Controller {
      * экземпляр класса модели для работы с пользователями
      */
     protected $userBackendModel;
-    
+
     /**
      * экземпляр класса модели для работы с вакансиями
      */
@@ -134,7 +134,7 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с блогом
         $this->blogBackendModel =
             isset($this->register->blogBackendModel) ? $this->register->blogBackendModel : new Blog_Backend_Model();
-            
+
         // экземпляр класса модели для работы с брендами
         $this->brandBackendModel =
             isset($this->register->brandBackendModel) ? $this->register->brandBackendModel : new Brand_Backend_Model();
@@ -178,7 +178,7 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с товарами со скидкой
         $this->saleBackendModel =
             isset($this->register->saleBackendModel) ? $this->register->saleBackendModel : new Sale_Backend_Model();
-            
+
         // экземпляр класса модели для работы с картой сайта
         $this->sitemapBackendModel =
             isset($this->register->sitemapBackendModel) ? $this->register->sitemapBackendModel : new Sitemap_Backend_Model();
@@ -194,7 +194,7 @@ abstract class Backend_Controller extends Base_Controller {
         // экземпляр класса модели для работы с пользователями
         $this->userBackendModel =
             isset($this->register->userBackendModel) ? $this->register->userBackendModel : new User_Backend_Model();
-            
+
         // экземпляр класса модели для работы с вакансиями
         $this->vacancyBackendModel =
             isset($this->register->vacancyBackendModel) ? $this->register->vacancyBackendModel : new Vacancy_Backend_Model();
@@ -364,9 +364,20 @@ abstract class Backend_Controller extends Base_Controller {
 
         /*
          * html-код отдельных частей страницы получен, теперь формируем
-         * всю страницу целиком, обращаясь к Base_Controller::output()
+         * всю страницу целиком
          */
-        parent::output();
+        $this->pageContent = $this->render(
+            $this->wrapperTemplateFile,
+            array(
+                'headContent'   => $this->headContent,
+                'headerContent' => $this->headerContent,
+                'menuContent'   => $this->menuContent,
+                'centerContent' => $this->centerContent,
+                'leftContent'   => $this->leftContent,
+                'rightContent'  => $this->rightContent,
+                'footerContent' => $this->footerContent
+            )
+        );
 
     }
 

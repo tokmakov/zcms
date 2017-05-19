@@ -1,4 +1,8 @@
 <?php
+/**
+ * Шапка сайта, файл view/example/backend/template/header.php,
+ * административная часть сайта
+ */
 defined('ZCMS') or die('Access denied');
 ?>
 

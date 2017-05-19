@@ -407,9 +407,20 @@ abstract class Frontend_Controller extends Base_Controller {
 
         /*
          * html-код отдельных частей страницы получен, теперь формируем
-         * всю страницу целиком, обращаясь к Base_Controller::output()
+         * всю страницу целиком
          */
-        parent::output();
+        $this->pageContent = $this->render(
+            $this->wrapperTemplateFile,
+            array(
+                'headContent'   => $this->headContent,
+                'headerContent' => $this->headerContent,
+                'menuContent'   => $this->menuContent,
+                'centerContent' => $this->centerContent,
+                'leftContent'   => $this->leftContent,
+                'rightContent'  => $this->rightContent,
+                'footerContent' => $this->footerContent
+            )
+        );
 
     }
 
@@ -426,7 +437,7 @@ abstract class Frontend_Controller extends Base_Controller {
         }
 
         /*
-         * Кэширование включено, но в некоторых случаях оно не оправдывает себя
+         * кэширование включено, но в некоторых случаях оно не оправдывает себя
          */
         if ($this->notUseCache) {
             return parent::render($template, $params);
@@ -445,8 +456,8 @@ abstract class Frontend_Controller extends Base_Controller {
 
         /*
          * данных в кэше нет, но другой процесс поставил блокировку и в этот
-         * момент получает данные от parent::render(), чтобы записать их в кэш,
-         * нам надо их только получить из кэша после снятия блокировки
+         * момент получает данные от parent::render(), чтобы записать их в
+         * кэш, нам надо их только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
             try {
@@ -454,10 +465,10 @@ abstract class Frontend_Controller extends Base_Controller {
                 return $this->cache->getValue($key);
             } catch (Exception $e) {
                 /*
-                 * другой процесс поставил блокировку, попытался получить данные
-                 * от parent::render() и записать их в кэш; если по каким-то
-                 * причинам это не получилось сделать, мы здесь будем пытаться
-                 * читать из кэша значение, которого не существует или оно устарело
+                 * другой процесс поставил блокировку, попытался получить данные от
+                 * parent::render() и записать их в кэш; если по каким-то причинам
+                 * это не получилось сделать, мы здесь будем пытаться читать из кэша
+                 * значение, которого не существует или оно устарело
                  */
                 throw $e;
             }

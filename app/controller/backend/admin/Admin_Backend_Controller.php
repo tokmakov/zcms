@@ -56,6 +56,12 @@ abstract class Admin_Backend_Controller extends Base_Controller {
             )
         );
 
+        // получаем html-код шапки страницы
+        $this->headerContent = $this->render(
+            $this->headerTemplateFile,
+            array()
+        );
+
         // получаем html-код центральной колонки (основной контент)
         $this->centerContent = $this->render(
             $this->centerTemplateFile,
@@ -69,8 +75,16 @@ abstract class Admin_Backend_Controller extends Base_Controller {
         );
 
         // html-код отдельных частей страницы получен, теперь формируем
-        // всю страницу целиком, обращаясь к Base_Controller::output()
-        parent::output();
+        // всю страницу целиком
+        $this->pageContent = $this->render(
+            $this->wrapperTemplateFile,
+            array(
+                'headerContent' => $this->headerContent,
+                'headContent'   => $this->headContent,
+                'centerContent' => $this->centerContent,
+                'footerContent' => $this->footerContent,
+            )
+        );
 
     }
 

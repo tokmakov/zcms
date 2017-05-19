@@ -14,12 +14,12 @@ abstract class Base_Controller extends Base {
      *    frontend/page/index/id/12345, но страницы с уникальным id=12345 нет в таблице
      *    pages базы данных. Это возможно, если страница (новость, товар) была удалена
      *    или пользователь ошибся при вводе URL страницы. В этом случае происходит:
-     *    - вызов request() из файла index.php, метод определен в Base_Controller
+     *    - вызов request() из файла index.php, метод реализован в Base_Controller
      *    - вызов input() из request(), определен в Base_Controller, преопределен в
      *      Index_Page_Frontend_Controller
-     *    - метод input() в Index_Page_Frontend_Controller обращается к модели, если
-     *      запись в таблице БД не найдена, $notFoundRecord устанавливается в true и
-     *      происходит возврат из метода
+     *    - метод input() в Index_Page_Frontend_Controller обращается к модели, если запись
+     *      в таблице БД не найдена, $notFoundRecord устанавливается в true и происходит
+     *      возврат из метода
      *    - метод request(), сразу после вызова input(), проверяет значение $notFoundRecord;
      *      если true — происходит возврат из метода
      *    - в index.php, сразу после вызова request(), вызывается метод isNotFoundRecord(),
@@ -76,9 +76,8 @@ abstract class Base_Controller extends Base {
      *    - получает имена файлов шаблонов отдельных частей страницы и сохраняет их в
      *      переменных $headTemplateFile, $headerTemplateFile, $menuTemplateFile,
      *      $centerTemplateFile, $leftTemplateFile, $rightTemplateFile, $footerTemplateFile
-     * 4. метод output(), который реализован в Base_Controller и переопределен в дочерних
-     *    классах, вызывает метод render(), передавая ему полученные от модели данные и
-     *    имена файлов шаблонов
+     * 4. метод output(), который реализован в дочерних классах, вызывает метод render(),
+     *    передавая ему полученные от модели данные и имена файлов шаблонов
      *    $this->headContent   = $this->render($this->headTemplateFile, $this->headVars);
      *    $this->headerContent = $this->render($this->headerTemplateFile, $this->headerVars);
      *    $this->menuContent   = $this->render($this->menuTemplateFile, $this->menuVars);
@@ -87,10 +86,9 @@ abstract class Base_Controller extends Base {
      * 5. метод render() «прогоняет» данные через шаблон, а сформированный html-код отдельных
      *    частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent,
      *    $centerContent, $leftContent, $rightContent, $footerContent
-     * 6. метод output(), который реализован в Base_Controller и переопределен в дочерних
-     *    классах, в самом конце вызывает parent::output(), т.е. идет обращение к методу
-     *    Base_Controller::output(), где происходит окончательная сборка страницы из отдельных
-     *    частей html-кода с помощью метода render()
+     * 6. метод output(), который реализован в дочерних классах, в самом конце еще раз вызывает
+     *    метод render(), чтобы произвести окончательную сборка страницы из отдельных частей
+     *    html-кода
      *    $this->pageContent = $this->render($this->wrapperTemplateFile, array(...));
      */
     protected $pageContent;
@@ -144,32 +142,18 @@ abstract class Base_Controller extends Base {
     }
 
     /**
-     * Функция формирует html-код страницы целиком из отдельных частей страницы:
-     * дочерний класс в input() получает от модели данные, дочерний класс в output()
-     * формирует html-код отдельных частей, теперь здесь собираем отдельные части
-     * в единое целое
+     * Функция реализована в дочерних классах, где происходит следующее:
+     * 1. формируется html-код отдельных частей страницы с помощью метода render()
+     * 2. собирается страница целиком из отдельных частей с помощью метода render()
      */
-    protected function output() {
-        $this->pageContent = $this->render(
-            $this->wrapperTemplateFile,
-            array(
-                'headContent'   => $this->headContent,
-                'headerContent' => $this->headerContent,
-                'menuContent'   => $this->menuContent,
-                'centerContent' => $this->centerContent,
-                'leftContent'   => $this->leftContent,
-                'rightContent'  => $this->rightContent,
-                'footerContent' => $this->footerContent
-            )
-        );
-    }
+    abstract protected function output();
 
     /**
      * Функция формирует страницу: сначала в методе input() дочернего класса
      * получаем от модели данные, необходимые для формирования страницы, затем
-     * в методе output() дочернего класса формируем html-код отдельных частей
-     * страницы, и, наконец, в Base_Controller::output() собираем отдельные
-     * части в единое целое
+     * в методе output() дочернего класса:
+     * 1. формируется html-код отдельных частей страницы с помощью метода render()
+     * 2. собирается страница целиком из отдельных частей с помощью метода render()
      */
     public function request() {
 

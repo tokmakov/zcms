@@ -1,4 +1,11 @@
 <?php
+/**
+ * Главное меню, файл view/example/backend/template/menu.php,
+ * административная часть сайта
+ *
+ * Переменные, доступные в шаблоне:
+ * $menu - массив элементов меню
+ */
 defined('ZCMS') or die('Access denied');
 ?>
 

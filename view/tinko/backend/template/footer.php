@@ -1,4 +1,8 @@
 <?php
+/**
+ * Подвал страницы, файл view/example/backend/template/footer.php,
+ * административная часть сайта
+ */
 defined('ZCMS') or die('Access denied');
 ?>
 
