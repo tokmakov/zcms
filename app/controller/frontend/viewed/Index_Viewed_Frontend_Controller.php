@@ -5,7 +5,7 @@
  * сайта
  */
 class Index_Viewed_Frontend_Controller extends Viewed_Frontend_Controller {
-    
+
     public function __construct($params = null) {
         parent::__construct($params);
     }
@@ -47,7 +47,7 @@ class Index_Viewed_Frontend_Controller extends Viewed_Frontend_Controller {
             $page = (int)$this->params['page'];
         }
         // общее кол-во просмотренных товаров
-        $totalProducts = $this->viewedFrontendModel->getCountViewedProducts();
+        $totalProducts = $this->viewedFrontendModel->getViewedCount();
         // URL этой страницы
         $thisPageURL = $this->viewedFrontendModel->getURL('frontend/viewed/index');
         $temp = new Pager(
@@ -73,7 +73,7 @@ class Index_Viewed_Frontend_Controller extends Viewed_Frontend_Controller {
 
         // единицы измерения товара
         $units = $this->viewedFrontendModel->getUnits();
-        
+
         // представление списка товаров: линейный или плитка
         $view = 'line';
         if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {

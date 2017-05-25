@@ -4,7 +4,7 @@
  * контроллеров, работающих с блогом, общедоступная часть сайта
  */
 abstract class Blog_Frontend_Controller extends Frontend_Controller {
-    
+
     /**
      * экземпляр класса модели для работы с блогом
      */
@@ -12,6 +12,9 @@ abstract class Blog_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
+        // экземпляр класса модели для работы с блогом
+        $this->blogFrontendModel =
+            isset($this->register->blogFrontendModel) ? $this->register->blogFrontendModel : new Blog_Frontend_Model();
     }
 
     /**
@@ -28,10 +31,6 @@ abstract class Blog_Frontend_Controller extends Frontend_Controller {
          * потомков Blog_Frontend_Controller
          */
         parent::input();
-        
-        // экземпляр класса модели для работы с блогом
-        $this->blogFrontendModel =
-            isset($this->register->blogFrontendModel) ? $this->register->blogFrontendModel : new Blog_Frontend_Model();
 
         $this->title = $this->config->meta->blog->title;
         $this->keywords = $this->config->meta->blog->keywords;

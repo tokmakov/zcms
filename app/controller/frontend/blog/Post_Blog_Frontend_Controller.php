@@ -41,10 +41,10 @@ class Post_Blog_Frontend_Controller extends Blog_Frontend_Controller {
         parent::input();
 
         $this->title = $post['name'] . '. ' . $post['ctg_name'];
-        if (!empty($post['keywords'])) {
+        if ( ! empty($post['keywords'])) {
             $this->keywords = $post['keywords'];
         }
-        if (!empty($post['description'])) {
+        if ( ! empty($post['description'])) {
             $this->description = $post['description'];
         }
 

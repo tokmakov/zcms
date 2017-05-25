@@ -4,7 +4,7 @@
  * контроллеров, работающих со статьями, общедоступная часть сайта
  */
 abstract class Article_Frontend_Controller extends Frontend_Controller {
-    
+
     /**
      * экземпляр класса модели для работы со статьями
      */
@@ -12,6 +12,9 @@ abstract class Article_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
+        // экземпляр класса модели для работы со статьями
+        $this->articleFrontendModel =
+            isset($this->register->articleFrontendModel) ? $this->register->articleFrontendModel : new Article_Frontend_Model();
     }
 
     /**
@@ -28,10 +31,6 @@ abstract class Article_Frontend_Controller extends Frontend_Controller {
          * потомков Article_Frontend_Controller
          */
         parent::input();
-        
-        // экземпляр класса модели для работы со статьями
-        $this->articleFrontendModel =
-            isset($this->register->articleFrontendModel) ? $this->register->articleFrontendModel : new Article_Frontend_Model();
 
         // получаем из настроек значения для мета-тегов
         $this->title = $this->config->meta->article->title;

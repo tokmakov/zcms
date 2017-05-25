@@ -1,13 +1,68 @@
-php_flag magic_quotes_gpc Off
-
 AddDefaultCharset utf-8
 DirectoryIndex index.php
 
 RewriteEngine On
 
+# имя файла, используемое для ведения журнала преобразования URL;
+# если имя не начинается с «/», путь считается от Server Root
+# RewriteLog "rewrite.log.txt"
+# устанавливает уровень детализации журнала преобразований URL,
+# от 0 до 9; уровень 0 означает, что журнализация не ведется
+# RewriteLogLevel 3
+
+#
+# 301 редирект с server.com на www.server.com
+#
 RewriteCond %{HTTP_HOST} ^host2.ru
 RewriteRule (.*) http://www.host2.ru/$1 [R=301,L]
 
+#
+# 301 редирект с www.server.com на server.com
+#
+# ПРОВЕРИТЬ, ВОЗМОЖНО, НЕ РАБОТАЕТ
+# RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+# RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+#
+# 301 редирект с /index.php на корень сайта «/»
+#
+# проверяем соответствие «GET /index.php HTTP/1.1»
+# {3,9} — потому что GET, POST, PUT, DELETE, …
+# RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php.*\ HTTP/
+# RewriteRule ^index\.php$ / [R=301,L]
+
+#
+# 301 редирект с /index.php на корень сайта «/»
+#
+# проверяем соответствие «GET /index.php HTTP/1.1»
+# {3,9} — потому что GET, POST, PUT, DELETE, …
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php.*\ HTTP/
+RewriteRule ^(.*)index\.php$ http://www.host2.ru [R=301,L]
+
+#
+# 301 редирект с server.com/some/path/ на server.com/some/path
+#
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+#
+# 301 редирект с server.com/some/path на server.com/some/path/
+#
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_URI} !(.*)/$
+# RewriteRule ^(.*[^/])$ $1/ [L,R=301]
+
+#
+# одна точка входа, все запросы (кроме файлов и директорий) на /index.php
+#
+# строка ниже нужна, потому что многие браузеры сразу запрашивают favicon.ico:
+# когда мы открываем браузер и набираем в нём какой-либо URL, например
+# server.com/some/path, браузер отправляет HTTP-запрос к серверу по этому
+# адресу; но кроме него, большинство браузеров отправляют ещё один фоновый
+# запрос — на получение favicon.ico; если данный файл отсутствует, провоцируется
+# новый вызов скрипта index.php
+RewriteCond %{REQUEST_FILENAME} !^favicon\.ico
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php
@@ -17,3 +72,7 @@ RewriteRule ^(.*) index.php
 #     Header set Access-Control-Allow-Origin "*"
 #   </IfModule>
 # </FilesMatch>
+
+# <ifModule mod_deflate.c>
+#   AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/css text/javascript application/javascript application/x-javascript
+# </ifModule>

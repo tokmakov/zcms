@@ -13,7 +13,6 @@ abstract class Solution_Frontend_Controller extends Frontend_Controller {
 
     public function __construct($params = null) {
         parent::__construct($params);
-
         // экземпляр класса модели для работы с типовыми решениями
         $this->solutionFrontendModel =
             isset($this->register->solutionFrontendModel) ? $this->register->solutionFrontendModel : new Solution_Frontend_Model();

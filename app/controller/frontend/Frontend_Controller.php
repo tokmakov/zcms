@@ -209,24 +209,26 @@ abstract class Frontend_Controller extends Base_Controller {
             'indexUrl'     => $this->indexFrontendModel->getURL('frontend/index/index'),
             // URL страницы поиска по каталогу товаров
             'searchUrl'    => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
-            // URL ссылки на страницу корзины
-            'basketUrl'    => $this->basketFrontendModel->getURL('frontend/basket/index'),
-            // количество товаров в корзине
-            'basketCount'  => $this->basketFrontendModel->getBasketCount(),
             // URL ссылки на страницу личного кабинета
             'userUrl'      => $this->userFrontendModel->getURL('frontend/user/index'),
             // пользователь авторизован?
             'authUser'     => $this->authUser,
+            // URL ссылки на страницу корзины
+            'basketUrl'    => $this->basketFrontendModel->getURL('frontend/basket/index'),
+            // корзина пуста?
+            'emptyBasket'  => ! $this->basketFrontendModel->getBasketCount(),
             // URL ссылки на страницу отложенных товаров
             'wishedUrl'    => $this->wishedFrontendModel->getURL('frontend/wished/index'),
-            // количество отложенных товаров
-            'wishedCount'  => $this->wishedFrontendModel->getWishedCount(),
+            // список отложенных товаров пустой?
+            'emptyWished'  => ! $this->wishedFrontendModel->getWishedCount(),
             // URL ссылки на страницу сравнения товаров
             'compareUrl'   => $this->compareFrontendModel->getURL('frontend/compare/index'),
-            // количество товаров в списке сравнения
-            'compareCount' => $this->compareFrontendModel->getCompareCount(),
+            // список товаров для сравнения пустой?
+            'emptyCompare' => ! $this->compareFrontendModel->getCompareCount(),
             // URL ссылки на страницу просмотренных товаров
             'viewedUrl'    => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
+            // список просмотренных товаров пустой?
+            'emptyViewed'  => ! $this->viewedFrontendModel->getViewedCount(),
         );
 
         // главное меню сайта

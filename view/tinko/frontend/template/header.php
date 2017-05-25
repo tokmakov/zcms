@@ -6,15 +6,16 @@
  * Переменные, доступные в шаблоне:
  * $indexUrl - URL ссылки на главную страницу сайта
  * $searchUrl - URL ссылки на страницу поиска по каталогу товаров
- * $basketUrl - URL ссылки на страницу с корзиной
- * $basketCount - количество товаров в корзине
  * $userUrl - URL ссылки на страницу личного кабинета
  * $authUser - пользователь авторизован?
+ * $basketUrl - URL ссылки на страницу с корзиной
+ * $emptyBasket - корзина пуста?
  * $wishedUrl - URL ссылки на страницу отложенных товаров
- * $wishedCount - количество отложенных товаров
+ * $emptyWished - список отложенных товаров пустой?
  * $compareUrl - URL ссылки на страницу сравнения товаров
- * $compareCount - количество товаров в списке сравнения
+ * $emptyCompare - список товаров для сравнения пустой?
  * $viewedUrl - URL ссылки на страницу просмотренных товаров
+ * $emptyViewed - список просмотренных товаров пустой?
  */
 
 defined('ZCMS') or die('Access denied');
@@ -46,7 +47,7 @@ defined('ZCMS') or die('Access denied');
 
 <div id="top-menu">
     <a href="<?php echo $basketUrl; ?>" title="Ваша корзина">
-        <i class="fa fa-shopping-basket<?php if ($basketCount) echo ' selected'; ?>"></i>&nbsp;
+        <i class="fa fa-shopping-basket<?php if ( ! $emptyBasket) echo ' selected'; ?>"></i>&nbsp;
         <span>Ваша корзина</span><span>Корзина</span>
     </a>
     <a href="<?php echo $userUrl; ?>" title="Личный кабинет">
@@ -54,15 +55,15 @@ defined('ZCMS') or die('Access denied');
         <span>Личный кабинет</span><span>Кабинет</span>
     </a>
     <a href="<?php echo $wishedUrl; ?>" title="Отложенные товары">
-        <i class="fa fa-star<?php if ($wishedCount) echo ' selected'; ?>"></i>&nbsp;
+        <i class="fa fa-star<?php if ( ! $emptyWished) echo ' selected'; ?>"></i>&nbsp;
         <span>Избранное</span><span>Избранное</span>
     </a>
     <a href="<?php echo $compareUrl; ?>" title="Сравнение товаров">
-        <i class="fa fa-balance-scale<?php if ($compareCount) echo ' selected'; ?>"></i>&nbsp;
+        <i class="fa fa-balance-scale<?php if ( ! $emptyCompare) echo ' selected'; ?>"></i>&nbsp;
         <span>Сравнение товаров</span><span>Сравнение</span>
     </a>
     <a href="<?php echo $viewedUrl; ?>" title="Вы уже смотрели">
-        <i class="fa fa-eye"></i>&nbsp;
+        <i class="fa fa-eye<?php if ( ! $emptyViewed) echo ' selected'; ?>"></i>&nbsp;
         <span>Вы уже смотрели</span><span>История</span>
     </a>
 </div>
