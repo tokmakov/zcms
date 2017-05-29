@@ -76,12 +76,9 @@ class Category_Article_Backend_Controller extends Article_Backend_Controller {
             $this->config->pager->backend->article->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
+        if (false === $pager) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
-        }
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->backend->article->perpage;

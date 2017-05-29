@@ -57,12 +57,9 @@ class Allorders_User_Frontend_Controller extends User_Frontend_Controller {
             $this->config->pager->frontend->orders->leftright         // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (is_null($pager)) { // недопустимое значение $page (за границей диапазона)
+        if (false === $pager) { // недопустимое значение $page (за границей диапазона)
             $this->notFoundRecord = true;
             return;
-        }
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * Config::getInstance()->pager->frontend->orders->perpage;

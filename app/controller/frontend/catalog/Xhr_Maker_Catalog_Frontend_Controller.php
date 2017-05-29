@@ -122,8 +122,9 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
-        if (false === $pager) { // постраничная навигация не нужна
-            $pager = null;
+        if (false === $pager) { // недопустимое значение $page (за границей диапазона)
+            $this->notFoundRecord = true;
+            return;
         }
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
