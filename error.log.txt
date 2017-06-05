@@ -1,0 +1,20 @@
+02.06.2017 19:59:43
+Код: 0, текст: Не найден файл шаблона , контроллер Maker_Catalog_Frontend_Controller
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 204
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(438): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(360): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(178): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#4 {main}
+
+02.06.2017 20:12:03
+Код: 0, текст: Не найден файл шаблона , контроллер Maker_Catalog_Frontend_Controller
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 204
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(438): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\frontend\Frontend_Controller.php(360): Frontend_Controller->render(NULL, Array)
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(178): Frontend_Controller->output()
+#3 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#4 {main}
+

@@ -106,40 +106,42 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
-        $this->centerVars = array(
-            // хлебные крошки
-            'breadcrumbs'        => $breadcrumbs,
-            // атрибут action тега form
-            'action'             => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
-            // пользователь авторизован?
-            'authUser'           => $this->authUser,
-            // не зарегистрированный пользователь уже делал заказы ранее?
-            'customer'           => $customer,
-            // фамилия контактного лица получателя
-            'buyer_name'         => $name,
-            // имя контактного лица получателя
-            'buyer_surname'      => $surname,
-            // отчество контактного лица получателя
-            'buyer_patronymic'   => $patronymic,
-            // e-mail контактного лица получателя
-            'buyer_email'        => $email,
-            // массив профилей пользователя
-            'profiles'           => $profiles,
-            // массив офисов для самовывоза
-            'offices'            => $offices,
-            // если true, заказ размещен
-            'success'            => $success,
-            // сообщение об успешном размещении заказа
-            'message'            => $this->config->message->checkout,
-        );
-        if ($success) { // заказ размещен, большинство переменных в шаблоне не нужны
-            unset(
-                $this->centerVars['action'],
-                $this->centerVars['authUser'],
-                $this->centerVars['profiles'],
-                $this->centerVars['offices']
+        if ( ! $success) { // заказ еще не размещен, показываем форму оформления
+            $this->centerVars = array(
+                // хлебные крошки
+                'breadcrumbs'        => $breadcrumbs,
+                // атрибут action тега form
+                'action'             => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
+                // пользователь авторизован?
+                'authUser'           => $this->authUser,
+                // не зарегистрированный пользователь уже делал заказы ранее?
+                'customer'           => $customer,
+                // фамилия контактного лица получателя
+                'buyer_name'         => $name,
+                // имя контактного лица получателя
+                'buyer_surname'      => $surname,
+                // отчество контактного лица получателя
+                'buyer_patronymic'   => $patronymic,
+                // e-mail контактного лица получателя
+                'buyer_email'        => $email,
+                // массив профилей пользователя
+                'profiles'           => $profiles,
+                // массив офисов для самовывоза
+                'offices'            => $offices,
+                // если true, заказ размещен
+                'success'            => $success,
+            );
+        } else { // заказ размещен, большинство переменных в шаблоне не нужны
+            $this->centerVars = array(
+                // хлебные крошки
+                'breadcrumbs'        => $breadcrumbs,
+                // если true, заказ размещен
+                'success'            => $success,
+                // сообщение об успешном размещении заказа
+                'message'            => $this->config->message->checkout,
             );
         }
+
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений
         // об ошибках и введенные пользователем данные, сохраненные в сессии
         if ($this->issetSessionData('checkoutOrderForm')) {

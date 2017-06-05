@@ -61,6 +61,11 @@ class Router {
      */
     private $database;
 
+    /**
+     * кэширование данных разрешено?
+     */
+    protected $enableDataCache;
+
 
     /**
      * Функция возвращает ссылку на экземпляр данного класса,
@@ -87,6 +92,8 @@ class Router {
         $this->cache = Cache::getInstance();
         // экземпляр класса базы данных
         $this->database = Database::getInstance();
+        // кэширование данных разрешено?
+        $this->enableDataCache = $this->config->cache->enable->data;
 
         /*
          * Этот код не имеет отношения к обычной работе приложения, когда роутер
@@ -130,6 +137,28 @@ class Router {
          * в суперглобальных массивах $_GET и $_REQUEST.
          */
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // строка frontend/catalog/category/id/17
+
+        // если включено кэширование данных
+        if ($this->enableDataCache) {
+            // получаем данные из кэша
+            $data = $this->getCachedData($path);
+
+            $this->xhr                 = $data['xhr'];
+            $this->controller          = $data['controller'];
+            $this->action              = $data['action'];
+            $this->controllerClassName = $data['controllerClassName'];
+            $this->params              = $data['params'];
+            $this->backend             = $data['backend'];
+
+            return;
+        }
+
+        $this->parseURL($path);
+
+    }
+
+    private function parseURL($path) {
+
         $path = trim($path, '/');
         if ('index.php' == strtolower($path) || '' == $path) {
             if ($this->xhr) {
@@ -151,20 +180,14 @@ class Router {
             $path = $this->getURL($path);
             // контроллер не найден
             if (false === $path) {
-                $this->xhr = false;
-                $this->controller = 'notfound';
-                $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-                $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+                $this->setNotFound();
                 return;
             }
         }
         // из $path извлекаем имя контроллера и действие
         $pattern = '~^(frontend|backend)/([a-z][a-z0-9]*)/([a-z][a-z0-9]*)~i';
         if ( ! preg_match($pattern, $path, $matches)) { // контроллер не найден
-            $this->xhr = false;
-            $this->controller = 'notfound';
-            $frontback = ($this->backend) ? 'Backend' : 'Frontend';
-            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+            $this->setNotFound();
             return;
         }
         $this->controller = strtolower($matches[2]);
@@ -182,11 +205,18 @@ class Router {
         // составляем имя класса из четырех частей, разделенных символом подчеркивания
         $this->controllerClassName =
             ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
-        if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
-            $this->xhr = false;
-            $this->controller = 'notfound';
-            $this->action = 'index';
-            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+        if (class_exists($this->controllerClassName)) { // такой класс существует?
+            /*
+             * TODO: эта проверка из-за Menu_Catalog_Frontend_Controller, подумать
+             */
+            // класс существует, абстрактный или нет?
+            $reflection = new ReflectionClass($this->controllerClassName);
+            if (!$this->xhr && $reflection->isAbstract()) { // класс абстрактный
+                $this->setNotFound();
+                return;
+            }
+        } else {
+            $this->setNotFound();
             return;
         }
 
@@ -195,10 +225,7 @@ class Router {
             $this->controllerClassName = 'Xhr_' . $this->controllerClassName;
         }
         if ( ! class_exists($this->controllerClassName)) { // такой класс существует?
-            $this->xhr = false;
-            $this->controller = 'notfound';
-            $this->action = 'index';
-            $this->controllerClassName = 'Index_Notfound_' . $frontback . '_Controller';
+            $this->setNotFound();
             return;
         }
 
@@ -214,6 +241,66 @@ class Router {
                 }
             }
         }
+
+    }
+
+    private function getCachedData($path) {
+
+        $xhr = $this->xhr ? 'true' : 'false';
+        $key = __CLASS__ . '-' . md5($path) . '-xhr-' . $xhr;
+
+        /*
+         * данные сохранены в кэше?
+         */
+        if ($this->cache->isExists($key)) {
+            // получаем данные из кэша
+            return $this->cache->getValue($key);
+        }
+
+        /*
+         * данных в кэше нет, но другой процесс поставил блокировку и в
+         * этот момент получает данные, чтобы записать их в кэш, нам надо
+         * их только получить из кэша после снятия блокировки
+         */
+        if ($this->cache->isLocked($key)) {
+            // получаем данные из кэша
+            try {
+                return $this->cache->getValue($key);
+            } catch (Exception $e) {
+                /*
+                 * другой процесс поставил блокировку, попытался получить данные и
+                 * записать их в кэш; если по каким-то причинам это не получилось
+                 * сделать, мы здесь будем пытаться читать из кэша значение, которого
+                 * не существует или оно устарело
+                 */
+                throw $e;
+            }
+        }
+
+        /*
+         * данных в кэше нет, блокировка не стоит, значит:
+         * 1. ставим блокировку
+         * 2. получаем данные
+         * 3. записываем данные в кэш
+         * 4. снимаем блокировку
+         */
+        $this->cache->lockValue($key);
+        try {
+            $this->parseURL($path);
+            $data = array(
+                'xhr'                 => $this->xhr,
+                'controller'          => $this->controller,
+                'action'              => $this->action,
+                'controllerClassName' => $this->controllerClassName,
+                'params'              => $this->params,
+                'backend'             => $this->backend
+            );
+            $this->cache->setValue($key, $data);
+        } finally {
+            $this->cache->unlockValue($key);
+        }
+
+        return $data;
 
     }
 
@@ -262,7 +349,11 @@ class Router {
     }
 
     /**
-     * Для случая NotFoundRecord (см. index.php и Base_Controller.php)
+     * Функция принудительно устанавливает контроллер Index_Notfound_Frontend_Controller
+     * или Index_Notfound_Backend_Controller; это происходит, если роутер не смог найти
+     * класс контроллера после анализа $_SERVER['REQUEST_URI'] или если были переданы
+     * некорректные параметры. См. комментарии в файлах app/controller/Base_Controller.php
+     * и index.php.
      */
     public function setNotFound() {
         $this->xhr = false;
@@ -273,64 +364,14 @@ class Router {
         $this->params = array();
     }
 
+    /**
+     * Функция вызывается, если запрошена страница общедоступной части сайта и в
+     * настройках включена поддержка ЧПУ. Преобразует Search Engines Friendly =>
+     * Controller/Action/Params, например about-company => frontend/page/index/id/7
+     */
     private function getURL($path) {
-        // если не включено кэширование данных
-        if ( ! $this->config->cache->enable->data) {
-            return $this->URL($path);
-        }
-
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-' . $path;
-
         /*
-         * данные сохранены в кэше?
-         */
-        if ($this->cache->isExists($key)) {
-            // получаем данные из кэша
-            return $this->cache->getValue($key);
-        }
-
-        /*
-         * данных в кэше нет, но другой процесс поставил блокировку и в этот
-         * момент получает данные от Router::URL(), чтобы записать их в кэш,
-         * нам надо их только получить из кэша после снятия блокировки
-         */
-        if ($this->cache->isLocked($key)) {
-            try {
-                // получаем данные из кэша
-                return $this->cache->getValue($key);
-            } catch (Exception $e) {
-                /*
-                 * другой процесс поставил блокировку, попытался получить данные от
-                 * Router::URL() и записать их в кэш; если по каким-то причинам это
-                 * не получилось сделать, мы здесь будем пытаться читать из кэша
-                 * значение, которого не существует или оно устарело
-                 */
-                throw $e;
-            }
-        }
-
-        /*
-         * данных в кэше нет, блокировка не стоит, значит:
-         * 1. ставим блокировку
-         * 2. получаем данные
-         * 3. записываем данные в кэш
-         * 4. снимаем блокировку
-         */
-        $this->cache->lockValue($key);
-        try {
-            $result = $this->URL($path);
-            $this->cache->setValue($key, $result);
-        } finally {
-            $this->cache->unlockValue($key);
-        }
-        // возвращаем результат
-        return $result;
-    }
-
-    private function URL($path) {
-        /*
-         * Сначала проверяем — существует ли в настройках правило преобразования
+         * сначала проверяем — существует ли в настройках правило преобразования
          * SEF->CAP, т.е. Search Engines Friendly => Controller/Action/Params; эти
          * правила описаны в файле app/config/routing.php
          */
@@ -341,7 +382,7 @@ class Router {
             }
         }
         /*
-         * Если правило преобразования не найдено, пробуем найти $path среди
+         * если правило преобразования не найдено, пробуем найти $path среди
          * ЧПУ (SEF) страниц сайта, созданных администратором через админку
          */
         if ( ! preg_match('#^[a-z][-_0-9a-z]#i', $path)) {
@@ -353,8 +394,7 @@ class Router {
                       `pages`
                   WHERE
                       1";
-        // TODO: подумать о кэшировании!
-        $pages = $this->database->fetchAll($query);
+        $pages = $this->database->fetchAll($query, array(), $this->enableDataCache);
         foreach ($pages as $page) {
             if ($path === $page['sefurl']) {
                 return 'frontend/page/index/id/' . $page['id'];
