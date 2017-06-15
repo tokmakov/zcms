@@ -108,6 +108,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `viewed` `b` ON `a`.`id` = `b`.`product_id`
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
@@ -203,6 +204,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `viewed` `b` ON `a`.`id` = `b`.`product_id`
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
                       `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1
                   ORDER BY
@@ -257,6 +259,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `viewed` `b` ON `a`.`id` = `b`.`product_id`
                       INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
         return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));

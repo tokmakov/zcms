@@ -194,7 +194,9 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `b`.`id` AS `ctg_id`,
                       `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`,
-                      `c`.`name` AS `mkr_name`";
+                      `c`.`name` AS `mkr_name`,
+                      `d`.`id` AS `grp_id`,
+                      `d`.`name` AS `grp_name`";
 
         /*
          * Расчет релевантности для торгового наименования, например «ИП-212»

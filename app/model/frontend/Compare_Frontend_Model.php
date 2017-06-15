@@ -360,6 +360,10 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function getGroupParams() {
 
+        /*
+         * TODO: подумать, как уменьшить кол-во запросов
+         */
+
         if (0 === $this->groupId) {
             return array();
         }
@@ -384,7 +388,10 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `a`.`added` DESC";
         $products = $this->database->fetchAll(
             $query,
-            array('group_id' => $this->groupId, 'visitor_id' => $this->visitorId)
+            array(
+                'group_id' => $this->groupId,
+                'visitor_id' => $this->visitorId
+            )
         );
         $title[]      = 'Функциональное наименование';
         $code[]       = 'Код';
@@ -395,6 +402,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $title[]      = $product['title'];
             $code[]       = $product['code'];
             $maker[]      = $product['maker'];
+            // $product['techdata'] это не массив технических характеристик, а
+            // ссылка на страницу товара, которая открывается в модальном окне
             if ( ! empty($product['techdata'])) {
                 $techdata[] = $this->getURL('frontend/catalog/product/id/' . $product['id']);
             } else {
@@ -403,7 +412,46 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             $shortdescr[] = $product['shortdescr'];
         }
 
-        // получаем массив параметров подбора для функциональной группы
+        /*
+         * Получаем массив параметров подбора для функциональной группы. Здесь
+         * мы получаем не полный набор параметров подбора для функциональной
+         * группы, а только ту часть параметров, которая характерна для товаров,
+         * участвующих в сравнении.
+         *
+         * Например, для функционала «Видеокамеры» в таблице `group_param_value`
+         * заданы три параметра подбора:
+         *   1. ИК подсветка: да, нет
+         *   2. Напряжение питания: 12 Вольт, 24 Вольт
+         *   3. Тип корпуса: корпусная, купольная
+         * Но для трех видеокамер AB-12, CD-34, EF-56, участвующих в сравнении,
+         * в таблице `product_param_value` заданы только такие параметры:
+         *   AB-12: ИК подсветка — да, Напряжение питания — 12 Вольт
+         *   CD-34: ИК подсветка — нет, Напряжение питания — 24 Вольт
+         *   EF-56: параметры подбора не заданы, нет записей в таблице БД
+         * В этом случае мы получим в выборке только два параметра подбора:
+         * «ИК подсветка» и «Напряжение питания». «Тип корпуса» в выборку не
+         * попадет.
+         *
+         * Для получения полного набора параметров надо использовать таблицу БД
+         * `group_param_value` вместо `product_param_value`.
+         */
+
+        /*
+         * $result1 = Array (
+         *   [0] => Array (
+         *     [id] => 161
+         *     [name] => Материал
+         *   )
+         *   [1] => Array (
+         *     [id] => 159
+         *     [name] => Расстояние срабатывания
+         *   )
+         *   [2] => Array (
+         *     [id] => 162
+         *     [name] => Напряжение питания
+         *   )
+         * )
+         */
         $query = "SELECT
                       `g`.`id` AS `id`, `g`.`name` AS `name`
                   FROM
@@ -415,6 +463,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `product_param_value` `f` ON `b`.`id` = `f`.`product_id`
                       INNER JOIN `params` `g` ON `f`.`param_id` = `g`.`id`
                   WHERE
+                      `a`.`visitor_id` = :visitor_id AND
                       `a`.`active` = 1 AND
                       `e`.`id` = :group_id AND
                       `b`.`visible` = 1
@@ -422,48 +471,230 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       1, 2
                   ORDER BY
                       `g`.`name`";
-        $result = $this->database->fetchAll($query, array('group_id' => $this->groupId));
+        $result1 = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                // вообще, условие в запросе `e`.`id` = :group_id — лишнее, к
+                // сравнению добавляются только товары с одинаковым фунционалом
+                'group_id' => $this->groupId
+            )
+        );
+
 
         /*
-         * перебираем все параметры подбора, для каждого товара
-         * получаем конкретное значение параметра
+         * Получаем значения параметров подборы для товаров из списка сравнения
+         */
+
+        /*
+         * $result2 = Array (
+         *   [0] => Array (
+         *     [product_id] => 1005
+         *     [param_id] => 159
+         *     [param_name] => Расстояние срабатывания
+         *     [value_id] => 1608
+         *     [value_name] => 10
+         *   )
+         *   [1] => Array (
+         *     [product_id] => 1005
+         *     [param_id] => 162
+         *     [param_name] => Напряжение питания
+         *     [value_id] => 1606
+         *     [value_name] => 24 Вольт
+         *   )
+         *   [2] => Array (
+         *     [product_id] => 1001
+         *     [param_id] => 161
+         *     [param_name] => Материал
+         *     [value_id] => 1614
+         *     [value_name] => Металл
+         *   )
+         *   [4] => Array (
+         *     [product_id] => 1004
+         *     [param_id] => 161
+         *     [param_name] => Материал
+         *     [value_id] => 1605
+         *     [value_name] => Пластик
+         *   )
+         *   ..........
+         *   [6] => Array (
+         *     [product_id] => 1003
+         *     [param_id] => 161
+         *     [param_name] => Материал
+         *     [value_id] => 1605
+         *     [value_name] => Пластик
+         *   )
+         *   [7] => Array (
+         *     [product_id] => 1003
+         *     [param_id] => 162
+         *     [param_name] => Напряжение питания
+         *     [value_id] => 1610
+         *     [value_name] => 12 Вольт
+         *   )
+         *   [8] => Array (
+         *     [product_id] => 1003
+         *     [param_id] => 162
+         *     [param_name] => Напряжение питания
+         *     [value_id] => 1606
+         *     [value_name] => 24 Вольт
+         *   )
+         * )
+         */
+        $query = "SELECT
+                      `b`.`id` AS `product_id`, `g`.`id` AS `param_id`, `g`.`name` AS `param_name`,
+                      `h`.`id` AS `value_id`, `h`.`name` AS `value_name`
+                  FROM
+                      `compare` `a`
+                      INNER JOIN `products` `b` ON `a`.`product_id` = `b`.`id`
+                      INNER JOIN `categories` `c` ON `b`.`category` = `c`.`id`
+                      INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
+                      INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
+                      INNER JOIN `product_param_value` `f` ON `b`.`id` = `f`.`product_id`
+                      INNER JOIN `params` `g` ON `f`.`param_id` = `g`.`id`
+                      INNER JOIN `values` `h` ON `f`.`value_id` = `h`.`id`
+                  WHERE
+                      `a`.`visitor_id` = :visitor_id AND
+                      `a`.`active` = 1 AND
+                      `e`.`id` = :group_id AND
+                      `b`.`visible` = 1
+                  ORDER BY
+                      `a`.`added` DESC,
+                      `g`.`name`, `h`.`name`";
+        $result2 = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                // вообще, условие в запросе `e`.`id` = :group_id — лишнее, к
+                // сравнению добавляются только товары с одинаковым фунционалом
+                'group_id' => $this->groupId
+            )
+        );
+
+        /*
+         * структура массива, который будет сформирован в цикле:
+         *
+         * $result3 = Array (
+         *   [1005] => Array (
+         *     [159] => Array (
+         *       [0] => Array (
+         *         [0] => Расстояние срабатывания
+         *         [1] => 10
+         *       )
+         *     )
+         *     [162] => Array (
+         *       [0] => Array (
+         *         [0] => Напряжение питания
+         *         [1] => 24 Вольт
+         *       )
+         *     )
+         *   )
+         *   [1001] => Array (
+         *     [161] => Array (
+         *       [0] => Array (
+         *         [0] => Материал
+         *         [1] => Металл
+         *       )
+         *     )
+         *   )
+         *   [1004] => Array (.....)
+         *   [1002] => Array (.....)
+         *   [1003] => Array (
+         *     [161] => Array (
+         *       [0] => Array (
+         *         [0] => Материал
+         *         [1] => пластик
+         *       )
+         *     )
+         *     [162] => Array (
+         *       [0] => Array (
+         *         [0] => Напряжение питания
+         *         [1] => 12 Вольт
+         *       )
+         *       [1] => Array(
+         *         [0] => Напряжение питания
+         *         [1] => 24 Вольт
+         *       )
+         *     )
+         *   )
+         * )
+         */
+        $result3 = array();
+        foreach ($result2 as $item) {
+            $result3[$item['product_id']][$item['param_id']][] = array(
+                $item['param_name'],
+                $item['value_name']
+            );
+        }
+
+        /*
+         * Перебираем все параметры подбора, для каждого товара
+         * получаем конкретное значение параметра.
+         *
+         * Количество элементов в массиве равно количеству параметров,
+         * каждый элемент массива — вложенный массив. Первый элемент
+         * вложенного массива (с индексом ноль) содержит название
+         * параметра подбора, остальные элементы — значения параметров
+         * подбора для каждого товара сравнения. Если для какого-то
+         * товара параметр подбора не задан, тогда значением будет
+         * пустая строка.
+         *
+         * $params = Array (
+         *   [0] => Array (
+         *     [0] => Расстояние срабатывания
+         *     [1] => 10
+         *     [2] =>
+         *     [3] => 10
+         *     [4] => 15
+         *     [5] =>
+         *   )
+         *   [1] => Array (
+         *     [0] => Материал
+         *     [1] =>
+         *     [2] => Металл
+         *     [3] => Пластик
+         *     [4] =>
+         *     [5] => Пластик
+         *   )
+         *   [2] => Array (
+         *     [0] => Напряжение питания
+         *     [1] => 24 Вольт
+         *     [2] =>
+         *     [3] => 12 Вольт
+         *     [4] =>
+         *     [5] => Array (
+         *       [0] => 12 Вольт
+         *       [1] => 24 Вольт
+         *     )
+         *   )
+         * )
          */
         $params = array();
         // цикл по параметрам подбора
-        foreach ($result as $i => $value) {
-            $params[$i][] = $value['name'];
+        foreach ($result1 as $i => $item) {
+            $params[$i][] = $item['name'];
             // цикл по товарам, отложенным для сравнения
             foreach ($products as $j => $product) {
-                $query = "SELECT
-                              `b`.`name` AS `value`
-                          FROM
-                              `product_param_value` `a` INNER JOIN `values` `b`
-                              ON `a`.`value_id` = `b`.`id`
-                          WHERE
-                              `a`.`product_id` = :product_id AND `a`.`param_id` = :param_id";
-                $res = $this->database->fetchAll(
-                    $query,
-                    array(
-                        'product_id' => $product['id'],
-                        'param_id'   => $value['id']
-                    ),
-                    $this->enableDataCache
-                );
-                if (empty($res)) {
+                if ( ! isset($result3[$product['id']][$item['id']])) {
+                    // значение параметра не задано, записываем пустую строку
                     $params[$i][$j+1] = '';
                     continue;
                 }
-                if (count($res) > 1) {
-                    foreach($res as $item) {
-                        $params[$i][$j+1][] = $item['value'];
+                if (count($result3[$product['id']][$item['id']]) > 1) {
+                    // для товара задано два значения параметра подбора, например
+                    // «Напряжение питания» : «12 Вольт», «24 Вольт»
+                    foreach($result3[$product['id']][$item['id']] as $value) {
+                        $params[$i][$j+1][] = $value[1];
                     }
                 } else {
-                    $params[$i][$j+1] = $res[0]['value'];
+                    $params[$i][$j+1] = $result3[$product['id']][$item['id']][0][1];
                 }
+
             }
         }
 
-        return array_merge(array($title, $code, $maker, $techdata, $shortdescr), $params);
+        $result = array_merge(array($title, $code, $maker, $techdata, $shortdescr), $params);
+
+        return $result;
 
     }
 
@@ -514,10 +745,15 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND
+                      `a`.`active` = 1 AND
+                      `b`.`visible` = 1
                   ORDER BY
                       `a`.`added` DESC";
-        $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $products = $this->database->fetchAll(
+            $query,
+            array('visitor_id' => $this->visitorId)
+        );
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products as $key => $value) {
             $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -535,7 +771,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                   SET
                       `active` = 0
                   WHERE
-                      `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                      `product_id` = :product_id AND
+                      `visitor_id` = :visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -698,8 +935,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       SET
                           `active` = 0
                       WHERE
-                          `id` IN (" . implode(',', $ids) . ") AND `visitor_id` = :visitor_id";
-            $this->database->execute($query, array('visitor_id' => $this->visitorId));
+                          `id` IN (" . implode(',', $ids) . ") AND
+                          `visitor_id` = :visitor_id";
+            $this->database->execute(
+                $query,
+                array('visitor_id' => $this->visitorId)
+            );
         }
         // обновляем cookie
         setcookie('compare_group', $this->groupId, time() + 31536000, '/');
@@ -717,7 +958,10 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `product_id`
                   HAVING
                       COUNT(*) > 1";
-        $result = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $result = $this->database->fetchAll(
+            $query,
+            array('visitor_id' => $this->visitorId)
+        );
         if (empty($result)) {
             return;
         }

@@ -302,6 +302,8 @@ $(document).ready(function() {
                 // для третьего блока (товары после фильтрации) назначаем обработчики
                 // событий добавления товара в корзину, к сравнению, в избранное
                 addBasketHandler();
+                addWishedHandler();
+                addCompareHandler();
             },
             dataType: 'json'
         });
@@ -638,6 +640,8 @@ function filterSelectHandler() {
             // для третьего блока (товары после фильтрации) назначаем обработчики
             // событий добавления товара в корзину, к сравнению, в избранное
             addBasketHandler();
+            addWishedHandler();
+            addCompareHandler();
             /*
              * добавляем запись в window.history, чтобы работали кнопки «Назад»
              * и «Вперед» в браузере

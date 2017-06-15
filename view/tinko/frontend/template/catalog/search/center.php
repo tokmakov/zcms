@@ -29,6 +29,8 @@
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
  *     [mkr_name] => Болид
+ *     [grp_id] => 7
+ *     [grp_name] => Извещатель пожарный
  *     [url] => Array (
  *       [product] => http://www.host.ru/catalog/product/37
  *       [maker] => http://www.host.ru/catalog/maker/5
@@ -106,7 +108,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/catalog/search/center.php -->
 
-<?php if (!empty($breadcrumbs)): ?>
+<?php if ( ! empty($breadcrumbs)): ?>
     <div id="breadcrumbs">
     <?php foreach ($breadcrumbs as $item): ?>
         <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -188,7 +190,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
                 <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
             </form>
-            <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form">
+            <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                 <input type="hidden" name="return" value="search" />
                 <input type="hidden" name="query" value="<?php echo htmlspecialchars($query); ?>" />

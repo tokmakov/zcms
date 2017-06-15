@@ -8,5 +8,10 @@ $database = array(               // соединение с базой данн�
     'user'      => 'root',
     'pass'      => 'wbmstr',
     'name'      => 'zcms',
-    'balancing' => false,        // включена балансировка нагрузки между master и slave?
+    /*
+     * включена балансировка нагрузки между master и slave?
+     * http://devacademy.ru/posts/prostaya-balansirovka-nagruzki-dlya-mysql-i-php-s-pomoschyu-biblioteki-mysqlnd/
+     * http://phpprofi.ru/blogs/post/18, http://phpprofi.ru/blogs/post/22, http://phpprofi.ru/blogs/post/23
+     */
+    'balancing' => false,
 );

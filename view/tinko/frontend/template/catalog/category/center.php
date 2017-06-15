@@ -45,8 +45,8 @@
  *     [ctg_name] => Извещатели пожарные
  *     [mkr_id] => 5
  *     [mkr_name] => Болид
- *     [grp_id] => 5
- *     [grp_name] => Извещатели пожарные дымовые
+ *     [grp_id] => 7
+ *     [grp_name] => Извещатель пожарный
  *     [url] => Array (
  *       [product] => http://www.host.ru/catalog/product/37
  *       [maker] => http://www.host.ru/catalog/maker/5
