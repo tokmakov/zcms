@@ -348,15 +348,6 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
         // если получатель - юридическое лицо
         if ($form['buyer_company']) {
-            if (empty($form['buyer_company_name'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Название компании получателя»';
-            }
-            if (empty($form['buyer_company_ceo'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Генеральный директор компании получателя»';
-            }
-            if (empty($form['buyer_company_address'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Юридический адрес компании получателя»';
-            }
             if (empty($form['buyer_company_inn'])) {
                 $errorMessage[] = 'Не заполнено обязательное поле «ИНН компании получателя»';
             } elseif ( ! preg_match('#^(\d{10}|\d{12})$#i', $form['buyer_company_inn'])) {
@@ -367,23 +358,20 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                     $errorMessage[] = 'Поле «КПП компании получателя» должно содержать 9 цифр';
                 }
             }
-            if (empty($form['buyer_bank_name'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Название банка компании получателя»';
+            if ( ! empty($form['buyer_bank_bik'])) {
+                if ( ! preg_match('#^\d{9}$#i', $form['buyer_bank_bik'])) {
+                    $errorMessage[] = 'Поле «БИК банка компании получателя» должно содержать 9 цифр';
+                }
             }
-            if (empty($form['buyer_bank_bik'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «БИК банка компании получателя»';
-            } elseif ( ! preg_match('#^\d{9}$#i', $form['buyer_bank_bik'])) {
-                $errorMessage[] = 'Поле «БИК банка компании получателя» должно содержать 9 цифр';
+            if ( ! empty($form['buyer_settl_acc'])) {
+                if ( ! preg_match('#^\d{20}$#i', $form['buyer_settl_acc'])) {
+                    $errorMessage[] = 'Поле «Расчетный счет компании получателя» должно содержать 20 цифр';
+                }
             }
-            if (empty($form['buyer_settl_acc'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Расчетный счет компании получателя»';
-            } elseif ( ! preg_match('#^\d{20}$#i', $form['buyer_settl_acc'])) {
-                $errorMessage[] = 'Поле «Расчетный счет компании получателя» должно содержать 20 цифр';
-            }
-            if (empty($form['buyer_corr_acc'])) {
-                $errorMessage[] = 'Не заполнено обязательное поле «Корр. счет банка компании получателя»';
-            } elseif ( ! preg_match('#^\d{20}$#i', $form['buyer_corr_acc'])) {
-                $errorMessage[] = 'Поле  «Корр. счет банка компании получателя» должно содержать 20 цифр';
+            if ( ! empty($form['buyer_corr_acc'])) {
+                if ( ! preg_match('#^\d{20}$#i', $form['buyer_corr_acc'])) {
+                    $errorMessage[] = 'Поле «Корр. счет банка компании получателя» должно содержать 20 цифр';
+                }
             }
         }
         // если плательщик и получатель различаются
@@ -413,15 +401,6 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             }
             // если плательщик - юридическое лицо
             if ($form['payer_company']) {
-                if (empty($form['payer_company_name'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Название компании плательщика»';
-                }
-                if (empty($form['payer_company_ceo'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Генеральный директор компании плательщика»';
-                }
-                if (empty($form['payer_company_address'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Юридический адрес компании плательщика»';
-                }
                 if (empty($form['payer_company_inn'])) {
                     $errorMessage[] = 'Не заполнено обязательное поле «ИНН компании плательщика»';
                 } elseif ( ! preg_match('#^(\d{10}|\d{12})$#i', $form['payer_company_inn'])) {
@@ -432,23 +411,20 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                         $errorMessage[] = 'Поле «КПП компании плательщика» должно содержать 9 цифр';
                     }
                 }
-                if (empty($form['payer_bank_name'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Название банка компании плательщика»';
+                if ( ! empty($form['payer_bank_bik'])) {
+                    if ( ! preg_match('#^\d{9}$#i', $form['payer_bank_bik'])) {
+                        $errorMessage[] = 'Поле «БИК банка компании плательщика» должно содержать 9 цифр';
+                    }
                 }
-                if (empty($form['payer_bank_bik'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «БИК банка компании плательщика»';
-                } elseif ( ! preg_match('#^\d{9}$#i', $form['payer_bank_bik'])) {
-                    $errorMessage[] = 'Поле «БИК банка компании плательщика» должно содержать 9 цифр';
+                if ( ! empty($form['payer_settl_acc'])) {
+                    if ( ! preg_match('#^\d{20}$#i', $form['payer_settl_acc'])) {
+                        $errorMessage[] = 'Поле «Расчетный счет компании плательщика» должно содержать 20 цифр';
+                    }
                 }
-                if (empty($form['payer_settl_acc'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Расчетный счет компании плательщика»';
-                } elseif ( ! preg_match('#^\d{20}$#i', $form['payer_settl_acc'])) {
-                    $errorMessage[] = 'Поле «Расчетный счет компании плательщика» должно содержать 20 цифр';
-                }
-                if (empty($form['payer_corr_acc'])) {
-                    $errorMessage[] = 'Не заполнено обязательное поле «Корр. счет банка компании плательщика»';
-                } elseif ( ! preg_match('#^\d{20}$#i', $form['payer_corr_acc'])) {
-                    $errorMessage[] = 'Поле «Корр. счет банка компании плательщика» должно содержать 20 цифр';
+                if ( ! empty($form['payer_corr_acc'])) {
+                    if ( ! preg_match('#^\d{20}$#i', $form['payer_corr_acc'])) {
+                        $errorMessage[] = 'Поле «Корр. счет банка компании плательщика» должно содержать 20 цифр';
+                    }
                 }
             }
         }

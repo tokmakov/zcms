@@ -48,6 +48,7 @@ $css = array(
         'sitemap'         => 'sitemap.css',   // карта сайта
         'user'            => array(           // личный кабинет
             'user.css',
+            /* в файле basket-checkout.cs переопределяется стиль этого файла из-за глюка */
             'https://dadata.ru/static/css/lib/suggestions-16.1.css',
             'suggestions.css',
         ),

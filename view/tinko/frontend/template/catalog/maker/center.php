@@ -40,6 +40,7 @@
  *     [ctg_id] => 844
  *     [ctg_name] => Видеопенели вызывные
  *     [grp_id] => 7
+ *     [grp_name] => Видеопанель вызывная
  *     [url] => Array (
  *       [product] => http://www.host.ru/catalog/product/230524
  *       [image] => http://www.host.ru/files/catalog/imgs/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
@@ -55,12 +56,12 @@
  *   )
  *   ..........
  * )
- * 
+ *
  * $param = Array (
  *   [187] => 1943 // 187 - уникальный ID параметра, 1943 - уникальный ID значения параметра
  *   [241] => 1937
  * )
- * 
+ *
  * $params = Array (
  *   [0] => Array (
  *     [id] => 187
@@ -140,12 +141,13 @@
  * )
  *
  * $units = Array (
- *     0 => '-',
- *     1 => 'шт',
- *     2 => 'компл',
- *     3 => 'упак',
- *     4 => 'метр',
- *     5 => 'пара',
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара',
+ *   6 => 'кг'
  * )
  *
  * $pager = Array (
@@ -284,7 +286,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
-                <?php if (!empty($params)): ?>
+                <?php if ( ! empty($params)): ?>
                     <?php foreach ($params as $item): ?>
                         <div>
                             <div>
@@ -356,15 +358,26 @@ for ($i = 0; $i <= 6; $i++) {
 
     <div class="product-list-<?php echo $view; ?>">
         <?php
-        if ( ! empty($param)) {
-            $temp = array();
-            foreach ($param as $key => $value) {
-                $temp[] = $key . '.' . $value;
+            /*
+             * При добавлении товара в корзину, в избранное, к сравнению — отравляются данные формы.
+             * Если нет поддержки JavaScript, данные будут отправляться с перезагрузкой страницы,
+             * т.е. без использования объекта XmlHttpRequest. На этот случай надо в форму добавить
+             * множество полей (фильтр по функционалу, новинкам и лидерам продаж, сортировка, номер
+             * страницы и т.п.), чтобы восстановить исходную страницу после перезагрузки. Переменная
+             * $prm содержит параметры подбора для товаров производителя $id и выбранной из списка
+             * <select name="group"> функциональной группы в формате 12.34-56.78, где
+             * 12, 56 — уникальные идентификаторы параметров подбора
+             * 34, 78 — уникальные идентификаторы значений параметров подбора
+             */
+            if ( ! empty($param)) {
+                $temp = array();
+                foreach ($param as $key => $value) {
+                    $temp[] = $key . '.' . $value;
+                }
+                if ( ! empty($temp)) {
+                    $prm = implode('-', $temp);
+                }
             }
-            if ( ! empty($temp)) {
-                $prm = implode('-', $temp);
-            }
-        }
         ?>
         <?php foreach ($products as $product): ?>
             <div>
@@ -522,7 +535,7 @@ for ($i = 0; $i <= 6; $i++) {
         <?php endif; ?>
         </ul>
     <?php endif; ?>
-    
+
 </div>
 
 <!-- Конец шаблона view/example/frontend/template/catalog/maker/center.php -->

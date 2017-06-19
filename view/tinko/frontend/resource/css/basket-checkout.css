@@ -2,6 +2,10 @@
 #checkout-order {
 
 }
+/* добавил, потому что какой-то глюк возникает */
+#checkout-order .suggestions-wrapper {
+    display: block;
+}
     #checkout-order .company-checkbox-help,
     #checkout-order .make_profile_help,
     #checkout-order .customer-checkbox-help {
@@ -124,7 +128,7 @@
                     #checkout-order > div > fieldset > div > div:first-child,
                     #checkout-order > div > div > div > div:first-child {
                         float: left;
-                        width: 30%;
+                        width: 25%;
                         height: 32px;
                         line-height: 32px;
                         white-space: nowrap;
@@ -133,36 +137,26 @@
                     #checkout-order > div > fieldset > div > div:last-child,
                     #checkout-order > div > div > div > div:last-child {
                         float: left;
-                        width: 70%;
+                        width: 75%;
                         margin: 2px 0;
                     }
+                        /* когда в одной строке не одно поле <input/>, а два: ИНН и КПП */
                         #checkout-order > div > fieldset > div > div:last-child > input[type="text"] {
-                            width: 100%;
+                            width: 50%;
+                            float: left;
                             font-size: 14px;
                             box-sizing: border-box;
                             padding: 5px;
                             border: 1px solid #d1d1d1;
                         }
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_inn"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_name"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_patronymic"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_city"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_name"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_patronymic"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_inn"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
-                            float: left;
-                            width: 60%;
-                        }
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_patronymic"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_company_kpp"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="buyer_shipping_index"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_patronymic"],
-                        #checkout-order > div > fieldset > div > div:last-child > input[name="payer_company_kpp"] {
+                        #checkout-order > div > fieldset > div > div:last-child > input:last-of-type[type="text"] {
                             border-left: none;
-                            width: 40%;
+                        }
+                        /* когда в одной строке не два поля <input/>, а только одно */
+                        #checkout-order > div > fieldset > div > div:last-child > input:only-of-type[type="text"] {
+                            width: 100%;
+                            float: none;
+                            border-left: 1px solid #d1d1d1;
                         }
                         /* выбор профиля Получателя и Плательщика */
                         #checkout-order > div > div > div > div:last-child > select {

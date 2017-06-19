@@ -200,18 +200,6 @@ defined('ZCMS') or die('Access denied');
         <fieldset id="buyer-company">
             <legend>Юридическое лицо</legend>
             <div>
-                <div>Название компании <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_company_name" maxlength="64" value="<?php echo $buyer_company_name; ?>" /></div>
-            </div>
-            <div>
-                <div>Генеральный директор <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_company_ceo" maxlength="64" value="<?php echo $buyer_company_ceo; ?>" /></div>
-            </div>
-            <div>
-                <div>Юридический адрес <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_company_address" maxlength="250" value="<?php echo $buyer_company_address; ?>" /></div>
-            </div>
-            <div>
                 <div>ИНН <span class="form-field-required">*</span>, КПП</div>
                 <div>
                     <input type="text" name="buyer_company_inn" maxlength="12" value="<?php echo $buyer_company_inn; ?>" placeholder="ИНН" />
@@ -219,20 +207,29 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
             <div>
-                <div>Название банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_bank_name" maxlength="64" value="<?php echo $buyer_bank_name; ?>" /></div>
+                <div>Название, ген.директор</div>
+                <div>
+                    <input type="text" name="buyer_company_name" maxlength="64" value="<?php echo $buyer_company_name; ?>" placeholder="название компании" />
+                    <input type="text" name="buyer_company_ceo" maxlength="64" value="<?php echo $buyer_company_ceo; ?>" placeholder="ФИО ген.директора" />
+                </div>
             </div>
             <div>
-                <div>БИК банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_bank_bik" maxlength="9" value="<?php echo $buyer_bank_bik; ?>" /></div>
+                <div>Юридический адрес</div>
+                <div><input type="text" name="buyer_company_address" maxlength="250" value="<?php echo $buyer_company_address; ?>" /></div>
             </div>
             <div>
-                <div>Расчетный счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_settl_acc" maxlength="20" value="<?php echo $buyer_settl_acc; ?>" /></div>
+                <div>Название банка, БИК</div>
+                <div>
+                    <input type="text" name="buyer_bank_name" maxlength="64" value="<?php echo $buyer_bank_name; ?>" placeholder="название банка" />
+                    <input type="text" name="buyer_bank_bik" maxlength="9" value="<?php echo $buyer_bank_bik; ?>" placeholder="БИК банка" />
+                </div>
             </div>
             <div>
-                <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="buyer_corr_acc" maxlength="20" value="<?php echo $buyer_corr_acc; ?>" /></div>
+                <div>Расч.счет, корр.счет</div>
+                <div>
+                    <input type="text" name="buyer_settl_acc" maxlength="20" value="<?php echo $buyer_settl_acc; ?>" placeholder="расчетный счет" />
+                    <input type="text" name="buyer_corr_acc" maxlength="20" value="<?php echo $buyer_corr_acc; ?>" placeholder="корреспондентский счет" />
+                </div>
             </div>
         </fieldset>
 
@@ -337,18 +334,6 @@ defined('ZCMS') or die('Access denied');
         <fieldset id="payer-company">
             <legend>Юридическое лицо</legend>
             <div>
-                <div>Название компании <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_company_name" maxlength="64" value="<?php echo $payer_company_name; ?>" /></div>
-            </div>
-            <div>
-                <div>Генеральный директор <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_company_ceo" maxlength="64" value="<?php echo $payer_company_ceo; ?>" /></div>
-            </div>
-            <div>
-                <div>Юридический адрес <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_company_address" maxlength="250" value="<?php echo $payer_company_address; ?>" /></div>
-            </div>
-            <div>
                 <div>ИНН <span class="form-field-required">*</span>, КПП</div>
                 <div>
                     <input type="text" name="payer_company_inn" maxlength="12" value="<?php echo $payer_company_inn; ?>" placeholder="ИНН" />
@@ -356,20 +341,29 @@ defined('ZCMS') or die('Access denied');
                 </div>
             </div>
             <div>
-                <div>Название банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_bank_name" maxlength="64" value="<?php echo $payer_bank_name; ?>" /></div>
+                <div>Название, ген.директор</div>
+                <div>
+                    <input type="text" name="payer_company_name" maxlength="64" value="<?php echo $payer_company_name; ?>" placeholder="название компании" />
+                    <input type="text" name="payer_company_ceo" maxlength="64" value="<?php echo $payer_company_ceo; ?>" placeholder="ФИО ген.директора" />
+                </div>
             </div>
             <div>
-                <div>БИК банка <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_bank_bik" maxlength="9" value="<?php echo $payer_bank_bik; ?>" /></div>
+                <div>Юридический адрес</div>
+                <div><input type="text" name="payer_company_address" maxlength="250" value="<?php echo $payer_company_address; ?>" /></div>
             </div>
             <div>
-                <div>Расчетный счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_settl_acc" maxlength="20" value="<?php echo $payer_settl_acc; ?>" /></div>
+                <div>Название банка, БИК</div>
+                <div>
+                    <input type="text" name="payer_bank_name" maxlength="64" value="<?php echo $payer_bank_name; ?>" placeholder="название банка" />
+                    <input type="text" name="payer_bank_bik" maxlength="9" value="<?php echo $payer_bank_bik; ?>" placeholder="БИК банка" />
+                </div>
             </div>
             <div>
-                <div>Корреспондентский счет <span class="form-field-required">*</span></div>
-                <div><input type="text" name="payer_corr_acc" maxlength="20" value="<?php echo $payer_corr_acc; ?>" /></div>
+                <div>Расч.счет, корр.счет</div>
+                <div>
+                    <input type="text" name="payer_settl_acc" maxlength="20" value="<?php echo $payer_settl_acc; ?>" placeholder="расчетный счет" />
+                    <input type="text" name="payer_corr_acc" maxlength="20" value="<?php echo $payer_corr_acc; ?>" placeholder="корреспондентский счет" />
+                </div>
             </div>
         </fieldset>
 

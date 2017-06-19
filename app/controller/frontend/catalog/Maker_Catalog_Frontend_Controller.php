@@ -11,8 +11,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     }
 
     /**
-     * Функция получает от модели данные, необходимые для формирования страницы
-     * со списком всех товаров выбранного производителя
+     * Функция получает от модели данные, необходимые для формирования страницы:
+     * форма фильтров + список товаров выбранного производителя
      */
     protected function input() {
 
@@ -24,11 +24,12 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'] = (int)$this->params['id'];
         }
 
-        // если данные формы были отправлены: выбор функциональной группы, параметров
-        // подбора и т.п.; для пользователей, у которых отключен JavaScript
+        /*
+         * Если у пользователя отключен JavaScript, данные формы фильтров отправляются без
+         * использования XmlHttpRequest. Здесь мы обрабатываем эти данные и делаем редирект
+         * на эту же страницу, но уже с параметрами формы в URL
+         */
         if ($this->isPostMethod()) {
-            // обрабатываем отправленные данные формы, после чего делаем редирект
-            // на страницу производителя, но уже с параметрами формы в URL
             $this->processFormData();
         }
 
@@ -118,7 +119,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $sort = (int)$this->params['sort'];
         }
 
-        // мета-тег robots
+        // запрещаем индексацию роботами поисковых систем, если
+        // включен какой-нибудь фильтр или сортировка
         if ($group || $hit || $new || $sort) {
             $this->robots = false;
         }
@@ -263,7 +265,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // количество новинок
             'countNew'       => $countNew,
             // массив выбранных параметров подбора
-            'param'           => $param,
+            'param'          => $param,
             // массив функциональных групп
             'groups'         => $groups,
             // массив всех параметров подбора
@@ -287,8 +289,9 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     }
 
     /**
-     * Вспомогательная функция, обрабатывает отправленные данные формы, если у посетителя отключен
-     * JavaScript, после чего делает редирект на страницу производителя, но уже с параметрами в URL
+     * Вспомогательная функция, обрабатывает отправленные данные формы фильтров в том
+     * случае, если у посетителя отключен JavaScript, после чего делает редирект на
+     * эту же страницу, но уже с фильтрами в URL
      */
     private function processFormData() {
         $url = 'frontend/catalog/maker/id/' . $this->params['id'];

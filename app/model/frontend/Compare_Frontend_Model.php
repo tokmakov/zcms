@@ -439,12 +439,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         /*
          * $result1 = Array (
          *   [0] => Array (
-         *     [id] => 161
-         *     [name] => Материал
-         *   )
-         *   [1] => Array (
          *     [id] => 159
          *     [name] => Расстояние срабатывания
+         *   )
+         *   [1] => Array (
+         *     [id] => 161
+         *     [name] => Материал
          *   )
          *   [2] => Array (
          *     [id] => 162
@@ -483,10 +483,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
 
 
         /*
-         * Получаем значения параметров подборы для товаров из списка сравнения
-         */
-
-        /*
+         * Получаем значения параметров подбора для товаров из списка сравнения
+         *
          * $result2 = Array (
          *   [0] => Array (
          *     [product_id] => 1005
@@ -635,8 +633,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
          * вложенного массива (с индексом ноль) содержит название
          * параметра подбора, остальные элементы — значения параметров
          * подбора для каждого товара сравнения. Если для какого-то
-         * товара параметр подбора не задан, тогда значением будет
-         * пустая строка.
+         * товара параметр подбора не задан, тогда значением параметра
+         * будет пустая строка.
          *
          * $params = Array (
          *   [0] => Array (

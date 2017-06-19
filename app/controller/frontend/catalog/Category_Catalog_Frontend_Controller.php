@@ -12,7 +12,8 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * категории каталога, т.е. список дочерних категорий и список товаров категории
+     * категории каталога, т.е. список дочерних категорий, форма фильтров и список
+     * товаров категории
      */
     protected function input() {
 
@@ -24,11 +25,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'] = (int)$this->params['id'];
         }
 
-        // если данные формы были отправлены: выбор функциональной группы, производителя,
-        // параметров; для пользователей, у которых отключен JavaScript
+        /*
+         * Если у пользователя отключен JavaScript, данные формы фильтров отправляются без
+         * использования XmlHttpRequest. Здесь мы обрабатываем эти данные и делаем редирект
+         * на эту же страницу, но уже с параметрами формы в URL
+         */
         if ($this->isPostMethod()) {
-            // обрабатываем отправленные данные формы, после чего делаем редирект
-            // на страницу категории, но уже с параметрами формы в URL
             $this->processFormData();
         }
 
@@ -84,7 +86,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $breadcrumbs = $this->categoryCatalogFrontendModel->getCategoryPath($this->params['id']); // путь до категории
         array_pop($breadcrumbs); // последний элемент - текущая категория, нам она не нужна
 
-        // включен фильтр по функциональной группе?
+        // включен фильтр по функционалу (функциональной группе)?
         $group = 0;
         if (isset($this->params['group']) && ctype_digit($this->params['group'])) {
             $group = (int)$this->params['group'];
@@ -96,7 +98,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker = (int)$this->params['maker'];
         }
 
-        // включен фильтр по параметрам?
+        // включены доп.фильтры (параметры подбора для выбранного функционала)?
         $param = array();
         if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
             $temp = explode('-', $this->params['param']);
@@ -140,7 +142,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // получаем от модели массив дочерних категорий
-        $childCategories = $this->categoryCatalogFrontendModel->getChildCategories(
+        $categories = $this->categoryCatalogFrontendModel->getChildCategories(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
             $maker,              // идентификатор производителя или ноль
@@ -169,7 +171,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param               // массив параметров подбора
         );
 
-        // получаем от модели массив всех параметров подбора
+        // получаем от модели массив доп.фильтров (параметров подбора для выбранного функционала)
         $params = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
@@ -289,53 +291,60 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
-            'breadcrumbs'     => $breadcrumbs,        // хлебные крошки
-            'id'              => $this->params['id'], // уникальный идентификатор категории
-            'name'            => $category['name'],   // наименование категории
-            'childCategories' => $childCategories,    // массив дочерних категорий
-            'action'          => $action,             // атрибут action тега форм
-            'view'            => $view,               // представление списка товаров
-            'group'           => $group,              // id выбранной функциональной группы или ноль
-            'maker'           => $maker,              // id выбранного производителя или ноль
-            'param'           => $param,              // массив выбранных параметров подбора
-            'hit'             => $hit,                // показывать только лидеров продаж?
-            'countHit'        => $countHit,           // количество лидеров продаж
-            'new'             => $new,                // показывать только новинки?
-            'countNew'        => $countNew,           // количество новинок
-            'groups'          => $groups,             // массив функциональных групп
-            'makers'          => $makers,             // массив производителей
-            'params'          => $params,             // массив всех параметров подбора
-            'sort'            => $sort,               // выбранная сортировка
-            'sortorders'      => $sortorders,         // массив вариантов сортировки
-            'units'           => $units,              // массив единиц измерения товара
-            'products'        => $products,           // массив товаров категории
-            'clearFilterURL'  => $clearFilterURL,     // URL ссылки для сборса фильтра
-            'pager'           => $pager,              // постраничная навигация
-            'page'            => $page,               // текущая страница
+            'breadcrumbs'    => $breadcrumbs,        // хлебные крошки
+            'id'             => $this->params['id'], // уникальный идентификатор категории
+            'name'           => $category['name'],   // наименование категории
+            'categories'     => $categories,         // массив дочерних категорий
+            'action'         => $action,             // атрибут action тега форм
+            'view'           => $view,               // представление списка товаров
+            'group'          => $group,              // id выбранной функциональной группы или ноль
+            'maker'          => $maker,              // id выбранного производителя или ноль
+            'param'          => $param,              // массив выбранных параметров подбора
+            'hit'            => $hit,                // показывать только лидеров продаж?
+            'countHit'       => $countHit,           // количество лидеров продаж
+            'new'            => $new,                // показывать только новинки?
+            'countNew'       => $countNew,           // количество новинок
+            'groups'         => $groups,             // массив функциональных групп
+            'makers'         => $makers,             // массив производителей
+            'params'         => $params,             // массив всех параметров подбора
+            'sort'           => $sort,               // выбранная сортировка
+            'sortorders'     => $sortorders,         // массив вариантов сортировки
+            'units'          => $units,              // массив единиц измерения товара
+            'products'       => $products,           // массив товаров категории
+            'clearFilterURL' => $clearFilterURL,     // URL ссылки для сброса фильтра
+            'pager'          => $pager,              // постраничная навигация
+            'page'           => $page,               // текущая страница
         );
 
     }
 
     /**
-     * Вспомогательная функция, обрабатывает отправленные данные формы, если у посетителя отключен
-     * JavaScript, после чего делает редирект на страницу категории, но уже с параметрами в URL
+     * Вспомогательная функция, обрабатывает отправленные данные формы фильтров в том
+     * случае, если у посетителя отключен JavaScript, после чего делает редирект на
+     * эту же страницу, но уже с фильтрами в URL
      */
     private function processFormData() {
+        // базовый URL категории, без фильтров и сортировки
         $url = 'frontend/catalog/category/id/' . $this->params['id'];
+        // включен фильтр по функционалу (функциональной группе)?
         $grp = false;
         if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
             $url = $url . '/group/' . $_POST['group'];
             $grp = true;
         }
+        // включен фильтр по производителю?
         if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
             $url = $url . '/maker/' . $_POST['maker'];
         }
+        // включен фильтр по лидерам продаж?
         if (isset($_POST['hit'])) {
             $url = $url . '/hit/1';
         }
+        // включен фильтр по новинкам?
         if (isset($_POST['new'])) {
             $url = $url . '/new/1';
         }
+        // включены доп.фильтры (параметры подбора для выбранного функционала)?
         if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
             $param = array();
             foreach ($_POST['param'] as $key => $value) {
@@ -347,6 +356,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $url = $url . '/param/' . implode('-', $param);
             }
         }
+        // включена сортировка?
         if (isset($_POST['sort'])
             && ctype_digit($_POST['sort'])
             && in_array($_POST['sort'], array(1,2,3,4,5,6))

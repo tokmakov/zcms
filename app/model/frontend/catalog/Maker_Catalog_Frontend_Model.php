@@ -314,7 +314,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`title` AS `title`, `a`.`new` AS `new`, `a`.`hit` AS `hit`,
                       `a`.`image` AS `image`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
                       `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`, `a`.`group` AS `grp_id`
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`, `a`.`group` AS `grp_id`,
+                      `c`.`name` AS `grp_name`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
@@ -444,7 +445,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $groups = $this->database->fetchAll($query, array('maker' => $id));
 
         /*
-         * Небольшой хак, чтобы визуально представить список функциональных групп более наглядно:
+         * Небольшой трюк, чтобы визуально представить список функциональных групп более наглядно:
          * фактически, в виде двух списков. Первый список — функциональные группы, содержащие более
          * одного товара, второй список — функциональные группы, содержащие только один товар.
          * Разделение на два списка происходит, только если функциональных групп больше 15 шт.
