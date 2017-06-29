@@ -35,6 +35,7 @@ $register->database = Database::getInstance();
 	xmlns:wp="http://wordpress.org/export/1.2/"
 */
 
+/*
 $register->database->execute('TRUNCATE TABLE `blog_posts`');
 
 $xml = simplexml_load_file('files/blog/wordpress.xml');
@@ -120,6 +121,7 @@ foreach ($posts as $post) {
     $query = "UPDATE `blog_posts` SET `body` = :content WHERE `id` = :id";
     $register->database->execute($query, array('content' => $content, 'id' => $post['id']));
 }
+*/
 
 // превьюшки
 require 'files/blog/thumb.php';
@@ -147,6 +149,7 @@ foreach ($wp_posts as $post) {
         } else {
             copy('files/blog/source/'.$file, 'files/blog/thumb/'.$folder.'/'.$post['id'].'.jpg');
         }
+        copy('files/blog/thumb/'.$folder.'/'.$post['id'].'.jpg', 'files/blog/thumbs/'.$post['id'].'.jpg');
     }
 }
 
