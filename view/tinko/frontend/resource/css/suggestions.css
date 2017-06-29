@@ -8,3 +8,7 @@
 .suggestions-suggestions .suggestions-suggestion {
     border-top: 1px dashed #d1d1d1;
 }
+/* добавил, потому что какой-то глюк возникает */
+.suggestions-wrapper {
+    display: block;
+}

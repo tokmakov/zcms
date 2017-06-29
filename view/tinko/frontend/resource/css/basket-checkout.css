@@ -2,10 +2,6 @@
 #checkout-order {
 
 }
-/* добавил, потому что какой-то глюк возникает */
-#checkout-order .suggestions-wrapper {
-    display: block;
-}
     #checkout-order .company-checkbox-help,
     #checkout-order .make_profile_help,
     #checkout-order .customer-checkbox-help {

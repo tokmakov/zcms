@@ -18,6 +18,14 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         parent::__construct($params);
     }
 
+    /**
+     * Переопределяем метод Base_Controller::request(), потому что здесь нам не
+     * нужен сложный алгоритм формирования страницы категории каталога: получение
+     * данных в методе input(), подключение js и css файлов, формирование отдельных
+     * фрагментов HTML-кода, сборка страницы из фрагментов. Здесь просто запрашиваем
+     * данные у модели и прогоняем их через шаблон, чтобы получить три фрагмента
+     * html-кода.
+     */
     public function request() {
 
         // если не передан id категории или id категории не число
@@ -36,14 +44,18 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
          * отправляются методом GET по событию popstate, см. описание window.history.
          */
         if ($this->isPostMethod()) {
-            // если данные отправлены методом POST, получаем данные из формы: фильтр
-            // по функционалу, производителю, лидерам продаж, новинкам, параметрам и
-            // сортировка
+            /*
+             * если данные отправлены методом POST, получаем данные из формы: фильтр
+             * по функционалу, производителю, лидерам продаж, новинкам, параметрам и
+             * сортировка
+             */
             list($group, $maker, $hit, $new, $param, $sort) = $this->processFormData();
         } else {
-            // если данные отправлены методом GET, получаем данные из URL: фильтр
-            // по функционалу, производителю, лидерам продаж, новинкам, параметрам и
-            // сортировка
+            /*
+             * если данные отправлены методом GET, получаем данные из URL: фильтр
+             * по функционалу, производителю, лидерам продаж, новинкам, параметрам и
+             * сортировка
+             */
             list($group, $maker, $hit, $new, $param, $sort) = $this->processUrlData();
         }
 
@@ -114,8 +126,8 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = (int)$this->params['page'];
         }
-        // общее кол-во товаров категории с учетом фильтров по функционалу, производителю,
-        // параметрам подбора, лидерам продаж и новинкам
+        // общее кол-во товаров категории с учетом фильтров по функционалу,
+        // производителю, параметрам подбора, лидерам продаж и новинкам
         $totalProducts = $this->categoryCatalogFrontendModel->getCountCategoryProducts( // общее кол-во товаров
             $this->params['id'],
             $group,

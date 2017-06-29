@@ -363,7 +363,7 @@ function parseXML($register) {
 
         // ЭТОТ КОД ПОТОМ УДАЛИТЬ! Он работает, когда надо первый раз скопировать все файлы из
         // files/catalog/src/tmp (где они хранятся в виде 001001.jpg, 001003.png) в папку
-        // files/catalog/src/imgs, где они уже будут рпзложены по подпапкам 0, 1, 2, ..., E, F:
+        // files/catalog/src/imgs, где они уже будут разложены по подпапкам 0, 1, 2, ..., E, F:
         // A/B/AB1F2BB8D42F087E0842CFED213CEBFD.jpg
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name;
