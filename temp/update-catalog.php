@@ -27,6 +27,9 @@ $register->database = Database::getInstance();
 if (is_file('temp/errors.txt')) {
     unlink('temp/errors.txt');
 }
+if (is_file('temp/check.txt')) {
+    unlink('temp/check.txt');
+}
 
 clearTmpTables($register);
 parseXML($register);
@@ -39,6 +42,7 @@ removeOldFiles($register);
 removeOldCerts($register);
 updateWorkTables($register);
 clearTmpTables($register);
+
 // если включена балансировка нагрузки, даем немного времени для
 // репликации данных master->slave
 if ($register->config->database->balancing) {
@@ -74,7 +78,7 @@ function parseXML($register) {
     foreach ($xml->categories->category as $category) {
         $data = array();
         $data['code'] = $category['id'];
-        echo 'category ' . $data['code'] . PHP_EOL;
+        //echo 'category ' . $data['code'] . PHP_EOL;
         $data['parent'] = $category['parent'];
         $data['sortorder'] = $category['sortorder'];
         $data['name'] = trim($category);
@@ -99,7 +103,7 @@ function parseXML($register) {
     foreach ($xml->makers->maker as $maker) {
         $data = array();
         $data['code'] = $maker['id'];
-        echo 'maker ' . $data['code'] . PHP_EOL;
+        //echo 'maker ' . $data['code'] . PHP_EOL;
         $data['name'] = trim($maker);
         $query = "INSERT INTO `tmp_makers`
                   (
@@ -118,7 +122,7 @@ function parseXML($register) {
     foreach ($xml->params->names->name as $name) {
         $data = array();
         $data['code'] = $name['id'];
-        echo 'param name ' . $data['code'] . PHP_EOL;
+        //echo 'param name ' . $data['code'] . PHP_EOL;
         $data['name'] = trim($name);
         $query = "INSERT INTO `tmp_params`
                   (
@@ -135,7 +139,7 @@ function parseXML($register) {
     foreach ($xml->params->values->value as $value) {
         $data = array();
         $data['code'] = $value['id'];
-        echo 'param value ' . $data['code'] . PHP_EOL;
+        //echo 'param value ' . $data['code'] . PHP_EOL;
         $data['name'] = trim($value);
         $query = "SELECT 1 FROM `tmp_values` WHERE `name` = :name";
         $res = $register->database->fetchOne($query, array('name' => $data['name']));
@@ -159,7 +163,7 @@ function parseXML($register) {
     foreach ($xml->groups->group as $group) {
         $data = array();
         $data['code'] = $group['id'];
-        echo 'group ' . $data['code'] . PHP_EOL;
+        //echo 'group ' . $data['code'] . PHP_EOL;
         $data['name'] = trim($group->name);
         $query = "INSERT INTO `tmp_groups`
                   (
@@ -201,7 +205,7 @@ function parseXML($register) {
     foreach ($xml->docs->doc as $doc) {
         $data = array();
         $data['code'] = $doc['id'];
-        echo 'doc ' . $data['code'] . PHP_EOL;
+        //echo 'doc ' . $data['code'] . PHP_EOL;
         $data['title'] = trim($doc->title);
         $temp = trim($doc->file);
         $data['filename'] = $temp[0] . '/' . $temp[1] . '/' . $temp;
@@ -231,7 +235,7 @@ function parseXML($register) {
     foreach ($xml->certs->cert as $cert) {
         $data = array();
         $data['code'] = $cert['id'];
-        echo 'cert ' . $data['code'] . PHP_EOL;
+        //echo 'cert ' . $data['code'] . PHP_EOL;
         $data['title'] = trim($cert->title);
         if (empty($data['title'])) continue;
         $filename = trim($cert->files->name);
@@ -1230,25 +1234,31 @@ function updateTempTables($register) {
         // уникальный идентификатор группы (целое положительное число)
         $query = "SELECT `id` FROM `temp_groups` WHERE `code` = :group_code";
         $group_id = $register->database->fetchOne($query, array('group_code' => $row['group_code']));
-        // TODO
+        // TODO: такого быть не должно
         if (false === $group_id) {
+            /*
             file_put_contents('temp/errors.txt', 'Попытка привязать параметр '.$row['param_code'].' и значение '.$row['value_code'].' к не существующей группе '.$row['group_code'].PHP_EOL, FILE_APPEND);
+            */
             continue;
         }
         // уникальный идентификатор параметра (целое положительное число)
         $query = "SELECT `id` FROM `temp_params` WHERE `code` = :param_code";
         $param_id = $register->database->fetchOne($query, array('param_code' => $row['param_code']));
-        // TODO
+        // TODO: такого быть не должно
         if (false === $param_id) {
+            /*
             file_put_contents('temp/errors.txt', 'Попытка привязать не существующий параметр '.$row['param_code'].' и значение '.$row['value_code'].' к группе '.$row['group_code'].PHP_EOL, FILE_APPEND);
+            */
             continue;
         }
         // уникальный идентификатор значения параметра (целое положительное число)
         $query = "SELECT `id` FROM `temp_values` WHERE `code` = :value_code";
         $value_id = $register->database->fetchOne($query, array('value_code' => $row['value_code']));
-        // TODO
+        // TODO: такого быть не должно
         if (false === $value_id) {
+            /*
             file_put_contents('temp/errors.txt', 'Попытка привязать параметр '.$row['param_code'].' и не существующее значение '.$row['value_code'].' к группе '.$row['group_code'].PHP_EOL, FILE_APPEND);
+            */
             continue;
         }
         $query = "INSERT INTO `temp_group_param_value`
@@ -1294,7 +1304,9 @@ function updateTempTables($register) {
         $param_id = $register->database->fetchOne($query, array('param_code' => $row['param_code']));
         // TODO: такого быть не должно - к товару привязывается параметр, которого нет в таблице temp_params
         if (false === $param_id) {
+            /*
             file_put_contents('temp/errors.txt', 'Попытка привязать не существующий параметр '.$row['param_code'].' и значение '.$row['value_code'].' к товару '.$row['product_id'].PHP_EOL, FILE_APPEND);
+            */
             continue;
         }
         // уникальный идентификатор значения параметра (целое положительное число)
@@ -1302,7 +1314,9 @@ function updateTempTables($register) {
         $value_id = $register->database->fetchOne($query, array('value_code' => $row['value_code']));
         // TODO: такого быть не должно - к товару привязывается значение, которого нет в таблице temp_values
         if (false === $value_id) {
+            /*
             file_put_contents('temp/errors.txt', 'Попытка привязать параметр '.$row['param_code'].' и не существующее значение '.$row['value_code'].' к товару '.$row['product_id'].PHP_EOL, FILE_APPEND);
+            */
             continue;
         }
         $query = "INSERT INTO `temp_product_param_value`
@@ -1579,26 +1593,28 @@ function updateTempTables($register) {
 }
 
 function checkImages($register) {
+    echo 'CHECK IMAGES'. PHP_EOL;
     $query = "SELECT `id`, `code`, `image` FROM `temp_products` WHERE `image` <> ''";
     $items = $register->database->fetchAll($query);
     foreach ($items as $item) {
         if (is_file('files/catalog/imgs/big/' . $item['image'])) {
             continue;
         }
-        file_put_contents('temp/errors.txt', 'Изображение '.$item['image'].' для товара '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        file_put_contents('temp/check.txt', 'Изображение '.$item['image'].' для товара '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
         $query = "UPDATE `temp_products` SET `image` = '' WHERE `id` = :id";
         $register->database->execute($query, array('id' => $item['id']));
     }
 }
 
 function checkFiles($register) {
+    echo 'CHECK FILES'. PHP_EOL;
     $query = "SELECT `id`, `filename`, `code` FROM `temp_docs` WHERE 1";
     $items = $register->database->fetchAll($query);
     foreach ($items as $item) {
         if (is_file('files/catalog/docs/' . $item['filename'])) {
             continue;
         }
-        file_put_contents('temp/errors.txt', 'Файл документации '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        file_put_contents('temp/check.txt', 'Файл документации '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
         $query = "DELETE FROM `temp_docs` WHERE `id` = :id";
         $register->database->execute($query, array('id' => $item['id']));
         $query = "DELETE FROM `temp_doc_prd` WHERE `doc_id` = :id";
@@ -1607,13 +1623,14 @@ function checkFiles($register) {
 }
 
 function checkCerts($register) {
+    echo 'CHECK CERTS'. PHP_EOL;
     $query = "SELECT `id`, `filename`, `count`, `code` FROM `temp_certs` WHERE 1";
     $items = $register->database->fetchAll($query);
     foreach ($items as $item) {
         if (is_file('files/catalog/cert/' . $item['filename'])) {
             continue;
         }
-        file_put_contents('temp/errors.txt', 'Файл сертифтката '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
+        file_put_contents('temp/check.txt', 'Файл сертифтката '.$item['filename'].', код '.$item['code'] . ' не существует' . PHP_EOL, FILE_APPEND);
         $query = "DELETE FROM `temp_certs` WHERE `id` = :id";
         $register->database->execute($query, array('id' => $item['id']));
         $query = "DELETE FROM `temp_cert_prod` WHERE `cert_id` = :id";
@@ -1622,6 +1639,7 @@ function checkCerts($register) {
 }
 
 function removeOldImages($register) {
+    echo 'REMOVE OLD IMAGES'. PHP_EOL;
     $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
     foreach ($dirs as $dir1) {
         foreach($dirs as $dir2) {
@@ -1636,16 +1654,14 @@ function removeOldImages($register) {
                     $query = "SELECT 1 FROM `temp_products` WHERE `image` = :image";
                     $result = $register->database->fetchOne($query, array('image' => $image));
                     if (false === $result) {
-                        /*
-                        unlink('files/catalog/imgs/small/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        if (is_file('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file)) {
-                            unlink('files/catalog/imgs/medium/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        unlink('files/catalog/imgs/small/' . $image);
+                        if (is_file('files/catalog/imgs/medium/' . $image)) {
+                            unlink('files/catalog/imgs/medium/' . $image);
                         }
-                        if (is_file('files/catalog/imgs/big/' . $dir1 . '/' . $dir2 . '/' . $file)) {
-                            unlink('files/catalog/imgs/big/' . $dir1 . '/' . $dir2 . '/' . $file);
+                        if (is_file('files/catalog/imgs/big/' . $image)) {
+                            unlink('files/catalog/imgs/big/' . $image);
                         }
-                        */
-                        file_put_contents('temp/remove.txt', 'Удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);
+                        file_put_contents('temp/check.txt', 'REMOVE OLD IMAGES: удаляем файл изображения ' . $image . PHP_EOL, FILE_APPEND);
                     }
                 }
             }
@@ -1654,6 +1670,7 @@ function removeOldImages($register) {
 }
 
 function removeOldFiles($register) {
+    echo 'REMOVE OLD FILES'. PHP_EOL;
     $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
     foreach ($dirs as $dir1) {
         foreach($dirs as $dir2) {
@@ -1668,10 +1685,8 @@ function removeOldFiles($register) {
                     $query = "SELECT 1 FROM `temp_docs` WHERE `filename` = :filename";
                     $result = $register->database->fetchOne($query, array('filename' => $filename));
                     if (false === $result) {
-                        /*
-                        unlink('files/catalog/docs/' . $dir1 . '/' . $dir2 . '/' . $file);
-                        */
-                        file_put_contents('temp/remove.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
+                        unlink('files/catalog/docs/' . $filename);
+                        file_put_contents('temp/check.txt', 'Удаляем файл документации ' . $filename . PHP_EOL, FILE_APPEND);
                     }
                 }
             }
@@ -1680,6 +1695,7 @@ function removeOldFiles($register) {
 }
 
 function removeOldCerts($register) {
+    echo 'REMOVE OLD CERTS'. PHP_EOL;
     $dirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
     foreach ($dirs as $dir1) {
         foreach($dirs as $dir2) {
@@ -1701,27 +1717,21 @@ function removeOldCerts($register) {
                         // если вдруг сохранилась вторая, третья и т.п. страницы сертификата, но не
                         // сохранилась первая, удаляем эти страницы
                         if (!is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . substr($file, 0, 32) . '.jpg')) {
-                            /*
                             unlink('files/catalog/cert/' . $filename);
-                            */
-                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $filename . ' (нет первой страницы)' . PHP_EOL, FILE_APPEND); 
+                            file_put_contents('temp/check.txt', 'Удаляем файл сертификата ' . $filename . ' (нет первой страницы)' . PHP_EOL, FILE_APPEND); 
                         }
                         continue;
                     }
                     $query = "SELECT 1 FROM `temp_certs` WHERE `filename` = :filename";
                     $result = $register->database->fetchOne($query, array('filename' => $filename));
                     if (false === $result) {
-                        /*
                         unlink('files/catalog/cert/' . $filename);
-                        */
-                        file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $filename . ', страница 1' .PHP_EOL, FILE_APPEND);
+                        file_put_contents('temp/check.txt', 'Удаляем файл сертификата ' . $filename . ', страница 1' .PHP_EOL, FILE_APPEND);
                         // удаляем остальные страницы сертификата
                         $i = 1;
                         while(is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $file . $i . '.jpg')) {
-                            /*
                             unlink('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg');
-                            */
-                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $dir1 . '/' . $dir2 . '/' . $file . $i . '.jpg'. ', страница ' . ($i+1) . PHP_EOL, FILE_APPEND); 
+                            file_put_contents('temp/check.txt', 'Удаляем файл сертификата ' . $dir1 . '/' . $dir2 . '/' . $file . $i . '.jpg'. ', страница ' . ($i+1) . PHP_EOL, FILE_APPEND); 
                         }
                     }
                 }
