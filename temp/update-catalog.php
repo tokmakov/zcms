@@ -261,7 +261,7 @@ function parseXML($register) {
         $data = array();
         $data['code'] = $product['code'];
         $data['id'] = (int)$product['code'];
-        echo 'product ' . $data['code'] . PHP_EOL;
+        //echo 'product ' . $data['code'] . PHP_EOL;
 
         // родительская категория
         $parents = explode(',', $product['category']);
@@ -365,6 +365,7 @@ function parseXML($register) {
         // files/catalog/src/tmp (где они хранятся в виде 001001.jpg, 001003.png) в папку
         // files/catalog/src/imgs, где они уже будут разложены по подпапкам 0, 1, 2, ..., E, F:
         // A/B/AB1F2BB8D42F087E0842CFED213CEBFD.jpg
+        /*
         $name = strtoupper(md5($data['code']));
         $name = $name[0] . '/' . $name[1] . '/' . $name;
         $image = false;
@@ -400,7 +401,8 @@ function parseXML($register) {
         if ($image) {
             $data['image'] = $name;
         }
-
+        */
+        
         // фото
         /*
         // Я здесь исхожу из предпосылки, что файлы изображений будут храниться в папке на сервере
@@ -1715,11 +1717,11 @@ function removeOldCerts($register) {
                         file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $filename . ', страница 1' .PHP_EOL, FILE_APPEND);
                         // удаляем остальные страницы сертификата
                         $i = 1;
-                        while(is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg')) {
+                        while(is_file('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $file . $i . '.jpg')) {
                             /*
                             unlink('files/catalog/cert/' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg');
                             */
-                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $dir1 . '/' . $dir2 . '/' . $name . $i . '.jpg'. ', страница ' . ($i+1) . PHP_EOL, FILE_APPEND); 
+                            file_put_contents('temp/remove.txt', 'Удаляем файл сертификата ' . $dir1 . '/' . $dir2 . '/' . $file . $i . '.jpg'. ', страница ' . ($i+1) . PHP_EOL, FILE_APPEND); 
                         }
                     }
                 }
