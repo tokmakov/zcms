@@ -175,13 +175,14 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __CLASS__ . '-visitor-' . $this->visitorId;
+        $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
         $arguments = func_get_args();
         // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
+        $data = $this->getCachedData($key, $function, $arguments);
+        return $data;
 
     }
 
