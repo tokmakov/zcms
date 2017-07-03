@@ -5,8 +5,8 @@
     #add-edit-partner > div {
         overflow: hidden;
         margin-bottom: 10px;
-        padding: 7px 10px;
         background: #fafafa;
+        padding: 5px;
     }
     #add-edit-partner > div > div:first-child {
         float: left;

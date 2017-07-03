@@ -172,10 +172,12 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($group) {
                 $url = $url . '/group/' . $group;
             } else {
-                // сразу включаем фильтр по функционалу, если у текущей дочерней категории все
-                // товары принадлежат одной функциональной группе, чтобы при переходе в эту
-                // категорию сразу стали доступны параметры подбора (без выбора единственной
-                // функциональной группы из выпадающего списка)
+                /*
+                 * сразу включаем фильтр по функционалу, если у текущей дочерней категории все
+                 * товары принадлежат одной функциональной группе, чтобы при переходе в эту
+                 * категорию сразу стали доступны параметры подбора (без выбора единственной
+                 * функциональной группы из выпадающего списка)
+                 */
                 $filter = $this->getIsOnlyCategoryGroup($value['id']);
                 if ($filter) {
                     $url = $url . '/group/' . $filter;
@@ -311,7 +313,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив товаров информацию об URL товаров, производителей, фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach ($products as $key => $value) {
@@ -376,8 +378,12 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     protected function countCategoryProducts($id, $group, $maker, $hit, $new, $param) {
 
+        // получаем массив идентификаторов всех потомков категории
         $childs = $this->getAllChildIds($id);
+        // добавляем в массив идентификатор этой категории
         $childs[] = $id;
+        // преобразуем массив в строку 123,456,789 — чтобы написать
+        // условие SQL-запроса WHERE `id` IN (123,456,789)
         $childs = implode(',', $childs);
         $query = "SELECT
                       COUNT(*)

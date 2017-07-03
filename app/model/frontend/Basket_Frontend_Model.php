@@ -848,40 +848,76 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         } else { // рекомендации для одного товара
             $temp = $ids;
         }
-        /*
-        SELECT
-            `c`.`id` AS `id`, `c`.`name` AS `name`, `c`.`price` AS `price`,
-            `c`.`image` AS `image`, COUNT(*) AS `count`
-        FROM
-            `orders_prds` `a`
-            INNER JOIN `orders_prds` `b` ON `a`.`order_id`=`b`.`order_id`
-            INNER JOIN `products` `c` ON `b`.`product_id`=`c`.`id`
-        WHERE
-            `a`.`product_id`<>`b`.`product_id` AND
-            `a`.`product_id` IN (1001, 1002) AND
-            `b`.`product_id` NOT IN (1001, 1002)
-        GROUP BY 1, 2, 3, 4
-        HAVING COUNT(*)> 10
-        ORDER BY COUNT(*) DESC
-        LIMIT 10
-        */
+/*
         $query = "SELECT
                       DISTINCT
-                      `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`, `a`.`title` AS `title`,
-                      `a`.`price` AS `price`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
+                      `c`.`id` AS `id`,
+                      `c`.`code` AS `code`,
+                      `c`.`name` AS `name`,
+                      `c`.`title` AS `title`,
+                      `c`.`price` AS `price`,
+                      `c`.`price2` AS `price2`,
+                      `c`.`price3` AS `price3`,
+                      `c`.`unit` AS `unit`,
+                      `c`.`shortdescr` AS `shortdescr`,
+                      `c`.`image` AS `image`,
+                      `d`.`id` AS `ctg_id`,
+                      `d`.`name` AS `ctg_name`,
+                      `e`.`id` AS `mkr_id`,
+                      `e`.`name` AS `mkr_name`,
+                      `f`.`id` AS `grp_id`,
+                      `f`.`name` AS `grp_name`,
+                      COUNT(*) AS `count`
+                  FROM
+                      `orders_prds` `a`
+                      INNER JOIN `orders_prds` `b` ON `a`.`order_id` = `b`.`order_id`
+                      INNER JOIN `products` `c` ON `b`.`product_id` = `c`.`id`
+                      INNER JOIN `categories` `d` ON `c`.`category` = `d`.`id`
+                      INNER JOIN `makers` `e` ON `c`.`maker` = `e`.`id`
+                      INNER JOIN `groups` `f` ON `c`.`group` = `f`.`id`
+                  WHERE
+                      `a`.`product_id` <> `b`.`product_id` AND
+                      `a`.`product_id` IN (" . $temp . ") AND
+                      `b`.`product_id` NOT IN (" . $temp . ")
+                  GROUP BY
+                      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+                  HAVING
+                      COUNT(*) > 10
+                  ORDER BY
+                      COUNT(*) DESC
+                  LIMIT
+                      " . $limit;
+*/
+
+        $query = "SELECT
+                      DISTINCT
+                      `a`.`id` AS `id`,
+                      `a`.`code` AS `code`,
+                      `a`.`name` AS `name`,
+                      `a`.`title` AS `title`,
+                      `a`.`price` AS `price`,
+                      `a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`,
                       `a`.`image` AS `image`,
-                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
-                      `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`
+                      `b`.`id` AS `ctg_id`,
+                      `b`.`name` AS `ctg_name`,
+                      `c`.`id` AS `mkr_id`,
+                      `c`.`name` AS `mkr_name`,
+                      `d`.`id` AS `grp_id`,
+                      `d`.`name` AS `grp_name`
                   FROM
                       `products` `a`
                       INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
                       INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
-                      INNER JOIN `related` `d` ON `a`.`id` = `d`.`id2`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
+                      INNER JOIN `related` `e` ON `a`.`id` = `e`.`id2`
                   WHERE
-                      `d`.`id1` IN (".$temp.") AND `a`.`id` NOT IN (".$temp.")
+                      `e`.`id1` IN (".$temp.") AND `a`.`id` NOT IN (".$temp.")
                   ORDER BY
-                      `d`.`sortorder`
-                  LIMIT " . $limit;
+                      `e`.`sortorder`
+                  LIMIT
+                      " . $limit;
+
         $products = $this->database->fetchAll($query);
         // добавляем в массив товаров информацию об URL товаров, фото
         $host = $this->config->site->url;

@@ -206,9 +206,9 @@ class Router {
         $this->controllerClassName =
             ucfirst($this->action).'_'.ucfirst($this->controller).'_'.$frontback.'_Controller';
         if (class_exists($this->controllerClassName)) { // такой класс существует?
-            /*
-             * TODO: эта проверка из-за Menu_Catalog_Frontend_Controller, подумать
-             */
+
+            // TODO: эта проверка из-за Menu_Catalog_Frontend_Controller, подумать
+
             // класс существует, абстрактный или нет?
             $reflection = new ReflectionClass($this->controllerClassName);
             if (!$this->xhr && $reflection->isAbstract()) { // класс абстрактный

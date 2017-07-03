@@ -29,6 +29,28 @@
  * $pager - постраничная навигация
  * $page - текущая страница
  *
+ * $categories = Array (
+ *   [0] => Array (
+ *     [id] => 30
+ *     [name] => Извещатели тепловые максимальные
+ *     [count] => 0
+ *     [url] => //www.host.ru/catalog/category/30/group/459/maker/59
+ *   )
+ *   [1] => Array (
+ *     [id] => 31
+ *     [name] => Извещатели тепловые максимально-дифференциальные
+ *     [count] => 0
+ *     [url] => //www.host.ru/catalog/category/31/maker/59
+ *   )
+ *   [2] => Array (
+ *     [id] => 33
+ *     [name] => Извещатели дымовые
+ *     [count] => 2
+ *     [url] => //www.host.ru/catalog/category/33/maker/59
+ *   )
+ *   ..........
+ * )
+ *
  * $products = Array (
  *   [0] => Array (
  *     [id] => 37

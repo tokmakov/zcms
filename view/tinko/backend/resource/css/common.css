@@ -135,6 +135,12 @@ body > .wrapper {
     margin-bottom: 20px;
 }
 
+/* формы */
+form input[type="text"], select, textarea {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #d1d1d1;
+}               
 form input[type="submit"] {
     padding: 5px 25px;
     border: 1px solid #395985;
