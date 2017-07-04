@@ -149,12 +149,14 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'equipment'   => $product['equipment'],
             // дополнительная информация
             'padding'     => $product['padding'],
+            // идентификаторы товаров, которые покупают с этим
+            'related'     => $product['related'],
             // файлы документации
             'docs'        => $product['docs'],
         );
         // технические характеристики
         $this->centerVars['techdata']    = array();
-        if (!empty($product['techdata'])) {
+        if ( ! empty($product['techdata'])) {
             $this->centerVars['techdata'] = unserialize($product['techdata']);
         }
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
@@ -295,6 +297,14 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         if (ctype_digit($_POST['maker'])) {
             $data['maker'] = (int)$_POST['maker'];
         }
+        
+        // идентификаторы товаров, которые покупают с этим
+        $data['related'] = '';
+        $temp = trim($_POST['related']);
+        $temp = trim($temp, ',');
+        if (preg_match('~^\d+(,\d+)*$~', $temp)) {
+            $data['related'] = $temp;
+        }
 
         // параметры подбора
         $data['params'] = array();
@@ -331,9 +341,9 @@ class Editprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее данными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
-            if (!empty($data['techdata'])) {
+            if ( ! empty($data['techdata'])) {
                 $data['techdata'] = unserialize($data['techdata']);
             } else {
                 $data['techdata'] = array();

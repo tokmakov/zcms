@@ -225,6 +225,13 @@ class Addprd_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         if (ctype_digit($_POST['maker'])) {
             $data['maker'] = (int)$_POST['maker'];
         }
+        
+        // идентификаторы товаров, которые покупают с этим
+        $data['related'] = '';
+        $temp = trim($_POST['related']);
+        if (preg_match('~^\d+(,\d+)*$~', $temp)) {
+            $data['related'] = $temp;
+        }
 
         // параметры подбора
         $data['params'] = array();

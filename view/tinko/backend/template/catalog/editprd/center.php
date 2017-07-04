@@ -32,6 +32,7 @@
  * $complect - комплектация изделия
  * $equipment - дополнительное оборудование
  * $padding - дополнительная информация
+ * $related - идентификаторы товаров, которые покупают с этим
  * $price, $price2, $price3, ... - цена товара
  * $unit - единица измерения
  * $units - все единицы измерения для возможности выбора
@@ -123,6 +124,8 @@ defined('ZCMS') or die('Access denied');
     $features    = htmlspecialchars($features);
     $complect    = htmlspecialchars($complect);
     $equipment   = htmlspecialchars($equipment);
+    $padding     = htmlspecialchars($padding);
+    $related     = htmlspecialchars($related);
     if (count($techdata) > 0) {
         $temp = $techdata;
         $techdata = array();
@@ -406,6 +409,10 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Дополнительно</div>
         <div><textarea name="padding"><?php echo $padding; ?></textarea></div>
+    </div>
+    <div>
+        <div>С товаром покупают</div>
+        <div><input type="text" name="related" maxlength="120" value="<?php echo $related; ?>" /></div>
     </div>
     <div id="docs">
         <div>Документация</div>

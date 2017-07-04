@@ -76,6 +76,7 @@ defined('ZCMS') or die('Access denied');
     $complect    = '';
     $equipment   = '';
     $padding     = '';
+    $related     = '';
     $techdata    = array();
 
     if (isset($savedFormData)) {
@@ -125,6 +126,7 @@ defined('ZCMS') or die('Access denied');
         $complect    = htmlspecialchars($savedFormData['complect']);
         $equipment   = htmlspecialchars($savedFormData['equipment']);
         $padding     = htmlspecialchars($savedFormData['padding']);
+        $related     = htmlspecialchars($savedFormData['related']);
         if (count($savedFormData['techdata']) > 0) {
             foreach ($savedFormData['techdata'] as $value) {
                 $techdata[] = array(htmlspecialchars($value[0]), htmlspecialchars($value[1]));
@@ -395,6 +397,10 @@ defined('ZCMS') or die('Access denied');
     <div>
         <div>Дополнительно</div>
         <div><textarea name="padding"><?php echo $padding; ?></textarea></div>
+    </div>
+    <div>
+        <div>С товаром покупают</div>
+        <div><input type="text" name="related" maxlength="120" value="<?php echo $related; ?>" /></div>
     </div>
     <div id="docs">
         <div>Документация</div>

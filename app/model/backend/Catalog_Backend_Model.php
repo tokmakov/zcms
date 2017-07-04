@@ -221,7 +221,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       `keywords`, `description`, `shortdescr`, `purpose`, `techdata`,
                       `features`, `complect`, `equipment`, `padding`, `price`, `price2`,
                       `price3`, `price4`, `price5`, `price6`, `price7`, `unit`, `image`,
-                      `sortorder`
+                      `related`, `sortorder`
                   FROM
                       `products`
                   WHERE
@@ -313,6 +313,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       `price6`,
                       `price7`,
                       `unit`,
+                      `related`,
                       `sortorder`,
                       `updated`
                   )
@@ -342,6 +343,7 @@ class Catalog_Backend_Model extends Backend_Model {
                       :price6,
                       :price7,
                       :unit,
+                      :related,
                       :sortorder,
                       NOW()
                   )";
@@ -478,9 +480,11 @@ class Catalog_Backend_Model extends Backend_Model {
                       `price6`      = :price6,
                       `price7`      = :price7,
                       `unit`        = :unit,
+                      `related`     = :related,
                       `updated`     = NOW()
                   WHERE
                       `id` = :id";
+
         $this->database->execute($query, $data);
 
         // параметры подбора
