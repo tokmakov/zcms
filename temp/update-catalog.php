@@ -1919,6 +1919,7 @@ function updateWorkTables($register) {
                       `price7`,
                       `unit`,
                       `image`,
+                      `related`,
                       `sortorder`,
                       `updated`,
                       `visible`
@@ -1953,6 +1954,7 @@ function updateWorkTables($register) {
                       :price7,
                       :unit,
                       :image,
+                      '',
                       :sortorder,
                       :updated,
                       :visible

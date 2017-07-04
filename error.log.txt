@@ -34,3 +34,109 @@
 #9 D:\work\localhost2\www\index.php(40): Base_Controller->request()
 #10 {main}
 
+04.07.2017 11:48:05
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'where clause'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(914): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:48:34
+Код: 42S22, текст: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'where clause'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(914): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:50:00
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND `a`.`id` NOT IN (1001)
+                  ORDER BY
+                      ' at line 23
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(914): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:50:23
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND `a`.`id` NOT IN (1001)
+                  ORDER BY
+                      ' at line 23
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(914): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:51:28
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND `a`.`id` NOT IN (1001)
+                  ORDER BY
+                      ' at line 23
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(915): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:51:38
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND `a`.`id` NOT IN (1001)
+                  ORDER BY
+                      ' at line 23
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(915): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
+04.07.2017 11:52:52
+Код: 42000, текст: SQLSTATE[42000]: Syntax error or access violation: 1582 Incorrect parameter count in the call to native function 'FIND_IN_SET'
+Файл: C:\work\localhost2\www\app\include\Database.php, строка: 203
+Стек вызовов: 
+#0 C:\work\localhost2\www\app\include\Database.php(203): PDO->prepare('SELECT\r\n       ...')
+#1 C:\work\localhost2\www\app\include\Database.php(171): Database->pdoFetchAll('SELECT\r\n       ...', Array, false)
+#2 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(915): Database->fetchAll('SELECT\r\n       ...', Array)
+#3 C:\work\localhost2\www\app\model\frontend\Basket_Frontend_Model.php(818): Basket_Frontend_Model->recommendedProducts(1001)
+#4 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(116): Basket_Frontend_Model->getRecommendedProducts(1001)
+#5 C:\work\localhost2\www\app\controller\frontend\catalog\Product_Catalog_Frontend_Controller.php(31): Product_Catalog_Frontend_Controller->getProduct()
+#6 C:\work\localhost2\www\app\controller\Base_Controller.php(163): Product_Catalog_Frontend_Controller->input()
+#7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+

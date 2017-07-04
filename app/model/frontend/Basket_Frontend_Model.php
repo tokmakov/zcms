@@ -833,12 +833,113 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
-
+    
     /**
      * Функция возвращает массив рекомендованных товаров для товара(ов)
      * с уникальным идентификатором $id(s)
      */
     protected function recommendedProducts($ids) {
+    
+        if (is_array($ids) && count($ids) == 1) $ids = $ids[0];
+        
+        /*
+         * Если рекомендации для нескольких товаров: для каждого товара получаем массив id
+         * рекомендованных в формате CSV, а потом объединаем все массивы в один, например
+         * $ids = array(123, 456, 789);
+         * $first = array(12, 34, 56); $second = array(); third = array(98, 76, 54, 32);
+         * $related = array(12, 98, 34, 76, 56, 54, 32);
+         */
+        if (is_array($ids)) {
+            $result = array();
+            foreach ($ids as $id) {
+                $query = "SELECT `related` FROM `products` WHERE `id` = :id";
+                $res = $this->database->fetchOne($query, array('id' => $id));
+                if ( ! empty($res)) {
+                    $result[] = explode(',', $res);
+                }
+            }
+            if (empty($result)) {
+                return array();
+            }
+            $related = array();
+            for ($i = 0; $i < 10; $i++) { //  у одного товара не более 10 рекомендованных
+                foreach ($result as $item) {
+                    if (isset($item[$i])) $related[] = $item[$i];
+                }
+            }
+            $related = implode(',', $related);
+        } else {
+            $query = "SELECT `related` FROM `products` WHERE `id` = :id";
+            $related = $this->database->fetchOne($query, array('id' => $ids));
+            if (empty($related)) {
+                return array();
+            }
+        }
+        
+        if (is_array($ids)) {
+            $limit = 20;
+            $source = implode(',', $ids);
+        } else {
+            $limit = 8;
+            $source = $ids;
+        }
+        $query = 'SELECT
+                      DISTINCT
+                      `a`.`id` AS `id`,
+                      `a`.`code` AS `code`,
+                      `a`.`name` AS `name`,
+                      `a`.`title` AS `title`,
+                      `a`.`price` AS `price`,
+                      `a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`,
+                      `a`.`image` AS `image`,
+                      `b`.`id` AS `ctg_id`,
+                      `b`.`name` AS `ctg_name`,
+                      `c`.`id` AS `mkr_id`,
+                      `c`.`name` AS `mkr_name`,
+                      `d`.`id` AS `grp_id`,
+                      `d`.`name` AS `grp_name`
+                  FROM
+                      `products` `a`
+                      INNER JOIN `categories` `b` ON `a`.`category` = `b`.`id`
+                      INNER JOIN `makers` `c` ON `a`.`maker` = `c`.`id`
+                      INNER JOIN `groups` `d` ON `a`.`group` = `d`.`id`
+                  WHERE
+                      `a`.`id` IN (' . $related . ') AND `a`.`id` NOT IN (' . $source . ')
+                  ORDER BY
+                      FIND_IN_SET(`a`.`id`, "' . $related . '")
+                  LIMIT
+                      :limit';
+
+        $products = $this->database->fetchAll($query, array('limit' => $limit));
+        // добавляем в массив товаров информацию об URL товаров, фото
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
+            $host = $this->config->cdn->url;
+        }
+        foreach ($products as $key => $value) {
+            // URL ссылки на страницу товара
+            $products[$key]['url']['product'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
+            // URL ссылки на страницу производителя
+            $products[$key]['url']['maker'] = $this->getURL('frontend/catalog/maker/id/' . $value['mkr_id']);
+            // URL ссылки на фото товара
+            if (( ! empty($value['image'])) && is_file('./files/catalog/imgs/small/' . $value['image'])) {
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/' . $value['image'];
+            } else {
+                $products[$key]['url']['image'] = $host . 'files/catalog/imgs/small/nophoto.jpg';
+            }
+            // атрибут action тега form для добавления товара в корзину
+            $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
+        }
+        
+        return $products;
+    }
+
+    /**
+     * Функция возвращает массив рекомендованных товаров для товара(ов)
+     * с уникальным идентификатором $id(s)
+     */
+    protected function recommendedProductsOld($ids) {
         $limit = 8;
         if (is_array($ids)) { // рекомендации для массива товаров
             $temp = implode(',', $ids);
