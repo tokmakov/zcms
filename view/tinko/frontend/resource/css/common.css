@@ -679,43 +679,43 @@ div.attention {
             #root-categories > ul > li > a {
                 display: block;
                 padding-left: 50px;
-                min-height: 41px;
+                min-height: 40px;
             }
             #root-categories > ul > li:nth-child(1) > a {
-                background: url(../img/catalog-root-1.png) left top no-repeat;
+                background: url(../img/catalog-root-1.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(2) > a {
-                background: url(../img/catalog-root-2.png) left top no-repeat;
+                background: url(../img/catalog-root-2.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(3) > a {
-                background: url(../img/catalog-root-3.png) left top no-repeat;
+                background: url(../img/catalog-root-3.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(4) > a {
-                background: url(../img/catalog-root-4.png) left top no-repeat;
+                background: url(../img/catalog-root-4.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(5) > a {
-                background: url(../img/catalog-root-5.png) left top no-repeat;
+                background: url(../img/catalog-root-5.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(6) > a {
-                background: url(../img/catalog-root-6.png) left top no-repeat;
+                background: url(../img/catalog-root-6.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(7) > a {
-                background: url(../img/catalog-root-7.png) left top no-repeat;
+                background: url(../img/catalog-root-7.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(8) > a {
-                background: url(../img/catalog-root-8.png) left top no-repeat;
+                background: url(../img/catalog-root-8.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(9) > a {
-                background: url(../img/catalog-root-9.png) left top no-repeat;
+                background: url(../img/catalog-root-9.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(10) > a {
-                background: url(../img/catalog-root-10.png) left top no-repeat;
+                background: url(../img/catalog-root-10.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(11) > a {
-                background: url(../img/catalog-root-11.png) left top no-repeat;
+                background: url(../img/catalog-root-11.svg) left top no-repeat;
             }
             #root-categories > ul > li:nth-child(12) > a {
-                background: url(../img/catalog-root-12.png) left top no-repeat;
+                background: url(../img/catalog-root-12.svg) left top no-repeat;
             }
             #root-categories > ul > li > a > span {
                 display: table-cell;
