@@ -15,6 +15,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
 
 
     public function __construct($params = null) {
+        sleep(100);
         parent::__construct($params);
     }
 
