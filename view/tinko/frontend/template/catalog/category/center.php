@@ -291,22 +291,22 @@ for ($i = 0; $i <= 6; $i++) {
 
 <!-- Начало шаблона view/example/frontend/template/catalog/category/center.php -->
 
-<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
-    <div id="breadcrumbs">
+<?php if ( ! empty($breadcrumbs)): /* хлебные крошки */ ?>
+    <div id="breadcrumbs"> <!-- хлебные крошки -->
     <?php foreach ($breadcrumbs as $item): ?>
         <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
     <?php endforeach; ?>
     </div>
 <?php endif; ?>
 
-<span id="switch-line-grid">
+<span id="switch-line-grid"> <!-- линейный или плитка -->
     <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
     <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
 </span>
 <h1><?php echo $name; ?></h1>
 
-<?php if ( ! empty($categories)): // дочерние категории ?>
-    <div id="category-childs">
+<?php if ( ! empty($categories)): /* дочерние категории */ ?>
+    <div id="category-childs"> <!-- дочерние категории -->
         <div>
             <span>Категории</span>
             <span><span>скрыть</span></span>
@@ -348,7 +348,7 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
-<div id="catalog-filter">
+<div id="catalog-filter"> <!-- фильтры товаров -->
     <div>
         <span>
             Фильтр
@@ -363,7 +363,7 @@ for ($i = 0; $i <= 6; $i++) {
     <div>
         <form action="<?php echo $action; ?>" method="post">
             <div>
-                <div>
+                <div> <!-- фильтры: функционал -->
                     <div>
                         <span>Функциональное назначение</span>
                     </div>
@@ -386,7 +386,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($group): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
-                <div>
+                <div> <!-- фильтры: производители -->
                     <div>
                         <span>Производитель</span>
                     </div>
@@ -404,7 +404,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
                 <?php if ( ! empty($params)): ?>
                     <?php foreach ($params as $item): ?>
-                        <div>
+                        <div> <!-- фильтры: параметры -->
                             <div>
                                 <span><?php echo $item['name']; ?></span>
                             </div>
@@ -422,14 +422,14 @@ for ($i = 0; $i <= 6; $i++) {
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <div>
-                    <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>>
+                <div> <!-- фильтры: лидер продаж и новинка -->
+                    <div<?php echo empty($countHit) ? ' class="empty-checkbox"' : ''; ?>> <!-- фильтры: лидер продаж -->
                         <span>
                             <input type="checkbox" name="hit"<?php echo $hit ? ' checked="checked"' : ''; ?> value="1" id="hit-prd-box" />
                             <label for="hit-prd-box">Лидер продаж</label>
                         </span>
                     </div>
-                    <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>>
+                    <div<?php echo empty($countNew) ? ' class="empty-checkbox"' : ''; ?>> <!-- фильтры: новинка -->
                         <span>
                             <input type="checkbox" name="new"<?php echo $new ? ' checked="checked"' : ''; ?> value="1" id="new-prd-box" />
                             <label for="new-prd-box">Новинка</label>
@@ -455,9 +455,9 @@ for ($i = 0; $i <= 6; $i++) {
     <?php return; ?>
 <?php endif; ?>
 
-<div id="catalog-products">
+<div id="catalog-products"> <!-- товары: сортировка и список -->
 
-    <div id="sort-orders">
+    <div id="sort-orders"> <!-- сортировка товаров -->
         <ul>
             <li>Сортировка</li>
             <?php foreach ($sortorders as $key => $value): ?>
@@ -472,7 +472,7 @@ for ($i = 0; $i <= 6; $i++) {
         </ul>
     </div>
 
-    <div class="product-list-<?php echo $view; ?>">
+    <div class="product-list-<?php echo $view; ?>"> <!-- список товаров -->
         <?php
             /*
              * При добавлении товара в корзину, в избранное, к сравнению — отправляются данные формы.
@@ -496,7 +496,7 @@ for ($i = 0; $i <= 6; $i++) {
                 }
             }
         ?>
-        <?php foreach ($products as $product): ?>
+        <?php foreach ($products as $product): /* список товаров */ ?>
             <div>
                 <div class="product-list-heading">
                     <h2><a href="<?php echo $product['url']['product']; ?>"><?php echo $product['name']; ?></a></h2>
@@ -530,7 +530,7 @@ for ($i = 0; $i <= 6; $i++) {
                     </div>
                 </div>
                 <div class="product-list-basket">
-                    <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form">
+                    <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form"> <!-- добавить в корзину -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="text" name="count" value="1" size="5" />
                         <input type="hidden" name="return" value="category" />
@@ -558,7 +558,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
                     </form>
-                    <form action="<?php echo $product['action']['wished']; ?>" method="post" class="add-wished-form">
+                    <form action="<?php echo $product['action']['wished']; ?>" method="post" class="add-wished-form"> <!-- добавить в избранное -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
                         <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
@@ -585,7 +585,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
                     </form>
-                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>">
+                    <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>"> <!-- добавить к сравнению -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
                         <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
@@ -618,16 +618,16 @@ for ($i = 0; $i <= 6; $i++) {
         <?php endforeach; ?>
     </div>
 
-    <?php if ( ! empty($pager)): // постраничная навигация ?>
-        <ul class="pager">
+    <?php if ( ! empty($pager)): /* постраничная навигация */ ?>
+        <ul class="pager"> <!-- постраничная навигация -->
         <?php if (isset($pager['first'])): ?>
             <li>
-                <a href="<?php echo $pager['first']['url']; ?>" class="first-page"></a>
+                <a href="<?php echo $pager['first']['url']; /* первая страница */ ?>" class="first-page"></a>
             </li>
         <?php endif; ?>
         <?php if (isset($pager['prev'])): ?>
             <li>
-                <a href="<?php echo $pager['prev']['url']; ?>" class="prev-page"></a>
+                <a href="<?php echo $pager['prev']['url']; /* предыдущая страница */ ?>" class="prev-page"></a>
             </li>
         <?php endif; ?>
         <?php if (isset($pager['left'])): ?>
@@ -639,7 +639,7 @@ for ($i = 0; $i <= 6; $i++) {
         <?php endif; ?>
 
             <li>
-                <span><?php echo $pager['current']['num']; // текущая страница ?></span>
+                <span><?php echo $pager['current']['num']; /* текущая страница */ ?></span>
             </li>
 
         <?php if (isset($pager['right'])): ?>
@@ -651,12 +651,12 @@ for ($i = 0; $i <= 6; $i++) {
         <?php endif; ?>
         <?php if (isset($pager['next'])): ?>
             <li>
-                <a href="<?php echo $pager['next']['url']; ?>" class="next-page"></a>
+                <a href="<?php echo $pager['next']['url']; /* следующая страница */ ?>" class="next-page"></a>
             </li>
         <?php endif; ?>
         <?php if (isset($pager['last'])): ?>
             <li>
-                <a href="<?php echo $pager['last']['url']; ?>" class="last-page"></a>
+                <a href="<?php echo $pager['last']['url']; /* последняя страница */ ?>" class="last-page"></a>
             </li>
         <?php endif; ?>
         </ul>
