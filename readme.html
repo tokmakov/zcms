@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ZCMS</title>
+</head>
+<body>
+<h1>ZCMS</h1>
+
+<h2>Общая информация</h2>
+<p>
+Приложение построено с использованием концепции <a href="https://ru.wikipedia.org/wiki/Model-View-Controller">Model-View-Controller</a>:
+</p>
+<ul>
+  <li>Общедоступная часть сайта
+    <ul>
+      <li>контроллеры: <a href="https://github.com/tokmakov/zcms/tree/master/app/controller/frontend">app/controller/frontend</a></li>
+      <li>модели: <a href="https://github.com/tokmakov/zcms/tree/master/app/model/frontend">app/model/frontend</a></li>
+      <li>представление: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/frontend">view/tinko/frontend</a>
+        <ul>
+          <li>js-, css-файлы, изображения, шрифты: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/frontend/resource">view/tinko/frontend/resource</a></li>
+          <li>шаблоны: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/frontend/template">view/tinko/frontend/template</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li>Административная часть сайта
+    <ul>
+      <li>контроллеры: <a href="https://github.com/tokmakov/zcms/tree/master/app/controller/backend">app/controller/backend</a></li>
+      <li>модели: <a href="https://github.com/tokmakov/zcms2/tree/master/app/model/backend">app/model/backend</a></li>
+      <li>представление: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/backend">view/tinko/backend</a>
+        <ul>
+          <li>js-, css-файлы, изображения, шрифты: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/backend/resource">view/tinko/backend/resource</a></li>
+          <li>шаблоны: <a href="https://github.com/tokmakov/zcms/tree/master/view/tinko/backend/template">view/tinko/backend/template</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Структура классов</h2>
+<ul>
+    <li>Абстрактый класс <a href="https://github.com/tokmakov/zcms/blob/master/app/Base.php">Base</a>, родительский для всех контроллеров и моделей
+        <ul>
+            <li>Абстрактый класс <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/Base_Controller.php">Base_Controller</a>, наследующий Base
+                <ul>
+                    <li>Абстрактный класс <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/frontend/Frontend_Controller.php">Frontend_Controller</a>, наследующий Base_Controller</li>
+                    <li>Абстрактный класс <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/backend/Backend_Controller.php">Backend_Controller</a>, наследующий Base_Controller</li>
+                </ul>
+            </li>
+            <li>Абстрактый класс <a href="https://github.com/tokmakov/zcms/blob/master/app/model/Base_Model.php">Base_Model</a>, наследующий Base
+                <ul>
+                    <li>Абстрактый класс <a href="https://github.com/tokmakov/zcms/blob/master/app/model/frontend/Frontend_Model.php">Frontend_Model</a>, наследующий Base_Model</a></li>
+                    <li>Абстрактый класс <a href="https://github.com/tokmakov/zcms/blob/master/app/model/backend/Backend_Model.php">Backend_Model</a>, наследующий Base_Model</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>       
+</ul>
+<p>
+Все контроллеры общедоступной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/frontend/Frontend_Controller.php">Frontend_Controller</a>, все контроллеры административной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/backend/Backend_Controller.php">Backend_Controller</a>.
+</p>
+<p>
+Все модели общедоступной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/model/frontend/Frontend_Model.php">Frontend_Model</a>, все модели административной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/model/backend/Backend_Model.php">Backend_Model</a>.
+</p>
+
+<h2>Вспомогательные классы</h2>
+<ul>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Database.php">Database</a> предоставляет доступ к базе данных</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Register.php">Register</a> хранит все объекты приложения, чтобы везде иметь к ним доступ</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Config.php">Config</a> хранит все настройки приложения, чтобы везде иметь к ним доступ</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Cache.php">Cache</a> кэширует данные, класс-обертка для <a href="https://github.com/tokmakov/zcms/blob/master/app/include/FCache.php">FCache</a> и <a href="https://github.com/tokmakov/zcms/blob/master/app/include/MCache.php">MCache</a></li>
+</ul>
+
+<h2>Настройки приложения</h2>
+<ul>
+    <li>Общие настройки <a href="https://github.com/tokmakov/zcms/blob/master/app/config/config.php">app/config/config.php</a></li>
+    <li>Настройки базы данных <a href="https://github.com/tokmakov/zcms/blob/master/app/config/database.php">app/config/database.php</a></li>
+    <li>Подключение css-файлов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/css.php">app/config/css.php</a></li>
+    <li>Подключение js-файлов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/js.php">app/config/js.php</a></li>
+    <li>Настрока Content Delivery Network <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cdn.php">app/config/cdn.php</a></li>
+    <li>Настрока кэша <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cache.php">app/config/cache.php</a></li>
+    <li>Настрока meta-тегов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/meta.php">app/config/meta.php</a></li>
+    <li>Настрока постраничной навигации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/pager.php">app/config/pager.php</a></li>
+    <li>Настрока маршрутизации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/routing.php">app/config/routing.php</a></li>
+</ul>
+
+<h2>Обмен данными с 1С</h2>
+<p>
+Образец XML-файла для выгрузка каталога на сайт <a href="https://github.com/tokmakov/zcms/blob/master/catalog.xml">catalog.xml</a>, выгрузка заказов с сайта: <a href="https://github.com/tokmakov/zcms/tree/master/app/controller/frontend/exchange">app/controller/frontend/exchange</a>
+</p>
+
+</body>
+</html>
