@@ -27,8 +27,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * Если у пользователя отключен JavaScript, данные формы фильтров отправляются без
-         * использования XmlHttpRequest. Здесь мы обрабатываем эти данные и делаем редирект
-         * на эту же страницу, но уже с параметрами формы в URL
+         * использования XmlHttpRequest, пользователь просто выбирает нужные фильтры и жмет
+         * кнопку «Применить». Здесь мы обрабатываем эти данные и делаем редирект на эту же
+         * страницу, но уже с параметрами формы в URL. В обычной ситуации, когда данные формы
+         * отправляются по событию change элементов формы с использованием XmlHttpRequest,
+         * данные обрабатывает класс контроллера Xhr_Category_Catalog_Frontend_Controller, см.
+         * файл app/controller/frontend/calalog/Xhr_Category_Catalog_Frontend_Controller.php
          */
         if ($this->isPostMethod()) {
             $this->processFormData();
@@ -279,7 +283,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
         }
 
-        // получаем от модели массив товаров категории
+        /*
+         * получаем от модели массив товаров категории с учетом фильтров по функционалу,
+         * производителю, параметрам подбора, лидерам продаж и новинкам; если быть точнее,
+         * получаем только небольшую порцию товаров, чтобы вывести очередную страницу
+         * списка товаров категории
+         */
         $products = $this->categoryCatalogFrontendModel->getCategoryProducts(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
@@ -304,8 +313,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param               // массив параметров подбора
         );
 
-        // атрибут action тега form
-        $action = $this->categoryCatalogFrontendModel->getURL('frontend/catalog/category/id/' . $this->params['id']);
+        // атрибут action формы фильтров для товаров категории
+        $action = $this->categoryCatalogFrontendModel->getURL(
+            'frontend/catalog/category/id/' . $this->params['id']
+        );
 
         // URL ссылки для сборса фильтра
         $url = 'frontend/catalog/category/id/' . $this->params['id'];

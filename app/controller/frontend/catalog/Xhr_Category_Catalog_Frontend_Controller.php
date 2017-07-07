@@ -244,7 +244,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
     }
 
     /**
-     * Вспомогательная функция, получает необходимые данные из формы
+     * Вспомогательная функция, получает необходимые данные из отправленных данных формы фильтра
      */
     private function processFormData() {
 
