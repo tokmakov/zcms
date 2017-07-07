@@ -52,7 +52,7 @@ class Sitemap_Frontend_Model extends Frontend_Model {
                   ORDER BY
                       `sortorder`";
         $data = $this->database->fetchAll($query);
-        // добавляем в массив URL ссылок на строницы
+        // добавляем в массив URL ссылок на страницы
         foreach($data as $key => $value) {
             $data[$key]['url'] =  $this->getURL($value['capurl']);
         }
@@ -92,9 +92,9 @@ class Sitemap_Frontend_Model extends Frontend_Model {
 
     /**
      * Функция возвращает хлебные крошки: путь от главной страницы до конкретного
-     * элемента карты сайта; результат работы кэшируется
+     * элемента карты сайта
      */
-    public function breadcrumbs($capurl) {
+    protected function breadcrumbs($capurl) {
 
         $query = "SELECT
                       `parent`
@@ -126,6 +126,7 @@ class Sitemap_Frontend_Model extends Frontend_Model {
         }
         $path[] = array('url' => $this->getURL('frontend/index/index'), 'name' => 'Главная');
         $path = array_reverse($path);
+        
         return $path;
 
     }
