@@ -833,15 +833,15 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
     }
-    
+
     /**
      * Функция возвращает массив рекомендованных товаров для товара(ов)
      * с уникальным идентификатором $id(s)
      */
     protected function recommendedProducts($ids) {
-    
+
         if (is_array($ids) && count($ids) == 1) $ids = $ids[0];
-        
+
         /*
          * Если рекомендации для нескольких товаров: для каждого товара получаем массив id
          * рекомендованных в формате CSV, а потом объединаем все массивы в один, например
@@ -875,7 +875,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                 return array();
             }
         }
-        
+
         if (is_array($ids)) {
             $limit = 20;
             $source = implode(',', $ids);
@@ -931,7 +931,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             // атрибут action тега form для добавления товара в корзину
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
         }
-        
+
         return $products;
     }
 
@@ -944,7 +944,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if (is_array($ids)) { // рекомендации для массива товаров
             $temp = implode(',', $ids);
             if (count($ids) > 1) {
-                $limit = 20;
+                $limit = 16;
             }
         } else { // рекомендации для одного товара
             $temp = $ids;
