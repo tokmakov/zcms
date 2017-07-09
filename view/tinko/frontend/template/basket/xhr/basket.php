@@ -30,6 +30,7 @@ defined('ZCMS') or die('Access denied');
 ?>
 
 <?php if ( ! empty($sideBasketProducts)): /* покупательская корзина, правая колонка */ ?>
+    <!-- товары в корзине, правая колонка -->
     <table>
         <tr>
             <th width="20%">Код</th>
@@ -52,10 +53,12 @@ defined('ZCMS') or die('Access denied');
         <li><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></li>
     </ul>
 <?php else: ?>
+    <!-- пустая корзина, правая колонка -->
     <p class="empty-list-right">Ваша корзина пуста</p>
 <?php endif; ?>
 ¤
 <?php if (!empty($basketProducts)): /* покупательская корзина, центральная колонка */ ?>
+    <!-- товары в корзине, центральная колонка -->
     <a href="<?php echo $clearBasketURL; ?>">
         <i class="fa fa-trash-o"></i>&nbsp; <span>Очистить корзину</span>
     </a>
@@ -96,10 +99,12 @@ defined('ZCMS') or die('Access denied');
         <p><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></p>
     </form>
 <?php else: ?>
+    <!-- пустая корзина, центральная колонка -->
     <p>Ваша корзина пуста</p>
 <?php endif; ?>
 ¤
-<?php if (!empty($recommendedProducts)): /* рекомендованные товары */ ?>
+<?php if (!empty($recommendedProducts)): /* с этими товарами покупают */ ?>
+    <!-- с этими товарами покупают -->
     <div class="center-block">
         <div><h3>С этими товарами покупают</h3></div>
         <div class="no-padding">

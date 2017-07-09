@@ -87,7 +87,7 @@ abstract class Base_Controller extends Base {
      *    частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent,
      *    $centerContent, $leftContent, $rightContent, $footerContent
      * 6. метод output(), который реализован в дочерних классах, в самом конце еще раз вызывает
-     *    метод render(), чтобы произвести окончательную сборка страницы из отдельных частей
+     *    метод render(), чтобы произвести окончательную сборку страницы из отдельных частей
      *    html-кода
      *    $this->pageContent = $this->render($this->wrapperTemplateFile, array(...));
      */
@@ -253,9 +253,9 @@ abstract class Base_Controller extends Base {
 
         /*
          * Как поключаются css и js файлы? Сначала подключаются базовые файлы, т.е. те файлы, которые
-         * есть на всех страницах сайта. Дальше подключаются файлы, заданные для родительского класса,
-         * например для абстрактного класса Catalog_Frontend_Controller. Наконец, подключаются файлы,
-         * заданные для этого класса, например, Product_Catalog_Frontend_Controller
+         * должны быть подключены ко всем страницам сайта. Дальше подключаются файлы, заданные для
+         * родительского класса, например для абстрактного класса Catalog_Frontend_Controller. Наконец,
+         * подключаются файлы, заданные для этого класса, например, Product_Catalog_Frontend_Controller
          *
          * Пример подключения CSS-файлов (см. файлы app/config/css.php и app/config/js.php):
          * 'css' => array(                         // CSS файлы, подключаемые к странице

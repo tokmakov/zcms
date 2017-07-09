@@ -34,6 +34,7 @@ defined('ZCMS') or die('Access denied');
 
 <div id="basket">
 <?php if (!empty($basketProducts)): ?>
+    <!-- товары в корзине, центральная колонка -->
     <a href="<?php echo $clearBasketURL; ?>">
         <i class="fa fa-trash-o"></i>&nbsp; <span>Очистить корзину</span>
     </a>
@@ -74,13 +75,14 @@ defined('ZCMS') or die('Access denied');
         <p><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></p>
     </form>
 <?php else: ?>
+    <!-- пустая корзина, центральная колонка -->
     <p>Ваша корзина пуста</p>
 <?php endif; ?>
 </div>
 
 <div id="upsell">
-<?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
-    <div class="center-block">
+<?php if ( ! empty($recommendedProducts)): // рекомендованные товары ?>
+    <div class="center-block"> <!-- с этими товарами покупают -->
         <div><h3>С этими товарами покупают</h3></div>
         <div class="no-padding">
             <div class="product-list-upsell">

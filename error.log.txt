@@ -140,3 +140,13 @@
 #7 C:\work\localhost2\www\index.php(40): Base_Controller->request()
 #8 {main}
 
+08.07.2017 13:47:04
+Код: 0, текст: Не найден файл шаблона , контроллер Index_Index_Backend_Controller
+Файл: D:\work\localhost2\www\app\controller\Base_Controller.php, строка: 277
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\controller\Base_Controller.php(188): Base_Controller->render(NULL, Array)
+#1 D:\work\localhost2\www\app\controller\backend\Backend_Controller.php(335): Base_Controller->output()
+#2 D:\work\localhost2\www\app\controller\Base_Controller.php(251): Backend_Controller->output()
+#3 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#4 {main}
+

@@ -343,9 +343,6 @@ abstract class Frontend_Controller extends Base_Controller {
      */
     protected function output() {
 
-        /*
-         * получаем html-код тега <head>
-         */
         // переменные $this->title, $this->keywords, $this->description и $this->robots,
         // которые будут переданы в шаблон head.php, могут быть изменены в методе input()
         // дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
@@ -354,6 +351,10 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->headVars['keywords'] = $this->keywords;
         $this->headVars['description'] = $this->description;
         $this->headVars['robots'] = $this->robots;
+
+        /*
+         * получаем html-код тега <head>
+         */
         $this->headContent = $this->render(
             $this->headTemplateFile,
             $this->headVars

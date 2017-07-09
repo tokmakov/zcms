@@ -1,6 +1,8 @@
 <?php
 /**
- * Файл view/example/frontend/template/wished/xhr/wished.php
+ * Отложенные товары (избранное), правая колонка,
+ * файл view/example/frontend/template/wished/xhr/wished.php,
+ * общедоступная часть сайта
  *
  * Переменные, которые приходят в шаблон:
  * $sideWishedProducts - массив отложенных товаров
@@ -10,7 +12,7 @@
 defined('ZCMS') or die('Access denied');
 ?>
 
-<?php if (!empty($sideWishedProducts)): /* отложенные товары */ ?>
+<?php if ( ! empty($sideWishedProducts)): /* отложенные товары */ ?>
     <table>
         <tr>
             <th>Код</th>

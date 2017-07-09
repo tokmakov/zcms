@@ -3,6 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>ZCMS</title>
+<style type="text/css">
+pre {
+    background: #f5f5f5;
+    padding: 5px;
+}
+code {
+    color: #0000ff;
+}
+</style>
 </head>
 <body>
 <h1>ZCMS</h1>
@@ -24,7 +33,6 @@
       </li>
     </ul>
   </li>
-
   <li>Административная часть сайта
     <ul>
       <li>контроллеры: <a href="https://github.com/tokmakov/zcms/tree/master/app/controller/backend">app/controller/backend</a></li>
@@ -56,7 +64,7 @@
                 </ul>
             </li>
         </ul>
-    </li>       
+    </li>
 </ul>
 <p>
 Все контроллеры общедоступной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/frontend/Frontend_Controller.php">Frontend_Controller</a>, все контроллеры административной части сайта наследуют <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/backend/Backend_Controller.php">Backend_Controller</a>.
@@ -80,16 +88,218 @@
     <li>Настройки базы данных <a href="https://github.com/tokmakov/zcms/blob/master/app/config/database.php">app/config/database.php</a></li>
     <li>Подключение css-файлов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/css.php">app/config/css.php</a></li>
     <li>Подключение js-файлов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/js.php">app/config/js.php</a></li>
-    <li>Настрока Content Delivery Network <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cdn.php">app/config/cdn.php</a></li>
-    <li>Настрока кэша <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cache.php">app/config/cache.php</a></li>
-    <li>Настрока meta-тегов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/meta.php">app/config/meta.php</a></li>
-    <li>Настрока постраничной навигации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/pager.php">app/config/pager.php</a></li>
-    <li>Настрока маршрутизации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/routing.php">app/config/routing.php</a></li>
+    <li>Настройка Content Delivery Network <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cdn.php">app/config/cdn.php</a></li>
+    <li>Настройка кэша <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cache.php">app/config/cache.php</a></li>
+    <li>Настройка meta-тегов <a href="https://github.com/tokmakov/zcms/blob/master/app/config/meta.php">app/config/meta.php</a></li>
+    <li>Настройка постраничной навигации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/pager.php">app/config/pager.php</a></li>
+    <li>Настройка маршрутизации <a href="https://github.com/tokmakov/zcms/blob/master/app/config/routing.php">app/config/routing.php</a></li>
 </ul>
+
+<h2>Как формируется страница</h2>
+<ol>
+    <li>Все запросы перенаправляются на <a href="https://github.com/tokmakov/zcms/blob/master/index.php">index.php</a>, см. файл <a href="https://github.com/tokmakov/zcms/blob/master/.htaccess">.htaccess</a>
+        <pre><code># одна точка входа, все запросы (кроме файлов и директорий) на /index.php
+RewriteCond %{REQUEST_FILENAME} !^favicon\.ico
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.php</code></pre>
+    </li>
+    <li>Экземпляр класса <a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">app/include/Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
+    <li>Вызывается метод контроллера request(), который определен в классе <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/Base_Controller.php">Base_Controller</a>
+    <pre><code>try {
+    // экземпляр класса роутера
+    $router = Router::getInstance();
+    // получаем имя класса контроллера, например Index_Page_Frontend_Controller
+    $controller = $router->getControllerClassName();
+    // параметры, передаваемые контроллеру
+    $params = $router->getParams();
+    // создаем экземпляр класса контроллера
+    $page = new $controller($params);
+    // формируем страницу
+    $page->request();
+} catch (Exception $e) { // если произошла какая-то ошибка
+    $page = new Error($e);
+    die();
+}</code></pre> 
+    </li>
+    <li>Метод request() вызывает последовательно методы input() и output()
+    <pre><code>abstract class Base_Controller extends Base {
+    ..........  
+    public function request() {
+        $this->input();
+        if ($this->notFoundRecord) {
+            return;
+        }
+        $this->output();
+    }
+    ..........
+}</code></pre>   
+    </li>
+    <li>Метод input(), который определен в Base_Controller и переопределен в дочерних классах:
+        <ul>
+            <li>получает от модели данные, необходимые для формирования страницы, и сохраняет их в переменных $headVars, $headerVars, $menuVars,  $centerVars, $leftVars, $rightVars, $footerVars</li>
+            <li>получает имена файлов шаблонов отдельных частей страницы и сохраняет их в переменных $headTemplateFile, $headerTemplateFile, $menuTemplateFile, $centerTemplateFile, $leftTemplateFile, $rightTemplateFile, $footerTemplateFile</li>
+        </ul>
+    </li>
+    <li>Метод output(), который реализован в классах Frontend_Controller и Backend_Controller, вызывает метод render(), передавая ему полученные от модели данные и имена файлов шаблонов
+        <pre><code>abstract class Frontend_Controller extends Base_Controller {
+    protected function output() {
+        $this->headContent = $this->render(
+            $this->headTemplateFile,
+            $this->headVars
+        );
+        ..........
+        $this->centerContent = $this->render(
+            $this->centerTemplateFile,
+            $this->centerVars
+        );
+        ..........
+        $this->footerContent = $this->render(
+            $this->footerTemplateFile,
+            $this->footerVars
+        );
+        $this->pageContent = $this->render(
+            $this->wrapperTemplateFile,
+            array(
+                'headContent'   => $this->headContent,
+                'headerContent' => $this->headerContent,
+                'menuContent'   => $this->menuContent,
+                'centerContent' => $this->centerContent,
+                'leftContent'   => $this->leftContent,
+                'rightContent'  => $this->rightContent,
+                'footerContent' => $this->footerContent
+            )
+        );
+    }
+}</code></pre>
+    </li>
+    <li>Метод Base_Controller::render() «прогоняет» данные через шаблон, а сформированный html-код отдельных частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent, $centerContent, $leftContent, $rightContent, $footerContent</li>
+    <li>Метод output() в самом конце еще раз вызывает метод render(), чтобы произвести окончательную сборку страницы из отдельных частей html-кода
+        <pre><code>$this->pageContent = $this->render($this->wrapperTemplateFile, array(...));</code></pre>
+    </li>
+</ol>
+
+<p>
+<strong>Как поключаются css и js файлы?</strong> Сначала подключаются базовые файлы, т.е. те файлы, которые должны быть подключены ко всем страницам сайта. Дальше подключаются файлы, заданные для родительского класса, например для абстрактного класса Catalog_Frontend_Controller. Наконец, подключаются файлы, заданные для этого класса, например, Product_Catalog_Frontend_Controller.
+</p>
+<p>
+Пример подключения CSS-файлов (см. файлы <a href="https://github.com/tokmakov/zcms/blob/master/app/config/css.php">app/config/css.php</a> и <a href="https://github.com/tokmakov/zcms/blob/master/app/config/js.php">app/config/js.php</a>):
+</p>
+<pre><code>'css' => array(                               // CSS файлы, подключаемые к странице
+    'frontend' => array(                      // общедоступная часть сайта
+        'base' => array(                      // css-файлы, подключаемые ко всем страницам сайта
+            'reset.css',
+            'common.css',
+        ),
+        '<span style="color: #ff0000;">index</span>-<span style="color: #009900;">index</span>' => 'jquery.slider.css', // только для главной страницы, формируемой <span style="color: #009900;">Index</span>_<span style="color: #ff0000;">Index</span>_Frontend_Controller
+        '<span style="color: #ff0000;">page</span>' => 'page.css',                 // для страницы, которую формирует Index_<span style="color: #ff0000;">Page</span>_Frontend_Controller
+        '<span style="color: #ff0000;">catalog</span>' => 'catalog.css',           // для страниц, которые формируют дочерние классы <span style="color: #ff0000;">Catalog</span>_Frontend_Controller
+        '<span style="color: #ff0000;">catalog</span>-<span style="color: #009900;">product</span>' => array(           // только для страницы, которую формирует <span style="color: #009900;">Product</span>_<span style="color: #ff0000;">Catalog</span>_Frontend_Controller
+            'product.css',
+            'jquery.lightbox.css',
+        ),
+    ),
+    'backend' => array(                       // административная часть сайта
+        ..........
+    ),
+)
+</code></pre>
+<p>
+Здесь важно понимать, что у некоторых абстактных классов есть только один дочерний класс, например: Page_Frontend_Controller и Index_Page_Frontend_Controller. А у других абстрактных классов есть несколько дочерних классов, например у Catalog_Frontend_Controller:
+</p>
+<ol>
+    <li>Index_Catalog_Frontend_Controller (главная страница каталога)</li>
+    <li>Product_Catalog_Frontend_Controller (страница товара каталога)</li>
+    <li>Category_Catalog_Frontend_Controller (страница категории каталога)</li>
+    <li>Maker_Catalog_Frontend_Controller (страница производителя каталога)</li>
+</ol>
+<p>
+Запись вида
+</p>
+<pre><code>'catalog' => 'catalog.css', // для всех страниц каталога
+'catalog-index' => 'catalog-index.css' // только для главной страницы каталога
+</code></pre>
+<p>
+имеет смысл, а запись вида
+</p>
+<pre><code>'page' => 'page.css'
+'page-index' => 'lightbox.css'
+</code></pre>
+<p>
+не будет ошибочной, но сбивает с толку. Сбивает с толку потому, что подразумевает, что page.css подключается для всех дочерних классов Page_Frontend_Controller. Но у Page_Frontend_Controller только один дочерний класс, поэтому либо так
+</p>
+<pre><code>'page' => array(
+    'page.css',
+    'lightbox.css'
+)
+</code></pre>
+<p>
+либо так
+</p>
+<pre><code>'page-index' => array(
+    'page.css',
+    'lightbox.css'
+)
+</code></pre>
+<p>
+<strong>Какие шаблоны будут использованы?</strong>  Eсли для контроллера Index_Page_Frontend_Controller существует файл view/tinko/frontend/template/page/wrapper.php, то будет использован именно он, а не view/tinko/frontend/template/wrapper.php. Если существует view/tinko/frontend/template/page/index/wrapper.php, то будет использован он, а не view/tinko/frontend/template/page/wrapper.php. Аналогично для файлов header.php, menu.php, center.php, left.php и т.д.
+</p>
+<p>
+Т.е. шаблоны по умолчанию, расположенные в папке view/tinko/frontend/template, переопределяются шаблонами, расположенными глубже в иерархии директорий. Шаблон по умолчанию view/tinko/frontend/template/wrapper.php будет переопределен шаблоном view/tinko/frontend/template/catalog/wrapper.php. А шаблон view/tinko/frontend/template/catalog/wrapper.php, в свою очередь, будет переопределен шаблоном view/tinko/frontend/template/catalog/product/wrapper.php.
+</p>
+
+<h2>Кэширование</h2>
+<p>
+Данные могут кэшироваться на двух логических и двух физических уровнях. Логический уровень определяет, в каких местах приложения кэшируются данные. Физический уровень кэширования определяет, где хранится кэш: в оперативной памяти или в файлах.
+</p>
+<ul>
+    <li><strong>Логический уровень</strong>
+        <ul>
+            <li>кэширование на уровне данных</li>
+            <li>кэширование на уровне шаблонов</li>
+        </ul>
+    </li>
+    <li><strong>Физический уровень</strong>
+        <ul>
+            <li>кэширование в оперативной памяти</li>
+            <li>кэширование с использванием файлов</li>
+        </ul>
+    </li>
+</ul>
+<p>
+<strong>Логический уровень</strong> кэширования — на уровне данных и на уровне шаблонов:
+</p>
+<ul>
+    <li><em>Кэширование на уровне данных</em> происходит при получении от модели данных, необходимых для формирования страницы:
+        <ul>
+            <li>Кэширование запросов к БД: если при вызове методов класса <a href="https://github.com/tokmakov/zcms/blob/master/app/include/Database.php">Database</a> fetchAll(), fetch(), fetchOne() параметр $cache установлен в true. Такое кэширование часто используется в методах классов моделей, если метод содержит только вызов метода класса Database.</li>
+            <li>Кэширование данных в методах моделей: если метод класса модели содержит не только вызов метода БД, но и производит (сложные) вычисления.</li>
+            <li>Кроме того, иногда идет обращение к кэшу напрямую, чтобы записать/получить какие-то данные. Экземпляр класса Cache доступен практически везде, см. <a href="https://github.com/tokmakov/zcms/blob/master/app/Base.php">Base::__construct()</a></li>
+        </ul>
+    </li>
+    <li><em>Кэширование на уровне шаблонов</em> используется, когда контроллер получил от модели данные и «прогоняет» их через шаблон, см. метод <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/frontend/Frontend_Controller.php">Fronthend_Controller::render()</a>.</li>
+</ul>
+<p>
+Обычно, чтобы ускорить работу приложения и снизить нагрузку на сервер, достаточно включить кэширование на уровне данных — либо с использованием файлов, либо в оперативной памяти. Дополнительное включение кэширования на уровне шаблонов еще немного ускоряет работу, но резко увеличивает размер кэша (как файлового, так и в оперативной памяти — если он включен).
+</p>
+<p>
+<strong>Физический уровень</strong> кэширования — с использованием файлов и в оперативной памяти:
+</p>
+<p>
+Если кэширование <a href="https://github.com/tokmakov/zcms/blob/master/app/config/cache.php">разрешено</a>, оно всегда использует файлы. Дополнительно можно включить кэширование в оперативной памяти. Нельзя включить только кэш в оперативной памяти и не использовать при этом файловый кэш. Но, допускается использовать только файловый кэш. Кэш в оперативной памяти — «быстрый», файловый кэш — «медленный», они дополняют друг друга.
+</p>
+<p>
+Если приложение работает под высокой нагрузкой на выделенном сервере, можно снизить нагрузку и увеличить производительность, включив кэш в оперативной памяти, в дополнение к файловому. Для этого устанавливаем демон <a href="http://memcached.org/">Memcached</a> и расширение PHP <a href="http://php.net/manual/ru/book.memcache.php">memcache</a>. В этом случае физический кэш будет двухуровневый: сперва данные запрашиваются из оперативной памяти, а потом из файлового кэша.
+</p>
 
 <h2>Обмен данными с 1С</h2>
 <p>
 Образец XML-файла для выгрузка каталога на сайт <a href="https://github.com/tokmakov/zcms/blob/master/catalog.xml">catalog.xml</a>, выгрузка заказов с сайта: <a href="https://github.com/tokmakov/zcms/tree/master/app/controller/frontend/exchange">app/controller/frontend/exchange</a>
+</p>
+
+<hr>
+<p>
+<a href="http://www.tinko.info/">Демо-сайт</a>
 </p>
 
 </body>

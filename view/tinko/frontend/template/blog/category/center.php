@@ -94,7 +94,7 @@ defined('ZCMS') or die('Access denied');
 <!-- Начало шаблона view/example/frontend/template/blog/category/center.php -->
 
 <?php if (!empty($breadcrumbs)): // хлебные крошки ?>
-    <div id="breadcrumbs">
+    <div id="breadcrumbs"> <!-- хлебные крошки -->
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
         <?php endforeach; ?>
@@ -104,7 +104,7 @@ defined('ZCMS') or die('Access denied');
 <h1><?php echo $name; ?></h1>
 
 <?php if (!empty($posts)): // список постов блога ?>
-    <div id="posts-list">
+    <div id="posts-list"> <!-- список постов блога -->
     <?php foreach($posts as $item): ?>
         <div>
             <div>
@@ -130,16 +130,16 @@ defined('ZCMS') or die('Access denied');
     </div>
 <?php endif; ?>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
-    <ul class="pager">
+<?php if ( ! empty($pager)): /* постраничная навигация */ ?>
+    <ul class="pager"> <!-- постраничная навигация -->
     <?php if (isset($pager['first'])): ?>
         <li>
-            <a href="<?php echo $pager['first']['url']; ?>" class="first-page"></a>
+            <a href="<?php echo $pager['first']['url']; /* первая страница */ ?>" class="first-page"></a>
         </li>
     <?php endif; ?>
     <?php if (isset($pager['prev'])): ?>
         <li>
-            <a href="<?php echo $pager['prev']['url']; ?>" class="prev-page"></a>
+            <a href="<?php echo $pager['prev']['url']; /* предыдущая страница */ ?>" class="prev-page"></a>
         </li>
     <?php endif; ?>
     <?php if (isset($pager['left'])): ?>
@@ -151,7 +151,7 @@ defined('ZCMS') or die('Access denied');
     <?php endif; ?>
 
         <li>
-            <span><?php echo $pager['current']['num']; // текущая страница ?></span>
+            <span><?php echo $pager['current']['num']; /* текущая страница */ ?></span>
         </li>
 
     <?php if (isset($pager['right'])): ?>
@@ -163,12 +163,12 @@ defined('ZCMS') or die('Access denied');
     <?php endif; ?>
     <?php if (isset($pager['next'])): ?>
         <li>
-            <a href="<?php echo $pager['next']['url']; ?>" class="next-page"></a>
+            <a href="<?php echo $pager['next']['url']; /* следующая страница */ ?>" class="next-page"></a>
         </li>
     <?php endif; ?>
     <?php if (isset($pager['last'])): ?>
         <li>
-            <a href="<?php echo $pager['last']['url']; ?>" class="last-page"></a>
+            <a href="<?php echo $pager['last']['url']; /* последняя страница */ ?>" class="last-page"></a>
         </li>
     <?php endif; ?>
     </ul>
