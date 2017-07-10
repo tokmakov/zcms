@@ -1,3 +1,14 @@
+/* для главной страницы сайта */
+#about-company {
+    list-style: none;
+    background: url(../img/icon-about-company.png) left center no-repeat;
+    padding-left: 30px;
+}
+    #about-company > li {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
 /* слайдер */
 #banner-slider {
     list-style: none;

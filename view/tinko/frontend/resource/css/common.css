@@ -1,3 +1,17 @@
+/*
+ * КАРКАС СТРАНИЦЫ
+ * ШАПКА САЙТА
+ * ГЛАВНОЕ МЕНЮ
+ * ЦЕНТРАЛЬНАЯ КОЛОНКА
+ * - РАЗНЫЕ СТИЛИ
+ * - КАТАЛОГ ТОВАРОВ
+ * ЛЕВАЯ И ПРАВАЯ КОЛОНКА
+ * - ЛЕВАЯ КОЛОНКА
+ * - ПРАВАЯ КОЛОНКА
+ * ПОДВАЛ САЙТА
+ * MEDIA-ЗАПРОСЫ
+ */
+
 html {
     position:relative;
     min-height: 100%;
@@ -19,43 +33,8 @@ a:hover {
     text-decoration: underline;
 }
 
-.modal-window {
-    position: absolute;
-    max-width: 300px;
-    padding: 20px 10px;
-    background : #323232;
-    color: #fff;
-    box-shadow: 0 0 5px #000;
-    z-index: 3;
-}
-    .modal-window > p {
-        margin-bottom: 10px;
-    }
-    .modal-window > p:last-child {
-        margin-bottom: 0;
-    }
-
-.selected {
-    color: #ff6d00 !important;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    appearance: none !important;
-    background-image: url('../img/select-arrow.png');
-    background-position: right center;
-    background-repeat: no-repeat;
-    padding-right: 18px !important;
-    padding-left: 2px;
-}
-select::-ms-expand {
-    display: none;
-}
-
 /*
- * КАРКАС
+ * КАРКАС СТРАНИЦЫ
  */
 .wrapper {
     max-width: 1250px;
@@ -67,10 +46,12 @@ body > .wrapper {
     overflow: hidden;
     padding-bottom: 160px;
 }
+/* шапка */
 #header {
     height: 80px;
     background: #395985;
 }
+/* главное меню */
 #main-menu {
     background: #323232;
 }
@@ -78,20 +59,24 @@ body > .wrapper {
     width: 100%;
     float: left;
 }
+/* центральная колонка */
 #content {
     margin: 0 250px 0 250px;
     padding: 20px;
 }
+/* левая колонка */
 #left {
     width: 250px;
     float: left;
     margin-left: -100%;
 }
+/* правая колонка */
 #right {
     width: 250px;
     float: left;
     margin-left: -250px;
 }
+/* подвал */
 #footer {
     width: 100%;
     height: 160px;
@@ -101,7 +86,7 @@ body > .wrapper {
 }
 
 /*
- * ШАПКА
+ * ШАПКА САЙТА
  */
 #header > div {
     position: relative;
@@ -393,63 +378,60 @@ body > .wrapper {
 }
 */
 
-
-/*
- * КОНТЕНТ: ЦЕНТРАЛЬНАЯ, ЛЕВАЯ И ПРАВАЯ КОЛОНКА
- */
-
-/* размер шрифта в левой и правой колонке */
-#left *, #right * {
-    font-size: 13px;
-}
-    /* информационные блоки в левой и правой колонке */
-    #left > div, #right > div {
-        margin: 20px 0;
-        border: 1px solid #d1d1d1;
-        border-top: 5px solid #395985;
-        overflow: hidden;
-    }
-    #left > #side-banner, #right > #side-banner {
-        border: none;
-    }
-    #left > #side-banner > a, #right > #side-banner > a {
-        display: block;
-        width: 250px;
-        height: 150px;
-        margin-bottom: 10px;
-    }
-        #left > div div.side-heading, #right > div div.side-heading {
-            padding: 15px;
-            font-size: 16px;
-            line-height: 16px;
-            background: #f0f0f0;
-        }
-        #left > div div.side-content, #right > div div.side-content {
-            border-top: 1px solid #d1d1d1;
-            /* background: #fafafa; */
-        }
-        #right > div div.side-content {
-            padding: 15px;
-        }
-
 /*
  * ЦЕНТРАЛЬНАЯ КОЛОНКА
  */
-
-#about-company {
-    list-style: none;
-    background: url(../img/icon-about-company.png) left center no-repeat;
-    padding-left: 30px;
-}
-    #about-company > li {
-        font-size: 16px;
-        line-height: 18px;
-    }
 
 #content > h1 {
     margin-bottom: 20px;
     font-size: 22px;
 }
+
+/*
+блок для центральной колонки, состоит из двух частей: заголовок и контент, обведен
+рамкой; используется на главной странице каталога, на странице товара
+*/
+.center-block {
+    border: 1px solid #d1d1d1;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.center-block.heading {
+    border-top: 5px solid #395985;
+}
+    .center-block > div {
+        padding: 15px;
+        overflow: hidden;
+    }
+    .center-block > div.no-padding {
+        padding: 0;
+    }
+    .center-block > div:first-child {
+        background: #f0f0f0;
+        border-bottom: 1px solid #d1d1d1;
+    }
+        .center-block > div:first-child h1 {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 20px;
+        }
+        .center-block > div:first-child h2 {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 18px;
+        }
+        .center-block > div:first-child h3 {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 16px;
+        }
+
+/*
+ * РАЗНЫЕ СТИЛИ, ИСПОЛЬЗУЮТСЯ ВЕЗДЕ
+ */
 
 /* статичные страницы */
 .page h2, .page h3, .page h4 {
@@ -479,6 +461,29 @@ body > .wrapper {
     max-width: 100%;
 }
 
+/* модальное окно */
+.modal-window {
+    position: absolute;
+    max-width: 300px;
+    padding: 20px 10px;
+    background : #323232;
+    color: #fff;
+    box-shadow: 0 0 5px #000;
+    z-index: 3;
+}
+    .modal-window > p {
+        margin-bottom: 10px;
+    }
+    .modal-window > p:last-child {
+        margin-bottom: 0;
+    }
+
+/* для выделения цветом любой важной информации */
+.selected {
+    color: #ff6d00 !important;
+}
+
+/* карта на страницах КОНТАКТЫ и ДОСТАВКА */
 #tinkoMap, #deliveryMap {
     width: 100%;
     height: 600px;
@@ -501,6 +506,7 @@ body > .wrapper {
         text-align: left;
     }
 
+/* блок «ВАЖНО» */
 div.notice {
     margin: 15px 0;
     padding: 1px 0 1px 15px;
@@ -512,6 +518,7 @@ div.notice {
     div.notice :last-child {
         margin-bottom: 0 !important;
     }
+/* блок «ВНИМАНИЕ» */
 div.attention {
     margin: 15px 0;
 }
@@ -555,6 +562,7 @@ div.attention {
             margin-bottom: 0 !important;
         }
 
+/* loader и overlay для загрузки контента с использованием XmlHttpRequest */
 .ajax-loader {
     min-height: 32px;
     background: url('../img/ajax-loader.gif') center center no-repeat !important;
@@ -625,43 +633,80 @@ div.attention {
         color: #e9751f;
     }
 
-.center-block {
-    border: 1px solid #d1d1d1;
+/* постраничная навигация */
+.pager {
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
-.center-block.heading {
-    border-top: 5px solid #395985;
+    .pager li {
+        list-style: none;
+        float: left;
+        margin-right: 15px;
+    }
+    .pager li:last-child {
+        margin-right: 0;
+    }
+        .pager li a {
+            display: block;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            background: #395985;
+            font-size: 14px;
+            line-height: 26px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .pager li a.next-page {
+             background: #395985 url(../img/next-page.png) center center no-repeat;
+        }
+        .pager li a.prev-page {
+            background: #395985 url(../img/prev-page.png) center center no-repeat;
+        }
+        .pager li a.first-page {
+            background: #395985 url(../img/first-page.png) center center no-repeat;
+        }
+        .pager li a.last-page {
+            background: #395985 url(../img/last-page.png) center center no-repeat;
+        }
+        .pager li span {
+            display: block;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            background: #e9751f;
+            font-size: 14px;
+            line-height: 26px;
+            color: #fff;
+        }
+
+/* формы */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none !important;
+    background-image: url('../img/select-arrow.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding-right: 18px !important;
+    padding-left: 2px;
 }
-    .center-block > div {
-        padding: 15px;
-        overflow: hidden;
-    }
-    .center-block > div.no-padding {
-        padding: 0;
-    }
-    .center-block > div:first-child {
-        background: #f0f0f0;
-        border-bottom: 1px solid #d1d1d1;
-    }
-        .center-block > div:first-child h1 {
-            margin: 0;
-            padding: 0;
-            font-weight: normal;
-            font-size: 20px;
-        }
-        .center-block > div:first-child h2 {
-            margin: 0;
-            padding: 0;
-            font-weight: normal;
-            font-size: 18px;
-        }
-        .center-block > div:first-child h3 {
-            margin: 0;
-            padding: 0;
-            font-weight: normal;
-            font-size: 16px;
-        }
+select::-ms-expand {
+    display: none;
+}
+/* поле формы обязательно для заполнения */
+.form-field-required {
+    color: #e9751f;
+    position: relative;
+    top: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/*
+ * КАТАЛОГ ТОВАРОВ
+ */
 
 /* главная страница каталога, корневые категории */
 #root-categories {
@@ -751,62 +796,11 @@ form#center-search-form {
         margin-top: 20px;
     }
 
-/* постраничная навигация */
-.pager {
-    overflow: hidden;
-    margin-top: 20px;
-}
-    .pager li {
-        list-style: none;
-        float: left;
-        margin-right: 15px;
-    }
-    .pager li:last-child {
-        margin-right: 0;
-    }
-        .pager li a {
-            display: block;
-            width: 26px;
-            height: 26px;
-            text-align: center;
-            background: #395985;
-            font-size: 14px;
-            line-height: 26px;
-            color: #fff;
-            text-decoration: none;
-        }
-        .pager li a.next-page {
-             background: #395985 url(../img/next-page.png) center center no-repeat;
-        }
-        .pager li a.prev-page {
-            background: #395985 url(../img/prev-page.png) center center no-repeat;
-        }
-        .pager li a.first-page {
-            background: #395985 url(../img/first-page.png) center center no-repeat;
-        }
-        .pager li a.last-page {
-            background: #395985 url(../img/last-page.png) center center no-repeat;
-        }
-        .pager li span {
-            display: block;
-            width: 26px;
-            height: 26px;
-            text-align: center;
-            background: #e9751f;
-            font-size: 14px;
-            line-height: 26px;
-            color: #fff;
-        }
-
-.form-field-required {
-    color: #e9751f;
-    position: relative;
-    top: 5px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* список товаров категории или производителя */
+/*
+Список товаров категории, производителя или функциональной группы; включает в себя блок
+сортировки товаров, список товаров и постраничную навигацию. Используется для загрузки
+контента с использованием XmlHttpRequest, после того, как пользователь применил фильтр
+*/
 #catalog-products {
     min-height: 100px;
     position: relative;
@@ -1417,7 +1411,10 @@ form#center-search-form {
                     background: #fafafa;
                 }
 
-/* список товаров, рекомендованные товары */
+/*
+список товаров: вы уже смотрели, рекомендованные товары; используется на
+странице товара, на странице корзины
+*/
 .product-list-upsell {
     overflow: hidden;
     padding: 0 0 15px 15px;
@@ -1597,7 +1594,10 @@ form#center-search-form {
                         color: #5390cc;
                     }
 
-/* каталог, фильтр по функционалу, производителю и по параметрам */
+/*
+каталог, фильтр по функционалу, производителю и по параметрам; используется на странице
+категории каталога, на странице производителя, на странице функциональной группы
+*/
 #catalog-filter {
     margin-bottom: 20px;
 }
@@ -1759,7 +1759,10 @@ form#center-search-form {
                 outline: none;
             }
 
-/* каталог, категория, сортировка */
+/*
+сортировка товаров, используется на странице категории каталога, на
+странице производителя, на странице функциональной группы
+*/
 #sort-orders {
 
 }
@@ -1824,7 +1827,7 @@ form#center-search-form {
                 background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
             }
 
-/* карточка товара */
+/* товара товара */
 #product-item {
 
 }
@@ -2386,6 +2389,42 @@ form#center-search-form {
     }
 
 /*
+ * ЛЕВАЯ И ПРАВАЯ КОЛОНКА
+ */
+#left *, #right * {
+    font-size: 13px;
+}
+    /* информационные блоки в левой и правой колонке */
+    #left > div, #right > div {
+        margin: 20px 0;
+        border: 1px solid #d1d1d1;
+        border-top: 5px solid #395985;
+        overflow: hidden;
+    }
+    #left > #side-banner, #right > #side-banner {
+        border: none;
+    }
+    #left > #side-banner > a, #right > #side-banner > a {
+        display: block;
+        width: 250px;
+        height: 150px;
+        margin-bottom: 10px;
+    }
+        #left > div div.side-heading, #right > div div.side-heading {
+            padding: 15px;
+            font-size: 16px;
+            line-height: 16px;
+            background: #f0f0f0;
+        }
+        #left > div div.side-content, #right > div div.side-content {
+            border-top: 1px solid #d1d1d1;
+            /* background: #fafafa; */
+        }
+        #right > div div.side-content {
+            padding: 15px;
+        }
+
+/*
  * ЛЕВАЯ КОЛОНКА
  */
 
@@ -2641,57 +2680,6 @@ form#center-search-form {
         #side-groups > .side-content > p > a:hover {
             text-decoration: none;
         }
-/*
-#all-groups {
-    overflow: hidden;
-    margin: 15px 0
-}
-    #all-groups > ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        float: left;
-        width: 50%;
-        box-sizing: border-box;
-    }
-    #all-groups > ul:first-child {
-        border-right: 1px dashed #d1d1d1;
-    }
-        #all-groups > ul > li {
-            padding: 0 30px 0 5px;
-            border-bottom: 1px dashed #d1d1d1;
-            height: 30px;
-            overflow: hidden;
-            position: relative;
-        }
-        #all-groups > ul > li:first-child {
-            border-top: 1px dashed #d1d1d1;
-        }
-            #all-groups > ul > li > span {
-                display: table;
-                width: 100%;
-            }
-                #all-groups > ul > li > span > a {
-                    display: table-cell;
-                    height: 30px;
-                    vertical-align: middle;
-                    font-size: 14px;
-                    line-height: 15px;
-                }
-                #all-groups > ul > li > span > span {
-                    display: block;
-                    position: absolute;
-                    color: #5390cc;
-                    font-size: 13px;
-                    line-height: 30px;
-                    height: 30px;
-                    width: 30px;
-                    text-align: center;
-                    background: #f0f0f0;
-                    top: 0;
-                    right: 0;
-                }
-*/
 
 /*
  * ПРАВАЯ КОЛОНКА
@@ -2951,7 +2939,7 @@ form#center-search-form {
 }
 
 /*
- * ПОДВАЛ
+ * ПОДВАЛ САЙТА
  */
 #footer { /* состоит из двух горизонтальных блоков */
     height: 160px;
@@ -3031,6 +3019,10 @@ form#center-search-form {
             #footer > div.wrapper > div > span:last-child > a {
                 color: #d1d1d1;
             }
+
+/*
+ * MEDIA-ЗАПРОСЫ
+ */
 
 @media screen and (max-width: 1285px) {
     /* основной контент: убираем правую колонку */

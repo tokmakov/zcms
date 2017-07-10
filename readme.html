@@ -15,6 +15,9 @@ code {
 </head>
 <body>
 <h1>ZCMS</h1>
+<p>
+<strong>Интернет-магазин на PHP и MySQL с использованием концепции MVC</strong>
+</p>
 
 <h2>Общая информация</h2>
 <p>
@@ -75,11 +78,11 @@ code {
 
 <h2>Вспомогательные классы</h2>
 <ul>
-  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Database.php">app/include/Database</a> предоставляет доступ к базе данных</li>
-  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">app/include/Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
-  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Register.php">app/include/Register</a> хранит все объекты приложения, чтобы везде иметь к ним доступ</li>
-  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Config.php">app/include/Config</a> хранит все настройки приложения, чтобы везде иметь к ним доступ</li>
-  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Cache.php">app/include/Cache</a> кэширует данные, класс-обертка для <a href="https://github.com/tokmakov/zcms/blob/master/app/include/FCache.php">app/include/FCache</a> и <a href="https://github.com/tokmakov/zcms/blob/master/app/include/MCache.php">app/include/MCache</a></li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Database.php">Database</a> предоставляет доступ к базе данных</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Register.php">Register</a> хранит все объекты приложения, чтобы везде иметь к ним доступ</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Config.php">Config</a> хранит все настройки приложения, чтобы везде иметь к ним доступ</li>
+  <li><a href="https://github.com/tokmakov/zcms/blob/master/app/include/Cache.php">Cache</a> кэширует данные, класс-обертка для <a href="https://github.com/tokmakov/zcms/blob/master/app/include/FCache.php">FCache</a> и <a href="https://github.com/tokmakov/zcms/blob/master/app/include/MCache.php">MCache</a></li>
 </ul>
 
 <h2>Настройки приложения</h2>
@@ -104,7 +107,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule (.*) index.php</code></pre>
     </li>
-    <li>Экземпляр класса <a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">app/include/Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
+    <li>Экземпляр класса <a href="https://github.com/tokmakov/zcms/blob/master/app/include/Router.php">Router</a> анализирует $_SERVER['REQUEST_URI'], чтобы узнать, какой контроллер должен быть запущен в работу</li>
     <li>Вызывается метод контроллера request(), который определен в классе <a href="https://github.com/tokmakov/zcms/blob/master/app/controller/Base_Controller.php">Base_Controller</a>
     <pre><code>try {
     // экземпляр класса роутера
@@ -158,6 +161,7 @@ RewriteRule (.*) index.php</code></pre>
             $this->footerTemplateFile,
             $this->footerVars
         );
+        // сборка страницы из отдельных частей html-кода
         $this->pageContent = $this->render(
             $this->wrapperTemplateFile,
             array(
@@ -226,7 +230,7 @@ RewriteRule (.*) index.php</code></pre>
 'page-index' => 'lightbox.css'
 </code></pre>
 <p>
-не будет ошибочной, но сбивает с толку. Сбивает с толку потому, что подразумевает, что page.css подключается для всех дочерних классов Page_Frontend_Controller. Но у Page_Frontend_Controller только один дочерний класс, поэтому либо так
+не будет ошибочной, но сбивает с толку — потому что подразумевает, что page.css подключается для всех дочерних классов Page_Frontend_Controller. Но у Page_Frontend_Controller только один дочерний класс, поэтому либо так
 </p>
 <pre><code>'page' => array(
     'page.css',

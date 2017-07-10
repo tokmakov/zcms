@@ -14,7 +14,7 @@ class Router {
     /**
      * запрос с использованием XmlHttpRequest?
      */
-    protected $xhr = false;
+    private $xhr = false;
 
     /**
      * имя контроллера, по умолчанию index
