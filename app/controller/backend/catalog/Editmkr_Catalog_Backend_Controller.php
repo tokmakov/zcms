@@ -68,6 +68,18 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             return;
         }
 
+        // файл логотипа
+        $logo = '';
+        if ( ! empty($maker['logo'])) {
+            $logo = $this->config->site->url . 'files/catalog/makers/logo/' . $maker['logo'] . '.jpg';
+        }
+
+        // файл сертификата
+        $cert = '';
+        if ( ! empty($maker['cert'])) {
+            $cert = $this->config->site->url . 'files/catalog/makers/cert/image/' . $maker['cert'] . '.jpg';
+        }
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -86,6 +98,14 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
             'keywords'    => $maker['keywords'],
             // мета-тег description
             'description' => $maker['description'],
+            //
+            'brand'       => $maker['brand'],
+            // популярный бренд?
+            'popular'     => $maker['popular'],
+            // файл логотипа
+            'logo'        => $logo,
+            // файл сертификата
+            'cert'        => $cert,
             // описание производителя
             'body'        => $maker['body'],
         );
@@ -115,6 +135,15 @@ class Editmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $data['description'] = trim(iconv_substr($_POST['description'], 0, 250)); // мета-тег description
         $data['description'] = str_replace('"', '', $data['description']);
         $data['body']        = trim($_POST['body']); // описание производителя
+
+        $data['brand'] = 0; // признак того, что призводитель является брендом
+        if (isset($_POST['brand'])) {
+            $data['brand'] = 1;
+        }
+        $data['popular'] = 0; // признак того, что это популярный бренд
+        if (isset($_POST['popular'])) {
+            $data['popular'] = 1;
+        }
 
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {

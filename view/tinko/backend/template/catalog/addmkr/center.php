@@ -42,6 +42,8 @@ defined('ZCMS') or die('Access denied');
     $altname     = '';
     $keywords    = '';
     $description = '';
+    $brand       = 0;
+    $popular     = 0;
     $body        = '';
 
     if (isset($savedFormData)) {
@@ -49,12 +51,13 @@ defined('ZCMS') or die('Access denied');
         $altname     = htmlspecialchars($savedFormData['altname']);
         $keywords    = htmlspecialchars($savedFormData['keywords']);
         $description = htmlspecialchars($savedFormData['description']);
+        $brand       = $savedFormData['brand'];
+        $popular     = $savedFormData['popular'];
         $body        = htmlspecialchars($savedFormData['body']);
     }
 ?>
 
-<form action="<?php echo $action; ?>" method="post">
-<div id="add-edit-maker">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="add-edit-maker">
     <div>
         <div>Наименование</div>
         <div><input type="text" name="name" maxlength="64" value="<?php echo $name; ?>" /></div>
@@ -72,6 +75,21 @@ defined('ZCMS') or die('Access denied');
         <div><input type="text" name="description" maxlength="250" value="<?php echo $description; ?>" /></div>
     </div>
     <div>
+        <div>Бренд, популярный</div>
+        <div>
+            <input type="checkbox" name="brand" value="1"<?php echo ($brand) ? ' checked="checked"' : ''; ?> /> бренд
+            <input type="checkbox" name="popular" value="1"<?php echo ($popular) ? ' checked="checked"' : ''; ?> /> популярный
+        </div>
+    </div>
+    <div>
+        <div>Логотип</div>
+        <div><input type="file" name="logo" /></div>
+    </div>
+    <div>
+        <div>Сертификат</div>
+        <div><input type="file" name="cert" /></div>
+    </div>
+    <div>
         <div>Описание</div>
         <div><textarea name="body"><?php echo $body; ?></textarea></div>
     </div>
@@ -79,7 +97,6 @@ defined('ZCMS') or die('Access denied');
         <div></div>
         <div><input type="submit" name="submit" value="Сохранить" /></div>
     </div>
-</div>
 </form>
 
 <!-- Конец шаблона view/example/backend/template/catalog/addmkr/center.php -->

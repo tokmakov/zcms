@@ -89,6 +89,15 @@ class Addmkr_Catalog_Backend_Controller extends Catalog_Backend_Controller {
         $data['description'] = str_replace('"', '', $data['description']);
         $data['body']        = trim($_POST['body']); // описание производителя
 
+        $data['brand'] = 0; // признак того, что призводитель является брендом
+        if (isset($_POST['brand'])) {
+            $data['brand'] = 1;
+        }
+        $data['popular'] = 0; // признак того, что это популярный бренд
+        if (isset($_POST['popular'])) {
+            $data['popular'] = 1;
+        }
+
         // были допущены ошибки при заполнении формы?
         if (empty($data['name'])) {
             $errorMessage[] = 'Не заполнено обязательное поле «Наименование»';

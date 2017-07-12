@@ -18,9 +18,9 @@ class Addbnr_Start_Backend_Controller extends Start_Backend_Controller {
     protected function input() {
 
         // сначала обращаемся к родительскому классу Start_Backend_Controller,
-        // чтобы установить значения переменных, которые нужны для работы всех его
-        // потомков, потом переопределяем эти переменные (если необходимо) и
-        // устанавливаем значения перменных, которые нужны для работы только
+        // чтобы установить значения переменных, которые нужны для работы всех
+        // его потомков, потом переопределяем эти переменные (если необходимо)
+        // и устанавливаем значения перменных, которые нужны для работы только
         // Addbnr_Start_Backend_Controller
         parent::input();
 
@@ -92,7 +92,7 @@ class Addbnr_Start_Backend_Controller extends Start_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее даннными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addStartBannerForm', $data);
             return false;

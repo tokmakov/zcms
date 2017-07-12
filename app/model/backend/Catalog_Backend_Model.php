@@ -1486,7 +1486,8 @@ class Catalog_Backend_Model extends Backend_Model {
      */
     public function getMaker($id) {
         $query = "SELECT
-                      `id`, `name`, `altname`, `keywords`, `description`, `body`
+                      `id`, `name`, `altname`, `keywords`, `description`,
+                      `brand`, `popular`, `logo`, `cert`, `body`
                   FROM
                       `makers`
                   WHERE
@@ -1505,6 +1506,8 @@ class Catalog_Backend_Model extends Backend_Model {
                       `altname`,
                       `keywords`,
                       `description`,
+                      `brand`,
+                      `popular`,
                       `body`
                   )
                   VALUES
@@ -1513,9 +1516,111 @@ class Catalog_Backend_Model extends Backend_Model {
                       :altname,
                       :keywords,
                       :description,
+                      :brand,
+                      :popular,
                       :body
                   )";
         $this->database->execute($query, $data);
+        $id = $this->database->lastInsertId();
+
+        // загружаем файл логотипа
+        $this->uploadMakerLogo($id);
+        // загружаем файл сертификата
+        $this->uploadMakerCert($id);
+    }
+
+    /**
+     * Функция загружает файл логотипа для производителя с
+     * уникальным идентификатором $id
+     */
+    private function uploadMakerLogo($id) {
+
+        // проверяем, пришел ли файл изображения
+        if ( ! empty($_FILES['logo']['name'])) {
+            // сначала удаляем старый логотип
+            $this->removeMakerLogo($id);
+            // проверяем, что при загрузке не произошло ошибок
+            if ($_FILES['logo']['error'] == 0) {
+                // если файл загружен успешно, то проверяем - изображение?
+                $mimetypes = array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png');
+                if (in_array($_FILES['logo']['type'], $mimetypes)) {
+                    $logo = md5(uniqid(rand(), true));
+                    // изменяем размер изображения
+                    $this->resizeImage(
+                        $_FILES['logo']['tmp_name'],
+                        'files/catalog/makers/logo/'. $logo . '.jpg',
+                        120,
+                        60,
+                        'jpg'
+                    );
+                    $query = "UPDATE
+                                  `makers`
+                              SET
+                                  `logo` = :logo
+                              WHERE
+                                  `id` = :id";
+                    $this->database->execute(
+                        $query,
+                        array(
+                            'logo' => $logo,
+                            'id' => $id
+                        )
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Функция загружает файл партнерского сертификата для производителя
+     * с уникальным идентификатором $id
+     */
+    private function uploadMakerCert($id) {
+
+        // проверяем, пришел ли файл изображения
+        if ( ! empty($_FILES['cert']['name'])) {
+            // сначала удаляем старый сертификат
+            $this->removeMakerCert($id);
+            // проверяем, что при загрузке не произошло ошибок
+            if ($_FILES['cert']['error'] == 0) {
+                // если файл загружен успешно, то проверяем - изображение?
+                $mimetypes = array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png');
+                if (in_array($_FILES['cert']['type'], $mimetypes)) {
+                    $cert = md5(uniqid(rand(), true));
+                    // изменяем размер изображения
+                    $this->resizeImage(
+                        $_FILES['cert']['tmp_name'],
+                        'files/catalog/makers/cert/thumb/'. $cert . '.jpg',
+                        200,
+                        200,
+                        'jpg',
+                        array(245, 245, 245)
+                    );
+                    // изменяем размер изображения
+                    $this->resizeImage(
+                        $_FILES['cert']['tmp_name'],
+                        'files/catalog/makers/cert/image/'. $cert . '.jpg',
+                        1000,
+                        1000,
+                        'jpg',
+                        array(245, 245, 245)
+                    );
+                    $query = "UPDATE
+                                  `makers`
+                              SET
+                                  `cert` = :cert
+                              WHERE
+                                  `id` = :id";
+                    $this->database->execute(
+                        $query,
+                        array(
+                            'cert' => $cert,
+                            'id' => $id
+                        )
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -1523,6 +1628,7 @@ class Catalog_Backend_Model extends Backend_Model {
      * makers базы данных)
      */
     public function updateMaker($data) {
+
         $query = "UPDATE
                       `makers`
                   SET
@@ -1530,26 +1636,113 @@ class Catalog_Backend_Model extends Backend_Model {
                       `altname`     = :altname,
                       `keywords`    = :keywords,
                       `description` = :description,
+                      `brand`       = :brand,
+                      `popular`     = :popular,
                       `body`        = :body
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
+
+        // удалить файл логотипа?
+        if (isset($_POST['remove_logo'])) {
+            $this->removeMakerLogo($data['id']);
+        }
+        // удалить файл сертификата?
+        if (isset($_POST['remove_cert'])) {
+            $this->removeMakerCert($data['id']);
+        }
+
+        // загружаем файл логотипа
+        $this->uploadMakerLogo($data['id']);
+        // загружаем файл сертификата
+        $this->uploadMakerCert($data['id']);
+
     }
 
     /**
      * Функция удаляет производителя (запись в таблице makers базы данных)
      */
     public function removeMaker($id) {
+
         // если есть товары этого производителя
         $query = "SELECT 1 FROM `products` WHERE `maker` = :id LIMIT 1";
         $res = $this->database->fetchOne($query, array('id' => $id));
         if ($res) {
             return false;
         }
+
+        // удаляем файлы логотипа и сертификата
+        $this->removeMakerLogo($id);
+        $this->removeMakerCert($id);
+
         // удаляем производителя
         $query = "DELETE FROM `makers` WHERE `id` = :id";
         $this->database->execute($query, array('id' => $id));
         return true;
+
+    }
+
+    /**
+     * Функция удаляет файл изображения логотипа производителя
+     */
+    private function removeMakerLogo($id) {
+        $query = "SELECT
+                      `logo`
+                  FROM
+                      `makers`
+                  WHERE
+                      `id` = :id";
+        $logo = $this->database->fetchOne($query, array('id' => $id));
+        if ( ! empty($logo)) {
+            if (is_file('files/catalog/makers/logo/'. $logo . '.jpg')) {
+                unlink('files/catalog/makers/logo/'. $logo . '.jpg');
+            }
+        }
+        $query = "UPDATE
+                      `makers`
+                  SET
+                      `logo` = ''
+                  WHERE
+                      `id` = :id";
+        $this->database->execute(
+            $query,
+            array(
+                'id' => $id
+            )
+        );
+    }
+
+    /**
+     * Функция удаляет файл сертификата производителя
+     */
+    private function removeMakerCert($id) {
+        $query = "SELECT
+                      `cert`
+                  FROM
+                      `makers`
+                  WHERE
+                      `id` = :id";
+        $cert = $this->database->fetchOne($query, array('id' => $id));
+        if ( ! empty($cert)) {
+            if (is_file('files/catalog/makers/cert/thumb/'. $cert . '.jpg')) {
+                unlink('files/catalog/makers/cert/thumb/'. $cert . '.jpg');
+            }
+            if (is_file('files/catalog/makers/cert/image/'. $cert . '.jpg')) {
+                unlink('files/catalog/makers/cert/image/'. $cert . '.jpg');
+            }
+        }
+        $query = "UPDATE
+                      `makers`
+                  SET
+                      `cert` = ''
+                  WHERE
+                      `id` = :id";
+        $this->database->execute(
+            $query,
+            array(
+                'id' => $id
+            )
+        );
     }
 
 }

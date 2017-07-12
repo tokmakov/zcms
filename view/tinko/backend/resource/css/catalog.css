@@ -10,7 +10,7 @@
     #add-edit-product > div {
         overflow: hidden;
         margin-bottom: 10px;
-        background: #fafafa;                         
+        background: #fafafa;
         padding: 5px;
     }
         #add-edit-product > div > div:first-child {
@@ -185,6 +185,8 @@
     #add-edit-maker > div {
         overflow: hidden;
         margin-bottom: 10px;
+        background: #fafafa;
+        padding: 5px;
     }
         #add-edit-maker > div > div:first-child {
             float: left;
@@ -203,7 +205,14 @@
                 padding: 3px;
             }
             #add-edit-maker > div > div:last-child > textarea {
-                height: 300px;
+                height: 200px;
+            }
+            #add-edit-maker > div > div:last-child > input[type="checkbox"] {
+                position: relative;
+                top: 3px;
+            }
+            #add-edit-maker > div > div:last-child > input:last-child[type="checkbox"] {
+                margin-left: 50px;
             }
 
 /* список дочерних категорий */
@@ -269,6 +278,9 @@
         list-style: none;
         margin: 0;
         padding: 0;
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
     }
         #all-makers > ul > li {
             overflow: hidden;

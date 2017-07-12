@@ -190,7 +190,7 @@ body > .wrapper {
                 right: 0;
                 cursor: pointer;
             }
-
+        /* результаты поиска, запрос с использованием XmlHttpRequest */
         #top-search > div {
             position: absolute;
             left: 0;
@@ -217,7 +217,7 @@ body > .wrapper {
                     border: 1px solid #fff;
                     cursor: pointer;
                 }
-                #top-search > div > div > div {
+                #top-search > div > div > div { /* отдельная строчка результатов поиска */
                     border-bottom: 1px dashed #d1d1d1;
                     padding: 1px 0;
                 }
@@ -239,7 +239,7 @@ body > .wrapper {
                 #top-search > div > div > div:last-child {
                     border-bottom: none;
                 }
-    /* верхнее меню, скрытое */
+    /* верхнее меню, скрытое; появляется на маленьких экранах, когда пропадает правая колонка */
     #header #top-menu {
         display: none;
         position: absolute;
@@ -978,7 +978,7 @@ form#center-search-form {
                         color: #323232;
                     }
 
-        .product-list-line > div > .product-list-basket { /* добавить в корзину */
+        .product-list-line > div > .product-list-basket { /* три формы: добавить в корзину, добавить в избранное, добавить к сравнению */
             margin-left: 140px;
             margin-bottom: 12px;
         }
@@ -1044,7 +1044,7 @@ form#center-search-form {
             color: #969696;
         }
 
-        /* комментарий для отложенных товаров */
+        /* комментарий для отложенных товаров (избранное) */
         .product-list-line > div > .product-list-comment {
             clear: left;
             padding-top: 10px;
@@ -1140,7 +1140,7 @@ form#center-search-form {
                             border-bottom: none;
                         }
 
-/* клон блока изображения товара, для добавления в корзину */
+/* клон блока изображения товара, нужен при добавлении товара в корзину */
 .image-clone {
     position: absolute;
     background: #fff;
@@ -1182,7 +1182,7 @@ form#center-search-form {
         border-bottom: 1px dashed #5390cc;
     }
 
-        .product-list-grid > div > .product-list-added { /* дата добавления */
+        .product-list-grid > div > .product-list-added { /* дата просмотра или добавления в избранное, к сравнению */
             font-size: 10px;
             line-height: 10px;
             margin: 2px 0;
@@ -1227,7 +1227,7 @@ form#center-search-form {
                     width: 100px;
                     height: 100px;
                 }
-                .product-list-grid > div > .product-list-image > a > span {
+                .product-list-grid > div > .product-list-image > a > span { /* лидер продаж, новинка */
                     display: block;
                     position: absolute;
                     width: 58px;
@@ -1237,13 +1237,13 @@ form#center-search-form {
                     color: #fff;
                     padding-left: 1px;
                 }
-                .product-list-grid > div > .product-list-image > a > span.hit-product {
+                .product-list-grid > div > .product-list-image > a > span.hit-product { /* лидер продаж */
                     background: #395985;
                     width: 72px;
                     left: 1px;
                     top: 1px;
                 }
-                .product-list-grid > div > .product-list-image > a > span.new-product {
+                .product-list-grid > div > .product-list-image > a > span.new-product { /* новинка */
                     background: #395985;
                     width: 41px;
                     right: 1px;
@@ -1321,7 +1321,7 @@ form#center-search-form {
                         font-weight: bold;
                         color: #323232;
                     }
-        .product-list-grid > div > .product-list-basket { /* добавить в корзину */
+        .product-list-grid > div > .product-list-basket { /* три формы: добавить в корзину, добавить в избранное, добавить к сравнению */
             margin-left: 130px;
             margin-top: 7px;
         }
@@ -1379,7 +1379,7 @@ form#center-search-form {
             display: none;
         }
 
-        /* комментарий для отложенных товаров */
+        /* комментарий для отложенных товаров (избранное) */
         .product-list-grid > div > .product-list-comment {
             padding-top: 10px;
         }
@@ -1413,8 +1413,8 @@ form#center-search-form {
                 }
 
 /*
-список товаров: вы уже смотрели, рекомендованные товары; используется на
-странице товара, на странице корзины
+список товаров: вы уже смотрели, рекомендованные товары, похожие товары;
+используется на странице товара, на странице корзины
 */
 .product-list-upsell {
     overflow: hidden;
@@ -1602,7 +1602,7 @@ form#center-search-form {
 #catalog-filter {
     margin-bottom: 20px;
 }
-    #catalog-filter > div:first-child {
+    #catalog-filter > div:first-child { /* заголовок блока фильтров */
         background-color: #323232;
         border: 1px solid #323232;
         color: #fff;
@@ -1643,12 +1643,11 @@ form#center-search-form {
                 cursor: pointer;
                 border-bottom: 1px dashed #fff;
             }
-    #catalog-filter > div:last-child {
+    #catalog-filter > div:last-child { /* форма для фильтрации товаров */
         border: 1px solid #d1d1d1;
         border-top: none;
         overflow: hidden;
     }
-        /* фильтр по функционалу, производителю и по параметрам */
         #catalog-filter > div:last-child > form > div:first-child {
             position: relative;
         }
@@ -2139,7 +2138,7 @@ form#center-search-form {
                     right: 0;
                     color: #5390cc;
                 }
-
+    /* ссылка «Все производители» на главной странице каталога */
     #all-makers > p {
         clear: both;
         padding: 15px;
@@ -2156,7 +2155,7 @@ form#center-search-form {
         #all-makers > p > a:hover {
             text-decoration: none;
         }
-
+    /* форма поиска производителя */
     #all-makers > form {
         margin: 15px;
         position: relative;
@@ -2185,7 +2184,7 @@ form#center-search-form {
             right: 0;
             cursor: pointer;
         }
-
+        /* результаты поиска, запрос с ипользованием XmlHttpRequest */
         #all-makers > form > div {
             position: absolute;
             top: 35px;
@@ -2228,7 +2227,7 @@ form#center-search-form {
                 #all-makers > form > div > div > div:last-child {
                     border-bottom: none;
                 }
-
+        /* результаты поиска, после нажатия на кнопу «Найти» и перезагрузки страницы */
         #all-makers > ol {
             margin: 0 15px 15px 15px;
             list-style: none;
@@ -2286,7 +2285,7 @@ form#center-search-form {
                     top: 0;
                     right: 0;
                 }
-
+    /* ссылка «Все группы» на главной странице каталога */
     #all-groups > p {
         clear: both;
         padding: 15px;
@@ -2303,7 +2302,7 @@ form#center-search-form {
         #all-groups > p > a:hover {
             text-decoration: none;
         }
-
+    /* форма поиска функциональной группы */
     #all-groups > form {
         margin: 15px;
         position: relative;
@@ -2332,7 +2331,7 @@ form#center-search-form {
             right: 0;
             cursor: pointer;
         }
-
+    /* результаты поиска, запрос с ипользованием XmlHttpRequest */
     #all-groups > form > div {
         position: absolute;
         top: 35px;
@@ -2377,7 +2376,7 @@ form#center-search-form {
             #all-groups > form > div > div > div:last-child {
                 border-bottom: none;
             }
-
+    /* результаты поиска, после нажатия на кнопу «Найти» и перезагрузки страницы */
     #all-groups > ol {
         margin: 0 15px 15px 15px;
         list-style: none;
@@ -2843,7 +2842,7 @@ form#center-search-form {
         #right #side-compare table tr th a:hover {
             color: #e9751f;
         }
-        #right #side-compare table tr td form button { /* кнопка: удалить товар из сравнения */
+        #right #side-compare table tr td form button { /* ссылка: удалить товар из сравнения */
             border: none;
             background: transparent;
             color: #395985;
