@@ -15,6 +15,8 @@ require 'app/include/autoload.php';
 require 'app/config/config.php';
 Config::init($config);
 unset($config);
+// кодировка utf-8
+require 'app/include/utf8.php';
 // реестр, для хранения всех объектов приложения
 $register = Register::getInstance();
 // сохраняем в реестре настройки, чтобы везде иметь к ним доступ
@@ -34,6 +36,7 @@ if (is_file('temp/check.txt')) {
 clearTmpTables($register);
 parseXML($register);
 updateTempTables($register);
+updateMeta($register);
 checkImages($register);
 checkFiles($register);
 checkCerts($register);
@@ -2129,7 +2132,7 @@ function updateWorkTables($register) {
 }
 
 function updateMeta($register) {
-    $query = "SELECT `a`.`id` AS `id`, `a`.`category` AS `category`, `a`.`name` AS `name`, `a`.`title` AS `title`, `b`.`name` AS `maker` FROM `temp_products` `a` INNER JOIN `temp_makers` `b` ON `a`.`maker`=`b`.`id` WHERE `a`.`keywords` = ''";
+    $query = "SELECT `a`.`id` AS `id`, `a`.`category` AS `category`, `a`.`name` AS `name`, `a`.`title` AS `title`, `b`.`name` AS `maker` FROM `temp_products` `a` INNER JOIN `temp_makers` `b` ON `a`.`maker`=`b`.`id` WHERE 1";
     $products = $register->database->fetchAll($query);
     foreach ($products as $product) {
         $root = getRootCategory($product['category'], $register);
@@ -2138,19 +2141,26 @@ function updateMeta($register) {
         $product['maker'] = str_replace('"', '', $product['maker']);
         $description = $product['name'];
         if (!empty($product['title'])) $description = $description.'. '.$product['title'];
-        $description = $description.'. '.$root.'.';
-        if (strlen($description) < 188) $description = $description.' Каталог оборудования систем безопасности. Торговый Дом ТИНКО.';
+        if (!empty($root)) $description = $description.'. '.$root.'.';
+        if (iconv_strlen($description) < 188) $description = $description.' Каталог оборудования систем безопасности. Торговый Дом ТИНКО.';
         $keywords = $product['name'];
-        if (!empty($product['title'])) $keywords = $keywords.' '.lcfirst($product['title']);
+        if (!empty($product['title'])) {
+            $keywords = $keywords.' '.$product['title'];
+        }
         $keywords = $keywords.' '.$product['maker'];
         $keywords = $keywords.' цена купить';
-        $keywords = $keywords.' '.lcfirst($root);
-        if (strlen($keywords) < 200) $keywords = $keywords.' каталог оборудование системы безопасности ТД ТИНКО';
+        if (!empty($root)) {
+            $first = iconv_substr($root, 0, 1);
+            $first = stringToLower($first);
+            $second = iconv_substr($root, 1);
+            $keywords = $keywords.' '.$first.$second;
+        }
+        if (iconv_strlen($keywords) < 200) $keywords = $keywords.' каталог оборудование безопасность ТД ТИНКО';
         $keywords = str_replace('«', ' ', $keywords);
         $keywords = str_replace('»', ' ', $keywords);
         $keywords = str_replace('(', ' ', $keywords);
         $keywords = str_replace(')', ' ', $keywords);
-        $keywords = preg_replace('~\s+~', ' ', $keywords);
+        $keywords = preg_replace('~\s+~u', ' ', $keywords);
         $query = "UPDATE `temp_products` SET `keywords` = :keywords, `description` = :description WHERE `id` = :id";
         $register->database->execute(
             $query,
@@ -2164,7 +2174,15 @@ function updateMeta($register) {
 }
 
 function getRootCategory($id, $register) {
-
+    if (empty($id)) return '';
+    $parent = $id;
+    while ($parent) {
+        $root = $parent;
+        $query = "SELECT `parent` FROM `categories` WHERE `id` = :parent";
+        $parent = $register->database->fetchOne($query, array('parent' => $parent));
+    }
+    $query = "SELECT `name` FROM `categories` WHERE `id` = :root";
+    return $register->database->fetchOne($query, array('root' => $root));
 }
 
 function updateSortOrderAllCategories($id, $sortorder, $level) {
@@ -2189,6 +2207,20 @@ function updateSortOrderAllCategories($id, $sortorder, $level) {
         updateSortOrderAllCategories($child['id'], $globalsort, $level + 1);
         $i++;
     }
+}
+
+function stringToLower($string) {
+    $upper = array(
+        'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т',
+        'У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я','A','B','C','D','E','F','G',
+        'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+    );
+    $lower = array(
+        'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т',
+        'у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я','a','b','c','d','e','f','g',
+        'h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+    );
+    return str_replace($upper, $lower, $string);
 }
 
 /**

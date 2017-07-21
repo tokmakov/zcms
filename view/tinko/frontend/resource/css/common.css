@@ -1191,23 +1191,25 @@ form#center-search-form {
             overflow: hidden;
         }
         .product-list-grid > div > .product-list-heading { /* заголовки */
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
             .product-list-grid > div > .product-list-heading h2,
             .product-list-grid > div > .product-list-heading h3 {
                 margin: 0;
                 font-size: 14px;
-                line-height: 15px;
-                height: 15px;
+                line-height: 14px;
+                height: 14px;
                 overflow: hidden;
                 white-space: nowrap;
             }
                 .product-list-grid > div > .product-list-heading h2 a {
                     font-size: 14px;
-                    line-height: 15px;
+                    line-height: 14px;
                 }
             .product-list-grid > div > .product-list-heading h3 {
                 font-weight: normal;
+                white-space: normal;
+                height: 28px;
             }
         .product-list-grid > div > .product-list-image { /* фото товара */
             float: left;
