@@ -637,6 +637,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница всех производителей
         '~^frontend/catalog/makers$~i' =>
         'catalog/all-makers',
+        // страница всех брендов (производителей, отмеченных в админке как бренд)
+        '~^frontend/catalog/brands$~i' =>
+        'catalog/all-brands',
         // страница результатов поиска по производителям
         '~^frontend/catalog/makers/query/([a-z0-9%_.-]+)$~i' =>
         'catalog/all-makers/query/$1',
@@ -1749,6 +1752,9 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница всех производителей
         '~^catalog/all-makers$~i' =>
         'frontend/catalog/makers',
+        // страница всех брендов (производителей, отмеченных в админке как бренд)
+        '~^catalog/all-brands$~i' =>
+        'frontend/catalog/brands',
         // страница результатов поиска по производителям
         '~^catalog/all-makers/query/([a-z0-9%_.-]+)$~i' =>
         'frontend/catalog/makers/query/$1',

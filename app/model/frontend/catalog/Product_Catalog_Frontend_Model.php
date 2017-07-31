@@ -52,13 +52,15 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
-                      `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`price2` AS `price2`,
-                      `a`.`price3` AS `price3`, `a`.`unit` AS `unit`, `a`.`shortdescr` AS `shortdescr`,
-                      `a`.`new` AS `new`, `a`.`hit` AS `hit`, `a`.`image` AS `image`,
-                      `a`.`purpose` AS `purpose`, `a`.`techdata` AS `techdata`,
-                      `a`.`features` AS `features`, `a`.`complect` AS `complect`,
-                      `a`.`equipment` AS `equipment`, `a`.`padding` AS `padding`,
-                      `a`.`category2` AS `second`, `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
+                      `a`.`title` AS `title`, `a`.`keywords` AS `keywords`,
+                      `a`.`description` AS `description`, `a`.`price` AS `price`,
+                      `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
+                      `a`.`shortdescr` AS `shortdescr`, `a`.`new` AS `new`, `a`.`hit` AS `hit`,
+                      `a`.`image` AS `image`, `a`.`purpose` AS `purpose`,
+                      `a`.`techdata` AS `techdata`, `a`.`features` AS `features`,
+                      `a`.`complect` AS `complect`, `a`.`equipment` AS `equipment`,
+                      `a`.`padding` AS `padding`, `a`.`category2` AS `second`,
+                      `b`.`id` AS `ctg_id`, `b`.`name` AS `ctg_name`,
                       `c`.`id` AS `mkr_id`, `c`.`name` AS `mkr_name`,
                       `d`.`id` AS `grp_id`, `d`.`name` AS `grp_name`
                   FROM

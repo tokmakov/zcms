@@ -1411,7 +1411,7 @@ function updateTempTables($register) {
             )
         );
     }
-    // теперь таблицы tmp_docs и tmp_docs содержат одинаковое количество записей
+    // теперь таблицы tmp_docs и temp_docs содержат одинаковое количество записей
     $query = "SELECT * FROM `tmp_docs` WHERE 1";
     $docs = $register->database->fetchAll($query);
     foreach($docs as $doc) {
@@ -1501,7 +1501,7 @@ function updateTempTables($register) {
             continue;
         }
     }
-    // теперь таблицы tmp_certs и tmp_certs содержат одинаковое количество записей
+    // теперь таблицы tmp_certs и temp_certs содержат одинаковое количество записей
     $query = "SELECT * FROM `tmp_certs` WHERE 1";
     $certs = $register->database->fetchAll($query);
     foreach($certs as $cert) {

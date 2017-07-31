@@ -106,3 +106,17 @@
 #7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
 #8 {main}
 
+23.07.2017 15:23:56
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/maker/id/
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 145
+Стек вызовов: 
+#0 [internal function]: Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(87): call_user_func_array(Array, Array)
+#2 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(122): Frontend_Model->getCachedData('Frontend_Model:...', 'getURL', Array)
+#3 D:\work\localhost2\www\app\model\frontend\catalog\Brand_Catalog_Frontend_Model.php(83): Frontend_Model->getURL('frontend/catalo...')
+#4 D:\work\localhost2\www\app\model\frontend\catalog\Brand_Catalog_Frontend_Model.php(17): Brand_Catalog_Frontend_Model->getLatinBrands()
+#5 D:\work\localhost2\www\app\controller\frontend\catalog\Brands_Catalog_Frontend_Controller.php(68): Brand_Catalog_Frontend_Model->getAllBrands()
+#6 D:\work\localhost2\www\app\controller\Base_Controller.php(163): Brands_Catalog_Frontend_Controller->input()
+#7 D:\work\localhost2\www\index.php(40): Base_Controller->request()
+#8 {main}
+
