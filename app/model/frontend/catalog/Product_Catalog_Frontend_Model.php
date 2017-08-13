@@ -56,7 +56,7 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `a`.`description` AS `description`, `a`.`price` AS `price`,
                       `a`.`price2` AS `price2`, `a`.`price3` AS `price3`, `a`.`unit` AS `unit`,
                       `a`.`shortdescr` AS `shortdescr`, `a`.`new` AS `new`, `a`.`hit` AS `hit`,
-                      `a`.`image` AS `image`, `a`.`purpose` AS `purpose`,
+                      `a`.`image` AS `img`, `a`.`purpose` AS `purpose`,
                       `a`.`techdata` AS `techdata`, `a`.`features` AS `features`,
                       `a`.`complect` AS `complect`, `a`.`equipment` AS `equipment`,
                       `a`.`padding` AS `padding`, `a`.`category2` AS `second`,
@@ -75,7 +75,27 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return null;
         }
 
-        // добавляем информацию о файлах документации
+        /*
+         * добавляем информацию о файлах изображений
+         */
+        $host = $this->config->site->url;
+        if ($this->config->cdn->enable->img) { // Content Delivery Network, см. app/config/cdn.php
+            $host = $this->config->cdn->url;
+        }
+        if ((!empty($product['img'])) && is_file('files/catalog/imgs/medium/' . $product['img'])) {
+            $product['image']['medium'] = $host . 'files/catalog/imgs/medium/' . $product['img'];
+        } else {
+            $product['image']['medium'] = $host . 'files/catalog/imgs/medium/nophoto.jpg';
+        }
+        if ((!empty($product['img'])) && is_file('files/catalog/imgs/big/' . $product['img'])) {
+            $product['image']['big'] = $host . 'files/catalog/imgs/big/' . $product['img'];
+        } else {
+            $product['image']['big'] = $host . 'files/catalog/imgs/big/nophoto.jpg';
+        }
+
+        /*
+         * добавляем информацию о файлах документации
+         */
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`title` AS `title`,
                       `a`.`filename` AS `file`, `a`.`filetype` AS `type`
@@ -89,14 +109,16 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $product['docs'] = $this->database->fetchAll($query, array('id' => $id));
         // ссылки на файлы документации
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->doc) {
+        if ($this->config->cdn->enable->doc) { // Content Delivery Network, см. app/config/cdn.php
             $host = $this->config->cdn->url;
         }
         foreach ($product['docs'] as $key => $value) {
             $product['docs'][$key]['url'] = $host . 'files/catalog/docs/' . $value['file'];
         }
 
-        // добавляем информацию о сертификатах
+        /*
+         * добавляем информацию о сертификатах
+         */
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`title` AS `title`,
                       `a`.`filename` AS `file`, `a`.`count` AS `count`
@@ -112,7 +134,7 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         // сертификат может иметь несколько файлов (т.е. содержать несколько страниц)
         $certs = array();
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->cert) { // Content Delivery Network
+        if ($this->config->cdn->enable->cert) { // Content Delivery Network, см. app/config/cdn.php
             $host = $this->config->cdn->url;
         }
         foreach ($temp as $key => $value) {
@@ -245,7 +267,7 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив товаров информацию об URL товаров, фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) { // Content Delivery Network
+        if ($this->config->cdn->enable->img) { // Content Delivery Network, см. app/config/cdn.php
             $host = $this->config->cdn->url;
         }
         foreach ($products as $key => $value) {

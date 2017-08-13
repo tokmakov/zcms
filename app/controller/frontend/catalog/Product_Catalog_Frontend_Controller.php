@@ -48,7 +48,8 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // переопределяем переменную, которая будет передана в шаблон left.php,
         // чтобы раскрыть ветку текущей категории
-        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu($this->centerVars['ctg_id']);
+        $this->leftVars['catalogMenu'] =
+            $this->menuCatalogFrontendModel->getCatalogMenu($this->centerVars['ctg_id']);
 
     }
 
@@ -75,7 +76,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         parent::input();
 
-        $this->title = $product['name'] . ' ' . $product['title'];
+        $this->title = $product['name'] . '. ' . $product['title'];
         if ( ! empty($product['keywords'])) {
             $this->keywords = $product['keywords'];
         }
@@ -95,18 +96,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $techdata = array();
         if ( ! empty($product['techdata'])) {
             $techdata = unserialize($product['techdata']);
-        }
-
-        // фото товара
-        if ((!empty($product['image'])) && is_file('files/catalog/imgs/medium/' . $product['image'])) {
-            $image['medium'] = $this->config->site->url . 'files/catalog/imgs/medium/' . $product['image'];
-        } else {
-            $image['medium'] = $this->config->site->url . 'files/catalog/imgs/medium/nophoto.jpg';
-        }
-        if ((!empty($product['image'])) && is_file('files/catalog/imgs/big/' . $product['image'])) {
-            $image['big'] = $this->config->site->url . 'files/catalog/imgs/big/' . $product['image'];
-        } else {
-            $image['big'] = $this->config->site->url . 'files/catalog/imgs/big/nophoto.jpg';
         }
 
         // единицы измерения товара
@@ -134,7 +123,9 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // хлебные крошки
             'breadcrumbs2' => $breadcrumbs2,
             // URL этой страницы
-            'thisPageUrl'  => $this->productCatalogFrontendModel->getURL('frontend/catalog/product/id/' . $this->params['id']),
+            'thisPageUrl'  => $this->productCatalogFrontendModel->getURL(
+                                  'frontend/catalog/product/id/' . $this->params['id']
+                              ),
             // заголовок h1 - торговое наименование товара
             'name'         => $product['name'],
             // заголовок h2 - функциональное наименование товара
@@ -157,15 +148,17 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'maker'        => array(
                 'id'   => $product['mkr_id'],
                 'name' => $product['mkr_name'],
-                'url'  =>
-                    $this->productCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL(
+                              'frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']
+                          ),
             ),
             // функциональная группа
             'group'        => array(
                 'id'   => $product['grp_id'],
                 'name' => $product['grp_name'],
-                'url'  =>
-                    $this->productCatalogFrontendModel->getURL('frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']),
+                'url'  => $this->productCatalogFrontendModel->getURL(
+                              'frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']
+                          ),
             ),
             // новый товар?
             'new'          => $product['new'],
@@ -174,7 +167,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // краткое описание
             'shortdescr'   => $product['shortdescr'],
             // фото товара
-            'image'        => $image,
+            'image'        => $product['image'],
             // назначение изделия
             'purpose'      => $product['purpose'],
             // технические характеристики
@@ -191,11 +184,11 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'docs'         => $product['docs'],
             // файлы сертификатов
             'certs'        => $product['certs'],
-            // атирибут action тега form формы для добавления товара в корзину, в избранное, в список сравнения
+            // атирибут action тега form формы для добавления товара в корзину, в избранное, к сравнению
             'action'       => array(
-                'basket'   => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
-                'wished'   => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
-                'compare'  => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
+                'basket'  => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
+                'wished'  => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
+                'compare' => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,

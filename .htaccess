@@ -70,11 +70,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule (.*) index.php
 
-# <FilesMatch "\.(ttf|otf|eot|woff|woff2|svg)$">
-#   <IfModule mod_headers.c>
-#     Header set Access-Control-Allow-Origin "*"
-#   </IfModule>
-# </FilesMatch>
+# разрешаем междусайтовое использование шрифтов (нужно при использовании CDN);
+# по умолчанию браузеры не скачивают шрифты с других сайтов, чтобы предотвратить
+# их свободное и бесплатное использование; https://www.w3.org/TR/access-control/
+<FilesMatch "\.(ttf|otf|eot|woff|woff2|svg)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+</FilesMatch>
 
 # <ifModule mod_deflate.c>
 #   AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/css text/javascript application/javascript application/x-javascript

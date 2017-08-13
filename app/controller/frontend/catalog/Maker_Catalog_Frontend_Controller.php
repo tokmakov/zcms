@@ -26,8 +26,9 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * Если у пользователя отключен JavaScript, данные формы фильтров отправляются без
-         * использования XmlHttpRequest. Здесь мы обрабатываем эти данные и делаем редирект
-         * на эту же страницу, но уже с параметрами формы в URL
+         * использования XmlHttpRequest, пользователь просто выбирает нужные фильтры и жмет
+         * кнопку «Применить». Здесь мы обрабатываем эти данные и делаем редирект на эту же
+         * страницу, но уже с параметрами формы в URL.
          */
         if ($this->isPostMethod()) {
             $this->processFormData();
@@ -291,21 +292,27 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     /**
      * Вспомогательная функция, обрабатывает отправленные данные формы фильтров в том
      * случае, если у посетителя отключен JavaScript, после чего делает редирект на
-     * эту же страницу, но уже с фильтрами в URL
+     * эту же страницу, но уже с фильтрами в URL.
      */
     private function processFormData() {
+
+        // базовый URL страницы производителя, без фильтров и сортировки
         $url = 'frontend/catalog/maker/id/' . $this->params['id'];
+        // включен фильтр по функционалу (функциональной группе)?
         $grp = false;
         if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
             $url = $url . '/group/' . $_POST['group'];
             $grp = true;
         }
+        // включен фильтр по лидерам продаж?
         if (isset($_POST['hit'])) {
             $url = $url . '/hit/1';
         }
+        // включен фильтр по новинкам?
         if (isset($_POST['new'])) {
             $url = $url . '/new/1';
         }
+        // включены доп.фильтры (параметры подбора для выбранного функционала)?
         if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
             $param = array();
             foreach ($_POST['param'] as $key => $value) {
@@ -317,13 +324,16 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $url = $url . '/param/' . implode('-', $param);
             }
         }
+        // включена сортировка?
         if (isset($_POST['sort'])
             && ctype_digit($_POST['sort'])
             && in_array($_POST['sort'], array(1,2,3,4,5,6))
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
+        // выполняем редирект
         $this->redirect($this->makerCatalogFrontendModel->getURL($url));
+
     }
 
 }

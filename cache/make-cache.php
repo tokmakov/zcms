@@ -16,10 +16,6 @@ require 'app/config/config.php';
 Config::init($config);
 unset($config);
 
-if (is_file('cache/cache.txt')) {
-    unlink('cache/cache.txt');
-}
-
 /*
  * отмечаем, что приложение запущено из командной строки с целью формирования кэша
  */
@@ -64,7 +60,7 @@ foreach($pages as $page) {
  * все товары каталога
  */
 $query = "SELECT `id` FROM `products` WHERE `visible` = 1 ORDER BY `id`";
-$products = $database->fetchAll($query, array());
+$products = $database->fetchAll($query);
 foreach($products as $product) {
     // экземпляр класса роутера
     $router = Router::getInstance('Product_Catalog_Frontend_Controller', array('id' => $product['id']));
@@ -89,7 +85,7 @@ foreach($products as $product) {
  * все категории каталога
  */
 $query = "SELECT `id` FROM `categories` WHERE 1 ORDER BY `id`";
-$categories = $database->fetchAll($query, array());
+$categories = $database->fetchAll($query);
 foreach($categories as $category) {
     // экземпляр класса роутера
     $router = Router::getInstance('Category_Catalog_Frontend_Controller', array('id' => $category['id']));

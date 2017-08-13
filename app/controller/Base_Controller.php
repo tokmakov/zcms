@@ -383,7 +383,8 @@ abstract class Base_Controller extends Base {
          * подключаемые css файлы
          */
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->css) { // Content Delivery Network
+        // Content Delivery Network только для общедоступной части сайта
+        if (!$this->backend && $this->config->cdn->enable->css) {
             $host = $this->config->cdn->url;
         }
         if (isset($this->config->css->$backfront->$name)) {
@@ -426,7 +427,8 @@ abstract class Base_Controller extends Base {
          * подключаемые js файлы
          */
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->js) { // Content Delivery Network
+        // Content Delivery Network только для общедоступной части сайта
+        if (!$this->backend && $this->config->cdn->enable->js) {
             $host = $this->config->cdn->url;
         }
         if (isset($this->config->js->$backfront->$name)) {

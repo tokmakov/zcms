@@ -35,7 +35,7 @@ class Search_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 /*
                  * если строка поиска содержит «/» (слэш), например «ABC-123/45»,
                  * то $_SERVER['REQUEST_URI'] = /catalog/search/query/ABC-123/45,
-                 * роутер не сможет правильно разобрать $_SERVER['REQUEST_URI'];
+                 * и роутер не сможет правильно разобрать $_SERVER['REQUEST_URI'];
                  * см. файл app/include/Router.php
                  */
                 $query = trim(iconv_substr(str_replace('/', '|', $_POST['query']), 0, 64));

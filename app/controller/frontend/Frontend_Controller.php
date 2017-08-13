@@ -450,7 +450,7 @@ abstract class Frontend_Controller extends Base_Controller {
         $key = __METHOD__ . '()-' . $template . '-' . md5(serialize($params));
 
         /*
-         * данные сохранены в кэше?
+         * Данные сохранены в кэше?
          */
         if ($this->cache->isExists($key)) {
             // получаем данные из кэша
@@ -458,39 +458,25 @@ abstract class Frontend_Controller extends Base_Controller {
         }
 
         /*
-         * данных в кэше нет, но другой процесс поставил блокировку и в этот
+         * Данных в кэше нет, но другой процесс поставил блокировку и в этот
          * момент получает данные от parent::render(), чтобы записать их в
          * кэш, нам надо их только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
-            try {
-                // получаем данные из кэша
-                return $this->cache->getValue($key);
-            } catch (Exception $e) {
-                /*
-                 * другой процесс поставил блокировку, попытался получить данные от
-                 * parent::render() и записать их в кэш; если по каким-то причинам
-                 * это не получилось сделать, мы здесь будем пытаться читать из кэша
-                 * значение, которого не существует или оно устарело
-                 */
-                throw $e;
-            }
+            return $this->cache->getValue($key);
         }
 
         /*
-         * данных в кэше нет, блокировка не стоит, значит:
+         * Данных в кэше нет, блокировка не стоит, значит:
          * 1. ставим блокировку
          * 2. получаем данные из БД
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
         $this->cache->lockValue($key);
-        try {
-            $html = parent::render($template, $params);
-            $this->cache->setValue($key, $html);
-        } finally {
-            $this->cache->unlockValue($key);
-        }
+        $html = parent::render($template, $params);
+        $this->cache->setValue($key, $html);
+        $this->cache->unlockValue($key);
 
         // возвращаем результат
         return $html;

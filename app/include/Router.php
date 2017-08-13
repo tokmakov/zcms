@@ -250,7 +250,7 @@ class Router {
         $key = __CLASS__ . '-' . md5($path) . '-xhr-' . $xhr;
 
         /*
-         * данные сохранены в кэше?
+         * Данные сохранены в кэше?
          */
         if ($this->cache->isExists($key)) {
             // получаем данные из кэша
@@ -258,47 +258,33 @@ class Router {
         }
 
         /*
-         * данных в кэше нет, но другой процесс поставил блокировку и в
+         * Данных в кэше нет, но другой процесс поставил блокировку и в
          * этот момент получает данные, чтобы записать их в кэш, нам надо
          * их только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
-            // получаем данные из кэша
-            try {
-                return $this->cache->getValue($key);
-            } catch (Exception $e) {
-                /*
-                 * другой процесс поставил блокировку, попытался получить данные и
-                 * записать их в кэш; если по каким-то причинам это не получилось
-                 * сделать, мы здесь будем пытаться читать из кэша значение, которого
-                 * не существует или оно устарело
-                 */
-                throw $e;
-            }
+            return $this->cache->getValue($key);
         }
 
         /*
-         * данных в кэше нет, блокировка не стоит, значит:
+         * Данных в кэше нет, блокировка не стоит, значит:
          * 1. ставим блокировку
          * 2. получаем данные
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
         $this->cache->lockValue($key);
-        try {
-            $this->parseURL($path);
-            $data = array(
-                'xhr'                 => $this->xhr,
-                'controller'          => $this->controller,
-                'action'              => $this->action,
-                'controllerClassName' => $this->controllerClassName,
-                'params'              => $this->params,
-                'backend'             => $this->backend
-            );
-            $this->cache->setValue($key, $data);
-        } finally {
-            $this->cache->unlockValue($key);
-        }
+        $this->parseURL($path);
+        $data = array(
+            'xhr'                 => $this->xhr,
+            'controller'          => $this->controller,
+            'action'              => $this->action,
+            'controllerClassName' => $this->controllerClassName,
+            'params'              => $this->params,
+            'backend'             => $this->backend
+        );
+        $this->cache->setValue($key, $data);
+        $this->cache->unlockValue($key);
 
         return $data;
 

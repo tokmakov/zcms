@@ -67,7 +67,7 @@ class FCache {
     public function getValue($key) {
         // если стоит блокировка, ждем когда она будет снята
         while ($this->isLocked($key)) {
-            usleep(1);
+            usleep(10);
         }
         if ( ! $this->isExists($key)) {
             throw new Exception('Ошибка при чтении значения из кэша');
@@ -98,9 +98,22 @@ class FCache {
     }
 
     /**
-     * Функция поверяет существование значения с ключом доступа $key
+     * Функция поверяет существование значения с ключом доступа $key; считается,
+     * что значение существует, если существует файл, данные не устарели и не
+     * стоит блокировка на чтение
      */
     public function isExists($key) {
+        /*
+         * Здесь важен порядок операций: файл может еще не существовать, а блокировка на
+         * него уже стоять. Например, некий процесс обнаружил, что данных в кэше нет, он
+         * ставит блокировку и выполняет (тяжелый) запрос к БД. Блокировка нужна, чтобы
+         * другие процессы не пытались выполнять тот же самый запрос одновременно с ним.
+         * Между моментом установки блокироки и записью значения в кэш может пройти много
+         * времени, для примера см. файл app/include/Database.php
+         */
+        if ($this->isLocked($key)) {
+            return false;
+        }
         $name = md5($key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         if ( ! is_file($file)) {
@@ -118,7 +131,7 @@ class FCache {
         $name = md5($key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         if(is_file($file)) {
-            unlink($file);
+            @unlink($file);
         }
     }
 
@@ -142,7 +155,7 @@ class FCache {
         $name = md5('lock-' . $key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         if(is_file($file)) {
-            unlink($file);
+            @unlink($file);
         }
     }
 
@@ -171,7 +184,7 @@ class FCache {
                             if ($file == '.' || $file == '..') {
                                 continue;
                             }
-                            unlink($dir . '/' . $file);
+                            @unlink($dir . '/' . $file);
                         }
                     }
                 }

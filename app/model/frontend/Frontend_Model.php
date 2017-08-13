@@ -48,7 +48,7 @@ abstract class Frontend_Model extends Base_Model {
         }
 
         /*
-         * данные сохранены в кэше?
+         * Данные сохранены в кэше?
          */
         if ($this->cache->isExists($key)) {
             // получаем данные из кэша
@@ -56,39 +56,25 @@ abstract class Frontend_Model extends Base_Model {
         }
 
         /*
-         * данных в кэше нет, но другой процесс поставил блокировку и в этот
+         * Данных в кэше нет, но другой процесс поставил блокировку и в этот
          * момент получает данные от БД, чтобы записать их в кэш, нам надо их
          * только получить из кэша после снятия блокировки
          */
         if ($this->cache->isLocked($key)) {
-            // получаем данные из кэша
-            try {
-                return $this->cache->getValue($key);
-            } catch (Exception $e) {
-                /*
-                 * другой процесс поставил блокировку, попытался получить данные
-                 * от БД и записать их в кэш; если по каким-то причинам это не
-                 * получилось сделать, мы здесь будем пытаться читать из кэша
-                 * значение, которого не существует или оно устарело
-                 */
-                throw $e;
-            }
+            return $this->cache->getValue($key);
         }
 
         /*
-         * данных в кэше нет, блокировка не стоит, значит:
+         * Данных в кэше нет, блокировка не стоит, значит:
          * 1. ставим блокировку
          * 2. получаем данные из БД
          * 3. записываем данные в кэш
          * 4. снимаем блокировку
          */
         $this->cache->lockValue($key);
-        try {
-            $data = call_user_func_array(array($this, $function), $arguments);
-            $this->cache->setValue($key, $data);
-        } finally {
-            $this->cache->unlockValue($key);
-        }
+        $data = call_user_func_array(array($this, $function), $arguments);
+        $this->cache->setValue($key, $data);
+        $this->cache->unlockValue($key);
 
         // возвращаем результат
         return $data;
@@ -140,7 +126,7 @@ abstract class Frontend_Model extends Base_Model {
         foreach ($pages as $page) {
             if ($url == 'frontend/page/index/id/' . $page['id']) {
                 return $this->config->site->url . $page['sefurl'];
-            }  
+            }
         }
         throw new Exception('Не найдено правило преобразования CAP->SEF для ' . $url);
     }

@@ -26,8 +26,9 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         /*
          * Если у пользователя отключен JavaScript, данные формы фильтров отправляются без
-         * использования XmlHttpRequest. Здесь мы обрабатываем эти данные и делаем редирект
-         * на эту же страницу, но уже с параметрами формы в URL
+         * использования XmlHttpRequest, пользователь просто выбирает нужные фильтры и жмет
+         * кнопку «Применить». Здесь мы обрабатываем эти данные и делаем редирект на эту же
+         * страницу, но уже с параметрами формы в URL.
          */
         if ($this->isPostMethod()) {
             $this->processFormData();
@@ -74,7 +75,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker = (int)$this->params['maker'];
         }
 
-        // включен фильтр по параметрам?
+        // включен фильтр по параметрам (доп.фильтрам)?
         $param = array();
         if (isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
             $temp = explode('-', $this->params['param']);
@@ -282,19 +283,25 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
     /**
      * Вспомогательная функция, обрабатывает отправленные данные формы фильтров в том
      * случае, если у посетителя отключен JavaScript, после чего делает редирект на
-     * эту же страницу, но уже с фильтрами в URL
+     * эту же страницу, но уже с фильтрами в URL.
      */
     private function processFormData() {
+
+        // базовый URL функциональной группы, без фильтров и сортировки
         $url = 'frontend/catalog/group/id/' . $this->params['id'];
+        // включен фильтр по производителю?
         if (isset($_POST['maker']) && ctype_digit($_POST['maker'])  && $_POST['maker'] > 0) {
             $url = $url . '/maker/' . $_POST['maker'];
         }
+        // включен фильтр по лидерам продаж?
         if (isset($_POST['hit'])) {
             $url = $url . '/hit/1';
         }
+        // включен фильтр по новинкам?
         if (isset($_POST['new'])) {
             $url = $url . '/new/1';
         }
+        // включены параметры подбора (доп.фильтры)?
         if (isset($_POST['param']) && is_array($_POST['param'])) {
             $param = array();
             foreach ($_POST['param'] as $key => $value) {
@@ -306,13 +313,16 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $url = $url . '/param/' . implode('-', $param);
             }
         }
+        // включена сортировка?
         if (isset($_POST['sort'])
             && ctype_digit($_POST['sort'])
             && in_array($_POST['sort'], array(1,2,3,4,5,6))
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
+        // выполняем редирект
         $this->redirect($this->groupCatalogFrontendModel->getURL($url));
+
     }
 
 }

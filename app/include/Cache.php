@@ -73,7 +73,7 @@ class Cache {
     /**
      * Функция получает из кэша значение по ключу доступа $key
      */
-    public function getValue($key) {
+    public function getValueOld($key) {
         if ($this->enableMemCache) { // если доступен кэш в оперативной памяти
             try {
                 // получаем данные из оперативной памяти
@@ -86,6 +86,41 @@ class Cache {
             }
         } else { // получаем данные из файлового кэша
             $value = $this->instanceFileCache->getValue($key);
+        }
+        return $value;
+    }
+
+    /**
+     * Функция получает из кэша значение по ключу доступа $key
+     */
+    public function getValue($key) {
+        try {
+            if ($this->enableMemCache) { // если доступен кэш в оперативной памяти
+                /*
+                 * Еще один блок try...catch используем, чтобы отловить исключение,
+                 * которое выбрасывет MCache::getValue(); это штатная ситуация, в
+                 * в оперативной паvяти сохраняется не все данные, а только наиболее
+                 * часто востребованные
+                 */
+                try {
+                    // получаем данные из оперативной памяти
+                    $value = $this->instanceMemCache->getValue($key);
+                } catch (Exception $e) {
+                    // в оперативной памяти данных нет, получаем данные из файла
+                    $value = $this->instanceFileCache->getValue($key);
+                    // записываем данные в оперативную память
+                    $this->instanceMemCache->setValue($key, $value);
+                }
+            } else { // получаем данные из файлового кэша
+                $value = $this->instanceFileCache->getValue($key);
+            }
+        } catch (Exception $e) {
+            /*
+             * Если данные не удалось получить из кэша, это нештатная ситуация,
+             * страница не может быть сформирована, пробрасываем исключение, чтобы
+             * поймать его в файле index.php и сформировать страницу с ошибкой.
+             */
+            throw $e;
         }
         return $value;
     }
