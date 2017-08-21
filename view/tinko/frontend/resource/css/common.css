@@ -793,7 +793,7 @@ form#center-search-form {
         margin-left: -31px;
         cursor: pointer;
     }
-    form#center-search-form + p { /* По Вашему запросу ничего не найдено */
+    form#center-search-form + p { /* по вашему запросу ничего не найдено */
         margin-top: 20px;
     }
 
@@ -1829,7 +1829,7 @@ form#center-search-form {
                 background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
             }
 
-/* товара товара */
+/* карточка товара */
 #product-item {
 
 }

@@ -128,6 +128,11 @@ class FCache {
      * Функция удаляет значение с ключом доступа $key
      */
     public function removeValue($key) {
+        // снимаем блокировку
+        if ($this->isLocked($key)) {
+            $this->unlockValue($key);
+        }
+        // удаляем значение
         $name = md5($key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
         if(is_file($file)) {

@@ -132,6 +132,11 @@ class MCache {
      * Функция удаляет значение с ключом доступа $key
      */
     public function removeValue($key) {
+        // снимаем блокировку
+        if ($this->isLocked($key)) {
+            $this->unlockValue($key);
+        }
+        // удаляем значение
         $md5key = md5($key);
         $this->memcache->delete($md5key);
     }
