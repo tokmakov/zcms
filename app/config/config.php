@@ -29,7 +29,7 @@ $config = array(
         'url'   => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
         'name'  => 'Торговый Дом ТИНКО',
         'phone' => '+7 (495) 708-42-13',
-        'email' => 'tinko@tinko.ru',
+        'email' => 'tinko@tinko.info',
         'theme' => 'view/tinko', // путь к папке с темой
     ),
     'admin' => array( // логин-пароль администратора сайта
@@ -39,7 +39,7 @@ $config = array(
     'email' => array(
         'admin' => 'tokmakov.e@mail.ru',         // e-mail администратора сайта
         'order' => 'tokmakov-e@yandex.ru',       // на этот адрес будут приходить письма о заказах
-        'site'  => 'tinko@tinko.ru',             // с этого адреса будут отправляться все письма
+        'site'  => 'tinko@tinko.info',           // с этого адреса будут отправляться все письма
     ),
     'error' => array(
         'debug'    => true,                      // должен быть true на этапе разработки

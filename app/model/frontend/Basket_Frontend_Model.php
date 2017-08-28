@@ -591,7 +591,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '</tr>' . PHP_EOL;
         foreach ($products as $product) {
             $html = $html . '<tr>' . PHP_EOL;
-            $html = $html . '<td>'.$product['code'].'</td>';
+            $html = $html . '<td><a href="' . $product['url']['product'] . '">'.$product['code'].'</a></td>';
             $html = $html . '<td>'.$product['name'].'</td>';
             $html = $html . '<td>'.$product['quantity'].'</td>';
             $html = $html . '<td>'.number_format($product['user_price'], 2, '.', '').'</td>';
@@ -686,13 +686,16 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
         // определяем, кому будем отправлять копии письма
         $carbonCopy = array();
-        // если пользователь авторизован, и адреса пользователя (сайта) и получателя (заказа)
+        // если пользователь авторизован, и адреса пользователя  и получателя (заказа)
         // не совпадают, отправляем копию письма получателю заказа
         if ($details['buyer_email'] != $email) {
             $carbonCopy[] = $details['buyer_email'];
         }
-        // если получатель и плательщик различаются, отправляем копию письма плательщику
-        if ($details['payer_email'] != $details['buyer_email'] && $details['payer_email'] != $email) {
+        // если получатель и плательщик различаются, и адрес плательщика не совпадает с адресами
+        // пользователя (сайта) и получателя (заказа), отправляем копию письма плательщику
+        $condition =
+            $details['buyer_payer_different'] && $details['payer_email'] != $details['buyer_email'] && $details['payer_email'] != $email;
+        if ($condition) {
             $carbonCopy[] = $details['payer_email'];
         }
         if ( ! empty($carbonCopy)) {
@@ -706,7 +709,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $message = chunk_split(base64_encode($html));
 
-        mail($email, $subject, $message, $headers);
+        //mail($email, $subject, $message, $headers);
     }
 
     /**
