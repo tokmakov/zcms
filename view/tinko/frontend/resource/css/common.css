@@ -1762,72 +1762,112 @@ form#center-search-form {
             }
 
 /*
-сортировка товаров, используется на странице категории каталога, на
-странице производителя, на странице функциональной группы
+сортировка и кол-во товаров на странице, используется на странице категории каталога,
+на странице производителя, на странице функциональной группы
 */
-#sort-orders {
-
+#sort-per-page {
+    overflow: hidden;
+    border-top: 1px dashed #d1d1d1;
+    border-bottom: 1px dashed #d1d1d1;
 }
-    #sort-orders > ul {
-        margin: 20px 0;
+    #sort-per-page > ul {
         padding: 7px 0 5px 0;
-        overflow: hidden;
+        float: left;
         list-style: none;
-        border-top: 1px dashed #d1d1d1;
-        border-bottom: 1px dashed #d1d1d1;
-
     }
-        #sort-orders > ul > li {
+    #sort-per-page > ul:first-child {
+        width: 82%;
+    }
+    #sort-per-page > ul:last-child {
+        width: 15%;
+        margin-left: 3%;
+    }
+        #sort-per-page > ul:first-child > li {
             float: left;
             border-right: 3px solid #fff;
             border-bottom: 3px solid #fff;
             box-sizing: border-box;
-            width: 12.5%;
-            min-width: 75px;
+            width: 15%;
             background: #f0f0f0;
             overflow: hidden;
             white-space: nowrap;
             font-size: 12px;
             line-height: 22px;
         }
-        #sort-orders > ul > li:first-child {
+        #sort-per-page > ul:first-child > li:nth-child(3), #sort-per-page > ul:first-child > li:nth-child(4),
+        #sort-per-page > ul:first-child > li:nth-child(7), #sort-per-page > ul:first-child > li:nth-child(8){
+            width: 10%;
+        }
+        #sort-per-page > ul:first-child > li:first-child {
             padding: 0 3px;
         }
-            #sort-orders > ul > li > a, #sort-orders > ul > li > span {
+            #sort-per-page > ul:first-child > li > a, #sort-per-page > ul:first-child > li > span {
                 display: block;
                 font-size: 12px;
                 line-height: 22px;
                 overflow: hidden;
                 padding: 0 3px;
             }
-            #sort-orders > ul > li > a:hover {
+            #sort-per-page > ul:first-child > li > a:hover {
                 text-decoration: none;
                 color: #ff6d00;
             }
-                #sort-orders > ul > li > a > span {
+                #sort-per-page > ul:first-child > li > a > span {
                     border-bottom: 1px dashed #5390cc;
                 }
-                #sort-orders > ul > li > a:hover > span {
+                #sort-per-page > ul:first-child > li > a:hover > span {
                     border-bottom: 1px dashed #ff6d00;
                 }
-            #sort-orders > ul > li > a.sort-desc-blue, #sort-orders > ul > li > span.sort-desc-blue {
+            #sort-per-page > ul:first-child > li > a.sort-desc-blue, #sort-per-page > ul:first-child > li > span.sort-desc-blue {
                 background: #f0f0f0 url('../img/sort-desc-blue.png') 95% center no-repeat;
             }
-            #sort-orders > ul > li > a.sort-desc-blue:hover {
+            #sort-per-page > ul:first-child > li > a.sort-desc-blue:hover {
                 background-image: url('../img/sort-desc-orange.png');
             }
-            #sort-orders > ul > li > a.sort-asc-blue, #sort-orders > ul > li > span.sort-asc-blue {
+            #sort-per-page > ul:first-child > li > a.sort-asc-blue, #sort-per-page > ul:first-child > li > span.sort-asc-blue {
                 background: #f0f0f0 url('../img/sort-asc-blue.png') 95% center no-repeat;
             }
-            #sort-orders > ul > li > a.sort-asc-blue:hover {
+            #sort-per-page > ul:first-child > li > a.sort-asc-blue:hover {
                 background-image: url('../img/sort-asc-orange.png');
             }
-            #sort-orders > ul > li > a.sort-desc-orange, #sort-orders > ul > li > span.sort-desc-orange {
+            #sort-per-page > ul:first-child > li > a.sort-desc-orange, #sort-per-page > ul:first-child > li > span.sort-desc-orange {
                 background: #f0f0f0 url('../img/sort-desc-orange.png') 95% center no-repeat;
             }
-            #sort-orders > ul > li > a.sort-asc-orange, #sort-orders > ul > li > span.sort-asc-orange {
+            #sort-per-page > ul:first-child > li > a.sort-asc-orange, #sort-per-page > ul:first-child > li > span.sort-asc-orange {
                 background: #f0f0f0 url('../img/sort-asc-orange.png') 95% center no-repeat;
             }
+        #sort-per-page > ul:last-child > li { /* кол-во товаров на странице */
+            float: left;
+            border-right: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            box-sizing: border-box;
+            width: 25%;
+            min-width: 20px;
+            background: #f0f0f0;
+            font-size: 12px;
+            line-height: 22px;
+        }
+        #sort-per-page > ul:last-child > li:last-child {
+            border-right: none;
+        }
+            #sort-per-page > ul:last-child > li > a, #sort-per-page > ul:last-child > li > span {
+                display: block;
+                font-size: 12px;
+                line-height: 22px;
+                overflow: hidden;
+                padding: 0 3px;
+                text-align: center;
+            }
+            #sort-per-page > ul:last-child > li > a:hover {
+                text-decoration: none;
+                color: #ff6d00;
+            }
+                #sort-per-page > ul:last-child > li > a > span {
+                    border-bottom: 1px dashed #5390cc;
+                }
+                #sort-per-page > ul:last-child > li > a:hover > span {
+                    border-bottom: 1px dashed #ff6d00;
+                }
 
 /* карточка товара */
 #product-item {
@@ -3201,6 +3241,23 @@ form#center-search-form {
 }
 
 @media screen and (max-width: 700px) {
+    /* список товаров, сортировка и кол-во товаров на страницу */
+    #sort-per-page > ul:first-child > li:nth-child(1),
+    #sort-per-page > ul:first-child > li:nth-child(2),
+    #sort-per-page > ul:first-child > li:nth-child(3),
+    #sort-per-page > ul:first-child > li:nth-child(4),
+    #sort-per-page > ul:first-child > li:nth-child(5),
+    #sort-per-page > ul:first-child > li:nth-child(6),
+    #sort-per-page > ul:first-child > li:nth-child(7),
+    #sort-per-page > ul:first-child > li:nth-child(8) {
+        width: 25%;
+    }
+    #sort-per-page > ul:last-child > li {
+        width: 50%;
+    }
+    #sort-per-page > ul:last-child > li:nth-child(2) {
+        border-right: none;
+    }
     /* список товаров, плитка */
     .product-list-grid > div > .product-list-basket > form:not(:first-child) input[type="submit"] {
         letter-spacing: -1px;
@@ -3441,6 +3498,19 @@ form#center-search-form {
 }
 
 @media screen and (max-width: 400px) {
+    /* список товаров, сортировка и кол-во товаров на страницу */
+    #sort-per-page > ul:first-child > li:nth-child(1),
+    #sort-per-page > ul:first-child > li:nth-child(2),
+    #sort-per-page > ul:first-child > li:nth-child(5),
+    #sort-per-page > ul:first-child > li:nth-child(6) {
+        width: 30%;
+    }
+    #sort-per-page > ul:first-child > li:nth-child(3),
+    #sort-per-page > ul:first-child > li:nth-child(4),
+    #sort-per-page > ul:first-child > li:nth-child(7),
+    #sort-per-page > ul:first-child > li:nth-child(8) {
+        width: 20%;
+    }
     /* список товаров категории, скрываем оптовую цену */
     .product-list-line > div > .product-list-info > div:first-child > span:last-child > span:nth-child(3) {
         display: none;

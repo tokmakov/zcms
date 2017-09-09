@@ -47,6 +47,13 @@ class Config implements Countable, Iterator {
         }
     }
 
+    public function getValue($key) {
+        if ( ! isset($this->data[$key])) {
+            throw new Exception('Объект с ключом '.__CLASS__.'::data['.$key.'] не существует');
+        }
+        return $this->data[$key];
+    }
+
     /**
      * Магический метод __get()
      */

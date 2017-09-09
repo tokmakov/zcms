@@ -441,6 +441,9 @@ for ($i = 0; $i <= 6; $i++) {
                 <?php if ($sort): ?>
                     <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                 <?php endif; ?>
+                <?php if ($perpage): ?>
+                    <input type="hidden" name="parpage" value="<?php echo $perpage; ?>" />
+                <?php endif; ?>
                 <input type="hidden" name="change" value="0" />
                 <input type="submit" name="submit" value="Применить" />
             </div>
@@ -457,7 +460,7 @@ for ($i = 0; $i <= 6; $i++) {
 
 <div id="catalog-products"> <!-- товары: сортировка и список -->
 
-    <div id="sort-orders"> <!-- сортировка товаров -->
+    <div id="sort-per-page"> <!-- сортировка товаров -->
         <ul>
             <li>Сортировка</li>
             <?php foreach ($sortorders as $key => $value): ?>
@@ -466,6 +469,17 @@ for ($i = 0; $i <= 6; $i++) {
                         <span class="selected<?php echo (!empty($value['class'])) ? ' ' . $value['class'] : ''; ?>"><?php echo $value['name']; ?></span>
                     <?php else: ?>
                         <a href="<?php echo $value['url']; ?>"<?php echo (!empty($value['class'])) ? ' class="' . $value['class'] . '"' : ''; ?>><span><?php echo $value['name']; ?></span></a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <ul>
+            <?php foreach($perpages as $item): ?>
+                <li>
+                    <?php if ($item['current']): ?>
+                        <span class="selected"><?php echo $item['name']; ?></span>
+                    <?php else: ?>
+                        <a href="<?php echo $item['url']; ?>"><span><?php echo $item['name']; ?></span></a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -553,6 +567,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -580,6 +597,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -606,6 +626,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+                        <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />

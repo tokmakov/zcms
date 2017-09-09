@@ -1,4 +1,218 @@
 <?php
+/**
+ * Список товаров производителя, три фрагмента html-кода, разделенные
+ * символом ¤: пустая строка, подбор по параметрам, список товаров
+ * файл view/example/frontend/template/catalog/xhr/maker.php,
+ * общедоступная часть сайта
+ *
+ * Переменные, которые приходят в шаблон:
+ * $id - уникальный идентификатор производителя
+ * $name - наименование производителя
+ * $view - представление списка товаров
+ * $group - id выбранной функциональной группы или ноль
+ * $groups - массив функциональных групп
+ * $param - массив выбранных параметров подбора
+ * $params - массив всех параметров подбора
+ * $hit - показывать только лидеров продаж?
+ * $countHit - количество лидеров продаж
+ * $new - показывать только новинки?
+ * $countNew - количество новинок
+ * $sort - выбранная сортировка или ноль
+ * $sortorders - массив всех вариантов сортировки
+ * $perpage - выбранный вариант кол-ва товаров на странице или ноль
+ * $perpages - массив всех вариантов кол-ва товаров на страницу
+ * $products - массив товаров производителя
+ * $units - массив единиц измерения товара
+ * $pager - постраничная навигация
+ * $page - текущая страница
+ *
+ * $products = Array (
+ *   [0] => Array (
+ *     [id] => 230524
+ *     [code] => 230524
+ *     [name] => AVP-453 (PAL)
+ *     [title] => Видеопанель вызывная цветная
+ *     [price] => 3159.00
+ *     [price2] => 3059.00
+ *     [price3] => 2959.00
+ *     [unit] => 1
+ *     [shortdescr] => Дверной блок, накладной, ЛС 4-х пров.; 420 Твл, ИК-подветка; -50…+50°С; 140х70х20 мм
+ *     [ctg_id] => 844
+ *     [ctg_name] => Видеопенели вызывные
+ *     [grp_id] => 7
+ *     [grp_name] => Видеопанель вызывная
+ *     [url] => Array (
+ *       [product] => http://www.host.ru/catalog/product/230524
+ *       [image] => http://www.host.ru/files/catalog/imgs/small/6/9/690535d0ce3fd37599827a20d9ced8de.jpg
+ *     )
+ *     [action] => Array (
+ *       [basket] => http://www.host.ru/basket/addprd
+ *       [wished] => http://www.host.ru/wished/addprd
+ *       [compare] => http://www.host.ru/compare/addprd
+ *     )
+ *   )
+ *   [1] => Array (
+ *     ..........
+ *   )
+ *   ..........
+ * )
+ *
+ * $param = Array (
+ *   [187] => 1943 // 187 - уникальный ID параметра, 1943 - уникальный ID значения параметра
+ *   [241] => 1937
+ * )
+ *
+ * $params = Array (
+ *   [0] => Array (
+ *     [id] => 187
+ *     [name] => Напряжение питания, В
+ *     [selected] => 1
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 1605
+ *         [name] => переменное 220
+ *         [count] => 2
+ *         [selected] => 0
+ *       )
+ *       [1] => Array (
+ *         [id] => 1603
+ *         [name] => постоянное 12
+ *         [count] => 2
+ *         [selected] => 1
+ *       )
+ *       [2] => Array (
+ *         [id] => 1945
+ *         [name] => постоянное 24
+ *         [count] => 1
+ *         [selected] => 0
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [id] => 241
+ *     [name] => Тип табло
+ *     [selected] => 0
+ *     [values] => Array (
+ *       [0] => Array (
+ *         [id] => 1937
+ *         [name] => Световое табло
+ *         [count] => 5
+ *         [selected] => 0
+ *       )
+ *       [1] => Array (
+ *         [id] => 1940
+ *         [name] => Световое табло с РИП
+ *         [count] => 0
+ *         [selected] => 0
+ *       )
+ *     )
+ *   )
+ * )
+ *
+ * $sortorders = Array (
+ *   [0] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74
+ *     [name] => без сортировки
+ *   )
+ *   [1] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/1
+ *     [name] => цена, возр.
+ *   )
+ *   [2] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/2
+ *     [name] => цена, убыв.
+ *   )
+ *   [3] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/3
+ *     [name] => название, возр.
+ *   )
+ *   [4] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/4
+ *     [name] => название, убыв.
+ *   )
+ *   [5] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/5
+ *     [name] => код, возр.
+ *   )
+ *   [6] => Array (
+ *     [url] => http://www.host.ru/catalog/maker/74/sort/6
+ *     [name] => код, убыв.
+ *   )
+ * )
+ *
+ * $perpages = Array (
+ *   [0] => Array (
+ *     [url] => //www.host.ru/catalog/maker/74
+ *     [name] => 10
+ *     [current] => false
+ *   )
+ *   [1] => Array (
+ *     [url] => //www.host.ru/catalog/maker/74/perpage/20
+ *     [name] => 20
+ *     [current] => true
+ *   )
+ *   [2] => Array (..........)
+ *   [3] => Array (
+ *     [url] => //www.host.ru/catalog/maker/74/perpage/100
+ *     [name] => 100
+ *     [current] => false
+ *   )
+ * )
+ *
+ * $units = Array (
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара',
+ *   6 => 'кг'
+ * )
+ *
+ * $pager = Array (
+ *   [first] => Array (
+ *     [num] => 1
+ *     [url] => http://www.host.ru/catalog/maker/384
+ *   )
+ *   [prev] => Array (
+ *     [num] => 2
+ *     [url] => http://www.host.ru/catalog/maker/384/page/2
+ *   )
+ *   [current] => Array (
+ *     [num] => 3
+ *     [url] => http://www.host.ru/catalog/maker/384/page/3
+ *   )
+ *   [last] => Array (
+ *     [num] => 37
+ *     [url] => http://www.host.ru/catalog/maker/384/page/37
+ *   )
+ *   [next] => Array (
+ *     [num] => 4
+ *     [url] => http://www.host.ru/catalog/maker/384/page/4
+ *   )
+ *   [left] => Array (
+ *     [0] => Array (
+ *       [num] => 1
+ *       [url] => http://www.host.ru/catalog/maker/384
+ *     )
+ *     [1] => Array (
+ *       [num] => 2
+ *       [url] => http://www.host.ru/catalog/maker/384/page/2
+ *     )
+ *   )
+ *   [right] => Array (
+ *     [0] => Array (
+ *       [num] => 4
+ *       [url] => http://www.host.ru/catalog/maker/384/page/4
+ *     )
+ *     [1] => Array (
+ *       [num] => 5
+ *       [url] => http://www.host.ru/catalog/maker/384/page/5
+ *     )
+ *   )
+ * )
+ *
+ */
 defined('ZCMS') or die('Access denied');
 
 /*
@@ -90,7 +304,7 @@ for ($i = 0; $i <= 6; $i++) {
 </div>
 ¤
 <?php if (!empty($products)): // товары производителя ?>
-    <div id="sort-orders">
+    <div id="sort-per-page">
         <ul>
             <li>Сортировка</li>
             <?php foreach($sortorders as $key => $value): ?>
@@ -99,6 +313,17 @@ for ($i = 0; $i <= 6; $i++) {
                         <span class="selected<?php echo (!empty($value['class'])) ? ' ' . $value['class'] : ''; ?>"><?php echo $value['name']; ?></span>
                     <?php else: ?>
                         <a href="<?php echo $value['url']; ?>"<?php echo (!empty($value['class'])) ? ' class="' . $value['class'] . '"' : ''; ?>><span><?php echo $value['name']; ?></span></a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <ul>
+            <?php foreach($perpages as $item): ?>
+                <li>
+                    <?php if ($item['current']): ?>
+                        <span class="selected"><?php echo $item['name']; ?></span>
+                    <?php else: ?>
+                        <a href="<?php echo $item['url']; ?>"><span><?php echo $item['name']; ?></span></a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -171,6 +396,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -195,6 +423,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -218,6 +449,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+                        <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />

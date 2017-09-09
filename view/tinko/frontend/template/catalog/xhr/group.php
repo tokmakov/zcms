@@ -1,4 +1,31 @@
 <?php
+/**
+ * Список товаров функциональной группы, три фрагмента html-кода, разделенные
+ * символом ¤: пустая строка, подбор по параметрам, список товаров
+ * файл view/example/frontend/template/catalog/xhr/group.php,
+ * общедоступная часть сайта
+ *
+ * Переменные, которые приходят в шаблон:
+ * $id - уникальный идентификатор функциональной группы
+ * $name - наименование функциональной группы
+ * $view - представление списка товаров
+ * $maker - id выбранного производителя или ноль
+ * $makers - массив всех производителей
+ * $param - массив выбранных параметров подбора
+ * $params - массив всех параметров подбора
+ * $hit - показывать только лидеров продаж?
+ * $countHit - количество лидеров продаж
+ * $new - показывать только новинки?
+ * $countNew - количество новинок
+ * $sort - выбранная сортировка или ноль
+ * $sortorders - массив всех вариантов сортировки
+ * $perpage - выбранный вариант кол-ва товаров на странице или ноль
+ * $perpages - массив всех вариантов кол-ва товаров на страницу
+ * $products - массив товаров производителя
+ * $units - массив единиц измерения товара
+ * $pager - постраничная навигация
+ * $page - текущая страница
+ */
 defined('ZCMS') or die('Access denied');
 
 /*
@@ -83,7 +110,7 @@ for ($i = 0; $i <= 6; $i++) {
 </div>
 ¤
 <?php if (!empty($products)): // товары производителя ?>
-    <div id="sort-orders">
+    <div id="sort-per-page">
         <ul>
             <li>Сортировка</li>
             <?php foreach($sortorders as $key => $value): ?>
@@ -92,6 +119,17 @@ for ($i = 0; $i <= 6; $i++) {
                         <span class="selected<?php echo (!empty($value['class'])) ? ' ' . $value['class'] : ''; ?>"><?php echo $value['name']; ?></span>
                     <?php else: ?>
                         <a href="<?php echo $value['url']; ?>"<?php echo (!empty($value['class'])) ? ' class="' . $value['class'] . '"' : ''; ?>><span><?php echo $value['name']; ?></span></a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <ul>
+            <?php foreach($perpages as $item): ?>
+                <li>
+                    <?php if ($item['current']): ?>
+                        <span class="selected"><?php echo $item['name']; ?></span>
+                    <?php else: ?>
+                        <a href="<?php echo $item['url']; ?>"><span><?php echo $item['name']; ?></span></a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -164,6 +202,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -188,6 +229,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
+                        <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
@@ -211,6 +255,9 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+                        <?php endif; ?>
+                        <?php if ($perpage): ?>
+                            <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
                         <?php if ($page > 1): ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />

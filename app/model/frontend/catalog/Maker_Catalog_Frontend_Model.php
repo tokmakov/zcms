@@ -28,6 +28,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * protected function makerURL(...)
      * public function getMakerSortOrders(...)
      * protected function makerSortOrders(...)
+     * public function getOthersPerPage(...)
+     * protected function othersPerPage(...)
      */
 
     public function __construct() {
@@ -250,14 +252,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив товаров производителя с уникальным идентификатором
      * $id; результат работы кэшируется
      */
-    public function getMakerProducts($id, $group, $hit, $new, $param, $sort, $start) {
+    public function getMakerProducts($id, $group, $hit, $new, $param, $sort, $start, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->makerProducts($id, $group, $hit, $new, $param, $sort, $start);
+            return $this->makerProducts($id, $group, $hit, $new, $param, $sort, $start, $perpage);
         }
 
         /*
@@ -265,8 +267,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
-               . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-start-' . $start;
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit
+            . '-new-' . $new. '-param-' . md5(serialize($param)) . '-sort-'
+            . $sort . '-start-' . $start . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -279,7 +282,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив товаров производителя с уникальным идентификатором $id
      */
-    protected function makerProducts($id, $group, $hit, $new, $param, $sort, $start) {
+    protected function makerProducts($id, $group, $hit, $new, $param, $sort, $start, $perpage) {
 
         $tmp = '';
         if ($group) { // фильтр по функциональной группе
@@ -331,7 +334,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             array(
                 'id'    => $id,
                 'start' => $start,
-                'limit' => $this->config->pager->frontend->products->perpage
+                'limit' => $perpage
             )
         );
 
@@ -818,16 +821,16 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя; результат работы кэшируется
      */
-    public function getMakerURL($id, $group, $hit, $new, $param, $sort) {
+    public function getMakerURL($id, $group, $hit, $new, $param, $sort, $perpage) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->makerURL($id, $group, $hit, $new, $param, $sort);
+            return $this->makerURL($id, $group, $hit, $new, $param, $sort, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
-               . '-param-' . md5(serialize($param)) . '-sort-' . $sort;
+            . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -841,7 +844,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
      * с учетом фильтров и сортировки товаров производителя
      */
-    protected function makerURL($id, $group, $hit, $new, $param, $sort) {
+    protected function makerURL($id, $group, $hit, $new, $param, $sort, $perpage) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
         if ($group) {
@@ -863,6 +866,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
+        if ($perpage !== $this->config->pager->frontend->products->perpage) {
+            $url = $url . '/perpage/' . $perpage;
+        }
         return $this->getURL($url);
 
     }
@@ -871,14 +877,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
      * наименованию, коду (артикулу); результат работы кэшируется
      */
-    public function getMakerSortOrders($id, $group, $hit, $new, $param) {
+    public function getMakerSortOrders($id, $group, $hit, $new, $param, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->makerSortOrders($id, $group, $hit, $new, $param);
+            return $this->makerSortOrders($id, $group, $hit, $new, $param, $perpage);
         }
 
         /*
@@ -887,7 +893,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
-                . '-param-' . md5(serialize($param));
+            . '-param-' . md5(serialize($param)) . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -901,7 +907,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров производителя с уникальным
      * идентификатором $id по цене, наименованию, коду (артикулу)
      */
-    protected function makerSortOrders($id, $group, $hit, $new, $param) {
+    protected function makerSortOrders($id, $group, $hit, $new, $param, $perpage) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
         if ($group) {
@@ -942,12 +948,113 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 case 6: $name = 'код, убыв.';      break;
             }
             $temp = $i ? $url . '/sort/' . $i : $url;
+            if ($perpage !== $this->config->pager->frontend->products->perpage) {
+                $temp = $temp . '/perpage/' . $perpage;
+            }
             $sortorders[$i] = array(
                 'url'  => $this->getURL($temp),
                 'name' => $name
             );
         }
         return $sortorders;
+
+    }
+
+    /**
+     * Функция возвращает массив ссылок для переключения на показ 10,20,50,100
+     * товаров производителя на страницу; результат работы кэшируется
+     */
+    public function getOthersPerPage($id, $group, $hit, $new, $param, $sort, $perpage) {
+
+        /*
+         * если не включено кэширование данных, получаем данные с помощью
+         * запроса к базе данных
+         */
+        if ( ! $this->enableDataCache) {
+            return $this->othersPerPage($id, $group, $hit, $new, $param, $sort, $perpage);
+        }
+
+        /*
+         * включено кэширование данных, получаем данные из кэша; если данные
+         * в кэше не актуальны, будет выполнен запрос к базе данных
+         */
+        // уникальный ключ доступа к кэшу
+        $key = __METHOD__ . '()-id-' . $id . '-group-' . $group . '-hit-' . $hit . '-new-' . $new
+                . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-parpage-' . $perpage;
+        // имя этой функции (метода)
+        $function = __FUNCTION__;
+        // арументы, переданные этой функции
+        $arguments = func_get_args();
+        // получаем данные из кэша
+        return $this->getCachedData($key, $function, $arguments);
+
+    }
+
+    /**
+     * Функция возвращает массив ссылок для переключения на показ 10,20,50,100
+     * товаров производителя на страницу
+     */
+    protected function othersPerPage($id, $group, $hit, $new, $param, $sort, $perpage) {
+
+        $url = 'frontend/catalog/maker/id/' . $id;
+        if ($group) {
+            $url = $url . '/group/' . $group;
+        }
+        if ($hit) {
+            $url = $url . '/hit/1';
+        }
+        if ($new) {
+            $url = $url . '/new/1';
+        }
+        if ( ! empty($param)) {
+            $temp = array();
+            foreach ($param as $key => $value) {
+                $temp[] = $key . '.' . $value;
+            }
+            $url = $url . '/param/' . implode('-', $temp);
+        }
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+
+        /*
+         * $items = Array (
+         *   [0] => Array (
+         *     [url] => //www.host.ru/catalog/maker/42
+         *     [name] => 10
+         *     [current] => false
+         *   )
+         *   [1] => Array (
+         *     [url] => //www.host.ru/catalog/maker/42/perpage/20
+         *     [name] => 20
+         *     [current] => true
+         *   )
+         *   [2] => Array (..........)
+         *   [3] => Array (
+         *     [url] => //www.host.ru/catalog/maker/42/perpage/100
+         *     [name] => 100
+         *     [current] => false
+         *   )
+         * )
+         */
+        $items = array();
+        $items[] = array( // товаров на странице по умолчанию
+            'url'     => $this->getURL($url),
+            'name'    => $this->config->pager->frontend->products->perpage,
+            'current' => $perpage === $this->config->pager->frontend->products->perpage
+        );
+        $others = $this->config->pager->frontend->products->others;
+        foreach ($others as $variant) { // другие варианты кол-ва товаров на странице
+            $temp = $url;
+            $temp = $temp . '/perpage/' . $variant;
+            $items[] = array(
+                'url'     => $this->getURL($temp),
+                'name'    => $variant,
+                'current' => $variant === $perpage
+            );
+        }
+
+        return $items;
 
     }
 

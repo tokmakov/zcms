@@ -169,6 +169,14 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = (int)$this->params['page'];
         }
+        // кол-во товаров на одной странице
+        $perpage = $this->config->pager->frontend->products->perpage;
+        $temp = $this->config->pager->frontend->products->others; // другие доступные варианты
+        $others = array();
+        foreach ($temp as $item) { $others[] = $item; }
+        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) {
+            $perpage = (int)$this->params['perpage'];
+        }
         // общее кол-во товаров производителя с учетом фильтров по функционалу,
         // лидерам продаж и новинкам
         $totalProducts = $this->makerCatalogFrontendModel->getCountMakerProducts(
@@ -185,13 +193,15 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $hit,
             $new,
             $param,
-            $sort
+            $sort,
+            $perpage
         );
+        // постраничная навигация
         $temp = new Pager(
             $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров производителя
-            $this->config->pager->frontend->products->perpage,  // кол-во товаров на странице
+            $perpage,                                           // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
@@ -200,9 +210,11 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             return;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $this->config->pager->frontend->products->perpage;
+        $start = ($page - 1) * $perpage;
 
-        // получаем от модели массив всех товаров производителя
+        // получаем от модели массив товаров производителя в кол-ве $perpage,
+        // начиная с позации $start, с учетом фильтров по производителю,
+        // новинкам, лидерам продаж и параметрам подбора
         $products = $this->makerCatalogFrontendModel->getMakerProducts(
             $this->params['id'],
             $group,
@@ -210,11 +222,9 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $new,
             $param,
             $sort,
-            $start
+            $start,
+            $perpage
         );
-
-        // единицы измерения товара
-        $units = $this->makerCatalogFrontendModel->getUnits();
 
         // ссылки для сортировки товаров по цене, наменованию, коду
         $sortorders = $this->makerCatalogFrontendModel->getMakerSortOrders(
@@ -222,16 +232,36 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param
+            $param,
+            $perpage
         );
 
+        // ссылки для переключения на показ 10,20,50,100 товаров на страницу
+        $perpages = $this->makerCatalogFrontendModel->getOthersPerPage(
+            $this->params['id'],
+            $group,
+            $hit,
+            $new,
+            $param,
+            $sort,
+            $perpage
+        );
+
+        // единицы измерения товара
+        $units = $this->makerCatalogFrontendModel->getUnits();
+
         // атрибут action тега form
-        $action = $this->makerCatalogFrontendModel->getURL('frontend/catalog/maker/id/' . $this->params['id']);
+        $action = $this->makerCatalogFrontendModel->getURL(
+            'frontend/catalog/maker/id/' . $this->params['id']
+        );
 
         // URL ссылки для сборса фильтра
         $url = 'frontend/catalog/maker/id/' . $this->params['id'];
         if ($sort) {
             $url = $url . '/sort/' . $sort;
+        }
+        if ($perpage !== $this->config->pager->frontend->products->perpage) {
+            $url = $url . '/perpage/' . $perpage;
         }
         $clearFilterURL = $this->makerCatalogFrontendModel->getURL($url);
 
@@ -240,6 +270,9 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
             $view = 'grid';
         }
+
+        // выбранный вариант кол-ва товаров на странице или ноль — если значение по умолчанию
+        $perpage = ($perpage === $this->config->pager->frontend->products->perpage) ? 0 : $perpage;
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -257,6 +290,8 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'view'           => $view,
             // id выбранной функциональной группы или ноль
             'group'          => $group,
+            // массив функциональных групп
+            'groups'         => $groups,
             // показывать только лидеров продаж?
             'hit'            => $hit,
             // количество лидеров продаж
@@ -267,16 +302,18 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'countNew'       => $countNew,
             // массив выбранных параметров подбора
             'param'          => $param,
-            // массив функциональных групп
-            'groups'         => $groups,
-            // массив всех параметров подбора
+            // массив всех доступных параметров подбора
             'params'         => $params,
             // массив товаров производителя
             'products'       => $products,
-            // выбранная сортировка
+            // выбранная сортировка или ноль
             'sort'           => $sort,
-            // массив вариантов сортировки
+            // массив всех вариантов сортировки
             'sortorders'     => $sortorders,
+            // выбранный вариант кол-ва товаров на странице или ноль
+            'perpage'        => $perpage,
+            // массив всех вариантов кол-ва товаров на страницу
+            'perpages'       => $perpages,
             // массив единиц измерения товара
             'units'          => $units,
             // URL ссылки для сборса фильтра
@@ -300,7 +337,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         $url = 'frontend/catalog/maker/id/' . $this->params['id'];
         // включен фильтр по функционалу (функциональной группе)?
         $grp = false;
-        if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
+        if (isset($_POST['group']) && ctype_digit($_POST['group'])&& $_POST['group'] > 0) {
             $url = $url . '/group/' . $_POST['group'];
             $grp = true;
         }
@@ -330,6 +367,10 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             && in_array($_POST['sort'], array(1,2,3,4,5,6))
         ) {
             $url = $url . '/sort/' . $_POST['sort'];
+        }
+        // кол-во товаров на странице
+        if (isset($_POST['perpage']) && ctype_digit($_POST['perpage'])) { // TODO: in_array 20, 50, 100
+            $url = $url . '/perpage/' . $_POST['perpage'];
         }
         // выполняем редирект
         $this->redirect($this->makerCatalogFrontendModel->getURL($url));

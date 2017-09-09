@@ -1,8 +1,8 @@
 <?php
 /**
  * Класс Addprd_Wished_Frontend_Controller отвечает за добавление товара в список
- * отложенных, взаимодействует с моделью Wished_Frontend_Model, общедоступная часть
- * сайта
+ * отложенных (избранное), взаимодействует с моделью Wished_Frontend_Model,
+ * общедоступная часть сайта
  */
 class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
 
@@ -65,6 +65,9 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
                 }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
+                }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
                 }
@@ -86,6 +89,9 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
+                }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
                 }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
@@ -109,6 +115,9 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
                 }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
+                }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
                 }
@@ -118,7 +127,7 @@ class Addprd_Wished_Frontend_Controller extends Wished_Frontend_Controller {
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                 $url = $url . '/page/' . $_POST['page'];
             }
-        } elseif ($_POST['return'] == 'viewed') { // перенаправляем на страницу просмотрненных товаров
+        } elseif ($_POST['return'] == 'viewed') { // перенаправляем на страницу просмотренных товаров
             $url = 'frontend/viewed/index';
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                 $url = $url . '/page/' . $_POST['page'];

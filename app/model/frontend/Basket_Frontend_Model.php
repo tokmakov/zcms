@@ -584,6 +584,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Функция формирует и отправляет письма о заказе покупателю и администратору
      */
     private function sendOrderMail($orderId, $details, $products, $user_amount) {
+
         $html = '<h2>Заявка № '.$orderId.'</h2>' . PHP_EOL;
         $html = $html . '<table border="1" cellspacing="0" cellpadding="4">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
@@ -710,16 +711,39 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $message = chunk_split(base64_encode($html));
 
         mail($email, $subject, $message, $headers);
+
     }
 
     /**
      * Функция объединяет корзины (ещё) не авторизованного посетителя и (уже)
      * авторизованного пользователя сразу после авторизации, реализация шаблона
-     * проектирования «Наблюдатель»; см. описание интерфейса SplObserver здесь
+     * проектирования «Наблюдатель». См. описание интерфейса SplObserver здесь
      * http://php.net/manual/ru/class.splobserver.php
      */
     public function update(SplSubject $userFrontendModel) {
 
+        /*
+         * Уникальный идентификатор посетителя сайта сохраняется в cookie и нужен
+         * для работы покупательской корзины. По нему можно получить из таблицы БД
+         * `baskets` все товары, добавленные в корзину посетителем.
+         *
+         * Если в cookie есть идентификатор посетителя, значит он уже просматривал
+         * страницы сайта с этого компьютера. Если идентификатора нет в cookie,
+         * значит посетитель на сайте первый раз (и просматривает первую страницу),
+         * или зашел с другого компьютера. В этом случае записываем в cookie новый
+         * идентификатор.
+         *
+         * Если в cookie не было идентификатора посетителя и ему был записан новый
+         * идентификатор, это еще не означает, что посетитель здесь в первый раз.
+         * Он мог зайти с другого компьютера, удалить cookie или истекло время жизни
+         * cookie.
+         *
+         * Сразу после авторизации проверяем — совпадает временный идентификатор
+         * посетителя (который сохранен в cookie) с постоянным (который хранится в
+         * в БД `users`). Если совпадает — ничего не делаем, если нет — записываем
+         * в cookie вместо временного постоянный идентификатор и обновляем записи
+         * таблицы БД `baskets`, заменяя временный идентификатор на постоянный.
+         */
         $newVisitorId = $userFrontendModel->getVisitorId();
         $oldVisitorId = $this->visitorId;
 
@@ -727,6 +751,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
 
+        /*
+         * Объединяем корзины, т.е. заменяем идентификатор посетителя сайта
+         */
         $query = "UPDATE
                       `baskets`
                   SET
@@ -847,7 +874,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         /*
          * Если рекомендации для нескольких товаров: для каждого товара получаем массив id
-         * рекомендованных в формате CSV, а потом объединаем все массивы в один, например
+         * рекомендованных в формате CSV, а потом объединяем все массивы в один, например
          * $ids = array(123, 456, 789);
          * $first = array(12, 34, 56); $second = array(); third = array(98, 76, 54, 32);
          * $related = array(12, 98, 34, 76, 56, 54, 32);
@@ -943,6 +970,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * с уникальным идентификатором $id(s)
      */
     protected function recommendedProductsOld($ids) {
+
         $limit = 8;
         if (is_array($ids)) { // рекомендации для массива товаров
             $temp = implode(',', $ids);
@@ -1043,6 +1071,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $products[$key]['action'] = $this->getURL('frontend/basket/addprd');
         }
         return $products;
+
     }
 
 }

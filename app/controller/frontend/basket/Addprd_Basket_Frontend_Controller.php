@@ -64,6 +64,9 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
                 }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
+                }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
                 }
@@ -85,6 +88,9 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
+                }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
                 }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
@@ -108,13 +114,16 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
                 }
+                if (isset($_POST['parpage']) && ctype_digit($_POST['parpage'])) { // TODO: проверка in_array()
+                    $url = $url . '/parpage/' . $_POST['parpage'];
+                }
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                     $url = $url . '/page/' . $_POST['page'];
                 }
             }
         } elseif ($_POST['return'] == 'compare') { // перенаправляем на страницу сравнения товаров
             $url = 'frontend/compare/index';
-        } elseif ($_POST['return'] == 'wished') { // перенаправляем на страницу отложенных товаров
+        } elseif ($_POST['return'] == 'wished') { // перенаправляем на страницу отложенных товаров (избранное)
             $url = 'frontend/wished/index';
             if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
                 $url = $url . '/page/' . $_POST['page'];
@@ -125,7 +134,7 @@ class Addprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 $url = $url . '/page/' . $_POST['page'];
             }
         } elseif ($_POST['return'] == 'search') { // перенаправляем на страницу результатов поиска по каталогу
-            if (!empty($_POST['query'])) {
+            if ( ! empty($_POST['query'])) {
                 $query = rawurlencode(iconv_substr($_POST['query'], 0, 64));
                 $url = 'frontend/catalog/search/query/' . $query;
                 if (isset($_POST['page']) && ctype_digit($_POST['page']) && $_POST['page'] > 1) {
