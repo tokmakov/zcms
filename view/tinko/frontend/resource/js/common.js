@@ -632,7 +632,7 @@ function filterSelectHandler() {
      */
     $('#catalog-filter form').ajaxSubmit({
         dataType:  'json',
-        beforeSubmit: function(arr) {
+        beforeSubmit: function() {
             /*
              * Перед отправкой формы добавляем оверлей для трех блоков
              */
