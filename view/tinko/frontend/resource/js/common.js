@@ -181,8 +181,9 @@ $(document).ready(function() {
     });
 
     /*
-     * Свернуть/развернуть блоки в правой колонке
+     * Свернуть/развернуть блоки в правой колонке: авторизция/кабинет, корзина, избранное, ...
      */
+    // авторизция/кабинет
     if ($.cookie('show_side_login') !== undefined && $.cookie('show_side_login') == 0) {
         $('#right > #side-login > .side-content').hide();
     }
@@ -195,6 +196,7 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
+    // корзина
     if ($.cookie('show_side_basket') !== undefined && $.cookie('show_side_basket') == 0) {
         $('#right > #side-basket > .side-content').hide();
     }
@@ -207,6 +209,7 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
+    // избранное
     if ($.cookie('show_side_wished') !== undefined && $.cookie('show_side_wished') == 0) {
         $('#right > #side-wished > .side-content').hide();
     }
@@ -219,6 +222,7 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
+    // сравнение товаров
     if ($.cookie('show_side_compare') !== undefined && $.cookie('show_side_compare') == 0) {
         $('#right > #side-compare > .side-content').hide();
     }
@@ -231,6 +235,7 @@ $(document).ready(function() {
         }
         content.slideToggle();
     });
+    // вы уже смотрели
     if ($.cookie('show_side_viewed') !== undefined && $.cookie('show_side_viewed') == 0) {
         $('#right > #side-viewed > .side-content').hide();
     }
@@ -679,7 +684,7 @@ function filterSelectHandler() {
             addCompareHandler();
 
             /*
-             * добавляем запись в window.history, чтобы работали кнопки «Назад»
+             * Добавляем запись в window.history, чтобы работали кнопки «Назад»
              * и «Вперед» в браузере
              */
             pushHistoryState();
