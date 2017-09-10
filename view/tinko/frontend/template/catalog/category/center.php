@@ -442,7 +442,7 @@ for ($i = 0; $i <= 6; $i++) {
                     <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                 <?php endif; ?>
                 <?php if ($perpage): ?>
-                    <input type="hidden" name="parpage" value="<?php echo $perpage; ?>" />
+                    <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                 <?php endif; ?>
                 <input type="hidden" name="change" value="0" />
                 <input type="submit" name="submit" value="Применить" />

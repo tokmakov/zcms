@@ -102,6 +102,34 @@ $(document).ready(function() {
 
 
     /*
+     * Сохранить в cookie выбранную сортировку
+     */
+    $('#sort-per-page > ul:first-child > li:gt(1) > a').click(function () {
+        var sort = $(this).parent().index() - 1;
+        $.cookie('sort', sort, {expires: 365, path: '/'});
+        return true;
+    });
+    // значение по умолчанию, его сохранять не нужно
+    $('#sort-per-page > ul:first-child > li:nth-child(2) > a').click(function () {
+        $.removeCookie('sort', {path: '/'});
+        return true;
+    });
+
+    /*
+     * Сохранить в cookie выбранное кол-во товаров на странице
+     */
+    $('#sort-per-page > ul:last-child > li:gt(0) > a').click(function () {
+        var perpage = $(this).children('span').text();
+        $.cookie('perpage', perpage, {expires: 365, path: '/'});
+        return true;
+    });
+    // значение по умолчанию, его сохранять не нужно
+    $('#sort-per-page > ul:last-child > li:first-child > a').click(function () {
+        $.removeCookie('perpage', {path: '/'});
+        return true;
+    });
+
+    /*
      * Сворачиваем все дочерние категории для категорий в меню каталога в левой колонке,
      * которые имеют иконку «+», т.е. должны быть изначально скрыты; назначаем обработчик
      * события click для иконок «+» и «-»: при клике по иконке «+» — разворачиваем список
@@ -694,6 +722,10 @@ function pushHistoryState(fields) {
     var sortInput = $('#catalog-filter form input[name="sort"]');
     if (sortInput.length > 0 && sortInput.val() !== '0') {
         url = url + '/sort/' + sortInput.val();
+    }
+    var perpageInput = $('#catalog-filter form input[name="perpage"]');
+    if (perpageInput.length > 0 && perpageInput.val() !== '10') {
+        url = url + '/perpage/' + perpageInput.val();
     }
     var pathname = window.location.pathname;
     if (/^\/catalog\/category\/[0-9]+/i.test(window.location.pathname)) {
