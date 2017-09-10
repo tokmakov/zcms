@@ -131,7 +131,7 @@ $(document).ready(function() {
 
     /*
      * Сворачиваем все дочерние категории для категорий в меню каталога в левой колонке,
-     * которые имеют иконку «+», т.е. должны быть изначально скрыты; назначаем обработчик
+     * которые имеют иконку «+», т.е. должны быть изначально скрыты. Назначаем обработчик
      * события click для иконок «+» и «-»: при клике по иконке «+» — разворачиваем список
      * дочерних категорий, при клике по иконке «-» — сворачиваем список дочерних категорий
      */
@@ -257,7 +257,7 @@ $(document).ready(function() {
     $('#catalog-filter form select option:selected:not(:first-child)').closest('select').css('border', '1px solid #ff6d00');
     $('#catalog-filter form input[type="checkbox"]:checked').next().css({'color':'#ff6d00', 'border-bottom-color':'#ff6d00'});
     $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
-
+    // когда пользователь кликает по крестику справа от выпадающего списка
     $('#catalog-filter form i').click(function() {
         var select = $(this).prev().children('select');
         select.find('option:selected').prop('selected', false);
@@ -332,7 +332,7 @@ $(document).ready(function() {
                  */
                 // когда пользователь выбирает из выпадающего списка или отмечает checkbox
                 $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
-                // колгда пользователь кликает по крестику справа от выпадающего списка
+                // когда пользователь кликает по крестику справа от выпадающего списка
                 $('#catalog-filter form i').click(function() {
                     var select = $(this).prev().children('select');
                     select.find('option:selected').prop('selected', false);
@@ -680,7 +680,7 @@ function filterSelectHandler() {
              */
             // когда пользователь выбирает из выпадающего списка или отмечает checkbox
             $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
-            // колгда пользователь кликает по крестику справа от выпадающего списка
+            // когда пользователь кликает по крестику справа от выпадающего списка
             $('#catalog-filter form i').click(function() {
                 var select = $(this).prev().children('select');
                 select.find('option:selected').prop('selected', false);
