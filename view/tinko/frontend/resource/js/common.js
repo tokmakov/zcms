@@ -300,7 +300,7 @@ $(document).ready(function() {
             },
             success: function(data) {
                 /*
-                 * получен ответ от сервера, вставляем содержимое трех блоков
+                 * Получен ответ от сервера, вставляем содержимое трех блоков
                  */
                 // удаляем три overlay
                 $('.overlay, .products-overlay').remove();
@@ -313,7 +313,9 @@ $(document).ready(function() {
                 // третий блок: товары выбранной категории
                 $('#catalog-products').html(data.products);
 
-                // ссылка для сброса фильтра
+                /*
+                 * Показываем/скрываем ссылку для сброса фильтра
+                 */
                 var showClearFilter = true;
                 if (/^\/catalog\/(category|group|maker)\/[0-9]+$/i.test(window.location.pathname)) {
                     showClearFilter = false;
@@ -324,16 +326,23 @@ $(document).ready(function() {
                     $('#catalog-filter > div:first-child > span:first-child > a').hide();
                 }
 
-                // обработчики событий для второго блока: выбор функциональной группы,
-                // производителя, параметров подбора, фильтр по нивинкам и лидерам продаж
+                /*
+                 * Назначаем обработчики событий для второго блока: выбор функциональной группы,
+                 * производителя, параметров подбора, фильтр по нивинкам и лидерам продаж
+                 */
+                // когда пользователь выбирает из выпадающего списка или отмечает checkbox
                 $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
+                // колгда пользователь кликает по крестику справа от выпадающего списка
                 $('#catalog-filter form i').click(function() {
                     var select = $(this).prev().children('select');
                     select.find('option:selected').prop('selected', false);
                     select.change();
                 });
-                // для третьего блока (товары после фильтрации) назначаем обработчики
-                // событий добавления товара в корзину, к сравнению, в избранное
+
+                /*
+                 * Для третьего блока (товары после фильтрации) назначаем обработчики
+                 * событий добавления товара в корзину, к сравнению, в избранное
+                 */
                 addBasketHandler();
                 addWishedHandler();
                 addCompareHandler();
@@ -618,11 +627,14 @@ function filterSelectHandler() {
         $('#catalog-filter form input[name="change"]').val('0');
     }
 
+    /*
+     * Отправляем данные формы с использованием объекта XmlHttpRequest
+     */
     $('#catalog-filter form').ajaxSubmit({
         dataType:  'json',
         beforeSubmit: function(arr) {
             /*
-             * перед отправкой формы добавляем оверлей для трех блоков
+             * Перед отправкой формы добавляем оверлей для трех блоков
              */
             // первый блок: дочерние категории текущей категории
             var childs = $('#category-childs > div:last-child');
@@ -772,7 +784,7 @@ function menuClickHandler(event) {
     }
     item.addClass('menu-loader');
     /*
-     * просто скрываем дочерние элементы
+     * Просто скрываем дочерние элементы
      */
     if (opened) {
         item.children('ul').slideUp('normal', function () {
@@ -782,7 +794,7 @@ function menuClickHandler(event) {
         return;
     }
     /*
-     * дочерних элементов еще нет, их надо подгрузить, а потом показать
+     * Дочерних элементов еще нет, их надо подгрузить с сервера, а потом показать
      */
     if (item.children('ul').length == 0) {
         $.ajax({
@@ -815,7 +827,7 @@ function menuClickHandler(event) {
         return;
     }
     /*
-     * дочерние элементы уже есть, их надо показать
+     * Дочерние элементы уже есть, их надо показать
      */
     // если есть другие открытые ветки, сначала скрываем их, потом показываем дочерние элементы
     if (item.siblings('li.opened').length > 0) {
