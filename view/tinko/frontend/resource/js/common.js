@@ -645,7 +645,7 @@ function filterSelectHandler() {
         },
         success: function(data) {
             /*
-             * получен ответ от сервера, вставляем содержимое трех блоков
+             * Получен ответ от сервера, вставляем содержимое трех блоков
              */
             // удаляем три overlay
             $('.overlay, .products-overlay').remove();
@@ -658,18 +658,26 @@ function filterSelectHandler() {
             // третий блок: товары выбранной категории
             $('#catalog-products').html(data.products);
 
-            // обработчики событий для второго блока
+            /*
+             * Назначаем обработчики событий для второго блока
+             */
+            // когда пользователь выбирает из выпадающего списка или отмечает checkbox
             $('#catalog-filter form select, #catalog-filter form input[type="checkbox"]').change(filterSelectHandler);
+            // колгда пользователь кликает по крестику справа от выпадающего списка
             $('#catalog-filter form i').click(function() {
                 var select = $(this).prev().children('select');
                 select.find('option:selected').prop('selected', false);
                 select.change();
             });
-            // для третьего блока (товары после фильтрации) назначаем обработчики
-            // событий добавления товара в корзину, к сравнению, в избранное
+
+            /*
+             * Для третьего блока (товары после фильтрации) назначаем обработчики
+             * событий добавления товара в корзину, к сравнению, в избранное
+             */
             addBasketHandler();
             addWishedHandler();
             addCompareHandler();
+
             /*
              * добавляем запись в window.history, чтобы работали кнопки «Назад»
              * и «Вперед» в браузере
