@@ -113,10 +113,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // включена сортировка?
         $sort = 0;
-        if (isset($this->params['sort'])
-            && ctype_digit($this->params['sort'])
-            && in_array($this->params['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$this->params['sort'];
         }
 
@@ -362,10 +359,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             }
         }
         // включена сортировка?
-        if (isset($_POST['sort'])
-            && ctype_digit($_POST['sort'])
-            && in_array($_POST['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
         // кол-во товаров на странице

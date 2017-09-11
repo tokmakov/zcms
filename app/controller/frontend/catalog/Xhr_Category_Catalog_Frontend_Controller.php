@@ -365,10 +365,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         }
 
         $sort = 0; // сортировка
-        if (isset($this->params['sort'])
-            && ctype_digit($this->params['sort'])
-            && in_array($this->params['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$this->params['sort'];
         }
 

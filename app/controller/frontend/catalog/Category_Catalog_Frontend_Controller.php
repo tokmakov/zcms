@@ -48,10 +48,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             return;
         }
 
-        // переопределяем переменную, которая будет передана в шаблон left.php,
-        // чтобы раскрыть ветку текущей категории меню каталога в левой колонке
-        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu($this->params['id']);
-
     }
 
     /**
@@ -133,10 +129,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // включена сортировка?
         $sort = 0;
-        if (isset($this->params['sort'])
-            && ctype_digit($this->params['sort'])
-            && in_array($this->params['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$this->params['sort'];
         }
 
@@ -155,7 +148,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         /*
          * Получаем от модели массив дочерних категорий с учетом фильтров по функционалу,
          * производителю, новинкам и лидерам продаж, параметрам подбора для выбранного
-         * функционала. Массив кроме идентификатора категории и наименования содержит
+         * функционала. Массив, кроме идентификатора категории и наименования, содержит
          * информацию о количестве товаров в каждой дочерней категории (с учетом фильтров)
          * и URL категории. При переходе на страницу дочерней категории сохраняются все
          * фильтры, которые пользователь применил к текущей категории. Кроме того, если у
@@ -390,6 +383,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'page'           => $page,               // текущая страница
         );
 
+        // переопределяем переменную, которая будет передана в шаблон left.php,
+        // чтобы раскрыть ветку текущей категории меню каталога в левой колонке
+        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu(
+            $this->params['id'],
+            $sort,
+            $perpage
+        );
+
     }
 
     /**
@@ -432,10 +433,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             }
         }
         // включена сортировка?
-        if (isset($_POST['sort'])
-            && ctype_digit($_POST['sort'])
-            && in_array($_POST['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
         // кол-во товаров на странице

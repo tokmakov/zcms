@@ -49,15 +49,32 @@ class Groups_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             ),
         );
 
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
         // получаем от модели массив результатов поиска
         $result = array();
         if (isset($this->params['query'])) {
             $this->params['query'] = str_replace('|', '/', $this->params['query']);
-            $result = $this->groupCatalogFrontendModel->getGroupSearchResult($this->params['query']);
+            $result = $this->groupCatalogFrontendModel->getGroupSearchResult(
+                $this->params['query'],
+                $sort,
+                $perpage
+            );
         }
 
         // получаем от модели массив всех функциональных групп
-        $groups = $this->groupCatalogFrontendModel->getAllGroups();
+        $groups = $this->groupCatalogFrontendModel->getAllGroups($sort, $perpage);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php

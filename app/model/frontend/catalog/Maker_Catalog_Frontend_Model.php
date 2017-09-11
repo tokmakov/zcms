@@ -39,14 +39,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив всех производителей; результат работы кэшируется
      */
-    public function getAllMakers() {
+    public function getAllMakers($sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->allMakers();
+            return $this->allMakers($sort, $perpage);
         }
 
         /*
@@ -54,7 +54,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__;
+        $key = __METHOD__ . '()-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -67,7 +67,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив всех производителей
      */
-    protected function allMakers() {
+    protected function allMakers($sort, $perpage) {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
@@ -85,7 +85,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив URL ссылок на страницы отдельных производителей
         foreach($makers as $key => $value) {
-            $makers[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
+            $url = 'frontend/catalog/maker/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $makers[$key]['url'] = $this->getURL($url);
         }
 
         return $makers;
@@ -93,16 +100,17 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив производителей для левой колонки; результат работы кэшируется
+     * Функция возвращает массив производителей для левой колонки и для
+     * главной страницы каталога; результат работы кэшируется
      */
-    public function getMakers($limit) {
+    public function getMakers($limit, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->makers($limit);
+            return $this->makers($limit, $sort, $perpage);
         }
 
         /*
@@ -110,7 +118,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-limit-' . $limit;
+        $key = __METHOD__ . '()-limit-' . $limit . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -121,9 +129,10 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив производителей для левой колонки
+     * Функция возвращает массив производителей для левой колонки и для
+     * главной страницы каталога
      */
-    protected function makers($limit) {
+    protected function makers($limit, $sort, $perpage) {
 
         $query = "SELECT
                       `a`.`id` AS `id`
@@ -168,7 +177,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив URL ссылок на страницы отдельных производителей
         foreach($makers as $key => $value) {
-            $makers[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
+            $url = 'frontend/catalog/maker/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $makers[$key]['url'] = $this->getURL($url);
         }
 
         return $makers;
@@ -193,14 +209,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает результаты поиска производителя; результат работы
      * кэшируется
      */
-    public function getMakerSearchResult($query) {
+    public function getMakerSearchResult($query, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->makerSearchResult($query);
+            return $this->makerSearchResult($query, $sort, $perpage);
         }
 
         /*
@@ -208,7 +224,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-query-' . md5($query);
+        $key = __METHOD__ . '()-query-' . md5($query) . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -221,7 +237,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает результаты поиска производителя
      */
-    protected function makerSearchResult($query) {
+    protected function makerSearchResult($query, $sort, $perpage) {
 
         $query = $this->cleanSearchString($query);
         if (empty($query)) {
@@ -242,7 +258,14 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $result = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на страницы производителей
         foreach($result as $key => $value) {
-            $result[$key]['url'] = $this->getURL('frontend/catalog/maker/id/' . $value['id']);
+            $url = 'frontend/catalog/maker/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $result[$key]['url'] = $this->getURL($url);
         }
         return $result;
 

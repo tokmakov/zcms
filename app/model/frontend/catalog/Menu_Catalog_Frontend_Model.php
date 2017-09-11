@@ -21,15 +21,15 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * панели (дерево каталога + путь до текущей категории); результат работы
      * кэшируется
      */
-    public function getCatalogMenu($id = 0) {
+    public function getCatalogMenu($id, $sort, $perpage) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->catalogMenu($id);
+            return $this->catalogMenu($id, $sort, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
+        $key = __METHOD__ . '()-id-' . $id . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -43,7 +43,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив категорий каталога для построения навигационной
      * панели (дерево каталога + путь до текущей категории)
      */
-    protected function catalogMenu($id = 0) {
+    protected function catalogMenu($id, $sort, $perpage) {
 
         $parents = $this->getAllCategoryParents($id);
         $ids = implode(',', $parents);
@@ -69,6 +69,12 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($filter) {
                 $url = $url . '/group/' . $filter;
             }
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
             $categories[$key]['url'] = $this->getURL($url);
             if (in_array($value['id'], $parents)) {
                 $categories[$key]['opened'] = true;
@@ -88,14 +94,14 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает дочерние категории категории с уникальным идентификатором $id,
      * результат работы кашируется
      */
-    public function getCategoryChilds($id) {
+    public function getCategoryChilds($id, $sort, $perpage) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->categoryChilds($id);
+            return $this->categoryChilds($id, $sort, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
+        $key = __METHOD__ . '()-id-' . $id . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -107,7 +113,7 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает дочерние категории категории с уникальным идентификатором $id
      */
-    protected function categoryChilds($id) {
+    protected function categoryChilds($id, $sort, $perpage) {
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`,
                       (SELECT COUNT(*) FROM `categories` `b` WHERE `a`.`id` = `b`.`parent`) AS `count`
@@ -127,6 +133,12 @@ class Menu_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $filter = $this->getIsOnlyCategoryGroup($value['id']);
             if ($filter) {
                 $url = $url . '/group/' . $filter;
+            }
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
             }
             $childs[$key]['url'] = $this->getURL($url);
         }

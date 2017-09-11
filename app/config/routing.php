@@ -301,7 +301,7 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         '~^catalog/maker/(\d+)(/group/\d+)?(/hit/1)?(/new/1/)?(/param/\d+\.\d+(?:-\d+\.\d+)*)?(/sort/\d)?(/perpage/\d+)?(/page/\d+)?$~i' =>
         'frontend/catalog/maker/id/$1$2$3$4$5$6$7$8',
         // товары функциональной группы
-        '~^catalog/group/(\d+)(/maker/\d+)(/hit/1)?(/new/1/)?(/param/\d+\.\d+(?:-\d+\.\d+)*)?(/sort/\d)?(/perpage/\d+)?(/page/\d+)?$~i' =>
+        '~^catalog/group/(\d+)(/maker/\d+)?(/hit/1)?(/new/1/)?(/param/\d+\.\d+(?:-\d+\.\d+)*)?(/sort/\d)?(/perpage/\d+)?(/page/\d+)?$~i' =>
         'frontend/catalog/group/id/$1$2$3$4$5$6$7$8',
         // страница товара каталога
         '~^catalog/product/(\d+)$~i' =>
@@ -309,12 +309,12 @@ $routing = array( // поддержка ЧПУ (SEF) для общедоступ
         // страница всех производителей
         '~^catalog/all-makers$~i' =>
         'frontend/catalog/makers',
-        // страница всех брендов (производителей, отмеченных в админке как бренд)
-        '~^catalog/all-brands$~i' =>
-        'frontend/catalog/brands',
         // страница результатов поиска по производителям
         '~^catalog/all-makers/query/([a-z0-9%_.-]+)$~i' =>
         'frontend/catalog/makers/query/$1',
+        // страница всех брендов (производителей, отмеченных в админке как бренд)
+        '~^catalog/all-brands$~i' =>
+        'frontend/catalog/brands',
         // страница всех функциональных групп
         '~^catalog/all-groups$~i' =>
         'frontend/catalog/groups',

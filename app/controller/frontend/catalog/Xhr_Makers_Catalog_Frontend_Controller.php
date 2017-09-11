@@ -2,7 +2,7 @@
 /**
  * Класс Xhr_Makers_Catalog_Frontend_Controller формирует ответ на запрос XmlHttpRequest
  * в формате HTML, получает данные от модели Maker_Catalog_Frontend_Model, общедоступная
- * часть сайта. Ответ содержит результаты поиска производителя
+ * часть сайта. Ответ содержит результаты поиска производителя среди всех производителей
  */
 class Xhr_Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
@@ -22,8 +22,21 @@ class Xhr_Makers_Catalog_Frontend_Controller extends Catalog_Frontend_Controller
 
     public function request() {
 
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
         // получаем от модели массив результатов поиска
-        $result = $this->makerCatalogFrontendModel->getMakerSearchResult($_POST['query']);
+        $result = $this->makerCatalogFrontendModel->getMakerSearchResult($_POST['query'], $sort, $perpage);
 
         // формируем HTML результатов поиска
         $this->output = $this->render(

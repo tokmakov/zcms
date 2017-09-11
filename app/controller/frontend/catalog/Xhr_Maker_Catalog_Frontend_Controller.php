@@ -275,10 +275,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         $sort = 0; // сортировка
-        if (isset($_POST['sort'])
-            && ctype_digit($_POST['sort'])
-            && in_array($_POST['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$_POST['sort'];
         }
 
@@ -327,10 +324,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         }
 
         $sort = 0; // сортировка
-        if (isset($this->params['sort'])
-            && ctype_digit($this->params['sort'])
-            && in_array($this->params['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$this->params['sort'];
         }
 

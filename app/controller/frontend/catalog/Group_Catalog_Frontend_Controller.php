@@ -349,10 +349,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             }
         }
         // включена сортировка?
-        if (isset($_POST['sort'])
-            && ctype_digit($_POST['sort'])
-            && in_array($_POST['sort'], array(1,2,3,4,5,6))
-        ) {
+        if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
         // кол-во товаров на странице

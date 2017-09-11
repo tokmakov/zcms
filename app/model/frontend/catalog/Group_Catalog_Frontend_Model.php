@@ -30,14 +30,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив всех функциональных групп; результат работы кэшируется
      */
-    public function getAllGroups() {
+    public function getAllGroups($sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->allGroups();
+            return $this->allGroups($sort, $perpage);
         }
 
         /*
@@ -45,7 +45,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__;
+        $key = __METHOD__ . '()-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -58,7 +58,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив всех функциональных групп
      */
-    protected function allGroups() {
+    protected function allGroups($sort, $perpage) {
 
         $query = "SELECT
                       `a`.`id` AS `id`, `a`.`name` AS `name`, COUNT(*) AS `count`
@@ -76,23 +76,31 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $groups = $this->database->fetchAll($query);
         // добавляем ссылки
         foreach ($groups as $key => $value) {
-            $groups[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
+            $url = 'frontend/catalog/group/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $groups[$key]['url'] = $this->getURL($url);
         }
         return $groups;
 
     }
 
     /**
-     * Функция возвращает массив функциональных групп для правой колонки; результат работы кэшируется
+     * Функция возвращает массив функциональных групп для левой колонки и для
+     * главной страницы каталога; результат работы кэшируется
      */
-    public function getGroups($limit) {
+    public function getGroups($limit, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->groups($limit);
+            return $this->groups($limit, $sort, $perpage);
         }
 
         /*
@@ -100,7 +108,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-limit-' . $limit;
+        $key = __METHOD__ . '()-limit-' . $limit . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -111,9 +119,10 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив функциональных групп для правой колонки
+     * Функция возвращает массив функциональных групп для левой колонки и для
+     * главной страницы каталога
      */
-    protected function groups($limit) {
+    protected function groups($limit, $sort, $perpage) {
 
         $query = "SELECT
                       `a`.`id` AS `id`
@@ -154,7 +163,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив URL ссылок на страницы функциональных групп
         foreach($groups as $key => $value) {
-            $groups[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
+            $url = 'frontend/catalog/group/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $groups[$key]['url'] = $this->getURL($url);
         }
 
         return $groups;
@@ -165,14 +181,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает результаты поиска функциональной группы; результат работы
      * кэшируется
      */
-    public function getGroupSearchResult($query) {
+    public function getGroupSearchResult($query, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->groupSearchResult($query);
+            return $this->groupSearchResult($query, $sort, $perpage);
         }
 
         /*
@@ -180,7 +196,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-query-' . md5($query);
+        $key = __METHOD__ . '()-query-' . md5($query) . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -193,7 +209,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает результаты поиска функциональной группы
      */
-    protected function groupSearchResult($query) {
+    protected function groupSearchResult($query, $sort, $perpage) {
 
         $query = $this->cleanSearchString($query);
         if (empty($query)) {
@@ -214,7 +230,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $result = $this->database->fetchAll($query);
         // добавляем в массив URL ссылок на страницы функциональных групп
         foreach($result as $key => $value) {
-            $result[$key]['url'] = $this->getURL('frontend/catalog/group/id/' . $value['id']);
+            $url = 'frontend/catalog/group/id/' . $value['id'];
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
+            }
+            $result[$key]['url'] = $this->getURL($url);
         }
         return $result;
 

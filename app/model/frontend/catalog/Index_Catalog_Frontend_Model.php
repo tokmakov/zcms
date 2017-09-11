@@ -17,14 +17,14 @@ class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает корневые категории; результат работы кэшируется
      */
-    public function getRootCategories() {
+    public function getRootCategories($sort, $perpage) {
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->rootCategories();
+            return $this->rootCategories($sort, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
+        $key = __METHOD__ . '()' . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -36,7 +36,7 @@ class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает корневые категории
      */
-    protected function rootCategories() {
+    protected function rootCategories($sort, $perpage) {
         $query = "SELECT
                       `id`, `name`
                   FROM
@@ -55,6 +55,12 @@ class Index_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $filter = $this->getIsOnlyCategoryGroup($value['id']);
             if ($filter) {
                 $url = $url . '/group/' . $filter;
+            }
+            if ($sort) {
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) {
+                $url = $url . '/perpage/' . $perpage;
             }
             $root[$key]['url'] = $this->getURL($url);
         }

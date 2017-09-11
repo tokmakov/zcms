@@ -37,8 +37,21 @@ class Xhr_Menu_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         $id = (int)$_POST['id'];
 
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
         // получаем от модели массив дочерних категорий
-        $childs = $this->menuCatalogFrontendModel->getCategoryChilds($id);
+        $childs = $this->menuCatalogFrontendModel->getCategoryChilds($id, $sort, $perpage);
 
         // формируем HTML
         $this->output = $this->render(

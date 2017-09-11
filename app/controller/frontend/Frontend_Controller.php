@@ -239,18 +239,33 @@ abstract class Frontend_Controller extends Base_Controller {
          */
         $this->menuVars = array('menu' => $menu);
 
-        // меню каталога (для левой колонки)
-        $catalogMenu = $this->menuCatalogFrontendModel->getCatalogMenu();
-
-        // список производителей (для левой колонки)
-        $makers = $this->makerCatalogFrontendModel->getMakers(10);
-
-        // список функциональных групп (для левой колонки)
-        $groups = $this->groupCatalogFrontendModel->getGroups(10);
 
         /*
          * массив переменных, которые будут переданы в шаблон left.php
          */
+
+        // чтобы правильно сформировать ссылки на категории каталога, на страницы
+        // производителей и на страницы функциональных групп, надо знать, выбрал
+        // пользователь сортировку и кол-во товаров на странице
+        $sort = 0; // пользователь выбрал сортировку?
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        $perpage = 0; // пользователь выбрал кол-во товаров?
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
+        // меню каталога (для левой колонки)
+        $catalogMenu = $this->menuCatalogFrontendModel->getCatalogMenu(0, $sort, $perpage);
+
+        // список производителей (для левой колонки)
+        $makers = $this->makerCatalogFrontendModel->getMakers(10, $sort, $perpage);
+
+        // список функциональных групп (для левой колонки)
+        $groups = $this->groupCatalogFrontendModel->getGroups(10, $sort, $perpage);
+
         $this->leftVars = array(
             // каталог меню для левой колонки
             'catalogMenu'  => $catalogMenu,
@@ -264,8 +279,13 @@ abstract class Frontend_Controller extends Base_Controller {
             'allGroupsURL' => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'),
         );
 
+        /*
+         * массив переменных, которые будут переданы в шаблон right.php
+         */
+
         // получаем от модели массив товаров в корзине (для правой колонки)
         $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();
+
         // общая стоимость товаров в корзине (для правой колонки)
         $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
 
@@ -278,9 +298,6 @@ abstract class Frontend_Controller extends Base_Controller {
         // получаем от модели массив последних просмотренных товаров (для правой колонки)
         $sideViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
 
-        /*
-         * массив переменных, которые будут переданы в шаблон right.php
-         */
         // пользователь авторизован?
         $this->rightVars['authUser'] = $this->authUser;
         if ($this->authUser) {
@@ -302,6 +319,7 @@ abstract class Frontend_Controller extends Base_Controller {
             // ссылка на страницу восстановления пароля
             $this->rightVars['forgotFormUrl']   = $this->userFrontendModel->getURL('frontend/user/forgot');
         }
+
         // массив товаров в корзине
         $this->rightVars['basketProducts']   = $sideBasketProducts;
         // общая стоимость товаров в корзине

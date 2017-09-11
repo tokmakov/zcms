@@ -34,14 +34,27 @@ class Index_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             ),
         );
 
+        // включена сортировка?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
         // получаем от модели массив категорий верхнего уровня
-        $root = $this->indexCatalogFrontendModel->getRootCategories();
+        $root = $this->indexCatalogFrontendModel->getRootCategories($sort, $perpage);
 
         // получаем от модели массив производителей
-        $makers = $this->makerCatalogFrontendModel->getMakers(20);
-        
+        $makers = $this->makerCatalogFrontendModel->getMakers(20, $sort, $perpage);
+
         // получаем от модели массив функциональных групп
-        $groups = $this->groupCatalogFrontendModel->getGroups(20);
+        $groups = $this->groupCatalogFrontendModel->getGroups(20, $sort, $perpage);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
