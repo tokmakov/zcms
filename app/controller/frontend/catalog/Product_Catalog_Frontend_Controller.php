@@ -25,7 +25,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         /*
-         * получаем от модели данные, необходимые для формирования страницы товара, и
+         * Получаем от модели данные, необходимые для формирования страницы товара, и
          * записываем их в массив переменных, который будет передан в шаблон center.php
          */
         $this->getProduct();
@@ -45,27 +45,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // добавляем товар в список просмотренных
             $this->viewedFrontendModel->addToViewed($this->params['id']);
         }
-
-        /*
-         * Переопределяем переменную, которая будет передана в шаблон left.php,
-         * чтобы раскрыть ветку текущей категории
-         */
-        // пользователь выбрал сортировку товаров?
-        $sort = 0;
-        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$_COOKIE['sort'];
-        }
-        // пользователь выбрал кол-во товаров на странице?
-        $perpage = 0;
-        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
-        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
-            $perpage = (int)$_COOKIE['perpage'];
-        }
-        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu(
-            $this->centerVars['ctg_id'],
-            $sort,
-            $perpage
-        );
 
     }
 
@@ -108,12 +87,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $breadcrumbs2 = $this->productCatalogFrontendModel->getCategoryPath($product['second']); // путь до категории
         }
 
-        // технические характеристики
-        $techdata = array();
-        if ( ! empty($product['techdata'])) {
-            $techdata = unserialize($product['techdata']);
-        }
-
         // единицы измерения товара
         $units = $this->productCatalogFrontendModel->getUnits();
 
@@ -127,6 +100,38 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $product['ctg_id'],
             $product['title']
         );
+
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
+        // ссылка на производителя товара
+        $url = 'frontend/catalog/maker/id/' . $product['mkr_id'];
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        if ($perpage) {
+            $url = $url . '/perpage/' . $perpage;
+        }
+        $productMakerURL = $this->productCatalogFrontendModel->getURL($url);
+
+        // ссылка на функциональную группу товара
+        $url = 'frontend/catalog/group/id/' . $product['grp_id'];
+        if ($sort) {
+            $url = $url . '/sort/' . $sort;
+        }
+        if ($perpage) {
+            $url = $url . '/perpage/' . $perpage;
+        }
+        $productGroupURL = $this->productCatalogFrontendModel->getURL($url);
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -164,17 +169,13 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'maker'        => array(
                 'id'   => $product['mkr_id'],
                 'name' => $product['mkr_name'],
-                'url'  => $this->productCatalogFrontendModel->getURL(
-                              'frontend/catalog/maker/id/' . $product['mkr_id'] . '/group/' . $product['grp_id']
-                          ),
+                'url'  => $productMakerURL
             ),
             // функциональная группа
             'group'        => array(
                 'id'   => $product['grp_id'],
                 'name' => $product['grp_name'],
-                'url'  => $this->productCatalogFrontendModel->getURL(
-                              'frontend/catalog/group/id/' . $product['grp_id'] . '/maker/' . $product['mkr_id']
-                          ),
+                'url'  => $productGroupURL
             ),
             // новый товар?
             'new'          => $product['new'],
@@ -187,7 +188,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // назначение изделия
             'purpose'      => $product['purpose'],
             // технические характеристики
-            'techdata'     => $techdata,
+            'techdata'     => $product['techdata'],
             // особенности
             'features'     => $product['features'],
             // комплектация
@@ -202,14 +203,24 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'certs'        => $product['certs'],
             // атирибут action тега form формы для добавления товара в корзину, в избранное, к сравнению
             'action'       => array(
-                'basket'  => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
-                'wished'  => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
-                'compare' => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
+                'basket'   => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
+                'wished'   => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
+                'compare'  => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,
             // массив похожих товаров
             'likedProducts' => $likedProducts,
+        );
+
+        /*
+         * Переопределяем переменную, которая будет передана в шаблон left.php,
+         * чтобы раскрыть ветку текущей категории
+         */
+        $this->leftVars['catalogMenu'] = $this->menuCatalogFrontendModel->getCatalogMenu(
+            $this->centerVars['ctg_id'],
+            $sort,
+            $perpage
         );
 
     }

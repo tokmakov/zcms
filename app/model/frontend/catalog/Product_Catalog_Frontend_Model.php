@@ -75,6 +75,13 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return null;
         }
 
+        // технические характеристики
+        if ( ! empty($product['techdata'])) {
+            $product['techdata'] = unserialize($product['techdata']);
+        } else {
+            $product['techdata'] = array();
+        }
+
         /*
          * добавляем информацию о файлах изображений
          */
