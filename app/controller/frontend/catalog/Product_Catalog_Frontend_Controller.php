@@ -203,9 +203,9 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'certs'        => $product['certs'],
             // атирибут action тега form формы для добавления товара в корзину, в избранное, к сравнению
             'action'       => array(
-                'basket'   => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
-                'wished'   => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
-                'compare'  => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
+                'basket'  => $this->productCatalogFrontendModel->getURL('frontend/basket/addprd'),
+                'wished'  => $this->productCatalogFrontendModel->getURL('frontend/wished/addprd'),
+                'compare' => $this->productCatalogFrontendModel->getURL('frontend/compare/addprd'),
             ),
             // массив рекомендованных товаров
             'recommendedProducts' => $recommendedProducts,

@@ -205,7 +205,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($sort) { // сортировка
                 $url = $url . '/sort/' . $sort;
             }
-            if ($perpage !== $this->config->pager->frontend->products->perpage) { // товаров на страницу
+            if ($perpage) { // товаров на страницу
                 $url = $url . '/perpage/' . $perpage;
             }
             $childCategories[$key]['url'] = $this->getURL($url);
@@ -309,11 +309,12 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       " . $order . "
                   LIMIT
                       :start, :limit";
+        $limit = $perpage ? $perpage : $this->config->pager->frontend->products->perpage;
         $products = $this->database->fetchAll(
             $query,
             array(
                 'start' => $start,
-                'limit' => $perpage
+                'limit' => $limit
             )
         );
 
@@ -1032,7 +1033,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        if ($perpage !== $this->config->pager->frontend->products->perpage) {
+        if ($perpage) {
             $url = $url . '/perpage/' . $perpage;
         }
 
@@ -1112,7 +1113,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 case 6: $name = 'код, убыв.';      break;
             }
             $temp = $i ? $url . '/sort/' . $i : $url;
-            if ($perpage !== $this->config->pager->frontend->products->perpage) {
+            if ($perpage) {
                 $temp = $temp . '/perpage/' . $perpage;
             }
             $sortorders[$i] = array(
@@ -1209,7 +1210,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $items[] = array( // товаров на странице по умолчанию
             'url'     => $this->getURL($url),
             'name'    => $this->config->pager->frontend->products->perpage,
-            'current' => $perpage === $this->config->pager->frontend->products->perpage
+            'current' => !$perpage
         );
         $others = $this->config->pager->frontend->products->others;
         foreach ($others as $variant) { // другие варианты кол-ва товаров на странице

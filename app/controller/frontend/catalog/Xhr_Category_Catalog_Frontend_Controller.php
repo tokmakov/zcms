@@ -148,11 +148,12 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $sort,
             $perpage
         );
+        $slice = $perpage ? $perpage : $this->config->pager->frontend->products->perpage;
         $temp = new Pager(
             $thisPageURL,                                       // URL этой страницы
             $page,                                              // текущая страница
             $totalProducts,                                     // общее кол-во товаров
-            $perpage,                                           // кол-во товаров на странице
+            $slice,                                             // кол-во товаров на странице
             $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
         );
         $pager = $temp->getNavigation();
@@ -161,7 +162,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             return;
         }
         // стартовая позиция для SQL-запроса
-        $start = ($page - 1) * $perpage;
+        $start = ($page - 1) * $slice;
 
         /*
          * получаем от модели массив товаров категории в кол-ве $perpage, начиная с
@@ -211,9 +212,6 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
             $view = 'grid';
         }
-
-        // выбранный вариант кол-ва товаров на странице или ноль — если значение по умолчанию
-        $perpage = ($perpage === $this->config->pager->frontend->products->perpage) ? 0 : $perpage;
 
         /*
          * Получаем три фрагмента html-кода, разделенные символом ¤:
@@ -308,17 +306,16 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $param = array();
         }
 
-        $sort = 0; // сортировка
-        if (isset($_POST['sort'])
-            && ctype_digit($_POST['sort'])
-            && in_array($_POST['sort'], array(1,2,3,4,5,6))
-        ) {
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$_POST['sort'];
         }
 
-        // кол-во товаров на странице
-        $perpage = $this->config->pager->frontend->products->perpage;
-        if (isset($_POST['perpage']) && ctype_digit($_POST['perpage'])) { // TODO: in_array 20, 50, 100
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others');
+        if (isset($_POST['perpage']) && in_array($_POST['perpage'], $others)) {
             $perpage = (int)$_POST['perpage'];
         }
 
@@ -364,14 +361,16 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             }
         }
 
-        $sort = 0; // сортировка
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
         if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
             $sort = (int)$this->params['sort'];
         }
 
-        // кол-во товаров на странице
-        $perpage = $this->config->pager->frontend->products->perpage;
-        if (isset($this->params['perpage']) && ctype_digit($this->params['parpage'])) { // TODO: in_array 20, 50, 100
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others');
+        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) {
             $perpage = (int)$this->params['perpage'];
         }
 

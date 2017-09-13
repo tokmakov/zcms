@@ -120,28 +120,80 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($this->params['hit']) && 1 == $this->params['hit']) {
             $hit = 1;
         }
+        // проверяем корректность значения
+        if ( ! in_array($hit, array(0,1))) {
+            $this->notFoundRecord = true;
+            return;
+        }
 
         // включен фильтр по новинкам?
         $new = 0;
         if (isset($this->params['new']) && 1 == $this->params['new']) {
             $new = 1;
         }
+        // проверяем корректность значения
+        if ( ! in_array($new, array(0,1))) {
+            $this->notFoundRecord = true;
+            return;
+        }
 
-        // включена сортировка?
+        /*
+         * пользователь выбрал сортировку товаров?
+         */
         $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        // значение сортировки передается и через cookie и через URL; переопределяем сохраненное
+        // в cookie значение, когда оно противоречит значению, переданному через URL
         if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$this->params['sort'];
+            $temp = (int)$this->params['sort'];
+            if ($temp !== $sort) {
+                $sort = $temp;
+                $_COOKIE['sort'] = $temp;
+                $time = 86400 * $this->config->user->cookie;
+                setcookie('sort', $temp, time() + $time, '/');
+            }
         }
-
-        // кол-во товаров на одной странице
-        $perpage = $this->config->pager->frontend->products->perpage;
-        $others = $this->config->pager->frontend->products->getValue('others'); // другие доступные варианты
-        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) {
-            $perpage = (int)$this->params['perpage'];
+        // проверяем корректность значения
+        /*
+        if ( ! in_array($sort, array(0,1,2,3,4,5,6))) {
+            $this->notFoundRecord = true;
+            return;
         }
+        */
 
-        // мета-тег robots
-        if ($group || $maker || $hit || $new || $sort) {
+        /*
+         * пользователь выбрал кол-во товаров на странице?
+         */
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+        // кол-во товаров на странице передается и через cookie и через URL; переопределяем сохраненное
+        // в cookie кол-во товаров на странице, когда оно противоречит значению, переданному через URL
+        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) { // TODO: здесь ошибка
+            $temp = (int)$this->params['perpage'];
+            if ($temp !== $perpage) {
+                $perpage = $temp;
+                $_COOKIE['perpage'] = $temp;
+                $time = 86400 * $this->config->user->cookie;
+                setcookie('perpage', $temp, time() + $time, '/');
+            }
+        }
+        // проверяем корректность значения
+        /*
+        array_unshift($others, 0);
+        if ( ! in_array($perpage, $others)) {
+            $this->notFoundRecord = true;
+            return;
+        }
+        */
+
+        // запрещаем индексацию роботами поисковых систем, если включен какой-нибудь
+        // фильтр, выбрана сортировка или кол-во товаров на странице
+        if ($group || $maker || $hit || $new || $sort || $perpage) {
             $this->robots = false;
         }
 
@@ -269,11 +321,12 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $sort,               // сортировка
                 $perpage             // кол-во товаров на странице
             );
+            $slice = $perpage ? $perpage : $this->config->pager->frontend->products->perpage;
             $temp = new Pager(
                 $thisPageURL,                                       // URL этой страницы
                 $page,                                              // текущая страница
                 $totalProducts,                                     // общее кол-во товаров категории
-                $perpage,                                           // кол-во товаров на странице
+                $slice,                                             // кол-во товаров на странице
                 $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
             );
             $pager = $temp->getNavigation();
@@ -282,7 +335,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 return;
             }
             // стартовая позиция для SQL-запроса
-            $start = ($page - 1) * $perpage;
+            $start = ($page - 1) * $slice;
         }
 
         /*
@@ -348,9 +401,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($_COOKIE['view']) && $_COOKIE['view'] == 'grid') {
             $view = 'grid';
         }
-
-        // выбранный вариант кол-ва товаров на странице или ноль — если значение по умолчанию
-        $perpage = ($perpage === $this->config->pager->frontend->products->perpage) ? 0 : $perpage;
 
         /*
          * массив переменных, которые будут переданы в шаблон center.php
@@ -432,12 +482,13 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $url = $url . '/param/' . implode('-', $param);
             }
         }
-        // включена сортировка?
+        // пользователь выбрал сортировку товаров?
         if (isset($_POST['sort']) && in_array($_POST['sort'], array(1,2,3,4,5,6))) {
             $url = $url . '/sort/' . $_POST['sort'];
         }
-        // кол-во товаров на странице
-        if (isset($_POST['perpage']) && ctype_digit($_POST['parpage'])) { // TODO: in_array 20, 50, 100
+        // пользователь выбрал кол-во товаров на странице?
+        $others = $this->config->pager->frontend->products->getValue('others');
+        if (isset($_POST['perpage']) && in_array($_POST['perpage'], $others)) {
             $url = $url . '/perpage/' . $_POST['perpage'];
         }
         // выполняем редирект

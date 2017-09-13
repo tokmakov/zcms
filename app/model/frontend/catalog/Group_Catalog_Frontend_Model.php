@@ -332,12 +332,13 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       " . $temp . "
                   LIMIT
                       :start, :limit";
+        $limit = $perpage ? $perpage : $this->config->pager->frontend->products->perpage;
         $products = $this->database->fetchAll(
             $query,
             array(
                 'id'    => $id,
                 'start' => $start,
-                'limit' => $perpage
+                'limit' => $limit
             )
         );
 
@@ -829,7 +830,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        if ($perpage !== $this->config->pager->frontend->products->perpage) {
+        if ($perpage) {
             $url = $url . '/perpage/' . $perpage;
         }
         return $this->getURL($url);
@@ -904,7 +905,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 case 6: $name = 'код, убыв.';      break;
             }
             $temp = $i ? $url . '/sort/' . $i : $url;
-            if ($perpage !== $this->config->pager->frontend->products->perpage) {
+            if ($perpage) {
                 $temp = $temp . '/perpage/' . $perpage;
             }
             $sortorders[$i] = array(
@@ -997,7 +998,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $items[] = array( // товаров на странице по умолчанию
             'url'     => $this->getURL($url),
             'name'    => $this->config->pager->frontend->products->perpage,
-            'current' => $perpage === $this->config->pager->frontend->products->perpage
+            'current' => !$perpage
         );
         $others = $this->config->pager->frontend->products->others;
         foreach ($others as $variant) { // другие варианты кол-ва товаров на странице
