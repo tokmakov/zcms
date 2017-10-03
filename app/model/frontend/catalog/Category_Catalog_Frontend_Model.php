@@ -27,6 +27,8 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * protected function categoryURL(...)
      * public function getCategorySortOrders(...)
      * protected function categorySortOrders(...)
+     * public function getOthersPerPage(...)
+     * protected function othersPerPage
      */
 
     public function __construct() {
@@ -721,8 +723,10 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return array();
         }
 
-        // получаем список всех параметров подбора для выбранной функциональной
-        // группы и выбранной категории и всех ее потомков
+        /*
+         * Получаем список всех параметров подбора для выбранной функциональной
+         * группы и выбранной категории и всех ее потомков
+         */
         $childs = $this->getAllChildIds($id);
         $childs[] = $id;
         $childs = implode(',', $childs);
@@ -750,8 +754,53 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $result = $this->database->fetchAll($query);
 
         /*
-         * теперь подсчитываем количество товаров для каждого параметра и каждого значения параметра
-         * с учетом фильтров по производителю, лидерам продаж, новинкам и по параметрам
+         * Теперь подсчитываем количество товаров для каждого параметра и каждого
+         * значения параметра с учетом фильтров по производителю, лидерам продаж,
+         * новинкам и по параметрам. В результате получим такой массив
+         *
+         * $result = Array(
+         *   [0] => Array (
+         *     [param_id] => 183
+         *     [param_name] => Напряжение питания, В
+         *     [value_id] => 1670
+         *     [value_name] => переменное 220
+         *     [count] => 5
+         *   )
+         *   [1] => Array(
+         *     [param_id] => 183
+         *     [param_name] => Напряжение питания, В
+         *     [value_id] => 2011
+         *     [value_name] => постоянное 12-24
+         *     [count] => 7
+         *   )
+         *   [2] => Array(
+         *     [param_id] => 183
+         *     [param_name] => Напряжение питания, В
+         *     [value_id] => 97
+         *     [value_name] => батарейка Крона
+         *   )
+         *   [3] => Array(
+         *     [param_id] => 34
+         *     [param_name] => Регистрируемый газ
+         *     [value_id] => 95
+         *     [value_name] => Комбинированный
+         *     [count] => 1
+         *   )
+         *   [4] => Array(
+         *     [param_id] => 34
+         *     [param_name] => Регистрируемый газ
+         *     [value_id] => 94
+         *     [value_name] => Природный газ
+         *     [count] => 1
+         *   )
+         *   [5] => Array(
+         *     [param_id] => 34
+         *     [param_name] => Регистрируемый газ
+         *     [value_id] => 93
+         *     [value_name] => Угарный газ
+         *     [count] => 1
+         *   )
+         * )
          */
         foreach ($result as $key => $value)  {
             $query = "SELECT
@@ -797,7 +846,63 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
         }
 
-        // приводим полученные данные к такому виду, чтобы с ними было удобно работать в шаблоне
+        /*
+         * Приводим полученные данные к такому виду, чтобы с ними было удобно
+         * работать в шаблоне
+         *
+         * $params = Array(
+         *   [0] => Array(
+         *     [id] => 183
+         *     [name] => Напряжение питания, В
+         *     [selected] => true
+         *     [values] => Array(
+         *       [0] => Array (
+         *         [id] => 1670
+         *         [name] => переменное 220
+         *         [count] => 5
+         *         [selected] => true
+         *       )
+         *       [1] => Array(
+         *         [id] => 2011
+         *         [name] => постоянное 12-24
+         *         [count] => 7
+         *         [selected] => false
+         *       )
+         *       [2] => Array(
+         *         [id] => 97
+         *         [name] => батарейка Крона
+         *         [count] => 0
+         *         [selected] => false
+         *       )
+         *     )
+         *   )
+         *   [1] => Array(
+         *     [id] => 34
+         *     [name] => Регистрируемый газ
+         *     [selected] => false
+         *     [values] => Array(
+         *       [0] => Array(
+         *         [id] => 95
+         *         [name] => Комбинированный
+         *         [count] => 1
+         *         [selected] => false
+         *       )
+         *       [1] => Array(
+         *         [id] => 94
+         *         [name] => Природный газ
+         *         [count] => 1
+         *         [selected] => false
+         *       )
+         *       [2] => Array(
+         *         [id] => 93
+         *         [name] => Угарный газ
+         *         [count] => 2
+         *         [selected] => false
+         *       )
+         *     )
+         *   )
+         * )
+         */
         $params = array();
         $param_id = 0;
         $counter = -1;
@@ -806,15 +911,15 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $counter++;
                 $param_id = $value['param_id'];
                 $params[$counter] = array(
-                    'id' => $value['param_id'],
-                    'name' => $value['param_name'],
+                    'id'       => $value['param_id'],
+                    'name'     => $value['param_name'],
                     'selected' => isset($param[$value['param_id']]),
                 );
             }
             $params[$counter]['values'][] = array(
-                'id' => $value['value_id'],
-                'name' => $value['value_name'],
-                'count' => $value['count'],
+                'id'       => $value['value_id'],
+                'name'     => $value['value_name'],
+                'count'    => $value['count'],
                 'selected' => in_array($value['value_id'], $param)
             );
         }

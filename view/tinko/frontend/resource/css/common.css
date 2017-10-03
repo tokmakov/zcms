@@ -709,6 +709,16 @@ select::-ms-expand {
  * КАТАЛОГ ТОВАРОВ
  */
 
+#content > h1 > span {
+    color: #ff6d00;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
+    top: -3px;
+}
+#content > h1 > span:before { content: "(";}
+#content > h1 > span:after { content: ")";}
+
 /* главная страница каталога, корневые категории */
 #root-categories {
 

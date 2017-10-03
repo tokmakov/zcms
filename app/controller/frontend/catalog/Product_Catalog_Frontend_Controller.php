@@ -71,6 +71,7 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          */
         parent::input();
 
+        // мета-теги keywords и description
         $this->title = $product['name'] . '. ' . $product['title'];
         if ( ! empty($product['keywords'])) {
             $this->keywords = $product['keywords'];
@@ -79,12 +80,32 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->description = $product['description'];
         }
 
+        // пользователь выбрал сортировку товаров?
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        // пользователь выбрал кол-во товаров на странице?
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
         // формируем хлебные крошки
-        $breadcrumbs = $this->productCatalogFrontendModel->getCategoryPath($product['ctg_id']); // путь до категории
+        $breadcrumbs = $this->productCatalogFrontendModel->getCategoryPath(  // путь до категории
+            $product['ctg_id'],
+            $sort,
+            $perpage
+        );
         // если товар размещен в двух категориях
         $breadcrumbs2 = null;
         if ( ! empty($product['second'])) {
-            $breadcrumbs2 = $this->productCatalogFrontendModel->getCategoryPath($product['second']); // путь до категории
+            $breadcrumbs2 = $this->productCatalogFrontendModel->getCategoryPath( // путь до категории
+                $product['second'],
+                $sort,
+                $perpage
+            );
         }
 
         // единицы измерения товара
@@ -100,18 +121,6 @@ class Product_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $product['ctg_id'],
             $product['title']
         );
-
-        // пользователь выбрал сортировку товаров?
-        $sort = 0;
-        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$_COOKIE['sort'];
-        }
-        // пользователь выбрал кол-во товаров на странице?
-        $perpage = 0;
-        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
-        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
-            $perpage = (int)$_COOKIE['perpage'];
-        }
 
         // ссылка на производителя товара
         $url = 'frontend/catalog/maker/id/' . $product['mkr_id'];

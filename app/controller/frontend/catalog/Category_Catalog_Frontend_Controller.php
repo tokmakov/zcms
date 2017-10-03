@@ -12,7 +12,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
     /**
      * Функция получает от модели данные, необходимые для формирования страницы
-     * категории каталога, т.е. список дочерних категорий, форма фильтров и список
+     * категории каталога, т.е. список дочерних категорий, формы фильтров и список
      * товаров категории с постраничной навигацией
      */
     protected function input() {
@@ -39,7 +39,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         /*
-         * получаем от модели данные, необходимые для формирования страницы категории, и
+         * Получаем от модели данные, необходимые для формирования страницы категории, и
          * записываем их в массив переменных, который будет передан в шаблон center.php
          */
         $this->getCategory();
@@ -75,6 +75,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         $this->title = $category['name'];
 
+        // мета-теги keywords и description
         if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
         }
@@ -82,9 +83,86 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->description = $category['description'];
         }
 
+        /*
+         * Выбранные пользователем значения сортировки и кол-ва товаров на странице сохраняются в
+         * cookie и передаются в URL. Можно было бы обойтись только сохранением в cookie, но тогда
+         * пользователь не смог бы поделиться ссылкой на страницу с другим пользователем. Потому
+         * что у двух разных пользователей будут разные настройки просмотра товаров категории. И
+         * при разных настройках они увидят разный список товаров. А передача выбранных значений
+         * сортировки и кол-ва через URL однозначно определяет содержимое страницы. Правда, в этом
+         * случае, значение в cookie перезаписывается значением в URL.
+         */
+
+        /*
+         * Пользователь выбрал сортировку товаров?
+         */
+        $sort = 0;
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        // переопределяем сохраненное в cookie значение, когда
+        // оно противоречит значению, переданному через URL
+        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
+            $temp = (int)$this->params['sort'];
+            if ($temp !== $sort) {
+                $sort = $temp;
+                $_COOKIE['sort'] = $temp;
+                $time = 86400 * $this->config->user->cookie;
+                setcookie('sort', $temp, time() + $time, '/');
+            }
+        }
+        // проверяем корректность значения
+        /*
+        if ( ! in_array($sort, array(0,1,2,3,4,5,6))) {
+            $this->notFoundRecord = true;
+            return;
+        }
+        */
+
+        /*
+         * Пользователь выбрал кол-во товаров на странице?
+         */
+        $perpage = 0;
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+        // переопределяем сохраненное в cookie кол-во товаров на странице,
+        // когда оно противоречит значению, переданному через URL
+        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) { // TODO: здесь ошибка
+            $temp = (int)$this->params['perpage'];
+            if ($temp !== $perpage) {
+                $perpage = $temp;
+                $_COOKIE['perpage'] = $temp;
+                $time = 86400 * $this->config->user->cookie;
+                setcookie('perpage', $temp, time() + $time, '/');
+            }
+        }
+        // проверяем корректность значения
+        /*
+        array_unshift($others, 0);
+        if ( ! in_array($perpage, $others)) {
+            $this->notFoundRecord = true;
+            return;
+        }
+        */
+
         // формируем хлебные крошки
-        $breadcrumbs = $this->categoryCatalogFrontendModel->getCategoryPath($this->params['id']); // путь до категории
+        $breadcrumbs = $this->categoryCatalogFrontendModel->getCategoryPath( // путь до категории
+            $this->params['id'],
+            $sort,
+            $perpage
+        );
         array_pop($breadcrumbs); // последний элемент - текущая категория, нам она не нужна
+
+        /*
+         * Какие фильтры применил пользователь?
+         * 1. по функционалу (функциональной группе)
+         * 2. по произвдителю
+         * 3. по параметрам подбора (для выбанного функционала)
+         * 4. по лидерам продаж
+         * 5. по новинкам
+         */
 
         // включен фильтр по функционалу (функциональной группе)?
         $group = 0;
@@ -138,61 +216,9 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         /*
-         * пользователь выбрал сортировку товаров?
+         * Запрещаем индексацию категории роботами поисковых систем, если включен
+         * какой-нибудь фильтр, выбрана сортировка или кол-во товаров на странице
          */
-        $sort = 0;
-        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$_COOKIE['sort'];
-        }
-        // значение сортировки передается и через cookie и через URL; переопределяем сохраненное
-        // в cookie значение, когда оно противоречит значению, переданному через URL
-        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
-            $temp = (int)$this->params['sort'];
-            if ($temp !== $sort) {
-                $sort = $temp;
-                $_COOKIE['sort'] = $temp;
-                $time = 86400 * $this->config->user->cookie;
-                setcookie('sort', $temp, time() + $time, '/');
-            }
-        }
-        // проверяем корректность значения
-        /*
-        if ( ! in_array($sort, array(0,1,2,3,4,5,6))) {
-            $this->notFoundRecord = true;
-            return;
-        }
-        */
-
-        /*
-         * пользователь выбрал кол-во товаров на странице?
-         */
-        $perpage = 0;
-        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
-        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
-            $perpage = (int)$_COOKIE['perpage'];
-        }
-        // кол-во товаров на странице передается и через cookie и через URL; переопределяем сохраненное
-        // в cookie кол-во товаров на странице, когда оно противоречит значению, переданному через URL
-        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) { // TODO: здесь ошибка
-            $temp = (int)$this->params['perpage'];
-            if ($temp !== $perpage) {
-                $perpage = $temp;
-                $_COOKIE['perpage'] = $temp;
-                $time = 86400 * $this->config->user->cookie;
-                setcookie('perpage', $temp, time() + $time, '/');
-            }
-        }
-        // проверяем корректность значения
-        /*
-        array_unshift($others, 0);
-        if ( ! in_array($perpage, $others)) {
-            $this->notFoundRecord = true;
-            return;
-        }
-        */
-
-        // запрещаем индексацию роботами поисковых систем, если включен какой-нибудь
-        // фильтр, выбрана сортировка или кол-во товаров на странице
         if ($group || $maker || $hit || $new || $sort || $perpage) {
             $this->robots = false;
         }
@@ -299,7 +325,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $page = (int)$this->params['page'];
         }
         // общее кол-во товаров категории
-        $totalProducts = $this->categoryCatalogFrontendModel->getCountCategoryProducts(
+        $count = $this->categoryCatalogFrontendModel->getCountCategoryProducts(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
             $maker,              // идентификатор производителя или ноль
@@ -309,7 +335,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         );
         $pager = null; // постраничная навигация
         $start = 0;    // стартовая позиция для SQL-запроса
-        if ($totalProducts > $this->config->pager->frontend->products->perpage) { // постраничная навигация нужна?
+        if ($count > $this->config->pager->frontend->products->perpage) { // постраничная навигация нужна?
             // URL этой страницы
             $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
                 $this->params['id'], // уникальный идентификатор категории
@@ -325,7 +351,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $temp = new Pager(
                 $thisPageURL,                                       // URL этой страницы
                 $page,                                              // текущая страница
-                $totalProducts,                                     // общее кол-во товаров категории
+                $count,                                             // общее кол-во товаров категории
                 $slice,                                             // кол-во товаров на странице
                 $this->config->pager->frontend->products->leftright // кол-во ссылок слева и справа
             );
@@ -386,7 +412,9 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'frontend/catalog/category/id/' . $this->params['id']
         );
 
-        // URL ссылки для сборса фильтра
+        /*
+         * URL ссылки для сборса фильтра
+         */
         $url = 'frontend/catalog/category/id/' . $this->params['id'];
         if ($sort) {
             $url = $url . '/sort/' . $sort;
@@ -428,6 +456,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'perpages'       => $perpages,           // массив всех вариантов кол-ва товаров на страницу
             'units'          => $units,              // массив единиц измерения товара
             'products'       => $products,           // массив товаров категории
+            'count'          => $count,              // общее кол-во товаров категории
             'clearFilterURL' => $clearFilterURL,     // URL ссылки для сброса фильтра
             'pager'          => $pager,              // постраничная навигация
             'page'           => $page,               // текущая страница

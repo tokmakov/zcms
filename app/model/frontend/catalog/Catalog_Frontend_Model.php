@@ -319,14 +319,14 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает путь от корня каталога до категории с уникальным
      * идентификатором $id; результат работы кэшируется
      */
-    public function getCategoryPath($id) {
+    public function getCategoryPath($id, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->categoryPath($id);
+            return $this->categoryPath($id, $sort, $perpage);
         }
 
         /*
@@ -334,7 +334,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
+        $key = __METHOD__ . '()-id-' . $id . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -348,7 +348,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * Функция возвращает путь от корня каталога до категории с уникальным
      * идентификатором $id
      */
-    protected function categoryPath($id) {
+    protected function categoryPath($id, $sort, $perpage) {
 
         $path = array();
         $current = $id;
@@ -365,6 +365,12 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
             $filter = $this->getIsOnlyCategoryGroup($current);
             if ($filter) {
                 $url = $url . '/group/' . $filter;
+            }
+            if ($sort) { // выбрана сортировка?
+                $url = $url . '/sort/' . $sort;
+            }
+            if ($perpage) { // выбрано кол-во товаров на страницу?
+                $url = $url . '/perpage/' . $perpage;
             }
             $path[] = array(
                 'url' => $this->getURL($url),

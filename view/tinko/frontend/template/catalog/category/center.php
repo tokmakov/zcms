@@ -25,6 +25,7 @@
  * $sortorders - массив всех вариантов сортировки
  * $units - массив единиц измерения товара
  * $products - массив товаров категории
+ * $count - общее кол-во товаров категории
  * $clearFilterURL - URL ссылки для сброса фильтра
  * $pager - постраничная навигация
  * $page - текущая страница
@@ -303,7 +304,7 @@ for ($i = 0; $i <= 6; $i++) {
     <i class="fa fa-bars<?php echo ($view == 'line') ? ' selected' : ''; ?>"></i>
     <i class="fa fa-th-large<?php echo ($view == 'grid') ? ' selected' : ''; ?>"></i>
 </span>
-<h1><?php echo $name; ?></h1>
+<h1><?php echo $name; ?>&nbsp;<span><?php echo $count ?></span></h1>
 
 <?php if ( ! empty($categories)): /* дочерние категории */ ?>
     <div id="category-childs"> <!-- дочерние категории -->
@@ -319,14 +320,14 @@ for ($i = 0; $i <= 6; $i++) {
                 // дочерних категорий много, выводим в две колонки
                 $border = 0;
                 $divide = 0;
-                $count = count($categories);
-                if ($count > 3) {
-                    $divide = ceil($count/2);
-                    $border = $count%2;
+                $cnt = count($categories);
+                if ($cnt > 3) {
+                    $divide = ceil($cnt/2);
+                    $border = $cnt%2;
                 }
             ?>
             <?php foreach ($categories as $key => $item): ?>
-                <li<?php if (($key == $count-1) && $border) echo ' class="category-last-child-border"'; ?>>
+                <li<?php if (($key == $cnt-1) && $border) echo ' class="category-last-child-border"'; ?>>
                     <?php if ($item['count']): // есть товары в категории? ?>
                         <span><a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a> <span><?php echo $item['count']; ?></span></span>
                     <?php else: ?>
