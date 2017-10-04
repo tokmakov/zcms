@@ -41,7 +41,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          *     <surname>...</surname>
          *     <email>...</email>
          *   </user>
-         *   <buyer>
+         *   <getter>
          *     <name>...</name>
          *     <surname>...</surname>
          *     <email>...</email>
@@ -61,7 +61,7 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
          *       <settl>...</settl>
          *       <corr>...</corr>
          *     </company>
-         *   </buyer>
+         *   </getter>
          *   <payer>
          *     <name>...</name>
          *     <surname>...</surname>
@@ -150,74 +150,74 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         /*
          * ПОЛУЧАТЕЛЬ
          */
-        // создаем элемент <buyer>, получатель заказа
-        $buyer = $dom->createElement('buyer');
-        $root->appendChild($buyer);
+        // создаем элемент <getter>, получатель заказа
+        $getter = $dom->createElement('getter');
+        $root->appendChild($getter);
         // создаем узел <name>, имя контактного лица получателя
-        $order['buyer_name'] = isset($order['buyer_name']) ? $order['buyer_name'] : '';
-        $name = $dom->createElement('name', $order['buyer_name']);
-        $buyer->appendChild($name);
+        $order['getter_name'] = isset($order['getter_name']) ? $order['getter_name'] : '';
+        $name = $dom->createElement('name', $order['getter_name']);
+        $getter->appendChild($name);
         // создаем узел <surname>, фамилия контактного лица получателя
-        $order['buyer_surname'] = isset($order['buyer_surname']) ? $order['buyer_surname'] : '';
-        $surname = $dom->createElement('surname', $order['buyer_surname']);
-        $buyer->appendChild($surname);
+        $order['getter_surname'] = isset($order['getter_surname']) ? $order['getter_surname'] : '';
+        $surname = $dom->createElement('surname', $order['getter_surname']);
+        $getter->appendChild($surname);
         // создаем узел <email>, e-mail контактного лица получателя
-        $order['buyer_email'] = isset($order['buyer_email']) ? $order['buyer_email'] : '';
-        $email = $dom->createElement('email', $order['buyer_email']);
-        $buyer->appendChild($email);
+        $order['getter_email'] = isset($order['getter_email']) ? $order['getter_email'] : '';
+        $email = $dom->createElement('email', $order['getter_email']);
+        $getter->appendChild($email);
         // создаем узел <phone>, телефон контактного лица получателя
-        $order['buyer_phone'] = isset($order['buyer_phone']) ? $order['buyer_phone'] : '';
-        $phone = $dom->createElement('phone', $order['buyer_phone']);
-        $buyer->appendChild($phone);
+        $order['getter_phone'] = isset($order['getter_phone']) ? $order['getter_phone'] : '';
+        $phone = $dom->createElement('phone', $order['getter_phone']);
+        $getter->appendChild($phone);
         // создаем узел <shipping>, способ доставки
         $shipping = $dom->createElement('shipping');
-        $buyer->appendChild($shipping);
+        $getter->appendChild($shipping);
         // устанавливаем атрибут office для узла <shipping>
         $order['shipping'] = isset($order['shipping']) ? $order['shipping'] : 1;
         $shipping->setAttribute('office', $order['shipping']);
-        $buyer->appendChild($shipping);
+        $getter->appendChild($shipping);
         if ( ! $order['shipping']) { // доставка по адресу
             // создаем узел <address>, адрес доставки
-            $address = $dom->createElement('address', $order['buyer_shipping_address']);
+            $address = $dom->createElement('address', $order['getter_shipping_address']);
             $shipping->appendChild($address);
             // создаем узел <city>, город доставки
-            $city = $dom->createElement('city', $order['buyer_shipping_city']);
+            $city = $dom->createElement('city', $order['getter_shipping_city']);
             $shipping->appendChild($city);
             // создаем узел <index>, почтовый индекс
-            $index = $dom->createElement('index', $order['buyer_shipping_index']);
+            $index = $dom->createElement('index', $order['getter_shipping_index']);
             $shipping->appendChild($index);
         }
         // создаем узел <company>
         $company = $dom->createElement('company');
-        $buyer->appendChild($company);
-        $order['buyer_company'] = isset($order['buyer_company']) ? $order['buyer_company'] : 0;
-        if ($order['buyer_company']) { // если получатель - юридическое лицо
+        $getter->appendChild($company);
+        $order['getter_company'] = isset($order['getter_company']) ? $order['getter_company'] : 0;
+        if ($order['getter_company']) { // если получатель - юридическое лицо
             // создаем узел <name>, название компании-получателя
-            $name = $dom->createElement('name', $order['buyer_company_name']);
+            $name = $dom->createElement('name', $order['getter_company_name']);
             $company->appendChild($name);
             // создаем узел <ceo>, имя генерального директора компании-получателя
-            $ceo = $dom->createElement('ceo', $order['buyer_company_ceo']);
+            $ceo = $dom->createElement('ceo', $order['getter_company_ceo']);
             $company->appendChild($ceo);
             // создаем узел <address>, юридический адрес компании-получателя
-            $address = $dom->createElement('address', $order['buyer_company_address']);
+            $address = $dom->createElement('address', $order['getter_company_address']);
             $company->appendChild($address);
             // создаем узел <inn>, ИНН компании-получателя
-            $inn = $dom->createElement('inn', $order['buyer_company_inn']);
+            $inn = $dom->createElement('inn', $order['getter_company_inn']);
             $company->appendChild($inn);
             // создаем узел <kpp>, КПП компании-получателя
-            $kpp = $dom->createElement('kpp', $order['buyer_company_kpp']);
+            $kpp = $dom->createElement('kpp', $order['getter_company_kpp']);
             $company->appendChild($kpp);
             // создаем узел <bank>, название банка компании-получателя
-            $bank = $dom->createElement('bank', $order['buyer_bank_name']);
+            $bank = $dom->createElement('bank', $order['getter_bank_name']);
             $company->appendChild($bank);
             // создаем узел <bik>, БИК банка компании-получателя
-            $bik = $dom->createElement('bik', $order['buyer_bank_bik']);
+            $bik = $dom->createElement('bik', $order['getter_bank_bik']);
             $company->appendChild($bik);
             // создаем узел <settl>, расчетный счет компании-получателя
-            $settl = $dom->createElement('settl', $order['buyer_settl_acc']);
+            $settl = $dom->createElement('settl', $order['getter_settl_acc']);
             $company->appendChild($settl);
             // создаем узел <corr>, корреспондентский счет компании-получателя
-            $corr = $dom->createElement('corr', $order['buyer_corr_acc']);
+            $corr = $dom->createElement('corr', $order['getter_corr_acc']);
             $company->appendChild($corr);
         }
         /*
@@ -226,9 +226,9 @@ class Order_Exchange_Frontend_Controller extends Exchange_Frontend_Controller {
         // создаем узел <payer>
         $payer = $dom->createElement('payer');
         $root->appendChild($payer);
-        $order['buyer_payer_different']
-            = isset($order['buyer_payer_different']) ? $order['buyer_payer_different'] : 0;
-        if ($order['buyer_payer_different']) { // получатель и плательщик различаются
+        $order['getter_payer_different']
+            = isset($order['getter_payer_different']) ? $order['getter_payer_different'] : 0;
+        if ($order['getter_payer_different']) { // получатель и плательщик различаются
             // создаем узел <name>, имя контактного лица плательщика
             $name = $dom->createElement('name', $order['payer_name']);
             $payer->appendChild($name);

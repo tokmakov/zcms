@@ -42,7 +42,7 @@
             margin: 0 7px 0 5px;
         }
     /* рамка для блоков Получатель и Плательщик */
-    #checkout-order > #payer-order, #checkout-order > #buyer-order {
+    #checkout-order > #payer-order, #checkout-order > #getter-order {
         position: relative;
         background: #fafafa;
         border: 1px solid #d1d1d1;
@@ -50,7 +50,7 @@
         margin-top: 45px;
     }
         /* заголовки для блоков Получатель и Плательщик */
-        #checkout-order > #payer-order > h2, #checkout-order > #buyer-order > h2 {
+        #checkout-order > #payer-order > h2, #checkout-order > #getter-order > h2 {
             position: absolute;
             margin: 0;
             left: 20px;
@@ -66,7 +66,7 @@
             color: #395985;
         }
         /* выбор профиля для Получателя и Плательщика */
-        #checkout-order > #payer-order > #payer-profile, #checkout-order > #buyer-order > #buyer-profile {
+        #checkout-order > #payer-order > #payer-profile, #checkout-order > #getter-order > #getter-profile {
             margin-bottom: 15px;
             padding: 8px;
             background: #f0f0f0;
@@ -81,33 +81,33 @@
             padding-right: 15px;
         }
         #checkout-order > #payer-order > fieldset#payer-company,
-        #checkout-order > #buyer-order > fieldset#buyer-company,
+        #checkout-order > #getter-order > fieldset#getter-company,
         #checkout-order > #payer-order > fieldset#payer-physical-person,
-        #checkout-order > #buyer-order > fieldset#buyer-physical-person,
-        #checkout-order > #buyer-order > fieldset#buyer-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
+        #checkout-order > #getter-order > fieldset#getter-physical-person,
+        #checkout-order > #getter-order > fieldset#getter-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
             background: #fff;
             border: 1px solid #d1d1d1;
             padding: 5px 10px 10px 10px;
             margin-top: 15px;
         }
-        #checkout-order > #buyer-order > #buyer-shipping {
+        #checkout-order > #getter-order > #getter-shipping {
             margin-top: 14px;
             min-height: 30px;
             line-height: 30px;
         }
-            #checkout-order > #buyer-order > #buyer-shipping > label {
+            #checkout-order > #getter-order > #getter-shipping > label {
                 vertical-align: top;
                 height: 25px;
             }
-            #checkout-order > #buyer-order > #buyer-shipping > label > span {
+            #checkout-order > #getter-order > #getter-shipping > label > span {
                 line-height: normal;
             }
             /* заголовок для блоков юридические лицо и контактное лицо */
             #checkout-order > #payer-order > fieldset#payer-company > legend,
-            #checkout-order > #buyer-order > fieldset#buyer-company > legend,
+            #checkout-order > #getter-order > fieldset#getter-company > legend,
             #checkout-order > #payer-order > fieldset#payer-physical-person > legend,
-            #checkout-order > #buyer-order > fieldset#buyer-physical-person > legend,
-            #checkout-order > #buyer-order > fieldset#buyer-shipping-details > legend {
+            #checkout-order > #getter-order > fieldset#getter-physical-person > legend,
+            #checkout-order > #getter-order > fieldset#getter-shipping-details > legend {
                 font-style: italic;
                 padding: 0 7px;
             }

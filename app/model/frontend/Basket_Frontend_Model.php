@@ -606,39 +606,39 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $html = $html . '<h3>Получатель</h3>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
-        $html = $html . '<li>Фамилия: '.$details['buyer_surname'].'</li>' . PHP_EOL;
-        $html = $html . '<li>Имя: '.$details['buyer_name'].'</li>' . PHP_EOL;
-        if ( ! empty($details['buyer_patronymic'])) {
-            $html = $html . '<li>Отчество: '.$details['buyer_patronymic'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Фамилия: '.$details['getter_surname'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Имя: '.$details['getter_name'].'</li>' . PHP_EOL;
+        if ( ! empty($details['getter_patronymic'])) {
+            $html = $html . '<li>Отчество: '.$details['getter_patronymic'].'</li>' . PHP_EOL;
         }
-        $html = $html . '<li>E-mail: '.$details['buyer_email'].'</li>' . PHP_EOL;
-        if ( ! empty($details['buyer_phone'])) {
-            $html = $html . '<li>Телефон: '.$details['buyer_phone'].'</li>' . PHP_EOL;
+        $html = $html . '<li>E-mail: '.$details['getter_email'].'</li>' . PHP_EOL;
+        if ( ! empty($details['getter_phone'])) {
+            $html = $html . '<li>Телефон: '.$details['getter_phone'].'</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
         if ( ! $details['shipping']) {
-            $html = $html . '<li>Адрес доставки: '.$details['buyer_shipping_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Город доставки: '.$details['buyer_shipping_city'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Почтовый индекс: '.$details['buyer_shipping_index'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Адрес доставки: '.$details['getter_shipping_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Город доставки: '.$details['getter_shipping_city'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Почтовый индекс: '.$details['getter_shipping_index'].'</li>' . PHP_EOL;
         } else {
             $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
-        if ($details['buyer_company']) {
+        if ($details['getter_company']) {
             $html = $html . '<ul>' . PHP_EOL;
-            $html = $html . '<li>Название компании: '.$details['buyer_company_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Генеральный директор: '.$details['buyer_company_ceo'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Юридический адрес: '.$details['buyer_company_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>ИНН: '.$details['buyer_company_inn'].'</li>' . PHP_EOL;
-            $html = $html . '<li>КПП: '.$details['buyer_company_kpp'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Название банка: '.$details['buyer_bank_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>БИК банка: '.$details['buyer_bank_bik'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Расчетный счет: '.$details['buyer_settl_acc'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Корреспондентский счет: '.$details['buyer_corr_acc'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Название компании: '.$details['getter_company_name'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Генеральный директор: '.$details['getter_company_ceo'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Юридический адрес: '.$details['getter_company_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>ИНН: '.$details['getter_company_inn'].'</li>' . PHP_EOL;
+            $html = $html . '<li>КПП: '.$details['getter_company_kpp'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Название банка: '.$details['getter_bank_name'].'</li>' . PHP_EOL;
+            $html = $html . '<li>БИК банка: '.$details['getter_bank_bik'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Расчетный счет: '.$details['getter_settl_acc'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Корреспондентский счет: '.$details['getter_corr_acc'].'</li>' . PHP_EOL;
             $html = $html . '</ul>' . PHP_EOL;
         }
-        if ($details['buyer_payer_different']) {
+        if ($details['getter_payer_different']) {
            $html = $html . '<h3>Плательщик</h3>' . PHP_EOL;
            $html = $html . '<ul>' . PHP_EOL;
            $html = $html . '<li>Фамилия: '.$details['payer_surname'].'</li>' . PHP_EOL;
@@ -679,7 +679,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($this->register->userFrontendModel->isAuthUser()) {
             $email = $this->register->userFrontendModel->getUserEmail();
         } else { // если не авторизован, отправляем письмо на адрес получателя заказа
-            $email = $details['buyer_email'];
+            $email = $details['getter_email'];
         }
 
         $subject = '=?utf-8?b?'.base64_encode('Заявка № '.$orderId).'?=';
@@ -689,13 +689,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $carbonCopy = array();
         // если пользователь авторизован, и адреса пользователя  и получателя (заказа)
         // не совпадают, отправляем копию письма получателю заказа
-        if ($details['buyer_email'] != $email) {
-            $carbonCopy[] = $details['buyer_email'];
+        if ($details['getter_email'] != $email) {
+            $carbonCopy[] = $details['getter_email'];
         }
         // если получатель и плательщик различаются, и адрес плательщика не совпадает с адресами
         // пользователя (сайта) и получателя (заказа), отправляем копию письма плательщику
         $condition =
-            $details['buyer_payer_different'] && $details['payer_email'] != $details['buyer_email'] && $details['payer_email'] != $email;
+            $details['getter_payer_different'] && $details['payer_email'] != $details['getter_email'] && $details['payer_email'] != $email;
         if ($condition) {
             $carbonCopy[] = $details['payer_email'];
         }

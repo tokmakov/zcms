@@ -111,7 +111,7 @@ class Add_Page_Backend_Controller extends Page_Backend_Controller {
          * пользователем данные, чтобы после редиректа снова показать форму,
          * заполненную введенными ранее данными и сообщением об ошибке
          */
-        if (!empty($errorMessage)) {
+        if ( ! empty($errorMessage)) {
             $data['errorMessage'] = $errorMessage;
             $this->setSessionData('addPageForm', $data);
             return false;
