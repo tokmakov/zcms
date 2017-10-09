@@ -1786,11 +1786,11 @@ form#center-search-form {
         list-style: none;
     }
     #sort-per-page > ul:first-child {
-        width: 82%;
+        width: 84%;
     }
     #sort-per-page > ul:last-child {
         width: 15%;
-        margin-left: 3%;
+        margin-left: 1%;
     }
         #sort-per-page > ul:first-child > li {
             float: left;

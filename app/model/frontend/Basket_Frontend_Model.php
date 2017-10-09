@@ -586,6 +586,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     private function sendOrderMail($orderId, $details, $products, $user_amount) {
 
         $html = '<h2>Заявка № '.$orderId.'</h2>' . PHP_EOL;
+        // товары
         $html = $html . '<table border="1" cellspacing="0" cellpadding="4">' . PHP_EOL;
         $html = $html . '<tr>' . PHP_EOL;
         $html = $html . '<th>Код</th><th>Наименование</th><th>Кол.</th><th>Цена</th><th>Стоим.</th>' . PHP_EOL;
@@ -603,68 +604,72 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $html = $html . '<td colspan="4" align="right">Итого</td><td>'.number_format($user_amount, 2, '.', '').'</td>' . PHP_EOL;
         $html = $html . '</tr>' . PHP_EOL;
         $html = $html . '</table>' . PHP_EOL;
-
-        $html = $html . '<h3>Получатель</h3>' . PHP_EOL;
+        // плательщик
+        $html = $html . '<h3>Плательщик</h3>' . PHP_EOL;
         $html = $html . '<ul>' . PHP_EOL;
-        $html = $html . '<li>Фамилия: '.$details['getter_surname'].'</li>' . PHP_EOL;
-        $html = $html . '<li>Имя: '.$details['getter_name'].'</li>' . PHP_EOL;
-        if ( ! empty($details['getter_patronymic'])) {
-            $html = $html . '<li>Отчество: '.$details['getter_patronymic'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Фамилия: '.$details['payer_surname'].'</li>' . PHP_EOL;
+        $html = $html . '<li>Имя: '.$details['payer_name'].'</li>' . PHP_EOL;
+        if ( ! empty($details['payer_patronymic'])) {
+            $html = $html . '<li>Отчество: '.$details['payer_patronymic'].'</li>' . PHP_EOL;
         }
-        $html = $html . '<li>E-mail: '.$details['getter_email'].'</li>' . PHP_EOL;
-        if ( ! empty($details['getter_phone'])) {
-            $html = $html . '<li>Телефон: '.$details['getter_phone'].'</li>' . PHP_EOL;
+        $html = $html . '<li>E-mail: '.$details['payer_email'].'</li>' . PHP_EOL;
+        if ( ! empty($details['payer_phone'])) {
+            $html = $html . '<li>Телефон: '.$details['payer_phone'].'</li>' . PHP_EOL;
         }
         $html = $html . '</ul>' . PHP_EOL;
-        $html = $html . '<ul>' . PHP_EOL;
-        if ( ! $details['shipping']) {
-            $html = $html . '<li>Адрес доставки: '.$details['getter_shipping_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Город доставки: '.$details['getter_shipping_city'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Почтовый индекс: '.$details['getter_shipping_index'].'</li>' . PHP_EOL;
-        } else {
-            $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;
-        }
-        $html = $html . '</ul>' . PHP_EOL;
-        if ($details['getter_company']) {
+        if ($details['payer_company']) {
             $html = $html . '<ul>' . PHP_EOL;
-            $html = $html . '<li>Название компании: '.$details['getter_company_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Генеральный директор: '.$details['getter_company_ceo'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Юридический адрес: '.$details['getter_company_address'].'</li>' . PHP_EOL;
-            $html = $html . '<li>ИНН: '.$details['getter_company_inn'].'</li>' . PHP_EOL;
-            $html = $html . '<li>КПП: '.$details['getter_company_kpp'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Название банка: '.$details['getter_bank_name'].'</li>' . PHP_EOL;
-            $html = $html . '<li>БИК банка: '.$details['getter_bank_bik'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Расчетный счет: '.$details['getter_settl_acc'].'</li>' . PHP_EOL;
-            $html = $html . '<li>Корреспондентский счет: '.$details['getter_corr_acc'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Название компании: '.$details['payer_company_name'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Генеральный директор: '.$details['payer_company_ceo'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Юридический адрес: '.$details['payer_company_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>ИНН: '.$details['payer_company_inn'].'</li>' . PHP_EOL;
+            $html = $html . '<li>КПП: '.$details['payer_company_kpp'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Название банка: '.$details['payer_bank_name'].'</li>' . PHP_EOL;
+            $html = $html . '<li>БИК банка: '.$details['payer_bank_bik'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Расчетный счет: '.$details['payer_settl_acc'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Корреспондентский счет: '.$details['payer_corr_acc'].'</li>' . PHP_EOL;
             $html = $html . '</ul>' . PHP_EOL;
         }
-        if ($details['getter_payer_different']) {
-           $html = $html . '<h3>Плательщик</h3>' . PHP_EOL;
+        // получатель
+        if ($details['payer_getter_different']) {
+           $html = $html . '<h3>Получатель</h3>' . PHP_EOL;
            $html = $html . '<ul>' . PHP_EOL;
-           $html = $html . '<li>Фамилия: '.$details['payer_surname'].'</li>' . PHP_EOL;
-           $html = $html . '<li>Имя: '.$details['payer_name'].'</li>' . PHP_EOL;
-           if ( ! empty($details['payer_patronymic'])) {
-               $html = $html . '<li>Отчество: '.$details['payer_patronymic'].'</li>' . PHP_EOL;
+           $html = $html . '<li>Фамилия: '.$details['getter_surname'].'</li>' . PHP_EOL;
+           $html = $html . '<li>Имя: '.$details['getter_name'].'</li>' . PHP_EOL;
+           if ( ! empty($details['getter_patronymic'])) {
+               $html = $html . '<li>Отчество: '.$details['getter_patronymic'].'</li>' . PHP_EOL;
            }
-           $html = $html . '<li>E-mail: '.$details['payer_email'].'</li>' . PHP_EOL;
-           if ( ! empty($details['payer_phone'])) {
-               $html = $html . '<li>Телефон: '.$details['payer_phone'].'</li>' . PHP_EOL;
+           $html = $html . '<li>E-mail: '.$details['getter_email'].'</li>' . PHP_EOL;
+           if ( ! empty($details['getter_phone'])) {
+               $html = $html . '<li>Телефон: '.$details['getter_phone'].'</li>' . PHP_EOL;
            }
            $html = $html . '</ul>' . PHP_EOL;
-           if ($details['payer_company']) {
+           if ($details['getter_company']) {
                $html = $html . '<ul>' . PHP_EOL;
-               $html = $html . '<li>Название компании: '.$details['payer_company_name'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Генеральный директор: '.$details['payer_company_ceo'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Юридический адрес: '.$details['payer_company_address'].'</li>' . PHP_EOL;
-               $html = $html . '<li>ИНН: '.$details['payer_company_inn'].'</li>' . PHP_EOL;
-               $html = $html . '<li>КПП: '.$details['payer_company_kpp'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Название банка: '.$details['payer_bank_name'].'</li>' . PHP_EOL;
-               $html = $html . '<li>БИК банка: '.$details['payer_bank_bik'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Расчетный счет: '.$details['payer_settl_acc'].'</li>' . PHP_EOL;
-               $html = $html . '<li>Корреспондентский счет: '.$details['payer_corr_acc'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Название компании: '.$details['getter_company_name'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Генеральный директор: '.$details['getter_company_ceo'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Юридический адрес: '.$details['getter_company_address'].'</li>' . PHP_EOL;
+               $html = $html . '<li>ИНН: '.$details['getter_company_inn'].'</li>' . PHP_EOL;
+               $html = $html . '<li>КПП: '.$details['getter_company_kpp'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Название банка: '.$details['getter_bank_name'].'</li>' . PHP_EOL;
+               $html = $html . '<li>БИК банка: '.$details['getter_bank_bik'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Расчетный счет: '.$details['getter_settl_acc'].'</li>' . PHP_EOL;
+               $html = $html . '<li>Корреспондентский счет: '.$details['getter_corr_acc'].'</li>' . PHP_EOL;
                $html = $html . '</ul>' . PHP_EOL;
            }
         }
+        // доставка
+        $html = $html . '<ul>' . PHP_EOL;
+        if ( ! $details['shipping']) {
+            $html = $html . '<li>Адрес доставки: '.$details['shipping_address'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Город доставки: '.$details['shipping_city'].'</li>' . PHP_EOL;
+            $html = $html . '<li>Почтовый индекс: '.$details['shipping_index'].'</li>' . PHP_EOL;
+        } else {
+            // TODO: Офис самовывоза
+            $html = $html . '<li>Самовывоз со склада</li>' . PHP_EOL;
+        }
+        $html = $html . '</ul>' . PHP_EOL;
+        // комментарий
         if ( ! empty($details['comment'])) {
             $html = $html . '<h4>Комментарий</h4>' . PHP_EOL;
             $html = $html . '<p>'.nl2br($details['comment']).'</p>' . PHP_EOL;
@@ -678,8 +683,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // если пользователь авторизован, отправляем письмо на адрес, указанный при регистрации
         if ($this->register->userFrontendModel->isAuthUser()) {
             $email = $this->register->userFrontendModel->getUserEmail();
-        } else { // если не авторизован, отправляем письмо на адрес получателя заказа
-            $email = $details['getter_email'];
+        } else { // если не авторизован, отправляем письмо на адрес плательщика
+            $email = $details['payer_email'];
         }
 
         $subject = '=?utf-8?b?'.base64_encode('Заявка № '.$orderId).'?=';
@@ -687,17 +692,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
         // определяем, кому будем отправлять копии письма
         $carbonCopy = array();
-        // если пользователь авторизован, и адреса пользователя  и получателя (заказа)
-        // не совпадают, отправляем копию письма получателю заказа
-        if ($details['getter_email'] != $email) {
-            $carbonCopy[] = $details['getter_email'];
-        }
-        // если получатель и плательщик различаются, и адрес плательщика не совпадает с адресами
-        // пользователя (сайта) и получателя (заказа), отправляем копию письма плательщику
-        $condition =
-            $details['getter_payer_different'] && $details['payer_email'] != $details['getter_email'] && $details['payer_email'] != $email;
-        if ($condition) {
+        // если пользователь авторизован, и адреса пользователя  и плательщика
+        // не совпадают, отправляем копию письма плательщику
+        if ($details['payer_email'] != $email) {
             $carbonCopy[] = $details['payer_email'];
+        }
+        // если плательщик и получатель различаются, и адрес получателя не совпадает с адресами
+        // пользователя (сайта) и плательщика (заказа), отправляем копию письма получателю
+        $condition =
+            $details['payer_getter_different'] && $details['getter_email'] != $details['payer_email'] && $details['getter_email'] != $email;
+        if ($condition) {
+            $carbonCopy[] = $details['getter_email'];
         }
         if ( ! empty($carbonCopy)) {
             $headers = $headers . 'Cc: <' . implode(',', $carbonCopy) . '>' . "\r\n";
@@ -710,7 +715,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $message = chunk_split(base64_encode($html));
 
-        mail($email, $subject, $message, $headers);
+        // mail($email, $subject, $message, $headers);
 
     }
 
@@ -735,13 +740,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
          *
          * Если в cookie не было идентификатора посетителя и ему был записан новый
          * идентификатор, это еще не означает, что посетитель здесь в первый раз.
-         * Он мог зайти с другого компьютера, удалить cookie или истекло время жизни
-         * cookie.
+         * Он мог зайти с другого компьютера, удалить cookie или просто истекло
+         * время жизни cookie.
          *
          * Сразу после авторизации проверяем — совпадает временный идентификатор
          * посетителя (который сохранен в cookie) с постоянным (который хранится в
          * в БД `users`). Если совпадает — ничего не делаем, если нет — записываем
-         * в cookie вместо временного постоянный идентификатор и обновляем записи
+         * в cookie постоянный идентификатор вместо временного и обновляем записи
          * таблицы БД `baskets`, заменяя временный идентификатор на постоянный.
          */
         $newVisitorId = $userFrontendModel->getVisitorId();
@@ -801,10 +806,11 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                   HAVING
                       COUNT(*) > 1";
         $res = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
-        if (empty($res)) {
+        if (empty($res)) { // одинаковых товаров нет, больше ничего делать не надо
             return;
         }
         foreach ($res as $item) {
+            // удаляем из корзины товар, который был добавлен раньше ...
             $query = "DELETE FROM
                           `baskets`
                       WHERE
@@ -817,6 +823,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                     'visitor_id' => $this->visitorId
                 )
             );
+            // ... и увеличиваем кол-во товара, который был добавлен позже
             $query = "UPDATE
                           `baskets`
                       SET

@@ -42,7 +42,9 @@
             margin: 0 7px 0 5px;
         }
     /* рамка для блоков Получатель и Плательщик */
-    #checkout-order > #payer-order, #checkout-order > #getter-order {
+    #checkout-order > #payer-order,
+    #checkout-order > #getter-order,
+    #checkout-order > #delivery {
         position: relative;
         background: #fafafa;
         border: 1px solid #d1d1d1;
@@ -50,10 +52,12 @@
         margin-top: 45px;
     }
         /* заголовки для блоков Получатель и Плательщик */
-        #checkout-order > #payer-order > h2, #checkout-order > #getter-order > h2 {
+        #checkout-order > #payer-order > h2,
+        #checkout-order > #getter-order > h2,
+        #checkout-order > #delivery > h2 {
             position: absolute;
             margin: 0;
-            left: 20px;
+            left: 25px;
             top: -27px;
             color: #333;
             background: #fafafa;
@@ -64,7 +68,12 @@
             border: 1px solid #d1d1d1;
             border-bottom: 1px solid #fafafa;
             color: #395985;
+            min-width: 95px;
         }
+            #checkout-order > #delivery > div > label {
+                display: inline-block;
+                padding-top: 4px;
+            }
         /* выбор профиля для Получателя и Плательщика */
         #checkout-order > #payer-order > #payer-profile, #checkout-order > #getter-order > #getter-profile {
             margin-bottom: 15px;
@@ -82,9 +91,10 @@
         }
         #checkout-order > #payer-order > fieldset#payer-company,
         #checkout-order > #getter-order > fieldset#getter-company,
-        #checkout-order > #payer-order > fieldset#payer-physical-person,
-        #checkout-order > #getter-order > fieldset#getter-physical-person,
-        #checkout-order > #getter-order > fieldset#getter-shipping-details { /* рамка для блоков юридические лицо и контактное лицо */
+        #checkout-order > #payer-order > fieldset#payer-person,
+        #checkout-order > #getter-order > fieldset#getter-person,
+        /* #checkout-order > #getter-order > fieldset#getter-shipping-details, */
+        #checkout-order > #delivery > fieldset { /* рамка для блоков юридические лицо, контактное лицо, адрес доставки */
             background: #fff;
             border: 1px solid #d1d1d1;
             padding: 5px 10px 10px 10px;
@@ -105,9 +115,10 @@
             /* заголовок для блоков юридические лицо и контактное лицо */
             #checkout-order > #payer-order > fieldset#payer-company > legend,
             #checkout-order > #getter-order > fieldset#getter-company > legend,
-            #checkout-order > #payer-order > fieldset#payer-physical-person > legend,
-            #checkout-order > #getter-order > fieldset#getter-physical-person > legend,
-            #checkout-order > #getter-order > fieldset#getter-shipping-details > legend {
+            #checkout-order > #payer-order > fieldset#payer-person > legend,
+            #checkout-order > #getter-order > fieldset#getter-person > legend,
+            /* #checkout-order > #getter-order > fieldset#getter-shipping-details > legend, */
+            #checkout-order > #delivery > fieldset > legend {
                 font-style: italic;
                 padding: 0 7px;
             }
@@ -136,7 +147,7 @@
                         width: 75%;
                         margin: 2px 0;
                     }
-                        /* когда в одной строке не одно поле <input/>, а два: ИНН и КПП */
+                        /* когда в одной строке два поля ввода <input/> */
                         #checkout-order > div > fieldset > div > div:last-child > input[type="text"] {
                             width: 50%;
                             float: left;
@@ -148,7 +159,7 @@
                         #checkout-order > div > fieldset > div > div:last-child > input:last-of-type[type="text"] {
                             border-left: none;
                         }
-                        /* когда в одной строке не два поля <input/>, а только одно */
+                        /* когда в одной строке только одно поле ввода <input/> */
                         #checkout-order > div > fieldset > div > div:last-child > input:only-of-type[type="text"] {
                             width: 100%;
                             float: none;

@@ -87,7 +87,7 @@ defined('ZCMS') or die('Access denied');
     $make_getter_profile     = 1;  // создать профиль получателя на основе введенных данных?
     $make_payer_profile      = 1;  // создать профиль плательщика на основе введенных данных?
 
-    $getter_payer_different  = 0;  // плательщик и получатель различаются?
+    $payer_getter_different  = 0;  // плательщик и получатель различаются?
 
     $payer_surname           = ''; // фамилия контактного лица плательщика
     $payer_name              = ''; // имя контактного лица плательщика
@@ -133,7 +133,7 @@ defined('ZCMS') or die('Access denied');
 
         $make_getter_profile     = $savedFormData['make_getter_profile'];
 
-        $getter_payer_different  = $savedFormData['getter_payer_different'];
+        $payer_getter_different  = $savedFormData['payer_getter_different'];
 
         $payer_surname           = htmlspecialchars($savedFormData['payer_surname']);
         $payer_name              = htmlspecialchars($savedFormData['payer_name']);
@@ -168,140 +168,6 @@ defined('ZCMS') or die('Access denied');
             <span class="customer-checkbox-help">?</span>
         </div>
     <?php endif; ?>
-
-    <div id="getter-order">
-
-        <h2>Получатель</h2>
-
-        <?php if ( ! empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
-            <div id="getter-profile">
-                <div>
-                    <div>Профиль получателя</div>
-                    <div>
-                        <select name="getter_profile">
-                            <option value="0">Выберите</option>
-                            <?php foreach ($profiles as $profile): ?>
-                                <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <div>
-            <label>
-                <input type="checkbox" name="getter_company"<?php if ($getter_company) echo ' checked="checked"'; ?> value="1" />
-                <span>Юридическое лицо</span>
-            </label>
-            <span class="company-checkbox-help">?</span>
-        </div>
-
-        <fieldset id="getter-company">
-            <legend>Юридическое лицо</legend>
-            <div>
-                <div>ИНН <span class="form-field-required">*</span>, КПП</div>
-                <div>
-                    <input type="text" name="getter_company_inn" maxlength="12" value="<?php echo $getter_company_inn; ?>" placeholder="ИНН" />
-                    <input type="text" name="getter_company_kpp" maxlength="9" value="<?php echo $getter_company_kpp; ?>" placeholder="КПП" />
-                </div>
-            </div>
-            <div>
-                <div>Название, ген.директор</div>
-                <div>
-                    <input type="text" name="getter_company_name" maxlength="64" value="<?php echo $getter_company_name; ?>" placeholder="название компании" />
-                    <input type="text" name="getter_company_ceo" maxlength="64" value="<?php echo $getter_company_ceo; ?>" placeholder="ФИО ген.директора" />
-                </div>
-            </div>
-            <div>
-                <div>Юридический адрес</div>
-                <div><input type="text" name="getter_company_address" maxlength="250" value="<?php echo $getter_company_address; ?>" /></div>
-            </div>
-            <div>
-                <div>Название банка, БИК</div>
-                <div>
-                    <input type="text" name="getter_bank_name" maxlength="64" value="<?php echo $getter_bank_name; ?>" placeholder="название банка" />
-                    <input type="text" name="getter_bank_bik" maxlength="9" value="<?php echo $getter_bank_bik; ?>" placeholder="БИК банка" />
-                </div>
-            </div>
-            <div>
-                <div>Расч.счет, корр.счет</div>
-                <div>
-                    <input type="text" name="getter_settl_acc" maxlength="20" value="<?php echo $getter_settl_acc; ?>" placeholder="расчетный счет" />
-                    <input type="text" name="getter_corr_acc" maxlength="20" value="<?php echo $getter_corr_acc; ?>" placeholder="корреспондентский счет" />
-                </div>
-            </div>
-        </fieldset>
-
-        <fieldset id="getter-physical-person">
-            <legend>Контактное лицо</legend>
-            <div>
-                <div>Фамилия <span class="form-field-required">*</span></div>
-                <div><input type="text" name="getter_surname" maxlength="32" value="<?php echo $getter_surname; ?>" placeholder="фамилия" /></div>
-            </div>
-            <div>
-                <div>Имя <span class="form-field-required">*</span></div>
-                <div>
-                    <input type="text" name="getter_name" maxlength="32" value="<?php echo $getter_name; ?>" placeholder="имя" />
-                    <input type="text" name="getter_patronymic" maxlength="32" value="<?php echo $getter_patronymic; ?>" placeholder="отчество" />
-                </div>
-            </div>
-            <div>
-                <div>Телефон <span class="form-field-required">*</span></div>
-                <div><input type="text" name="getter_phone" maxlength="64" value="<?php echo $getter_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
-            </div>
-            <div>
-                <div>E-mail <span class="form-field-required">*</span></div>
-                <div><input type="text" name="getter_email" maxlength="64" value="<?php echo $getter_email; ?>" placeholder="e-mail" /></div>
-            </div>
-        </fieldset>
-
-        <div id="getter-shipping">
-            <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
-            <?php if (!empty($offices)): ?>
-                <select name="office">
-                <?php foreach ($offices as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
-                        <?php echo $value; ?>
-                    </option>
-                <?php endforeach; ?>
-                </select>
-            <?php endif; ?>
-        </div>
-
-        <fieldset id="getter-shipping-details">
-            <legend>Адрес доставки</legend>
-            <div>
-                <div>Адрес доставки <span class="form-field-required">*</span></div>
-                <div><input type="text" name="getter_shipping_address" maxlength="250" value="<?php echo $getter_shipping_address; ?>" /></div>
-            </div>
-            <div>
-                <div>Город, почтовый индекс</div>
-                <div>
-                    <input type="text" name="getter_shipping_city" maxlength="32" value="<?php echo $getter_shipping_city; ?>" placeholder="город" />
-                    <input type="text" name="getter_shipping_index" maxlength="6" value="<?php echo $getter_shipping_index; ?>" placeholder="индекс" />
-                </div>
-            </div>
-        </fieldset>
-
-        <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
-            <div class="make-profile">
-                <label>
-                    <input type="checkbox" name="make_getter_profile"<?php if ($make_getter_profile) echo ' checked="checked"'; ?> value="1" />
-                    <span>Создать профиль получателя</span>
-                </label>
-                <span class="make_profile_help">?</span>
-            </div>
-        <?php endif; ?>
-
-    </div>
-
-    <div>
-        <label>
-            <input type="checkbox" name="getter_payer_different"<?php if ($getter_payer_different) echo ' checked="checked"'; ?> value="1" />
-            <span>Плательщик и получатель различаются</span>
-        </label>
-    </div>
 
     <div id="payer-order">
 
@@ -367,7 +233,7 @@ defined('ZCMS') or die('Access denied');
             </div>
         </fieldset>
 
-        <fieldset id="payer-physical-person">
+        <fieldset id="payer-person">
             <legend>Контактное лицо</legend>
             <div>
                 <div>Фамилия <span class="form-field-required">*</span></div>
@@ -400,6 +266,170 @@ defined('ZCMS') or die('Access denied');
             </div>
         <?php endif; ?>
 
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="payer_getter_different"<?php if ($payer_getter_different) echo ' checked="checked"'; ?> value="1" />
+            <span>Плательщик и получатель различаются</span>
+        </label>
+    </div>
+
+    <div id="getter-order">
+
+        <h2>Получатель</h2>
+
+        <?php if ( ! empty($profiles)): /* пользователь авторизован и у него есть профили */ ?>
+            <div id="getter-profile">
+                <div>
+                    <div>Профиль получателя</div>
+                    <div>
+                        <select name="getter_profile">
+                            <option value="0">Выберите</option>
+                            <?php foreach ($profiles as $profile): ?>
+                                <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div>
+            <label>
+                <input type="checkbox" name="getter_company"<?php if ($getter_company) echo ' checked="checked"'; ?> value="1" />
+                <span>Юридическое лицо</span>
+            </label>
+            <span class="company-checkbox-help">?</span>
+        </div>
+
+        <fieldset id="getter-company">
+            <legend>Юридическое лицо</legend>
+            <div>
+                <div>ИНН <span class="form-field-required">*</span>, КПП</div>
+                <div>
+                    <input type="text" name="getter_company_inn" maxlength="12" value="<?php echo $getter_company_inn; ?>" placeholder="ИНН" />
+                    <input type="text" name="getter_company_kpp" maxlength="9" value="<?php echo $getter_company_kpp; ?>" placeholder="КПП" />
+                </div>
+            </div>
+            <div>
+                <div>Название, ген.директор</div>
+                <div>
+                    <input type="text" name="getter_company_name" maxlength="64" value="<?php echo $getter_company_name; ?>" placeholder="название компании" />
+                    <input type="text" name="getter_company_ceo" maxlength="64" value="<?php echo $getter_company_ceo; ?>" placeholder="ФИО ген.директора" />
+                </div>
+            </div>
+            <div>
+                <div>Юридический адрес</div>
+                <div><input type="text" name="getter_company_address" maxlength="250" value="<?php echo $getter_company_address; ?>" /></div>
+            </div>
+            <div>
+                <div>Название банка, БИК</div>
+                <div>
+                    <input type="text" name="getter_bank_name" maxlength="64" value="<?php echo $getter_bank_name; ?>" placeholder="название банка" />
+                    <input type="text" name="getter_bank_bik" maxlength="9" value="<?php echo $getter_bank_bik; ?>" placeholder="БИК банка" />
+                </div>
+            </div>
+            <div>
+                <div>Расч.счет, корр.счет</div>
+                <div>
+                    <input type="text" name="getter_settl_acc" maxlength="20" value="<?php echo $getter_settl_acc; ?>" placeholder="расчетный счет" />
+                    <input type="text" name="getter_corr_acc" maxlength="20" value="<?php echo $getter_corr_acc; ?>" placeholder="корреспондентский счет" />
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="getter-person">
+            <legend>Контактное лицо</legend>
+            <div>
+                <div>Фамилия <span class="form-field-required">*</span></div>
+                <div><input type="text" name="getter_surname" maxlength="32" value="<?php echo $getter_surname; ?>" placeholder="фамилия" /></div>
+            </div>
+            <div>
+                <div>Имя <span class="form-field-required">*</span></div>
+                <div>
+                    <input type="text" name="getter_name" maxlength="32" value="<?php echo $getter_name; ?>" placeholder="имя" />
+                    <input type="text" name="getter_patronymic" maxlength="32" value="<?php echo $getter_patronymic; ?>" placeholder="отчество" />
+                </div>
+            </div>
+            <div>
+                <div>Телефон <span class="form-field-required">*</span></div>
+                <div><input type="text" name="getter_phone" maxlength="64" value="<?php echo $getter_phone; ?>" placeholder="+7 (495) 123-45-67" /></div>
+            </div>
+            <div>
+                <div>E-mail <span class="form-field-required">*</span></div>
+                <div><input type="text" name="getter_email" maxlength="64" value="<?php echo $getter_email; ?>" placeholder="e-mail" /></div>
+            </div>
+        </fieldset>
+<!--
+        <div id="getter-shipping">
+            <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
+            <?php if (!empty($offices)): ?>
+                <select name="office">
+                <?php foreach ($offices as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
+                        <?php echo $value; ?>
+                    </option>
+                <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
+        </div>
+
+        <fieldset id="getter-shipping-details">
+            <legend>Адрес доставки</legend>
+            <div>
+                <div>Адрес доставки <span class="form-field-required">*</span></div>
+                <div><input type="text" name="getter_shipping_address" maxlength="250" value="<?php echo $getter_shipping_address; ?>" /></div>
+            </div>
+            <div>
+                <div>Город, почтовый индекс</div>
+                <div>
+                    <input type="text" name="getter_shipping_city" maxlength="32" value="<?php echo $getter_shipping_city; ?>" placeholder="город" />
+                    <input type="text" name="getter_shipping_index" maxlength="6" value="<?php echo $getter_shipping_index; ?>" placeholder="индекс" />
+                </div>
+            </div>
+        </fieldset>
+-->
+        <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
+            <div class="make-profile">
+                <label>
+                    <input type="checkbox" name="make_getter_profile"<?php if ($make_getter_profile) echo ' checked="checked"'; ?> value="1" />
+                    <span>Создать профиль получателя</span>
+                </label>
+                <span class="make_profile_help">?</span>
+            </div>
+        <?php endif; ?>
+
+    </div>
+
+    <div id="delivery">
+        <h2>Доставка</h2>
+        <div>
+            <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
+            <?php if (!empty($offices)): ?>
+                <select name="office">
+                <?php foreach ($offices as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
+                        <?php echo $value; ?>
+                    </option>
+                <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
+        </div>
+        <fieldset>
+            <legend>Адрес доставки</legend>
+            <div>
+                <div>Адрес доставки <span class="form-field-required">*</span></div>
+                <div><input type="text" name="shipping_address" maxlength="250" value="" /></div>
+            </div>
+            <div>
+                <div>Город, почтовый индекс</div>
+                <div>
+                    <input type="text" name="shipping_city" maxlength="32" value="" placeholder="город" />
+                    <input type="text" name="shipping_index" maxlength="6" value="" placeholder="индекс" />
+                </div>
+            </div>
+        </fieldset>
     </div>
 
     <div>
