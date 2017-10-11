@@ -118,15 +118,15 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'authUser'           => $this->authUser,
                 // не зарегистрированный пользователь уже делал заказы ранее?
                 'customer'           => $customer,
-                // фамилия контактного лица получателя
-                'getter_name'        => $name,
-                // имя контактного лица получателя
-                'getter_surname'     => $surname,
-                // отчество контактного лица получателя
-                'getter_patronymic'  => $patronymic,
-                // e-mail контактного лица получателя
-                'getter_email'       => $email,
-                // массив профилей пользователя
+                // фамилия контактного лица плательщика
+                'payer_name'         => $name,
+                // имя контактного лица плательщика
+                'payer_surname'     => $surname,
+                // отчество контактного лица плательщика
+                'payer_patronymic'  => $patronymic,
+                // e-mail контактного лица плательщика
+                'payer_email'       => $email,
+                // массив профилей плательщика
                 'profiles'           => $profiles,
                 // массив офисов для самовывоза
                 'offices'            => $offices,

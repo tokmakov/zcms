@@ -64,12 +64,25 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
-    $getter_phone            = ''; // телефон контактного лица получателя
+    $payer_company           = 0;  // плательщик - юридическое лицо?
+    $payer_company_name      = ''; // название компании плательщика
+    $payer_company_ceo       = ''; // генеральный директор компании плательщика
+    $payer_company_address   = ''; // юридический адрес компании плательщика
+    $payer_company_inn       = ''; // ИНН компании плательщика
+    $payer_company_kpp       = ''; // КПП компании плательщика
+    $payer_bank_name         = ''; // название банка компании плательщика
+    $payer_bank_bik          = ''; // БИК банка компании плательщика
+    $payer_settl_acc         = ''; // расчетный счет компании плательщика
+    $payer_corr_acc          = ''; // корр. счет банка компании плательщика
 
-    $shipping                = 1;  // самовывоз? (0 - нет; 1,2,3,4 - да)
-    $getter_shipping_address = ''; // адрес доставки получателя
-    $getter_shipping_city    = ''; // город доставки получателя
-    $getter_shipping_index   = ''; // почтовый индекс получателя
+    $payer_getter_different  = 0;  // плательщик и получатель различаются?
+
+    $getter_surname          = ''; // фамилия контактного лица получателя
+    $getter_name             = ''; // имя контактного лица получателя
+    $getter_patronymic       = ''; // отчество контактного лица получателя
+    $getter_email            = ''; // e-mail контактного лица получателя
+    $getter_phone            = ''; // телефон контактного лица получателя
+    $getter_phone            = ''; // телефон контактного лица получателя
 
     $getter_company          = 0;  // получатель - юридическое лицо?
     $getter_company_name     = ''; // название компании получателя
@@ -82,78 +95,77 @@ defined('ZCMS') or die('Access denied');
     $getter_settl_acc        = ''; // расчетный счет компании получателя
     $getter_corr_acc         = ''; // корр. счет банка компании получателя
 
+    $shipping                = 1;  // самовывоз? (0 - нет; 1,2,3,4 - да)
+    $shipping_address        = ''; // адрес доставки
+    $shipping_city           = ''; // город доставки
+    $shipping_index          = ''; // почтовый индекс
+
     // если пользователь авторизован, но у него еще нет профилей — предлагаем
     // создать профили получателя и плательщика на основе введенных данных
     $make_getter_profile     = 1;  // создать профиль получателя на основе введенных данных?
     $make_payer_profile      = 1;  // создать профиль плательщика на основе введенных данных?
 
-    $payer_getter_different  = 0;  // плательщик и получатель различаются?
-
-    $payer_surname           = ''; // фамилия контактного лица плательщика
-    $payer_name              = ''; // имя контактного лица плательщика
-    $payer_patronymic        = ''; // отчество контактного лица плательщика
-    $payer_email             = ''; // e-mail контактного лица плательщика
-    $payer_phone             = ''; // телефон контактного лица плательщика
-
-    $payer_company           = 0;  // плательщик - юридическое лицо?
-    $payer_company_name      = ''; // название компании плательщика
-    $payer_company_ceo       = ''; // генеральный директор компании плательщика
-    $payer_company_address   = ''; // юридический адрес компании плательщика
-    $payer_company_inn       = ''; // ИНН компании плательщика
-    $payer_company_kpp       = ''; // КПП компании плательщика
-    $payer_bank_name         = ''; // название банка компании плательщика
-    $payer_bank_bik          = ''; // БИК банка компании плательщика
-    $payer_settl_acc         = ''; // расчетный счет компании плательщика
-    $payer_corr_acc          = ''; // корр. счет банка компании плательщика
-
     $comment                 = ''; // комментарий к заказу
 
     if (isset($savedFormData)) {
-        $getter_surname          = htmlspecialchars($savedFormData['getter_surname']);
-        $getter_name             = htmlspecialchars($savedFormData['getter_name']);
-        $getter_patronymic       = htmlspecialchars($savedFormData['getter_patronymic']);
-        $getter_email            = htmlspecialchars($savedFormData['getter_email']);
-        $getter_phone            = htmlspecialchars($savedFormData['getter_phone']);
+        /*
+         * плательщик
+         */
+        $payer_surname          = htmlspecialchars($savedFormData['payer_surname']);
+        $payer_name             = htmlspecialchars($savedFormData['payer_name']);
+        $payer_patronymic       = htmlspecialchars($savedFormData['payer_patronymic']);
+        $payer_email            = htmlspecialchars($savedFormData['payer_email']);
+        $payer_phone            = htmlspecialchars($savedFormData['payer_phone']);
 
-        $shipping                = $savedFormData['shipping'];
-        $getter_shipping_address = htmlspecialchars($savedFormData['getter_shipping_address']);
-        $getter_shipping_city    = htmlspecialchars($savedFormData['getter_shipping_city']);
-        $getter_shipping_index   = htmlspecialchars($savedFormData['getter_shipping_index']);
+        $payer_company          = $savedFormData['payer_company'];
+        $payer_company_name     = htmlspecialchars($savedFormData['payer_company_name']);
+        $payer_company_ceo      = htmlspecialchars($savedFormData['payer_company_ceo']);
+        $payer_company_address  = htmlspecialchars($savedFormData['payer_company_address']);
+        $payer_company_inn      = htmlspecialchars($savedFormData['payer_company_inn']);
+        $payer_company_kpp      = htmlspecialchars($savedFormData['payer_company_kpp']);
+        $payer_bank_name        = htmlspecialchars($savedFormData['payer_bank_name']);
+        $payer_bank_bik         = htmlspecialchars($savedFormData['payer_bank_bik']);
+        $payer_settl_acc        = htmlspecialchars($savedFormData['payer_settl_acc']);
+        $payer_corr_acc         = htmlspecialchars($savedFormData['payer_corr_acc']);
 
-        $getter_company          = $savedFormData['getter_company'];
-        $getter_company_name     = htmlspecialchars($savedFormData['getter_company_name']);
-        $getter_company_ceo      = htmlspecialchars($savedFormData['getter_company_ceo']);
-        $getter_company_address  = htmlspecialchars($savedFormData['getter_company_address']);
-        $getter_company_inn      = htmlspecialchars($savedFormData['getter_company_inn']);
-        $getter_company_kpp      = htmlspecialchars($savedFormData['getter_company_kpp']);
-        $getter_bank_name        = htmlspecialchars($savedFormData['getter_bank_name']);
-        $getter_bank_bik         = htmlspecialchars($savedFormData['getter_bank_bik']);
-        $getter_settl_acc        = htmlspecialchars($savedFormData['getter_settl_acc']);
-        $getter_corr_acc         = htmlspecialchars($savedFormData['getter_corr_acc']);
+        // плательщик и получатель различаются?
+        $payer_getter_different = $savedFormData['payer_getter_different'];
 
-        $make_getter_profile     = $savedFormData['make_getter_profile'];
+        /*
+         * получатель
+         */
+        $getter_surname         = htmlspecialchars($savedFormData['getter_surname']);
+        $getter_name            = htmlspecialchars($savedFormData['getter_name']);
+        $getter_patronymic      = htmlspecialchars($savedFormData['getter_patronymic']);
+        $getter_email           = htmlspecialchars($savedFormData['getter_email']);
+        $getter_phone           = htmlspecialchars($savedFormData['getter_phone']);
 
-        $payer_getter_different  = $savedFormData['payer_getter_different'];
+        $getter_company         = $savedFormData['getter_company'];
+        $getter_company_name    = htmlspecialchars($savedFormData['getter_company_name']);
+        $getter_company_ceo     = htmlspecialchars($savedFormData['getter_company_ceo']);
+        $getter_company_address = htmlspecialchars($savedFormData['getter_company_address']);
+        $getter_company_inn     = htmlspecialchars($savedFormData['getter_company_inn']);
+        $getter_company_kpp     = htmlspecialchars($savedFormData['getter_company_kpp']);
+        $getter_bank_name       = htmlspecialchars($savedFormData['getter_bank_name']);
+        $getter_bank_bik        = htmlspecialchars($savedFormData['getter_bank_bik']);
+        $getter_settl_acc       = htmlspecialchars($savedFormData['getter_settl_acc']);
+        $getter_corr_acc        = htmlspecialchars($savedFormData['getter_corr_acc']);
 
-        $payer_surname           = htmlspecialchars($savedFormData['payer_surname']);
-        $payer_name              = htmlspecialchars($savedFormData['payer_name']);
-        $payer_patronymic        = htmlspecialchars($savedFormData['payer_patronymic']);
-        $payer_email             = htmlspecialchars($savedFormData['payer_email']);
-        $payer_phone             = htmlspecialchars($savedFormData['payer_phone']);
-        $payer_company           = $savedFormData['payer_company'];
-        $payer_company_name      = htmlspecialchars($savedFormData['payer_company_name']);
-        $payer_company_ceo       = htmlspecialchars($savedFormData['payer_company_ceo']);
-        $payer_company_address   = htmlspecialchars($savedFormData['payer_company_address']);
-        $payer_company_inn       = htmlspecialchars($savedFormData['payer_company_inn']);
-        $payer_company_kpp       = htmlspecialchars($savedFormData['payer_company_kpp']);
-        $payer_bank_name         = htmlspecialchars($savedFormData['payer_bank_name']);
-        $payer_bank_bik          = htmlspecialchars($savedFormData['payer_bank_bik']);
-        $payer_settl_acc         = htmlspecialchars($savedFormData['payer_settl_acc']);
-        $payer_corr_acc          = htmlspecialchars($savedFormData['payer_corr_acc']);
+        /*
+         * доставка
+         */
+        $shipping               = $savedFormData['shipping'];
+        $shipping_address       = htmlspecialchars($savedFormData['shipping_address']);
+        $shipping_city          = htmlspecialchars($savedFormData['shipping_city']);
+        $shipping_index         = htmlspecialchars($savedFormData['shipping_index']);
 
-        $make_payer_profile      = $savedFormData['make_payer_profile'];
+        // создать профиль плательщика на основе введенных данных?
+        $make_payer_profile     = $savedFormData['make_payer_profile'];
+        // создать профиль получателя на основе введенных данных?
+        $make_getter_profile    = $savedFormData['make_getter_profile'];
 
-        $comment                 = htmlspecialchars($savedFormData['comment']);
+        // комментарий к заказу
+        $comment                = htmlspecialchars($savedFormData['comment']);
     }
 ?>
 
@@ -420,13 +432,13 @@ defined('ZCMS') or die('Access denied');
             <legend>Адрес доставки</legend>
             <div>
                 <div>Адрес доставки <span class="form-field-required">*</span></div>
-                <div><input type="text" name="shipping_address" maxlength="250" value="" /></div>
+                <div><input type="text" name="shipping_address" maxlength="250" value="<?php echo $shipping_address; ?>" /></div>
             </div>
             <div>
                 <div>Город, почтовый индекс</div>
                 <div>
-                    <input type="text" name="shipping_city" maxlength="32" value="" placeholder="город" />
-                    <input type="text" name="shipping_index" maxlength="6" value="" placeholder="индекс" />
+                    <input type="text" name="shipping_city" maxlength="32" value="<?php echo $shipping_city; ?>" placeholder="город" />
+                    <input type="text" name="shipping_index" maxlength="6" value="<?php echo $shipping_index; ?>" placeholder="индекс" />
                 </div>
             </div>
         </fieldset>

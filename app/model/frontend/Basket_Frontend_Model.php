@@ -672,7 +672,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         // комментарий
         if ( ! empty($details['comment'])) {
             $html = $html . '<h4>Комментарий</h4>' . PHP_EOL;
-            $html = $html . '<p>'.nl2br($details['comment']).'</p>' . PHP_EOL;
+            $html = $html . '<p>' . nl2br($details['comment']) . '</p>' . PHP_EOL;
         }
         $html = $html . '<p>';
         $html = $html . $this->config->site->name . '<br/>';
@@ -687,7 +687,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $email = $details['payer_email'];
         }
 
-        $subject = '=?utf-8?b?'.base64_encode('Заявка № '.$orderId).'?=';
+        $subject = '=?utf-8?b?' . base64_encode('Заявка № '.$orderId).'?=';
         $headers = 'From: =?utf-8?b?' . base64_encode($this->config->site->name) . '?= <' . $this->config->email->site . '>' . "\r\n";
         $headers = $headers . 'Return-path: <' . $this->config->email->admin . '>' . "\r\n";
         // определяем, кому будем отправлять копии письма
