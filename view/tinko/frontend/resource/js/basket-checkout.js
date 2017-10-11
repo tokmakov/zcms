@@ -211,8 +211,8 @@ $(document).ready(function() {
                 $('#checkout-order input[name="getter_email"]').val(data.getter_email);
                 // телефон контактного лица получателя
                 $('#checkout-order input[name="getter_phone"]').val(data.getter_phone);
-                if (data.payer_company == 1) { // получатель - юридическое лицо?
-                    $('#checkout-order input[name="пуееук_company"]').prop('checked', true).change();
+                if (data.getter_company == 1) { // получатель - юридическое лицо?
+                    $('#checkout-order input[name="getter_company"]').prop('checked', true).change();
 
                     $('#checkout-order input[name="getter_company_name"]').val(data.getter_company_name);
                     $('#checkout-order input[name="getter_company_ceo"]').val(data.getter_company_ceo);
