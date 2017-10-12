@@ -154,6 +154,7 @@ $(document).ready(function() {
          * Получаем с сервера данные и заполняем поля формы оформления заказа
          */
         $.get('/user/customer', function(data) {
+            // данные плательщика
             if (data.payer_name === undefined) {
                 return;
             }
@@ -180,24 +181,7 @@ $(document).ready(function() {
                 $('#checkout-order input[name="payer_settl_acc"]').val(data.payer_settl_acc);
                 $('#checkout-order input[name="payer_corr_acc"]').val(data.payer_corr_acc);
             }
-            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
-                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
-                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
-                }
-                $('#checkout-order input[name="shipping_address"]').val(data.shipping_address);
-                $('#checkout-order input[name="shipping_city"]').val(data.shipping_city);
-                $('#checkout-order input[name="shipping_index"]').val(data.shipping_index);
-            } else {
-                // из какого офиса забирать заказ?
-                $('#checkout-order select[name="office"] option').each(function(){
-                    if (data.shipping == this.value) {
-                        this.selected = true;
-                    } else {
-                        this.selected = false;
-                    }
-                });
-            }
-
+            // данные получателя
             if (data.payer_getter_different == 1) { // получатель и плательщик различаются?
                 // изменяем состояние checkbox «Плательщик и получатель различаются»
                 $('#checkout-order input[name="payer_getter_different"]').prop('checked', true).change();
@@ -225,21 +209,44 @@ $(document).ready(function() {
                     $('#checkout-order input[name="getter_corr_acc"]').val(data.getter_corr_acc);
                 }
             }
+            // данные по доставке
+            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
+                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
+                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
+                }
+                $('#checkout-order input[name="shipping_address"]').val(data.shipping_address);
+                $('#checkout-order input[name="shipping_city"]').val(data.shipping_city);
+                $('#checkout-order input[name="shipping_index"]').val(data.shipping_index);
+            } else {
+                // из какого офиса забирать заказ?
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (data.shipping == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
+            }
         }, 'json');
     });
 
-    // если пользователь авторизован, подгружаем с сервера данные плательщика
-    // при выборе профиля плательщика
+    // Если пользователь авторизован, подгружаем с сервера данные плательщика
+    // при выборе профиля плательщика из выпадающего списка
     $('#checkout-order select[name="payer_profile"]').change(function() {
         // возвращаем все поля формы, связанные с плательщиком, в исходное состояние
         $('#checkout-order #payer-order input[type="text"]').val('');
         if ($('#checkout-order input[name="payer_company"]').prop('checked')) {
             $('#checkout-order input[name="payer_company"]').prop('checked', false).change();
         }
-        // возвращаем все поля формы, связанные с доставкой, в исходное состояние
-        $('#checkout-order select[name="office"] option:selected').prop('selected', false);
-        if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
-            $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+        // Возвращаем все поля формы, связанные с доставкой, в исходное состояние только в том
+        // случае, если не отмечен checkbox «Плательщик и получатель различаются». Если checkbox
+        // отмечен, ничего не делаем, чтобы не удалить данные по доставке, которые получены из
+        // профиля получатели или покупатель заполнил эти поля самостоятельно.
+        if ( ! $('#checkout-order input[name="payer_getter_different"]').prop('checked')) {
+            $('#checkout-order select[name="office"] option:selected').prop('selected', false);
+            if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
+                $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+            }
         }
 
         var payerProfileId = $(this).val();
@@ -274,35 +281,43 @@ $(document).ready(function() {
                 $('#checkout-order input[name="payer_settl_acc"]').val(data.settl_acc);
                 $('#checkout-order input[name="payer_corr_acc"]').val(data.corr_acc);
             }
-            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
-                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
-                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
-                }
-                $('#checkout-order input[name="shipping_address"]').val(data.shipping_address);
-                $('#checkout-order input[name="shipping_city"]').val(data.shipping_city);
-                $('#checkout-order input[name="shipping_index"]').val(data.shipping_index);
-            } else {
-                // из какого офиса забирать заказ?
-                $('#checkout-order select[name="office"] option').each(function(){
-                    if (data.shipping == this.value) {
-                        this.selected = true;
-                    } else {
-                        this.selected = false;
+            // Поля формы, связанные с доставкой, заполняем только в том случае, если не отмечен
+            // checkbox «Плательщик и получатель различаются». Если checkbox отмечен, данные по
+            // доставке будут получены из профиля получателя или покупатель введет их сам.
+            if ( ! $('#checkout-order input[name="payer_getter_different"]').prop('checked')) {
+                if (data.shipping == 0) { // доставка по адресу (не самовывоз)
+                    if ($('#checkout-order input[name="shipping"]').prop('checked')) {
+                        $('#checkout-order input[name="shipping"]').prop('checked', false).change();
                     }
-                });
+                    $('#checkout-order input[name="shipping_address"]').val(data.shipping_address);
+                    $('#checkout-order input[name="shipping_city"]').val(data.shipping_city);
+                    $('#checkout-order input[name="shipping_index"]').val(data.shipping_index);
+                } else { // из какого офиса забирать заказ?
+                    $('#checkout-order select[name="office"] option').each(function(){
+                        if (data.shipping == this.value) {
+                            this.selected = true;
+                        } else {
+                            this.selected = false;
+                        }
+                    });
+                }
             }
         }, 'json');
     });
 
-    // если пользователь авторизован, подгружаем с сервера данные получателя
-    // при выборе профиля получателя
+    // Если пользователь авторизован, подгружаем с сервера данные получателя
+    // при выборе профиля получателя из выпадающего списка
     $('#checkout-order select[name="getter_profile"]').change(function() {
         // возвращаем все поля формы, связанные с получателем, в исходное состояние
         $('#checkout-order #getter-order input[type="text"]').val('');
         if ($('#checkout-order input[name="getter_company"]').prop('checked')) {
             $('#checkout-order input[name="getter_company"]').prop('checked', false).change();
         }
-        // TODO: доставка
+        // возвращаем все поля формы, связанные с доставкой, в исходное состояние
+        $('#checkout-order select[name="office"] option:selected').prop('selected', false);
+        if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
+            $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+        }
 
         var getterProfileId = $(this).val();
         if (getterProfileId === '0') {
@@ -335,6 +350,23 @@ $(document).ready(function() {
                 $('#checkout-order input[name="getter_bank_bik"]').val(data.bank_bik);
                 $('#checkout-order input[name="getter_settl_acc"]').val(data.settl_acc);
                 $('#checkout-order input[name="getter_corr_acc"]').val(data.corr_acc);
+            }
+            // данные по доставке
+            if (data.shipping == 0) { // доставка по адресу (не самовывоз)
+                if ($('#checkout-order input[name="shipping"]').prop('checked')) {
+                    $('#checkout-order input[name="shipping"]').prop('checked', false).change();
+                }
+                $('#checkout-order input[name="shipping_address"]').val(data.shipping_address);
+                $('#checkout-order input[name="shipping_city"]').val(data.shipping_city);
+                $('#checkout-order input[name="shipping_index"]').val(data.shipping_index);
+            } else { // из какого офиса забирать заказ?
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (data.shipping == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
             }
         }, 'json');
     });

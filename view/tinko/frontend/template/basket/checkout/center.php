@@ -64,6 +64,9 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <?php
+
+    $payer_phone             = ''; // телефон контактного лица плательщика
+
     $payer_company           = 0;  // плательщик - юридическое лицо?
     $payer_company_name      = ''; // название компании плательщика
     $payer_company_ceo       = ''; // генеральный директор компании плательщика
