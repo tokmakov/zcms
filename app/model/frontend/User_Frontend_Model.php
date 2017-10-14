@@ -479,6 +479,12 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         if ( ! isset($_COOKIE['visitor'])) {
             return false;
         }
+        if ( ! preg_match('~^[a-f0-9]{64}$~', $_COOKIE['remember'])) {
+            return false;
+        }
+        if ( ! preg_match('~^[a-f0-9]{32}$~', $_COOKIE['visitor'])) {
+            return false;
+        }
 
         /*
          * У пользователя в cookie с именем remember сохраняются token1 и token2,
@@ -490,68 +496,58 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
          * Потому как злоумышленник заходил в аккаунт, используя cookie, похищенный
          * с этого компьютера. Если пользователь заходит на сайт автоматически еще
          * и с других компьютеров, он сможет с них заходить и далее. А на этом ему
-         * надо авторизоваться, введя e-mail и пароль и отметить checkbox «Запомнить
+         * надо авторизоваться, введя e-mail, пароль и отметить checkbox «Запомнить
          * меня».
          */
-        if (preg_match('~^[a-f0-9]{64}$~', $_COOKIE['remember']) && preg_match('~^[a-f0-9]{32}$~', $_COOKIE['visitor'])) {
 
-            $token1 = substr($_COOKIE['remember'], 0, 32);
-            $token2 = substr($_COOKIE['remember'], 32);
+        $token1 = substr($_COOKIE['remember'], 0, 32);
+        $token2 = substr($_COOKIE['remember'], 32);
 
-            $query = "SELECT
-                          `a`.`id` AS `id`
-                      FROM
-                          `users` `a` INNER JOIN `remember` `b`
-                          ON `a`.`id` = `b`.`user_id`
-                      WHERE
-                          `a`.`visitor_id` = :visitor_id AND `b`.`token1` = :token1 AND `b`.`token2` = :token2";
-            $res = $this->database->fetchOne(
-                $query,
-                array(
-                    'visitor_id' => $_COOKIE['visitor'],
-                    'token1'     => $token1,
-                    'token2'     => $token2
-                )
-            );
-            if (false === $res) {
-                // удаляем запись в таблице БД remember
-                $query = "DELETE FROM `remember` WHERE `token2` = :token2";
-                $this->database->execute($query, array('token2' => $token2));
-                // удаляем cookie с именем remember
-                setcookie ('remember', '', time() - 3600, '/');
-                return false;
-            }
-
-            // авторизация прошла успешно
-            $_SESSION['zcmsAuthUser'] = $res;
-            $this->authUser = true;
-            $this->userId = $res;
-            $this->user = $this->getUser();
-
-            // обновляем запись в таблице БД remember
-            $token1 = md5(uniqid(mt_rand(), true)); // новое значение token1
-            $query = "UPDATE
-                          `remember`
-                      SET
-                          `token1` = :token1,
-                          `updated` = NOW()
-                      WHERE
-                          `token2` = :token2";
-            $this->database->execute($query, array('token1' => $token1, 'token2' => $token2));
-            // обновляем cookie, чтобы она хранилась еще Config::getInstance()->user->cookie
-            $time = 86400 * $this->config->user->cookie;
-            setcookie('remember', $token1 . $token2, time() + $time, '/');
-
-            return true;
-
-        } else {
-
-            // удаляем cookie
+        $query = "SELECT
+                      `a`.`id` AS `id`
+                  FROM
+                      `users` `a` INNER JOIN `remember` `b`
+                      ON `a`.`id` = `b`.`user_id`
+                  WHERE
+                      `a`.`visitor_id` = :visitor_id AND `b`.`token1` = :token1 AND `b`.`token2` = :token2";
+        $res = $this->database->fetchOne(
+            $query,
+            array(
+                'visitor_id' => $_COOKIE['visitor'],
+                'token1'     => $token1,
+                'token2'     => $token2
+            )
+        );
+        if (false === $res) {
+            // удаляем запись в таблице БД remember
+            $query = "DELETE FROM `remember` WHERE `token2` = :token2";
+            $this->database->execute($query, array('token2' => $token2));
+            // удаляем cookie с именем remember
             setcookie ('remember', '', time() - 3600, '/');
-
             return false;
-
         }
+
+        // авторизация прошла успешно
+        $_SESSION['zcmsAuthUser'] = $res;
+        $this->authUser = true;
+        $this->userId = $res;
+        $this->user = $this->getUser();
+
+        // обновляем запись в таблице БД remember
+        $token1 = md5(uniqid(mt_rand(), true)); // новое значение token1
+        $query = "UPDATE
+                      `remember`
+                  SET
+                      `token1` = :token1,
+                      `updated` = NOW()
+                  WHERE
+                      `token2` = :token2";
+        $this->database->execute($query, array('token1' => $token1, 'token2' => $token2));
+        // обновляем cookie, чтобы она хранилась еще Config::getInstance()->user->cookie
+        $time = 86400 * $this->config->user->cookie;
+        setcookie('remember', $token1 . $token2, time() + $time, '/');
+
+        return true;
 
     }
 
