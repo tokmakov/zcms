@@ -13,14 +13,14 @@ $(document).ready(function() {
     const checkoutDelivery = {
         'payer' : {
             'shipping' : true,
-            'office' : 1,
+            'office' : $('#checkout-order select[name="office"]').val(),
             'address' : '',
             'city' : '',
             'index' : ''
         },
         'getter' : {
             'shipping' : true,
-            'office' : 1,
+            'office' : $('#checkout-order select[name="office"]').val(),
             'address' : '',
             'city' : '',
             'index' : ''
@@ -78,6 +78,68 @@ $(document).ready(function() {
     // скрываем/показываем часть формы, связанную с получателем
     $('#checkout-order input[name="payer_getter_different"]').change(function() {
         $('#checkout-order #getter-order').slideToggle();
+        // поля формы, связанные с доставкой
+        if ($(this).prop('checked')) {
+            // сохраняем данные по доставке
+            checkoutDelivery.payer.shipping = $('#checkout-order input[name="shipping"]').prop('checked');
+            checkoutDelivery.payer.office   = $('#checkout-order select[name="office"]').val();
+            checkoutDelivery.payer.address  = $('#checkout-order input[name="shipping_address"]').val();
+            checkoutDelivery.payer.city     = $('#checkout-order input[name="shipping_city"]').val();
+            checkoutDelivery.payer.index    = $('#checkout-order input[name="shipping_index"]').val();
+            // возвращаем все поля формы, связанные с доставкой, в исходное состояние
+            $('#checkout-order select[name="office"] option:selected').prop('selected', false);
+            if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
+                $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+            }
+            $('#checkout-order input[name="shipping_address"]').val('');
+            $('#checkout-order input[name="shipping_city"]').val('');
+            $('#checkout-order input[name="shipping_index"]').val('');
+            // заполняем поля формы, связанные с доставкой, из переменной для их хранения
+            if ( ! checkoutDelivery.getter.shipping) {
+                $('#checkout-order input[name="shipping"]').prop('checked', false).change();
+                $('#checkout-order input[name="shipping_address"]').val(checkoutDelivery.getter.address);
+                $('#checkout-order input[name="shipping_city"]').val(checkoutDelivery.getter.city);
+                $('#checkout-order input[name="shipping_index"]').val(checkoutDelivery.getter.index);
+            } else {
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (checkoutDelivery.getter.office == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
+            }
+        } else {
+            // сохраняем данные по доставке
+            checkoutDelivery.getter.shipping = $('#checkout-order input[name="shipping"]').prop('checked');
+            checkoutDelivery.getter.office   = $('#checkout-order select[name="office"]').val();
+            checkoutDelivery.getter.address  = $('#checkout-order input[name="shipping_address"]').val();
+            checkoutDelivery.getter.city     = $('#checkout-order input[name="shipping_city"]').val();
+            checkoutDelivery.getter.index    = $('#checkout-order input[name="shipping_index"]').val();
+            // возвращаем все поля формы, связанные с доставкой, в исходное состояние
+            $('#checkout-order select[name="office"] option:selected').prop('selected', false);
+            if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
+                $('#checkout-order input[name="shipping"]').prop('checked', true).change();
+            }
+            $('#checkout-order input[name="shipping_address"]').val('');
+            $('#checkout-order input[name="shipping_city"]').val('');
+            $('#checkout-order input[name="shipping_index"]').val('');
+            // заполняем поля формы, связанные с доставкой, из переменной для их хранения
+            if ( ! checkoutDelivery.payer.shipping) {
+                $('#checkout-order input[name="shipping"]').prop('checked', false).change();
+                $('#checkout-order input[name="shipping_address"]').val(checkoutDelivery.payer.address);
+                $('#checkout-order input[name="shipping_city"]').val(checkoutDelivery.payer.city);
+                $('#checkout-order input[name="shipping_index"]').val(checkoutDelivery.payer.index);
+            } else {
+                $('#checkout-order select[name="office"] option').each(function(){
+                    if (checkoutDelivery.payer.office == this.value) {
+                        this.selected = true;
+                    } else {
+                        this.selected = false;
+                    }
+                });
+            }
+        }
     });
     // если не отмечен checkbox «Юридическое лицо» для плательщика,
     // скрываем часть формы, связанную с юр.лицом плательщика
@@ -100,9 +162,13 @@ $(document).ready(function() {
     // при изменении состояния checkbox «Самовывоз со склада», скрываем/показываем
     // часть формы, связанную с адресом доставки
     $('#checkout-order input[name="shipping"]').change(function() {
-        $('#checkout-order > #delivery > fieldset').slideToggle('normal', function() {
-            $('#checkout-order > #delivery select[name="office"]').toggle();
-        });
+        $('#checkout-order > #delivery > fieldset').slideToggle();
+        $('#checkout-order > #delivery select[name="office"]').slideToggle();
+        /*
+        $('#checkout-order input[name="shipping_address"]').val('');
+        $('#checkout-order input[name="shipping_city"]').val('');
+        $('#checkout-order input[name="shipping_index"]').val('');
+        */
     });
 
     // если не отмечен checkbox «Юридическое лицо» для получателя,
@@ -145,6 +211,9 @@ $(document).ready(function() {
         if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
             $('#checkout-order input[name="shipping"]').prop('checked', true).change();
         }
+        $('#checkout-order input[name="shipping_address"]').val('');
+        $('#checkout-order input[name="shipping_city"]').val('');
+        $('#checkout-order input[name="shipping_index"]').val('');
         // если checkbox был сброшен, больше ничего делать не надо
         if ( ! $(this).prop('checked')) {
             return;
@@ -230,8 +299,10 @@ $(document).ready(function() {
         }, 'json');
     });
 
-    // Если пользователь авторизован, подгружаем с сервера данные плательщика
-    // при выборе профиля плательщика из выпадающего списка
+    /*
+     * Если пользователь авторизован, подгружаем с сервера данные плательщика
+     * при выборе профиля плательщика из выпадающего списка
+     */
     $('#checkout-order select[name="payer_profile"]').change(function() {
         // возвращаем все поля формы, связанные с плательщиком, в исходное состояние
         $('#checkout-order #payer-order input[type="text"]').val('');
@@ -305,15 +376,17 @@ $(document).ready(function() {
         }, 'json');
     });
 
-    // Если пользователь авторизован, подгружаем с сервера данные получателя
-    // при выборе профиля получателя из выпадающего списка
+    /*
+     * Если пользователь авторизован, подгружаем с сервера данные получателя
+     * при выборе профиля получателя из выпадающего списка
+     */
     $('#checkout-order select[name="getter_profile"]').change(function() {
         // возвращаем все поля формы, связанные с получателем, в исходное состояние
         $('#checkout-order #getter-order input[type="text"]').val('');
         if ($('#checkout-order input[name="getter_company"]').prop('checked')) {
             $('#checkout-order input[name="getter_company"]').prop('checked', false).change();
         }
-        // возвращаем все поля формы, связанные с доставкой, в исходное состояние
+        // возвращаем поля формы, связанные с доставкой, в исходное состояние
         $('#checkout-order select[name="office"] option:selected').prop('selected', false);
         if ( ! $('#checkout-order input[name="shipping"]').prop('checked')) {
             $('#checkout-order input[name="shipping"]').prop('checked', true).change();

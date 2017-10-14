@@ -376,35 +376,7 @@ defined('ZCMS') or die('Access denied');
                 <div><input type="text" name="getter_email" maxlength="64" value="<?php echo $getter_email; ?>" placeholder="e-mail" /></div>
             </div>
         </fieldset>
-<!--
-        <div id="getter-shipping">
-            <label><input type="checkbox" name="shipping"<?php if ($shipping) echo ' checked="checked"'; ?> value="1" /> <span>Самовывоз со склада</span></label>
-            <?php if (!empty($offices)): ?>
-                <select name="office">
-                <?php foreach ($offices as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"<?php if ($key == $shipping) echo ' selected="selected"'; ?>>
-                        <?php echo $value; ?>
-                    </option>
-                <?php endforeach; ?>
-                </select>
-            <?php endif; ?>
-        </div>
 
-        <fieldset id="getter-shipping-details">
-            <legend>Адрес доставки</legend>
-            <div>
-                <div>Адрес доставки <span class="form-field-required">*</span></div>
-                <div><input type="text" name="getter_shipping_address" maxlength="250" value="<?php echo $getter_shipping_address; ?>" /></div>
-            </div>
-            <div>
-                <div>Город, почтовый индекс</div>
-                <div>
-                    <input type="text" name="getter_shipping_city" maxlength="32" value="<?php echo $getter_shipping_city; ?>" placeholder="город" />
-                    <input type="text" name="getter_shipping_index" maxlength="6" value="<?php echo $getter_shipping_index; ?>" placeholder="индекс" />
-                </div>
-            </div>
-        </fieldset>
--->
         <?php if ($authUser && empty($profiles)): /* пользователь авторизован, но у него нет профилей */ ?>
             <div class="make-profile">
                 <label>

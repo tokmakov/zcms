@@ -715,7 +715,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
         $message = chunk_split(base64_encode($html));
 
-        // mail($email, $subject, $message, $headers);
+        mail($email, $subject, $message, $headers);
 
     }
 

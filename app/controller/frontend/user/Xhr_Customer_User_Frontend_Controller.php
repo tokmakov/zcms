@@ -17,9 +17,7 @@ class Xhr_Customer_User_Frontend_Controller extends User_Frontend_Controller {
     }
 
     public function request() {
-        if ( ! $this->authUser) {
-            $this->profile = $this->userFrontendModel->getLastOrderData();
-        }
+        $this->profile = $this->userFrontendModel->getLastOrderData();
     }
 
     public function sendHeaders() {

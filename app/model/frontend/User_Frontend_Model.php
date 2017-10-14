@@ -1094,19 +1094,6 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `orders`
                   WHERE
                       `visitor_id` = :visitor_id AND
-                      `details` <> '' AND
-                      `visitor_id` NOT IN
-                      (SELECT `visitor_id` FROM `users` WHERE 1)
-                  ORDER BY
-                      `added` DESC
-                  LIMIT
-                      1";
-        $query = "SELECT
-                      `details`
-                  FROM
-                      `orders`
-                  WHERE
-                      `visitor_id` = :visitor_id AND
                       `details` <> ''
                   ORDER BY
                       `added` DESC

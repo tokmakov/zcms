@@ -87,13 +87,10 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          * данные последнего заказа», при этом будет выполнен XmlHttpRequest и
          * форма будет заполнена полученными с сервера данными
          */
-        /*
         $customer = false;
         if ( ! $this->authUser) {
             $customer = ! empty($this->userFrontendModel->getLastOrderData());
         }
-        */
-        $customer = true;
 
         // получаем от модели список офисов для самовывоза товара со склада
         $offices = $this->basketFrontendModel->getOffices();
