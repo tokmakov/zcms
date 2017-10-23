@@ -17,7 +17,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Basket_Frontend_Controller,
+         * Сначала обращаемся к родительскому классу Basket_Frontend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех
          * его потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
@@ -81,11 +81,11 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         }
 
         /*
-         * Если пользователь не зарегистрирован на сайте, но уже делал заказы.
+         * Если пользователь не авторизован на сайте, но уже делал заказы.
          * Эта информация нам нужна, чтобы облегчить пользователю заполнение
-         * формы при оформлении заказа. Он может отметить checkbox «использовать
+         * формы при оформлении заказа. Он может отметить checkbox «Использовать
          * данные последнего заказа», при этом будет выполнен XmlHttpRequest и
-         * форма будет заполнена полученными с сервера данными
+         * форма будет заполнена полученными с сервера данными.
          */
         $customer = false;
         if ( ! $this->authUser) {
@@ -113,7 +113,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'action'             => $this->basketFrontendModel->getURL('frontend/basket/checkout'),
                 // пользователь авторизован?
                 'authUser'           => $this->authUser,
-                // не зарегистрированный пользователь уже делал заказы ранее?
+                // не завторизованный пользователь уже делал заказы ранее?
                 'customer'           => $customer,
                 // фамилия контактного лица плательщика
                 'payer_name'         => $name,
@@ -471,6 +471,7 @@ class Checkout_Basket_Frontend_Controller extends Basket_Frontend_Controller {
             $this->userFrontendModel->addProfile($data);
         }
         unset($form['make_payer_profile']);
+
         // создать профиль получателя?
         if ($this->authUser && $form['make_getter_profile'] && $form['payer_getter_different']) {
             $data = array(

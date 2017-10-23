@@ -83,9 +83,7 @@ abstract class Base_Controller extends Base {
      *    $this->menuContent   = $this->render($this->menuTemplateFile, $this->menuVars);
      *    ..........
      *    и т.д.
-     * 5. метод render() «прогоняет» данные через шаблон, а сформированный html-код отдельных
-     *    частей страницы сохраняет в переменных $headContent, $headerContent, $menuContent,
-     *    $centerContent, $leftContent, $rightContent, $footerContent
+     * 5. метод render() «прогоняет» данные через шаблон и возвращает сформированный html-код
      * 6. метод output(), который реализован в дочерних классах, в самом конце еще раз вызывает
      *    метод render(), чтобы произвести окончательную сборку страницы из отдельных частей
      *    html-кода

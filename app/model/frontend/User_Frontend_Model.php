@@ -141,7 +141,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      * Добавить наблюдателя за событием авторизации посетителя,
      * реализация шаблона проектирования «Наблюдатель»
      */
-    public function attach(SplObserver $observer){
+    public function attach(SplObserver $observer) {
         $this->observers[] = $observer;
     }
 
@@ -347,8 +347,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         // авторизация прошла успешно
         $_SESSION['zcmsAuthUser'] = $res;
         $this->authUser = true;
-        $this->userId = $res;
-        $this->user = $this->getUser();
+        $this->userId   = $res;
+        $this->user     = $this->getUser();
 
         /*
          * Записываем в cookie уникальный идентификатор пользователя, вместо временного
@@ -382,7 +382,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         }
 
         /*
-         * запомнить пользователя, чтобы входить автоматически?
+         * Запомнить пользователя, чтобы входить автоматически?
          */
         if ($remember) {
 
@@ -475,7 +475,6 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         if ( ! isset($_COOKIE['remember'])) {
             return false;
         }
-
         if ( ! isset($_COOKIE['visitor'])) {
             return false;
         }
@@ -530,8 +529,8 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         // авторизация прошла успешно
         $_SESSION['zcmsAuthUser'] = $res;
         $this->authUser = true;
-        $this->userId = $res;
-        $this->user = $this->getUser();
+        $this->userId   = $res;
+        $this->user     = $this->getUser();
 
         // обновляем запись в таблице БД remember
         $token1 = md5(uniqid(mt_rand(), true)); // новое значение token1
@@ -787,6 +786,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     private function getProfileErrors($data) {
 
         $errors = array();
+
         if (empty($data['title'])) {
             $errors[] = 'Не заполнено обязательное поле «Название профиля»';
         }
@@ -842,7 +842,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 }
             }
         }
+
         return $errors;
+
     }
 
     /**
@@ -1017,11 +1019,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
          * добавляем информацию о списке товаров заказа
          */
         $query = "SELECT
-
-                          `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
-                          `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
-                          `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`,
-                          `a`.`user_cost` AS `user_cost`, !ISNULL(`b`.`id`) AS `exists`
+                      `a`.`product_id` AS `id`, `a`.`code` AS `code`, `a`.`name` AS `name`,
+                      `a`.`title` AS `title`, `a`.`price` AS `price`, `a`.`user_price` AS `user_price`,
+                      `a`.`unit` AS `unit`, `a`.`quantity` AS `quantity`, `a`.`cost` AS `cost`,
+                      `a`.`user_cost` AS `user_cost`, !ISNULL(`b`.`id`) AS `exists`
                   FROM
                       `orders_prds` `a` LEFT JOIN `products` `b`
                       ON `a`.`product_id` = `b`.`id` AND `b`.`visible` = 1
@@ -1037,7 +1038,6 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 $order['repeat'] = true;
             }
         }
-
 
         return $order;
 
@@ -1077,10 +1077,11 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     }
 
     /*
-     * Функция возвращает информацию о последенм заказе пользователя не авторизованного
-     * и не зарегистрированного пользователя
+     * Функция возвращает информацию о последнем заказе пользователя не
+     * авторизованного пользователя, если таковой имеется
      */
     public function getLastOrderData() {
+
         if ($this->authUser) {
             return array();
         }
@@ -1099,7 +1100,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         if (false === $result) {
             return array();
         }
+
         return unserialize($result);
+
     }
 
 }
