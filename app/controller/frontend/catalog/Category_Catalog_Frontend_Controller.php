@@ -43,10 +43,6 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * записываем их в массив переменных, который будет передан в шаблон center.php
          */
         $this->getCategory();
-        // товар не найден в таблице БД categories
-        if ($this->notFoundRecord) {
-            return;
-        }
 
     }
 
@@ -89,8 +85,10 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * пользователь не смог бы поделиться ссылкой на страницу с другим пользователем. Потому
          * что у двух разных пользователей будут разные настройки просмотра товаров категории. И
          * при разных настройках они увидят разный список товаров. А передача выбранных значений
-         * сортировки и кол-ва через URL однозначно определяет содержимое страницы. Правда, в этом
-         * случае, значение в cookie перезаписывается значением в URL.
+         * сортировки и кол-ва через URL однозначно определяет содержимое страницы. Правда, когда
+         * один пользователь поделился ссылкой с другим пользователем, у второго пользователя при
+         * переходе по ссылке, значения сортировки и кол-ва товаров на странице, сохраненные в
+         * cookie, перезаписывается значениеями, полученными из URL.
          */
 
         /*
@@ -324,7 +322,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($this->params['page']) && ctype_digit($this->params['page'])) { // текущая страница
             $page = (int)$this->params['page'];
         }
-        // общее кол-во товаров категории
+        // общее кол-во товаров категории с учетом фильтров
         $count = $this->categoryCatalogFrontendModel->getCountCategoryProducts(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
@@ -334,7 +332,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $param               // массив параметров подбора
         );
         $pager = null; // постраничная навигация
-        $start = 0;    // стартовая позиция для SQL-запроса
+        $start = 0; // стартовая позиция для SQL-запроса
         if ($count > $this->config->pager->frontend->products->perpage) { // постраничная навигация нужна?
             // URL этой страницы
             $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
@@ -439,7 +437,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'name'           => $category['name'],   // наименование категории
             'categories'     => $categories,         // массив дочерних категорий
             'action'         => $action,             // атрибут action тега форм
-            'view'           => $view,               // представление списка товаров
+            'view'           => $view,               // представление списка товаров, линейный или плитка
             'group'          => $group,              // id выбранной функциональной группы или ноль
             'maker'          => $maker,              // id выбранного производителя или ноль
             'param'          => $param,              // массив выбранных параметров подбора
@@ -447,16 +445,16 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'countHit'       => $countHit,           // количество лидеров продаж
             'new'            => $new,                // показывать только новинки?
             'countNew'       => $countNew,           // количество новинок
-            'groups'         => $groups,             // массив функциональных групп
-            'makers'         => $makers,             // массив производителей
+            'groups'         => $groups,             // массив всех функциональных групп категории
+            'makers'         => $makers,             // массив всех производителей категории
             'params'         => $params,             // массив всех параметров подбора
             'sort'           => $sort,               // выбранная сортировка или ноль
-            'sortorders'     => $sortorders,         // массив вариантов сортировки
+            'sortorders'     => $sortorders,         // массив всех вариантов сортировки
             'perpage'        => $perpage,            // выбранный вариант кол-ва товаров на странице или ноль
             'perpages'       => $perpages,           // массив всех вариантов кол-ва товаров на страницу
             'units'          => $units,              // массив единиц измерения товара
-            'products'       => $products,           // массив товаров категории
-            'count'          => $count,              // общее кол-во товаров категории
+            'products'       => $products,           // массив товаров категории в кол-ве $perpage
+            'count'          => $count,              // общее кол-во товаров категории с учетом фильтров
             'clearFilterURL' => $clearFilterURL,     // URL ссылки для сброса фильтра
             'pager'          => $pager,              // постраничная навигация
             'page'           => $page,               // текущая страница
@@ -481,6 +479,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
 
         // базовый URL категории, без фильтров и сортировки
         $url = 'frontend/catalog/category/id/' . $this->params['id'];
+
         // включен фильтр по функционалу (функциональной группе)?
         $grp = false;
         if (isset($_POST['group']) && ctype_digit($_POST['group'])  && $_POST['group'] > 0) {
@@ -520,6 +519,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if (isset($_POST['perpage']) && in_array($_POST['perpage'], $others)) {
             $url = $url . '/perpage/' . $_POST['perpage'];
         }
+
         // выполняем редирект
         $this->redirect($this->categoryCatalogFrontendModel->getURL($url));
 

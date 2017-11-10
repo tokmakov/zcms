@@ -7,6 +7,7 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $order - подробная информация о заказе
+ * $offices - список офисов для самовывоза
  *
  * $order = Array (
  *   [order_id] => 47
@@ -126,7 +127,7 @@ defined('ZCMS') or die('Access denied');
 
 <h2>Плательщик</h2>
 <ul>
-    <li>КОНТАКТНОЕ ЛИЦО</li>
+    <li>Контактное лицо</li>
     <li>Фамилия: <?php echo $order['payer_surname']; ?></li>
     <li>Имя: <?php echo $order['payer_name']; ?></li>
     <?php if ( ! empty($order['payer_patronymic'])): ?>
@@ -137,7 +138,7 @@ defined('ZCMS') or die('Access denied');
 </ul>
 <?php if ($order['payer_company']): // плательщик - юридическое лицо? ?>
     <ul>
-        <li>ЮРИДИЧЕСКОЕ ЛИЦО</li>
+        <li>Юридическое лицо</li>
         <li>Название компании: <?php echo $order['payer_company_name']; ?></li>
         <li>Генеральный директор: <?php echo $order['payer_company_ceo']; ?></li>
         <li>Юридический адрес: <?php echo $order['payer_company_address']; ?></li>
@@ -153,7 +154,7 @@ defined('ZCMS') or die('Access denied');
 <?php if ($order['payer_getter_different']): ?>
     <h2>Получатель</h2>
     <ul>
-        <li>КОНТАКТНОЕ ЛИЦО</li>
+        <li>Контактное лицо</li>
         <li>Фамилия: <?php echo $order['getter_surname']; ?></li>
         <li>Имя: <?php echo $order['getter_name']; ?></li>
         <?php if ( ! empty($order['getter_patronymic'])): ?>
@@ -164,7 +165,7 @@ defined('ZCMS') or die('Access denied');
     </ul>
     <?php if ($order['getter_company']): // получатель - юридические лицо? ?>
         <ul>
-            <li>ЮРИДИЧЕСКОЕ ЛИЦО</li>
+            <li>Юридическое лицо</li>
             <li>Название компании: <?php echo $order['getter_company_name']; ?></li>
             <li>Генеральный директор: <?php echo $order['getter_company_ceo']; ?></li>
             <li>Юридический адрес: <?php echo $order['getter_company_address']; ?></li>
@@ -178,14 +179,16 @@ defined('ZCMS') or die('Access denied');
     <?php endif; ?>
 <?php endif; ?>
 
+<h2>Доставка</h2>
 <ul>
 <?php if ( ! $order['shipping']): ?>
-    <li>ДОСТАВКА ПО АДРЕСУ</li>
+    <li>Доставка по адресу</li>
     <li>Адрес доставки: <?php echo $order['shipping_address']; ?></li>
     <li>Город: <?php echo $order['shipping_city']; ?></li>
     <li>Почтовый индекс: <?php echo $order['shipping_index']; ?></li>
 <?php else: ?>
-    <li>САМОВЫВОЗ СО СКЛАДА</li>
+    <li>Самовывоз со склада</li>
+    <li><?php echo $offices[$order['shipping']]; ?></li>
 <?php endif; ?>
 </ul>
 

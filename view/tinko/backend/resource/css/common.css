@@ -114,6 +114,12 @@ body > .wrapper {
     font-weight: normal;
     color: #395985;
 }
+.content h3 {
+    margin: 20px 0 15px 0;
+    font-size: 16px;
+    font-weight: normal;
+    color: #395985;
+}
 .content p {
     margin: 15px 0;
 }
@@ -140,7 +146,7 @@ form input[type="text"], select, textarea {
     box-sizing: border-box;
     padding: 5px;
     border: 1px solid #d1d1d1;
-}               
+}
 form input[type="submit"] {
     padding: 5px 25px;
     border: 1px solid #395985;

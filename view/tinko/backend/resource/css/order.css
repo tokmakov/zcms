@@ -24,7 +24,7 @@
                 #all-orders > ul > li > div:last-child > a {
                     margin-left: 10px;
                 }
-            
+
 /* отдельный заказ */
 table tr > th:nth-child(1),
 table tr > th:nth-child(4),
@@ -35,3 +35,14 @@ table tr > th:nth-child(6) {
 table tr > th:nth-child(2) {
    width: 30%;
 }
+
+.content ul:not(:first-of-type) {
+    margin-left: 50px;
+}
+    .content ul:not(:first-of-type) li:first-child {
+        list-style: none;
+        margin: 0 0 3px -30px;
+        font-size: 15px;
+        font-weight: normal;
+        color: #395985;
+    }

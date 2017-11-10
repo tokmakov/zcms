@@ -48,12 +48,16 @@ class Show_Order_Backend_Controller extends Order_Backend_Controller {
             return;
         }
 
+        // получаем от модели список офисов для самовывоза товара со склада
+        $offices = $this->orderBackendModel->getOffices();
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
         $this->centerVars = array(
             'breadcrumbs' => $breadcrumbs, // хлебные крошки
             'order'       => $order,       // подробная информация о заказе
+            'offices'     => $offices,     // список офисов для самовывоза
         );
 
     }

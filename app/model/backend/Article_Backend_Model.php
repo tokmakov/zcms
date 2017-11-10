@@ -99,7 +99,7 @@ class Article_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция добавляет статью (новую запись в таблицу articles базы данных)
+     * Функция добавляет статью (новую запись в таблицу `articles` базы данных)
      */
     public function addArticle($data) {
 
@@ -140,7 +140,7 @@ class Article_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет статью (запись в таблице articles базы данных)
+     * Функция обновляет статью (запись в таблице `articles` базы данных)
      */
     public function updateArticle($data) {
 
@@ -361,7 +361,7 @@ class Article_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция обновляет категорию (запись в таблице articles_categories базы данных)
+     * Функция обновляет категорию (запись в таблице `articles_categories` базы данных)
      */
     public function updateCategory($data) {
         $query = "UPDATE
@@ -376,7 +376,7 @@ class Article_Backend_Model extends Backend_Model {
     }
 
     /**
-     * Функция удаляет категорию (запись в таблице articles_categories базы данных)
+     * Функция удаляет категорию (запись в таблице `articles_categories` базы данных)
      */
     public function removeCategory($id) {
         // проверяем, что не существует статей этой категории

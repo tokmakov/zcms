@@ -28,6 +28,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ( ! $this->enableDataCache) {
             return $this->searchResults($search, $start, $ajax);
         }
+
         // уникальный ключ доступа к кэшу
         $a = ($ajax) ? 'true' : 'false';
         $key = __METHOD__ . '()-search-' . md5($search) . '-start-' . $start . '-ajax-' . $a;
@@ -35,6 +36,7 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         $function = __FUNCTION__;
         // арументы, переданные этой функции
         $arguments = func_get_args();
+
         // получаем данные из кэша
         return $this->getCachedData($key, $function, $arguments);
 
@@ -149,6 +151,19 @@ class Search_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if (iconv_strlen($search) < 2) {
             return '';
         }
+
+        /*
+        // на случай опечатки пользователя
+        $typoLatin = array('a', 'c', 'e', 'o', 'p', 'x'); // латинские буквы, похожие на русские
+        $typoCyril = array('а', 'с', 'е', 'о', 'р', 'х'); // русские буквы, похожие на латинские
+        $latinOrCyril = array();
+        $cyrilOrLatin = array();
+        for ($i = 0; $i < 6; $i++) {
+            $latinOrCyril[] = '(' . $typoLatin[$i] . '|' . $typoCyril[$i] . ')';
+            $cyrilOrLatin[] = '(' . $typoCyril[$i] . '|' . $typoLatin[$i] . ')';
+        }
+        */
+
         // небольшой хак: разделяем строку ABC123 на ABC и 123 (пример: LG100 или NEC200);
         // сохраняем в $matches строки (слова) типа ABC123 до их разделения на ABC и 123
         if (preg_match('#[a-zа-яё]+\d+#u', $search)) {
