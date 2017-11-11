@@ -69,7 +69,7 @@ class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
             $page = $this->params['page'];
         }
         // общее кол-во статей категории
-        $totalArticles = $this->articleFrontendModel->getCountCategoryNews($this->params['id']);
+        $totalArticles = $this->articleFrontendModel->getCountCategoryArticles($this->params['id']);
         // URL ссылки на эту страницу
         $thisPageURL = $this->articleFrontendModel->getURL('frontend/article/category/id/' . $this->params['id']);
         $temp = new Pager(
