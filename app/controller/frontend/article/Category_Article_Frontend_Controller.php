@@ -41,6 +41,9 @@ class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
          */
         parent::input();
 
+        /*
+         * заголовок страницы (тег <title>), мета-теги keywords и description
+         */
         $this->title = $category['name'];
         if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
@@ -100,7 +103,7 @@ class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
             'breadcrumbs' => $breadcrumbs,
             // уникальный идентификатор категории
             'id'          => $this->params['id'],
-            // наименование категории
+            // наименование категории (загловок <h1>)
             'name'        => $category['name'],
             // массив статей выбранной категории
             'articles'    => $articles,

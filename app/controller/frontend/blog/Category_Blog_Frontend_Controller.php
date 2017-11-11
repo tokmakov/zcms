@@ -41,6 +41,9 @@ class Category_Blog_Frontend_Controller extends Blog_Frontend_Controller {
          */
         parent::input();
 
+        /*
+         * заголовок страницы (тег <title>), мета-теги keywords и description
+         */
         $this->title = $category['name'];
         if ( ! empty($category['keywords'])) {
             $this->keywords = $category['keywords'];
@@ -87,7 +90,9 @@ class Category_Blog_Frontend_Controller extends Blog_Frontend_Controller {
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->blog->perpage;
 
-        // получаем от модели массив постов выбранной категории
+        /*
+         * получаем от модели массив постов выбранной категории
+         */
         $posts = $this->blogFrontendModel->getCategoryPosts($this->params['id'], $start);
 
         /*

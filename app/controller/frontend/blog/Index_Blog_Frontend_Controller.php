@@ -59,7 +59,9 @@ class Index_Blog_Frontend_Controller extends Blog_Frontend_Controller {
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->blog->perpage;
 
-        // получаем от модели массив всех постов блога
+        /*
+         * получаем от модели массив всех постов блога
+         */
         $posts = $this->blogFrontendModel->getAllPosts($start);
 
         /*

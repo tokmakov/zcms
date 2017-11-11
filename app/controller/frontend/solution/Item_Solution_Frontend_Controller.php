@@ -32,7 +32,7 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
         }
 
         /*
-         * обращаемся к родительскому классу Solution_Frontend_Controller, чтобы
+         * Обращаемся к родительскому классу Solution_Frontend_Controller, чтобы
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
@@ -40,6 +40,9 @@ class Item_Solution_Frontend_Controller extends Solution_Frontend_Controller {
          */
         parent::input();
 
+        /*
+         * заголовок страницы (тег <title>), мета-теги keywords и description
+         */
         $this->title = $solution['name'];
         if ( ! empty($solution['keywords'])) {
             $this->keywords = $solution['keywords'];

@@ -23,6 +23,9 @@ class Index_Sitemap_Frontend_Controller extends Sitemap_Frontend_Controller {
          */
         parent::input();
 
+        /*
+         * заголовок страницы (тег <title>), мета-теги keywords и description
+         */
         $this->title = 'Карта сайта. ' . $this->title;
         $this->keywords = 'карта сайта ' . $this->keywords;
         $this->description = 'Карта сайта. ' . $this->description;

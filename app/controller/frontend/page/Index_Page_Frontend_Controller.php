@@ -39,6 +39,9 @@ class Index_Page_Frontend_Controller extends Page_Frontend_Controller {
          */
         parent::input();
 
+        /*
+         * заголовок страницы (тег <title>), мета-теги keywords и description
+         */
         $this->title = $page['title'];
         if ( ! empty($page['keywords'])) {
             $this->keywords    = $page['keywords'];
