@@ -33,7 +33,7 @@ class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
         }
 
         /*
-         * сначала обращаемся к родительскому классу Article_Frontend_Controller,
+         * Сначала обращаемся к родительскому классу Article_Frontend_Controller,
          * чтобы установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы только
@@ -87,7 +87,9 @@ class Category_Article_Frontend_Controller extends Article_Frontend_Controller {
         // стартовая позиция для SQL-запроса
         $start = ($page - 1) * $this->config->pager->frontend->article->perpage;
 
-        // получаем от модели массив статей текущей категории
+        /*
+         * получаем от модели массив статей текущей категории
+         */
         $articles = $this->articleFrontendModel->getCategoryArticles($this->params['id'], $start);
 
         /*
