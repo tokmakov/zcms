@@ -76,6 +76,10 @@
                 #new-hit-tabs > ul > li > a > span {
                     border-bottom: 1px dashed #395985;
                 }
+    #new-hit-tabs > div {
+        max-height: 180px;
+        overflow: hidden;
+    }
 
 .new-hit-item {
     box-sizing: border-box;
@@ -125,9 +129,11 @@
 
 #hit-products > ul, #new-products > ul {
     overflow: hidden;
+    list-style: none;
 }
     #hit-products > ul > li, #new-products > ul > li {
         float: left;
+        /* !!! */ margin: 0 10px 10px 0;
     }
 
 /* список новостей */

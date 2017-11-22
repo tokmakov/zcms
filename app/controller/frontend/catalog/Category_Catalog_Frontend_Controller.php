@@ -88,62 +88,63 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * сортировки и кол-ва через URL однозначно определяет содержимое страницы. Правда, когда
          * один пользователь поделился ссылкой с другим пользователем, у второго пользователя при
          * переходе по ссылке, значения сортировки и кол-ва товаров на странице, сохраненные в
-         * cookie, перезаписывается значениеями, полученными из URL.
+         * cookie, будут перезаписаны значениями, полученными из URL.
          */
 
         /*
          * Пользователь выбрал сортировку товаров?
          */
         $sort = 0;
-        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$_COOKIE['sort'];
+        $time = 86400 * $this->config->user->cookie; // время жизни cookie
+        if (isset($_COOKIE['sort'])) {
+            if (in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+                $sort = (int)$_COOKIE['sort'];
+            } else { // удаляем некорректное значение, сохраненное в cookie
+                setcookie('sort', '', time() - 86400, '/');
+            }
         }
         // переопределяем сохраненное в cookie значение, когда
         // оно противоречит значению, переданному через URL
-        if (isset($this->params['sort']) && in_array($this->params['sort'], array(1,2,3,4,5,6))) {
-            $temp = (int)$this->params['sort'];
-            if ($temp !== $sort) {
-                $sort = $temp;
-                $_COOKIE['sort'] = $temp;
-                $time = 86400 * $this->config->user->cookie;
-                setcookie('sort', $temp, time() + $time, '/');
+        if (isset($this->params['sort'])) {
+            if (in_array($this->params['sort'], array(1,2,3,4,5,6))) {
+                $sort = (int)$this->params['sort'];
+                setcookie('sort', $sort, time() + $time, '/');
+            } else { // передано некорректное значение
+                $this->notFoundRecord = true;
+                return;
             }
+        } elseif (isset($_COOKIE['sort'])) { // удаляем cookie, если sort не передан через URL
+            $sort = 0;
+            setcookie('sort', '', time() - 86400, '/');
         }
-        // проверяем корректность значения
-        /*
-        if ( ! in_array($sort, array(0,1,2,3,4,5,6))) {
-            $this->notFoundRecord = true;
-            return;
-        }
-        */
 
         /*
          * Пользователь выбрал кол-во товаров на странице?
          */
         $perpage = 0;
         $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
-        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
-            $perpage = (int)$_COOKIE['perpage'];
+        $time = 86400 * $this->config->user->cookie; // время жизни cookie
+        if (isset($_COOKIE['perpage'])) {
+            if (in_array($_COOKIE['perpage'], $others)) {
+                $perpage = (int)$_COOKIE['perpage'];
+            } else { // удаляем некорректное значение, сохраненное в cookie
+                setcookie('perpage', '', time() - 86400, '/');
+            }
         }
         // переопределяем сохраненное в cookie кол-во товаров на странице,
         // когда оно противоречит значению, переданному через URL
-        if (isset($this->params['perpage']) && in_array($this->params['perpage'], $others)) { // TODO: здесь ошибка
-            $temp = (int)$this->params['perpage'];
-            if ($temp !== $perpage) {
-                $perpage = $temp;
-                $_COOKIE['perpage'] = $temp;
-                $time = 86400 * $this->config->user->cookie;
-                setcookie('perpage', $temp, time() + $time, '/');
+        if (isset($this->params['perpage'])) {
+            if (in_array($this->params['perpage'], $others)) {
+                $perpage = (int)$this->params['perpage'];
+                setcookie('perpage', $perpage, time() + $time, '/');
+            } else { // передано некорректное значение
+                $this->notFoundRecord = true;
+                return;
             }
+        } elseif (isset($_COOKIE['perpage'])) { // удаляем cookie, если perpage не передан через URL
+            $perpage = 0;
+            setcookie('perpage', '', time() - 86400, '/');
         }
-        // проверяем корректность значения
-        /*
-        array_unshift($others, 0);
-        if ( ! in_array($perpage, $others)) {
-            $this->notFoundRecord = true;
-            return;
-        }
-        */
 
         // формируем хлебные крошки
         $breadcrumbs = $this->categoryCatalogFrontendModel->getCategoryPath( // путь до категории
@@ -217,7 +218,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
          * Запрещаем индексацию категории роботами поисковых систем, если включен
          * какой-нибудь фильтр, выбрана сортировка или кол-во товаров на странице
          */
-        if ($group || $maker || $hit || $new || $sort || $perpage) {
+        if ($group || $maker || $hit || $new || $sort || $perpage) { // TODO: надо учесть, что группа может быть выбрана изначально
             $this->robots = false;
         }
 

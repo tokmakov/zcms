@@ -36,7 +36,7 @@ defined('ZCMS') or die('Access denied');
         <span><a href="/journal">Журнал «Грани Безопасности»</a></span>
         <span><a href="/library">Библиотека технического специалиста</a></span>
         <span><a href="/partners">Партнерские сертификаты</a></span>
-        <span><a href="/brands">Бренды</a></span>
+        <span><a href="/catalog/all-brands">Бренды</a></span>
         <span><a href="/vacancies">Вакансии</a></span>
     </li>
     <li>
