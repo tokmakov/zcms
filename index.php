@@ -9,6 +9,7 @@ if (is_file('cron/update.txt')) {
     header('HTTP/1.1 503 Service Temporarily Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     header('Retry-After: 600');
+    header('Content-Type: text/html; charset=utf-8');
     readfile('cron/update.html');
     die();
 }
@@ -22,6 +23,12 @@ require 'app/config/config.php';
 // инициализация настроек
 Config::init($config);
 unset($config);
+
+// защита от чрезмерно активных пользователей
+if (Config::getInstance()->protect->enable) {
+    $protect = new Protect();
+    unset($protect);
+}
 
 try {
     // экземпляр класса роутера
