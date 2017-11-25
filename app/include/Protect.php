@@ -38,7 +38,7 @@ class Protect extends Base {
 
         // не блокируем ip-адреса из «белого» списка
         if (in_array($this->ip, $this->config->protect->getValue('white'))) {
-            //return;
+            return;
         }
 
         // время блокировки ip-адреса в секундах
