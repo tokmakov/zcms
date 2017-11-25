@@ -15,8 +15,6 @@ class Protect extends Base {
      */
     private $time;
 
-    private static $remove = '00';
-
 
     public function __construct() {
 
