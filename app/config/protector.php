@@ -2,7 +2,7 @@
 defined('ZCMS') or die('Access denied');
 
 // см. файл app/config/config.php
-$protect = array( // защита от чрезмерно активных пользователей
+$protector = array( // защита от чрезмерно активных пользователей
     'enable' => true, // включить защиту?
     'white'  => array( // эти ip-адреса не блокируем
                     '127.0.0.1',

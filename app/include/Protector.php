@@ -1,9 +1,9 @@
 <?php
 /**
- * Класс Protect защищает сайт от чрезмерно активных пользователей,
+ * Класс Protector защищает сайт от чрезмерно активных пользователей,
  * программных роботов, некоторых категорий DDoS-атак
  */
-class Protect extends Base {
+class Protector extends Base {
 
     /*
      * ip-адрес пользователя, который проверяем
@@ -37,12 +37,12 @@ class Protect extends Base {
         parent::__construct();
 
         // не блокируем ip-адреса из «белого» списка
-        if (in_array($this->ip, $this->config->protect->getValue('white'))) {
+        if (in_array($this->ip, $this->config->protector->getValue('white'))) {
             return;
         }
 
         // время блокировки ip-адреса в секундах
-        $this->time = $this->config->protect->time;
+        $this->time = $this->config->protector->time;
 
         /*
          * Мы должны сделать:
@@ -107,7 +107,7 @@ class Protect extends Base {
         ob_start();
         $ip = $this->ip;
         $time = $this->time;
-        require $this->config->site->theme . '/frontend/template/protect.php';
+        require $this->config->site->theme . '/frontend/template/protector.php';
         $content = ob_get_clean();
 
         // отправляем заголовки
@@ -151,8 +151,8 @@ class Protect extends Base {
         $ips = $this->database->fetchAll(
             $query,
             array(
-                'stack' => $this->config->protect->stack,
-                'hits'  => $this->config->protect->hits
+                'stack' => $this->config->protector->stack,
+                'hits'  => $this->config->protector->hits
             )
         );
         if ( ! empty($ips)) { // такие ip-адреса есть?

@@ -61,15 +61,15 @@ $config = array(
         'cookie' => 365, // время хранения уникального идентификатора посетителя на компьютере пользователя 365 дней
     ),
 
-    'database' => $database,                     // см. файл app/config/database.php
-    'sef'      => $routing,                      // см. файл app/config/routing.php
-    'cache'    => $cache,                        // см. файл app/config/cache.php
-    'cdn'      => $cdn,                          // см. файл app/config/cdn.php
-    'meta'     => $meta,                         // см. файл app/config/meta.php
-    'css'      => $css,                          // см. файл app/config/css.php
-    'js'       => $js,                           // см. файл app/config/js.php
-    'pager'    => $pager,                        // см. файл app/config/pager.php
-    'protect'  => $protect,                      // см. файл app/config/protect.php
+    'database'  => $database,                    // см. файл app/config/database.php
+    'sef'       => $routing,                     // см. файл app/config/routing.php
+    'cache'     => $cache,                       // см. файл app/config/cache.php
+    'cdn'       => $cdn,                         // см. файл app/config/cdn.php
+    'meta'      => $meta,                        // см. файл app/config/meta.php
+    'css'       => $css,                         // см. файл app/config/css.php
+    'js'        => $js,                          // см. файл app/config/js.php
+    'pager'     => $pager,                       // см. файл app/config/pager.php
+    'protector' => $protector,                   // см. файл app/config/protect.php
 
 );
 
@@ -82,5 +82,5 @@ unset(
     $css,
     $js,
     $pager,
-    $protect
+    $protector
 );
