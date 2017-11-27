@@ -80,6 +80,36 @@
  *   )
  * )
  *
+ * $certs = Array (
+ *   [0] => Array (
+ *     [title] => Декларация о соответствии
+ *     [count] => 2
+ *     [files] => Array (
+ *       [0] => Array (
+ *         [name] => 1/9/19a23671690e26cbaaacd536914a8ca4.jpg
+ *         [url] => //www.host2.ru/files/catalog/cert/1/9/19a23671690e26cbaaacd536914a8ca4.jpg
+ *       )
+ *       [1] => Array (
+ *         [name] => 1/9/19a23671690e26cbaaacd536914a8ca41.jpg
+ *         [url] => //www.host2.ru/files/catalog/cert/1/9/19a23671690e26cbaaacd536914a8ca41.jpg
+ *       )
+ *     )
+ *   )
+ *   [1] => Array (
+ *     [title] => Сертификат соответствия
+ *     [count] => 1
+ *     [files] => Array (
+ *       [0] => Array (
+ *         [name] => f/0/f0054da16a163660ec28dd48fad9fa98.jpg
+ *         [url] => //www.host2.ru/files/catalog/cert/f/0/f0054da16a163660ec28dd48fad9fa98.jpg
+ *       )
+ *     )
+ *   )
+ *   [2] => Array (
+ *     ..........
+ *   )
+ * )
+ *
  * $recommendedProducts = Array (
  *   [0] => Array (
  *     [id] => 65498
@@ -261,7 +291,14 @@ defined('ZCMS') or die('Access denied');
                 <div>
                     <?php foreach ($certs as $cert): ?>
                         <?php foreach ($cert['files'] as $file): ?>
-                            <a href="<?php echo $file; ?>" class="zoom" rel="certs"><img src="<?php echo $file; ?>" alt="<?php echo str_replace('"', '', $cert['title']); ?>" /></a>
+                            <span>
+                                <a href="<?php echo $file['url']; ?>" class="zoom" rel="certs">
+                                    <img src="<?php echo $file['url']; ?>" alt="<?php echo str_replace('"', '', $cert['title']); ?>" />
+                                </a>
+                                <a href="/files/catalog/cert/download.php?file=<?php echo rawurldecode($file['name']); ?>">
+                                    <i class="fa fa-download" aria-hidden="true"></i> сохранить
+                                </a>
+                            </span>
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </div>

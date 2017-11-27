@@ -150,13 +150,19 @@ class Product_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
             $certs[$key]['title'] = $value['title'];
             $certs[$key]['count'] = $value['count'];
-            $certs[$key]['files'][] = $host . 'files/catalog/cert/' . $value['file'];
+            $certs[$key]['files'][] = array(
+                'name' => $value['file'],
+                'url'  => $host . 'files/catalog/cert/' . $value['file']
+            );
             if ($value['count'] > 1) {
                 $page = 1;
                 while ($page < $value['count']) {
                     $file = str_replace('.jpg', $page.'.jpg', $value['file']);
                     if (is_file('files/catalog/cert/' . $file)) {
-                        $certs[$key]['files'][] = $host . 'files/catalog/cert/' . $file;
+                        $certs[$key]['files'][] = array(
+                            'name' => $file,
+                            'url'  => $host . 'files/catalog/cert/' . $file
+                        );
                     }
                     $page++;
                 }

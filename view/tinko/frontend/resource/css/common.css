@@ -2136,11 +2136,16 @@ form#center-search-form {
             #product-item .product-item-others .center-block > div:last-child > ul > li {
                 padding: 2px;
             }
-        #product-item .product-item-others .center-block > div:last-child > a {
+        #product-item .product-item-others .center-block > div:last-child > span { /* сертификаты */
             display: inline-block;
-            margin: 3px;
+            width: 100px;
+            margin: 4px;
+            text-align: center;
         }
-            #product-item .product-item-others .center-block > div:last-child > a > img {
+            #product-item .product-item-others .center-block > div:last-child > span > a > i {
+                display: inline; /* какой-то глюк awesome font */
+            }
+            #product-item .product-item-others .center-block > div:last-child > span > a > img {
                 width: 100px;
                 border: 1px solid #d1d1d1;
             }
