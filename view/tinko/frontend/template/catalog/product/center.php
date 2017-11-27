@@ -70,12 +70,14 @@
  *     [id] => 36
  *     [title] => Руководство по эксплуатации
  *     [type] => pdf
+ *     [file] => 3/9/396785fd3a56127cf43d2bf14105dd91.pdf
  *     [url] => http://www.host.ru/files/catalog/docs/3/9/396785fd3a56127cf43d2bf14105dd91.pdf
  *   )
  *   [1] => Array (
  *     [id] => 37
  *     [title] => Схема подключения
  *     [type] => pdf
+ *     [file] => 5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
  *     [url] => http://www.host.ru/files/catalog/docs/5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
  *   )
  * )
@@ -275,10 +277,25 @@ defined('ZCMS') or die('Access denied');
         <?php if (!empty($docs)): ?>
             <div class="center-block">
                 <div><h3>Документация</h3></div>
-                <div>
+                <div class="no-padding">
                     <ul>
                     <?php foreach ($docs as $doc): ?>
-                        <li><a href="<?php echo $doc['url']; ?>" target="_blank"><?php echo $doc['title']; ?></a></li>
+                        <?php
+                            $icon = 'fa-file-o';
+                            switch($doc['type']) {
+                                case 'jpg': $icon = 'fa-file-image-o'; break;
+                                case 'pdf': $icon = 'fa-file-pdf-o'; break;
+                                case 'zip': $icon = 'fa-file-archive-o'; break;
+                            }
+                        ?>
+                        <li>
+                            <i class="fa <?php echo $icon; ?>" aria-hidden="true"></i>
+                            <span><?php echo $doc['title']; ?></span>
+                            <span>
+                                <a href="<?php echo $doc['url']; ?>" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> открыть</a>
+                                <a href="/files/catalog/download.php?file=docs/<?php echo rawurldecode($doc['file']); ?>"><i class="fa fa-download" aria-hidden="true"></i> сохранить</a>
+                            </span>
+                        </li>
                     <?php endforeach; ?>
                     </ul>
                 </div>
@@ -295,7 +312,7 @@ defined('ZCMS') or die('Access denied');
                                 <a href="<?php echo $file['url']; ?>" class="zoom" rel="certs">
                                     <img src="<?php echo $file['url']; ?>" alt="<?php echo str_replace('"', '', $cert['title']); ?>" />
                                 </a>
-                                <a href="/files/catalog/cert/download.php?file=<?php echo rawurldecode($file['name']); ?>">
+                                <a href="/files/catalog/download.php?file=cert/<?php echo rawurldecode($file['name']); ?>">
                                     <i class="fa fa-download" aria-hidden="true"></i> сохранить
                                 </a>
                             </span>

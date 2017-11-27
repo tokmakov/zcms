@@ -2130,11 +2130,33 @@ form#center-search-form {
                 #product-item .product-item-others .center-block > div:last-child > table tr:first-child td:first-child {
                     width: 60%;
                 }
-        #product-item .product-item-others .center-block > div:last-child > ul {
+        #product-item .product-item-others .center-block > div:last-child > ul { /* документация */
             list-style: none;
+            overflow: hidden;
+            padding: 15px 0 0 15px;
         }
             #product-item .product-item-others .center-block > div:last-child > ul > li {
-                padding: 2px;
+                float: left;
+                width: 50%;
+                padding-bottom: 15px;
+            }
+            #product-item .product-item-others .center-block > div:last-child > ul > li > i {
+                float: left;
+                font-size: 36px;
+                color: #969696
+            }
+            #product-item .product-item-others .center-block > div:last-child > ul > li > span {
+                display: block;
+                margin-left: 40px;
+            }
+            #product-item .product-item-others .center-block > div:last-child > ul > li > span:first-of-type {
+                margin-bottom: 4px;
+            }
+            #product-item .product-item-others .center-block > div:last-child > ul > li > span > a:last-child {
+                margin-left: 15px;
+            }
+            #product-item .product-item-others .center-block > div:last-child > ul > li > span > a > i {
+                display: inline; /* какой-то глюк awesome font */
             }
         #product-item .product-item-others .center-block > div:last-child > span { /* сертификаты */
             display: inline-block;
@@ -3396,6 +3418,11 @@ form#center-search-form {
         clear: left;
         margin-left: 0;
         padding-top: 12px;
+    }
+    /* страница товара, документация */
+    #product-item .product-item-others .center-block > div:last-child > ul > li {
+        float: none;
+        width: 100%;
     }
 }
 
