@@ -24,7 +24,7 @@ require 'app/config/js.php';
 // постраничная навигация
 require 'app/config/pager.php';
 // защита от чрезмерно активных пользователей
-require 'app/config/protect.php';
+require 'app/config/protector.php';
 
 $config = array(
     'site' => array(
@@ -69,7 +69,7 @@ $config = array(
     'css'       => $css,                         // см. файл app/config/css.php
     'js'        => $js,                          // см. файл app/config/js.php
     'pager'     => $pager,                       // см. файл app/config/pager.php
-    'protector' => $protector,                   // см. файл app/config/protect.php
+    'protector' => $protector,                   // см. файл app/config/protector.php
 
 );
 

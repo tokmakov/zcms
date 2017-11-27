@@ -25,9 +25,8 @@ Config::init($config);
 unset($config);
 
 // защита от чрезмерно активных пользователей
-if (Config::getInstance()->protect->enable) {
-    $protect = new Protect();
-    unset($protect);
+if (Config::getInstance()->protector->enable) {
+    new Protector();
 }
 
 try {
