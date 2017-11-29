@@ -302,6 +302,8 @@ class Article_Backend_Model extends Backend_Model {
         // добавляем в массив URL ссылок для редактирования и удаления
         foreach($categories as $key => $value) {
             $categories[$key]['url'] = array(
+                'up'     => $this->getURL('backend/article/ctgup/id/' . $value['id']),
+                'down'   => $this->getURL('backend/article/ctgdown/id/' . $value['id']),
                 'edit'   => $this->getURL('backend/article/editctg/id/' . $value['id']),
                 'remove' => $this->getURL('backend/article/rmvctg/id/' . $value['id'])
             );
@@ -373,6 +375,124 @@ class Article_Backend_Model extends Backend_Model {
                   WHERE
                       `id` = :id";
         $this->database->execute($query, $data);
+    }
+
+    /**
+     * Функция опускает категорию вниз в списке
+     */
+    public function moveCategoryDown($id) {
+        $id_item_down = $id;
+        // порядок следования категории, которая опускается вниз
+        $query = "SELECT
+                      `sortorder`
+                  FROM
+                      `articles_categories`
+                  WHERE
+                      `id` = :id_item_down";
+        $order_down = $this->database->fetchOne($query, array('id_item_down' => $id_item_down));
+        // порядок следования и id категории, которая находится ниже и будет поднята вверх,
+        // поменявшись местами с категорией, которая опускается вниз
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `articles_categories`
+                  WHERE
+                      `sortorder` > :order_down
+                  ORDER BY
+                      `sortorder`
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('order_down' => $order_down));
+        if (is_array($res)) {
+            $id_item_up = $res['id'];
+            $order_up = $res['sortorder'];
+            // меняем местами категории
+            $query = "UPDATE
+                          `articles_categories`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
+            $query = "UPDATE
+                          `articles_categories`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
+        }
+    }
+
+    /**
+     * Функция поднимает категорию вверх в списке
+     */
+    public function moveCategoryUp($id) {
+        $id_item_up = $id;
+        // порядок следования баннера, который поднимается вверх
+        $query = "SELECT
+                      `sortorder`
+                  FROM
+                      `articles_categories`
+                  WHERE
+                      `id` = :id_item_up";
+        $order_up = $this->database->fetchOne($query, array('id_item_up' => $id_item_up));
+        // порядок следования и id категории, которая находится выше и будет опущена вниз,
+        // поменявшись местами с категорией, которая поднимается вверх
+        $query = "SELECT
+                      `id`, `sortorder`
+                  FROM
+                      `articles_categories`
+                  WHERE
+                      `sortorder` < :order_up
+                  ORDER BY
+                      `sortorder` DESC
+                  LIMIT
+                      1";
+        $res = $this->database->fetch($query, array('order_up' => $order_up));
+        if (is_array($res)) {
+            $id_item_down = $res['id'];
+            $order_down = $res['sortorder'];
+            // меняем местами категории
+            $query = "UPDATE
+                          `articles_categories`
+                      SET
+                          `sortorder` = :order_down
+                      WHERE
+                          `id` = :id_item_up";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_down' => $order_down,
+                    'id_item_up' => $id_item_up
+                )
+            );
+            $query = "UPDATE
+                          `articles_categories`
+                      SET
+                          `sortorder` = :order_up
+                      WHERE
+                          `id` = :id_item_down";
+            $this->database->execute(
+                $query,
+                array(
+                    'order_up' => $order_up,
+                    'id_item_down' => $id_item_down
+                )
+            );
+        }
     }
 
     /**

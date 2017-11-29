@@ -151,7 +151,7 @@ defined('ZCMS') or die('Access denied');
                     </li>
                 <?php endforeach; ?>
                 </ul>
-                <a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>
+                <!--<a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>-->
             </div>
         <?php endforeach; ?>
         </section>
@@ -172,11 +172,13 @@ defined('ZCMS') or die('Access denied');
                     </li>
                 <?php endforeach; ?>
                 </ul>
-                <a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>
+                <!--<a href="#top-page" class="scroll"><i class="fa fa-arrow-circle-up"></i></a>-->
             </div>
         <?php endforeach; ?>
         </section>
     <?php endif; ?>
+
+    <a href="#top-page" class="scroll" id="scroll"><i class="fa fa-arrow-circle-up"></i></a>
 </div>
 
 <!-- view/example/frontend/template/catalog/brands/center.php -->

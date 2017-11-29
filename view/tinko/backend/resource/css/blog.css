@@ -23,7 +23,6 @@
             }
                 #all-blog-ctgs > ul > li > div:last-child > a {
                     margin-left: 10px;
-                    font-size: 16px;
                 }
 
 /* список всех постов (или всех постов категории) */
@@ -149,7 +148,7 @@
                                     #add-edit-post > div#blog-files > div:last-child > div > div > ul > li > span > span {
                                         border-bottom: 1px dashed #395985;
                                     }
-                        
+
 
 /* форма для добавления/редактирования категории */
 #add-edit-category {
@@ -173,7 +172,7 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
-            
+
 /* список всех файлов */
 #all-blog-files {
 

@@ -21,6 +21,9 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-categories > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }
 
 /* список всех статей (или всех статей категории) */
 #all-articles {
@@ -45,6 +48,9 @@
                 width: 30%;
                 text-align: right;
             }
+                #all-articles > ul > li > div:last-child > a {
+                    margin-left: 10px;
+                }
 
 /* форма для добавления/редактирования статьи */
 #add-edit-article {
@@ -137,7 +143,7 @@
                 box-sizing: border-box;
                 padding: 3px;
             }
-            
+
 /* ссылка на страницу с формой для добавления статьи */
 #add-item-all-ctgs {
     overflow: hidden;

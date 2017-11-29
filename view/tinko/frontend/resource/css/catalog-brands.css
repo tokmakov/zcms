@@ -1,12 +1,15 @@
 /* бренды */
 #brands {
-
+    position: relative;
 }
     #brands > div {
         padding: 10px 0 5px 0;
         margin-bottom: 25px;
         border-top: 1px solid #d1d1d1;
         border-bottom: 1px solid #d1d1d1;
+    }
+    #brands > section {
+        padding-right: 30px;
     }
         #brands > div > div:first-child {
             margin-bottom: 15px;
@@ -31,21 +34,20 @@
             #brands > div > div > span {
                 background: #969696;
             }
-    #brands > section:not(:last-child) {
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-        border-bottom: 2px dashed #5390cc;
-    }
         #brands > section > div {
             position: relative;
         }
-        #brands > section > div:not(:last-child) {
+        #brands > section > div {
             padding-bottom: 15px;
             margin-bottom: 20px;
+            margin-right: -30px;
             border-bottom: 1px dashed #5390cc;
         }
+        #brands > section:last-of-type > div:last-child {
+            border-bottom: none;
+        }
             #brands > section > div > span { /* буква */
-                display: inline-block;
+                float: left;
                 width: 30px;
                 height: 30px;
                 background: #395985;
@@ -59,6 +61,7 @@
             #brands > section > div > ul {
                 list-style: none;
                 overflow: hidden;
+                margin-left: 45px;
             }
                 #brands > section > div > ul > li { /* отдельный бренд */
                     float: left;
@@ -68,8 +71,8 @@
                     width: 120px;
                     height: 90px;
                     overflow: hidden;
-                    margin: 0 5px 5px 0;
-                    padding: 5px;
+                    margin: 0 14px 14px 0;
+                    padding: 10px;
                     text-align: center;
                     border: 1px solid #d1d1d1;
                 }
@@ -95,4 +98,10 @@
                 text-decoration: none;
             }
 
-
+a#scroll {
+    position: fixed;
+    z-index: 100;
+    bottom: 10px;
+    font-size: 35px;
+    color: #395985;
+}

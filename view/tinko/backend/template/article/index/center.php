@@ -40,8 +40,8 @@ defined('ZCMS') or die('Access denied');
                 <li>
                     <div><?php echo $item['name']; ?></div>
                     <div>
-                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить">Удл.</a>
+                        <a href="<?php echo $item['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="<?php echo $item['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -93,4 +93,4 @@ defined('ZCMS') or die('Access denied');
     </ul>
 <?php endif; ?>
 
-<!-- Конец шаблона view/example/backend/template/news/article/center.php -->
+<!-- Конец шаблона view/example/backend/template/article/index/center.php -->

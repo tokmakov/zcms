@@ -34,8 +34,10 @@ defined('ZCMS') or die('Access denied');
             <li>
                 <div><?php echo $category['name']; ?></div>
                 <div>
-                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать">Ред.</a>
-                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить">Удл.</a>
+                    <a href="<?php echo $category['url']['up']; ?>" title="Вверх"><i class="fa fa-arrow-up"></i></a>
+                    <a href="<?php echo $category['url']['down']; ?>" title="Вниз"><i class="fa fa-arrow-down"></i></a>
+                    <a href="<?php echo $category['url']['edit']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo $category['url']['remove']; ?>" title="Удалить"><i class="fa fa-trash-o"></i></a>
                 </div>
             </li>
         <?php endforeach; ?>

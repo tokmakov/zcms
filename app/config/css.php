@@ -28,7 +28,6 @@ $css = array(
             'blog.css',
             'fancybox/jquery.fancybox.css',
         ),
-        'brand'           => 'brand.css',     // бренды
         'catalog'         => 'fancybox/jquery.fancybox.css', // каталог товаров
         'catalog-brands'  => 'catalog-brands.css', // каталог товаров, список брендов
         'compare'   => array(                 // сравнение товаров

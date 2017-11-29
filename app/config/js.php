@@ -29,11 +29,13 @@ $js = array(
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
         ),
-        'brand'           => 'brand.js',         // бренды
         'catalog'         => array(              // каталог товаров
             'fancybox/jquery.mousewheel-3.0.6.pack.js',
             'fancybox/jquery.fancybox.pack.js',
             'lightbox.js',
+        ),
+        'catalog-brands'  => array(
+            'catalog-brands.js'
         ),
         'compare'         => array(              // сравнение товаров
             'compare.js',
