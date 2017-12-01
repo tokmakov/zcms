@@ -11,6 +11,11 @@ abstract class Frontend_Controller extends Base_Controller {
     protected $robots = true;
 
     /**
+     * канонический URL, для роботов поисковых систем
+     */
+    protected $canonicalURL = false;
+
+    /**
      * пользователь авторизован?
      */
     protected $authUser = false;
@@ -365,10 +370,11 @@ abstract class Frontend_Controller extends Base_Controller {
         // которые будут переданы в шаблон head.php, могут быть изменены в методе input()
         // дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
         // а не в методе Frontend_Controller::input()
-        $this->headVars['title'] = $this->title;
-        $this->headVars['keywords'] = $this->keywords;
-        $this->headVars['description'] = $this->description;
-        $this->headVars['robots'] = $this->robots;
+        $this->headVars['title']        = $this->title;
+        $this->headVars['keywords']     = $this->keywords;
+        $this->headVars['description']  = $this->description;
+        $this->headVars['robots']       = $this->robots;
+        $this->headVars['canonicalURL'] = $this->canonicalURL;
 
         /*
          * получаем html-код тега <head>

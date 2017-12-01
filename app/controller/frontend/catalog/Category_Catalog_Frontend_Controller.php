@@ -215,11 +215,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         /*
-         * Запрещаем индексацию категории роботами поисковых систем, если включен
-         * какой-нибудь фильтр, выбрана сортировка или кол-во товаров на странице
+         * Запрещаем индексацию роботами поисковых систем и задаем канонический URL, если
+         * включен какой-нибудь фильтр, выбрана сортировка или кол-во товаров на странице
          */
-        if ($group || $maker || $hit || $new || $sort || $perpage) { // TODO: надо учесть, что группа может быть выбрана изначально
+        if ($group || $maker || $hit || $new || $sort || $perpage) {
             $this->robots = false;
+            $this->canonicalURL = $this->categoryCatalogFrontendModel->getURL(
+                'frontend/catalog/category/id/' . $this->params['id']
+            );
         }
 
         /*

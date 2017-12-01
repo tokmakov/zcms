@@ -150,10 +150,15 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             }
         }
 
-        // запрещаем индексацию роботами поисковых систем, если включен какой-нибудь
-        // фильтр, выбрана сортировка или кол-во товаров на странице
+        /*
+         * Запрещаем индексацию роботами поисковых систем и задаем канонический URL, если
+         * включен какой-нибудь фильтр, выбрана сортировка или кол-во товаров на странице
+         */
         if ($group || $hit || $new || $sort || $perpage) {
             $this->robots = false;
+            $this->canonicalURL = $this->makerCatalogFrontendModel->getURL(
+                'frontend/catalog/maker/id/' . $this->params['id']
+            );
         }
 
         // получаем от модели массив функциональных групп
