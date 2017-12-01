@@ -83,17 +83,17 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // включен фильтр по параметрам?
-        $param = array();
-        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
-            $temp = explode('-', $this->params['param']);
+        $filter = array();
+        if ($group && isset($this->params['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['filter'])) {
+            $temp = explode('-', $this->params['filter']);
             foreach ($temp as $item) {
                 $tmp = explode('.', $item);
                 $key = (int)$tmp[0];
                 $value = (int)$tmp[1];
-                $param[$key] = $value;
+                $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->makerCatalogFrontendModel->getCheckFilters($filter)) {
                 $this->notFoundRecord = true;
                 return;
             }
@@ -167,16 +167,16 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
+        $filters = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество лидеров продаж
@@ -185,7 +185,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество новинок
@@ -194,7 +194,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         /*
@@ -211,7 +211,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
         // URL этой страницы
         $thisPageURL = $this->makerCatalogFrontendModel->getMakerURL(
@@ -219,7 +219,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -249,7 +249,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $start,
             $perpage
@@ -261,7 +261,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $perpage
         );
 
@@ -271,7 +271,7 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -327,9 +327,9 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // количество новинок
             'countNew'       => $countNew,
             // массив выбранных параметров подбора
-            'param'          => $param,
+            'filter'         => $filter,
             // массив всех доступных параметров подбора
-            'params'         => $params,
+            'filters'        => $filters,
             // массив товаров производителя
             'products'       => $products,
             // выбранная сортировка или ноль
@@ -376,15 +376,15 @@ class Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $url = $url . '/new/1';
         }
         // включены доп.фильтры (параметры подбора для выбранного функционала)?
-        if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
-            $param = array();
-            foreach ($_POST['param'] as $key => $value) {
+        if ($grp && isset($_POST['filter']) && is_array($_POST['filter'])) {
+            $filter = array();
+            foreach ($_POST['filter'] as $key => $value) {
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
-                    $param[] = $key . '.' . $value;
+                    $filter[] = $key . '.' . $value;
                 }
             }
-            if ( ! empty($param)) {
-                $url = $url . '/param/' . implode('-', $param);
+            if ( ! empty($filter)) {
+                $url = $url . '/filter/' . implode('-', $filter);
             }
         }
         // пользователь выбрал сортировку товаров?

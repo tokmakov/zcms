@@ -59,8 +59,8 @@ class Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller {
                 if (isset($_POST['new']) && $_POST['new'] == 1) {
                     $url = $url . '/new/1';
                 }
-                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
-                    $url = $url . '/param/' . $_POST['param'];
+                if (isset($_POST['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['filter'])) {
+                    $url = $url . '/filter/' . $_POST['filter'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
@@ -81,8 +81,8 @@ class Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller {
                 if (isset($_POST['new']) && $_POST['new'] == 1) {
                     $url = $url . '/new/1';
                 }
-                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
-                    $url = $url . '/param/' . $_POST['param'];
+                if (isset($_POST['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['filter'])) {
+                    $url = $url . '/filter/' . $_POST['filter'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];
@@ -103,8 +103,8 @@ class Addprd_Compare_Frontend_Controller extends Compare_Frontend_Controller {
                 if (isset($_POST['new']) && $_POST['new'] == 1) {
                     $url = $url . '/new/1';
                 }
-                if (isset($_POST['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['param'])) {
-                    $url = $url . '/param/' . $_POST['param'];
+                if (isset($_POST['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $_POST['filter'])) {
+                    $url = $url . '/filter/' . $_POST['filter'];
                 }
                 if (isset($_POST['sort']) && ctype_digit($_POST['sort']) && $_POST['sort'] > 0) {
                     $url = $url . '/sort/' . $_POST['sort'];

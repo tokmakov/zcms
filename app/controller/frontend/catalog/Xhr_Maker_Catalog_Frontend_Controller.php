@@ -51,14 +51,14 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
          * Когда пользователь нажимает кнопки «Назад» и «Вперед» в браузере, данные
          * отправляются методом GET по событию popstate, см. описание window.history.
          */
-        if ($this->isPostMethod()) { // TODO: проверить, нужна здесь $page?
+        if ($this->isPostMethod()) {
             // если данные отправлены методом POST, получаем данные из формы: фильтр
             // по функционалу, лидерам продаж, новинкам, параметрам и сортировка
-            list($group, $hit, $new, $param, $sort, $perpage) = $this->processFormData();
+            list($group, $hit, $new, $filter, $sort, $perpage) = $this->processFormData();
         } else {
             // если данные отправлены методом GET, получаем данные из URL: фильтр
             // по функционалу, лидерам продаж, новинкам, параметрам и сортировка
-            list($group, $hit, $new, $param, $sort, $perpage) = $this->processUrlData();
+            list($group, $hit, $new, $filter, $sort, $perpage) = $this->processUrlData();
         }
 
         // получаем от модели массив функциональных групп
@@ -67,16 +67,16 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->makerCatalogFrontendModel->getMakerGroupParams(
+        $filters = $this->makerCatalogFrontendModel->getMakerGroupParams(
             $this->params['id'],
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество лидеров продаж
@@ -85,7 +85,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество новинок
@@ -94,7 +94,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         /*
@@ -111,7 +111,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
         // URL этой страницы
         $thisPageURL = $this->makerCatalogFrontendModel->getMakerURL(
@@ -119,7 +119,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -147,7 +147,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $start,
             $perpage
@@ -159,7 +159,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $perpage
         );
 
@@ -169,7 +169,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $group,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -198,9 +198,9 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
                 'countHit'    => $countHit,           // количество лидеров продаж
                 'new'         => $new,                // показывать только новинки?
                 'countNew'    => $countNew,           // количество новинок
-                'param'       => $param,              // массив выбранных параметров подбора
+                'filter'      => $filter,             // массив выбранных параметров подбора
                 'groups'      => $groups,             // массив функциональных групп
-                'params'      => $params,             // массив всех параметров подбора
+                'filters'     => $filters,            // массив всех параметров подбора
                 'sort'        => $sort,               // выбранная сортировка или ноль
                 'sortorders'  => $sortorders,         // массив вариантов сортировки
                 'perpage'     => $perpage,            // выбранный вариант кол-ва товаров на странице или ноль
@@ -253,15 +253,15 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $new = 1;
         }
 
-        $param = array(); // параметры подбора
-        if ($group && isset($_POST['param'])) {
-            foreach ($_POST['param'] as $key => $value) {
+        $filter = array(); // параметры подбора
+        if ($group && isset($_POST['filter']) && is_array($_POST['filter'])) {
+            foreach ($_POST['filter'] as $key => $value) {
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
-                    $param[$key] = (int)$value;
+                    $filter[$key] = (int)$value;
                 }
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->makerCatalogFrontendModel->getCheckFilters($filter)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }
@@ -269,7 +269,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
         // если была выбрана новая функциональная группа, переданные параметры
         // подбора учитывать не надо, потому как у новой группы они будут другие
         if (isset($_POST['change']) && $_POST['change'] == 1) {
-            $param = array();
+            $filter = array();
         }
 
         // пользователь выбрал сортировку товаров?
@@ -285,7 +285,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $perpage = (int)$_POST['perpage'];
         }
 
-        return array($group, $hit, $new, $param, $sort, $perpage);
+        return array($group, $hit, $new, $filter, $sort, $perpage);
 
     }
 
@@ -307,17 +307,17 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $new = 1;
         }
 
-        $param = array(); // параметры подбора
-        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
-            $temp = explode('-', $this->params['param']);
+        $filter = array(); // параметры подбора
+        if ($group && isset($this->params['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['filter'])) {
+            $temp = explode('-', $this->params['filter']);
             foreach ($temp as $item) {
                 $tmp = explode('.', $item);
                 $key = (int)$tmp[0];
                 $value = (int)$tmp[1];
-                $param[$key] = $value;
+                $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->makerCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->makerCatalogFrontendModel->getCheckFilters($filter)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }
@@ -336,7 +336,7 @@ class Xhr_Maker_Catalog_Frontend_Controller extends Catalog_Frontend_Controller 
             $perpage = (int)$this->params['perpage'];
         }
 
-        return array($group, $hit, $new, $param, $sort, $perpage);
+        return array($group, $hit, $new, $filter, $sort, $perpage);
 
     }
 

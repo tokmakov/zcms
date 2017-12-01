@@ -255,14 +255,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив товаров функциональной группы с уникальным
      * идентификатором $id; результат работы кэшируется
      */
-    public function getGroupProducts($id, $maker, $hit, $new, $param, $sort, $start, $perpage) {
+    public function getGroupProducts($id, $maker, $hit, $new, $filter, $sort, $start, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->groupProducts($id, $maker, $hit, $new, $param, $sort, $start, $perpage);
+            return $this->groupProducts($id, $maker, $hit, $new, $filter, $sort, $start, $perpage);
         }
 
         /*
@@ -271,7 +271,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit
-            . '-new-' . $new . '-param-' . md5(serialize($param)) . '-sort-'
+            . '-new-' . $new . '-filter-' . md5(serialize($filter)) . '-sort-'
             . $sort . '-start-' . $start . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
@@ -285,7 +285,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     /**
      * Функция возвращает массив товаров производителя с уникальным идентификатором $id
      */
-    protected function groupProducts($id, $maker, $hit, $new, $param, $sort, $start, $perpage) {
+    protected function groupProducts($id, $maker, $hit, $new, $filter, $sort, $start, $perpage) {
 
         $tmp = '';
         if ($maker) { // фильтр по производителю
@@ -297,8 +297,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) { // фильтр по новинкам
             $tmp = $tmp . " AND `a`.`new` > 0";
         }
-        if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($id, $param);
+        if ( ! empty($filter)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByFilter($id, $filter);
             if (empty($ids)) {
                 return array();
             }
@@ -374,7 +374,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает кол-во товаров функциональной группы с уникальным
      * идентификатором $id; результат работы кэшируется
      */
-    public function getCountGroupProducts($id, $maker, $hit, $new, $param) {
+    public function getCountGroupProducts($id, $maker, $hit, $new, $filter) {
 
         $temp = '';
         if ($maker) { // фильтр по производителю
@@ -386,8 +386,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) { // фильтр по новинкам
             $temp = $temp . " AND `a`.`new` > 0";
         }
-        if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($id, $param);
+        if ( ! empty($filter)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByFilter($id, $filter);
             if (empty($ids)) {
                 return 0;
             }
@@ -409,14 +409,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Возвращает массив производителей товаров для функциональной группы
      * с уникальным идентификатором $id; результат работы кэшируется
      */
-    public function getGroupMakers($id, $hit, $new, $param) {
+    public function getGroupMakers($id, $hit, $new, $filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->groupMakers($id, $hit, $new, $param);
+            return $this->groupMakers($id, $hit, $new, $filter);
         }
 
         /*
@@ -425,7 +425,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-hit-' . $hit. '-new-'
-            . $new . '-param-' . md5(serialize($param));
+            . $new . '-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -439,7 +439,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Возвращает массив производителей товаров для функциональной
      * группы с уникальным идентификатором $id
      */
-    protected function groupMakers($id, $hit, $new, $param) {
+    protected function groupMakers($id, $hit, $new, $filter) {
 
         // получаем список всех производителей для функциональной группы
         $query = "SELECT
@@ -458,7 +458,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         $makers = $this->database->fetchAll($query, array('id' => $id));
 
-        if (0 == $hit && 0 == $new && empty($param)) {
+        if (0 == $hit && 0 == $new && empty($filter)) {
             return $makers;
         }
 
@@ -481,8 +481,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ($new) { // фильтр по новинкам
                 $query = $query . " AND `b`.`new` > 0";
             }
-            if ( ! empty($param)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($id, $param);
+            if ( ! empty($filter)) { // фильтр по параметрам подбора
+                $ids = $this->getProductsByFilter($id, $filter);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
                     $makers[$key]['count'] = $this->database->fetchOne($query, array('id' => $id, 'maker' => $value['id']));
@@ -502,14 +502,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив параметров подбора для товаров функциональной
      * группы с уникальным идентификатором $id; результат работы кэшируется
      */
-    public function getGroupParams($id, $maker, $hit, $new, $param) {
+    public function getGroupParams($id, $maker, $hit, $new, $filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->groupParams($id, $maker, $hit, $new, $param);
+            return $this->groupParams($id, $maker, $hit, $new, $filter);
         }
 
         /*
@@ -518,7 +518,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
-            . '-param-' . md5(serialize($param));
+            . '-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -532,7 +532,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив параметров подбора для товаров функциональной
      * группы с уникальным идентификатором $id
      */
-    protected function groupParams($id, $maker, $hit, $new, $param) {
+    protected function groupParams($id, $maker, $hit, $new, $filter) {
 
         // получаем список всех параметров подбора для функциональной группы
         $query = "SELECT
@@ -582,12 +582,12 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 $query = $query . " AND `a`.`new` > 0";
             }
 
-            $temp = $param;
+            $temp = $filter;
             if (( ! empty($temp)) && isset($temp[$value['param_id']])) {
                 unset($temp[$value['param_id']]);
             }
             if ( ! empty($temp)) { // фильтр по параметрам подбора
-                $ids = $this->getProductsByParam($id, $temp);
+                $ids = $this->getProductsByFilter($id, $temp);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `a`.`id` IN (" . implode(',', $ids) . ")";
                     $result[$key]['count'] = $this->database->fetchOne(
@@ -613,28 +613,28 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
         }
 
-        $params = array();
+        $filters = array();
         $param_id = 0;
         $counter = -1;
         foreach($result as $value) {
             if ($param_id != $value['param_id']) {
                 $counter++;
                 $param_id = $value['param_id'];
-                $params[$counter] = array(
+                $filters[$counter] = array(
                     'id'       => $value['param_id'],
                     'name'     => $value['param_name'],
-                    'selected' => isset($param[$value['param_id']]),
+                    'selected' => isset($filter[$value['param_id']]),
                 );
             }
-            $params[$counter]['values'][] = array(
+            $filters[$counter]['values'][] = array(
                 'id'       => $value['value_id'],
                 'name'     => $value['value_name'],
                 'count'    => $value['count'],
-                'selected' => in_array($value['value_id'], $param),
+                'selected' => in_array($value['value_id'], $filter),
             );
         }
 
-        return $params;
+        return $filters;
 
     }
 
@@ -643,14 +643,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * идентификатором $id с учетом фильтров по производителю, новинкам и параметрам.
      * Результат работы кэшируется
      */
-    public function getCountGroupHit($id, $maker, $hit, $new, $param) {
+    public function getCountGroupHit($id, $maker, $hit, $new, $filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->countGroupHit($id, $maker, $hit, $new, $param);
+            return $this->countGroupHit($id, $maker, $hit, $new, $filter);
         }
 
         /*
@@ -659,7 +659,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
-               . '-param-' . md5(serialize($param));
+               . '-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -673,7 +673,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает количество лидеров продаж для функциональной группы с уникальным
      * идентификатором $id с учетом фильтров по производителю, новинкам и параметрам
      */
-    protected function countGroupHit($id, $maker, $hit, $new, $param) {
+    protected function countGroupHit($id, $maker, $hit, $new, $filter) {
 
         $query = "SELECT
                       COUNT(*)
@@ -697,8 +697,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) { // фильтр по новинкам
             $query = $query . " AND `a`.`new` > 0";
         }
-        if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($id, $param);
+        if ( ! empty($filter)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByFilter($id, $filter);
             if (empty($ids)) {
                 return 0;
             }
@@ -713,14 +713,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * идентификатором $id с учетом фильтров по производителю, лидерам продаж и параметрам.
      * Результат работы кэшируется
      */
-    public function getCountGroupNew($id, $maker, $hit, $new, $param = array()) {
+    public function getCountGroupNew($id, $maker, $hit, $new, $filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->countGroupNew($id, $maker, $hit, $new, $param);
+            return $this->countGroupNew($id, $maker, $hit, $new, $filter);
         }
 
         /*
@@ -729,7 +729,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
-               . '-param-' . md5(serialize($param));
+               . '-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -744,7 +744,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * уникальным идентификатором $id, с учетом фильтров по производителю,
      * лидерам продаж и параметрам
      */
-    protected function countGroupNew($id, $maker, $hit, $new, $param) {
+    protected function countGroupNew($id, $maker, $hit, $new, $filter) {
 
         $query = "SELECT
                       COUNT(*)
@@ -768,8 +768,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
              */
             $query = $query . " AND `a`.`new` > 0";
         }
-        if ( ! empty($param)) { // фильтр по параметрам подбора
-            $ids = $this->getProductsByParam($id, $param);
+        if ( ! empty($filter)) { // фильтр по параметрам подбора
+            $ids = $this->getProductsByFilter($id, $filter);
             if (empty($ids)) {
                 return 0;
             }
@@ -784,16 +784,16 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * идентификатором $id, с учетом фильтров и сортировки; результат работы
      * кэшируется
      */
-    public function getGroupURL($id, $maker, $hit, $new, $param, $sort, $perpage) {
+    public function getGroupURL($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->groupURL($id, $maker, $hit, $new, $param, $sort, $perpage);
+            return $this->groupURL($id, $maker, $hit, $new, $filter, $sort, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit
-            . '-new-' . $new. '-param-' . md5(serialize($param)) . '-sort-' . $sort
+            . '-new-' . $new. '-filter-' . md5(serialize($filter)) . '-sort-' . $sort
             . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
@@ -808,7 +808,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает ЧПУ для страницы функциональной группы с уникальным
      * идентификатором $id, с учетом фильтров и сортировки
      */
-    protected function groupURL($id, $maker, $hit, $new, $param, $sort, $perpage) {
+    protected function groupURL($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
         if ($maker) {
@@ -820,12 +820,12 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) {
             $url = $url . '/new/1';
         }
-        if ( ! empty($param)) {
+        if ( ! empty($filter)) {
             $temp = array();
-            foreach ($param as $key => $value) {
+            foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
-            $url = $url . '/param/' . implode('-', $temp);
+            $url = $url . '/filter/' . implode('-', $temp);
         }
         if ($sort) {
             $url = $url . '/sort/' . $sort;
@@ -841,16 +841,16 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров функциональной группы
      * $id по цене, наименованию, коду (артикулу); результат работы кэшируется
      */
-    public function getGroupSortOrders($id, $maker, $hit, $new, $param, $perpage) {
+    public function getGroupSortOrders($id, $maker, $hit, $new, $filter, $perpage) {
 
         // если не включено кэширование данных
         if ( ! $this->enableDataCache) {
-            return $this->groupSortOrders($id, $maker, $hit, $new, $param, $perpage);
+            return $this->groupSortOrders($id, $maker, $hit, $new, $filter, $perpage);
         }
 
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
-            . '-param-' . md5(serialize($param)) . '-perpage-' . $perpage;;
+            . '-filter-' . md5(serialize($filter)) . '-perpage-' . $perpage;;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -864,7 +864,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для сортировки товаров функциональной группы
      * $id по цене, наименованию, коду (артикулу)
      */
-    protected function groupSortOrders($id, $maker, $hit, $new, $param, $perpage) {
+    protected function groupSortOrders($id, $maker, $hit, $new, $filter, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
         if ($maker) {
@@ -876,12 +876,12 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) {
             $url = $url . '/new/1';
         }
-        if ( ! empty($param)) {
+        if ( ! empty($filter)) {
             $temp = array();
-            foreach ($param as $key => $value) {
+            foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
-            $url = $url . '/param/' . implode('-', $temp);
+            $url = $url . '/filter/' . implode('-', $temp);
         }
         /*
          * варианты сортировки:
@@ -921,14 +921,14 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для переключения на показ 10,20,50,100
      * товаров функциональной группы на страницу; результат работы кэшируется
      */
-    public function getOthersPerPage($id, $maker, $hit, $new, $param, $sort, $perpage) {
+    public function getOthersPerPage($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->othersPerPage($id, $maker, $hit, $new, $param, $sort, $perpage);
+            return $this->othersPerPage($id, $maker, $hit, $new, $filter, $sort, $perpage);
         }
 
         /*
@@ -937,7 +937,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         // уникальный ключ доступа к кэшу
         $key = __METHOD__ . '()-id-' . $id . '-maker-' . $maker . '-hit-' . $hit . '-new-' . $new
-            . '-param-' . md5(serialize($param)) . '-sort-' . $sort . '-perpage-' . $perpage;
+            . '-filter-' . md5(serialize($filter)) . '-sort-' . $sort . '-perpage-' . $perpage;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -951,7 +951,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      * Функция возвращает массив ссылок для переключения на показ 10,20,50,100
      * товаров функциональной группы на страницу
      */
-    protected function othersPerPage($id, $maker, $hit, $new, $param, $sort, $perpage) {
+    protected function othersPerPage($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
         if ($maker) {
@@ -963,12 +963,12 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         if ($new) {
             $url = $url . '/new/1';
         }
-        if ( ! empty($param)) {
+        if ( ! empty($filter)) {
             $temp = array();
-            foreach ($param as $key => $value) {
+            foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
-            $url = $url . '/param/' . implode('-', $temp);
+            $url = $url . '/filter/' . implode('-', $temp);
         }
         if ($sort) {
             $url = $url . '/sort/' . $sort;

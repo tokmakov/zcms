@@ -106,14 +106,14 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * которые входят в функциональную группу $group и  подходят под параметры
      * подбора $param; результат работы кэшируется
      */
-    protected function getProductsByParam($group, $param) {
+    protected function getProductsByFilter($group, $filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->productsByParam($group, $param);
+            return $this->productsByFilter($group, $filter);
         }
 
         /*
@@ -121,7 +121,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-group-' . $group . '-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-group-' . $group . '-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -136,13 +136,13 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * которые входят в функциональную группу $group и  подходят под параметры
      * подбора $param
      */
-    protected function productsByParam($group, $param) {
+    protected function productsByFilter($group, $filter) {
 
         if (empty($group)) {
             return array();
         }
 
-        if (empty($param)) {
+        if (empty($filter)) {
             return array();
         }
 
@@ -153,7 +153,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
          * получить массив идентификаторов товаров, подходящих под все фильтры.
          */
         $ids = array();
-        foreach ($param as $key => $value) {
+        foreach ($filter as $key => $value) {
             $query = "SELECT
                           `a`.`id` AS `id`
                       FROM
@@ -200,14 +200,14 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * если параметры и значения коррекные, возвращает true, иначе false;
      * результат работы кэшируется
      */
-    public function getCheckParams($param) {
+    public function getCheckFilters($filter) {
 
         /*
          * если не включено кэширование данных, получаем данные с помощью
          * запроса к базе данных
          */
         if ( ! $this->enableDataCache) {
-            return $this->checkParams($param);
+            return $this->checkFilters($filter);
         }
 
         /*
@@ -215,7 +215,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-param-' . md5(serialize($param));
+        $key = __METHOD__ . '()-filter-' . md5(serialize($filter));
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -229,9 +229,9 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
      * Функция проверяет корректность идентификаторов параметров и значений;
      * если параметры и значения коррекные, возвращает true, иначе false
      */
-    protected function checkParams($param) {
+    protected function checkFilters($filter) {
 
-        if (empty($param)) {
+        if (empty($filter)) {
             return true;
         }
 
@@ -240,13 +240,13 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
          * подбора и значений этих параметров в таблицах БД `params` и `values`
          */
 
-        $count = count($param);
+        $count = count($filter);
 
-        $params = implode(',', array_keys($param));
-        $query = "SELECT COUNT(*) FROM `params` WHERE `id` IN (" . $params . ")";
+        $filters = implode(',', array_keys($filter));
+        $query = "SELECT COUNT(*) FROM `params` WHERE `id` IN (" . $filters . ")";
         $count1 = $this->database->fetchOne($query);
 
-        $values = implode(',', $param);
+        $values = implode(',', $filter);
         $query = "SELECT COUNT(*) FROM `values` WHERE `id` IN (" . $values . ")";
         $count2 = $this->database->fetchOne($query);
 

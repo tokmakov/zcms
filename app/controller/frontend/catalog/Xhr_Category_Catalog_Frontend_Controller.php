@@ -49,14 +49,14 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
              * по функционалу, производителю, лидерам продаж, новинкам, параметрам и
              * сортировка
              */
-            list($group, $maker, $hit, $new, $param, $sort, $perpage) = $this->processFormData();
+            list($group, $maker, $hit, $new, $filter, $sort, $perpage) = $this->processFormData();
         } else {
             /*
              * если данные отправлены методом GET, получаем данные из URL: фильтр
              * по функционалу, производителю, лидерам продаж, новинкам, параметрам и
              * сортировка
              */
-            list($group, $maker, $hit, $new, $param, $sort, $perpage) = $this->processUrlData();
+            list($group, $maker, $hit, $new, $filter, $sort, $perpage) = $this->processUrlData();
         }
 
         // получаем от модели массив дочерних категорий
@@ -66,7 +66,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -78,7 +78,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели массив производителей
@@ -87,17 +87,17 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $group,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели массив параметров подбора
-        $params = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
+        $filters = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
             $this->params['id'],
             $group,
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество лидеров продаж
@@ -107,7 +107,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество новинок
@@ -117,7 +117,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         /*
@@ -135,7 +135,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
         // URL этой страницы
         $thisPageURL = $this->categoryCatalogFrontendModel->getCategoryURL(
@@ -144,7 +144,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -175,7 +175,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $start,
             $perpage
@@ -188,7 +188,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $perpage
         );
 
@@ -199,7 +199,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -224,15 +224,15 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
                 'view'        => $view,               // представление списка товаров: линейный или плитка
                 'childs'      => $childs,             // массив дочерних категорий
                 'group'       => $group,              // id выбранной функциональной группы или ноль
+                'groups'      => $groups,             // массив функциональных групп выбранной категории
                 'maker'       => $maker,              // id выбранного производителя или ноль
+                'makers'      => $makers,             // массив производителей выбранной категории
+                'filter'      => $filter,             // массив выбранных параметров подбора
+                'filters'     => $filters,            // массив всех параметров подбора
                 'hit'         => $hit,                // показывать только лидеров продаж?
                 'countHit'    => $countHit,           // количество лидеров продаж
                 'new'         => $new,                // показывать только новинки?
                 'countNew'    => $countNew,           // количество новинок
-                'param'       => $param,              // массив выбранных параметров подбора
-                'groups'      => $groups,             // массив функциональных групп выбранной категории
-                'makers'      => $makers,             // массив производителей выбранной категории
-                'params'      => $params,             // массив всех параметров подбора
                 'sort'        => $sort,               // выбранная сортировка или ноль
                 'sortorders'  => $sortorders,         // массив всех вариантов сортировки
                 'perpage'     => $perpage,            // выбранный вариант кол-ва товаров на странице или ноль
@@ -287,15 +287,15 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $new = 1;
         }
 
-        $param = array(); // параметры подбора
-        if ($group && isset($_POST['param'])) {
-            foreach ($_POST['param'] as $key => $value) {
+        $filter = array(); // параметры подбора
+        if ($group && isset($_POST['filter'])) {
+            foreach ($_POST['filter'] as $key => $value) {
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
-                    $param[$key] = (int)$value;
+                    $filter[$key] = (int)$value;
                 }
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->categoryCatalogFrontendModel->getCheckFilters($filter)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }
@@ -303,7 +303,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
         // если была выбрана новая функциональная группа, переданные параметры
         // подбора учитывать не надо, потому как у новой группы они будут другие
         if (isset($_POST['change']) && $_POST['change'] == 1) {
-            $param = array();
+            $filter = array();
         }
 
         // пользователь выбрал сортировку товаров?
@@ -319,7 +319,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $perpage = (int)$_POST['perpage'];
         }
 
-        return array($group, $maker, $hit, $new, $param, $sort, $perpage);
+        return array($group, $maker, $hit, $new, $filter, $sort, $perpage);
 
     }
 
@@ -345,17 +345,17 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $new = 1;
         }
 
-        $param = array(); // параметры подбора
-        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
-            $temp = explode('-', $this->params['param']);
+        $filter = array(); // параметры подбора
+        if ($group && isset($this->params['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['filter'])) {
+            $temp = explode('-', $this->params['filter']);
             foreach ($temp as $item) {
                 $tmp = explode('.', $item);
                 $key = (int)$tmp[0];
                 $value = (int)$tmp[1];
-                $param[$key] = $value;
+                $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->categoryCatalogFrontendModel->getCheckFilters($filter)) {
                 header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
                 die();
             }
@@ -374,7 +374,7 @@ class Xhr_Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controll
             $perpage = (int)$this->params['perpage'];
         }
 
-        return array($group, $maker, $hit, $new, $param, $sort, $perpage);
+        return array($group, $maker, $hit, $new, $filter, $sort, $perpage);
 
     }
 

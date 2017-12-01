@@ -176,17 +176,17 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // включены доп.фильтры (параметры подбора для выбранного функционала)?
-        $param = array();
-        if ($group && isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
-            $temp = explode('-', $this->params['param']);
+        $filter = array();
+        if ($group && isset($this->params['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['filter'])) {
+            $temp = explode('-', $this->params['filter']);
             foreach ($temp as $item) {
                 $tmp = explode('.', $item);
                 $key = (int)$tmp[0];
                 $value = (int)$tmp[1];
-                $param[$key] = $value;
+                $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($filter)) {
                 $this->notFoundRecord = true;
                 return;
             }
@@ -265,7 +265,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param,              // массив параметров подбора
+            $filter,             // массив параметров подбора
             $sort,               // сортировка
             $perpage             // кол-во товаров на одной странице
         );
@@ -277,7 +277,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
 
         // получаем от модели массив производителей
@@ -286,17 +286,17 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $group,              // идентификатор функциональной группы или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
 
         // получаем от модели массив доп.фильтров (параметров подбора для выбранного функционала)
-        $params = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
+        $filters = $this->categoryCatalogFrontendModel->getCategoryGroupParams(
             $this->params['id'], // уникальный идентификатор категории
             $group,              // идентификатор функциональной группы или ноль
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
 
         // получаем от модели количество лидеров продаж
@@ -306,7 +306,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
 
         // получаем от модели количество новинок
@@ -316,7 +316,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
 
         /*
@@ -333,7 +333,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param               // массив параметров подбора
+            $filter              // массив параметров подбора
         );
         $pager = null; // постраничная навигация
         $start = 0; // стартовая позиция для SQL-запроса
@@ -345,7 +345,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $maker,              // идентификатор производителя или ноль
                 $hit,                // включен или нет фильтр по лидерам продаж
                 $new,                // включен или нет фильтр по новинкам
-                $param,              // массив параметров подбора
+                $filter,             // массив параметров подбора
                 $sort,               // сортировка
                 $perpage             // кол-во товаров на странице
             );
@@ -377,7 +377,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param,              // массив параметров подбора
+            $filter,             // массив параметров подбора
             $sort,               // сортировка
             $start,              // стартовая позиция для SQL-запроса
             $perpage             // кол-во товаров на странице
@@ -390,7 +390,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,              // идентификатор производителя или ноль
             $hit,                // включен или нет фильтр по лидерам продаж
             $new,                // включен или нет фильтр по новинкам
-            $param,              // массив параметров подбора
+            $filter,             // массив параметров подбора
             $perpage             // кол-во товаров на странице
         );
 
@@ -401,7 +401,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -444,14 +444,14 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             'view'           => $view,               // представление списка товаров, линейный или плитка
             'group'          => $group,              // id выбранной функциональной группы или ноль
             'maker'          => $maker,              // id выбранного производителя или ноль
-            'param'          => $param,              // массив выбранных параметров подбора
+            'filter'         => $filter,             // массив выбранных параметров подбора
             'hit'            => $hit,                // показывать только лидеров продаж?
             'countHit'       => $countHit,           // количество лидеров продаж
             'new'            => $new,                // показывать только новинки?
             'countNew'       => $countNew,           // количество новинок
             'groups'         => $groups,             // массив всех функциональных групп категории
             'makers'         => $makers,             // массив всех производителей категории
-            'params'         => $params,             // массив всех параметров подбора
+            'filters'        => $filters,             // массив всех параметров подбора
             'sort'           => $sort,               // выбранная сортировка или ноль
             'sortorders'     => $sortorders,         // массив всех вариантов сортировки
             'perpage'        => $perpage,            // выбранный вариант кол-ва товаров на странице или ноль
@@ -503,15 +503,15 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $url = $url . '/new/1';
         }
         // включены доп.фильтры (параметры подбора для выбранного функционала)?
-        if ($grp && isset($_POST['param']) && is_array($_POST['param'])) {
-            $param = array();
-            foreach ($_POST['param'] as $key => $value) {
+        if ($grp && isset($_POST['filter']) && is_array($_POST['filter'])) {
+            $filter = array();
+            foreach ($_POST['filter'] as $key => $value) {
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
-                    $param[] = $key . '.' . $value;
+                    $filter[] = $key . '.' . $value;
                 }
             }
-            if ( ! empty($param)) {
-                $url = $url . '/param/' . implode('-', $param);
+            if ( ! empty($filter)) {
+                $url = $url . '/filter/' . implode('-', $filter);
             }
         }
         // пользователь выбрал сортировку товаров?

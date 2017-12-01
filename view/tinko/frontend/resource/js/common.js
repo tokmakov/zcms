@@ -725,19 +725,19 @@ function pushHistoryState(fields) {
     if ($('#catalog-filter form input[name="new"]').prop('checked')) {
         url = url + '/new/1';
     }
-    var paramSelect = $('#catalog-filter form select[name^="param"]');
-    var param = [];
-    if (paramSelect.length > 0) {
-        paramSelect.each(function(index, element){
+    var filterSelect = $('#catalog-filter form select[name^="filter"]');
+    var filter = [];
+    if (filterSelect.length > 0) {
+        filterSelect.each(function(index, element){
             if ($(element).val() !== '0') {
-                var paramSelectId = $(element).attr('name').replace(/[^0-9]/g, '');
-                var paramSelectVal = $(element).val();
-                param.push(paramSelectId + '.' + paramSelectVal);
+                var filterSelectId = $(element).attr('name').replace(/[^0-9]/g, '');
+                var filterSelectVal = $(element).val();
+                filter.push(filterSelectId + '.' + filterSelectVal);
             }
         });
     }
-    if (param.length > 0) {
-        url = url + '/param/' + param.join('-');
+    if (filter.length > 0) {
+        url = url + '/filter/' + filter.join('-');
     }
     if (url !== '') { // ссылка для сброса фильтра
         $('#catalog-filter > div:first-child > span:first-child > a').show();

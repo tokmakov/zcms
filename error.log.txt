@@ -147,3 +147,36 @@
 #4 D:\work\localhost2\www\index.php(40): Xhr_Category_Catalog_Frontend_Controller->request()
 #5 {main}
 
+01.12.2017 13:28:18
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/5/group/100/param/91.626
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 147
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(100): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(213): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(64): Category_Catalog_Frontend_Model->childCategories(4, 100, 0, 0, 0, Array, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(72): Category_Catalog_Frontend_Model->getChildCategories(4, 100, 0, 0, 0, Array, 0, 0)
+#4 D:\work\localhost2\www\index.php(46): Xhr_Category_Catalog_Frontend_Controller->request()
+#5 {main}
+
+01.12.2017 13:30:59
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/5/group/456/param/148.1547
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 147
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(100): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(213): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(64): Category_Catalog_Frontend_Model->childCategories(4, 456, 0, 0, 0, Array, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(72): Category_Catalog_Frontend_Model->getChildCategories(4, 456, 0, 0, 0, Array, 0, 0)
+#4 D:\work\localhost2\www\index.php(46): Xhr_Category_Catalog_Frontend_Controller->request()
+#5 {main}
+
+01.12.2017 13:34:04
+Код: 0, текст: Не найдено правило преобразования CAP->SEF для frontend/catalog/category/id/6/group/455/param/157.1601
+Файл: D:\work\localhost2\www\app\model\frontend\Frontend_Model.php, строка: 147
+Стек вызовов: 
+#0 D:\work\localhost2\www\app\model\frontend\Frontend_Model.php(100): Frontend_Model->URL('frontend/catalo...')
+#1 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(1145): Frontend_Model->getURL('frontend/catalo...')
+#2 D:\work\localhost2\www\app\model\frontend\catalog\Category_Catalog_Frontend_Model.php(1096): Category_Catalog_Frontend_Model->categoryURL(6, 455, 0, 0, 0, Array, 0, 0)
+#3 D:\work\localhost2\www\app\controller\frontend\catalog\Xhr_Category_Catalog_Frontend_Controller.php(150): Category_Catalog_Frontend_Model->getCategoryURL(6, 455, 0, 0, 0, Array, 0, 0)
+#4 D:\work\localhost2\www\index.php(46): Xhr_Category_Catalog_Frontend_Controller->request()
+#5 {main}
+

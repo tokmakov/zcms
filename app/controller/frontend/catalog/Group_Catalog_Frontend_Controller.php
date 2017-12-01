@@ -76,17 +76,17 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         }
 
         // включен фильтр по параметрам (доп.фильтрам)?
-        $param = array();
-        if (isset($this->params['param']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['param'])) {
-            $temp = explode('-', $this->params['param']);
+        $filter = array();
+        if (isset($this->params['filter']) && preg_match('~^\d+\.\d+(-\d+\.\d+)*$~', $this->params['filter'])) {
+            $temp = explode('-', $this->params['filter']);
             foreach ($temp as $item) {
                 $tmp = explode('.', $item);
                 $key = (int)$tmp[0];
                 $value = (int)$tmp[1];
-                $param[$key] = $value;
+                $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->groupCatalogFrontendModel->getCheckParams($param)) {
+            if ( ! $this->groupCatalogFrontendModel->getCheckFilters($filter)) {
                 $this->notFoundRecord = true;
                 return;
             }
@@ -159,16 +159,16 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $this->params['id'],
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели массив всех параметров подбора
-        $params = $this->groupCatalogFrontendModel->getGroupParams(
+        $filters = $this->groupCatalogFrontendModel->getGroupParams(
             $this->params['id'],
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество лидеров продаж
@@ -177,7 +177,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         // получаем от модели количество новинок
@@ -186,7 +186,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
 
         /*
@@ -203,7 +203,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param
+            $filter
         );
         // URL этой страницы
         $thisPageURL = $this->groupCatalogFrontendModel->getGroupURL(
@@ -211,7 +211,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -241,7 +241,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $start,
             $perpage
@@ -253,7 +253,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $perpage
         );
 
@@ -263,7 +263,7 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $maker,
             $hit,
             $new,
-            $param,
+            $filter,
             $sort,
             $perpage
         );
@@ -317,9 +317,9 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             // количество новинок
             'countNew'       => $countNew,
             // массив выбранных параметров подбора
-            'param'          => $param,
+            'filter'         => $filter,
             // массив всех параметров подбора
-            'params'         => $params,
+            'filters'        => $filters,
             // массив товаров функциональной группы
             'products'       => $products,
             // выбранная сортировка или ноль
@@ -364,15 +364,15 @@ class Group_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
             $url = $url . '/new/1';
         }
         // включены параметры подбора (доп.фильтры)?
-        if (isset($_POST['param']) && is_array($_POST['param'])) {
-            $param = array();
-            foreach ($_POST['param'] as $key => $value) {
+        if (isset($_POST['filter']) && is_array($_POST['filter'])) {
+            $filter = array();
+            foreach ($_POST['filter'] as $key => $value) {
                 if ($key > 0 && ctype_digit($value) && $value > 0) {
-                    $param[] = $key . '.' . $value;
+                    $filter[] = $key . '.' . $value;
                 }
             }
-            if ( ! empty($param)) {
-                $url = $url . '/param/' . implode('-', $param);
+            if ( ! empty($filter)) {
+                $url = $url . '/param/' . implode('-', $filter);
             }
         }
         // пользователь выбрал сортировку товаров?

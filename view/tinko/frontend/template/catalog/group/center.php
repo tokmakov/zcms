@@ -11,8 +11,8 @@
  * $action - атрибут action тега form
  * $view - представление списка товаров
  * $maker - id выбранного производителя или ноль
- * $param - массив выбранных параметров подбора
- * $params - массив всех параметров подбора
+ * $filter - массив выбранных параметров подбора
+ * $filters - массив всех параметров подбора
  * $hit - показывать только лидеров продаж?
  * $countHit - количество лидеров продаж
  * $new - показывать только новинки?
@@ -57,12 +57,12 @@
  *   ..........
  * )
  *
- * $param = Array (
+ * $filter = Array (
  *   [187] => 1603 // 187 - уникальный ID параметра, 1603 - уникальный ID значения параметра
  *   [241] => 1937
  * )
  *
- * $params = Array (
+ * $filters = Array (
  *   [0] => Array (
  *     [id] => 187
  *     [name] => Напряжение питания, В
@@ -249,7 +249,7 @@ for ($i = 0; $i <= 6; $i++) {
 </span>
 <h1><?php echo $name; ?></h1>
 
-<?php if (empty($products) && empty($maker) && empty($param) && empty($hit) && empty($new)): ?>
+<?php if (empty($products) && empty($maker) && empty($filter) && empty($hit) && empty($new)): ?>
     <p>Нет товаров в этой функциональной группе</p>
     <?php return; ?>
 <?php endif; ?>
@@ -258,7 +258,7 @@ for ($i = 0; $i <= 6; $i++) {
     <div>
         <span>
             Фильтр
-            <a href="<?php echo $clearFilterURL; ?>"<?php if (count($param) || $maker || $hit || $new) echo ' class="show-clear-filter"'; ?>>
+            <a href="<?php echo $clearFilterURL; ?>"<?php if (count($filter) || $maker || $hit || $new) echo ' class="show-clear-filter"'; ?>>
                 сбросить
             </a>
         </span>
@@ -285,15 +285,15 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($maker): ?><i class="fa fa-times"></i><?php endif; ?>
                     </div>
                 </div>
-                <?php if (!empty($params)): ?>
-                    <?php foreach ($params as $item): ?>
+                <?php if ( ! empty($filters)): ?>
+                    <?php foreach ($filters as $item): ?>
                         <div>
                             <div>
                                 <span><?php echo $item['name']; ?></span>
                             </div>
                             <div>
                                 <span>
-                                <select name="param[<?php echo $item['id']; ?>]">
+                                <select name="filter[<?php echo $item['id']; ?>]">
                                     <option value="0">Выберите</option>
                                     <?php foreach ($item['values'] as $value): ?>
                                         <option value="<?php echo $value['id']; ?>"<?php echo $value['selected'] ? ' selected="selected"' : ''; ?><?php echo (!$value['count']) ? ' class="empty-option"' : ''; ?>><?php echo htmlspecialchars($value['name']) . ' ► ' . $value['count']; ?> шт.</option>
@@ -382,13 +382,13 @@ for ($i = 0; $i <= 6; $i++) {
              * 12, 56 — уникальные идентификаторы параметров подбора
              * 34, 78 — уникальные идентификаторы значений параметров подбора
              */
-            if ( ! empty($param)) {
+            if ( ! empty($filter)) {
                 $temp = array();
-                foreach ($param as $key => $value) {
+                foreach ($filter as $key => $value) {
                     $temp[] = $key . '.' . $value;
                 }
                 if ( ! empty($temp)) {
-                    $prm = implode('-', $temp);
+                    $fltr = implode('-', $temp);
                 }
             }
         ?>
@@ -440,8 +440,8 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($prm)): ?>
-                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php if ( ! empty($fltr)): ?>
+                            <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
@@ -467,8 +467,8 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($prm)): ?>
-                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php if ( ! empty($fltr)): ?>
+                            <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
@@ -494,8 +494,8 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php if ($new): ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($prm)): ?>
-                            <input type="hidden" name="param" value="<?php echo $prm; ?>" />
+                        <?php if ( ! empty($fltr)): ?>
+                            <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
                         <?php if ($sort): ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
