@@ -367,9 +367,9 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
              * стали доступны параметры подбора (без необходимости выбора единственной
              * функциональной группы из выпадающего списка)
              */
-            $filter = $this->getIsOnlyCategoryGroup($current);
-            if ($filter) {
-                $url = $url . '/group/' . $filter;
+            $only = $this->getIsOnlyCategoryGroup($current);
+            if ($only) {
+                $url = $url . '/group/' . $only;
             }
             if ($sort) { // выбрана сортировка?
                 $url = $url . '/sort/' . $sort;
