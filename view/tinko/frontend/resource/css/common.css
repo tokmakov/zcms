@@ -2152,8 +2152,8 @@ form#center-search-form {
             #product-item .product-item-others .center-block > div:last-child > ul > li > span:first-of-type {
                 margin-bottom: 4px;
             }
-            #product-item .product-item-others .center-block > div:last-child > ul > li > span > a:last-child {
-                margin-left: 15px;
+            #product-item .product-item-others .center-block > div:last-child > ul > li > span > a:first-child {
+                margin-right: 15px;
             }
             #product-item .product-item-others .center-block > div:last-child > ul > li > span > a > i {
                 display: inline; /* какой-то глюк awesome font */

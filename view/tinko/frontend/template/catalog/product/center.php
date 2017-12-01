@@ -223,14 +223,14 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div class="product-item-others">
-        <?php if (!empty($purpose)): ?>
+        <?php if ( ! empty($purpose)): ?>
             <div class="center-block">
                 <div><h3>Назначение</h3></div>
                 <div><?php echo nl2br($purpose); ?></div>
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($techdata)): ?>
+        <?php if ( ! empty($techdata)): ?>
             <div class="center-block">
                 <div><h3>Технические характеристики</h3></div>
                 <div class="no-padding">
@@ -246,53 +246,62 @@ defined('ZCMS') or die('Access denied');
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($features)): ?>
+        <?php if ( ! empty($features)): ?>
             <div class="center-block">
                 <div><h3>Особенности</h3></div>
                 <div><?php echo nl2br($features); ?></div>
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($complect)): ?>
+        <?php if ( ! empty($complect)): ?>
             <div class="center-block">
                 <div><h3>Комплектация</h3></div>
                 <div><?php echo nl2br($complect); ?></div>
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($equipment)): ?>
+        <?php if ( ! empty($equipment)): ?>
             <div class="center-block">
                 <div><h3>Дополнительное оборудование</h3></div>
                 <div><?php echo nl2br($equipment); ?></div>
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($padding)): ?>
+        <?php if ( ! empty($padding)): ?>
             <div class="center-block">
                 <div><h3>Дополнительная информация</h3></div>
                 <div><?php echo nl2br($padding); ?></div>
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($docs)): ?>
+        <?php if ( ! empty($docs)): ?>
             <div class="center-block">
                 <div><h3>Документация</h3></div>
                 <div class="no-padding">
                     <ul>
                     <?php foreach ($docs as $doc): ?>
                         <?php
+                            // иконка файла документации
                             $icon = 'fa-file-o';
                             switch($doc['type']) {
-                                case 'jpg': $icon = 'fa-file-image-o'; break;
-                                case 'pdf': $icon = 'fa-file-pdf-o'; break;
-                                case 'zip': $icon = 'fa-file-archive-o'; break;
+                                case 'jpg' : $icon = 'fa-file-image-o';      break;
+                                case 'doc' : $icon = 'fa-file-word-o';       break;
+                                case 'docx': $icon = 'fa-file-word-o';       break;
+                                case 'xls' : $icon = 'fa-file-excel-o';      break;
+                                case 'xlsx': $icon = 'fa-file-excel-o';      break;
+                                case 'ppt' : $icon = 'fa-file-powerpoint-o'; break;
+                                case 'pptx': $icon = 'fa-file-powerpoint-o'; break;
+                                case 'pdf' : $icon = 'fa-file-pdf-o';        break;
+                                case 'zip' : $icon = 'fa-file-archive-o';    break;
                             }
                         ?>
                         <li>
                             <i class="fa <?php echo $icon; ?>" aria-hidden="true"></i>
                             <span><?php echo $doc['title']; ?></span>
                             <span>
-                                <a href="<?php echo $doc['url']; ?>" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> открыть</a>
+                                <?php if (in_array($doc['type'], array('jpg', 'pdf'))): ?>
+                                    <a href="<?php echo $doc['url']; ?>" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> открыть</a>
+                                <?php endif; ?>
                                 <a href="/files/catalog/download.php?file=docs/<?php echo rawurldecode($doc['file']); ?>"><i class="fa fa-download" aria-hidden="true"></i> сохранить</a>
                             </span>
                         </li>
@@ -302,7 +311,7 @@ defined('ZCMS') or die('Access denied');
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($certs)): ?>
+        <?php if ( ! empty($certs)): ?>
             <div class="center-block">
                 <div><h3>Сертификаты</h3></div>
                 <div>
@@ -322,7 +331,7 @@ defined('ZCMS') or die('Access denied');
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($recommendedProducts)): // рекомендованные товары ?>
+        <?php if ( ! empty($recommendedProducts)): // рекомендованные товары ?>
             <div class="center-block">
                 <div><h3>С этим товаром покупают</h3></div>
                 <div class="no-padding">
@@ -353,7 +362,7 @@ defined('ZCMS') or die('Access denied');
             </div>
         <?php endif ?>
 
-        <?php if (!empty($likedProducts)): // похожие товары ?>
+        <?php if ( ! empty($likedProducts)): // похожие товары ?>
             <div class="center-block">
                 <div><h3>Похожие товары</h3></div>
                 <div class="no-padding">
