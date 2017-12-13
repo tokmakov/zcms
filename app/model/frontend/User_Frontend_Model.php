@@ -957,6 +957,120 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     }
 
     /**
+     * Функция возвращает массив заказов авторизованного пользователя
+     */
+    public function getAllOrdersNew($start = 0) {
+
+        if ( ! $this->authUser) {
+            throw new Exception('Попытка получить заказы не авторизованного пользователя');
+        }
+
+        /*
+         * получаем идентификаторы заказов пользователя
+         */
+        $query = "SELECT
+                      `id`
+                  FROM
+                      `orders`
+                  WHERE
+                      `user_id` = :user_id
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      :start, :limit";
+        $items = $this->database->fetchAll(
+            $query,
+            array(
+                'user_id' => $this->userId,
+                'start'   => $start,
+                'limit'   => $this->config->pager->frontend->orders->perpage
+            )
+        );
+        if (empty($items)) {
+            return array();
+        }
+        $ids = array();
+        foreach ($items as $item) {
+            $ids[] = $item['id'];
+        }
+        $ids = implode(',', $ids);
+
+        /*
+         * получаем заказы пользователя и товары каждого заказа
+         */
+        $query = "SELECT
+                      `a`.`id` AS `order_id`, `a`.`amount` AS `order_amount`, `a`.`user_amount` AS
+                      `order_user_amount`, DATE_FORMAT(`a`.`added`, '%d.%m.%Y') AS `order_date`,
+                      DATE_FORMAT(`a`.`added`, '%H:%i') AS `order_time`, `a`.`status` AS `order_status`,
+                      `b`.`product_id` AS `product_id`, `b`.`code` AS `product_code`,
+                      `b`.`name` AS `product_name`, `b`.`title` AS `product_title`, `b`.`price` AS
+                      `product_price`, `b`.`user_price` AS `product_user_price`, `b`.`unit` AS
+                      `product_unit`, `b`.`quantity` AS `product_quantity`, `b`.`cost` AS `product_cost`,
+                      `b`.`user_cost` AS `product_user_cost`, !ISNULL(`c`.`id`) AS `product_exists`
+                  FROM
+                      `orders` `a`
+                      INNER JOIN `orders_prds` `b` ON `a`.`id` = `b`.`order_id`
+                      LEFT JOIN `products` `c` ON `b`.`product_id` = `c`.`id` AND `c`.`visible` = 1
+                  WHERE
+                      `a`.`id` IN (" . $ids . ")
+                  ORDER BY
+                      `a`.`added` DESC, `b`.`id` ASC";
+        $result = $this->database->fetchAll($query);
+
+        /*
+         * преобразуем полученные данные к виду, удобному для вывода в шаблоне
+         */
+        $orders = array();
+        $order_id = 0;
+        $counter = -1;
+        foreach ($result as $value) {
+            if ($order_id != $value['order_id']) {
+                $counter++;
+                $order_id = $value['order_id'];
+                $orders[$counter] = array(
+                    'order_id'          => $value['order_id'],
+                    'order_amount'      => $value['order_amount'],
+                    'order_amount'      => $value['order_amount'],
+                    'order_user_amount' => $value['order_user_amount'],
+                    'order_date'        => $value['order_date'],
+                    'order_time'        => $value['order_time'],
+                    'order_status'      => $value['order_status'],
+                    // URL ссылки для просмотра подробной информации о заказе
+                    'url'    => $this->getURL('frontend/user/order/id/' . $value['order_id']),
+                    // атрибут action тега form для повторения заказа
+                    'action' => $this->getURL('frontend/user/repeat/id/' . $value['order_id'])
+                );
+                if ($counter) { // возможность повторить заказ
+                    $orders[$counter-1]['repeat'] = $repeat;
+                }
+                $repeat = false;
+            }
+            $orders[$counter]['products'][] = array(
+                'product_id'         => $value['product_id'],
+                'product_code'       => $value['product_code'],
+                'product_name'       => $value['product_name'],
+                'product_title'      => $value['product_title'],
+                'product_price'      => $value['product_price'],
+                'product_user_price' => $value['product_user_price'],
+                'product_unit'       => $value['product_unit'],
+                'product_quantity'   => $value['product_quantity'],
+                'product_cost'       => $value['product_cost'],
+                'product_user_cost'  => $value['product_user_cost'],
+                'product_exists'     => $value['product_exists'],
+                'product_url'        => $this->getURL('frontend/catalog/product/id/' . $v['id'])
+            );
+            if ($value['product_exists']) { // товар еще не удален из каталога?
+                // если есть хоть один товар в каталоге, заказ можно повторить
+                $repeat = true;
+            }
+        }
+        $orders[$counter]['repeat'] = $repeat;
+
+        return $orders;
+
+    }
+
+    /**
      * Возвращает общее кол-во заказов авторизованного пользователя
      */
     public function getCountAllOrders() {

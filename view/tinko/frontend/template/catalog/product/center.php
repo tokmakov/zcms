@@ -45,24 +45,24 @@
  * $maker = Array (
  *   [id] => 22
  *   [name] => РЗМКП
- *   [url] => http://www.host.ru/catalog/maker/22
+ *   [url] => //www.host.ru/catalog/maker/22
  * )
  *
  * $group = Array (
  *   [id] => 22
  *   [name] => Извещатель охранный
- *   [url] => http://www.host.ru/catalog/group/76
+ *   [url] => //www.host.ru/catalog/group/76
  * )
  *
  * $image = Array (
- *   [medium] => http://www.host.ru/files/catalog/imgs/medium/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
- *   [big] => http://www.host.ru/files/catalog/imgs/big/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
+ *   [medium] => //www.host.ru/files/catalog/imgs/medium/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
+ *   [big] => //www.host.ru/files/catalog/imgs/big/5/9/592730e9271a3c0f6e88573ed68695fb.jpg
  * )
  *
  * $action = Array (
- *   [basket] => http://www.host.ru/basket/addprd
- *   [wished] => http://www.host.ru/wished/addprd
- *   [compare] => http://www.host.ru/compare/addprd
+ *   [basket] => //www.host.ru/basket/addprd
+ *   [wished] => //www.host.ru/wished/addprd
+ *   [compare] => //www.host.ru/compare/addprd
  * )
  *
  * $docs = Array (
@@ -71,14 +71,14 @@
  *     [title] => Руководство по эксплуатации
  *     [type] => pdf
  *     [file] => 3/9/396785fd3a56127cf43d2bf14105dd91.pdf
- *     [url] => http://www.host.ru/files/catalog/docs/3/9/396785fd3a56127cf43d2bf14105dd91.pdf
+ *     [url] => //www.host.ru/files/catalog/docs/3/9/396785fd3a56127cf43d2bf14105dd91.pdf
  *   )
  *   [1] => Array (
  *     [id] => 37
  *     [title] => Схема подключения
  *     [type] => pdf
  *     [file] => 5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
- *     [url] => http://www.host.ru/files/catalog/docs/5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
+ *     [url] => //www.host.ru/files/catalog/docs/5/1/51e3f15b73f3263f6fe16c0162d47c7c.pdf
  *   )
  * )
  *
@@ -121,15 +121,15 @@
  *     [price] => 5197.00
  *     [unit] => 1
  *     [shortdescr] => Модуль релейных выходов и оптоизолированных входов для PowerVN4 Pro...
- *     [image] => http://www.host.ru/files/catalog/imgs/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
+ *     [image] => //www.host.ru/files/catalog/imgs/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
  *     [ctg_id] => 598
  *     [ctg_name] => Компоненты и ПО
  *     [mkr_id] => 558
  *     [mkr_name] => VideoNet
  *     [url] => Array (
- *       [product] => http://www.host.ru/catalog/product/65498
- *       [maker] => http://www.host.ru/catalog/maker/558
- *       [image] => http://www.host.ru/files/catalog/products/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
+ *       [product] => //www.host.ru/catalog/product/65498
+ *       [maker] => //www.host.ru/catalog/maker/558
+ *       [image] => //www.host.ru/files/catalog/products/small/2/3/233e1eb1bc716bf4bc33525cefaf67fc.jpg
  *     )
  *     [action] => http://www.host.ru/basket/addprd
  *   )
@@ -283,16 +283,44 @@ defined('ZCMS') or die('Access denied');
                         <?php
                             // иконка файла документации
                             $icon = 'fa-file-o';
+                            $type = 'application/octet-stream';
                             switch($doc['type']) {
-                                case 'jpg' : $icon = 'fa-file-image-o';      break;
-                                case 'doc' : $icon = 'fa-file-word-o';       break;
-                                case 'docx': $icon = 'fa-file-word-o';       break;
-                                case 'xls' : $icon = 'fa-file-excel-o';      break;
-                                case 'xlsx': $icon = 'fa-file-excel-o';      break;
-                                case 'ppt' : $icon = 'fa-file-powerpoint-o'; break;
-                                case 'pptx': $icon = 'fa-file-powerpoint-o'; break;
-                                case 'pdf' : $icon = 'fa-file-pdf-o';        break;
-                                case 'zip' : $icon = 'fa-file-archive-o';    break;
+                                case 'jpg':
+                                    $icon = 'fa-file-image-o';
+                                    $type = 'image/jpeg';
+                                    break;
+                                case 'doc':
+                                    $icon = 'fa-file-word-o';
+                                    $type = 'application/msword';
+                                    break;
+                                case 'docx':
+                                    $icon = 'fa-file-word-o';
+                                    $type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                                    break;
+                                case 'xls':
+                                    $icon = 'fa-file-excel-o';
+                                    $type = 'application/vnd.ms-excel';
+                                    break;
+                                case 'xlsx':
+                                    $icon = 'fa-file-excel-o';
+                                    $type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                                    break;
+                                case 'ppt':
+                                    $icon = 'fa-file-powerpoint-o';
+                                    $type = 'application/vnd.ms-powerpoint';
+                                    break;
+                                case 'pptx':
+                                    $icon = 'fa-file-powerpoint-o';
+                                    $type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                                    break;
+                                case 'pdf':
+                                    $icon = 'fa-file-pdf-o';
+                                    $type = 'application/pdf';
+                                    break;
+                                case 'zip' :
+                                    $icon = 'fa-file-archive-o';
+                                    $type = 'application/zip';
+                                    break;
                             }
                         ?>
                         <li>
@@ -302,7 +330,7 @@ defined('ZCMS') or die('Access denied');
                                 <?php if (in_array($doc['type'], array('jpg', 'pdf'))): ?>
                                     <a href="<?php echo $doc['url']; ?>" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> открыть</a>
                                 <?php endif; ?>
-                                <a href="/files/catalog/download.php?file=docs/<?php echo rawurldecode($doc['file']); ?>"><i class="fa fa-download" aria-hidden="true"></i> сохранить</a>
+                                <a href="<?php echo $doc['url']; ?>" download type="<?php echo $type; ?>>"><i class="fa fa-download" aria-hidden="true"></i> сохранить</a>
                             </span>
                         </li>
                     <?php endforeach; ?>
@@ -321,8 +349,8 @@ defined('ZCMS') or die('Access denied');
                                 <a href="<?php echo $file['url']; ?>" class="zoom" rel="certs">
                                     <img src="<?php echo $file['url']; ?>" alt="<?php echo str_replace('"', '', $cert['title']); ?>" />
                                 </a>
-                                <a href="/files/catalog/download.php?file=cert/<?php echo rawurldecode($file['name']); ?>">
-                                    <i class="fa fa-download" aria-hidden="true"></i> сохранить
+                                <a href="<?php echo $file['url']; ?>" download>
+                                    <i class="fa fa-download" aria-hidden="true" type="image/jpg"></i> сохранить
                                 </a>
                             </span>
                         <?php endforeach; ?>
