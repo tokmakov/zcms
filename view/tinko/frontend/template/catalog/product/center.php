@@ -144,12 +144,12 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/catalog/product/center.php -->
 
-<?php if (!empty($breadcrumbs)): ?>
+<?php if ( ! empty($breadcrumbs)): ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
         <?php endforeach; ?>
-        <?php if (!empty($breadcrumbs2)): ?>
+        <?php if ( ! empty($breadcrumbs2)): ?>
             <div>
                 <?php foreach ($breadcrumbs2 as $item): ?>
                     <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -158,8 +158,6 @@ defined('ZCMS') or die('Access denied');
         <?php endif; ?>
     </div>
 <?php endif; ?>
-
-
 
 <div id="product-item">
 

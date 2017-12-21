@@ -382,7 +382,7 @@ abstract class Base_Controller extends Base {
          */
         $host = $this->config->site->url;
         // Content Delivery Network только для общедоступной части сайта
-        if (!$this->backend && $this->config->cdn->enable->css) {
+        if ( ! $this->backend && $this->config->cdn->enable->css) {
             $host = $this->config->cdn->url;
         }
         if (isset($this->config->css->$backfront->$name)) {
