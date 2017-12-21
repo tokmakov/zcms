@@ -83,11 +83,13 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
         $time = 86400 * $this->config->user->cookie;
         // сохранен идентификатор посетителя в cookie?
         if (isset($_COOKIE['visitor']) && preg_match('~^[a-f0-9]{32}$~', $_COOKIE['visitor'])) {
-            // обновляем cookie, чтобы идентификатор хранился еще Config::getInstance()->user->cookie дней
+            // обновляем cookie, чтобы идентификатор хранился
+            // еще Config::getInstance()->user->cookie дней
             setcookie('visitor', $_COOKIE['visitor'], time() + $time, '/');
             $this->visitorId = $_COOKIE['visitor'];
         } else {
-            // идентификатора посетителя нет в cookie, формируем его и сохраняем в cookie
+            // идентификатора посетителя нет в cookie,
+            // формируем его и сохраняем в cookie
             if ($this->authUser) {
                 $this->visitorId = $this->user['visitor_id'];
             } else {
@@ -198,7 +200,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
     /**
      * Функция проверяет наличие пользователя по его e-mail, возвращает
-     * true, если пользователь с таким e-mail уже есть в таблице users
+     * true, если пользователь с таким e-mail уже есть в таблице `users`
      */
     public function isUserExists($email) {
 
@@ -221,6 +223,28 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      */
     public function addNewUser($data) {
 
+        /*
+         * Проверка, что одним компом не пользуются два человека. Если запрос ниже
+         * что-то возвращает, значит с этого компа кто-то уже регистрировался на
+         * сайте. Надо присвоить этому пользователю новый идентификатор для записи
+         * в таблицу БД `users` и для сохранения в cookie.
+         */
+        $query = "SELECT 1 FROM `users` WHERE `visitor_id` = :visitor_id";
+        $res = $this->database->fetchOne(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId
+            )
+        );
+        if ($res) { // запрос что-то вернул, нужен новый идентификатор
+            $this->visitorId = md5(uniqid(mt_rand(), true));
+            $time = 86400 * $this->config->user->cookie;
+            setcookie('visitor', $this->visitorId, time() + $time, '/');
+        }
+
+        /*
+         * Добавляем нового пользователя
+         */
         $query = "INSERT INTO `users`
                   (
                       `name`,
@@ -243,13 +267,13 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       :visitor_id,
                       5
                   )";
-        // TODO: здесь нужна доп.проверка, что одним компом не пользуются
-        // два человека, иначе получается мешанина из двух аккаунтов; см.
-        // пример такой проверки в методе loginUser()
+
         $data['visitor_id'] = $this->visitorId;
         $this->database->execute($query, $data);
 
-        // сразу авторизуем пользователя
+        /*
+         * Сразу авторизуем пользователя
+         */
         $this->authUser = true;
         $_SESSION['zcmsAuthUser'] = $this->database->lastInsertId();
         $this->userId = $_SESSION['zcmsAuthUser'];
@@ -363,6 +387,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 'user_id'    => $this->userId
             )
         );
+        // постоянный идентификатор пользователя вместо временного идентификатора посетителя
         $this->visitorId = $this->user['visitor_id'];
         $time = 86400 * $this->config->user->cookie;
         setcookie('visitor', $this->visitorId, time() + $time, '/');
@@ -508,7 +533,9 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `users` `a` INNER JOIN `remember` `b`
                       ON `a`.`id` = `b`.`user_id`
                   WHERE
-                      `a`.`visitor_id` = :visitor_id AND `b`.`token1` = :token1 AND `b`.`token2` = :token2";
+                      `a`.`visitor_id` = :visitor_id
+                      AND `b`.`token1` = :token1
+                      AND `b`.`token2` = :token2";
         $res = $this->database->fetchOne(
             $query,
             array(
@@ -853,10 +880,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     public function newPassword($email) {
 
         // формируем новый пароль
-        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $chars = '@#$%0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $password = '';
         for ($i = 0; $i < 10; $i++) {
-            $password .= $chars[rand(0, 61)];
+            $password .= $chars[rand(0, 65)];
         }
 
         // добавляем к паролю префикс и хэшируем пароль
@@ -1030,7 +1057,6 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 $orders[$counter] = array(
                     'order_id'          => $value['order_id'],
                     'order_amount'      => $value['order_amount'],
-                    'order_amount'      => $value['order_amount'],
                     'order_user_amount' => $value['order_user_amount'],
                     'order_date'        => $value['order_date'],
                     'order_time'        => $value['order_time'],
@@ -1109,7 +1135,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `orders`
                   WHERE
                       `id` = :order_id AND `user_id` = :user_id";
-        $result = $this->database->fetch($query, array('order_id' => $id, 'user_id' => $this->userId));
+        $result = $this->database->fetch(
+            $query,
+            array('order_id' => $id, 'user_id' => $this->userId)
+        );
         if (false === $result) {
             return null;
         }
@@ -1179,7 +1208,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `a`.`order_id` = :order_id AND `e`.`user_id` = :user_id AND `b`.`visible` = 1
                   ORDER BY
                       `a`.`id`";
-        $products = $this->database->fetchAll($query, array('order_id' => $id, 'user_id' => $this->userId));
+        $products = $this->database->fetchAll(
+            $query,
+            array('order_id' => $id, 'user_id' => $this->userId)
+        );
 
         // через реестр обращаемся к экземпляру класса Basket_Frontend_Model
         // и добавляем эти товары в корзину
@@ -1210,7 +1242,10 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                       `added` DESC
                   LIMIT
                       1";
-        $result = $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
+        $result = $this->database->fetchOne(
+            $query,
+            array('visitor_id' => $this->visitorId)
+        );
         if (false === $result) {
             return array();
         }
