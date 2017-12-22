@@ -202,7 +202,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                 foreach ($filter as $k => $v) {
                     $temp[] = $k . '.' . $v;
                 }
-                $url = $url . '/param/' . implode('-', $temp);
+                $url = $url . '/filter/' . implode('-', $temp);
             }
             if ($sort) { // сортировка
                 $url = $url . '/sort/' . $sort;

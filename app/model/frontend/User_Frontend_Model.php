@@ -80,6 +80,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      * Функция генерирует уникальный идентификатор посетителя сайта
      */
     private function setVisitorId() {
+
         $time = 86400 * $this->config->user->cookie;
         // сохранен идентификатор посетителя в cookie?
         if (isset($_COOKIE['visitor']) && preg_match('~^[a-f0-9]{32}$~', $_COOKIE['visitor'])) {
@@ -97,6 +98,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
             }
             setcookie('visitor', $this->visitorId, time() + $time, '/');
         }
+
     }
 
     /**
