@@ -534,7 +534,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     protected function groupParams($id, $maker, $hit, $new, $filter) {
 
-        // получаем список всех параметров подбора для функциональной группы
+        /*
+         * Получаем список всех параметров подбора для функциональной группы
+         */
         $query = "SELECT
                       `e`.`id` AS `param_id`, `e`.`name` AS `param_name`,
                       `f`.`id` AS `value_id`, `f`.`name` AS `value_name`,
@@ -555,8 +557,11 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `e`.`name`, `f`.`name`";
         $result = $this->database->fetchAll($query, array('id' => $id));
 
-        // теперь подсчитываем количество товаров для каждого параметра и каждого значения
-        // параметра с учетом фильтров производителю, лидерам продаж, новинкам и параметрам
+        /*
+         * Теперь подсчитываем количество товаров для каждого параметра и каждого
+         * значения параметра с учетом фильтров производителю, лидерам продаж,
+         * новинкам и параметрам подбора
+         */
         foreach ($result as $key => $value)  {
             $query = "SELECT
                           COUNT(*)
@@ -613,6 +618,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
         }
 
+        /*
+         * Преобразуем массив результатов к виду, удобному для вывода в шаблоне
+         */
         $filters = array();
         $param_id = 0;
         $counter = -1;
@@ -639,9 +647,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает количество лидеров продаж для функциональной группы с уникальным
-     * идентификатором $id с учетом фильтров по производителю, новинкам и параметрам.
-     * Результат работы кэшируется
+     * Функция возвращает количество лидеров продаж для функциональной группы с
+     * уникальным идентификатором $id с учетом фильтров по производителю, новинкам
+     * и параметрам подбора. Результат работы кэшируется.
      */
     public function getCountGroupHit($id, $maker, $hit, $new, $filter) {
 
@@ -670,8 +678,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает количество лидеров продаж для функциональной группы с уникальным
-     * идентификатором $id с учетом фильтров по производителю, новинкам и параметрам
+     * Функция возвращает количество лидеров продаж для функциональной группы с
+     * уникальным идентификатором $id с учетом фильтров по производителю, новинкам
+     * и параметрам подбора
      */
     protected function countGroupHit($id, $maker, $hit, $new, $filter) {
 
@@ -710,8 +719,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
     /**
      * Функция возвращает количество новинок для функциональной группы с уникальным
-     * идентификатором $id с учетом фильтров по производителю, лидерам продаж и параметрам.
-     * Результат работы кэшируется
+     * идентификатором $id с учетом фильтров по производителю, лидерам продаж и
+     * параметрам подбора. Результат работы кэшируется.
      */
     public function getCountGroupNew($id, $maker, $hit, $new, $filter) {
 
@@ -986,7 +995,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          *     [name] => 20
          *     [current] => true
          *   )
-         *   [2] => Array (..........)
+         *   [2] => Array (
+         *      ..........
+         *   )
          *   [3] => Array (
          *     [url] => //www.host.ru/catalog/group/57/perpage/100
          *     [name] => 100

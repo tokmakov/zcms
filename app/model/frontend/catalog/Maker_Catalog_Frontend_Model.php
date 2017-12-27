@@ -599,8 +599,10 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return array();
         }
 
-        // получаем список всех параметров подбора для выбранной функциональной
-        // группы и выбранного производителя
+        /*
+         * Получаем список всех параметров подбора для выбранной функциональной
+         * группы и выбранного производителя
+         */
         $query = "SELECT
                       `d`.`id` AS `param_id`, `d`.`name` AS `param_name`,
                       `e`.`id` AS `value_id`, `e`.`name` AS `value_name`,
@@ -621,8 +623,10 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                       `d`.`name`, `e`.`name`";
         $result = $this->database->fetchAll($query, array('group' => $group, 'maker' => $id));
 
-        // теперь подсчитываем количество товаров для каждого параметра и каждого значения
-        // параметра с учетом фильтров по лидерам продаж, по новинкам и по параметрам
+        /*
+         * Теперь подсчитываем количество товаров для каждого параметра и каждого значения
+         * параметра с учетом фильтров по лидерам продаж, по новинкам и по параметрам
+         */
         foreach ($result as $key => $value)  {
             $query = "SELECT
                           COUNT(*)
@@ -678,6 +682,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             }
         }
 
+        /*
+         * Преобразуем массив результатов к виду, удобному для вывода в шаблоне
+         */
         $filters = array();
         $param_id = 0;
         $counter = -1;
@@ -753,9 +760,11 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`group` = " . $group;
         }
         if ( ! $hit) {
-            // надо выяснить, сколько товаров будет найдено, если поставить
-            // галочку «Лидер продаж»; на данный момент checkbox не отмечен, но
-            // если пользователь его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если поставить
+             * галочку «Лидер продаж»; на данный момент checkbox не отмечен, но
+             * если пользователь его отметит — сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ($new) { // фильтр по новинкам
@@ -825,9 +834,11 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             $query = $query . " AND `a`.`hit` > 0";
         }
         if ( ! $new) {
-            // надо выяснить, сколько товаров будет найдено, если поставить галочку
-            // «Новинка»; на данный момент checkbox не отмечен, но если пользователь
-            // его отметит - сколько будет найдено товаров?
+            /*
+             * надо выяснить, сколько товаров будет найдено, если поставить галочку
+             * «Новинка»; на данный момент checkbox не отмечен, но если пользователь
+             * его отметит — сколько будет найдено товаров?
+             */
             $query = $query . " AND `a`.`new` > 0";
         }
         if ( ! empty($filter)) { // фильтр по параметрам подбора
@@ -865,8 +876,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором $id,
-     * с учетом фильтров и сортировки товаров производителя
+     * Функция возвращает ЧПУ для страницы производителя с уникальным идентификатором
+     * $id, с учетом всех фильтров и сортировки товаров производителя
      */
     protected function makerURL($id, $group, $hit, $new, $filter, $sort, $perpage) {
 
@@ -898,8 +909,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив ссылок для сортировки товаров производителя $id по цене,
-     * наименованию, коду (артикулу); результат работы кэшируется
+     * Функция возвращает массив ссылок для сортировки товаров производителя $id
+     * по цене, наименованию, коду (артикулу); результат работы кэшируется
      */
     public function getMakerSortOrders($id, $group, $hit, $new, $filter, $perpage) {
 
@@ -928,8 +939,8 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив ссылок для сортировки товаров производителя с уникальным
-     * идентификатором $id по цене, наименованию, коду (артикулу)
+     * Функция возвращает массив ссылок для сортировки товаров производителя с
+     * уникальным идентификатором $id по цене, наименованию, коду (артикулу)
      */
     protected function makerSortOrders($id, $group, $hit, $new, $filter, $perpage) {
 
@@ -1053,7 +1064,9 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          *     [name] => 20
          *     [current] => true
          *   )
-         *   [2] => Array (..........)
+         *   [2] => Array (
+         *      ..........
+         *   )
          *   [3] => Array (
          *     [url] => //www.host.ru/catalog/maker/42/perpage/100
          *     [name] => 100
