@@ -479,7 +479,7 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
          */
         if (count($groups) > 15) {
             $bound = false;
-            foreach ($groups as $value)  {
+            foreach ($groups as $value)  { // есть хоть одна функциональная группа, содержащая один товар?
                 if ($value['count'] > 1) {
                     $bound = true;
                     break;
