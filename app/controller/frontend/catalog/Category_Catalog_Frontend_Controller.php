@@ -186,7 +186,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
                 $filter[$key] = $value;
             }
             // проверяем корректность переданных параметров и значений
-            if ( ! $this->categoryCatalogFrontendModel->getCheckParams($filter)) {
+            if ( ! $this->categoryCatalogFrontendModel->getCheckFilters($filter)) {
                 $this->notFoundRecord = true;
                 return;
             }
