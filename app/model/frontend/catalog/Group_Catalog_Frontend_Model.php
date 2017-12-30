@@ -283,7 +283,8 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     }
 
     /**
-     * Функция возвращает массив товаров производителя с уникальным идентификатором $id
+     * Функция возвращает массив товаров функциональной группы с уникальным
+     * идентификатором $id
      */
     protected function groupProducts($id, $maker, $hit, $new, $filter, $sort, $start, $perpage) {
 
@@ -344,7 +345,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
         // добавляем в массив URL ссылок на товары и фото
         $host = $this->config->site->url;
-        if ($this->config->cdn->enable->img) {
+        if ($this->config->cdn->enable->img) { // Content Delivery Network
             $host = $this->config->cdn->url;
         }
         foreach($products as $key => $value) {
@@ -377,16 +378,16 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     public function getCountGroupProducts($id, $maker, $hit, $new, $filter) {
 
         $temp = '';
-        if ($maker) { // фильтр по производителю
+        if ($maker) { // включен фильтр по производителю?
             $temp = $temp . " AND `a`.`maker` = " . $maker;
         }
-        if ($hit) { // фильтр по лидерам продаж
+        if ($hit) { // включен фильтр по лидерам продаж?
             $temp = $temp . " AND `a`.`hit` > 0";
         }
-        if ($new) { // фильтр по новинкам
+        if ($new) { // включен фильтр по новинкам?
             $temp = $temp . " AND `a`.`new` > 0";
         }
-        if ( ! empty($filter)) { // фильтр по параметрам подбора
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $ids = $this->getProductsByFilter($id, $filter);
             if (empty($ids)) {
                 return 0;
@@ -441,7 +442,9 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
      */
     protected function groupMakers($id, $hit, $new, $filter) {
 
-        // получаем список всех производителей для функциональной группы
+        /*
+         * получаем список всех производителей для функциональной группы
+         */
         $query = "SELECT
                       `a`.`id` AS `id`, `a`. `name` AS `name`, COUNT(*) AS `count`
                   FROM
@@ -462,8 +465,11 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             return $makers;
         }
 
-        // теперь подсчитываем количество товаров для каждого производителя с
-        // учетом фильтров по лидерам продаж, новинкам и по параметрам
+        /*
+         * Теперь подсчитываем количество товаров для каждого производителя
+         * с учетом фильтров по лидерам продаж, новинкам и по доп.фильтрам
+         * (параметрам подбора)
+         */
         foreach ($makers as $key => $value) {
             $query = "SELECT
                           COUNT(*)
@@ -475,13 +481,13 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
                           `b`.`group` = :id AND
                           `a`.`id` = :maker AND
                           `b`.`visible` = 1";
-            if ($hit) { // фильтров по лидерам продаж
+            if ($hit) { // включен фильтр по лидерам продаж?
                 $query = $query . " AND `b`.`hit` > 0";
             }
-            if ($new) { // фильтр по новинкам
+            if ($new) { // включен фильтр по новинкам?
                 $query = $query . " AND `b`.`new` > 0";
             }
-            if ( ! empty($filter)) { // фильтр по параметрам подбора
+            if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
                 $ids = $this->getProductsByFilter($id, $filter);
                 if ( ! empty($ids)) {
                     $query = $query . " AND `b`.`id` IN (" . implode(',', $ids) . ")";
@@ -560,7 +566,7 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
         /*
          * Теперь подсчитываем количество товаров для каждого параметра и каждого
          * значения параметра с учетом фильтров производителю, лидерам продаж,
-         * новинкам и параметрам подбора
+         * новинкам и доп.фильтрам (параметры подбора)
          */
         foreach ($result as $key => $value)  {
             $query = "SELECT
@@ -820,26 +826,26 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function groupURL($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
-        if ($maker) {
+        if ($maker) { // включен фильтр по производителю?
             $url = $url . '/maker/' . $maker;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
             $url = $url . '/filter/' . implode('-', $temp);
         }
-        if ($sort) {
+        if ($sort) { // включена сортировка?
             $url = $url . '/sort/' . $sort;
         }
-        if ($perpage) {
+        if ($perpage) { // включен показ 20,50,100 товаров на страницу?
             $url = $url . '/perpage/' . $perpage;
         }
         return $this->getURL($url);
@@ -876,16 +882,16 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function groupSortOrders($id, $maker, $hit, $new, $filter, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
-        if ($maker) {
+        if ($maker) { // включен фильтр по производителю?
             $url = $url . '/maker/' . $maker;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
@@ -963,23 +969,23 @@ class Group_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function othersPerPage($id, $maker, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/group/id/' . $id;
-        if ($maker) {
+        if ($maker) { // включен фильтр по производителю?
             $url = $url . '/maker/' . $maker;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
             $url = $url . '/filter/' . implode('-', $temp);
         }
-        if ($sort) {
+        if ($sort) { // включена сортировка ?
             $url = $url . '/sort/' . $sort;
         }
 

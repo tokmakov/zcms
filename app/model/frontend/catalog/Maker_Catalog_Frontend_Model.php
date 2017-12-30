@@ -882,26 +882,26 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function makerURL($id, $group, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
-        if ($group) {
+        if ($group) { // включен фильтр по функциональной группе?
             $url = $url . '/group/' . $group;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
             $url = $url . '/filter/' . implode('-', $temp);
         }
-        if ($sort) {
+        if ($sort) { // включена сортировка ?
             $url = $url . '/sort/' . $sort;
         }
-        if ($perpage) {
+        if ($perpage) { // включен показ 20,50,100 товаров на страницу?
             $url = $url . '/perpage/' . $perpage;
         }
         return $this->getURL($url);
@@ -945,16 +945,16 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function makerSortOrders($id, $group, $hit, $new, $filter, $perpage) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
-        if ($group) {
+        if ($group) { // включен фильтр по функциональной группе?
             $url = $url . '/group/' . $group;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
@@ -1032,23 +1032,23 @@ class Maker_Catalog_Frontend_Model extends Catalog_Frontend_Model {
     protected function othersPerPage($id, $group, $hit, $new, $filter, $sort, $perpage) {
 
         $url = 'frontend/catalog/maker/id/' . $id;
-        if ($group) {
+        if ($group) { // включен фильтр по функциональной группе?
             $url = $url . '/group/' . $group;
         }
-        if ($hit) {
+        if ($hit) { // включен фильтр по лидерам продаж?
             $url = $url . '/hit/1';
         }
-        if ($new) {
+        if ($new) { // включен фильтр по новинкам?
             $url = $url . '/new/1';
         }
-        if ( ! empty($filter)) {
+        if ( ! empty($filter)) { // включены доп.фильтры (параметры подбора)?
             $temp = array();
             foreach ($filter as $key => $value) {
                 $temp[] = $key . '.' . $value;
             }
             $url = $url . '/filter/' . implode('-', $temp);
         }
-        if ($sort) {
+        if ($sort) { // включена сортировка?
             $url = $url . '/sort/' . $sort;
         }
 
