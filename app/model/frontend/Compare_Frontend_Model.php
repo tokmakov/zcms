@@ -50,11 +50,13 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             return false;
         }
 
-        // удаляем кэш, потому как после добавления товара он будет не актуален
+        // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
             $key = __CLASS__ . '-group-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
             $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
             $this->cache->removeValue($key);
         }
 
