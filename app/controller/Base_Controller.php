@@ -76,17 +76,12 @@ abstract class Base_Controller extends Base {
      *    - получает имена файлов шаблонов отдельных частей страницы и сохраняет их в
      *      переменных $headTemplateFile, $headerTemplateFile, $menuTemplateFile,
      *      $centerTemplateFile, $leftTemplateFile, $rightTemplateFile, $footerTemplateFile
-     * 4. метод output(), который реализован в дочерних классах, вызывает метод render(),
-     *    передавая ему полученные от модели данные и имена файлов шаблонов
-     *    $this->headContent   = $this->render($this->headTemplateFile, $this->headVars);
-     *    $this->headerContent = $this->render($this->headerTemplateFile, $this->headerVars);
-     *    $this->menuContent   = $this->render($this->menuTemplateFile, $this->menuVars);
-     *    ..........
-     *    и т.д.
-     * 5. метод render() «прогоняет» данные через шаблон и возвращает сформированный html-код
-     * 6. метод output(), который реализован в дочерних классах, в самом конце еще раз вызывает
-     *    метод render(), чтобы произвести окончательную сборку страницы из отдельных частей
-     *    html-кода
+     * 4. метод output(), который реализован в дочерних классах, получает html-код отдельных
+     *    частей страницы, сохраняя их в переменных $headContent, $headerContent,
+     *    $menuContent, $centerContent, $leftContent, $rightContent, $footeContent
+     * 5. метод output(), который реализован в дочерних классах, в самом конце вызывает
+     *    метод render(), чтобы произвести окончательную сборку страницы из отдельных
+     *    частей html-кода
      *    $this->pageContent = $this->render($this->wrapperTemplateFile, array(...));
      */
     protected $pageContent;
@@ -194,8 +189,9 @@ abstract class Base_Controller extends Base {
 
     /**
      * Функция для обработки шаблонов, принимает имя файла шаблона и массив
-     * переменных, которые должны быть доступны в шаблоне, возвращает html-код
-     * шаблона с подставленными значениями переменных
+     * переменных, которые должны быть доступны в шаблоне.  «Прогоняет» данные
+     * через шаблон и возвращает html-код шаблона с подставленными значениями
+     * переданных переменных.
      */
     protected function render($template, $params = array()) {
         if ( ! is_file($template)) {

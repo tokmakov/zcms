@@ -183,7 +183,7 @@ abstract class Frontend_Controller extends Base_Controller {
     protected function input() {
 
         /*
-         * сначала обращаемся к родительскому классу Base_Controller, чтобы
+         * Сначала обращаемся к родительскому классу Base_Controller, чтобы
          * установить значения переменных, которые нужны для работы всех его
          * потомков, потом переопределяем эти переменные (если необходимо) и
          * устанавливаем значения перменных, которые нужны для работы всех
@@ -196,166 +196,18 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->keywords    = $this->config->meta->default->keywords;
         $this->description = $this->config->meta->default->description;
 
-        /*
-         * массив переменных, которые будут переданы в шаблон head.php
-         */
-        // этот массив еще будет дополнен элементами, см. комментарий
-        // в методе Frontend_Controller::output()
-        $this->headVars = array(
-            'cssFiles'    => $this->cssFiles,
-            'jsFiles'     => $this->jsFiles,
-        );
-
-        /*
-         * массив переменных, которые будут переданы в шаблон header.php
-         */
-        $this->headerVars = array(
-            // URL ссылки на главную страницу сайта
-            'indexUrl'     => $this->indexFrontendModel->getURL('frontend/index/index'),
-            // URL страницы поиска по каталогу товаров
-            'searchUrl'    => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
-            // URL ссылки на страницу личного кабинета
-            'userUrl'      => $this->userFrontendModel->getURL('frontend/user/index'),
-            // пользователь авторизован?
-            'authUser'     => $this->authUser,
-            // URL ссылки на страницу корзины
-            'basketUrl'    => $this->basketFrontendModel->getURL('frontend/basket/index'),
-            // корзина пуста?
-            'emptyBasket'  => ! $this->basketFrontendModel->getBasketCount(),
-            // URL ссылки на страницу отложенных товаров
-            'wishedUrl'    => $this->wishedFrontendModel->getURL('frontend/wished/index'),
-            // список отложенных товаров пустой?
-            'emptyWished'  => ! $this->wishedFrontendModel->getWishedCount(),
-            // URL ссылки на страницу сравнения товаров
-            'compareUrl'   => $this->compareFrontendModel->getURL('frontend/compare/index'),
-            // список товаров для сравнения пустой?
-            'emptyCompare' => ! $this->compareFrontendModel->getCompareCount(),
-            // URL ссылки на страницу просмотренных товаров
-            'viewedUrl'    => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
-            // список просмотренных товаров пустой?
-            'emptyViewed'  => ! $this->viewedFrontendModel->getViewedCount(),
-        );
-
-        // главное меню сайта
-        $menu = $this->menuFrontendModel->getMenu();
-
-        /*
-         * массив переменных, которые будут переданы в шаблон menu.php
-         */
-        $this->menuVars = array('menu' => $menu);
-
-
-        /*
-         * массив переменных, которые будут переданы в шаблон left.php
-         */
-
-        // чтобы правильно сформировать ссылки на категории каталога, на страницы
-        // производителей и на страницы функциональных групп, надо знать, выбрал
-        // пользователь сортировку и кол-во товаров на странице
-        $sort = 0; // пользователь выбрал сортировку?
-        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
-            $sort = (int)$_COOKIE['sort'];
-        }
-        $perpage = 0; // пользователь выбрал кол-во товаров?
-        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
-        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
-            $perpage = (int)$_COOKIE['perpage'];
-        }
-
-        // меню каталога (для левой колонки)
-        $catalogMenu = $this->menuCatalogFrontendModel->getCatalogMenu(0, $sort, $perpage);
-
-        // список производителей (для левой колонки)
-        $makers = $this->makerCatalogFrontendModel->getMakers(10, $sort, $perpage);
-
-        // список функциональных групп (для левой колонки)
-        $groups = $this->groupCatalogFrontendModel->getGroups(10, $sort, $perpage);
-
-        $this->leftVars = array(
-            // каталог меню для левой колонки
-            'catalogMenu'  => $catalogMenu,
-            // массив производителей
-            'makers'       => $makers,
-            // массив функциональных групп
-            'groups'       => $groups,
-            // URL ссылки на страницу со списком всех производителей
-            'allMakersURL' => $this->makerCatalogFrontendModel->getURL('frontend/catalog/makers'),
-            // URL ссылки на страницу со списком всех функциональных групп
-            'allGroupsURL' => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'),
-        );
-
-        /*
-         * массив переменных, которые будут переданы в шаблон right.php
-         */
-
-        // получаем от модели массив товаров в корзине (для правой колонки)
-        $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();
-
-        // общая стоимость товаров в корзине (для правой колонки)
-        $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
-
-        // получаем от модели массив последних отложенных товаров (для правой колонки)
-        $sideWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
-
-        // получаем от модели массив последних товаров для сравнения (для правой колонки)
-        $sideCompareProducts = $this->compareFrontendModel->getSideCompareProducts();
-
-        // получаем от модели массив последних просмотренных товаров (для правой колонки)
-        $sideViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
-
-        // пользователь авторизован?
-        $this->rightVars['authUser'] = $this->authUser;
-        if ($this->authUser) {
-            // ссылка на страницу личного кабинета
-            $this->rightVars['userIndexUrl']    = $this->userFrontendModel->getURL('frontend/user/index');
-            // ссылка на страницу с формой для редактирования личных данных
-            $this->rightVars['userEditUrl']     = $this->userFrontendModel->getURL('frontend/user/edit');
-            // ссылка на страницу со списком всех профилей
-            $this->rightVars['userProfilesUrl'] = $this->userFrontendModel->getURL('frontend/user/allprof');
-            // ссылка на страницу со списком всех заказов
-            $this->rightVars['userOrdersUrl']   = $this->userFrontendModel->getURL('frontend/user/allorders');
-            // ссылка для выхода из личного кабинета
-            $this->rightVars['userLogoutUrl']   = $this->userFrontendModel->getURL('frontend/user/logout');
-        } else {
-            // атрибут action тега form формы для авторизации пользователя
-            $this->rightVars['action']          = $this->userFrontendModel->getURL('frontend/user/login');
-            // ссылка на страницу регистрации
-            $this->rightVars['regFormUrl']      = $this->userFrontendModel->getURL('frontend/user/reg');
-            // ссылка на страницу восстановления пароля
-            $this->rightVars['forgotFormUrl']   = $this->userFrontendModel->getURL('frontend/user/forgot');
-        }
-
-        // массив товаров в корзине
-        $this->rightVars['basketProducts']   = $sideBasketProducts;
-        // общая стоимость товаров в корзине
-        $this->rightVars['basketTotalCost']  = $sideBasketTotalCost;
-        // URL ссылки на страницу корзины
-        $this->rightVars['basketURL']        = $this->basketFrontendModel->getURL('frontend/basket/index');
-        // URL ссылки на страницу оформления заказа
-        $this->rightVars['checkoutURL']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
-        // массив отложенных товаров (избранное)
-        $this->rightVars['wishedProducts']   = $sideWishedProducts;
-        // URL ссылки на страницу отложенных товаров
-        $this->rightVars['wishedURL']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
-        // массив товаров для сравнения
-        $this->rightVars['compareProducts']  = $sideCompareProducts;
-        // URL ссылки на страницу товаров для сравнения
-        $this->rightVars['compareURL']       = $this->compareFrontendModel->getURL('frontend/compare/index');
-        // URL ссылки для удаления всех товаров из сравнения
-        $this->rightVars['clearCompareURL']  = $this->compareFrontendModel->getURL('frontend/compare/clear');
-        // массив просмотренных товаров
-        $this->rightVars['viewedProducts']   = $sideViewedProducts;
-        // URL ссылки на страницу просмотренных товаров
-        $this->rightVars['viewedURL']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
-        // массив баннеров
-        $this->rightVars['banners']          = $this->bannerFrontendModel->getBanners();
-
-        /*
-         * массив переменных, которые будут переданы в шаблон footer.php
-         */
-        $this->footerVars = array(
-            'siteMapUrl' => $this->sitemapFrontendModel->getURL('frontend/sitemap/index')
-        );
+        // заполняем массив переменных, которые будут переданы в шаблон head.php
+        $this->getHeadVars();
+        // заполняем массив переменных, которые будут переданы в шаблон header.php
+        $this->getHeaderVars();
+        // заполняем массив переменных, которые будут переданы в шаблон menu.php
+        $this->getMenuVars();
+        // заполняем массив переменных, которые будут переданы в шаблон left.php
+        $this->getLeftVars();
+        // заполняем массив переменных, которые будут переданы в шаблон right.php
+        $this->getRightVars();
+        // заполняем массив переменных, которые будут переданы в шаблон footer.php
+        $this->getFooterVars();
 
     }
 
@@ -366,75 +218,24 @@ abstract class Frontend_Controller extends Base_Controller {
      */
     protected function output() {
 
-        // переменные $this->title, $this->keywords, $this->description и $this->robots,
-        // которые будут переданы в шаблон head.php, могут быть изменены в методе input()
-        // дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
-        // а не в методе Frontend_Controller::input()
-        $this->headVars['title']        = $this->title;
-        $this->headVars['keywords']     = $this->keywords;
-        $this->headVars['description']  = $this->description;
-        $this->headVars['robots']       = $this->robots;
-        $this->headVars['canonicalURL'] = $this->canonicalURL;
+        // получаем html-код внутри тега <head>
+        $this->getHeadContent();
+        // получаем html-код шапки сайта
+        $this->getHeaderContent();
+        // получаем html-код меню сайта
+        $this->getMenuContent();
+        // получаем html-код центральной колонки
+        $this->getCenterContent();
+        // получаем html-код левой колонки
+        $this->getLeftContent();
+        // получаем html-код правой колонки
+        $this->getRightContent();
+        // получаем html-код подвала сайта
+        $this->getFooterContent();
 
         /*
-         * получаем html-код тега <head>
-         */
-        $this->headContent = $this->render(
-            $this->headTemplateFile,
-            $this->headVars
-        );
-
-        /*
-         * получаем html-код шапки сайта
-         */
-        $this->headerContent = $this->render(
-            $this->headerTemplateFile,
-            $this->headerVars
-        );
-
-        /*
-         * получаем html-код меню
-         */
-        $this->menuContent = $this->render(
-            $this->menuTemplateFile,
-            $this->menuVars
-        );
-
-        /*
-         * получаем html-код центральной колонки
-         */
-        $this->centerContent = $this->render(
-            $this->centerTemplateFile,
-            $this->centerVars
-        );
-
-        /*
-         * получаем html-код левой колонки
-         */
-        $this->leftContent = $this->render(
-            $this->leftTemplateFile,
-            $this->leftVars
-        );
-
-        /*
-         * получаем html-код правой колонки
-         */
-        $this->rightContent = $this->render(
-            $this->rightTemplateFile,
-            $this->rightVars
-        );
-
-        /*
-         * получаем html-код подвала страницы
-         */
-        $this->footerContent = $this->render(
-            $this->footerTemplateFile,
-            $this->footerVars
-        );
-
-        /*
-         * html-код отдельных частей страницы получен, теперь формируем
-         * всю страницу целиком
+         * html-код отдельных частей страницы получен,
+         * теперь формируем всю страницу целиком
          */
         $this->pageContent = $this->render(
             $this->wrapperTemplateFile,
@@ -505,6 +306,264 @@ abstract class Frontend_Controller extends Base_Controller {
         // возвращаем результат
         return $html;
 
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон head.php
+     */
+    private function getHeadVars() {
+        // этот массив еще будет дополнен элементами, см. комментарий
+        // в методе Frontend_Controller::output()
+        $this->headVars = array(
+            'cssFiles' => $this->cssFiles,
+            'jsFiles'  => $this->jsFiles,
+        );
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон header.php
+     */
+    private function getHeaderVars() {
+        $this->headerVars = array(
+            // URL ссылки на главную страницу сайта
+            'indexUrl'     => $this->indexFrontendModel->getURL('frontend/index/index'),
+            // URL страницы поиска по каталогу товаров
+            'searchUrl'    => $this->searchCatalogFrontendModel->getURL('frontend/catalog/search'),
+            // URL ссылки на страницу личного кабинета
+            'userUrl'      => $this->userFrontendModel->getURL('frontend/user/index'),
+            // пользователь авторизован?
+            'authUser'     => $this->authUser,
+            // URL ссылки на страницу корзины
+            'basketUrl'    => $this->basketFrontendModel->getURL('frontend/basket/index'),
+            // корзина пуста?
+            'emptyBasket'  => ! $this->basketFrontendModel->getBasketCount(),
+            // URL ссылки на страницу отложенных товаров
+            'wishedUrl'    => $this->wishedFrontendModel->getURL('frontend/wished/index'),
+            // список отложенных товаров пустой?
+            'emptyWished'  => ! $this->wishedFrontendModel->getWishedCount(),
+            // URL ссылки на страницу сравнения товаров
+            'compareUrl'   => $this->compareFrontendModel->getURL('frontend/compare/index'),
+            // список товаров для сравнения пустой?
+            'emptyCompare' => ! $this->compareFrontendModel->getCompareCount(),
+            // URL ссылки на страницу просмотренных товаров
+            'viewedUrl'    => $this->viewedFrontendModel->getURL('frontend/viewed/index'),
+            // список просмотренных товаров пустой?
+            'emptyViewed'  => ! $this->viewedFrontendModel->getViewedCount(),
+        );
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон menu.php
+     */
+    private function getMenuVars() {
+        $this->menuVars = array(
+            'menu' => $this->menuFrontendModel->getMenu()
+        );
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон left.php
+     */
+    private function getLeftVars() {
+        // чтобы правильно сформировать ссылки на категории каталога, на страницы
+        // производителей и на страницы функциональных групп, надо знать, выбрал
+        // пользователь сортировку и кол-во товаров на странице
+        $sort = 0; // пользователь выбрал сортировку?
+        if (isset($_COOKIE['sort']) && in_array($_COOKIE['sort'], array(1,2,3,4,5,6))) {
+            $sort = (int)$_COOKIE['sort'];
+        }
+        $perpage = 0; // пользователь выбрал кол-во товаров?
+        $others = $this->config->pager->frontend->products->getValue('others'); // доступные варианты
+        if (isset($_COOKIE['perpage']) && in_array($_COOKIE['perpage'], $others)) {
+            $perpage = (int)$_COOKIE['perpage'];
+        }
+
+        // меню каталога (для левой колонки)
+        $catalogMenu = $this->menuCatalogFrontendModel->getCatalogMenu(0, $sort, $perpage);
+
+        // список производителей (для левой колонки)
+        $makers = $this->makerCatalogFrontendModel->getMakers(10, $sort, $perpage);
+
+        // список функциональных групп (для левой колонки)
+        $groups = $this->groupCatalogFrontendModel->getGroups(10, $sort, $perpage);
+
+        $this->leftVars = array(
+            // каталог меню для левой колонки
+            'catalogMenu'  => $catalogMenu,
+            // массив производителей
+            'makers'       => $makers,
+            // массив функциональных групп
+            'groups'       => $groups,
+            // URL ссылки на страницу со списком всех производителей
+            'allMakersURL' => $this->makerCatalogFrontendModel->getURL('frontend/catalog/makers'),
+            // URL ссылки на страницу со списком всех функциональных групп
+            'allGroupsURL' => $this->groupCatalogFrontendModel->getURL('frontend/catalog/groups'),
+        );
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон right.php
+     */
+    private function getRightVars() {
+        // получаем от модели массив товаров в корзине (для правой колонки)
+        $sideBasketProducts = $this->basketFrontendModel->getSideBasketProducts();
+
+        // общая стоимость товаров в корзине (для правой колонки)
+        $sideBasketTotalCost = $this->basketFrontendModel->getSideTotalCost();
+
+        // получаем от модели массив последних отложенных товаров (для правой колонки)
+        $sideWishedProducts = $this->wishedFrontendModel->getSideWishedProducts();
+
+        // получаем от модели массив последних товаров для сравнения (для правой колонки)
+        $sideCompareProducts = $this->compareFrontendModel->getSideCompareProducts();
+
+        // получаем от модели массив последних просмотренных товаров (для правой колонки)
+        $sideViewedProducts = $this->viewedFrontendModel->getSideViewedProducts();
+
+        // пользователь авторизован?
+        $this->rightVars['authUser'] = $this->authUser;
+        if ($this->authUser) {
+            // ссылка на страницу личного кабинета
+            $this->rightVars['userIndexUrl']    = $this->userFrontendModel->getURL('frontend/user/index');
+            // ссылка на страницу с формой для редактирования личных данных
+            $this->rightVars['userEditUrl']     = $this->userFrontendModel->getURL('frontend/user/edit');
+            // ссылка на страницу со списком всех профилей
+            $this->rightVars['userProfilesUrl'] = $this->userFrontendModel->getURL('frontend/user/allprof');
+            // ссылка на страницу со списком всех заказов
+            $this->rightVars['userOrdersUrl']   = $this->userFrontendModel->getURL('frontend/user/allorders');
+            // ссылка для выхода из личного кабинета
+            $this->rightVars['userLogoutUrl']   = $this->userFrontendModel->getURL('frontend/user/logout');
+        } else {
+            // атрибут action тега form формы для авторизации пользователя
+            $this->rightVars['action']          = $this->userFrontendModel->getURL('frontend/user/login');
+            // ссылка на страницу регистрации
+            $this->rightVars['regFormUrl']      = $this->userFrontendModel->getURL('frontend/user/reg');
+            // ссылка на страницу восстановления пароля
+            $this->rightVars['forgotFormUrl']   = $this->userFrontendModel->getURL('frontend/user/forgot');
+        }
+
+        // массив товаров в корзине
+        $this->rightVars['basketProducts']   = $sideBasketProducts;
+        // общая стоимость товаров в корзине
+        $this->rightVars['basketTotalCost']  = $sideBasketTotalCost;
+        // URL ссылки на страницу корзины
+        $this->rightVars['basketURL']        = $this->basketFrontendModel->getURL('frontend/basket/index');
+        // URL ссылки на страницу оформления заказа
+        $this->rightVars['checkoutURL']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
+        // массив отложенных товаров (избранное)
+        $this->rightVars['wishedProducts']   = $sideWishedProducts;
+        // URL ссылки на страницу отложенных товаров
+        $this->rightVars['wishedURL']        = $this->wishedFrontendModel->getURL('frontend/wished/index');
+        // массив товаров для сравнения
+        $this->rightVars['compareProducts']  = $sideCompareProducts;
+        // URL ссылки на страницу товаров для сравнения
+        $this->rightVars['compareURL']       = $this->compareFrontendModel->getURL('frontend/compare/index');
+        // URL ссылки для удаления всех товаров из сравнения
+        $this->rightVars['clearCompareURL']  = $this->compareFrontendModel->getURL('frontend/compare/clear');
+        // массив просмотренных товаров
+        $this->rightVars['viewedProducts']   = $sideViewedProducts;
+        // URL ссылки на страницу просмотренных товаров
+        $this->rightVars['viewedURL']        = $this->viewedFrontendModel->getURL('frontend/viewed/index');
+        // массив баннеров
+        $this->rightVars['banners']          = $this->bannerFrontendModel->getBanners();
+    }
+
+    /**
+     * Функция заполняет массив переменных, которые будут переданы в шаблон footer.php
+     */
+    private function getFooterVars() {
+        $this->footerVars = array(
+            'siteMapUrl' => $this->sitemapFrontendModel->getURL('frontend/sitemap/index')
+        );
+    }
+
+    /**
+     * Функция возвращает html-код внутри тега <head>
+     */
+    private function getHeadContent() {
+        /*
+         * переменные $this->title, $this->keywords, $this->description и $this->robots,
+         * которые будут переданы в шаблон head.php, могут быть изменены в методе input()
+         * дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
+         * а не в методе Frontend_Controller::input()
+         */
+        $this->headVars['title']        = $this->title;
+        $this->headVars['keywords']     = $this->keywords;
+        $this->headVars['description']  = $this->description;
+        $this->headVars['robots']       = $this->robots;
+        $this->headVars['canonicalURL'] = $this->canonicalURL;
+
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->headContent = $this->render(
+            $this->headTemplateFile,
+            $this->headVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код шапки сайта
+     */
+    private function getHeaderContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->headerContent = $this->render(
+            $this->headerTemplateFile,
+            $this->headerVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код меню сайта
+     */
+    private function getMenuContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->menuContent = $this->render(
+            $this->menuTemplateFile,
+            $this->menuVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код центральной колонки
+     */
+    private function getCenterContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->centerContent = $this->render(
+            $this->centerTemplateFile,
+            $this->centerVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код левой колонки
+     */
+    private function getLeftContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->leftContent = $this->render(
+            $this->leftTemplateFile,
+            $this->leftVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код правой колонки
+     */
+    private function getRightContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->rightContent = $this->render(
+            $this->rightTemplateFile,
+            $this->rightVars
+        );
+    }
+
+    /**
+     * Функция возвращает html-код подвала сайта
+     */
+    private function getFooterContent() {
+        // «прогоняем» данные через шаблон и получаем html-код части страницы
+        $this->footerContent = $this->render(
+            $this->footerTemplateFile,
+            $this->footerVars
+        );
     }
 
 }
