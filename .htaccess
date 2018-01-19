@@ -101,5 +101,5 @@ RewriteRule (.*) index.php
     <FilesMatch "\.(ttf|otf|eot|svg)$">
       SetOutputFilter DEFLATE
     </FilesMatch>
-  </ifModule>
-</ifModule>
+  </IfModule>
+</IfModule>
