@@ -36,7 +36,7 @@ defined('ZCMS') or die('Access denied');
 
 <?php if ( ! empty($jsFiles)): ?>
     <?php foreach($jsFiles as $jsFile): ?>
-        <script type="text/javascript" src="<?php echo $jsFile; ?>"></script>
+        <script type="application/javascript" src="<?php echo $jsFile; ?>"></script>
     <?php endforeach; ?>
 <?php endif; ?>
 
