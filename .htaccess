@@ -79,6 +79,11 @@ RewriteRule (.*) index.php
   </IfModule>
 </FilesMatch>
 
-# <ifModule mod_deflate.c>
-#   AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/css text/javascript application/javascript application/x-javascript
+# <IfModule mod_deflate.so>
+#   AddOutputFilterByType DEFLATE text/html
+#   AddOutputFilterByType DEFLATE text/css
+#   AddOutputFilterByType DEFLATE text/javascript
+#   AddOutputFilterByType DEFLATE text/xml
+#   AddOutputFilterByType DEFLATE text/plain
+#   DeflateCompressionLevel 8
 # </ifModule>

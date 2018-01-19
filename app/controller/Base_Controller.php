@@ -180,10 +180,19 @@ abstract class Base_Controller extends Base {
     }
 
     /**
+     * Функция удаляет лишние пробелы из html-кода страницы
+     */
+    private function trimPageContent() {
+        // TODO: подумать, как правильно реализовать эту функцию
+        $this->pageContent = preg_replace('~\s+~', ' ', $this->pageContent);
+    }
+
+    /**
      * Функция возвращает размер страницы в байтах для отправки заголовка
      * Content-Length
      */
     private function getContentLength() {
+        // $this->trimPageContent();
         return strlen($this->pageContent);
     }
 

@@ -482,10 +482,10 @@ abstract class Frontend_Controller extends Base_Controller {
      */
     private function getHeadContent() {
         /*
-         * переменные $this->title, $this->keywords, $this->description и $this->robots,
-         * которые будут переданы в шаблон head.php, могут быть изменены в методе input()
-         * дочерних классов, поэтому помещаем их в массив $this->headVars только здесь,
-         * а не в методе Frontend_Controller::input()
+         * Переменные $this->title, $this->keywords, $this->description, $this->robots
+         * и $this->canonicalURL, которые будут переданы в шаблон head.php, могут быть
+         * изменены в методе input() дочерних классов, поэтому помещаем их в массив
+         * $this->headVars только здесь, а не в методе Frontend_Controller::input()
          */
         $this->headVars['title']        = $this->title;
         $this->headVars['keywords']     = $this->keywords;
