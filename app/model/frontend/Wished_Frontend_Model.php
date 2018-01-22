@@ -275,6 +275,9 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
 
     }
 
+    /**
+     * Функция возвращает количество отложенных товаров
+     */
     protected function wishedCount() {
         $query = "SELECT
                       COUNT(*)
