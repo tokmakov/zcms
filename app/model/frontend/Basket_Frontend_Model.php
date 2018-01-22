@@ -447,7 +447,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция удаляет все старые корзины
      */
-    public function removeOldBaskets() {
+    private function removeOldBaskets() {
         $query = "DELETE FROM
                       `baskets`
                   WHERE

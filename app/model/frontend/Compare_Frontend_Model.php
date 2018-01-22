@@ -836,7 +836,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция удаляет все старые товары для сравения
      */
-    public function removeOldCompare() {
+    private function removeOldCompare() {
         $query = "DELETE FROM
                       `compare`
                   WHERE

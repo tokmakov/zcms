@@ -31,7 +31,7 @@
  *   )
  * )
  *
- * 
+ *
  * $hitProducts = Array (
  *   [0] => Array (
  *     [id] => 1001
@@ -50,7 +50,7 @@
  *     .....
  *   )
  * )
- * 
+ *
  * $newProducts = Array (
  *   [0] => Array (
  *     [id] => 1015
@@ -69,7 +69,7 @@
  *     .....
  *   )
  * )
- * 
+ *
  * $units = Array (
  *     0 => 'руб',
  *     1 => 'руб/шт',
@@ -80,7 +80,7 @@
  * )
  *
  */
- 
+
 defined('ZCMS') or die('Access denied');
 ?>
 
@@ -94,7 +94,7 @@ defined('ZCMS') or die('Access denied');
 <?php if (!empty($banners)): // баннеры ?>
     <ul id="banner-slider">
     <?php foreach($banners as $item): ?>
-        <li><a href="<?php echo $item['url']; ?>"><img src="<?php echo $item['image']; ?>" alt="<?php echo $item['alttext']; ?>"></a></li>
+        <li><a href="<?php echo $item['url']; ?>"><img src="<?php echo $item['image']; ?>" alt="<?php echo $item['alttext']; ?>" /></a></li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>

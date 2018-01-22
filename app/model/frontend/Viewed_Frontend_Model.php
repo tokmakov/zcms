@@ -269,7 +269,7 @@ class Viewed_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция удаляет все старые списки просмотренных товаров
      */
-    public function removeOldViewed() {
+    private function removeOldViewed() {
         $query = "DELETE FROM
                       `viewed`
                   WHERE

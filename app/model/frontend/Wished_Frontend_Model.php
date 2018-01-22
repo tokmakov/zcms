@@ -240,27 +240,10 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает кол-во товаров, отложенных посетителем
-     */
-    public function getCountWishedProducts() {
-        $query = "SELECT
-                      COUNT(*)
-                  FROM
-                      `products` `a`
-                      INNER JOIN `wished` `b` ON `a`.`id` = `b`.`product_id`
-                      INNER JOIN `categories` `c` ON `a`.`category` = `c`.`id`
-                      INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
-                      INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
-                  WHERE
-                      `visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
-    }
-
-    /**
      * Функция возвращает кол-во страниц, которые нужны для показа всех отложенных товаров
      */
     public function getTotalPages() {
-        return ceil($this->getCountWishedProducts() / $this->config->pager->frontend->products->perpage);
+        return ceil($this->getWishedCount() / $this->config->pager->frontend->products->perpage);
     }
 
     /**
@@ -333,7 +316,7 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     /**
      * Функция удаляет все старые списки отложенных товаров
      */
-    public function removeOldWished() {
+    private function removeOldWished() {
         $query = "DELETE FROM
                       `wished`
                   WHERE
