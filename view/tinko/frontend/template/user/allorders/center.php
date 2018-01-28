@@ -7,20 +7,21 @@
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
  * $orders - массив заказов пользователя
+ * $units - массив единиц измерения товара
  * $pager - постраничная навигация
  * $page - текущая страница
  *
  * $orders = Array (
  *   [0] => Array (
- *     [order_id] => 38
+ *     [id] => 38
  *     [amount] => 42296.00
  *     [user_amount] => 40147.00
  *     [date] => 04.12.2014
  *     [time] => 16:44:13
  *     [status] => 0
- *     [url] => /user/order/38
+ *     [url] => http://www.host.ru/user/order/38
  *     [repeat] => true
- *     [action] => /user/repeat/38
+ *     [action] => http://www.host.ru/user/repeat/38
  *     [products] => Array (
  *       [0] => Array (
  *         [id] => 5010
@@ -29,10 +30,11 @@
  *         [title] => Извещатель пожарный тепловой максимальный
  *         [price] => 300.00
  *         [user_price] => 280.00
+ *         [unit] => 1
  *         [quantity] => 2
  *         [cost] => 600.00
  *         [exists] => 1
- *         [url] => /catalog/product/5010
+ *         [url] => http://www.host.ru/catalog/product/5010
  *       )
  *       [1] => Array (
  *         [id] => 5170
@@ -41,10 +43,11 @@
  *         [title] => Извещатель пожарный тепловой максимальный
  *         [price] => 330.00
  *         [user_price] => 330.00
+ *         [unit] => 1
  *         [quantity] => 2
  *         [cost] => 660.00
  *         [exists] => 1
- *         [url] => /catalog/product/5170
+ *         [url] => http://www.host.ru/catalog/product/5170
  *       )
  *     )
  *   )
@@ -55,9 +58,9 @@
  *     [date] => 03.12.2014
  *     [time] => 16:25:12
  *     [status] => 0
- *     [url] => /user/order/34
+ *     [url] => http://www.host.ru/user/order/34
  *     [repeat] => true
- *     [action] => /user/repeat/34
+ *     [action] => http://www.host.ru/user/repeat/34
  *     [products] => Array (
  *       [0] => Array (
  *         [id] => 1001
@@ -66,10 +69,11 @@
  *         [title] => Извещатель охранный точечный магнитоконтактный
  *         [price] => 32.90
  *         [user_price] => 30.00
+ *         [unit] => 1
  *         [quantity] => 9
  *         [cost] => 296.10
  *         [exists] => 1
- *         [url] => /catalog/product/1001
+ *         [url] => http://www.host.ru/catalog/product/1001
  *       )
  *       [1] => Array (
  *         [id] => 1002
@@ -78,13 +82,24 @@
  *         [title] => Извещатель охранный точечный магнитоконтактный
  *         [price] => 34.00
  *         [user_price] => 31.00
+ *         [unit] => 1
  *         [quantity] => 1
  *         [cost] => 34.00
  *         [exists] => 1
- *         [url] => /catalog/product/1002
+ *         [url] => http://www.host.ru/catalog/product/1002
  *       )
  *     )
  *   )
+ * )
+ *
+ * $units = Array (
+ *   0 => '-',
+ *   1 => 'шт',
+ *   2 => 'компл',
+ *   3 => 'упак',
+ *   4 => 'метр',
+ *   5 => 'пара',
+ *   6 => 'кг'
  * )
  *
  */
@@ -94,7 +109,7 @@ defined('ZCMS') or die('Access denied');
 
 <!-- Начало шаблона view/example/frontend/template/user/allorders/center.php -->
 
-<?php if (!empty($breadcrumbs)): // хлебные крошки ?>
+<?php if ( ! empty($breadcrumbs)): // хлебные крошки ?>
     <div id="breadcrumbs">
         <?php foreach ($breadcrumbs as $item): ?>
             <a href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>&nbsp;&gt;
@@ -112,7 +127,7 @@ defined('ZCMS') or die('Access denied');
     <?php foreach($orders as $order): ?>
         <div>
             <p>
-                <span>№ <strong><?php echo $order['order_id']; ?></strong> от <?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
+                <span>№ <strong><?php echo $order['id']; ?></strong> от <?php echo $order['date']; ?> <?php echo $order['time']; ?></span>
                 <span>Итого: <strong><?php echo $order['user_amount'] > 1000000 ? round(($order['user_amount']/1000000),1).' млн.' : number_format($order['user_amount'], 2, '.', ' '); ?></strong> руб.</span>
             </p>
             <table>
@@ -157,7 +172,7 @@ defined('ZCMS') or die('Access denied');
     <?php endforeach; ?>
 </div>
 
-<?php if (!empty($pager)): // постраничная навигация ?>
+<?php if ( ! empty($pager)): // постраничная навигация ?>
     <ul class="pager">
     <?php if (isset($pager['first'])): ?>
         <li>

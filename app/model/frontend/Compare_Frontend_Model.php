@@ -80,14 +80,12 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       (
                           `visitor_id`,
                           `product_id`,
-                          `active`,
                           `added`
                       )
                       VALUES
                       (
                           :visitor_id,
                           :product_id,
-                          1,
                           NOW()
                       )";
             $this->database->execute($query, $data);
@@ -113,22 +111,19 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       `compare`
                   WHERE
                       `visitor_id` = :visitor_id AND
-                      `product_id` = :product_id AND
-                      `active`     = 1";
+                      `product_id` = :product_id";
         $res = $this->database->fetchOne($query, $data);
         if (false === $res) { // если товара еще нет в списке сравнения, добавляем его
             $query = "INSERT INTO `compare`
                       (
                           `visitor_id`,
                           `product_id`,
-                          `active`,
                           `added`
                       )
                       VALUES
                       (
                           :visitor_id,
                           :product_id,
-                          1,
                           NOW()
                       )";
             $this->database->execute($query, $data);
@@ -139,8 +134,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                           `added` = NOW()
                       WHERE
                           `visitor_id` = :visitor_id AND
-                          `product_id` = :product_id AND
-                          `active`     = 1";
+                          `product_id` = :product_id";
             $this->database->execute($query, $data);
         }
         // обновляем cookie
@@ -192,7 +186,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1";
+                      `a`.`visitor_id` = :visitor_id AND `b`.`visible` = 1";
         return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
     }
 
@@ -260,7 +254,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND `b`.`visible` = 1
                   ORDER BY
                       `a`.`added` DESC
                   LIMIT
@@ -305,7 +299,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `b`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
-                      `a`.`visitor_id` = :visitor_id AND `a`.`active` = 1 AND `b`.`visible` = 1
+                      `a`.`visitor_id` = :visitor_id AND `b`.`visible` = 1
                   ORDER BY
                       `a`.`added` DESC";
         $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
@@ -384,7 +378,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                   WHERE
                       `e`.`id` = :group_id AND
                       `a`.`visitor_id` = :visitor_id AND
-                      `a`.`active` = 1 AND
                       `b`.`visible` = 1
                   ORDER BY
                       `a`.`added` DESC";
@@ -466,7 +459,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `params` `g` ON `f`.`param_id` = `g`.`id`
                   WHERE
                       `a`.`visitor_id` = :visitor_id AND
-                      `a`.`active` = 1 AND
                       `e`.`id` = :group_id AND
                       `b`.`visible` = 1
                   GROUP BY
@@ -554,7 +546,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `values` `h` ON `f`.`value_id` = `h`.`id`
                   WHERE
                       `a`.`visitor_id` = :visitor_id AND
-                      `a`.`active` = 1 AND
                       `e`.`id` = :group_id AND
                       `b`.`visible` = 1
                   ORDER BY
@@ -746,7 +737,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
                       `a`.`visitor_id` = :visitor_id AND
-                      `a`.`active` = 1 AND
                       `b`.`visible` = 1
                   ORDER BY
                       `a`.`added` DESC";
@@ -767,10 +757,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     public function removeFromCompare($productId) {
 
-        $query = "UPDATE
+        $query = "DELETE FROM
                       `compare`
-                  SET
-                      `active` = 0
                   WHERE
                       `product_id` = :product_id AND
                       `visitor_id` = :visitor_id";
@@ -803,15 +791,13 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция «удаляет» все товары из списка сравнения пользователя
+     * Функция удаляет все товары из списка сравнения пользователя
      */
     public function clearCompareList() {
-        $query = "UPDATE
+        $query = "DELETE FROM
                       `compare`
-                  SET
-                      `active` = 0
                   WHERE
-                      `visitor_id` = :visitor_id AND `active` = 1";
+                      `visitor_id` = :visitor_id";
         $this->database->execute(
             $query,
             array(
@@ -856,7 +842,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
      * после авторизации, реализация шаблона проектирования «Наблюдатель»; см.
      * описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
      */
-    public function update(SplSubject $userFrontendModel) {
+    public function updateOld(SplSubject $userFrontendModel) {
 
         /*
          * Уникальный идентификатор посетителя сайта сохраняется в cookie и нужен
@@ -927,8 +913,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             return;
         }
 
-        // в объединенном списке сравнения есть товары, но в нем
-        // могут быть товары из разных функциональных групп
+        // В объединенном списке сравнения есть товары, но в нем могут быть товары
+        // из разных функциональных групп. Удаляем товары из «старого» сравнения
         $query = "SELECT
                       `a`.`id` AS `id`
                   FROM
@@ -939,7 +925,6 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `groups` `e` ON `b`.`group` = `e`.`id`
                   WHERE
                       `a`.`visitor_id` = :visitor_id AND
-                      `a`.`active` = 1 AND
                       `b`.`visible` = 1 AND
                       `e`.`id` <> :group_id";
         $temp = $this->database->fetchAll(
@@ -953,10 +938,8 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
             foreach ($temp as $item) {
                 $ids[] = $item['id'];
             }
-            $query = "UPDATE
+            $query = "DELETE FROM
                           `compare`
-                      SET
-                          `active` = 0
                       WHERE
                           `id` IN (" . implode(',', $ids) . ") AND
                           `visitor_id` = :visitor_id";
@@ -1004,6 +987,140 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
                     'visitor_id' => $this->visitorId
                 )
             );
+        }
+
+    }
+
+    /**
+     * Функция объединяет списки отложенных для сравнения товаров (ещё) не
+     * авторизованного посетителя и (уже) авторизованного пользователя сразу
+     * после авторизации, реализация шаблона проектирования «Наблюдатель»; см.
+     * описание интерфейса SplObserver http://php.net/manual/ru/class.splobserver.php
+     */
+    public function update(SplSubject $userFrontendModel) {
+
+        /*
+         * Уникальный идентификатор посетителя сайта сохраняется в cookie и нужен
+         * для хранения списка товаров для сравнения. По нему можно получить из
+         * таблицы БД `compare` все товары, добавленные к сравнению.
+         *
+         * Если в cookie есть идентификатор посетителя, значит он уже просматривал
+         * страницы сайта с этого компьютера. Если идентификатора нет в cookie,
+         * значит посетитель на сайте первый раз (и просматривает первую страницу),
+         * или зашел с другого компьютера. В этом случае записываем в cookie новый
+         * идентификатор.
+         *
+         * Если в cookie не было идентификатора посетителя и ему был записан новый
+         * идентификатор, это еще не означает, что посетитель здесь в первый раз.
+         * Он мог зайти с другого компьютера, удалить cookie или истекло время жизни
+         * cookie.
+         *
+         * Сразу после авторизации проверяем — совпадает временный идентификатор
+         * посетителя (который сохранен в cookie) с постоянным (который хранится в
+         * в БД `users`). Если совпадает — ничего не делаем, если нет — записываем
+         * в cookie вместо временного постоянный идентификатор и обновляем записи
+         * таблицы БД `compare`, заменяя временный идентификатор на постоянный.
+         */
+        $newVisitorId = $userFrontendModel->getVisitorId();
+        $oldVisitorId = $this->visitorId;
+
+        if ($newVisitorId == $oldVisitorId) {
+            return;
+        }
+
+        /*
+         * Нам надо решить, какой из списков сравнения оставить, а какой удалить.
+         * Тут все просто — в какой список добавлялся товар позже, тот «свежее»,
+         * его и оставляем, а другой удаляем.
+         */
+
+        $query = "SELECT
+                      UNIX_TIMESTAMP(`added`)
+                  FROM
+                      `compare`
+                  WHERE
+                      `visitor_id` = :old_visitor_id
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      1";
+        $oldTime = $this->database->fetchOne(
+            $query,
+            array('old_visitor_id' => $oldVisitorId)
+        );
+
+        $query = "SELECT
+                      UNIX_TIMESTAMP(`added`)
+                  FROM
+                      `compare`
+                  WHERE
+                      `visitor_id` = :new_visitor_id
+                  ORDER BY
+                      `added` DESC
+                  LIMIT
+                      1";
+        $newTime = $this->database->fetchOne(
+            $query,
+            array('new_visitor_id' => $newVisitorId)
+        );
+
+        if ($oldTime > $newTime) {
+            $removeId = $newVisitorId; // удаляем постоянные записи
+        } else {
+            $removeId = $oldVisitorId; // удаляем временные записи
+        }
+        $query = "DELETE FROM
+                      `compare`
+                  WHERE
+                      `visitor_id` = :remove_id";
+        $this->database->execute(
+            $query,
+            array(
+                'remove_id' => $removeId
+            )
+        );
+
+        if ($removeId == $newVisitorId) {
+            $query = "UPDATE
+                          `compare`
+                      SET
+                          `visitor_id` = :new_visitor_id
+                      WHERE
+                          `visitor_id` = :old_visitor_id";
+            $this->database->execute(
+                $query,
+                array(
+                    'old_visitor_id' => $oldVisitorId,
+                    'new_visitor_id' => $newVisitorId
+                )
+            );
+        }
+
+        // удаляем кэш, потому как он теперь не актуален
+        if ($this->enableDataCache) {
+            // кэш (ещё) не авторизованного посетителя
+            $key = __CLASS__ . '-group-visitor-' . $oldVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-products-visitor-' . $oldVisitorId;
+            $this->cache->removeValue($key);
+            // кэш (уже) авторизованного пользователя
+            $key = __CLASS__ . '-group-visitor-' . $newVisitorId;
+            $this->cache->removeValue($key);
+            $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
+            $this->cache->removeValue($key);
+        }
+
+        $this->visitorId = $newVisitorId;
+
+        $this->groupId = $this->getCompareGroup();
+
+        // устанавливаем правильное значение cookie compare_group
+        if ($this->groupId) {
+            // обновляем cookie
+            setcookie('compare_group', $this->groupId, time() + 31536000, '/');
+        } else {
+            // удаляем cookie
+            setcookie('compare_group', '', time() - 86400, '/');
         }
 
     }

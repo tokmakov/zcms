@@ -100,7 +100,7 @@ defined('ZCMS') or die('Access denied');
                 <?php endif; ?>
 
                 <?php if ( ! empty($blogCategories)): ?>
-                    <optgroup label="blog">
+                    <optgroup label="Блог">
                         <option value="frontend/blog/index">Блог</option>
                         <?php foreach($blogCategories as $category) : ?>
                             <option value="frontend/blog/category/id/<?php echo $category['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $category['name']; ?></option>
@@ -116,12 +116,11 @@ defined('ZCMS') or die('Access denied');
                         <?php endforeach; ?>
                     </optgroup>
                 <?php endif; ?>
-                
+
                 <optgroup label="Разное">
-                    <option value="frontend/sale/index">Распродажа</option>
-                    <option value="frontend/rating/index">Рейтинг</option>
-                    <option value="frontend/partner/index">Партнеры</option>
-                    <option value="frontend/vacancy/index">Вакансии</option>
+                    <?php foreach($others as $item) : ?>
+                        <option value="<?php echo $item['cap']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $item['name']; ?></option>
+                    <?php endforeach; ?>
                 </optgroup>
             </select>
         </div>

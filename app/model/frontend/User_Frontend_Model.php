@@ -447,6 +447,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
 
             // устанавливаем cookie, чтобы она хранилась Config::getInstance()->user->cookie
             $time = 86400 * $this->config->user->cookie;
+            // TODO: добавить httpOnly
             setcookie('remember', $token1 . $token2, time() + $time, '/');
 
             // удаляем старые записи в таблице БД remember
@@ -928,14 +929,14 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     /**
      * Функция возвращает массив заказов авторизованного пользователя
      */
-    public function getAllOrders($start = 0) {
+    public function getAllOrdersOld($start = 0) {
 
         if ( ! $this->authUser) {
             throw new Exception('Попытка получить заказы не авторизованного пользователя');
         }
 
         $query = "SELECT
-                      `id` AS `order_id`, `amount`, `user_amount`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
+                      `id` AS `id`, `amount`, `user_amount`, DATE_FORMAT(`added`, '%d.%m.%Y') AS `date`,
                       DATE_FORMAT(`added`, '%H:%i') AS `time`, `status`
                   FROM
                       `orders`
@@ -968,7 +969,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                           `a`.`order_id` = :order_id
                       ORDER BY
                           `a`.`id`";
-            $orders[$key]['products'] = $this->database->fetchAll($query, array('order_id' => $value['order_id']));
+            $orders[$key]['products'] = $this->database->fetchAll($query, array('order_id' => $value['id']));
             foreach ($orders[$key]['products'] as $k => $v) {
                 if ($v['exists']) { // если товар еще не удален из каталога
                     $orders[$key]['products'][$k]['url'] = $this->getURL('frontend/catalog/product/id/' . $v['id']);
@@ -976,9 +977,11 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 }
             }
             // URL ссылки для просмотра подробной информации о заказе
-            $orders[$key]['url'] = $this->getURL('frontend/user/order/id/' . $value['order_id']);
+            $orders[$key]['url'] = $this->getURL('frontend/user/order/id/' . $value['id']);
             // атрибут action тега form для повторения заказа
-            $orders[$key]['action'] = $this->getURL('frontend/user/repeat/id/' . $value['order_id']);
+            if ($orders[$key]['repeat']) {
+                $orders[$key]['action'] = $this->getURL('frontend/user/repeat/id/' . $value['id']);
+            }
         }
 
         return $orders;
@@ -988,7 +991,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
     /**
      * Функция возвращает массив заказов авторизованного пользователя
      */
-    public function getAllOrdersNew($start = 0) {
+    public function getAllOrders($start = 0) {
 
         if ( ! $this->authUser) {
             throw new Exception('Попытка получить заказы не авторизованного пользователя');
@@ -1057,35 +1060,39 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
                 $counter++;
                 $order_id = $value['order_id'];
                 $orders[$counter] = array(
-                    'order_id'          => $value['order_id'],
-                    'order_amount'      => $value['order_amount'],
-                    'order_user_amount' => $value['order_user_amount'],
-                    'order_date'        => $value['order_date'],
-                    'order_time'        => $value['order_time'],
-                    'order_status'      => $value['order_status'],
+                    'id'                => $value['order_id'],
+                    'amount'            => $value['order_amount'],
+                    'user_amount'       => $value['order_user_amount'],
+                    'date'              => $value['order_date'],
+                    'time'              => $value['order_time'],
+                    'status'            => $value['order_status'],
                     // URL ссылки для просмотра подробной информации о заказе
                     'url'    => $this->getURL('frontend/user/order/id/' . $value['order_id']),
-                    // атрибут action тега form для повторения заказа
-                    'action' => $this->getURL('frontend/user/repeat/id/' . $value['order_id'])
                 );
                 if ($counter) { // возможность повторить заказ
                     $orders[$counter-1]['repeat'] = $repeat;
+                    if ($repeat) {
+                        // атрибут action тега form для повторения заказа
+                        $orders[$counter-1]['action'] = $this->getURL(
+                            'frontend/user/repeat/id/' . $orders[$counter-1]['id']
+                        );
+                    }
                 }
                 $repeat = false;
             }
             $orders[$counter]['products'][] = array(
-                'product_id'         => $value['product_id'],
-                'product_code'       => $value['product_code'],
-                'product_name'       => $value['product_name'],
-                'product_title'      => $value['product_title'],
-                'product_price'      => $value['product_price'],
-                'product_user_price' => $value['product_user_price'],
-                'product_unit'       => $value['product_unit'],
-                'product_quantity'   => $value['product_quantity'],
-                'product_cost'       => $value['product_cost'],
-                'product_user_cost'  => $value['product_user_cost'],
-                'product_exists'     => $value['product_exists'],
-                'product_url'        => $this->getURL('frontend/catalog/product/id/' . $v['id'])
+                'id'         => $value['product_id'],
+                'code'       => $value['product_code'],
+                'name'       => $value['product_name'],
+                'title'      => $value['product_title'],
+                'price'      => $value['product_price'],
+                'user_price' => $value['product_user_price'],
+                'unit'       => $value['product_unit'],
+                'quantity'   => $value['product_quantity'],
+                'cost'       => $value['product_cost'],
+                'user_cost'  => $value['product_user_cost'],
+                'exists'     => $value['product_exists'],
+                'url'        => $this->getURL('frontend/catalog/product/id/' . $value['product_id'])
             );
             if ($value['product_exists']) { // товар еще не удален из каталога?
                 // если есть хоть один товар в каталоге, заказ можно повторить

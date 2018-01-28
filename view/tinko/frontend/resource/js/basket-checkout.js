@@ -305,6 +305,13 @@ $(document).ready(function() {
      * при выборе профиля плательщика из выпадающего списка
      */
     $('#checkout-order select[name="payer_profile"]').change(function() {
+        _this = $(this);
+        if (_this.val() !== '0') {
+            _this.addClass('profile-loader');
+            setTimeout(function() {
+                _this.removeClass('profile-loader');
+            }, 1000);
+        }
         // возвращаем все поля формы, связанные с плательщиком, в исходное состояние
         $('#checkout-order #payer-order input[type="text"]').val('');
         if ($('#checkout-order input[name="payer_company"]').prop('checked')) {
@@ -382,6 +389,14 @@ $(document).ready(function() {
      * при выборе профиля получателя из выпадающего списка
      */
     $('#checkout-order select[name="getter_profile"]').change(function() {
+        // показываем и скрываем loader
+        _this = $(this);
+        if (_this.val() !== '0') {
+            _this.addClass('profile-loader');
+            setTimeout(function() {
+                _this.removeClass('profile-loader');
+            }, 1000);
+        }
         // возвращаем все поля формы, связанные с получателем, в исходное состояние
         $('#checkout-order #getter-order input[type="text"]').val('');
         if ($('#checkout-order input[name="getter_company"]').prop('checked')) {

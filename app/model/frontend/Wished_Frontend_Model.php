@@ -24,6 +24,14 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
         }
         $this->visitorId = $this->register->userFrontendModel->getVisitorId();
 
+        /*
+         * Вообще говоря, Избранное надо хранить неопределенно долго. С другой стороны,
+         * старые записи таблицы БД `wished` надо все-таки время от времени удалять.
+         * Поэтому отслеживаем время последнего визита посетителя, записываем это
+         * время в поле `visited` и время от времени старые записи удаляем.
+         */
+        $this->updateLastVisit();
+
     }
 
     /**
@@ -48,12 +56,14 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
                       (
                           `visitor_id`,
                           `product_id`,
-                          `added`
+                          `added`,
+                          `visited`
                       )
                       VALUES
                       (
                           :visitor_id,
                           :product_id,
+                          NOW(),
                           NOW()
                       )";
         } else { // если товар уже в списке отложенных, обновляем дату
@@ -317,23 +327,6 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция удаляет все старые списки отложенных товаров
-     */
-    private function removeOldWished() {
-        $query = "DELETE FROM
-                      `wished`
-                  WHERE
-                      `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
-        $this->database->execute($query);
-
-        $query = "DELETE FROM
-                      `wished`
-                  WHERE
-                      `added` < NOW() - INTERVAL :days DAY";
-        $this->database->execute($query, array('days' => $this->config->user->cookie));
-    }
-
-    /**
      * Функция объединяет списки отложенных товаров (ещё) не авторизованного
      * посетителя и (уже) авторизованного пользователя сразу после авторизации,
      * реализация шаблона проектирования «Наблюдатель»; см. описание интерфейса
@@ -430,6 +423,52 @@ class Wished_Frontend_Model extends Frontend_Model implements SplObserver {
             );
         }
 
+    }
+
+    /**
+     * Обновляем время последнего визита посетителя
+     */
+    private function updateLastVisit() {
+        /*
+         * Если cookie lastvisit еще не установлена, значит посетитель только
+         * зашел на сайт. Обновляем время последнего посещения и устанавливаем
+         * cookie lastvisit, чтобы больше этого не делать.
+         */
+        if ( ! isset($_COOKIE['lastvisit'])) {
+            $query = "UPDATE
+                          `wished`
+                      SET
+                          `visited` = NOW()
+                      WHERE
+                          `visitor_id` = :visitor_id";
+            $this->database->execute(
+                $query,
+                array(
+                    'visitor_id' => $this->visitorId
+                )
+            );
+            // cookie живет до закрытия окна браузера; когда посетитель придет в
+            // следующий раз, cookie lastvisit уже не будет — опять обновим время
+            setcookie('lastvisit', time(), 0, '/');
+        }
+
+    }
+
+    /**
+     * Функция удаляет все старые списки отложенных товаров
+     */
+    private function removeOldWished() {
+        $query = "DELETE FROM
+                      `wished`
+                  WHERE
+                      `product_id` NOT IN (SELECT `id` FROM `products` WHERE 1)";
+        $this->database->execute($query);
+
+        $query = "DELETE FROM
+                      `wished`
+                  WHERE
+                      `visited` < NOW() - INTERVAL :days DAY";
+        $this->database->execute($query, array('days' => $this->config->user->cookie));
     }
 
     // Получаем рекомендации для пользователя на основе отложенных товаров

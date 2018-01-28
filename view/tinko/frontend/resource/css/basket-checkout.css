@@ -60,7 +60,7 @@
             left: 25px;
             top: -27px;
             color: #333;
-            background: #fafafa;
+            background-color: #fafafa;
             font-size: 16px;
             line-height: 16px;
             font-weight: bold;
@@ -68,7 +68,13 @@
             border: 1px solid #d1d1d1;
             border-bottom: 1px solid #fafafa;
             color: #395985;
-            min-width: 95px;
+            min-width: 110px;
+        }
+        /* loader, который появляется при выборе профиля */
+        .profile-loader {
+           background-image: url(../img/profile-loader.gif);
+           background-position: 99% center;
+           background-repeat: no-repeat;
         }
             #checkout-order > #delivery > div > label {
                 display: inline-block;

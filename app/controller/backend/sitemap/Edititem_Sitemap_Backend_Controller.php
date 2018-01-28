@@ -79,6 +79,15 @@ class Edititem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
         // получаем массив всех категорий типовых решений
         $solutionCategories = $this->sitemapBackendModel->getSolutionCategories();
 
+        // разное
+        $others = array(
+            array('cap' => 'frontend/sale/index',     'name' => 'Распродажа'),
+            array('cap' => 'frontend/rating/index',   'name' => 'Рейтинг продаж'),
+            array('cap' => 'frontend/partner/index',  'name' => 'Партнеры'),
+            array('cap' => 'frontend/catalog/brands', 'name' => 'Бренды'),
+            array('cap' => 'frontend/vacancy/index',  'name' => 'Вакансии'),
+        );
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -105,6 +114,8 @@ class Edititem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
             'blogCategories'     => $blogCategories,
             // массив категорий типовых решений
             'solutionCategories' => $solutionCategories,
+            // разное
+            'others'              => $others,
         );
         // если были ошибки при заполнении формы, передаем в шаблон сохраненные данные
         // формы и массив сообщений об ошибках

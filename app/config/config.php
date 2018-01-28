@@ -28,11 +28,11 @@ require 'app/config/protector.php';
 
 $config = array(
     'site' => array(
-        'url'   => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
-        'name'  => 'Торговый Дом ТИНКО',
-        'phone' => '+7 (495) 708-42-13',
-        'email' => 'tinko@tinko.info',
-        'theme' => 'view/tinko', // путь к папке с темой
+        'name'   => 'Торговый Дом ТИНКО',
+        'phone'  => '+7 (495) 708-42-13',
+        'email'  => 'tinko@tinko.info',
+        'url'    => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
+        'theme'  => 'view/tinko', // путь к папке с темой
     ),
     'admin' => array( // логин-пароль администратора сайта
         'name'     => 'admin',
@@ -58,7 +58,7 @@ $config = array(
     ),
     'user'  => array(
         'prefix' => '',  // префикс к паролю пользователя для усложнения взлома
-        'cookie' => 365, // время хранения уникального идентификатора посетителя на компьютере пользователя 365 дней
+        'cookie' => 365, // время хранения уникального идентификатора посетителя в днях
     ),
 
     'database'  => $database,                    // см. файл app/config/database.php

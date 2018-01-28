@@ -65,6 +65,15 @@ class Additem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
         // получаем массив всех категорий типовых решений
         $solutionCategories = $this->sitemapBackendModel->getSolutionCategories();
 
+        // разное
+        $others = array(
+            array('cap' => 'frontend/sale/index',     'name' => 'Распродажа'),
+            array('cap' => 'frontend/rating/index',   'name' => 'Рейтинг продаж'),
+            array('cap' => 'frontend/partner/index',  'name' => 'Партнеры'),
+            array('cap' => 'frontend/catalog/brands', 'name' => 'Бренды'),
+            array('cap' => 'frontend/vacancy/index',  'name' => 'Вакансии'),
+        );
+
         /*
          * массив переменных, которые будут переданы в шаблон center.php
          */
@@ -74,7 +83,7 @@ class Additem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
             // атрибут action тега form
             'action'              => $this->sitemapBackendModel->getURL('backend/sitemap/additem'),
             // массив всех элементов карты сайта для возможности выбора родителя
-            'sitemapItems'           => $sitemapItems,
+            'sitemapItems'        => $sitemapItems,
             // массив всех страниц сайта
             'pages'               => $pages,
             // массив категорий каталога верхнего уровня
@@ -83,6 +92,8 @@ class Additem_Sitemap_Backend_Controller extends Sitemap_Backend_Controller {
             'blogCategories'      => $blogCategories,
             // массив категорий типовых решений
             'solutionCategories'  => $solutionCategories,
+            // разное
+            'others'              => $others,
         );
         // если были ошибки при заполнении формы, передаем в шаблон массив сообщений об ошибках
         if ($this->issetSessionData('addSitemapItemForm')) {
