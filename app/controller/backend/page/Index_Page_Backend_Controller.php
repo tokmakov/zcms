@@ -30,7 +30,7 @@ class Index_Page_Backend_Controller extends Page_Backend_Controller {
         $breadcrumbs = array(
             array(
                 'name' => 'Главная',
-                'url'  => $this->catalogBackendModel->getURL('backend/index/index')
+                'url'  => $this->pageBackendModel->getURL('backend/index/index')
             ),
         );
 
