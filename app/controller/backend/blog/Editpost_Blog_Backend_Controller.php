@@ -35,15 +35,6 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
 
         // если данные формы были отправлены
         if ($this->isPostMethod()) {
-            if (!$this->validateForm()) { // если при заполнении формы были допущены ошибки
-                $this->redirect($this->blogBackendModel->getURL('backend/blog/editpost/id/' . $this->params['id']));
-            } else {
-                $this->redirect($this->blogBackendModel->getURL('backend/blog/index'));
-            }
-        }
-
-        // если данные формы были отправлены
-        if ($this->isPostMethod()) {
             /*
              * Форма имеет две кнопки отправки данных:
              * 1. Кнопка <input type="submit" name="submit" value="Сохранить" />
@@ -116,15 +107,15 @@ class Editpost_Blog_Backend_Controller extends Blog_Backend_Controller {
             'folders'     => $folders,
             // уникальный идентификатор поста
             'id'          => $this->params['id'],
-            // категория новости
+            // категория поста
             'category'    => $post['ctg_id'],
-            // заголовок новости
+            // заголовок поста
             'name'        => $post['name'],
             // мета-тег keywords
             'keywords'    => $post['keywords'],
             // мета-тег description
             'description' => $post['description'],
-            // анонс новости
+            // анонс поста
             'excerpt'     => $post['excerpt'],
             // содержание поста
             'body'        => $post['body'],
