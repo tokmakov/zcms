@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('#add-edit-article #new-files > div:last-child > div > span:last-of-type').click(function() {
         $(this).parent().remove();
         // если это была единственная видимая строка загрузки файла, добавляем новую строку
-        if ($('#add-edit-news-item #new-files > div:last-child > div').size() == 1) {
+        if ($('#add-edit-article #new-files > div:last-child > div').size() == 1) {
             lastFilesRow.clone(true).insertBefore(lastFilesRow).show();
         }
     });
@@ -27,7 +27,7 @@ $(document).ready(function() {
     $('#add-edit-article #old-files > div:last-child > div > span').click(function() {
         var fileUrl = $(this).prev().attr('href').substr(1);
         var fileName = $(this).prev().text();
-        $('#add-edit-news-item textarea[name="body"]').insertAtCaret('<a href="' + fileUrl + '">' + fileName + '</a>');
+        $('#add-edit-article textarea[name="body"]').insertAtCaret('<a href="' + fileUrl + '">' + fileName + '</a>');
     });
 
 
