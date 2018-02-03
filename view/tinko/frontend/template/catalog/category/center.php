@@ -71,14 +71,14 @@
  *     [grp_id] => 7
  *     [grp_name] => Извещатель пожарный
  *     [url] => Array (
- *       [product] => http://www.host.ru/catalog/product/37
- *       [maker] => http://www.host.ru/catalog/maker/5
- *       [image] => http://www.host.ru/files/catalog/products/small/nophoto.jpg
+ *       [product] => //www.host.ru/catalog/product/37
+ *       [maker] => //www.host.ru/catalog/maker/5
+ *       [image] => //www.host.ru/files/catalog/products/small/nophoto.jpg
  *     )
  *     [action] => Array (
- *       [basket] => http://www.host.ru/basket/addprd
- *       [wished] => http://www.host.ru/wished/addprd
- *       [compare] => http://www.host.ru/compare/addprd
+ *       [basket] => //www.host.ru/basket/addprd
+ *       [wished] => //www.host.ru/wished/addprd
+ *       [compare] => //www.host.ru/compare/addprd
  *     )
  *   )
  *   [1] => Array (
@@ -174,31 +174,31 @@
  *
  * $sortorders = Array (
  *   [0] => Array (
- *     [url] => http://www.host.ru/catalog/category/1
+ *     [url] => //www.host.ru/catalog/category/1
  *     [name] => без сортировки
  *   )
  *   [1] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/1
+ *     [url] => //www.host.ru/catalog/category/1/sort/1
  *     [name] => цена, возр.
  *   )
  *   [2] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/2
+ *     [url] => //www.host.ru/catalog/category/1/sort/2
  *     [name] => цена, убыв.
  *   )
  *   [3] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/3
+ *     [url] => //www.host.ru/catalog/category/1/sort/3
  *     [name] => название, возр.
  *   )
  *   [4] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/4
+ *     [url] => //www.host.ru/catalog/category/1/sort/4
  *     [name] => название, убыв.
  *   )
  *   [5] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/5
+ *     [url] => //www.host.ru/catalog/category/1/sort/5
  *     [name] => код, возр.
  *   )
  *   [6] => Array (
- *     [url] => http://www.host.ru/catalog/category/1/sort/6
+ *     [url] => //www.host.ru/catalog/category/1/sort/6
  *     [name] => код, убыв.
  *   )
  * )
@@ -216,42 +216,42 @@
  * $pager = Array (
  *   [first] => Array (
  *     [num] => 1
- *     [url] => http://www.host.ru/catalog/category/185
+ *     [url] => //www.host.ru/catalog/category/185
  *   )
  *   [prev] => Array (
  *     [num] => 2
- *     [url] => http://www.host.ru/catalog/category/185/page/2
+ *     [url] => //www.host.ru/catalog/category/185/page/2
  *   )
  *   [current] => Array (
  *     [num] => 3
- *     [url] => http://www.host.ru/catalog/category/185/page/3
+ *     [url] => //www.host.ru/catalog/category/185/page/3
  *   )
  *   [last] => Array (
  *     [num] => 32
- *     [url] => http://www.host.ru/catalog/category/185/page/32
+ *     [url] => //www.host.ru/catalog/category/185/page/32
  *   )
  *   [next] => Array (
  *     [num] => 4
- *     [url] => http://www.host.ru/catalog/category/185/page/4
+ *     [url] => //www.host.ru/catalog/category/185/page/4
  *   )
  *   [left] => Array (
  *     [0] => Array (
  *       [num] => 1
- *       [url] => http://www.host.ru/catalog/category/185
+ *       [url] => //www.host.ru/catalog/category/185
  *     )
  *     [1] => Array (
  *       [num] => 2
- *       [url] => http://www.host.ru/catalog/category/185/page/2
+ *       [url] => //www.host.ru/catalog/category/185/page/2
  *     )
  *   )
  *   [right] => Array (
  *     [0] => Array (
  *       [num] => 4
- *       [url] => http://www.host.ru/catalog/category/185/page/4
+ *       [url] => //www.host.ru/catalog/category/185/page/4
  *     )
  *     [1] => Array (
  *       [num] => 5
- *       [url] => http://www.host.ru/catalog/category/185/page/5
+ *       [url] => //www.host.ru/catalog/category/185/page/5
  *     )
  *   )
  * )
