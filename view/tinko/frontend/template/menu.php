@@ -34,7 +34,7 @@ defined('ZCMS') or die('Access denied');
         </li>
     <?php endforeach; ?>
     </ul>
-</div>
+</div> <!-- #menu -->
 
 <!-- Конец шаблона view/example/frontend/template/menu.php -->
 

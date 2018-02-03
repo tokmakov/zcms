@@ -196,9 +196,9 @@ defined('ZCMS') or die('Access denied');
                     </li>
                 <?php endforeach; ?>
                 </ul>
-            </div>
+            </div> <!-- #catalog-menu -->
         <?php endif; ?>
-    </div>
+    </div> <!-- .side-content -->
 </div>
 
 <div id="side-makers">
@@ -212,8 +212,8 @@ defined('ZCMS') or die('Access denied');
         <?php endforeach; ?>
         </ul>
         <p><a href="<?php echo $allMakersURL; ?>">Все производители</a></p>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-makers -->
 
 <div id="side-groups">
     <div class="side-heading">Функциональные группы</div>
@@ -226,7 +226,7 @@ defined('ZCMS') or die('Access denied');
         <?php endforeach; ?>
         </ul>
         <p><a href="<?php echo $allGroupsURL; ?>">Все функциональные группы</a></p>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-groups -->
 
 <!-- Конец шаблона view/example/frontend/template/left.php -->

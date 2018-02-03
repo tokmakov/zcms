@@ -62,8 +62,8 @@ defined('ZCMS') or die('Access denied');
             <li><a href="<?php echo $forgotFormUrl; ?>">Забыли пароль?</a></li>
         </ul>
     <?php endif; ?>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-login -->
 
 <div id="side-basket">
     <div class="side-heading">
@@ -97,8 +97,8 @@ defined('ZCMS') or die('Access denied');
         <?php else: ?>
             <p class="empty-list-right">Ваша корзина пуста</p>
         <?php endif; ?>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-basket -->
 
 <div id="side-wished">
     <div class="side-heading">
@@ -126,8 +126,8 @@ defined('ZCMS') or die('Access denied');
         <?php else: ?>
             <p class="empty-list-right">Нет отложенных товаров</p>
         <?php endif; ?>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-wished -->
 
 <div id="side-compare">
     <div class="side-heading">
@@ -163,8 +163,8 @@ defined('ZCMS') or die('Access denied');
         <?php else: ?>
             <p class="empty-list-right">Нет товаров для сравнения</p>
         <?php endif; ?>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-compare -->
 
 <div id="side-viewed">
     <div class="side-heading">
@@ -192,8 +192,8 @@ defined('ZCMS') or die('Access denied');
         <?php else: ?>
             <p class="empty-list-right">Нет просмотренных товаров</p>
         <?php endif; ?>
-    </div>
-</div>
+    </div> <!-- .side-content -->
+</div> <!-- #side-viewed -->
 
 <?php
 if (!empty($banners)):
@@ -202,7 +202,7 @@ if (!empty($banners)):
     <?php foreach ($banners as $banner): ?>
         <a href="<?php echo $banner['url']; ?>"><img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['alttext']; ?>" /></a>
     <?php endforeach; ?>
-    </div>
+    </div> <!-- #side-banner -->
 <?php endif; ?>
 
 <!-- Конец шаблона view/example/frontend/template/right.php -->

@@ -34,33 +34,33 @@ echo $headContent;
     <div class="wrapper">
         <?php echo $headerContent; ?>
     </div>
-</div>
+</div> <!-- #header -->
 
 <div id="main-menu">
     <div class="wrapper">
         <?php echo $menuContent; ?>
     </div>
-</div>
+</div> <!-- #main-menu -->
 
 <div class="wrapper">
     <div id="wrap">
         <div id="content">
             <?php echo $centerContent; ?>
-        </div>
+        </div> <!-- #content -->
     </div>
     <div id="left">
         <?php echo $leftContent; ?>
-    </div>
+    </div> <!-- #left -->
     <div id="right">
         <?php echo $rightContent; ?>
-    </div>
+    </div> <!-- #right -->
 </div>
 
 <div id="footer">
     <div class="wrapper">
         <?php echo $footerContent; ?>
     </div>
-</div>
+</div> <!-- #footer -->
 
 </body>
 </html>

@@ -29,13 +29,13 @@ defined('ZCMS') or die('Access denied');
         <span>Торговый Дом</span>
         <strong><span>Т</span>ИНКО</strong>
     </div>
-</div>
+</div> <!-- #top-logo -->
 
 <div id="top-phone">
     <div>Заказ по телефонам</div>
     <div>+7 (495) <span>708-42-13</span></div>
     <div>+7 (800) <span>200-84-65</span></div>
-</div>
+</div> <!-- #top-phone -->
 
 <div id="top-search">
     <form action="<?php echo $searchUrl; ?>" method="post">
@@ -43,7 +43,7 @@ defined('ZCMS') or die('Access denied');
         <input type="submit" name="submit" value="" />
     </form>
     <div></div>
-</div>
+</div> <!-- #top-search -->
 
 <div id="top-menu">
     <a href="<?php echo $basketUrl; ?>" title="Ваша корзина">
@@ -66,6 +66,6 @@ defined('ZCMS') or die('Access denied');
         <i class="fa fa-eye<?php if ( ! $emptyViewed) echo ' selected'; ?>"></i>&nbsp;
         <span>Вы уже смотрели</span><span>История</span>
     </a>
-</div>
+</div> <!-- #top-menu -->
 
 <!-- Конец шаблона view/example/frontend/template/header.php -->

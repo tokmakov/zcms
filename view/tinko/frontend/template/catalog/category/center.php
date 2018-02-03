@@ -341,7 +341,7 @@ for ($i = 0; $i <= 6; $i++) {
             <?php endforeach; ?>
             </ul>
         </div>
-    </div>
+    </div> <!-- #category-childs -->
 <?php endif; ?>
 
 <?php if (empty($products) && empty($group) && empty($maker) && empty($hit) && empty($new)): ?>
@@ -450,7 +450,7 @@ for ($i = 0; $i <= 6; $i++) {
             </div>
         </form>
     </div>
-</div>
+</div> <!-- #catalog-filter -->
 
 <?php if (empty($products)): ?>
     <div id="catalog-products">
@@ -485,7 +485,7 @@ for ($i = 0; $i <= 6; $i++) {
                 </li>
             <?php endforeach; ?>
         </ul>
-    </div>
+    </div> <!-- #sort-per-page -->
 
     <div class="product-list-<?php echo $view; ?>"> <!-- список товаров -->
         <?php
@@ -518,14 +518,14 @@ for ($i = 0; $i <= 6; $i++) {
                     <?php if (!empty($product['title'])): ?>
                         <h3><?php echo $product['title']; ?></h3>
                     <?php endif; ?>
-                </div>
+                </div> <!-- .product-list-heading -->
                 <div class="product-list-image">
                     <a href="<?php echo $product['url']['product']; ?>">
                         <?php if ($product['hit']): ?><span class="hit-product">Лидер продаж</span><?php endif; ?>
                         <?php if ($product['new']): ?><span class="new-product">Новинка</span><?php endif; ?>
                         <img src="<?php echo $product['url']['image']; ?>" alt="" />
                     </a>
-                </div>
+                </div> <!-- .product-list-image -->
                 <div class="product-list-info">
                     <div>
                         <span>Цена, <i class="fa fa-rub"></i>/<?php echo $units[$product['unit']]; ?></span>
@@ -543,7 +543,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <span>Производитель</span>
                         <span><a href="<?php echo $product['url']['maker']; ?>"<?php echo ($maker) ? ' class="selected"' : ''; ?>><?php echo $product['mkr_name']; ?></a></span>
                     </div>
-                </div>
+                </div> <!-- .product-list-info -->
                 <div class="product-list-basket">
                     <form action="<?php echo $product['action']['basket']; ?>" method="post" class="add-basket-form"> <!-- добавить в корзину -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
@@ -636,11 +636,11 @@ for ($i = 0; $i <= 6; $i++) {
                         <?php endif; ?>
                         <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
                     </form>
-                </div>
+                </div> <!-- .product-list-basket -->
                 <div class="product-list-descr"><?php echo $product['shortdescr']; ?></div>
             </div>
         <?php endforeach; ?>
-    </div>
+    </div> <!-- .product-list-line или .product-list-grid -->
 
     <?php if ( ! empty($pager)): /* постраничная навигация */ ?>
         <ul class="pager"> <!-- постраничная навигация -->
@@ -683,9 +683,9 @@ for ($i = 0; $i <= 6; $i++) {
                 <a href="<?php echo $pager['last']['url']; /* последняя страница */ ?>" class="last-page"></a>
             </li>
         <?php endif; ?>
-        </ul>
+        </ul> <!-- .pager -->
     <?php endif; ?>
 
-</div>
+</div> <!-- #catalog-products -->
 
 <!-- Конец шаблона view/example/frontend/template/catalog/category/center.php -->
