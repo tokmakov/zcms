@@ -60,7 +60,7 @@ defined('ZCMS') or die('Access denied');
         $category    = $savedFormData['category'];
         $keywords    = htmlspecialchars($savedFormData['keywords']);
         $description = htmlspecialchars($savedFormData['description']);
-        $excerpt     = htmlspecialchars($excerpt);
+        $excerpt     = htmlspecialchars($savedFormData['excerpt']);
         $body        = htmlspecialchars($savedFormData['body']);
         $date        = htmlspecialchars($savedFormData['date']);
         $time        = htmlspecialchars($savedFormData['time']);
