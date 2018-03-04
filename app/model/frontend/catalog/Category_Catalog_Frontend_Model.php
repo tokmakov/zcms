@@ -143,7 +143,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
             if ( ! empty($filter)) { // фильтр по параметрам подбора
                 /*
                  * получаем массив идентификаторов товаров, которые входят в функциональную
-                 * группу $group и  подходят под параметры подбора $param
+                 * группу $group и  подходят под параметры подбора $filter
                  */
                 $ids = $this->getProductsByFilter($group, $filter);
                 if ( ! empty($ids)) { // если такие товары существуют, добавляем условие
@@ -158,7 +158,7 @@ class Category_Catalog_Frontend_Model extends Catalog_Frontend_Model {
 
             /*
              * Добавляем в массив информацию об URL дочерних категорий; в общем виде URL имеет
-             * вид frontend/catalog/category/id/12/group/34/maker/56/hit/1/param/123.234-345.456,
+             * вид frontend/catalog/category/id/12/group/34/maker/56/hit/1/filter/123.234-345.456,
              * где
              * 12 — уникальный идентификатор текущей дочерней категории
              * 34 — уникальный идентификатор функциональной группы

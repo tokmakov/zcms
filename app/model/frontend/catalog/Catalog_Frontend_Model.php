@@ -134,7 +134,7 @@ abstract class Catalog_Frontend_Model extends Frontend_Model {
     /**
      * Вспомогательная функция, возвращает массив идентификаторов товаров,
      * которые входят в функциональную группу $group и  подходят под параметры
-     * подбора $param
+     * подбора $filter
      */
     protected function productsByFilter($group, $filter) {
 
