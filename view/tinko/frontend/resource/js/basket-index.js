@@ -1,4 +1,19 @@
 $(document).ready(function() {
+
+    /*
+     * Сохранить в cookie выбранную корзину
+     */
+    $('#all-baskets > li:gt(0) > a').click(function () {
+        var basket = $(this).parent().index() + 1;
+        $.cookie('basket', basket, {expires: 365, path: '/'});
+        return true;
+    });
+    // значение по умолчанию, его сохранять не нужно
+    $('#all-baskets > li:eq(0) > a').click(function () {
+        $.removeCookie('basket', {path: '/'});
+        return true;
+    });
+
     // добавление в корзину товара из списка рекомендованных
     upsellBasketHandler();
     // обновление количества товара в корзине

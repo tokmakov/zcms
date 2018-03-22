@@ -95,7 +95,7 @@ defined('ZCMS') or die('Access denied');
                 <li><a href="<?php echo $checkoutURL; ?>">Оформить заявку</a></li>
             </ul>
         <?php else: ?>
-            <p class="empty-list-right">Ваша корзина пуста</p>
+            <p class="empty-list-right">Ваша <a href="<?php echo $basketURL; ?>">корзина</a> пуста</p>
         <?php endif; ?>
     </div> <!-- .side-content -->
 </div> <!-- #side-basket -->

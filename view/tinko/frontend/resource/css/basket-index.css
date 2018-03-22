@@ -1,3 +1,17 @@
+/* покупательская корзина, список всех корзин, центральная колонка */
+#all-baskets {
+    overflow: hidden;
+    list-style: none;
+    margin-bottom: 40px;
+}
+    #all-baskets > li {
+        float: left;
+        width: 12.5%;
+        box-sizing: border-box;
+        background: #f0f0f0;
+        padding: 5px;
+        border-right: 2px solid #fff;
+    }
 /* покупательская корзина, центральная колонка */
 #basket {
     margin-bottom: 30px;

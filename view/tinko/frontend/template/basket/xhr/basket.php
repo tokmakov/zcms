@@ -54,7 +54,7 @@ defined('ZCMS') or die('Access denied');
     </ul>
 <?php else: ?>
     <!-- пустая корзина, правая колонка -->
-    <p class="empty-list-right">Ваша корзина пуста</p>
+    <p class="empty-list-right">Ваша <a href="<?php echo $thisPageURL; ?>">корзина</a> пуста</p>
 <?php endif; ?>
 ¤
 <?php if (!empty($basketProducts)): /* покупательская корзина, центральная колонка */ ?>

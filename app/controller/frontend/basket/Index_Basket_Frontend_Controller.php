@@ -48,6 +48,9 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
 
         // тип пользователя
         $type = ($this->authUser) ? $this->userFrontendModel->getUserType() : 0;
+        
+        // получаем от модели список всех корзин
+        $allBaskets = $this->basketFrontendModel->getAllBaskets();
 
         // получаем от модели массив товаров в корзине
         $basketProducts = $this->basketFrontendModel->getBasketProducts();
@@ -72,6 +75,10 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         $this->centerVars = array(
             // хлебные крошки
             'breadcrumbs'         => $breadcrumbs,
+            // массив всех корзин
+            'allBaskets'          => $allBaskets,
+            // URL страницы корзины
+            'thisPageURL'         => $this->basketFrontendModel->getURL('frontend/basket/index'),
             // атрибут action тега form
             'action'              => $this->basketFrontendModel->getURL('frontend/basket/index'),
             // ссылка для удаления всех товаров из корзины

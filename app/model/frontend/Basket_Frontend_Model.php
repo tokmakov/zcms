@@ -12,6 +12,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * списка товаров для сравнения и истории просмотренных товаров
      */
     private $visitorId;
+    
+    /*
+     * номер текущей корзины; посетителя сайта может работать с несколькими корзинами,
+     * переключаясь с одной на другую
+     */
+    private $number;
 
 
     public function __construct() {
@@ -23,7 +29,43 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             new User_Frontend_Model();
         }
         $this->visitorId = $this->register->userFrontendModel->getVisitorId();
+        
+        // номер текущей корзины
+        $this->number = 1;
+        // сохранен номер текущей корзины посетителя в cookie?
+        $time = 86400 * $this->config->user->cookie;
+        if (isset($_COOKIE['basket']) && in_array($_COOKIE['basket'], array(2,3,4,5,6,7,8))) {
+            // обновляем cookie, чтобы идентификатор хранился
+            // еще Config::getInstance()->user->cookie дней
+            setcookie('basket', $_COOKIE['basket'], time() + $time, '/');
+            $this->number = $_COOKIE['basket'];
+        }
 
+    }
+    
+    /**
+     * Функция возвращает номер текущей корзины
+     */
+    public function getBasketNumber() {
+        return $this->number;
+    }
+    
+    /**
+     * Функция возвращает массив всех корзин
+     */
+    public function getAllBaskets() {
+        $baskets = array(
+            array('number' => 1, 'name' => 'Основная',  'current' => false),
+            array('number' => 2, 'name' => 'Вторая',    'current' => false),
+            array('number' => 3, 'name' => 'Третья',    'current' => false),
+            array('number' => 4, 'name' => 'Четвертая', 'current' => false),
+            array('number' => 5, 'name' => 'Пятая',     'current' => false),
+            array('number' => 6, 'name' => 'Шестая',    'current' => false),
+            array('number' => 7, 'name' => 'Седьмая',   'current' => false),
+            array('number' => 8, 'name' => 'Восьмая',   'current' => false),
+        );
+        $baskets[$this->number-1]['current'] = true;
+        return $baskets;
     }
 
     /**
@@ -42,10 +84,13 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                   FROM
                       `baskets`
                   WHERE
-                      `visitor_id` = :visitor_id AND `product_id` = :product_id";
+                      `visitor_id` = :visitor_id AND
+                      `product_id` = :product_id AND
+                      `number`     = :number";
         $data = array(
             'visitor_id' => $this->visitorId,
             'product_id' => $productId,
+            'number'     => $this->number,
         );
         $result = $this->database->fetchOne($query, $data);
         $data['quantity'] = $quantity;
@@ -55,14 +100,16 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           `visitor_id`,
                           `product_id`,
                           `quantity`,
-                          `added`
+                          `added`,
+                          `number`
                       )
                       VALUES
                       (
                           :visitor_id,
                           :product_id,
                           :quantity,
-                          NOW() - INTERVAL ".$delay." SECOND
+                          NOW() - INTERVAL ".$delay." SECOND,
+                          :number
                       )";
         } else { // если такой товар уже есть в корзине, обновляем количество и дату
             $data['quantity'] = $data['quantity'] + $result;
@@ -75,18 +122,15 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           `quantity` = :quantity,
                           `added` = NOW() - INTERVAL ".$delay." SECOND
                       WHERE
-                          `visitor_id` = :visitor_id AND `product_id` = :product_id";
+                          `visitor_id` = :visitor_id AND
+                          `product_id` = :product_id AND
+                          `number`     = :number";
         }
         $this->database->execute($query, $data);
 
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
+            $this->removeBasketCache();
         }
     }
 
@@ -119,37 +163,38 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                           SET
                               `quantity` = :quantity
                           WHERE
-                              `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                              `product_id` = :product_id AND
+                              `visitor_id` = :visitor_id AND
+                              `number`     = :number";
                 $this->database->execute(
                     $query,
                     array(
                         'quantity'   => $value,
                         'product_id' => $key,
-                        'visitor_id' => $this->visitorId
+                        'visitor_id' => $this->visitorId,
+                        'number'     => $this->number,
                     )
                 );
             } else { // кол-во равно нулю, удаляем товар из корзины
                 $query = "DELETE FROM
                               `baskets`
                           WHERE
-                              `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                              `product_id` = :product_id AND
+                              `visitor_id` = :visitor_id AND
+                              `number`     = :number";
                 $this->database->execute(
                     $query,
                     array(
                         'product_id' => $key,
-                        'visitor_id' => $this->visitorId
+                        'visitor_id' => $this->visitorId,
+                        'number'     => $this->number,
                     )
                 );
             }
         }
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
+            $this->removeBasketCache();
         }
     }
 
@@ -160,22 +205,20 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $query = "DELETE FROM
                       `baskets`
                   WHERE
-                      `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                      `product_id` = :product_id AND
+                      `visitor_id` = :visitor_id AND
+                      `number`     = :number";
         $this->database->execute(
             $query,
             array(
                 'product_id' => $productId,
-                'visitor_id' => $this->visitorId
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number
             )
         );
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
+            $this->removeBasketCache();
         }
     }
 
@@ -219,10 +262,18 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id  AND `a`.`visible` = 1
+                      `b`.`visitor_id` = :visitor_id  AND
+                      `b`.`number` = :number AND
+                      `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC, `b`.`id` DESC";
-        $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+        );
         // добавляем URL ссылок на товары и URL ссылок для удаления товара из корзины
         foreach ($products as $key => $value) {
             // URL ссылки на страницу товара
@@ -260,7 +311,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
+        $key = __CLASS__ . '-products-visitor-' . $this->visitorId . '-number-' . $this->number;;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -292,10 +343,18 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id  AND `a`.`visible` = 1
+                      `b`.`visitor_id` = :visitor_id AND
+                      `b`.`number` = :number AND
+                      `a`.`visible` = 1
                   ORDER BY
                       `b`.`added` DESC, `b`.`id` DESC";
-        $products = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $products = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+        );
         // добавляем в массив URL ссылок на страницы товаров
         foreach($products as $key => $value) {
             $products[$key]['url'] = $this->getURL('frontend/catalog/product/id/' . $value['id']);
@@ -327,8 +386,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        return $this->database->fetch($query, array('visitor_id' => $this->visitorId));
+                      `b`.`visitor_id` = :visitor_id AND
+                      `b`.`number` = :number AND
+                      `a`.`visible` = 1";
+        $cost = $this->database->fetch(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+        );
+        return $cost;
     }
 
     /**
@@ -350,7 +418,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
+        $key = __CLASS__ . '-amount-visitor-' . $this->visitorId . '-number-' . $this->number;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -374,8 +442,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
+                      `b`.`visitor_id` = :visitor_id AND
+                      `b`.`number` = :number AND
+                      `a`.`visible` = 1";
+        $cost = $this->database->fetchOne(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+        );
+        return $cost;
     }
 
     /**
@@ -397,7 +474,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
          * в кэше не актуальны, будет выполнен запрос к базе данных
          */
         // уникальный ключ доступа к кэшу
-        $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
+        $key = __CLASS__ . '-count-visitor-' . $this->visitorId . '-number-' . $this->number;
         // имя этой функции (метода)
         $function = __FUNCTION__;
         // арументы, переданные этой функции
@@ -420,8 +497,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                       INNER JOIN `makers` `d` ON `a`.`maker` = `d`.`id`
                       INNER JOIN `groups` `e` ON `a`.`group` = `e`.`id`
                   WHERE
-                      `b`.`visitor_id` = :visitor_id AND `a`.`visible` = 1";
-        return $this->database->fetchOne($query, array('visitor_id' => $this->visitorId));
+                      `b`.`visitor_id` = :visitor_id AND
+                      `b`.`number` = :number AND
+                      `a`.`visible` = 1";
+        $count = $this->database->fetchOne(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+       );
+        return $count;
     }
 
     /**
@@ -431,16 +517,18 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         $query = "DELETE FROM
                       `baskets`
                   WHERE
-                      `visitor_id` = :visitor_id";
-        $this->database->execute($query, array('visitor_id' => $this->visitorId));
+                      `visitor_id` = :visitor_id AND
+                      `number` = :number";
+        $this->database->execute(
+            $query,
+            array(
+                'visitor_id' => $this->visitorId,
+                'number'     => $this->number,
+            )
+        );
         // удаляем кэш, потому как он теперь не актуален
         if ($this->enableDataCache) {
-            $key = __CLASS__ . '-products-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $this->visitorId;
-            $this->cache->removeValue($key);
+            $this->removeBasketCache();
         }
     }
 
@@ -755,10 +843,24 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($newVisitorId == $oldVisitorId) {
             return;
         }
-
+        
         /*
-         * Объединяем корзины, т.е. заменяем идентификатор посетителя сайта
+         * Чтобы очистить кэш, надо последовательно сделать текущей каждую
+         * из корзин посетителя, удалить кэш этой корзины и потом вернуть
+         * «как было» — сделать текущей ту корзину, которая была изначально
          */
+        if ($this->enableDataCache) {
+            // кэш (ещё) не авторизованного посетителя,
+            // т.к. $this->visitorId еще не изменился
+            $number = $this->number;
+            for ($i = 1; $i < 9; $i++) {
+                $this->number = $i;
+                $this->removeBasketCache();
+            }
+            $this->number = $number;
+        }
+        
+        // объединяем корзины, т.е. заменяем идентификатор посетителя сайта
         $query = "UPDATE
                       `baskets`
                   SET
@@ -772,26 +874,38 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                 'new_visitor_id' => $newVisitorId
             )
         );
-
-        // удаляем кэш, потому как он теперь не актуален
+        // перебираем все восемь корзин и для каждой вызываем вспомогательную
+        // функцию для удаления коллизий в таблице БД `baskets`
+        for ($number = 1; $number < 9; $number++) {
+            $this->mergeBaskets($number, $oldVisitorId, $newVisitorId);
+        }
+        
+        $this->visitorId = $newVisitorId;
+        
+        /*
+         * Чтобы очистить кэш, надо последовательно сделать текущей каждую
+         * из корзин пользователя, удалить кэш этой корзины и потом вернуть
+         * «как было» — сделать текущей ту корзину, которая была изначально
+         */
         if ($this->enableDataCache) {
-            // кэш (ещё) не авторизованного посетителя
-            $key = __CLASS__ . '-products-visitor-' . $oldVisitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $oldVisitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $oldVisitorId;
-            $this->cache->removeValue($key);
-            // кэш (уже) авторизованного пользователя
-            $key = __CLASS__ . '-products-visitor-' . $newVisitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-amount-visitor-' . $newVisitorId;
-            $this->cache->removeValue($key);
-            $key = __CLASS__ . '-count-visitor-' . $newVisitorId;
-            $this->cache->removeValue($key);
+            // кэш (уже) авторизованного пользователя,
+            // т.к. $this->visitorId мы уже изменили
+            $number = $this->number;  // 
+            for ($i = 1; $i < 9; $i++) {
+                $this->number = $i;
+                $this->removeBasketCache();
+            }
+            $this->number = $number;
         }
 
-        $this->visitorId = $newVisitorId;
+    }
+
+    /**
+     * Вспомогательная функция для объединения корзин (ещё) не авторизованного
+     * посетителя и (уже) авторизованного пользователя сразу после авторизации;
+     * вызывается для каждой корзины
+     */    
+    private function mergeBaskets($number, $oldVisitorId, $newVisitorId) {
 
         // если в корзине пользователя есть два одинаковых товара
         $query = "SELECT
@@ -800,12 +914,18 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                   FROM
                       `baskets`
                   WHERE
-                      `visitor_id` = :visitor_id
+                      `visitor_id` = :visitor_id AND `number` = :number
                   GROUP BY
                       `product_id`
                   HAVING
                       COUNT(*) > 1";
-        $res = $this->database->fetchAll($query, array('visitor_id' => $this->visitorId));
+        $res = $this->database->fetchAll(
+            $query,
+            array(
+                'visitor_id' => $newVisitorId,
+                'number'     => $number,
+            )
+        );
         if (empty($res)) { // одинаковых товаров нет, больше ничего делать не надо
             return;
         }
@@ -814,13 +934,17 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $query = "DELETE FROM
                           `baskets`
                       WHERE
-                          `id` < :id AND `product_id` = :product_id AND `visitor_id` = :visitor_id";
+                          `id` < :id AND
+                          `product_id` = :product_id AND
+                          `visitor_id` = :visitor_id AND
+                          `number`     = :number";
             $this->database->execute(
                 $query,
                 array(
                     'id'         => $item['id'],
                     'product_id' => $item['product_id'],
-                    'visitor_id' => $this->visitorId
+                    'visitor_id' => $newVisitorId,
+                    'number'     => $number,
                 )
             );
             // ... и увеличиваем кол-во товара, который был добавлен позже
@@ -837,8 +961,21 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                     'quantity' => $item['quantity']
                 )
             );
-        }
-
+        }    
+    
+    }
+    
+    /**
+     * Функция очищает кэш корзины в момент добавления товара, удаления
+     * товара или обновления корзины
+     */
+    private function removeBasketCache() {
+        $key = __CLASS__ . '-products-visitor-' . $this->visitorId . '-number-' . $this->number;
+        $this->cache->removeValue($key);
+        $key = __CLASS__ . '-amount-visitor-' . $this->visitorId . '-number-' . $this->number;
+        $this->cache->removeValue($key);
+        $key = __CLASS__ . '-count-visitor-' . $this->visitorId . '-number-' . $this->number;
+        $this->cache->removeValue($key);
     }
 
     /**

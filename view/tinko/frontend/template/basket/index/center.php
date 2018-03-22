@@ -5,6 +5,8 @@
  *
  * Переменные, которые приходят в шаблон:
  * $breadcrumbs - хлебные крошки
+ * $allBaskets - массив всех корзин
+ * $thisPageURL - URL этой страницы
  * $action - атрибут action тега form
  * $clearBasketURL - ссылка для удаления всех товаров из корзины
  * $basketProducts - массив товаров в корзине
@@ -31,6 +33,18 @@ defined('ZCMS') or die('Access denied');
 <?php endif; ?>
 
 <h1>Корзина</h1>
+
+<ul id="all-baskets">
+<?php foreach($allBaskets as $basket): ?>
+    <li>
+        <?php if ($basket['current']): ?>
+            <span class="selected"><?php echo $basket['name'] ?></span>
+        <?php else: ?>
+            <a href="<?php echo $thisPageURL; ?>"><?php echo $basket['name'] ?></a>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
 
 <div id="basket">
 <?php if (!empty($basketProducts)): ?>
