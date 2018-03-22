@@ -9,9 +9,18 @@
         width: 12.5%;
         box-sizing: border-box;
         background: #f0f0f0;
-        padding: 5px;
+        padding: 4px;
         border-right: 2px solid #fff;
     }
+        #all-baskets > li > * {
+            font-size: 13px;
+        }
+        #all-baskets > li > i {
+            font-style: normal;
+            font-size: 9px;
+            position: relative;
+            top: -1px;
+        }
 /* покупательская корзина, центральная колонка */
 #basket {
     margin-bottom: 30px;

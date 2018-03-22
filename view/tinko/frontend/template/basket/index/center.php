@@ -38,9 +38,9 @@ defined('ZCMS') or die('Access denied');
 <?php foreach($allBaskets as $basket): ?>
     <li>
         <?php if ($basket['current']): ?>
-            <span class="selected"><?php echo $basket['name'] ?></span>
+            <span class="selected"><?php echo $basket['name'] ?></span> <i>(<?php echo $basket['count']; ?>)</i>
         <?php else: ?>
-            <a href="<?php echo $thisPageURL; ?>"><?php echo $basket['name'] ?></a>
+            <a href="<?php echo $thisPageURL; ?>"><?php echo $basket['name'] ?></a> <i>(<?php echo $basket['count']; ?>)</i>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

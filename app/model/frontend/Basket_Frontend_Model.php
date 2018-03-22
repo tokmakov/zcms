@@ -65,6 +65,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             array('number' => 8, 'name' => 'Восьмая',   'current' => false),
         );
         $baskets[$this->number-1]['current'] = true;
+        $current = $this->number;
+        foreach ($baskets as $key => $value) {
+            $this->number = $value['number'];
+            $baskets[$key]['count'] = $this->getBasketCount();
+        }
+        $this->number = $current;
         return $baskets;
     }
 
