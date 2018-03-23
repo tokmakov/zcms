@@ -8,6 +8,7 @@
  * $basketTotalCost - общая стоимость товаров в корзине
  * $basketURL - URL страницы с корзиной
  * $checkoutURL - URL страницы с формой для оформления заказа
+ * $basketName - имя (номер) корзины
  * $wishedProducts - массив последних 10 отложенных товаров
  * $wishedURL - URL страницы со списком всех отложенных товаров
  * $compareProducts - массив последних 10 товаров для сравнения
@@ -68,7 +69,7 @@ defined('ZCMS') or die('Access denied');
 <div id="side-basket">
     <div class="side-heading">
         <span>
-            <i class="fa fa-shopping-basket"></i>&nbsp;&nbsp;<span>Ваша корзина</span>
+            <i class="fa fa-shopping-basket"></i>&nbsp;&nbsp;<span>Ваша корзина</span> <i>(<?php echo $basketName; ?>)</i>
         </span>
     </div>
     <div class="side-content">

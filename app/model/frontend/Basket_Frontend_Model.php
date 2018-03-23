@@ -12,7 +12,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * списка товаров для сравнения и истории просмотренных товаров
      */
     private $visitorId;
-    
+
     /*
      * номер текущей корзины; посетителя сайта может работать с несколькими корзинами,
      * переключаясь с одной на другую
@@ -29,7 +29,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             new User_Frontend_Model();
         }
         $this->visitorId = $this->register->userFrontendModel->getVisitorId();
-        
+
         // номер текущей корзины
         $this->number = 1;
         // сохранен номер текущей корзины посетителя в cookie?
@@ -42,14 +42,30 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
     }
-    
+
     /**
      * Функция возвращает номер текущей корзины
      */
     public function getBasketNumber() {
         return $this->number;
     }
-    
+
+    /**
+     * Функция возвращает имя текущей корзины
+     */
+    public function getBasketName() {
+        switch ($this->number) {
+            case 1 : return 'основная';
+            case 2 : return 'вторая';
+            case 3 : return 'третья';
+            case 4 : return 'четвертая';
+            case 5 : return 'пятая';
+            case 6 : return 'шестая';
+            case 7 : return 'седьмая';
+            case 8 : return 'восьмая';
+        }
+    }
+
     /**
      * Функция возвращает массив всех корзин
      */
@@ -849,7 +865,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($newVisitorId == $oldVisitorId) {
             return;
         }
-        
+
         /*
          * Чтобы очистить кэш, надо последовательно сделать текущей каждую
          * из корзин посетителя, удалить кэш этой корзины и потом вернуть
@@ -865,7 +881,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             }
             $this->number = $number;
         }
-        
+
         // объединяем корзины, т.е. заменяем идентификатор посетителя сайта
         $query = "UPDATE
                       `baskets`
@@ -885,9 +901,9 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         for ($number = 1; $number < 9; $number++) {
             $this->mergeBaskets($number, $oldVisitorId, $newVisitorId);
         }
-        
+
         $this->visitorId = $newVisitorId;
-        
+
         /*
          * Чтобы очистить кэш, надо последовательно сделать текущей каждую
          * из корзин пользователя, удалить кэш этой корзины и потом вернуть
@@ -896,7 +912,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($this->enableDataCache) {
             // кэш (уже) авторизованного пользователя,
             // т.к. $this->visitorId мы уже изменили
-            $number = $this->number;  // 
+            $number = $this->number;  //
             for ($i = 1; $i < 9; $i++) {
                 $this->number = $i;
                 $this->removeBasketCache();
@@ -910,7 +926,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      * Вспомогательная функция для объединения корзин (ещё) не авторизованного
      * посетителя и (уже) авторизованного пользователя сразу после авторизации;
      * вызывается для каждой корзины
-     */    
+     */
     private function mergeBaskets($number, $oldVisitorId, $newVisitorId) {
 
         // если в корзине пользователя есть два одинаковых товара
@@ -967,10 +983,10 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                     'quantity' => $item['quantity']
                 )
             );
-        }    
-    
+        }
+
     }
-    
+
     /**
      * Функция очищает кэш корзины в момент добавления товара, удаления
      * товара или обновления корзины

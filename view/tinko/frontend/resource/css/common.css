@@ -2999,7 +2999,7 @@ form#center-search-form {
             line-height: 16px;
             border-bottom: 1px dashed #323232;
         }
-        #right .side-heading > span > i {
+        #right .side-heading > span > i:first-child {
             font-size: 18px;
             position: relative;
             top: 2px;
@@ -3011,6 +3011,10 @@ form#center-search-form {
             #right .side-heading > span > i.fa-shopping-basket {
                 font-size: 16px;
             }
+        #right .side-heading > span > i:last-child {
+            font-style: normal;
+            font-size: 12px;
+        }
 
 /* пустая корзина, пустой список сравнения, пустой список отложенных товаров */
 #right .side-content .empty-list-right {

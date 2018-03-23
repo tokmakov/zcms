@@ -450,6 +450,8 @@ abstract class Frontend_Controller extends Base_Controller {
         $this->rightVars['basketURL']        = $this->basketFrontendModel->getURL('frontend/basket/index');
         // URL ссылки на страницу оформления заказа
         $this->rightVars['checkoutURL']      = $this->basketFrontendModel->getURL('frontend/basket/checkout');
+        // название (номер) корзины
+        $this->rightVars['basketName']       = $this->basketFrontendModel->getBasketName();
         // массив отложенных товаров (избранное)
         $this->rightVars['wishedProducts']   = $sideWishedProducts;
         // URL ссылки на страницу отложенных товаров
