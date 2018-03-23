@@ -73,6 +73,7 @@ class Xhr_Upsell_Basket_Frontend_Controller extends Basket_Frontend_Controller {
          * 1. Таблица товаров в корзине, правая колонка
          * 2. Таблица товаров в корзине, центральная колонка
          * 3. Список рекомендованных товаров (с этими товарами покупают)
+         * 4. Кол-во позиций в корзине
          */
         $output = $this->render(
             $this->config->site->theme . '/frontend/template/basket/xhr/basket.php',
@@ -97,6 +98,8 @@ class Xhr_Upsell_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'userAmount'          => $userAmount,
                 // массив единиц измерения товара
                 'units'               => $this->basketFrontendModel->getUnits(),
+                // количество позиций в корзине
+                'count'               => $this->basketFrontendModel->getBasketCount(),
                 // тип пользователя
                 'type'                => $type,
                 // массив рекомендованных товаров
@@ -105,7 +108,12 @@ class Xhr_Upsell_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         );
         // разделяем три фрагмента html-кода по символу ¤
         $output = explode('¤', $output);
-        $result = array('side' => $output[0], 'center' => $output[1], 'upsell' => $output[2]);
+        $result = array(
+            'side' => $output[0],
+            'center' => $output[1],
+            'upsell' => $output[2],
+            'count' => $output[3]
+        );
         // преобразуем массив в формат JSON
         $this->output = json_encode($result);
     }

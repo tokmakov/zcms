@@ -109,6 +109,8 @@ $(document).ready(function() {
                 $('#basket').html(dt.center);
                 // третий блок: рекомендованные товары
                 $('#upsell').html(dt.upsell);
+                // четвертый блок: кол-во позиций в корзине
+                $('#all-baskets > li > span.selected').next('i').html(dt.count);
                 // добавляем обработчики для добавления рекомендованных
                 // товаров в корзину
                 upsellBasketHandler();
@@ -173,6 +175,8 @@ $(document).ready(function() {
                 $('#basket').html(dt.center);
                 // третий блок: рекомендованные товары
                 $('#upsell').html(dt.upsell);
+                // четвертый блок: кол-во позиций в корзине
+                $('#all-baskets > li > span.selected').next('i').html(dt.count);
                 // добавляем обработчики для добавления рекомендованных
                 // товаров в корзину
                 upsellBasketHandler();
@@ -242,6 +246,8 @@ $(document).ready(function() {
                 $('#basket').html(data.center);
                 // третий блок: рекомендованные товары
                 $('#upsell').html(data.upsell);
+                // четвертый блок: кол-во позиций в корзине
+                $('#all-baskets > li > span.selected').next('i').html(data.count);
                 // добавляем обработчики для добавления рекомендованных
                 // товаров в корзину
                 upsellBasketHandler();

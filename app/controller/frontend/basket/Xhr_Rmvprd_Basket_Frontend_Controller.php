@@ -83,6 +83,8 @@ class Xhr_Rmvprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
                 'userAmount'          => $userAmount,
                 // массив единиц измерения товара
                 'units'               => $this->basketFrontendModel->getUnits(),
+                // количество позиций в корзине
+                'count'               => $this->basketFrontendModel->getBasketCount(),
                 // тип пользователя
                 'type'                => $type,
                 // массив рекомендованных товаров
@@ -91,7 +93,12 @@ class Xhr_Rmvprd_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         );
         // разделяем три фрагмента html-кода по символу ¤
         $output = explode('¤', $output);
-        $result = array('side' => $output[0], 'center' => $output[1], 'upsell' => $output[2]);
+        $result = array(
+            'side' => $output[0],
+            'center' => $output[1],
+            'upsell' => $output[2],
+            'count' => $output[3]
+        );
         // преобразуем массив в формат JSON
         $this->output = json_encode($result);
     }

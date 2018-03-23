@@ -28,11 +28,11 @@ require 'app/config/protector.php';
 
 $config = array(
     'site' => array(
-        'name'   => 'Торговый Дом ТИНКО',
-        'phone'  => '+7 (495) 708-42-13',
-        'email'  => 'tinko@tinko.info',
-        'url'    => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
-        'theme'  => 'view/tinko', // путь к папке с темой
+        'name'  => 'Торговый Дом ТИНКО',
+        'phone' => '+7 (495) 708-42-13',
+        'email' => 'tinko@tinko.info',
+        'url'   => '//www.host2.ru/', /* //server.com/ или http://server.com/ или https://server.com/ */
+        'theme' => 'view/tinko', // путь к папке с темой
     ),
     'admin' => array( // логин-пароль администратора сайта
         'name'     => 'admin',
@@ -61,15 +61,15 @@ $config = array(
         'cookie' => 365, // время хранения уникального идентификатора посетителя в днях
     ),
 
-    'database'  => $database,                    // см. файл app/config/database.php
-    'sef'       => $routing,                     // см. файл app/config/routing.php
-    'cache'     => $cache,                       // см. файл app/config/cache.php
-    'cdn'       => $cdn,                         // см. файл app/config/cdn.php
-    'meta'      => $meta,                        // см. файл app/config/meta.php
-    'css'       => $css,                         // см. файл app/config/css.php
-    'js'        => $js,                          // см. файл app/config/js.php
-    'pager'     => $pager,                       // см. файл app/config/pager.php
-    'protector' => $protector,                   // см. файл app/config/protector.php
+    'database' => $database,                    // см. файл app/config/database.php
+    'sef'      => $routing,                     // см. файл app/config/routing.php
+    'cache'    => $cache,                       // см. файл app/config/cache.php
+    'cdn'      => $cdn,                         // см. файл app/config/cdn.php
+    'meta'     => $meta,                        // см. файл app/config/meta.php
+    'css'      => $css,                         // см. файл app/config/css.php
+    'js'       => $js,                          // см. файл app/config/js.php
+    'pager'    => $pager,                       // см. файл app/config/pager.php
+    'protector' => $protector,                  // см. файл app/config/protector.php
 
 );
 
