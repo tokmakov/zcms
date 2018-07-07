@@ -195,10 +195,11 @@ defined('ZCMS') or die('Access denied');
                     <div>
                         <select name="payer_profile">
                             <option value="0">Выберите</option>
-                        <?php foreach ($profiles as $profile): ?>
-                            <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
-                        <?php endforeach; ?>
+                            <?php foreach ($profiles as $profile): ?>
+                                <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
+                            <?php endforeach; ?>
                         </select>
+                        <input type="submit" name="payer" value="Выбрать" />
                     </div>
                 </div>
             </div>
@@ -305,6 +306,7 @@ defined('ZCMS') or die('Access denied');
                                 <option value="<?php echo $profile['id']; ?>"><?php echo $profile['title']; ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <input type="submit" name="getter" value="Выбрать" />
                     </div>
                 </div>
             </div>
@@ -425,7 +427,7 @@ defined('ZCMS') or die('Access denied');
     </div>
 
     <div>
-        <input type="submit" name="submit" value="Отправить" />
+        <input type="submit" name="checkout" value="Отправить" />
     </div>
 
 </form>

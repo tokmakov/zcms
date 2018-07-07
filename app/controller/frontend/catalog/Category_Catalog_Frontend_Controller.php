@@ -421,7 +421,7 @@ class Category_Catalog_Frontend_Controller extends Catalog_Frontend_Controller {
         if ($sort) {
             $url = $url . '/sort/' . $sort;
         }
-        if ($perpage !== $this->config->pager->frontend->products->perpage) {
+        if ($perpage) {
             $url = $url . '/perpage/' . $perpage;
         }
         $clearFilterURL = $this->categoryCatalogFrontendModel->getURL($url);

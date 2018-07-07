@@ -27,6 +27,12 @@ $(document).ready(function() {
         }
     };
 
+    // скрываем кнопки отправки для выбора профиля плательщика и получателя
+    $('#checkout-order > #payer-order > #payer-profile input').hide();
+    $('#checkout-order > #payer-order > #payer-profile select').css('width', '100%');
+    $('#checkout-order > #getter-order > #getter-profile input').hide();
+    $('#checkout-order > #getter-order > #getter-profile select').css('width', '100%');
+
     // всплывающее окно с подсказкой для юридического лица
     $('#checkout-order .company-checkbox-help').click(function() {
         $('<div><p>Отметьте флажок, чтобы оформить заявку на юридическое лицо.</p><p>Укажите название компании, юр.адрес, ИНН, банк, БИК, номер счета.</p></div>')

@@ -25,7 +25,7 @@ abstract class Base_Controller extends Base {
      *    - в index.php, сразу после вызова request(), вызывается метод isNotFoundRecord(),
      *      который определен в Base_Controller
      *    - поскольку isNotFoundRecord() возвращает true, создается экземпляр класса
-     *      контроллераIndex_Notfound_Frontend_Controller или Index_Notfound_Backend_Controller,
+     *      контроллера Index_Notfound_Frontend_Controller или Index_Notfound_Backend_Controller,
      *      которые сформируют страницу 404 Not Found
      *    - в конструкторе Index_Notfound_Frontend_Controller, Index_Notfound_Backend_Controller
      *      переменная $notFound устанавливается в true, что позволяет отправить заголовок при

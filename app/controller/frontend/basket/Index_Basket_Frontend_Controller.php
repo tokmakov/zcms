@@ -52,14 +52,14 @@ class Index_Basket_Frontend_Controller extends Basket_Frontend_Controller {
         // получаем от модели список всех корзин
         $allBaskets = $this->basketFrontendModel->getAllBaskets();
 
-        // получаем от модели массив товаров в корзине
+        // получаем от модели массив товаров в текущей корзине
         $basketProducts = $this->basketFrontendModel->getBasketProducts();
 
-        // общая стоимость товаров в корзине
+        // общая стоимость товаров в текущей корзине
         $temp = $this->basketFrontendModel->getTotalCost();
-        // общая стоимость товаров в корзине без учета скидки
+        // общая стоимость товаров в текущей корзине без учета скидки
         $amount = $temp['amount'];
-        // общая стоимость товаров в корзине с учетом скидки
+        // общая стоимость товаров в текущей корзине с учетом скидки
         $userAmount = $temp['user_amount'];
 
         // получаем от модели массив рекомендованных товаров

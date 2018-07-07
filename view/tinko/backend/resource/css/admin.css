@@ -17,7 +17,8 @@
             float: left;
             width: 70%;
         }
-            #login-admin > div > div:last-child > input[type="text"] {
+            #login-admin > div > div:last-child > input[type="text"],
+            #login-admin > div > div:last-child > input[type="password"] {
                 width: 100%;
                 box-sizing: border-box;
                 padding: 3px;

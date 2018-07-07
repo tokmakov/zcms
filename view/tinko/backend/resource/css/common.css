@@ -142,7 +142,7 @@ body > .wrapper {
 }
 
 /* формы */
-form input[type="text"], select, textarea {
+form input[type="text"], form input[type="password"], form select, form textarea {
     box-sizing: border-box;
     padding: 5px;
     border: 1px solid #d1d1d1;

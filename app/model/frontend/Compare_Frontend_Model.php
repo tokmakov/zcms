@@ -67,7 +67,7 @@ class Compare_Frontend_Model extends Frontend_Model implements SplObserver {
         );
         // функциональная группа нового товара
         $newProductGroupId = $this->getProductGroup($productId);
-        // товара не найден и не может быть добавлен к сравнению
+        // товар не найден и не может быть добавлен к сравнению
         if (false === $newProductGroupId) {
             return false;
         }

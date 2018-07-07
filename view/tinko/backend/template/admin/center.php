@@ -22,7 +22,7 @@ defined('ZCMS') or die('Access denied');
     </div>
     <div>
         <div>Пароль</div>
-        <div><input type="text" name="password" maxlength="32" value="" /></div>
+        <div><input type="password" name="password" maxlength="32" value="" /></div>
     </div>
     <div>
         <div></div>

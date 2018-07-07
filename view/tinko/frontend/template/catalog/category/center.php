@@ -282,6 +282,7 @@ for ($i = 0; $i <= 6; $i++) {
         case 6: $text = 'код';        $class = 'sort-desc-blue'; break;
     }
     if ($sort && $i == $sort) {
+    	// выбранная сортировка выделена цветом
         $class = str_replace('blue', 'orange', $class);
     }
     $sortorders[$i]['name'] = $text;
@@ -315,9 +316,11 @@ for ($i = 0; $i <= 6; $i++) {
         <div>
             <ul>
             <?php
-                // определяем, нужно ли выводить список в две колонки (два элемента <ul>, оба float: left)
-                // или достаточно одной; если дочерних категорий мало, выводим список в одну колонку, если
-                // дочерних категорий много, выводим в две колонки
+                /*
+                 * Определяем, нужно ли выводить список в две колонки (два элемента <ul>, оба float: left)
+                 * или достаточно одной; если дочерних категорий мало, выводим список в одну колонку, если
+                 * дочерних категорий много, выводим в две колонки
+                 */
                 $border = 0;
                 $divide = 0;
                 $cnt = count($categories);
@@ -334,7 +337,7 @@ for ($i = 0; $i <= 6; $i++) {
                         <span><span><?php echo $item['name']; ?></span> <span>0</span></span>
                     <?php endif; ?>
                 </li>
-                <?php if ($divide && $divide == ($key+1)): ?>
+                <?php if ($divide && $divide == ($key+1)): /* два элемента <ul>, две колонки */ ?>
                     </ul>
                     <ul>
                 <?php endif; ?>
@@ -439,10 +442,10 @@ for ($i = 0; $i <= 6; $i++) {
                 </div>
             </div>
             <div>
-                <?php if ($sort): ?>
+                <?php if ($sort): /* скрытый input для передачи выбранной сортировки */ ?>
                     <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                 <?php endif; ?>
-                <?php if ($perpage): ?>
+                <?php if ($perpage): /* скрытый input для передачи выбранного кол-ва товаров на страницу */ ?>
                     <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                 <?php endif; ?>
                 <input type="hidden" name="change" value="0" />
@@ -493,9 +496,9 @@ for ($i = 0; $i <= 6; $i++) {
              * При добавлении товара в корзину, в избранное, к сравнению — отправляются данные формы.
              * Если нет поддержки JavaScript, данные будут отправляться с перезагрузкой страницы,
              * т.е. без использования объекта XmlHttpRequest. На этот случай надо в форму добавить
-             * множество полей (фильтр по функционалу, производителю, новинкам и лидерам продаж,
-             * сортировка, номер страницы и т.п.), чтобы восстановить исходную страницу после
-             * перезагрузки. Переменная $prm содержит параметры подбора для категории каталога $id и
+             * множество скрытых полей (фильтр по функционалу, производителю, новинкам и лидерам
+             * продаж, сортировка, номер страницы и т.п.), чтобы восстановить исходную страницу после
+             * перезагрузки. Переменная $fltr содержит параметры подбора для категории каталога $id и
              * выбранной из списка <select name="group"> функциональной группы в формате 12.34-56.78,
              * где
              * 12, 56 — уникальные идентификаторы параметров подбора
@@ -549,29 +552,29 @@ for ($i = 0; $i <= 6; $i++) {
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="text" name="count" value="1" size="5" />
                         <input type="hidden" name="return" value="category" />
-                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
+                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; /* куда перенаправить пользователя после добавления товара в корзину */ ?>" />
+                        <?php if ($group): /* фильтры: выбранная функциональная группа */ ?>
                             <input type="hidden" name="group" value="<?php echo $group; ?>" />
                         <?php endif; ?>
-                        <?php if ($maker): ?>
+                        <?php if ($maker): /* фильтры: выбранный производитель */ ?>
                             <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
-                        <?php if ($hit): ?>
+                        <?php if ($hit): /* фильтры: отмечен checkbox «Лидер продаж»? */ ?>
                             <input type="hidden" name="hit" value="1" />
                         <?php endif; ?>
-                        <?php if ($new): ?>
+                        <?php if ($new): /* фильтры: отмечен checkbox «Новинка»? */ ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($fltr)): ?>
+                        <?php if ( ! empty($fltr)): /* фильтры: параметры подбора (напряжение питания, способ подключения и т.п.) */ ?>
                             <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
-                        <?php if ($sort): ?>
+                        <?php if ($sort): /* выбрана сортировка, отличная от сортировки по умолчанию? */ ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
-                        <?php if ($perpage): ?>
+                        <?php if ($perpage): /* выбрано кол-во товаров на страницу, отличное от значения по умолчанию? */ ?>
                             <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
-                        <?php if ($page > 1): ?>
+                        <?php if ($page > 1): /* номер текущей страницы, постраничная навигация */ ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В корзину" title="Добавить в корзину" />
@@ -579,29 +582,29 @@ for ($i = 0; $i <= 6; $i++) {
                     <form action="<?php echo $product['action']['wished']; ?>" method="post" class="add-wished-form"> <!-- добавить в избранное -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
-                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
+                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; /* куда перенаправить пользователя после добавления товара в избранное */ ?>" />
+                        <?php if ($group): /* фильтры: выбранная функциональная группа */ ?>
                             <input type="hidden" name="group" value="<?php echo $group; ?>" />
                         <?php endif; ?>
-                        <?php if ($maker): ?>
+                        <?php if ($maker): /* фильтры: выбранный производитель */ ?>
                             <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
-                        <?php if ($hit): ?>
+                        <?php if ($hit): /* фильтры: отмечен checkbox «Лидер продаж»? */ ?>
                             <input type="hidden" name="hit" value="1" />
                         <?php endif; ?>
-                        <?php if ($new): ?>
+                        <?php if ($new): /* фильтры: отмечен checkbox «Новинка»? */ ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($fltr)): ?>
+                        <?php if ( ! empty($fltr)): /* фильтры: параметры подбора (напряжение питания, способ подключения и т.п.) */ ?>
                             <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
-                        <?php if ($sort): ?>
+                        <?php if ($sort): /* выбрана сортировка, отличная от сортировки по умолчанию? */ ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
-                        <?php if ($perpage): ?>
+                        <?php if ($perpage): /* выбрано кол-во товаров на страницу, отличное от значения по умолчанию? */  ?>
                             <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
-                        <?php if ($page > 1): ?>
+                        <?php if ($page > 1): /* номер текущей страницы, постраничная навигация */ ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
                         <input type="submit" name="submit" value="В избранное" title="Добавить в избранное" />
@@ -609,29 +612,29 @@ for ($i = 0; $i <= 6; $i++) {
                     <form action="<?php echo $product['action']['compare']; ?>" method="post" class="add-compare-form" data-group="<?php echo $product['grp_id']; ?>"> <!-- добавить к сравнению -->
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
                         <input type="hidden" name="return" value="category" />
-                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; ?>" />
-                        <?php if ($group): ?>
+                        <input type="hidden" name="return_ctg_id" value="<?php echo $id; /* куда перенаправить пользователя после добавления товара к сравнению */ ?>" />
+                        <?php if ($group): /* фильтры: выбранная функциональная группа */ ?>
                             <input type="hidden" name="group" value="<?php echo $group; ?>" />
                         <?php endif; ?>
-                        <?php if ($maker): ?>
+                        <?php if ($maker): /* фильтры: выбранный производитель */ ?>
                             <input type="hidden" name="maker" value="<?php echo $maker; ?>" />
                         <?php endif; ?>
-                        <?php if ($hit): ?>
+                        <?php if ($hit): /* фильтры: отмечен checkbox «Лидер продаж»? */ ?>
                             <input type="hidden" name="hit" value="1" />
                         <?php endif; ?>
-                        <?php if ($new): ?>
+                        <?php if ($new): /* фильтры: отмечен checkbox «Новинка»? */ ?>
                             <input type="hidden" name="new" value="1" />
                         <?php endif; ?>
-                        <?php if ( ! empty($fltr)): ?>
+                        <?php if ( ! empty($fltr)): /* фильтры: параметры подбора (напряжение питания, способ подключения и т.п.) */ ?>
                             <input type="hidden" name="filter" value="<?php echo $fltr; ?>" />
                         <?php endif; ?>
-                        <?php if ($sort): ?>
+                        <?php if ($sort): /* выбрана сортировка, отличная от сортировки по умолчанию? */ ?>
                             <input type="hidden" name="sort" value="<?php echo $sort; ?>" />
                         <?php endif; ?>
-                        <?php if ($perpage): ?>
+                        <?php if ($perpage): /* выбрано кол-во товаров на страницу, отличное от значения по умолчанию? */ ?>
                             <input type="hidden" name="perpage" value="<?php echo $perpage; ?>" />
                         <?php endif; ?>
-                        <?php if ($page > 1): ?>
+                        <?php if ($page > 1): /* номер текущей страницы, постраничная навигация */ ?>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
                         <?php endif; ?>
                         <input type="submit" name="submit" value="К сравнению" title="Добавить к сравнению" />
@@ -654,7 +657,7 @@ for ($i = 0; $i <= 6; $i++) {
                 <a href="<?php echo $pager['prev']['url']; /* предыдущая страница */ ?>" class="prev-page"></a>
             </li>
         <?php endif; ?>
-        <?php if (isset($pager['left'])): ?>
+        <?php if (isset($pager['left'])): /* 1,2,3 страницы слева от текущей */ ?>
             <?php foreach ($pager['left'] as $left) : ?>
                 <li>
                     <a href="<?php echo $left['url']; ?>"><?php echo $left['num']; ?></a>
@@ -666,7 +669,7 @@ for ($i = 0; $i <= 6; $i++) {
                 <span><?php echo $pager['current']['num']; /* текущая страница */ ?></span>
             </li>
 
-        <?php if (isset($pager['right'])): ?>
+        <?php if (isset($pager['right'])): /* 1,2,3 страницы справа от текущей */  ?>
             <?php foreach ($pager['right'] as $right) : ?>
                 <li>
                     <a href="<?php echo $right['url']; ?>"><?php echo $right['num']; ?></a>

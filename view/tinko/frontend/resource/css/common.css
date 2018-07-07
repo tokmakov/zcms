@@ -106,7 +106,7 @@ body > .wrapper {
             width: 60px;
             height: 60px;
             text-decoration: none;
-            background: url(../img/logo.png) left center no-repeat;
+            background: url(../img/logo.png) center center no-repeat;
         }
         #header #top-logo > div {
             position: absolute;
