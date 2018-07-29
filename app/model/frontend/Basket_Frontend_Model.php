@@ -14,8 +14,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     private $visitorId;
 
     /*
-     * номер текущей корзины; посетителя сайта может работать с несколькими корзинами,
-     * переключаясь с одной на другую
+     * номер текущей корзины; посетитель сайта может работать с несколькими
+     * корзинами, переключаясь с одной на другую
      */
     private $number;
 
@@ -91,7 +91,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция добавляет товар в корзину покупателя
+     * Функция добавляет товар в текущую корзину покупателя
      */
     public function addToBasket($productId, $quantity, $delay = 0) {
         if (0 == $quantity) {
@@ -157,7 +157,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция обновляет количество товара в корзине покупателя
+     * Функция обновляет количество товара в текущей корзине покупателя
      */
     public function updateBasket() {
         if ( ! isset($_POST['ids'])) {
@@ -221,7 +221,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция удаляет товар из корзины покупателя
+     * Функция удаляет товар из текущей корзины покупателя
      */
     public function removeFromBasket($productId) {
         $query = "DELETE FROM
@@ -245,7 +245,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает массив товаров в корзине;
+     * Функция возвращает массив товаров в текущей корзине;
      * для центральной колонки, полный вариант
      */
     public function getBasketProducts() {
@@ -315,7 +315,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает массив товаров в корзине; для правой колонки,
+     * Функция возвращает массив товаров в текущей корзине; для правой колонки,
      * сокращенный вариант; результат работы кэшируется
      */
     public function getSideBasketProducts() {
@@ -344,7 +344,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает массив товаров в корзине;
+     * Функция возвращает массив товаров в текущей корзине;
      * для правой колонки, сокращенный вариант
      */
     protected function sideBasketProducts() {
@@ -385,7 +385,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает общую стоимость товаров в корзине,
+     * Функция возвращает общую стоимость товаров в текущей корзине,
      * для центральной колонки
      */
     public function getTotalCost() {
@@ -422,7 +422,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает общую стоимость товаров в корзине,
+     * Функция возвращает общую стоимость товаров в текущей корзине,
      * для правой колонки, результат работы кэшируется
      */
     public function getSideTotalCost() {
@@ -451,7 +451,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает общую стоимость товаров в корзине,
+     * Функция возвращает общую стоимость товаров в текущей корзине,
      * для правой колонки, результат работы кэшируется
      */
     protected function sideTotalCost() {
@@ -478,7 +478,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает количество товаров в корзине; результат
+     * Функция возвращает количество товаров в текущей корзине; результат
      * работы кэшируется
      */
     public function getBasketCount() {
@@ -507,7 +507,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция возвращает количество товаров в корзине
+     * Функция возвращает количество товаров в текущей корзине
      */
     protected function basketCount() {
         $query = "SELECT
@@ -528,12 +528,12 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
                 'visitor_id' => $this->visitorId,
                 'number'     => $this->number,
             )
-       );
+    	);
         return $count;
     }
 
     /**
-     * Функция удаляет все товары из корзины
+     * Функция удаляет все товары из текущей корзины
      */
     public function clearBasket() {
         $query = "DELETE FROM
@@ -573,10 +573,11 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
 
     /**
      * Функция создает заказ: записывает данные в таблицы БД orders и orders_prds,
-     * удаляет товары из корзины. Дополнительно очищает старые корзины.
+     * удаляет товары из текущей корзины. Дополнительно очищает старые корзины.
      */
     public function createOrder($form) {
 
+    	// получаем массив товаров в текущей корзине
         $products = $this->getBasketProducts();
         if (count($products) == 0) {
             return false;
@@ -678,7 +679,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         if ($success) {
-            // очищаем корзину
+            // очищаем текущую корзину
             $this->clearBasket();
             // отправляем письма покупателю и администратору
             $this->sendOrderMail($orderId, $form, $products, $data['user_amount']);
@@ -883,6 +884,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         }
 
         // объединяем корзины, т.е. заменяем идентификатор посетителя сайта
+        // на идентификатор авторизованного пользователя сайта
         $query = "UPDATE
                       `baskets`
                   SET
@@ -902,6 +904,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             $this->mergeBaskets($number, $oldVisitorId, $newVisitorId);
         }
 
+        // заменяем временный идентификатор посетителя на постоянный
+        // идентификатор (авторизованного) пользователя
         $this->visitorId = $newVisitorId;
 
         /*
@@ -912,7 +916,7 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
         if ($this->enableDataCache) {
             // кэш (уже) авторизованного пользователя,
             // т.к. $this->visitorId мы уже изменили
-            $number = $this->number;  //
+            $number = $this->number;
             for ($i = 1; $i < 9; $i++) {
                 $this->number = $i;
                 $this->removeBasketCache();
@@ -929,7 +933,14 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
      */
     private function mergeBaskets($number, $oldVisitorId, $newVisitorId) {
 
-        // если в корзине пользователя есть два одинаковых товара
+        /*
+         * Если в корзине пользователя есть два одинаковых товара, надо
+         * удалить из таблицы БД `baskets` запись о товаре, который был
+         * добавлен раньше. И увеличать количество для записи о товаре,
+         * который был добавлен позже. Для этого мы получаем идентификатор
+         * более поздней записи с помощью MAX(`id`), а общее кол-во этого
+         * товара вычисляем с помощью SUM(`quantity`).
+         */
         $query = "SELECT
                       MAX(`id`) AS `id`, `product_id`,
                       COUNT(*) AS `count`, SUM(`quantity`) AS `quantity`
@@ -988,8 +999,8 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
     }
 
     /**
-     * Функция очищает кэш корзины в момент добавления товара, удаления
-     * товара или обновления корзины
+     * Функция очищает кэш текущей корзины в момент добавления товара,
+     * удаления товара или обновления корзины
      */
     private function removeBasketCache() {
         $key = __CLASS__ . '-products-visitor-' . $this->visitorId . '-number-' . $this->number;
@@ -1072,15 +1083,14 @@ class Basket_Frontend_Model extends Frontend_Model implements SplObserver {
             }
         }
 
-        if (is_array($ids)) {
+        if (is_array($ids)) { // рекомендации для нескольких товаров
             $limit = 20;
             $source = implode(',', $ids);
-        } else {
+        } else { // рекомендации для одного товара
             $limit = 8;
             $source = $ids;
         }
-        $query = 'SELECT
-                      DISTINCT
+        $query = 'SELECT DISTINCT
                       `a`.`id` AS `id`,
                       `a`.`code` AS `code`,
                       `a`.`name` AS `name`,

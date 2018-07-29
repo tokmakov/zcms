@@ -82,34 +82,6 @@ class Blog_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getCountAllPosts() {
-
-        /*
-         * если не включено кэширование данных, получаем данные с помощью
-         * запроса к базе данных
-         */
-        if ( ! $this->enableDataCache) {
-            return $this->countAllPosts();
-        }
-
-        /*
-         * включено кэширование данных, получаем данные из кэша; если данные
-         * в кэше не актуальны, будет выполнен запрос к базе данных
-         */
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()';
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Возвращает общее количество записей (постов) блога (во всех категориях)
-     */
-    protected function countAllPosts() {
         $query = "SELECT COUNT(*) FROM `blog_posts` WHERE 1";
         return $this->database->fetchOne($query, array(), $this->enableDataCache);
     }
@@ -188,41 +160,13 @@ class Blog_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getCountCategoryPosts($id) {
-
-        /*
-         * если не включено кэширование данных, получаем данные с помощью
-         * запроса к базе данных
-         */
-        if ( ! $this->enableDataCache) {
-            return $this->countCategoryPosts($id);
-        }
-
-        /*
-         * включено кэширование данных, получаем данные из кэша; если данные
-         * в кэше не актуальны, будет выполнен запрос к базе данных
-         */
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Возвращает количество новостей в категории с уникальным идентификатором $id
-     */
-    protected function countCategoryPosts($id) {
         $query = "SELECT
                       COUNT(*)
                   FROM
                       `blog_posts`
                   WHERE
                       `category` = :id";
-        return $this->database->fetchOne($query, array('id' => $id));
+        return $this->database->fetchOne($query, array('id' => $id), $this->enableDataCache);
     }
 
     /**
@@ -230,34 +174,6 @@ class Blog_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getPost($id) {
-
-        /*
-         * если не включено кэширование данных, получаем данные с помощью
-         * запроса к базе данных
-         */
-        if ( ! $this->enableDataCache) {
-            return $this->post($id);
-        }
-
-        /*
-         * включено кэширование данных, получаем данные из кэша; если данные
-         * в кэше не актуальны, будет выполнен запрос к базе данных
-         */
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Возвращает информацию о записи блога с уникальным идентификатором $id
-     */
-    protected function post($id) {
         $query = "SELECT
                       `a`.`name` AS `name`, `a`.`keywords` AS `keywords`,
                       `a`.`description` AS `description`,
@@ -269,7 +185,7 @@ class Blog_Frontend_Model extends Frontend_Model {
                       `blog_posts` `a` INNER JOIN `blog_categories` `b` ON `a`.`category` = `b`.`id`
                   WHERE
                       `a`.`id` = :id";
-        return $this->database->fetch($query, array('id' => $id));
+        return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
     }
 
     /**
@@ -325,41 +241,13 @@ class Blog_Frontend_Model extends Frontend_Model {
      * результат работы кэшируется
      */
     public function getCategory($id) {
-
-        /*
-         * если не включено кэширование данных, получаем данные с помощью
-         * запроса к базе данных
-         */
-        if ( ! $this->enableDataCache) {
-            return $this->category($id);
-        }
-
-        /*
-         * включено кэширование данных, получаем данные из кэша; если данные
-         * в кэше не актуальны, будет выполнен запрос к базе данных
-         */
-        // уникальный ключ доступа к кэшу
-        $key = __METHOD__ . '()-id-' . $id;
-        // имя этой функции (метода)
-        $function = __FUNCTION__;
-        // арументы, переданные этой функции
-        $arguments = func_get_args();
-        // получаем данные из кэша
-        return $this->getCachedData($key, $function, $arguments);
-
-    }
-
-    /**
-     * Возвращает информацию о категории с уникальным идентификатором $id
-     */
-    protected function category($id) {
         $query = "SELECT
                       `name`, `description`, `keywords`
                   FROM
                       `blog_categories`
                   WHERE
                       `id` = :id";
-        return $this->database->fetch($query, array('id' => $id));
+        return $this->database->fetch($query, array('id' => $id), $this->enableDataCache);
     }
 
 }
