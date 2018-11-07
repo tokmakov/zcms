@@ -162,7 +162,7 @@ class User_Frontend_Model extends Frontend_Model implements SplSubject {
      * реализация шаблона проектирования «Наблюдатель»
      */
     public function notify() {
-        foreach($this->observers as $observer){
+        foreach($this->observers as $observer) {
             $observer->update($this);
         }
     }

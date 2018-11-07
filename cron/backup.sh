@@ -28,9 +28,10 @@ mkdir $DB_BACKUP/01
 
 # база данных целиком
 # mysqldump --user=$DB_USER --password=$DB_PASSWD -R $DB_NAME > $DB_BACKUP/01/$DB_NAME-`date +%d.%m.%Y-%H.%M.%S`.sql
-mysqldump --user=$DB_USER --password=$DB_PASSWD -R $DB_NAME | gzip -9 -c > $DB_BACKUP/01/$DB_NAME-`date +%d.%m.%Y-%H.%M.%S`.sql.gz
 # отдельные таблицы
 # mysqldump --user=$DB_USER --password=$DB_PASSWD $DB_NAME имя_таблицы > $DB_BACKUP/01/$DB_NAME-имя_таблицы-`date +%d.%m.%Y-%H.%M.%S`.sql
+
+mysqldump --user=$DB_USER --password=$DB_PASSWD -R $DB_NAME | gzip -9 -c > $DB_BACKUP/01/$DB_NAME-`date +%d.%m.%Y-%H.%M.%S`.sql.gz
 
 # чтобы в письме можно было увидеть размер бэкапа
 ls -lah $DB_BACKUP/01/

@@ -14,6 +14,7 @@ if (is_file('cron/update.txt')) {
     die();
 }
 
+ini_set('session.cookie_httponly', 1);
 session_start();
 
 // автоматическая загрузка классов
@@ -61,7 +62,7 @@ try {
         $page->request();
     }
 } catch (Exception $e) { // если произошла какая-то ошибка
-    $page = new Error($e);
+    $page = new ErrorPage($e);
     die();
 }
 // отправляем заголовки

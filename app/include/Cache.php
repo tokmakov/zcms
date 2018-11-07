@@ -73,26 +73,6 @@ class Cache {
     /**
      * Функция получает из кэша значение по ключу доступа $key
      */
-    public function getValueOld($key) {
-        if ($this->enableMemCache) { // если доступен кэш в оперативной памяти
-            try {
-                // получаем данные из оперативной памяти
-                $value = $this->instanceMemCache->getValue($key);
-            } catch (Exception $e) {
-                // в оперативной памяти данных нет, получаем данные из файла
-                $value = $this->instanceFileCache->getValue($key);
-                // записываем данные в оперативную память
-                $this->instanceMemCache->setValue($key, $value);
-            }
-        } else { // получаем данные из файлового кэша
-            $value = $this->instanceFileCache->getValue($key);
-        }
-        return $value;
-    }
-
-    /**
-     * Функция получает из кэша значение по ключу доступа $key
-     */
     public function getValue($key) {
         try {
             if ($this->enableMemCache) { // если доступен кэш в оперативной памяти

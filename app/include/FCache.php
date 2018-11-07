@@ -67,7 +67,7 @@ class FCache {
     public function getValue($key) {
         // если стоит блокировка, ждем когда она будет снята
         while ($this->isLocked($key)) {
-            usleep(10);
+            usleep(1000);
         }
         if ( ! $this->isExists($key)) {
             throw new Exception('Ошибка при чтении значения из кэша');
@@ -109,7 +109,7 @@ class FCache {
          * ставит блокировку и выполняет (тяжелый) запрос к БД. Блокировка нужна, чтобы
          * другие процессы не пытались выполнять тот же самый запрос одновременно с ним.
          * Между моментом установки блокироки и записью значения в кэш может пройти много
-         * времени, для примера см. файл app/include/Database.php
+         * времени.
          */
         if ($this->isLocked($key)) {
             return false;
@@ -159,7 +159,7 @@ class FCache {
     public function unlockValue($key) {
         $name = md5('lock-' . $key) . '.txt';
         $file = $this->dir . '/' . $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name;
-        if(is_file($file)) {
+        if (is_file($file)) {
             @unlink($file);
         }
     }
