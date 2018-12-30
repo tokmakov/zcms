@@ -313,7 +313,7 @@ abstract class Frontend_Controller extends Base_Controller {
      */
     private function getHeadVars() {
         // этот массив еще будет дополнен элементами, см. комментарий
-        // в методе Frontend_Controller::output()
+        // в методе Frontend_Controller::getHeadContent()
         $this->headVars = array(
             'cssFiles' => $this->cssFiles,
             'jsFiles'  => $this->jsFiles,
